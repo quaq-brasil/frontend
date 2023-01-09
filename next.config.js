@@ -7,7 +7,8 @@ const nextConfig = {
   images: {
     domains: [
       'upload-quaq.s3.sa-east-1.amazonaws.com',
-      'upload-quaq.s3.amazonaws.com'
+      'upload-quaq.s3.amazonaws.com',
+      'images.unsplash.com'
     ]
   }
 }
