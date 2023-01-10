@@ -1,7 +1,6 @@
 const nextTranslate = require('next-translate');
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
   reactStrictMode: true,
   ...nextTranslate(),
   images: {
@@ -10,7 +9,23 @@ const nextConfig = {
       'upload-quaq.s3.amazonaws.com',
       'images.unsplash.com'
     ]
-  }
-}
+  },
+  webpack: (config) => {
+    // load worker files as a urls with `file-loader`
+    config.module.rules.unshift({
+      test: /pdf\.worker\.(min\.)?js/,
+      use: [
+        {
+          loader: "file-loader",
+          options: {
+            name: "[contenthash].[ext]",
+            publicPath: "_next/static/worker",
+            outputPath: "static/worker"
+          }
+        }
+      ]
+    });
 
-module.exports = nextConfig
+    return config;
+  }
+};
