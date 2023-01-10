@@ -39,8 +39,8 @@ export const CounterBlock = (props: CounterBlockProps) => {
         }
         {(props.isEditable === true) &&
         <div className="flex relative w-[23.375rem] justify-end content-center lg:w-[35.25rem]">
-          <div className="z-10 absolute flex justify-start content-center rounded-full bg-white">
-              <PencilSimple className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem] drop-shadow-md"/>
+          <div className="z-10 absolute flex justify-start content-center rounded-full bg-white border border-slate-100">
+              <PencilSimple className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]"/>
           </div>
           <div className="flex w-[23.375rem] justify-between items-center bg-white 
           p-[0.75rem] rounded-[20px] lg:w-[35.25rem]">
