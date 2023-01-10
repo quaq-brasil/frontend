@@ -26,29 +26,29 @@ export const CounterBlock = (props: CounterBlockProps) => {
     <>
         {(props.isEditable === false) &&
         <>
-          <div className="flex col w-[23.375rem] justify-between items-center bg-white 
-          p-[12px] rounded-[20px] lg:w-[35.25rem]">
-            <p className="lg:text-[20px]">{props.text}</p>
-            <div className="flex row justify-between items-center border border-slate-100 rounded-full px-3 py-[3px] w-[7.125rem] lg:w-[11rem]">
-              <button className="rounded-[20px] p-[5px] lg:p-[10px] text-slate-500 lg:text-[20px]" onClick={() => handleDecrement()}>-1</button>
-              <p className="inline-block mx-[10px] lg:mx-[20px] lg:text-[20px]">{counter}</p>
-              <button className="-[20px] p-[5px] lg:p-[10px] text-slate-500 lg:text-[20px]" onClick={() => handleIncrement()}>+1</button>
+          <div className="flex w-[23.375rem] justify-between items-center bg-white 
+          p-[0.75rem] rounded-[20px] lg:w-[35.25rem]">
+            <p className="lg:text-[1.25rem]">{props.text}</p>
+            <div className="flex row justify-between items-center border border-slate-100 rounded-full px-3 py-[0.1875rem] w-[7.125rem] lg:w-[11rem]">
+              <button className="p-[0.3125rem] lg:p-[0.625rem] text-slate-500 lg:text-[1.25rem]" onClick={() => handleDecrement()}>-1</button>
+              <p className="inline-block mx-[10px] lg:mx-[1.25rem] lg:text-[1.25rem]">{counter}</p>
+              <button className="p-[0.3125rem] lg:p-[0.625rem] text-slate-500 lg:text-[20px]" onClick={() => handleIncrement()}>+1</button>
             </div>
           </div>
         </>
         }
         {(props.isEditable === true) &&
-        <div className="flex col relative w-[23.375rem] justify-end content-center lg:w-[35.25rem]">
+        <div className="flex relative w-[23.375rem] justify-end content-center lg:w-[35.25rem]">
           <div className="z-10 absolute flex justify-start content-center rounded-full bg-white">
-              <PencilSimple className="w-[1rem] h-[1rem] m-[5px] lg:w-[1.25rem] lg:h-[1.25rem]"/>
+              <PencilSimple className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem] drop-shadow-md"/>
           </div>
-          <div className="flex col w-[23.375rem] justify-between items-center bg-white 
-          p-[12px] rounded-[20px] lg:w-[35.25rem]">
-            <p className="lg:text-[20px]">{props.text}</p>
-            <div className="flex row justify-between items-center border border-slate-100 rounded-full px-3 py-[3px] w-[7.125rem] lg:w-[11rem]">
-              <button className="rounded-[20px] p-[5px] lg:p-[10px] text-slate-500 lg:text-[20px]" onClick={() => setCounter(counter - 1)}>-1</button>
-              <p className="inline-block mx-[10px] lg:mx-[20px] lg:text-[20px]">{counter}</p>
-              <button className="-[20px] p-[5px] lg:p-[10px] text-slate-500 lg:text-[20px]" onClick={() => setCounter(counter + 1)}>+1</button>
+          <div className="flex w-[23.375rem] justify-between items-center bg-white 
+          p-[0.75rem] rounded-[20px] lg:w-[35.25rem]">
+            <p className="lg:text-[1.25rem]">{props.text}</p>
+            <div className="flex row justify-between items-center border border-slate-100 rounded-full px-3 py-[0.1875rem] w-[7.125rem] lg:w-[11rem]">
+              <button className="p-[0.3125rem] lg:p-[0.625rem] text-slate-500 lg:text-[1.25rem]" onClick={() => setCounter(counter - 1)}>-1</button>
+              <p className="inline-block mx-[0.625rem] lg:mx-[1.25rem] lg:text-[20px]">{counter}</p>
+              <button className="p-[0.3125rem] lg:p-[0.625rem] text-slate-500 lg:text-[1.25rem]" onClick={() => setCounter(counter + 1)}>+1</button>
             </div>
           </div>
         </div>
