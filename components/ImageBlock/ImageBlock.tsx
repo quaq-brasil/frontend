@@ -19,8 +19,8 @@ export const ImageBlock = (props: ImageBlockProps) => {
         {(props.isEditable === true) &&
         <>
           <div className="flex relative w-[23.375rem] h-[13.0625rem] justify-end content-center lg:w-[35.25rem] lg:h-[19rem]">
-            <div className="z-10 absolute flex justify-start content-center rounded-full bg-white">
-              <PencilSimple className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem] drop-shadow-md"/>
+            <div className="z-10 absolute flex justify-start content-center rounded-full bg-white border border-slate-100">
+              <PencilSimple className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]"/>
             </div>
             <Image className="rounded-[20px] lg:rounded-[30px]" src={props.img_url} fill style={{objectFit:"cover"}} alt={""} />
           </div>
