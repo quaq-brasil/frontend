@@ -7,7 +7,7 @@ module.exports = {
     domains: [
       'upload-quaq.s3.sa-east-1.amazonaws.com',
       'upload-quaq.s3.amazonaws.com',
-      "upload-quaq.s3.sa-east-1.amazonaws.com/books/books"
+      'images.unsplash.com'
     ]
   },
   webpack: (config) => {
