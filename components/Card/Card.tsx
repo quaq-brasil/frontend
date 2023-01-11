@@ -5,7 +5,7 @@ export const Card = (props: CardProps) => {
 
   return (
     <div className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white 
-    rounded-[20px] lg:w-[35.25rem]">
+    rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px]">
         <>
           {props.variant === "tlt-in" && 
             <div className="pb-5">
