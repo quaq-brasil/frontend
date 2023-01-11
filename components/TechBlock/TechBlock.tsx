@@ -17,8 +17,8 @@ export const TechBlock = (props: TechBlockProps) => {
     <>
         {(props.isEditable === false) &&
         <>
-          <div className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white 
-          p-[0.75rem] rounded-[20px] lg:w-[35.25rem]">
+          <div className={`flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white 
+          p-[0.75rem] rounded-[20px] lg:w-[35.25rem] ${props.isVisible ? "" : "hidden"}`}>
             <div className="flex flex-row gap-3 items-center  mb-[0.5rem]">
               {!props.isVisible && <div className="w-[1.25rem] h-[1.25rem] lg:w-[1.75rem] lg:h-[1.75rem]">
                 <EyeSlash className="w-[1.25rem] h-[1.25rem] lg:w-[1.75rem] lg:h-[1.75rem]"/>
