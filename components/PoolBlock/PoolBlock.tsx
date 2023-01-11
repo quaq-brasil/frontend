@@ -1,0 +1,69 @@
+import { useState } from 'react'
+
+type option = {
+  text: string
+  isSelected: boolean
+  index: number
+}
+
+type PoolBlockProps = {
+  title: string
+  options: option[]
+  onSelect: (answers: option[]) => void
+  maxAnswers?: number
+  minAnswers?: number
+}
+
+export const PoolBlock = (props: PoolBlockProps) => {
+  const [answers, setAnswers] = useState([...props.options])
+  const [selectedAnswers, setSelectedAnswers] = useState(0)
+
+  function handleSelect(answer: option) {
+    const tempAnswers = [...answers]
+
+    if (answer.isSelected) {
+      setSelectedAnswers(selectedAnswers - 1)
+    }
+    else {
+      setSelectedAnswers(selectedAnswers + 1)
+    }
+
+    tempAnswers[answer.index].isSelected = !tempAnswers[answer.index].isSelected
+    setAnswers(tempAnswers)
+    props.onSelect(tempAnswers)
+  }
+
+  const isMaxAchieved = selectedAnswers === props.maxAnswers
+  const isMinAchieved = selectedAnswers >= (props.minAnswers || 0)
+  
+  return (
+    <div className="flex flex-col px-2 pt-3 gap-[0.3125rem] w-[23.375rem] justify-center bg-white 
+    rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px] lg-px[1.125rem]">
+      <div>
+        <p className='pt-3 pb-3 px-1 font-semibold lg:text-[1.25rem] lg:px-[1.125rem]'>{props.title}</p>
+      </div>
+      <span className="w-full p-[0.5px] bg-slate-100"></span>
+      {
+        (props.minAnswers)
+          && 
+        <div className={`w-full text-center lg:text-[1.25rem] ${(isMaxAchieved || isMinAchieved) ? "" : "text-rose-500"}`}>
+          <p>{selectedAnswers}/{(props.minAnswers || props.maxAnswers)}</p>
+        </div>
+      }
+      <span className="w-full p-[0.5px] bg-slate-100"></span>
+      <div className='py-1'>
+        {answers.map((answer, index) => (
+          <button className={`flex flex-row justify-between items-center py-3 gap-3 rounded-[0.9375rem] px-3 mb-2 w-full lg:rounded-[1.25rem]
+          ${answer.isSelected ? "bg-slate-900 text-white" : "bg-white"}`} 
+          disabled={answer.isSelected ? false : (isMaxAchieved || false)}
+          key={index} onClick={() => handleSelect(answer)}>
+            <div className={`rounded-full w-[1.5625rem] h-[1.5625rem] border-[0.1875rem] shrink-0
+              ${answer.isSelected ? "border-white" : "border-slate-500"}`}>
+            </div>
+            <p className='w-full text-left lg:text-[1.25rem]'>{answer.text}</p>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
