@@ -59,7 +59,7 @@ export function RedirectConfig(props: RedirectConfigProps) {
             rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px]"
             >
               <p className="w-full p-3 lg:text-[1.25rem] lg:p-[1.125rem]">
-                {text("imageconfig:savebutton")}
+                {text("redirectconfig:savebutton")}
               </p>
             </button>
           )}
