@@ -22,7 +22,7 @@ export function FileSharingblock(props: FileSharingblockProps) {
         </div>
       }
       <div className="w-full">
-        <div className="flex flex-row justify-between overflow-x-auto scrollbar-hide">
+        <div className="flex flex-row justify-between overflow-x-auto scrollbar-hide pr-3">
           {props.files.map((file, index) => (
             <button className="ml-3 shrink-0 rounded-full border border-slate-200 border-spacing-2" 
               key={index} onClick={() => file.onClick(file.url)}>
