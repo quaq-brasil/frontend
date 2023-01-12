@@ -3,5 +3,6 @@
   "title1": "description",
   "label1": "type it here",
   "title2": "save as",
-  "label2": "type it here"
+  "label2": "type it here",
+  "savebutton": "save"
 }
