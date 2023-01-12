@@ -1,9 +1,13 @@
-import { SwitchConfig } from "../templates/BlocksConfig/SwitchConfig/SwitchConfig";
+import { ReviewConfig } from "../templates/BlocksConfig/ReviewConfig/ReviewConfig";
 
 export default function Home() {
   return (
     <div className="flex justify-center h-screen py-5 bg-slate-500">
-      <SwitchConfig isOpen={true} setIsOpen={(e) => console.log()} size="sm" />
+      <ReviewConfig
+        isOpen={true}
+        setIsOpen={(e) => console.log()}
+        size="full"
+      />
     </div>
   );
 }
