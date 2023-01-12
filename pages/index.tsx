@@ -1,9 +1,9 @@
-import { Example } from "../components/Example/Example";
+import { ImageConfig } from "../templates/BlocksConfig/ImageConfig/ImageConfig";
 
 export default function Home() {
   return (
     <div className="flex justify-center h-screen py-5 bg-slate-500">
-      <Example />
+      <ImageConfig isOpen={true} setIsOpen={(e) => console.log()} />
     </div>
   );
 }

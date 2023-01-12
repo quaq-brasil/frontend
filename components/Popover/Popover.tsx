@@ -1,7 +1,7 @@
 import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
-type DialogProps = {
+type PopoverProps = {
   title: string;
   description: string;
   acceptButton?: string;
@@ -11,7 +11,7 @@ type DialogProps = {
   declineFunc?: () => void;
 };
 
-export const Dialog = (props: DialogProps) => {
+export const Popover = (props: PopoverProps) => {
   let [isOpen, setIsOpen] = useState(true);
 
   function closeModal(wasAccepted: boolean) {
