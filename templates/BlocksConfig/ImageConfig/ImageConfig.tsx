@@ -10,19 +10,19 @@ export function ImageConfig() {
     <>
       <div className="flex flex-col gap-3 lg:gap-6">
         <Card
+          variant="tlt-img"
+          title={text("imageconfig:title1")}
+          imageSelector
+        />
+        <Card
           variant="tlt-in"
-          title={text("redirectconfig:title1")}
+          title={text("imageconfig:title2")}
           input={{
-            label: text("redirectconfig:label1"),
+            label: text("imageconfig:label2"),
             onChange: (e) => console.log(e),
             onClick: () => console.log("click"),
             indicator: BracketsCurly,
           }}
-        />
-        <Card
-          variant="tlt-img"
-          title={text("redirectconfig:title4")}
-          imageSelector
         />
       </div>
       <TabBar
@@ -30,7 +30,7 @@ export function ImageConfig() {
         tags={[
           {
             variant: "txt",
-            text: text("redirectconfig:tab1"),
+            text: text("imageconfig:tab1"),
             onClick: () => console.log("tab1"),
           },
         ]}

@@ -2,6 +2,6 @@
   "locales": ["en", "pt"],
   "defaultLocale": "en",
   "pages": {
-    "*": ["common", "example", "redirectconfig"]
+    "*": ["common", "example", "redirectconfig", "imageconfig"]
   }
 }
