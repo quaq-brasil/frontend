@@ -1,13 +1,9 @@
-import { RedirectConfig } from "../templates/BlocksConfig/RedirectConfig/RedirectConfig";
+import { SwitchConfig } from "../templates/BlocksConfig/SwitchConfig/SwitchConfig";
 
 export default function Home() {
   return (
     <div className="flex justify-center h-screen py-5 bg-slate-500">
-      <RedirectConfig
-        isOpen={true}
-        setIsOpen={(e) => console.log()}
-        size="sm"
-      />
+      <SwitchConfig isOpen={true} setIsOpen={(e) => console.log()} size="sm" />
     </div>
   );
 }
