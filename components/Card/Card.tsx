@@ -14,35 +14,37 @@ export const Card = (props: CardProps) => {
               {props["title"]}
             </p>
 
-            <input
-              onChange={(e) => props.input.onChange(e.target.value)}
-              className="bg-slate-50 w-full h-12 px-3 lg:px-[1.125rem] lg:h-[3.375rem]
+            <div className="flex flex-row justify-between items-center bg-slate-50">
+              <input
+                onChange={(e) => props.input.onChange(e.target.value)}
+                className="bg-slate-50 w-full h-12 px-3 lg:px-[1.125rem] lg:h-[3.375rem]
             placeholder:text-slate-300 lg:text-[1.25rem] hover:outline-none focus:outline-none"
-              type="text"
-              placeholder={props["input"].label}
-            />
+                type="text"
+                placeholder={props["input"].label}
+              />
 
-            <div className="flex justify-end items-end">
-              <button
-                onClick={() => props.input.onClick()}
-                className={`z-10 absolute flex rounded-full mb-[0.625rem] 
-                mr-3 lg:mb-[0.8125rem] lg:mr-[1.125rem] border border-slate-100 
+              <div className="flex justify-end items-end">
+                <button
+                  onClick={() => props.input.onClick()}
+                  className={`z-10 flex rounded-full
+                mr-3 lg:mr-[1.125rem] border border-slate-100 
                 ${
                   props.input.indicatorColor
                     ? `text-white bg-${props.input.indicatorColor}`
                     : "bg-white"
                 } `}
-              >
-                {props["input"].indicator && (
-                  <>
-                    <props.input.indicator className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
-                  </>
-                )}
-              </button>
+                >
+                  {props["input"].indicator && (
+                    <>
+                      <props.input.indicator className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
+                    </>
+                  )}
+                </button>
 
-              {props["input"].textIndicator && (
-                <p>{props["input"].textIndicator}</p>
-              )}
+                {props["input"].textIndicator && (
+                  <p>{props["input"].textIndicator}</p>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -52,35 +54,37 @@ export const Card = (props: CardProps) => {
               {props["title"]}
             </p>
 
-            <input
-              onChange={(e) => props.input.onChange(e.target.value)}
-              className="bg-slate-50 w-full h-12 px-3 lg:px-[1.125rem] lg:h-[3.375rem]
+            <div className="flex flex-row justify-between items-center bg-slate-50">
+              <input
+                onChange={(e) => props.input.onChange(e.target.value)}
+                className="bg-slate-50 w-full h-12 px-3 lg:px-[1.125rem] lg:h-[3.375rem]
             placeholder:text-slate-300 lg:text-[1.25rem] hover:outline-none focus:outline-none"
-              type="text"
-              placeholder={props["input"].label}
-            />
+                type="text"
+                placeholder={props["input"].label}
+              />
 
-            <div className="flex justify-end items-end">
-              <button
-                onClick={() => props.input.onClick()}
-                className={`z-10 absolute flex rounded-full mb-[0.625rem] 
-                mr-3 lg:mb-[0.8125rem] lg:mr-[1.125rem] border border-slate-100 
+              <div className="flex justify-end items-end">
+                <button
+                  onClick={() => props.input.onClick()}
+                  className={`z-10 flex rounded-full
+                mr-3 lg:mr-[1.125rem] border border-slate-100 
                 ${
                   props.input.indicatorColor
                     ? `text-white bg-${props.input.indicatorColor}`
                     : "bg-white"
                 } `}
-              >
-                {props["input"].indicator && (
-                  <>
-                    <props.input.indicator className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
-                  </>
-                )}
-              </button>
+                >
+                  {props["input"].indicator && (
+                    <>
+                      <props.input.indicator className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
+                    </>
+                  )}
+                </button>
 
-              {props["input"].textIndicator && (
-                <p>{props["input"].textIndicator}</p>
-              )}
+                {props["input"].textIndicator && (
+                  <p>{props["input"].textIndicator}</p>
+                )}
+              </div>
             </div>
 
             <div>
@@ -209,35 +213,37 @@ export const Card = (props: CardProps) => {
               </div>
             </div>
 
-            <input
-              onChange={(e) => props.input.onChange(e.target.value)}
-              className="bg-slate-50 w-full h-12 px-3 lg:px-[1.125rem] lg:h-[3.375rem]
+            <div className="flex flex-row justify-between items-center bg-slate-50">
+              <input
+                onChange={(e) => props.input.onChange(e.target.value)}
+                className="bg-slate-50 w-full h-12 px-3 lg:px-[1.125rem] lg:h-[3.375rem]
             placeholder:text-slate-300 lg:text-[1.25rem] hover:outline-none focus:outline-none"
-              type="text"
-              placeholder={props["input"].label}
-            />
+                type="text"
+                placeholder={props["input"].label}
+              />
 
-            <div className="flex justify-end items-end">
-              <button
-                onClick={() => props.input.onClick()}
-                className={`z-10 absolute flex rounded-full mb-[0.625rem] 
-                mr-3 lg:mb-[0.8125rem] lg:mr-[1.125rem] border border-slate-100 
+              <div className="flex justify-end items-end">
+                <button
+                  onClick={() => props.input.onClick()}
+                  className={`z-10 flex rounded-full
+                mr-3 lg:mr-[1.125rem] border border-slate-100 
                 ${
                   props.input.indicatorColor
                     ? `text-white bg-${props.input.indicatorColor}`
                     : "bg-white"
                 } `}
-              >
-                {props["input"].indicator && (
-                  <>
-                    <props.input.indicator className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
-                  </>
-                )}
-              </button>
+                >
+                  {props["input"].indicator && (
+                    <>
+                      <props.input.indicator className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
+                    </>
+                  )}
+                </button>
 
-              {props["input"].textIndicator && (
-                <p>{props["input"].textIndicator}</p>
-              )}
+                {props["input"].textIndicator && (
+                  <p>{props["input"].textIndicator}</p>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -285,35 +291,37 @@ export const Card = (props: CardProps) => {
               </div>
             </div>
 
-            <input
-              onChange={(e) => props.input1.onChange(e.target.value)}
-              className="bg-slate-50 w-full h-12 px-3 lg:px-[1.125rem] lg:h-[3.375rem]
+            <div className="flex flex-row justify-between items-center bg-slate-50">
+              <input
+                onChange={(e) => props.input1.onChange(e.target.value)}
+                className="bg-slate-50 w-full h-12 px-3 lg:px-[1.125rem] lg:h-[3.375rem]
             placeholder:text-slate-300 lg:text-[1.25rem] hover:outline-none focus:outline-none"
-              type="text"
-              placeholder={props["input1"].label}
-            />
+                type="text"
+                placeholder={props["input1"].label}
+              />
 
-            <div className="flex justify-end items-end">
-              <button
-                onClick={() => props.input1.onClick()}
-                className={`z-10 absolute flex rounded-full mb-[0.625rem] 
-                mr-3 lg:mb-[0.8125rem] lg:mr-[1.125rem] border border-slate-100 
+              <div className="flex justify-end items-end">
+                <button
+                  onClick={() => props.input1.onClick()}
+                  className={`z-10 flex rounded-full
+                mr-3 lg:mr-[1.125rem] border border-slate-100 
                 ${
                   props.input1.indicatorColor
                     ? `text-white bg-${props.input1.indicatorColor}`
                     : "bg-white"
                 } `}
-              >
-                {props.input1.indicator && (
-                  <>
-                    <props.input1.indicator className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
-                  </>
-                )}
-              </button>
+                >
+                  {props["input1"].indicator && (
+                    <>
+                      <props.input1.indicator className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
+                    </>
+                  )}
+                </button>
 
-              {props["input1"].textIndicator && (
-                <p>{props["input1"].textIndicator}</p>
-              )}
+                {props["input1"].textIndicator && (
+                  <p>{props["input1"].textIndicator}</p>
+                )}
+              </div>
             </div>
             <div className="pb-3">
               <div className="flex flex-row justify-between items-center px-3 mt-4 lg:px-[1.125rem]">
@@ -331,34 +339,37 @@ export const Card = (props: CardProps) => {
               </div>
             </div>
 
-            <input
-              className="bg-slate-50 w-full h-12 px-3 lg:px-[1.125rem] lg:h-[3.375rem]
+            <div className="flex flex-row justify-between items-center bg-slate-50">
+              <input
+                onChange={(e) => props.input2.onChange(e.target.value)}
+                className="bg-slate-50 w-full h-12 px-3 lg:px-[1.125rem] lg:h-[3.375rem]
             placeholder:text-slate-300 lg:text-[1.25rem] hover:outline-none focus:outline-none"
-              type="text"
-              placeholder={props["input2"].label}
-            />
+                type="text"
+                placeholder={props["input2"].label}
+              />
 
-            <div className="flex justify-end items-end">
-              <button
-                onClick={() => props.input2.onClick()}
-                className={`z-10 absolute flex rounded-full mb-[0.625rem] 
-                mr-3 lg:mb-[0.8125rem] lg:mr-[1.125rem] border border-slate-100 
+              <div className="flex justify-end items-end">
+                <button
+                  onClick={() => props.input2.onClick()}
+                  className={`z-10 flex rounded-full
+                mr-3 lg:mr-[1.125rem] border border-slate-100 
                 ${
                   props.input2.indicatorColor
                     ? `text-white bg-${props.input2.indicatorColor}`
                     : "bg-white"
                 } `}
-              >
-                {props["input2"].indicator && (
-                  <>
-                    <props.input2.indicator className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
-                  </>
-                )}
-              </button>
+                >
+                  {props["input2"].indicator && (
+                    <>
+                      <props.input2.indicator className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
+                    </>
+                  )}
+                </button>
 
-              {props["input2"].textIndicator && (
-                <p>{props["input2"].textIndicator}</p>
-              )}
+                {props["input2"].textIndicator && (
+                  <p>{props["input2"].textIndicator}</p>
+                )}
+              </div>
             </div>
           </div>
         )}

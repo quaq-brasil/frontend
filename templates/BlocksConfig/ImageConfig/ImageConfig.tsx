@@ -1,12 +1,13 @@
 import useTranslation from "next-translate/useTranslation";
 import { BracketsCurly } from "phosphor-react";
 import { Card } from "../../../components/Card/Card";
-import { Dialog } from "../../../components/Dialog/DIalog";
+import { Dialog } from "../../../components/Dialog/Dialog";
 import { TabBar } from "../../../components/TabBar/TabBar";
 
 type ImageConfigProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  size?: "sm" | "md" | "full";
 };
 
 export function ImageConfig(props: ImageConfigProps) {
@@ -15,7 +16,7 @@ export function ImageConfig(props: ImageConfigProps) {
   return (
     <>
       <Dialog
-        height="full"
+        height={props.size}
         isOpen={props.isOpen}
         title={text("imageconfig:toptitle")}
         onClose={() => console.log("closed")}
@@ -36,6 +37,16 @@ export function ImageConfig(props: ImageConfigProps) {
               indicator: BracketsCurly,
             }}
           />
+          {props.size === "sm" && (
+            <button
+              className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white 
+            rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px]"
+            >
+              <p className="w-full p-3 lg:text-[1.25rem] lg:p-[1.125rem]">
+                {text("imageconfig:savebutton")}
+              </p>
+            </button>
+          )}
         </div>
       </Dialog>
       <TabBar
