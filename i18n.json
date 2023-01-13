@@ -2,6 +2,13 @@
   "locales": ["en", "pt"],
   "defaultLocale": "en",
   "pages": {
-    "*": ["common", "example"]
+    "*": [
+      "common",
+      "example",
+      "redirectconfig",
+      "imageconfig",
+      "switchconfig",
+      "reviewconfig"
+    ]
   }
 }

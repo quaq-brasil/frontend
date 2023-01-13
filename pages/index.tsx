@@ -1,9 +1,13 @@
-import { Example } from "../components/Example/Example";
+import { ReviewConfig } from "../templates/BlocksConfig/ReviewConfig/ReviewConfig";
 
 export default function Home() {
   return (
     <div className="flex justify-center h-screen py-5 bg-slate-500">
-      <Example />
+      <ReviewConfig
+        isOpen={true}
+        setIsOpen={(e) => console.log()}
+        size="full"
+      />
     </div>
   );
 }
