@@ -10,7 +10,8 @@
       "switchconfig",
       "reviewconfig",
       "textentryconfig",
-      "embedconfig"
+      "embedconfig",
+      "counterconfig"
     ]
   }
 }
