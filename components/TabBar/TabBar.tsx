@@ -8,10 +8,11 @@ type TabBarProps = {
 export const TabBar = (props: TabBarProps) => {
   return (
     <div
-      className={`flex justify-center w-full h-[74px] bg-gradient-to-t from-slate-200 fixed bottom-0 z-20 md:left-0 ${
-        props.isHidden ? "md:hidden" : ""
-      }
-    lg:h-full lg:bg-gradient-to-r lg:w-[236px] lg:py-[43px] lg:pl-[34px] lg:justify-start`}
+      className={`flex justify-center w-full h-[74px] bg-gradient-to-t from-slate-200
+        fixed bottom-0 z-20 md:left-0 md:hidden ${
+          props.isHidden ? "hidden" : ""
+        } lg:h-full
+        lg:bg-gradient-to-r lg:w-[236px] lg:py-[43px] lg:pl-[34px] lg:justify-start`}
     >
       <div
         className={`flex flex-row scrollbar-hide items-center gap-2 ${

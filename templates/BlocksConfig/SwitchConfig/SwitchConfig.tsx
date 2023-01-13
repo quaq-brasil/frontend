@@ -53,18 +53,17 @@ export function SwitchConfig(props: SwitchConfigProps) {
             </button>
           )}
         </div>
+        <TabBar
+          isHidden={props.size === "sm" ? true : false}
+          tags={[
+            {
+              variant: "txt",
+              text: text("switchconfig:tab1"),
+              onClick: () => console.log("tab1"),
+            },
+          ]}
+        />
       </Dialog>
-
-      <TabBar
-        isHidden
-        tags={[
-          {
-            variant: "txt",
-            text: text("switchconfig:tab1"),
-            onClick: () => console.log("tab1"),
-          },
-        ]}
-      />
     </>
   );
 }
