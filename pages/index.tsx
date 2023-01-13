@@ -1,4 +1,4 @@
-import { ReviewConfig } from "../templates/BlocksConfig/ReviewConfig/ReviewConfig";
+import { ReviewConfig } from "../layouts/BlocksConfig/ReviewConfig/ReviewConfig";
 
 export default function Home() {
   return (
