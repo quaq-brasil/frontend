@@ -9,7 +9,8 @@
       "imageconfig",
       "switchconfig",
       "reviewconfig",
-      "textentryconfig"
+      "textentryconfig",
+      "embedconfig"
     ]
   }
 }
