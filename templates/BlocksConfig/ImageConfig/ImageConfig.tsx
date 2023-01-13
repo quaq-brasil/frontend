@@ -48,17 +48,17 @@ export function ImageConfig(props: ImageConfigProps) {
             </button>
           )}
         </div>
+        <TabBar
+          isHidden={props.size === "sm" ? true : false}
+          tags={[
+            {
+              variant: "txt",
+              text: text("imageconfig:tab1"),
+              onClick: () => console.log("tab1"),
+            },
+          ]}
+        />
       </Dialog>
-      <TabBar
-        isHidden
-        tags={[
-          {
-            variant: "txt",
-            text: text("imageconfig:tab1"),
-            onClick: () => console.log("tab1"),
-          },
-        ]}
-      />
     </>
   );
 }
