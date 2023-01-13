@@ -1,0 +1,21 @@
+{
+  "toptitle": "nova entrada de texto",
+  "title1": "descrição (opcional)",
+  "label1": "digite aqui",
+  "title2": "placeholder",
+  "label2": "digite aqui",
+  "title3": "tipo do texto",
+  "title4": "salvar como",
+  "label4": "digite aqui",
+  "savebutton": "salvar",
+  "tab1": "cancelar",
+  "option1": "e-mail",
+  "option2": "número de celular",
+  "option3": "número",
+  "option4": "data",
+  "option5": "url",
+  "option6": "endereço",
+  "option7": "moeda",
+  "option8": "texto longo",
+  "option9": "texto curto"
+}

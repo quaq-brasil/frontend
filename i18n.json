@@ -8,7 +8,8 @@
       "redirectconfig",
       "imageconfig",
       "switchconfig",
-      "reviewconfig"
+      "reviewconfig",
+      "textentryconfig"
     ]
   }
 }
