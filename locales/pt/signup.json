@@ -1,0 +1,16 @@
+{
+  "titletag": "cadastrar",
+  "firstmessage": "Você pode usar o login social para acelerar o processo de criação da conta",
+  "secondmessage": "Para criar com quaq você primeiro precisa criar sua conta quaq",
+  "getemail": "Qual é o seu melhor email?",
+  "inputemail": "email@exemplo.com",
+  "getpassword": "Crie uma senha",
+  "inputpassword": "digite aqui",
+  "getconfirmation": "Redigite a senha",
+  "inputconfirmation": "digite aqui",
+  "uploadimg": "Carregue uma foto de perfil",
+  "confirm": "criar conta",
+  "tab1a": "sair",
+  "tab1b": "voltar",
+  "tab2": "próximo"
+}

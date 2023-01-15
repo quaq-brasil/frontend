@@ -1,0 +1,16 @@
+{
+  "titletag": "sign up",
+  "firstmessage": "You can use social login to speed up the account creation process",
+  "secondmessage": "To create with quaq you first need to create your quaq account",
+  "getemail": "What is your best email?",
+  "inputemail": "email@example.com",
+  "getpassword": "Create a password",
+  "inputpassword": "type it here",
+  "getconfirmation": "Retype the password",
+  "inputconfirmation": "type it here",
+  "uploadimg": "Upload a profile picture",
+  "confirm": "create account",
+  "tab1a": "exit",
+  "tab1b": "back",
+  "tab2": "next"
+}

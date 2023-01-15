@@ -11,7 +11,8 @@
       "reviewconfig",
       "textentryconfig",
       "embedconfig",
-      "counterconfig"
+      "counterconfig",
+      "signup"
     ]
   }
 }
