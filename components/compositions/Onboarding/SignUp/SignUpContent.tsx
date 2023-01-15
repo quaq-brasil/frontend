@@ -1,5 +1,6 @@
 import useTranslation from "next-translate/useTranslation";
 import dynamic from "next/dynamic";
+import { useState } from "react";
 import { Button } from "../../../parts/Button/Button";
 import { Card } from "../../../parts/Card/Card";
 import { CardImageInput } from "../../../parts/Card/CardContentVariants/CardImageInput";
@@ -12,6 +13,12 @@ const QuickIn = dynamic(() => import("../../../parts/QuickIn/QuickIn"), {
 
 export function SignUpContent() {
   const text = useTranslation().t;
+
+  const [finished, setFinished] = useState(false);
+
+  function handleFinishSignUp() {
+    setFinished(true);
+  }
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -64,9 +71,14 @@ export function SignUpContent() {
           </Card>
           <Button
             color="slate-900"
-            onClick={() => {}}
+            onClick={handleFinishSignUp}
             text={text("signup:confirm")}
           />
+          {finished && (
+            <Card>
+              <CardText label={text("signup:finished")} />
+            </Card>
+          )}
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>

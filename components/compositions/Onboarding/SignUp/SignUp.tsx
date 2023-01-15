@@ -1,21 +1,21 @@
 import useTranslation from "next-translate/useTranslation";
+import { UserCirclePlus } from "phosphor-react";
 import { Header } from "../../../parts/Header/Header";
 import { TabBar } from "../../../parts/TabBar/TabBar";
 import { Tag } from "../../../parts/Tag/Tag";
 import { SignUpContent } from "./SignUpContent";
 
-export default function SignUp() {
+type SignUpProps = {
+  headerImageUrl: string;
+};
+
+export default function SignUp(props: SignUpProps) {
   const text = useTranslation().t;
   return (
     <>
       <Header
-        reightContent={
-          <Tag
-            variant="img"
-            img_url="https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
-          />
-        }
-        background_url="https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
+        reightContent={<Tag variant="icn" icon={UserCirclePlus} />}
+        background_url={props.headerImageUrl}
       >
         <Tag variant="txt" text={text("signup:titletag")} />
       </Header>

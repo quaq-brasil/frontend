@@ -12,5 +12,6 @@
   "confirm": "criar conta",
   "tab1a": "sair",
   "tab1b": "voltar",
-  "tab2": "próximo"
+  "tab2": "próximo",
+  "finished": "Excelente! Agora você precisa confirmar sua conta seguindo as instruções no e-mail que enviamos para o endereço de e-mail que você forneceu."
 }

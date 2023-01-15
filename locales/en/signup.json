@@ -12,5 +12,6 @@
   "confirm": "create account",
   "tab1a": "exit",
   "tab1b": "back",
-  "tab2": "next"
+  "tab2": "next",
+  "finished": "Awesome! Now you need to confirm your account by following the instructions in the e-mail we have sent to the email address you provided."
 }
