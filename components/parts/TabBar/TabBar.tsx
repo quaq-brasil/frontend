@@ -8,7 +8,7 @@ type TabBarProps = {
 export const TabBar = (props: TabBarProps) => {
   return (
     <div
-      className={`flex justify-center w-full h-[74px] bg-gradient-to-t from-slate-300
+      className={`flex justify-center w-full h-[74px] bg-gradient-to-t from-slate-200
         fixed bottom-0 z-30 md:left-0 ${props.isHidden ? "hidden" : ""}
         lg:bg-gradient-to-r lg:w-[14.75rem] lg:py-[43px] lg:pl-[34px] lg:h-screen lg:justify-start`}
     >

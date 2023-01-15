@@ -2,6 +2,8 @@ import useTranslation from "next-translate/useTranslation";
 import { BracketsCurly } from "phosphor-react";
 import { useState } from "react";
 import { Card } from "../../../parts/Card/Card";
+import { CardText } from "../../../parts/Card/CardContentVariants/CardText";
+import { CardTextInput } from "../../../parts/Card/CardContentVariants/CardTextInput";
 import { Dialog } from "../../../parts/Dialog/Dialog";
 import { TabBar } from "../../../parts/TabBar/TabBar";
 import { ExtendedConfig } from "./ExtendedConfig";
@@ -31,26 +33,32 @@ export function RedirectConfig(props: RedirectConfigProps) {
         title={text("redirectconfig:toptitle")}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
-          <Card
-            variant="tlt-in"
-            title={text("redirectconfig:title1")}
-            input={{
-              label: text("redirectconfig:label1"),
-              onChange: (e) => console.log(e),
-              onClick: () => console.log("click"),
-              indicator: BracketsCurly,
-            }}
-          />
-          <Card
-            variant="tlt-in"
-            title={text("redirectconfig:title2")}
-            input={{
-              label: text("redirectconfig:label2"),
-              onChange: (e) => console.log(e),
-              onClick: () => console.log("click"),
-              indicator: BracketsCurly,
-            }}
-          />
+          <Card>
+            <CardText label={text("redirectconfig:title1")} />
+            <CardTextInput
+              input={{
+                label: text("redirectconfig:label1"),
+                onChange: (e) => console.log(e),
+              }}
+              indicator={{
+                icon: BracketsCurly,
+                onClick: () => console.log("click"),
+              }}
+            />
+          </Card>
+          <Card>
+            <CardText label={text("redirectconfig:title2")} />
+            <CardTextInput
+              input={{
+                label: text("redirectconfig:label2"),
+                onChange: (e) => console.log(e),
+              }}
+              indicator={{
+                icon: BracketsCurly,
+                onClick: () => console.log("click"),
+              }}
+            />
+          </Card>
           <TypeSelector changeRedirectType={handleChangeRedirectType} />
           <>{redirectType != "" && <ExtendedConfig type={redirectType} />}</>
           {props.size === "sm" && (

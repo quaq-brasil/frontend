@@ -12,6 +12,7 @@
       "textentryconfig",
       "embedconfig",
       "counterconfig",
+      "buttonconfig",
       "signup"
     ]
   }

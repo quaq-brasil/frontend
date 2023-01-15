@@ -1,6 +1,8 @@
 import useTranslation from "next-translate/useTranslation";
 import { BracketsCurly } from "phosphor-react";
 import { Card } from "../../../parts/Card/Card";
+import { CardText } from "../../../parts/Card/CardContentVariants/CardText";
+import { CardTextInput } from "../../../parts/Card/CardContentVariants/CardTextInput";
 import { Dialog } from "../../../parts/Dialog/Dialog";
 import { TabBar } from "../../../parts/TabBar/TabBar";
 
@@ -22,36 +24,45 @@ export function CounterConfig(props: CounterConfigProps) {
         onClose={() => console.log("closed")}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
-          <Card
-            variant="tlt-in"
-            title={text("counterconfig:title1")}
-            input={{
-              label: text("counterconfig:label1"),
-              onChange: (e) => console.log(e),
-              onClick: () => console.log("click"),
-              indicator: BracketsCurly,
-            }}
-          />
-          <Card
-            variant="tlt-in"
-            title={text("counterconfig:title2")}
-            input={{
-              label: text("counterconfig:label2"),
-              onChange: (e) => console.log(e),
-              onClick: () => console.log("click"),
-              indicator: BracketsCurly,
-            }}
-          />
-          <Card
-            variant="tlt-in"
-            title={text("counterconfig:title3")}
-            input={{
-              label: text("counterconfig:label3"),
-              onChange: (e) => console.log(e),
-              onClick: () => console.log("click"),
-              indicator: BracketsCurly,
-            }}
-          />
+          <Card>
+            <CardText label={text("counterconfig:title1")} />
+            <CardTextInput
+              input={{
+                label: text("counterconfig:label1"),
+                onChange: (e) => console.log(e),
+              }}
+              indicator={{
+                icon: BracketsCurly,
+                onClick: () => console.log("click"),
+              }}
+            />
+          </Card>
+          <Card>
+            <CardText label={text("counterconfig:title2")} />
+            <CardTextInput
+              input={{
+                label: text("counterconfig:label2"),
+                onChange: (e) => console.log(e),
+              }}
+              indicator={{
+                icon: BracketsCurly,
+                onClick: () => console.log("click"),
+              }}
+            />
+          </Card>
+          <Card>
+            <CardText label={text("counterconfig:title3")} />
+            <CardTextInput
+              input={{
+                label: text("counterconfig:label3"),
+                onChange: (e) => console.log(e),
+              }}
+              indicator={{
+                icon: BracketsCurly,
+                onClick: () => console.log("click"),
+              }}
+            />
+          </Card>
           {props.size === "sm" && (
             <button
               className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white 

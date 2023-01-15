@@ -56,7 +56,7 @@ export function Dialog({
                   <div className="bg-white w-full h-8 flex items-center justify-center py-2 mb-3">
                     <h4>{title}</h4>
                   </div>
-                  {children}
+                  <div className="w-full content-center px-2">{children}</div>
                 </div>
               </HeadlessDialog.Panel>
             </Transition.Child>

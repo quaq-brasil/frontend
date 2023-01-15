@@ -2,6 +2,7 @@ import useTranslation from "next-translate/useTranslation";
 import { Check } from "phosphor-react";
 import { useState } from "react";
 import { Card } from "../../../parts/Card/Card";
+import { CardText } from "../../../parts/Card/CardContentVariants/CardText";
 
 type TypeSelectorProps = {
   changeRedirectType: (type: string) => void;
@@ -17,64 +18,65 @@ export function TypeSelector(props: TypeSelectorProps) {
     props.changeRedirectType(type);
   }
 
-  return (
-    <>
-      {embedType === "" && (
-        <Card
-          variant="tlt-actlist"
-          title={text("redirectconfig:title3")}
-          actionList={[
-            {
-              label: text("redirectconfig:label3a"),
-              onClick: () => handleChangeEmbedType("auto"),
-              onChange: (e) => console.log(e),
-            },
-            {
-              label: text("redirectconfig:label3b"),
-              onClick: () => handleChangeEmbedType("manual"),
-              onChange: (e) => console.log(e),
-            },
-          ]}
+  if (embedType === "manual") {
+    return (
+      <Card>
+        <CardText label={text("redirectconfig:title3")} />
+        <CardText
+          label={text("redirectconfig:title3a")}
+          indicator={{
+            icon: Check,
+            onClick: () => handleChangeEmbedType(""),
+          }}
         />
-      )}
-      {embedType === "auto" && (
-        <Card
-          variant="tlt-actlist"
-          title={text("redirectconfig:title3")}
-          actionList={[
-            {
-              label: text("redirectconfig:label3a"),
-              onClick: () => handleChangeEmbedType(""),
-              onChange: (e) => console.log(e),
-              indicator: Check,
-            },
-            {
-              label: text("redirectconfig:label3b"),
-              onClick: () => handleChangeEmbedType("manual"),
-              onChange: (e) => console.log(e),
-            },
-          ]}
+        <CardText
+          label={text("redirectconfig:title3b")}
+          indicator={{
+            icon: Check,
+            onClick: () => handleChangeEmbedType("auto"),
+          }}
         />
-      )}
-      {embedType === "manual" && (
-        <Card
-          variant="tlt-actlist"
-          title={text("redirectconfig:title3")}
-          actionList={[
-            {
-              label: text("redirectconfig:label3a"),
-              onClick: () => handleChangeEmbedType("auto"),
-              onChange: (e) => console.log(e),
-            },
-            {
-              label: text("redirectconfig:label3b"),
-              onClick: () => handleChangeEmbedType(""),
-              onChange: (e) => console.log(e),
-              indicator: Check,
-            },
-          ]}
+      </Card>
+    );
+  } else if (embedType === "auto") {
+    return (
+      <Card>
+        <CardText label={text("redirectconfig:title3")} />
+        <CardText
+          label={text("redirectconfig:title3a")}
+          indicator={{
+            icon: Check,
+            onClick: () => handleChangeEmbedType("manual"),
+          }}
         />
-      )}
-    </>
-  );
+        <CardText
+          label={text("redirectconfig:title3b")}
+          indicator={{
+            icon: Check,
+            onClick: () => handleChangeEmbedType(""),
+          }}
+        />
+      </Card>
+    );
+  } else {
+    return (
+      <Card>
+        <CardText label={text("redirectconfig:title3")} />
+        <CardText
+          label={text("redirectconfig:title3a")}
+          indicator={{
+            icon: Check,
+            onClick: () => handleChangeEmbedType("manual"),
+          }}
+        />
+        <CardText
+          label={text("redirectconfig:title3b")}
+          indicator={{
+            icon: Check,
+            onClick: () => handleChangeEmbedType("auto"),
+          }}
+        />
+      </Card>
+    );
+  }
 }
