@@ -6,11 +6,11 @@ type ContextMenuProps = {
   children: React.ReactNode;
 };
 
-export const ContextMenu = ({ Opener, children }: ContextMenuProps) => {
+const ContextMenu = ({ Opener, children }: ContextMenuProps) => {
   return (
     <div>
       <Menu as="div" className="relative inline-block text-left">
-        <div>
+        <div className=" min-h-[75px] flex items-center">
           <Menu.Button>{Opener}</Menu.Button>
         </div>
         <Transition
@@ -30,3 +30,5 @@ export const ContextMenu = ({ Opener, children }: ContextMenuProps) => {
     </div>
   );
 };
+
+export default ContextMenu;

@@ -1,6 +1,6 @@
 import { Menu } from "@headlessui/react";
 import useTranslation from "next-translate/useTranslation";
-import { ContextMenu } from "../../../components/ContextMenu/ContextMenu";
+import dynamic from "next/dynamic";
 import { Header } from "../../../components/Header/Header";
 import { TabBar } from "../../../components/TabBar/TabBar";
 import { Tag } from "../../../components/Tag/Tag";
@@ -9,6 +9,13 @@ import { ConsumerPageContent } from "./ConsumerPageContent";
 type ConsumerPageProps = {
   headerImageUrl: string;
 };
+
+const ContextMenu = dynamic(
+  () => import("../../../components/ContextMenu/ContextMenu"),
+  {
+    ssr: false,
+  }
+);
 
 export default function ConsumerPage(props: ConsumerPageProps) {
   const text = useTranslation().t;
@@ -24,11 +31,20 @@ export default function ConsumerPage(props: ConsumerPageProps) {
               />
             }
           >
-            <Menu.Item>
-              <>
+            <div className="flex flex-col gap-3">
+              <Menu.Item>
                 <Tag variant="txt" text={text("consumerpage:titletag")} />
-              </>
-            </Menu.Item>
+              </Menu.Item>
+              <Menu.Item>
+                <Tag variant="txt" text={text("consumerpage:titletag")} />
+              </Menu.Item>
+              <Menu.Item>
+                <Tag variant="txt" text={text("consumerpage:titletag")} />
+              </Menu.Item>
+              <Menu.Item>
+                <Tag variant="txt" text={text("consumerpage:titletag")} />
+              </Menu.Item>
+            </div>
           </ContextMenu>
         }
         background_url={props.headerImageUrl}

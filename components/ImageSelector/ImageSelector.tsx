@@ -102,7 +102,7 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
               alt="Selected Image"
             />
           ) : (
-            <button className="flex items-center bg-white border-[1px] border-slate-200 rounded-full px-3 py-2 gap-2">
+            <button className="flex items-center bg-white border-[1px] border-slate-200 rounded-full px-3 py-2 gap-2 lg:h-[3.25rem] lg:px-3 lg:text-[1.1rem]">
               <Plus className="h-5 w-5" weight="bold" />
               <span>{text("imageselector:add")}</span>
             </button>

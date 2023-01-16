@@ -15,8 +15,8 @@ export const ShortcutGrid = ({ children, onDrag }: ShortcutGridProps) => {
 
   return (
     <ul
-      className="grid mt-2 mb-9 grid-cols-2 gap-3
-      lg:gap-4  md:mt-8 lg:grid-cols-3"
+      className="grid grid-cols-2 gap-y-2 gap-x-[0.625rem] mb-20
+      lg:gap-y-10 lg:gap-x-0 md:mt-8 lg:grid-cols-3 max-w-[900px] mx-auto"
     >
       {/* <DndContext onDragEnd={onDrag}>
         <SortableContext items={items}>{children}</SortableContext>
