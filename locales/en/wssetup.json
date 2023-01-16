@@ -1,0 +1,10 @@
+{
+  "titletag": "setting up",
+  "tab1": "next",
+  "tab2": "cancel",
+  "firstmessage": "Let's setup your first quaq workspace. You will later on be able to invite more people to your workspace.",
+  "getwsname": "What is the name of your workspace?",
+  "inputwsname": "type it here",
+  "uploadimg": "Upload an image for the cover of your workspace",
+  "confirm": "confirm"
+}
