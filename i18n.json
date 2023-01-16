@@ -20,7 +20,8 @@
       "login",
       "pwupdate",
       "pwrecovery",
-      "wssetup"
+      "wssetup",
+      "poolconfig"
     ]
   }
 }
