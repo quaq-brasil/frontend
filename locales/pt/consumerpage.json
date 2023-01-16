@@ -1,4 +1,6 @@
 {
   "explore": "explorar",
-  "createpage": "crie sua página"
+  "createpage": "crie sua página",
+  "signup": "cadastrar-se",
+  "login": "login"
 }

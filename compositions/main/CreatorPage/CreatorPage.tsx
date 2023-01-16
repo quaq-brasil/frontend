@@ -80,7 +80,7 @@ export default function CreatorPage(props: CreatorPageProps) {
   }
 
   return (
-    <>
+    <div className="bg-slate-100 fixed inset-0">
       <Header
         reightContent={handleContextMenu()}
         background_url={props.headerImageUrl}
@@ -89,6 +89,6 @@ export default function CreatorPage(props: CreatorPageProps) {
       </Header>
       <CreatorPageContent />
       <TabBar isHidden={false} tags={handleTabBar()} />
-    </>
+    </div>
   );
 }

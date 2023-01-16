@@ -93,7 +93,7 @@ export default function ConsumerPage(props: ConsumerPageProps) {
   }
 
   return (
-    <>
+    <div className="bg-slate-100 fixed inset-0">
       <Header
         reightContent={handleContextMenu()}
         background_url={props.headerImageUrl}
@@ -102,6 +102,6 @@ export default function ConsumerPage(props: ConsumerPageProps) {
       </Header>
       <ConsumerPageContent />
       <TabBar isHidden={false} tags={handleTabBar()} />
-    </>
+    </div>
   );
 }
