@@ -8,7 +8,8 @@ const nextConfig = {
       'upload-quaq.s3.sa-east-1.amazonaws.com',
       'upload-quaq.s3.amazonaws.com',
       'images.unsplash.com',
-      'upload.wikimedia.org'
+      'upload.wikimedia.org',
+      'img-19.commentcamarche.net'
     ]
   },
   webpack: (config) => {
