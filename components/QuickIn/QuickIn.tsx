@@ -23,7 +23,7 @@ export default function QuickIn(props: QuickInProps) {
           props.isHidden ? "hidden" : ""
         }`}
     >
-      <p className="w-full px-3 pb-3 text-left lg:text-[1.25rem] lg:px-[1.125rem] lg:pb-[1.125rem]">
+      <p className="w-full px-3 pb-3 text-left lg:text-[1.1rem] lg:px-[1.125rem] lg:pb-[1.125rem]">
         {text("common:quickin")}
       </p>
       <div className="w-full">

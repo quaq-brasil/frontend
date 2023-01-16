@@ -3,7 +3,7 @@ import { Fragment } from "react";
 
 type ContextMenuProps = {
   Opener: React.ReactNode;
-  children: React.ReactNode[];
+  children: React.ReactNode;
 };
 
 export const ContextMenu = ({ Opener, children }: ContextMenuProps) => {
@@ -23,7 +23,7 @@ export const ContextMenu = ({ Opener, children }: ContextMenuProps) => {
           leaveTo="transform opacity-0 scale-95"
         >
           <Menu.Items className="absolute right-0 mt-3 origin-top-right focus:outline-none">
-            <div className="px-1 py-1">{children}</div>
+            <div>{children}</div>
           </Menu.Items>
         </Transition>
       </Menu>

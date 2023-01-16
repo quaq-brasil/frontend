@@ -68,7 +68,7 @@ export function CounterConfig(props: CounterConfigProps) {
               className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white
             rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px]"
             >
-              <p className="w-full p-3 lg:text-[1.25rem] lg:p-[1.125rem]">
+              <p className="w-full p-3 lg:text-[1.1rem] lg:p-[1.125rem]">
                 {text("counterconfig:savebutton")}
               </p>
             </button>

@@ -31,15 +31,15 @@ export const CounterBlock = (props: CounterBlockProps) => {
               min-w-[100%] bg-white 
               p-[0.75rem] rounded-[20px] lg:rounded-[30px]"
           >
-            <p className="lg:text-[1.25rem]">{props.text}</p>
+            <p className="lg:text-[1.1rem]">{props.text}</p>
             <div className="flex row justify-between items-center border border-slate-100 rounded-full px-3 py-[0.1875rem] w-[7.125rem] lg:w-[11rem]">
               <button
-                className="p-[0.3125rem] lg:p-[0.625rem] text-slate-500 lg:text-[1.25rem]"
+                className="p-[0.3125rem] lg:p-[0.625rem] text-slate-500 lg:text-[1.1rem]"
                 onClick={() => handleDecrement()}
               >
                 -1
               </button>
-              <p className="inline-block mx-[10px] lg:mx-[1.25rem] lg:text-[1.25rem]">
+              <p className="inline-block mx-[10px] lg:mx-[1.25rem] lg:text-[1.1rem]">
                 {counter}
               </p>
               <button
@@ -62,10 +62,10 @@ export const CounterBlock = (props: CounterBlockProps) => {
             w-[23.5rem] md:w-[35rem] lg:w-[45rem] bg-white 
             p-[0.75rem] rounded-[20px] lg:rounded-[30px]"
           >
-            <p className="lg:text-[1.25rem]">{props.text}</p>
+            <p className="lg:text-[1.1rem]">{props.text}</p>
             <div className="flex row justify-between items-center border border-slate-100 rounded-full px-3 py-[0.1875rem] w-[7.125rem] lg:w-[11rem]">
               <button
-                className="p-[0.3125rem] lg:p-[0.625rem] text-slate-500 lg:text-[1.25rem]"
+                className="p-[0.3125rem] lg:p-[0.625rem] text-slate-500 lg:text-[1.1rem]"
                 onClick={() => setCounter(counter - 1)}
               >
                 -1
@@ -74,7 +74,7 @@ export const CounterBlock = (props: CounterBlockProps) => {
                 {counter}
               </p>
               <button
-                className="p-[0.3125rem] lg:p-[0.625rem] text-slate-500 lg:text-[1.25rem]"
+                className="p-[0.3125rem] lg:p-[0.625rem] text-slate-500 lg:text-[1.1rem]"
                 onClick={() => setCounter(counter + 1)}
               >
                 +1

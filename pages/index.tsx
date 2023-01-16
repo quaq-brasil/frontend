@@ -1,3 +1,7 @@
+import ConsumerPage from "../compositions/main/ConsumerPage/ConsumerPage";
+
 export default function Home() {
-  return <div className="bg-slate-400 min-h-screen"></div>;
+  return (
+    <ConsumerPage headerImageUrl="https://source.unsplash.com/featured/" />
+  );
 }

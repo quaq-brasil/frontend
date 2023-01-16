@@ -6,6 +6,7 @@ import { Card } from "../../../components/Card/Card";
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput";
 import { CardText } from "../../../components/Card/CardContentVariants/CardText";
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
+import { ImageSelector } from "../../../components/ImageSelector/ImageSelector";
 
 const QuickIn = dynamic(() => import("../../../components/QuickIn/QuickIn"), {
   ssr: false,
@@ -67,7 +68,11 @@ export function SignUpContent() {
           </Card>
           <Card>
             <CardText label={text("signup:uploadimg")} />
-            <CardImageInput imageSelector />
+            <CardImageInput
+              imageSelector={
+                <ImageSelector onImageChange={(e) => console.log(e)} />
+              }
+            />
           </Card>
           <Button
             color="slate-900"

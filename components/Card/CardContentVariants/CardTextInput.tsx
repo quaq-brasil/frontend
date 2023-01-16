@@ -25,7 +25,7 @@ export function CardTextInput(props: CardTextInputProps) {
         <input
           onChange={(e) => props?.input?.onChange(e.target.value)}
           className="bg-slate-50 border-0 w-full h-12 px-3 lg:px-[1.125rem] lg:h-[3.375rem]
-      placeholder:text-slate-300 lg:text-[1.25rem] hover:outline-none focus:outline-none"
+      placeholder:text-slate-300 lg:text-[1.1rem] hover:outline-none focus:outline-none"
           type={props.input.type || "text"}
           placeholder={props.input.label}
         />

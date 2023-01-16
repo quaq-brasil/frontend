@@ -30,15 +30,15 @@ export const TechBlock = (props: TechBlockProps) => {
                   <EyeSlash className="w-[1.25rem] h-[1.25rem] lg:w-[1.75rem] lg:h-[1.75rem]" />
                 </div>
               )}
-              <p className="lg:text-[1.25rem] inline-block w-auto">
+              <p className="lg:text-[1.1rem] inline-block w-auto">
                 {props.description}
               </p>
             </div>
             <span className="w-full p-[0.5px] bg-slate-100 mb-[0.5rem]"></span>
             {props.specs.map((spec) => (
               <div className="mb-[0.5rem]" key={spec.description}>
-                <p className="lg:text-[1.25rem] font-semibold">{spec.title}</p>
-                <p className="lg:text-[1.25rem]">{spec.description}</p>
+                <p className="lg:text-[1.1rem] font-semibold">{spec.title}</p>
+                <p className="lg:text-[1.1rem]">{spec.description}</p>
               </div>
             ))}
           </div>
@@ -60,15 +60,15 @@ export const TechBlock = (props: TechBlockProps) => {
                   <EyeSlash className="w-[1.25rem] h-[1.25rem] lg:w-[1.75rem] lg:h-[1.75rem]" />
                 </div>
               )}
-              <p className="lg:text-[1.25rem] inline-block w-auto">
+              <p className="lg:text-[1.1rem] inline-block w-auto">
                 {props.description}
               </p>
             </div>
             <span className="w-full p-[0.5px] bg-slate-100 mb-[0.5rem]"></span>
             {props.specs.map((spec) => (
               <div className="mb-[0.5rem]" key={spec.description}>
-                <p className="lg:text-[1.25rem] font-semibold">{spec.title}</p>
-                <p className="lg:text-[1.25rem]">{spec.description}</p>
+                <p className="lg:text-[1.1rem] font-semibold">{spec.title}</p>
+                <p className="lg:text-[1.1rem]">{spec.description}</p>
               </div>
             ))}
           </div>

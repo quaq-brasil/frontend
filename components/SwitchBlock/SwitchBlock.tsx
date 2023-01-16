@@ -25,7 +25,7 @@ export const SwitchBlock = (props: SwitchBlockProps) => {
             w-[23.5rem] md:w-[35rem] lg:w-[45rem] bg-white 
             p-[0.75rem] rounded-[20px] lg:rounded-[30px]"
           >
-            <p className="lg:text-[1.25rem]">{props.text}</p>
+            <p className="lg:text-[1.1rem]">{props.text}</p>
             <div>
               <Switch
                 checked={enabled}
@@ -54,7 +54,7 @@ export const SwitchBlock = (props: SwitchBlockProps) => {
             w-[23.5rem] md:w-[35rem] lg:w-[45rem] bg-white 
             p-[0.75rem] rounded-[20px] lg:rounded-[30px]"
           >
-            <p className="lg:text-[1.25rem]">{props.text}</p>
+            <p className="lg:text-[1.1rem]">{props.text}</p>
             <div>
               <Switch
                 checked={enabled}

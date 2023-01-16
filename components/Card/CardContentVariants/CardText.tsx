@@ -12,7 +12,7 @@ type CardTextProps = {
 export function CardText(props: CardTextProps) {
   return (
     <div className="flex flex-row justify-between items-center px-3 lg:px-[1.125rem]">
-      {props.label && <p className="lg:text-[1.25rem]">{props.label}</p>}
+      {props.label && <p className="lg:text-[1.1rem]">{props.label}</p>}
 
       {props.indicator && (
         <button onClick={() => props?.indicator?.onClick()}>

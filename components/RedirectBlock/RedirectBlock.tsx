@@ -58,7 +58,7 @@ export const RedirectBlock = (props: RedirectBlockProps) => {
               >
                 <div className="flex flex-col gap-1">
                   {props.description && (
-                    <p className="inline-block pt-[0.625rem] text-center lg:text-[1.25rem]">
+                    <p className="inline-block pt-[0.625rem] text-center lg:text-[1.1rem]">
                       {props.description}
                     </p>
                   )}

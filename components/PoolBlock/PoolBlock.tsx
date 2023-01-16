@@ -48,14 +48,14 @@ export const PoolBlock = (props: PoolBlockProps) => {
             rounded-[20px] lg:rounded-[30px] lg-px[1.125rem]"
           >
             <div>
-              <p className="pt-3 pb-3 px-1 font-semibold lg:text-[1.25rem] lg:px-[1.125rem]">
+              <p className="pt-3 pb-3 px-1 font-semibold lg:text-[1.1rem] lg:px-[1.125rem]">
                 {props.title}
               </p>
             </div>
             <span className="w-full p-[0.5px] bg-slate-100"></span>
             {props.minAnswers && (
               <div
-                className={`w-full text-center lg:text-[1.25rem] ${
+                className={`w-full text-center lg:text-[1.1rem] ${
                   isMaxAchieved || isMinAchieved ? "" : "text-rose-500"
                 }`}
               >
@@ -82,7 +82,7 @@ export const PoolBlock = (props: PoolBlockProps) => {
                         answer.isSelected ? "border-white" : "border-slate-500"
                       }`}
                   ></div>
-                  <p className="w-full text-left lg:text-[1.25rem]">
+                  <p className="w-full text-left lg:text-[1.1rem]">
                     {answer.text}
                   </p>
                 </button>
@@ -102,14 +102,14 @@ export const PoolBlock = (props: PoolBlockProps) => {
             rounded-[20px] lg:rounded-[30px] lg-px[1.125rem]"
           >
             <div>
-              <p className="pt-3 pb-3 px-1 font-semibold lg:text-[1.25rem] lg:px-[1.125rem]">
+              <p className="pt-3 pb-3 px-1 font-semibold lg:text-[1.1rem] lg:px-[1.125rem]">
                 {props.title}
               </p>
             </div>
             <span className="w-full p-[0.5px] bg-slate-100"></span>
             {props.minAnswers && (
               <div
-                className={`w-full text-center lg:text-[1.25rem] ${
+                className={`w-full text-center lg:text-[1.1rem] ${
                   isMaxAchieved || isMinAchieved ? "" : "text-rose-500"
                 }`}
               >
@@ -136,7 +136,7 @@ export const PoolBlock = (props: PoolBlockProps) => {
                         answer.isSelected ? "border-white" : "border-slate-500"
                       }`}
                   ></div>
-                  <p className="w-full text-left lg:text-[1.25rem]">
+                  <p className="w-full text-left lg:text-[1.1rem]">
                     {answer.text}
                   </p>
                 </button>
