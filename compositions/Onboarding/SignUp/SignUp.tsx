@@ -83,7 +83,7 @@ export default function SignUp(props: SignUpProps) {
   }
 
   return (
-    <>
+    <div className="bg-slate-100 fixed inset-0">
       <Header
         reightContent={handleContextMenu()}
         background_url={props.headerImageUrl}
@@ -92,6 +92,6 @@ export default function SignUp(props: SignUpProps) {
       </Header>
       <SignUpContent />
       <TabBar isHidden={false} tags={handleTabBar()} />
-    </>
+    </div>
   );
 }

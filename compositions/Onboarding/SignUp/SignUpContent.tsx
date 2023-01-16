@@ -28,7 +28,7 @@ export function SignUpContent() {
       bg-slate-100 rounded-t-[25px] overflow-y-scroll scrollbar-hide pt-2 px-2
       md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:pt-[1.5rem]"
       >
-        <div className="flex flex-col gap-2 md:gap-4 items-center">
+        <div className="flex flex-col gap-2 md:gap-4 items-center lg:pt-[1.5rem]">
           <Card>
             <CardText label={text("signup:firstmessage")} />
           </Card>
