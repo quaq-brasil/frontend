@@ -16,7 +16,8 @@
       "signup",
       "imageselector",
       "consumerpage",
-      "creatorpage"
+      "creatorpage",
+      "login"
     ]
   }
 }

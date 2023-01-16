@@ -1,0 +1,12 @@
+{
+  "titletag": "login",
+  "getemail": "Seu email",
+  "inputemail": "email@exemplo.com",
+  "getpassword": "Sua senha",
+  "inputpassword": "digite aqui",
+  "confirm": "login",
+  "tab1": "sair",
+  "tab2": "próximo",
+  "signup": "cadastrar-se",
+  "login": "login"
+}
