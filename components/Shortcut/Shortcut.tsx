@@ -18,7 +18,7 @@ export const Shortcut = (props: ShortcutProps) => {
       >
         <div
           className="z-10 absolute flex row justify-center bg-white ml-auto mr-auto left-[0.375rem]
-      right-[0.375rem] rounded-[15px] bottom-[6px] px-[6px] lg:pt-[0.8rem] lg:pb-[0.82rem] lg:rounded-[25px]"
+      right-[0.375rem] rounded-[15px] bottom-[6px] px-[6px] lg:rounded-[25px]"
         >
           <p className="inline-block py-[0.625rem] text-center lg:text-[1.25rem]">
             {props.title}
