@@ -1,5 +1,6 @@
 import useTranslation from "next-translate/useTranslation";
 import { BracketsCurly } from "phosphor-react";
+import { Tag } from "../../../components/Tag/Tag";
 import { Card } from "../../../parts/Card/Card";
 import { CardColorSelector } from "../../../parts/Card/CardContentVariants/CardColorSelector";
 import { CardText } from "../../../parts/Card/CardContentVariants/CardText";
@@ -15,6 +16,17 @@ type ButtonConfigProps = {
 
 export function ButtonConfig(props: ButtonConfigProps) {
   const text = useTranslation().t;
+
+  function handleTabBar() {
+    return [
+      <Tag
+        key={1}
+        variant="txt"
+        text={text("buttonconfig:tab1")}
+        onClick={() => console.log("tab1")}
+      />,
+    ];
+  }
 
   return (
     <>
@@ -65,13 +77,7 @@ export function ButtonConfig(props: ButtonConfigProps) {
           )}
           <TabBar
             isHidden={props.size === "sm" ? true : false}
-            tags={[
-              {
-                variant: "txt",
-                text: text("buttonconfig:tab1"),
-                onClick: () => console.log("tab1"),
-              },
-            ]}
+            tags={handleTabBar()}
           />
         </div>
       </Dialog>

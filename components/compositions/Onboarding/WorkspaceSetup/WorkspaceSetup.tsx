@@ -7,6 +7,24 @@ import { WorkspaceSetupContent } from "./WorkspaceSetupContent";
 
 export default function WorkspaceSetup() {
   const text = useTranslation().t;
+
+  function handleTabBar() {
+    return [
+      <Tag
+        key={1}
+        variant="txt"
+        text={text("workspacesetup:tab1a")}
+        onClick={() => console.log("tab1")}
+      />,
+      <Tag
+        key={2}
+        variant="txt"
+        text={text("workspacesetup:tab2")}
+        onClick={() => console.log("tab2")}
+      />,
+    ];
+  }
+
   return (
     <>
       <Header
@@ -16,21 +34,7 @@ export default function WorkspaceSetup() {
         <Tag variant="txt" text={text("workspacesetup:titletag")} />
       </Header>
       <WorkspaceSetupContent />
-      <TabBar
-        isHidden={false}
-        tags={[
-          {
-            variant: "txt",
-            text: text("workspacesetup:tab1a"),
-            onClick: () => console.log("tab1"),
-          },
-          {
-            variant: "txt",
-            text: text("workspacesetup:tab2"),
-            onClick: () => console.log("tab2"),
-          },
-        ]}
-      />
+      <TabBar isHidden={false} tags={handleTabBar()} />
     </>
   );
 }

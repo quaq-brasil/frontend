@@ -5,6 +5,7 @@ import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
 import { Dialog } from "../../../components/Dialog/Dialog";
 import { TabBar } from "../../../components/TabBar/TabBar";
+import { Tag } from "../../../components/Tag/Tag";
 
 type CounterConfigProps = {
   isOpen: boolean;
@@ -14,6 +15,17 @@ type CounterConfigProps = {
 
 export function CounterConfig(props: CounterConfigProps) {
   const text = useTranslation().t;
+
+  function handleTabBar() {
+    return [
+      <Tag
+        key={1}
+        variant="txt"
+        text={text("counterconfig:tab1")}
+        onClick={() => console.log("tab1")}
+      />,
+    ];
+  }
 
   return (
     <>
@@ -75,13 +87,7 @@ export function CounterConfig(props: CounterConfigProps) {
           )}
           <TabBar
             isHidden={props.size === "sm" ? true : false}
-            tags={[
-              {
-                variant: "txt",
-                text: text("counterconfig:tab1"),
-                onClick: () => console.log("tab1"),
-              },
-            ]}
+            tags={handleTabBar()}
           />
         </div>
       </Dialog>

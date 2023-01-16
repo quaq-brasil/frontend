@@ -1,7 +1,5 @@
-import { Tag, TagProps } from "../Tag/Tag";
-
 type TabBarProps = {
-  tags: TagProps[];
+  tags: React.ReactNode[];
   isHidden?: boolean;
 };
 
@@ -19,9 +17,7 @@ export const TabBar = (props: TabBarProps) => {
         } overflow-x-auto px-[16px] xl:flex-col xl:justify-start
       xl:items-start xl:gap-3 xl:px-0 w-full xl:overflow-hidden`}
       >
-        {props.tags.map((tag, index) => (
-          <Tag key={index} {...tag} />
-        ))}
+        {props.tags}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
 import { Dialog } from "../../../components/Dialog/Dialog";
 import { TabBar } from "../../../components/TabBar/TabBar";
+import { Tag } from "../../../components/Tag/Tag";
 
 type ReviewConfigProps = {
   isOpen: boolean;
@@ -14,6 +15,17 @@ type ReviewConfigProps = {
 
 export function ReviewConfig(props: ReviewConfigProps) {
   const text = useTranslation().t;
+
+  function handleTabBar() {
+    return [
+      <Tag
+        key={1}
+        variant="txt"
+        text={text("reviewconfig:tab1")}
+        onClick={() => console.log("tab1")}
+      />,
+    ];
+  }
 
   return (
     <>
@@ -64,13 +76,7 @@ export function ReviewConfig(props: ReviewConfigProps) {
         </div>
         <TabBar
           isHidden={props.size === "sm" ? true : false}
-          tags={[
-            {
-              variant: "txt",
-              text: text("reviewconfig:tab1"),
-              onClick: () => console.log("tab1"),
-            },
-          ]}
+          tags={handleTabBar()}
         />
       </Dialog>
     </>
