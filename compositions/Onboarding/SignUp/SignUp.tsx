@@ -1,7 +1,7 @@
 import useTranslation from "next-translate/useTranslation";
-import { Header } from "../../../parts/Header/Header";
-import { TabBar } from "../../../parts/TabBar/TabBar";
-import { Tag } from "../../../parts/Tag/Tag";
+import { Header } from "../../../components/Header/Header";
+import { TabBar } from "../../../components/TabBar/TabBar";
+import { Tag } from "../../../components/Tag/Tag";
 import { SignUpContent } from "./SignUpContent";
 
 export default function SignUp() {

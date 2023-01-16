@@ -1,10 +1,10 @@
 import useTranslation from "next-translate/useTranslation";
 import { BracketsCurly } from "phosphor-react";
-import { Card } from "../../../parts/Card/Card";
-import { CardText } from "../../../parts/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../parts/Card/CardContentVariants/CardTextInput";
-import { Dialog } from "../../../parts/Dialog/Dialog";
-import { TabBar } from "../../../parts/TabBar/TabBar";
+import { Card } from "../../../components/Card/Card";
+import { CardText } from "../../../components/Card/CardContentVariants/CardText";
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
+import { Dialog } from "../../../components/Dialog/Dialog";
+import { TabBar } from "../../../components/TabBar/TabBar";
 
 type ReviewConfigProps = {
   isOpen: boolean;
