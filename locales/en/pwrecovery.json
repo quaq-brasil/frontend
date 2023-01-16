@@ -1,0 +1,9 @@
+{
+  "titletag": "password recovery",
+  "tab1": "cancel",
+  "getpassword": "new password",
+  "inputpassword": "type it here",
+  "getconfirmation": "confirm password",
+  "inputconfirmation": "type it here",
+  "confirm": "confirm"
+}
