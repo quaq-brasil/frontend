@@ -8,6 +8,7 @@ export type TagProps =
       variant: "txt";
       isSelected?: boolean;
       onClick?: () => void;
+      isSeparated?: boolean;
     }
   | {
       text: string;
@@ -15,6 +16,7 @@ export type TagProps =
       variant: "txt-img";
       isSelected?: boolean;
       onClick?: () => void;
+      isSeparated?: boolean;
     }
   | {
       text: string;
@@ -22,12 +24,14 @@ export type TagProps =
       variant: "img-txt";
       isSelected?: boolean;
       onClick?: () => void;
+      isSeparated?: boolean;
     }
   | {
       img_url: string;
       variant: "img";
       isSelected?: boolean;
       onClick?: () => void;
+      isSeparated?: boolean;
     }
   | {
       text: string;
@@ -35,6 +39,7 @@ export type TagProps =
       variant: "txt-icn";
       isSelected?: boolean;
       onClick?: () => void;
+      isSeparated?: boolean;
     }
   | {
       text: string;
@@ -42,6 +47,7 @@ export type TagProps =
       variant: "icn-txt";
       isSelected?: boolean;
       onClick?: () => void;
+      isSeparated?: boolean;
     }
   | {
       text: string;
@@ -49,12 +55,14 @@ export type TagProps =
       variant: "icn-txt-xl";
       isSelected?: boolean;
       onClick?: () => void;
+      isSeparated?: boolean;
     }
   | {
       icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
       variant: "icn";
       isSelected?: boolean;
       onClick?: () => void;
+      isSeparated?: boolean;
     };
 
 export const Tag = (props: TagProps) => {
@@ -67,7 +75,9 @@ export const Tag = (props: TagProps) => {
       <div
         className={`shrink-0 rounded-full lg:hover:bg-slate-300 ${
           props.isSelected ? "bg-slate-900 text-white" : "bg-white text-black"
-        }`}
+        }
+        ${props.isSeparated ? "lg:mt-3" : ""}
+        `}
       >
         <>
           {props.variant === "txt" && (
