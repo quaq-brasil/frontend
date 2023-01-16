@@ -10,6 +10,7 @@ const nextConfig = {
       'images.unsplash.com',
       'upload.wikimedia.org',
       'source.unsplash.com',
+      'img-19.commentcamarche.net'
     ]
   },
   webpack: (config) => {

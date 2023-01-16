@@ -1,8 +1,8 @@
 import useTranslation from "next-translate/useTranslation";
 import { BracketsCurly } from "phosphor-react";
-import { Card } from "../../../parts/Card/Card";
-import { CardText } from "../../../parts/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../parts/Card/CardContentVariants/CardTextInput";
+import { Card } from "../../../components/Card/Card";
+import { CardText } from "../../../components/Card/CardContentVariants/CardText";
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
 
 type ExtendedConfigProps = {
   type: string;

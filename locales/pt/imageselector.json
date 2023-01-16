@@ -1,0 +1,5 @@
+{
+  "add": "adicionar",
+  "invalid_file_type": "Por favor, selecione uma imagem do tipo JPEG, PNG, WEBP ou HEIC.",
+  "invalid_file_size": "Por favor, selecione uma imagem com tamanho menor que 10MB."
+}

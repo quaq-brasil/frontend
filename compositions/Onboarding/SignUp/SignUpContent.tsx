@@ -1,13 +1,13 @@
 import useTranslation from "next-translate/useTranslation";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { Button } from "../../../parts/Button/Button";
-import { Card } from "../../../parts/Card/Card";
-import { CardImageInput } from "../../../parts/Card/CardContentVariants/CardImageInput";
-import { CardText } from "../../../parts/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../parts/Card/CardContentVariants/CardTextInput";
+import { Button } from "../../../components/Button/Button";
+import { Card } from "../../../components/Card/Card";
+import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput";
+import { CardText } from "../../../components/Card/CardContentVariants/CardText";
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
 
-const QuickIn = dynamic(() => import("../../../parts/QuickIn/QuickIn"), {
+const QuickIn = dynamic(() => import("../../../components/QuickIn/QuickIn"), {
   ssr: false,
 });
 

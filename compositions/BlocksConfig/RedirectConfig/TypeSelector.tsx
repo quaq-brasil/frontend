@@ -1,8 +1,8 @@
 import useTranslation from "next-translate/useTranslation";
 import { Check } from "phosphor-react";
 import { useState } from "react";
-import { Card } from "../../../parts/Card/Card";
-import { CardText } from "../../../parts/Card/CardContentVariants/CardText";
+import { Card } from "../../../components/Card/Card";
+import { CardText } from "../../../components/Card/CardContentVariants/CardText";
 
 type TypeSelectorProps = {
   changeRedirectType: (type: string) => void;
