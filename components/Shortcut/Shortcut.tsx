@@ -10,7 +10,7 @@ export const Shortcut = (props: ShortcutProps) => {
   return (
     <>
       <li
-        className={`flex relative rounded-[20px] h-[13.0625rem] justify-center content-center lg:h-[19rem] lg:rounded-[30px] ${
+        className={`flex relative min-w-[100%] rounded-[20px] h-[13.0625rem] justify-center content-center lg:h-[19rem] lg:rounded-[30px] ${
           props.size === "large"
             ? "col-span-2  max-w-[35.25rem]"
             : "col-span-1  max-w-[16.5625rem]"
