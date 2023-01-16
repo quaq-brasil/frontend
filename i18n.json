@@ -15,7 +15,8 @@
       "buttonconfig",
       "signup",
       "imageselector",
-      "consumerpage"
+      "consumerpage",
+      "creatorpage"
     ]
   }
 }
