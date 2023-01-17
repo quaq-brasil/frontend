@@ -1,6 +1,6 @@
 import useTranslation from "next-translate/useTranslation";
 import dynamic from "next/dynamic";
-import { ArrowRight } from "phosphor-react";
+import { Button } from "../../../components/Button/Button";
 import { Card } from "../../../components/Card/Card";
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput";
 import { CardText } from "../../../components/Card/CardContentVariants/CardText";
@@ -25,45 +25,31 @@ export function WorkspaceSettingsContent() {
       >
         <div className="flex flex-col gap-2 md:gap-4 items-center">
           <Card>
-            <CardText label={text("wssettings:wsimage")} />
+            <CardText label={text("wssetup:firstmessage")} />
+          </Card>
+          <Card>
+            <CardText label={text("wssetup:getwsname")} />
+            <CardTextInput
+              input={{
+                label: text("wssetup:inputwsname"),
+                onChange: (e) => console.log(e),
+                type: "text",
+              }}
+            />
+          </Card>
+          <Card>
+            <CardText label={text("wssetup:uploadimg")} />
             <CardImageInput
               imageSelector={
                 <ImageSelector onImageChange={(e) => console.log(e)} />
               }
             />
           </Card>
-
-          <Card>
-            <CardText label={text("wssettings:wsname")} />
-            <CardTextInput
-              input={{
-                label: text("wssettings:inputwsname"),
-                onChange: (e) => console.log(e),
-                type: "text",
-              }}
-            />
-          </Card>
-
-          <Card>
-            <CardText label={text("wssettings:options")} />
-            <CardText
-              label={text("wssettings:members")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
-            />
-            <CardText
-              label={text("wssettings:services")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
-            />
-            <CardText
-              label={text("wssettings:billing")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
-            />
-            <CardText
-              label={text("wssettings:advanced")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
-            />
-          </Card>
-
+          <Button
+            color="slate-900"
+            onClick={handleFinishSignUp}
+            text={text("wssetup:confirm")}
+          />
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>
