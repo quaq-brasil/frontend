@@ -25,7 +25,8 @@
       "webhookconfig",
       "wssettings",
       "wsadvanced",
-      "wsdelete"
+      "wsdelete",
+      "profile"
     ]
   }
 }
