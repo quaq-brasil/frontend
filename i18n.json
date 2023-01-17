@@ -30,7 +30,8 @@
       "profileadvanced",
       "emailupdate",
       "terms",
-      "publish"
+      "publish",
+      "accesscontrol"
     ]
   }
 }
