@@ -4,11 +4,7 @@ import { TabBar } from "../../../components/TabBar/TabBar";
 import { Tag } from "../../../components/Tag/Tag";
 import { PasswordUpdateContent } from "./PasswordUpdateContent";
 
-type PasswordUpdateProps = {
-  headerImageUrl: string;
-};
-
-export default function PasswordUpdate(props: PasswordUpdateProps) {
+export default function PasswordUpdate() {
   const text = useTranslation().t;
 
   function handleTabBar() {
@@ -24,7 +20,7 @@ export default function PasswordUpdate(props: PasswordUpdateProps) {
 
   return (
     <div className="bg-slate-100 fixed inset-0">
-      <Header background_url={props.headerImageUrl}>
+      <Header background_url="https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80">
         <Tag
           variant="img-txt"
           text="username"
