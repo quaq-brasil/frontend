@@ -1,0 +1,9 @@
+{
+  "titletag": "update email",
+  "newemail": "novo email",
+  "inputemail": "digite aqui",
+  "password": "digite a sua senha",
+  "inputpassword": "digite aqui",
+  "confirm": "confirmar",
+  "validation": "Para concluir a alteração, acesse o link enviado para o email fornecido."
+}
