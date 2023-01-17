@@ -3,6 +3,7 @@ import { Check } from "phosphor-react";
 import { useState } from "react";
 import { Card } from "../../../components/Card/Card";
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput";
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
 import { CardText } from "../../../components/Card/CardContentVariants/CardText";
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector";
@@ -61,6 +62,7 @@ export function PublishTemplateContent() {
                 isVisible: size == "small" ? false : true,
               }}
             />
+            <CardLine />
             <CardText
               label={text("publish:large")}
               indicator={{
@@ -69,8 +71,8 @@ export function PublishTemplateContent() {
                 isVisible: size == "large" ? false : true,
               }}
             />
+            <CardLine />
           </Card>
-
           <Card>
             <CardText label={text("publish:title4")} />
             <CardTextInput
