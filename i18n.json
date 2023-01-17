@@ -31,7 +31,8 @@
       "emailupdate",
       "terms",
       "publish",
-      "accesscontrol"
+      "accesscontrol",
+      "texteditor"
     ]
   }
 }
