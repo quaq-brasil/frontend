@@ -106,7 +106,7 @@ export const Tag = (props: TagProps) => {
                 height={100}
                 alt=""
               />
-              <p className="lg:text-[20px]">{props.text}</p>
+              <p className="lg:text-[1.1rem]">{props.text}</p>
             </div>
           )}
           {props.variant === "img" && (
