@@ -23,7 +23,8 @@
       "wssetup",
       "poolconfig",
       "webhookconfig",
-      "wssettings"
+      "wssettings",
+      "wsadvanced"
     ]
   }
 }
