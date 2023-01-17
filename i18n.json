@@ -26,7 +26,8 @@
       "wssettings",
       "wsadvanced",
       "wsdelete",
-      "profile"
+      "profile",
+      "profileadvanced"
     ]
   }
 }
