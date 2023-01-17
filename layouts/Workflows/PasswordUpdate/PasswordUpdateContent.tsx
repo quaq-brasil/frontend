@@ -1,18 +1,11 @@
 import useTranslation from "next-translate/useTranslation";
-import dynamic from "next/dynamic";
 import { Button } from "../../../components/Button/Button";
 import { Card } from "../../../components/Card/Card";
 import { CardText } from "../../../components/Card/CardContentVariants/CardText";
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
 
-const QuickIn = dynamic(() => import("../../../components/QuickIn/QuickIn"), {
-  ssr: false,
-});
-
 export function PasswordUpdateContent() {
   const text = useTranslation().t;
-
-  function handleFinishSignUp() {}
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -44,7 +37,7 @@ export function PasswordUpdateContent() {
           </Card>
           <Button
             color="slate-900"
-            onClick={handleFinishSignUp}
+            onClick={() => console.log("clicked")}
             text={text("pwupdate:confirm")}
           />
           <span className="w-full h-[4rem]"></span>
