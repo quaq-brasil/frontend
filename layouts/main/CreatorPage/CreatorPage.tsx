@@ -1,4 +1,3 @@
-import { Menu } from "@headlessui/react";
 import useTranslation from "next-translate/useTranslation";
 import dynamic from "next/dynamic";
 import { ArrowsCounterClockwise } from "phosphor-react";
@@ -29,18 +28,10 @@ export default function CreatorPage(props: CreatorPageProps) {
         }
       >
         <div className="flex flex-col gap-3">
-          <Menu.Item>
-            <Tag variant="txt" text={text("example")} />
-          </Menu.Item>
-          <Menu.Item>
-            <Tag variant="txt" text={text("example")} />
-          </Menu.Item>
-          <Menu.Item>
-            <Tag variant="txt" text={text("example")} />
-          </Menu.Item>
-          <Menu.Item>
-            <Tag variant="txt" text={text("example")} />
-          </Menu.Item>
+          <Tag variant="txt" text={text("example")} />
+          <Tag variant="txt" text={text("example")} />
+          <Tag variant="txt" text={text("example")} />
+          <Tag variant="txt" text={text("example")} />
         </div>
       </ContextMenu>
     );
