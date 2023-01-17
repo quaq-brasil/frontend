@@ -86,6 +86,3 @@ export default function ConsumerPage(props: ConsumerPageProps) {
     </div>
   );
 }
-function handleToggleContextMenu(arg0: JSX.Element) {
-  throw new Error("Function not implemented.");
-}

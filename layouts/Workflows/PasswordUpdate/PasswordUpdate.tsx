@@ -1,5 +1,4 @@
 import useTranslation from "next-translate/useTranslation";
-import dynamic from "next/dynamic";
 import { Header } from "../../../components/Header/Header";
 import { TabBar } from "../../../components/TabBar/TabBar";
 import { Tag } from "../../../components/Tag/Tag";
@@ -8,13 +7,6 @@ import { PasswordUpdateContent } from "./PasswordUpdateContent";
 type PasswordUpdateProps = {
   headerImageUrl: string;
 };
-
-const ContextMenu = dynamic(
-  () => import("../../../components/ContextMenu/ContextMenu"),
-  {
-    ssr: false,
-  }
-);
 
 export default function PasswordUpdate(props: PasswordUpdateProps) {
   const text = useTranslation().t;

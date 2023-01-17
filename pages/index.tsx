@@ -1,9 +1,9 @@
-import ConsumerPage from "../layouts/main/ConsumerPage/ConsumerPage";
+import PasswordUpdate from "../layouts/Workflows/PasswordUpdate/PasswordUpdate";
 
 export default function Home() {
   return (
     <div>
-      <ConsumerPage headerImageUrl="https://source.unsplash.com/featured/" />
+      <PasswordUpdate headerImageUrl="https://source.unsplash.com/featured/" />
     </div>
   );
 }
