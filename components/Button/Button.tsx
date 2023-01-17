@@ -7,6 +7,7 @@ type ButtonProps = {
 export function Button(props: ButtonProps) {
   return (
     <button
+      onClick={props.onClick}
       className={`flex relative justify-between items-center 
         p-[0.75rem] md:p-[1rem] lg:p-[1.5rem] min-w-[100%]
         rounded-[20px] lg:rounded-[30px] bg-${props.color}`}
