@@ -19,8 +19,8 @@ export const ReviewBlock = (props: ReviewBlockProps) => {
       {!props.isEditable && (
         <>
           <div
-            className="flex w-[23.375rem] justify-center items-center bg-white 
-          p-[0.75rem] rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px]"
+            className="flex min-w-[100%] justify-center items-center bg-white 
+          p-[0.75rem] rounded-[20px] lg:rounded-[30px]"
           >
             <div className="flex flex-row gap-1 items-center">
               <button onClick={() => handleOnClick(1)}>

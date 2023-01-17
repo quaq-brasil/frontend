@@ -19,7 +19,7 @@ export const TechBlock = (props: TechBlockProps) => {
         <>
           <div
             className={`flex flex-col gap-[0.3125rem] justify-center
-            w-[23.5rem] md:w-[35rem] lg:w-[45rem] bg-white 
+            min-w-[100%] bg-white 
             p-[0.75rem] rounded-[20px] lg:rounded-[30px] ${
               props.isVisible ? "" : "hidden"
             }`}

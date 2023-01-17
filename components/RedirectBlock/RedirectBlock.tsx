@@ -51,7 +51,7 @@ export const RedirectBlock = (props: RedirectBlockProps) => {
       {props.isManual === true && (
         <>
           <a href={props.destination_url}>
-            <div className="flex relative w-[23.375rem] h-[13.0625rem] justify-center content-center lg:w-[35.25rem] lg:h-[19rem] lg:rounded-[30px]">
+            <div className="flex relative min-w-[100%] h-[13.0625rem] justify-center content-center lg:h-[19rem] lg:rounded-[30px]">
               <div
                 className="z-10 absolute flex row justify-center bg-white ml-auto mr-auto left-[0.375rem] 
                 right-[0.375rem] rounded-[15px] bottom-[0.375rem] px-[0.375rem] lg:pt-[0.8125rem] lg:pb-[0.875rem] lg:rounded-[25px]"

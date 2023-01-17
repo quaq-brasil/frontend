@@ -30,7 +30,7 @@ export const ImageBlock = (props: ImageBlockProps) => {
         <>
           <div
             className="flex relative justify-center content-center
-            w-[23.5rem] md:w-[35rem] lg:w-[45rem] 
+            min-w-[100%]
             h-[13.0625rem]  lg:h-[19rem]"
           >
             <div className="z-10 absolute flex justify-start content-center rounded-full bg-white border border-slate-100">

@@ -22,7 +22,7 @@ export const SwitchBlock = (props: SwitchBlockProps) => {
         <>
           <div
             className="flex justify-between items-center
-            w-[23.5rem] md:w-[35rem] lg:w-[45rem] bg-white 
+            min-w-[100%] bg-white 
             p-[0.75rem] rounded-[20px] lg:rounded-[30px]"
           >
             <p className="lg:text-[1.1rem]">{props.text}</p>
