@@ -2,6 +2,7 @@ import useTranslation from "next-translate/useTranslation";
 import dynamic from "next/dynamic";
 import { ArrowRight } from "phosphor-react";
 import { Card } from "../../../components/Card/Card";
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
 import { CardText } from "../../../components/Card/CardContentVariants/CardText";
 
 const QuickIn = dynamic(() => import("../../../components/QuickIn/QuickIn"), {
@@ -27,6 +28,7 @@ export function WorkspaceAdvancedContent() {
               label={text("wsadvanced:delete")}
               indicator={{ icon: ArrowRight, onClick: () => console.log() }}
             />
+            <CardLine />
           </Card>
           <span className="w-full h-[4rem]"></span>
         </div>

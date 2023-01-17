@@ -16,7 +16,9 @@ export function CardText(props: CardTextProps) {
       className="flex flex-row justify-between items-center px-3 lg:px-[1.125rem]"
       onClick={() => props?.indicator?.onClick()}
     >
-      {props.label && <p className="lg:text-[1.1rem]">{props.label}</p>}
+      {props.label && (
+        <p className="lg:text-[1.1rem] text-left">{props.label}</p>
+      )}
       {props.indicator && (
         <>
           <props.indicator.icon

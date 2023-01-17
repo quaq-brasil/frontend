@@ -24,7 +24,8 @@
       "poolconfig",
       "webhookconfig",
       "wssettings",
-      "wsadvanced"
+      "wsadvanced",
+      "wsdelete"
     ]
   }
 }
