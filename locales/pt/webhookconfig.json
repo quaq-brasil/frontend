@@ -1,0 +1,21 @@
+{
+  "tab1": "cancelar",
+  "toptitle": "novo webhook",
+  "description": "descrição",
+  "descriptioninput": "digite aqui",
+  "switch": "visibilidade",
+  "parameters": "parameters",
+  "parametersinput": "digite aqui",
+  "header": "header (opcional)",
+  "body": "body (opcional)",
+  "type": "tipo",
+  "get": "GET",
+  "post": "POST",
+  "patch": "PATCH",
+  "delete": "DELETE",
+  "link": "link do webhook",
+  "linkinput": "digite aqui",
+  "saveas": "salvar como",
+  "saveasinput": "digite aqui",
+  "savebutton": "salvar"
+}

@@ -21,7 +21,8 @@
       "pwupdate",
       "pwrecovery",
       "wssetup",
-      "poolconfig"
+      "poolconfig",
+      "webhookconfig"
     ]
   }
 }
