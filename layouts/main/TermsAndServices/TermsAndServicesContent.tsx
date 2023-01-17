@@ -1,10 +1,8 @@
 import useTranslation from "next-translate/useTranslation";
-import { ArrowRight } from "phosphor-react";
 import { Card } from "../../../components/Card/Card";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
 import { CardText } from "../../../components/Card/CardContentVariants/CardText";
 
-export function WorkspaceAdvancedContent() {
+export function TermsAndServicesContent() {
   const text = useTranslation().t;
 
   return (
@@ -16,12 +14,8 @@ export function WorkspaceAdvancedContent() {
       >
         <div className="flex flex-col gap-2 md:gap-4 items-center">
           <Card>
-            <CardText label={text("wsadvanced:options")} />
-            <CardText
-              label={text("wsadvanced:delete")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
-            />
-            <CardLine />
+            <CardText label={text("terms:title")} />
+            <CardText label={text("terms:terms")} />
           </Card>
           <span className="w-full h-[4rem]"></span>
         </div>

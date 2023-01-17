@@ -28,7 +28,9 @@
       "wsdelete",
       "profile",
       "profileadvanced",
-      "emailupdate"
+      "emailupdate",
+      "terms",
+      "publish"
     ]
   }
 }

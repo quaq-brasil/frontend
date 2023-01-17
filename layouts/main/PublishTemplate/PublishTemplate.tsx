@@ -2,9 +2,9 @@ import useTranslation from "next-translate/useTranslation";
 import { Header } from "../../../components/Header/Header";
 import { TabBar } from "../../../components/TabBar/TabBar";
 import { Tag } from "../../../components/Tag/Tag";
-import { ProfileContent } from "./ProfileContent";
+import { PublishTemplateContent } from "./PublishTemplateContent";
 
-export default function Profile() {
+export default function PublishTemplate() {
   const text = useTranslation().t;
 
   function handleTabBar() {
@@ -12,7 +12,7 @@ export default function Profile() {
       <Tag
         key={1}
         variant="txt"
-        text={text("profile:tab1")}
+        text={text("publish:tab1")}
         onClick={() => console.log("tab1")}
       />,
     ];
@@ -27,9 +27,10 @@ export default function Profile() {
       >
         <Tag
           variant="img-txt"
-          text="User Name"
+          text="page title"
           img_url="https://source.unsplash.com/featured/"
         />
+        <Tag variant="txt" text={text("publish:titletag")} />
       </Header>
     );
   }
@@ -37,7 +38,7 @@ export default function Profile() {
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <ProfileContent />
+      <PublishTemplateContent />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   );

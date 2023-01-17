@@ -18,8 +18,8 @@ export default function WorkspaceAdvanced() {
     ];
   }
 
-  return (
-    <div className="bg-slate-100 fixed inset-0">
+  function loadHeader() {
+    return (
       <Header
         background_url={
           "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
@@ -32,6 +32,12 @@ export default function WorkspaceAdvanced() {
         />
         <Tag variant="txt" text={text("wsadvanced:titletag2")} />
       </Header>
+    );
+  }
+
+  return (
+    <div className="bg-slate-100 fixed inset-0">
+      {loadHeader()}
       <WorkspaceAdvancedContent />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
