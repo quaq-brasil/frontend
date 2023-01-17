@@ -32,7 +32,8 @@
       "terms",
       "publish",
       "accesscontrol",
-      "texteditor"
+      "texteditor",
+      "trackers"
     ]
   }
 }
