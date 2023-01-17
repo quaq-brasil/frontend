@@ -1,13 +1,12 @@
-import { Menu } from "@headlessui/react";
 import useTranslation from "next-translate/useTranslation";
 import dynamic from "next/dynamic";
 import { UserCirclePlus } from "phosphor-react";
 import { Header } from "../../../components/Header/Header";
 import { TabBar } from "../../../components/TabBar/TabBar";
 import { Tag } from "../../../components/Tag/Tag";
-import { SignUpContent } from "./SignUpContent";
+import { LogInContent } from "./LogInContent";
 
-type SignUpProps = {
+type LogInProps = {
   headerImageUrl: string;
 };
 
@@ -18,7 +17,7 @@ const ContextMenu = dynamic(
   }
 );
 
-export default function SignUp(props: SignUpProps) {
+export default function LogIn(props: LogInProps) {
   const text = useTranslation().t;
 
   function handleContextMenu() {
@@ -34,18 +33,10 @@ export default function SignUp(props: SignUpProps) {
           }
         >
           <div className="flex flex-col gap-3">
-            <Menu.Item>
-              <Tag variant="txt" text={text("example")} />
-            </Menu.Item>
-            <Menu.Item>
-              <Tag variant="txt" text={text("example")} />
-            </Menu.Item>
-            <Menu.Item>
-              <Tag variant="txt" text={text("example")} />
-            </Menu.Item>
-            <Menu.Item>
-              <Tag variant="txt" text={text("example")} />
-            </Menu.Item>
+            <Tag variant="txt" text={text("example")} />
+            <Tag variant="txt" text={text("example")} />
+            <Tag variant="txt" text={text("example")} />
+            <Tag variant="txt" text={text("example")} />
           </div>
         </ContextMenu>
       );
@@ -53,12 +44,8 @@ export default function SignUp(props: SignUpProps) {
       return (
         <ContextMenu Opener={<Tag variant="icn" icon={UserCirclePlus} />}>
           <div className="flex flex-col gap-3">
-            <Menu.Item>
-              <Tag variant="txt" text={text("consumerpage:signup")} />
-            </Menu.Item>
-            <Menu.Item>
-              <Tag variant="txt" text={text("consumerpage:login")} />
-            </Menu.Item>
+            <Tag variant="txt" text={text("login:signup")} />
+            <Tag variant="txt" text={text("login:login")} />
           </div>
         </ContextMenu>
       );
@@ -70,13 +57,13 @@ export default function SignUp(props: SignUpProps) {
       <Tag
         key={1}
         variant="txt"
-        text={text("signup:tab1a")}
-        onClick={() => console.log("tab1a")}
+        text={text("login:tab1")}
+        onClick={() => console.log("tab1")}
       />,
       <Tag
         key={2}
         variant="txt"
-        text={text("signup:tab2")}
+        text={text("login:tab2")}
         onClick={() => console.log("tab2")}
       />,
     ];
@@ -88,9 +75,9 @@ export default function SignUp(props: SignUpProps) {
         reightContent={handleContextMenu()}
         background_url={props.headerImageUrl}
       >
-        <Tag variant="txt" text={text("signup:titletag")} />
+        <Tag variant="txt" text={text("login:titletag")} />
       </Header>
-      <SignUpContent />
+      <LogInContent />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   );

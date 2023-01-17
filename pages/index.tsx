@@ -1,4 +1,4 @@
-import ConsumerPage from "../compositions/main/ConsumerPage/ConsumerPage";
+import ConsumerPage from "../layouts/main/ConsumerPage/ConsumerPage";
 
 export default function Home() {
   return (
