@@ -35,7 +35,10 @@
       "texteditor",
       "trackers",
       "edittemplate",
-      "blockselector"
+      "blockselector",
+      "texteditor",
+      "textentryblock",
+      "fileentryblock"
     ]
   }
 }
