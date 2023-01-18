@@ -42,7 +42,8 @@
       "textconfig",
       "filesharingconfig",
       "jsonconfig",
-      "fileentryconfig"
+      "fileentryconfig",
+      "generalsettings"
     ]
   }
 }
