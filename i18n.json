@@ -38,7 +38,8 @@
       "blockselector",
       "texteditor",
       "textentryblock",
-      "fileentryblock"
+      "fileentryblock",
+      "textconfig"
     ]
   }
 }
