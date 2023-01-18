@@ -7,13 +7,13 @@ import { Dialog } from "../../../components/Dialog/Dialog";
 import { TabBar } from "../../../components/TabBar/TabBar";
 import { Tag } from "../../../components/Tag/Tag";
 
-type SwitchConfigProps = {
+type ToggleConfigProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   size?: "sm" | "md" | "full";
 };
 
-export function SwitchConfig(props: SwitchConfigProps) {
+export function ToggleConfig(props: ToggleConfigProps) {
   const text = useTranslation().t;
 
   function handleTabBar() {
@@ -21,7 +21,7 @@ export function SwitchConfig(props: SwitchConfigProps) {
       <Tag
         key={1}
         variant="txt"
-        text={text("switchconfig:tab1")}
+        text={text("toggleconfig:tab1")}
         onClick={() => console.log("tab1")}
       />,
     ];
@@ -32,15 +32,15 @@ export function SwitchConfig(props: SwitchConfigProps) {
       <Dialog
         height={props.size}
         isOpen={props.isOpen}
-        title={text("switchconfig:toptitle")}
+        title={text("toggleconfig:toptitle")}
         onClose={() => console.log("closed")}
       >
         <div className="flex flex-col gap-3 lg:gap-6 items-center">
           <Card>
-            <CardText label={text("switchconfig:title1")} />
+            <CardText label={text("toggleconfig:title1")} />
             <CardTextInput
               input={{
-                label: text("switchconfig:label1"),
+                label: text("toggleconfig:label1"),
                 onChange: (e) => console.log(e),
               }}
               indicator={{
@@ -50,10 +50,10 @@ export function SwitchConfig(props: SwitchConfigProps) {
             />
           </Card>
           <Card>
-            <CardText label={text("switchconfig:title2")} />
+            <CardText label={text("toggleconfig:title2")} />
             <CardTextInput
               input={{
-                label: text("switchconfig:label2"),
+                label: text("toggleconfig:label2"),
                 onChange: (e) => console.log(e),
               }}
               indicator={{
@@ -68,7 +68,7 @@ export function SwitchConfig(props: SwitchConfigProps) {
             rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px]"
             >
               <p className="w-full p-3 lg:text-[1.1rem] lg:p-[1.125rem]">
-                {text("switchconfig:savebutton")}
+                {text("toggleconfig:savebutton")}
               </p>
             </button>
           )}

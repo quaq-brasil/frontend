@@ -1,12 +1,12 @@
 import useTranslation from "next-translate/useTranslation";
 import { BracketsCurly } from "phosphor-react";
+import { Card } from "../../../components/Card/Card";
+import { CardColorSelector } from "../../../components/Card/CardContentVariants/CardColorSelector";
+import { CardText } from "../../../components/Card/CardContentVariants/CardText";
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
+import { Dialog } from "../../../components/Dialog/Dialog";
+import { TabBar } from "../../../components/TabBar/TabBar";
 import { Tag } from "../../../components/Tag/Tag";
-import { Card } from "../../../parts/Card/Card";
-import { CardColorSelector } from "../../../parts/Card/CardContentVariants/CardColorSelector";
-import { CardText } from "../../../parts/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../parts/Card/CardContentVariants/CardTextInput";
-import { Dialog } from "../../../parts/Dialog/Dialog";
-import { TabBar } from "../../../parts/TabBar/TabBar";
 
 type ButtonConfigProps = {
   isOpen: boolean;

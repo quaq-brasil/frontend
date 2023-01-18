@@ -2,13 +2,13 @@ import { Switch } from "@headlessui/react";
 import { PencilSimple } from "phosphor-react";
 import { useState } from "react";
 
-type SwitchBlockProps = {
+type ToggleBlockProps = {
   text: string;
   isEditable: boolean;
   onSwitch: () => void;
 };
 
-export const SwitchBlock = (props: SwitchBlockProps) => {
+export const ToggleBlock = (props: ToggleBlockProps) => {
   const [enabled, setEnabled] = useState(false);
 
   function handleSwitch() {
