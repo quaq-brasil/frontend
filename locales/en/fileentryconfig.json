@@ -1,0 +1,16 @@
+{
+  "tab1": "back",
+  "toptitle": "new file entry",
+  "title": "title",
+  "label": "type it here",
+  "title2": "number of files",
+  "label2": "type it here",
+  "type": "accepted formats",
+  "pdf": "pdf",
+  "image": "image (jpg, png, heic and more)",
+  "csv": "csv",
+  "mp4": "mp4",
+  "saveas": "save as",
+  "labelsave": "type it here",
+  "savebutton": "save"
+}
