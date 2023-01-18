@@ -24,7 +24,8 @@
       "poolconfig",
       "webhookconfig",
       "wssettings",
-      "texteditor"
+      "texteditor",
+      "textentryblock"
     ]
   }
 }
