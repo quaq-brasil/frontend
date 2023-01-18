@@ -33,7 +33,8 @@
       "publish",
       "accesscontrol",
       "texteditor",
-      "trackers"
+      "trackers",
+      "edittemplate"
     ]
   }
 }
