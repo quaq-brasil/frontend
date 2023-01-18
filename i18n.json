@@ -40,7 +40,8 @@
       "textentryblock",
       "fileentryblock",
       "textconfig",
-      "filesharingconfig"
+      "filesharingconfig",
+      "jsonconfig"
     ]
   }
 }
