@@ -4,9 +4,18 @@ import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { checkForFileSize } from "../../utils/checkForFileSize";
 
-type FileEntryBlockProps = {};
+export type FileProps = {
+  name: string;
+  file: File;
+};
 
-export default function FileEntryBlock({}: FileEntryBlockProps) {
+type FileEntryBlockProps = {
+  file?: File;
+  name?: string;
+  onFileChange?: ({ file, name }: FileProps) => void;
+};
+
+export default function FileEntryBlock({ onFileChange }: FileEntryBlockProps) {
   const text = useTranslation().t;
   const [file, setFile] = useState<string | undefined>();
   const [fileName, setFileName] = useState<string | undefined>();
@@ -34,6 +43,7 @@ export default function FileEntryBlock({}: FileEntryBlockProps) {
 
       setFile(fileUrl);
       setFileName(file.name);
+      onFileChange && onFileChange({ file, name: file.name });
     } catch (err: any) {
       setError(err.message);
     } finally {
