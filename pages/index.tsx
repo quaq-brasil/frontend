@@ -1,9 +1,9 @@
-import ConsumerPage from "../layouts/main/ConsumerPage/ConsumerPage";
+import FileEntryBlock from "../components/FileEntryBlock/FileEntryBlock";
 
 export default function Home() {
   return (
     <div>
-      <ConsumerPage headerImageUrl="https://source.unsplash.com/featured/" />
+      <FileEntryBlock />
     </div>
   );
 }

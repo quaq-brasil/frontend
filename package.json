@@ -12,6 +12,7 @@
     "@dnd-kit/core": "^6.0.7",
     "@dnd-kit/sortable": "^7.0.2",
     "@headlessui/react": "^1.7.7",
+    "@tailwindcss/line-clamp": "^0.4.2",
     "@tiptap/extension-document": "2.0.0-beta.209",
     "@tiptap/extension-highlight": "2.0.0-beta.209",
     "@tiptap/extension-placeholder": "2.0.0-beta.209",

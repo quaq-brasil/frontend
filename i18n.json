@@ -25,7 +25,8 @@
       "webhookconfig",
       "wssettings",
       "texteditor",
-      "textentryblock"
+      "textentryblock",
+      "fileentryblock"
     ]
   }
 }
