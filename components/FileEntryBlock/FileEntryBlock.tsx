@@ -59,23 +59,19 @@ export default function FileEntryBlock({ onFileChange }: FileEntryBlockProps) {
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
-    <div className="relative" {...getRootProps()}>
+    <div className="relative px-3" {...getRootProps()}>
       <input {...getInputProps()} type="file" />
-      <button className="flex items-center gap-2 px-3 py-1 rounded-full border-2 border-slate-200 bg-white ">
+      <button className="h-[2.5rem] px-[0.625rem] lg:h-[3.25rem] my-2 lg:px-3 lg:text-[1.1rem] flex items-center shrink-0 gap-2 py-1 rounded-full outline outline-1 outline-slate-100 bg-white ">
         {!isLoading ? (
-          <UploadSimple weight="bold" className="h-5 w-5" />
+          <UploadSimple weight="bold" className="h-5 w-5 shrink-0" />
         ) : (
           <SpinnerGap weight="bold" className="h-5 w-5 animate-spin" />
         )}
 
         {file ? (
-          <p className="text-[1rem] md:text-[1.125rem] line-clamp-1 w-full overflow-hidden">
-            {fileName}
-          </p>
+          <p className="line-clamp-1 w-full overflow-hidden">{fileName}</p>
         ) : (
-          <p className="text-[1rem] md:text-[1.125rem]">
-            {text("fileentryblock:upload")}
-          </p>
+          <p>{text("fileentryblock:upload")}</p>
         )}
       </button>
 

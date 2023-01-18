@@ -3,16 +3,19 @@ import FileEntryBlock, { FileProps } from "../FileEntryBlock/FileEntryBlock";
 type FileManagerProps = {
   files: FileProps[];
   onFileChange?: ({ file, name }: FileProps) => void;
+  onFileDelete?: (index: number) => void;
 };
 
 export const FileManager = ({ files, onFileChange }: FileManagerProps) => {
   return (
     <div className="flex gap-4">
+      <FileEntryBlock onFileChange={onFileChange} />
       {files &&
         files.map((file, index) => (
-          <FileEntryBlock key={index} file={file.file} name={file.name} />
+          <button key={index}>
+            <FileEntryBlock file={file.file} name={file.name} />
+          </button>
         ))}
-      <FileEntryBlock onFileChange={onFileChange} />
     </div>
   );
 };
