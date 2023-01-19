@@ -1,0 +1,10 @@
+{
+  "back": "back",
+  "options": "options",
+  "logs": "logs",
+  "stats": "stats",
+  "general": "general",
+  "accesses": "number of accesses",
+  "depth": "average depth",
+  "accessbymethods": "number of accesses by methods"
+}

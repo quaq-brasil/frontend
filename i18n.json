@@ -46,7 +46,8 @@
       "generalsettings",
       "centraloptions",
       "centraltrackers",
-      "centrallogs"
+      "centrallogs",
+      "centralstats"
     ]
   }
 }
