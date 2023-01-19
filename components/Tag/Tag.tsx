@@ -9,6 +9,7 @@ export type TagProps =
       isSelected?: boolean;
       onClick?: () => void;
       isSeparated?: boolean;
+      hasOutline?: boolean;
     }
   | {
       text: string;
@@ -17,6 +18,7 @@ export type TagProps =
       isSelected?: boolean;
       onClick?: () => void;
       isSeparated?: boolean;
+      hasOutline?: boolean;
     }
   | {
       text: string;
@@ -25,6 +27,7 @@ export type TagProps =
       isSelected?: boolean;
       onClick?: () => void;
       isSeparated?: boolean;
+      hasOutline?: boolean;
     }
   | {
       img_url: string;
@@ -32,6 +35,7 @@ export type TagProps =
       isSelected?: boolean;
       onClick?: () => void;
       isSeparated?: boolean;
+      hasOutline?: boolean;
     }
   | {
       text: string;
@@ -40,6 +44,7 @@ export type TagProps =
       isSelected?: boolean;
       onClick?: () => void;
       isSeparated?: boolean;
+      hasOutline?: boolean;
     }
   | {
       text: string;
@@ -48,6 +53,7 @@ export type TagProps =
       isSelected?: boolean;
       onClick?: () => void;
       isSeparated?: boolean;
+      hasOutline?: boolean;
     }
   | {
       text: string;
@@ -56,6 +62,7 @@ export type TagProps =
       isSelected?: boolean;
       onClick?: () => void;
       isSeparated?: boolean;
+      hasOutline?: boolean;
     }
   | {
       icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
@@ -63,6 +70,7 @@ export type TagProps =
       isSelected?: boolean;
       onClick?: () => void;
       isSeparated?: boolean;
+      hasOutline?: boolean;
     };
 
 export const Tag = (props: TagProps) => {
@@ -77,6 +85,7 @@ export const Tag = (props: TagProps) => {
           props.isSelected ? "bg-slate-900 text-white" : "bg-white text-black"
         }
         ${props.isSeparated ? "lg:mt-3" : ""}
+        ${props.hasOutline ? "outline outline-1 outline-slate-100" : ""}
         `}
       >
         <>
@@ -106,7 +115,7 @@ export const Tag = (props: TagProps) => {
                 height={100}
                 alt=""
               />
-              <p className="lg:text-[20px]">{props.text}</p>
+              <p className="lg:text-[1.1rem]">{props.text}</p>
             </div>
           )}
           {props.variant === "img" && (

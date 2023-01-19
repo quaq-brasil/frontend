@@ -1,0 +1,17 @@
+{
+  "tab1": "voltar",
+  "titletag": "geral",
+  "title": "título da página",
+  "titlelabel": "",
+  "description": "descrição da página",
+  "descriptionlabel": "",
+  "link": "link de acesso da página",
+  "linklabel": "",
+  "sharelink": "compartilhar link",
+  "profile": "foto do perfil",
+  "cover": "foto de capa",
+  "options": "opções",
+  "delete": "deletar página",
+  "terms": "termos e políticas",
+  "trackers": "rastreadores"
+}

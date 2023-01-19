@@ -1,0 +1,18 @@
+{
+  "back": "voltar",
+  "toptitle": "nova automação",
+  "description": "descrição",
+  "descriptionlabel": "digite aqui",
+  "visibility": "visibilidade",
+  "executeafter": "executar depois de...",
+  "numberof": "digite aqui",
+  "weeks": "semanas",
+  "days": "dias",
+  "hours": "horas",
+  "minutes": "minutos",
+  "executions": "número de execuções",
+  "executionslabel": "digite aqui",
+  "saveas": "salvar como",
+  "saveaslabel": "digite aqui",
+  "savebutton": "salvar"
+}

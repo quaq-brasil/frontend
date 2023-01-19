@@ -1,22 +1,10 @@
 import useTranslation from "next-translate/useTranslation";
-import dynamic from "next/dynamic";
 import { Header } from "../../../components/Header/Header";
 import { TabBar } from "../../../components/TabBar/TabBar";
 import { Tag } from "../../../components/Tag/Tag";
 import { PasswordUpdateContent } from "./PasswordUpdateContent";
 
-type PasswordUpdateProps = {
-  headerImageUrl: string;
-};
-
-const ContextMenu = dynamic(
-  () => import("../../../components/ContextMenu/ContextMenu"),
-  {
-    ssr: false,
-  }
-);
-
-export default function PasswordUpdate(props: PasswordUpdateProps) {
+export default function PasswordUpdate() {
   const text = useTranslation().t;
 
   function handleTabBar() {
@@ -30,9 +18,9 @@ export default function PasswordUpdate(props: PasswordUpdateProps) {
     ];
   }
 
-  return (
-    <div className="bg-slate-100 fixed inset-0">
-      <Header background_url={props.headerImageUrl}>
+  function loadHeader() {
+    return (
+      <Header background_url="https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80">
         <Tag
           variant="img-txt"
           text="username"
@@ -40,6 +28,12 @@ export default function PasswordUpdate(props: PasswordUpdateProps) {
         />
         <Tag variant="txt" text={text("pwupdate:titletag")} />
       </Header>
+    );
+  }
+
+  return (
+    <div className="bg-slate-100 fixed inset-0">
+      {loadHeader()}
       <PasswordUpdateContent />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

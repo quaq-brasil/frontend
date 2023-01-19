@@ -1,0 +1,17 @@
+{
+  "tab1": "back",
+  "titletag": "general",
+  "title": "page title",
+  "titlelabel": "",
+  "description": "page description",
+  "descriptionlabel": "",
+  "link": "page access link",
+  "linklabel": "",
+  "sharelink": "share link",
+  "profile": "profile picture",
+  "cover": "cover picture",
+  "options": "options",
+  "delete": "delete page",
+  "terms": "terms and policies",
+  "trackers": "trackers"
+}

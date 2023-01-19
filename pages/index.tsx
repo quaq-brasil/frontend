@@ -1,9 +1,9 @@
-import FileEntryBlock from "../components/FileEntryBlock/FileEntryBlock";
+import PublishTemplate from "../layouts/main/PublishTemplate/PublishTemplate";
 
 export default function Home() {
   return (
     <div>
-      <FileEntryBlock />
+      <PublishTemplate />
     </div>
   );
 }

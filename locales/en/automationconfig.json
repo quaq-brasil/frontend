@@ -1,0 +1,18 @@
+{
+  "back": "back",
+  "toptitle": "new automation",
+  "description": "description",
+  "descriptionlabel": "type it here",
+  "visibility": "visibility",
+  "executeafter": "execute after...",
+  "numberof": "type it here",
+  "weeks": "weeks",
+  "days": "days",
+  "hours": "hours",
+  "minutes": "minutes",
+  "executions": "number of executions",
+  "executionslabel": "type it here",
+  "saveas": "save as",
+  "saveaslabel": "type it here",
+  "savebutton": "save"
+}

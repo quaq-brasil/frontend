@@ -1,0 +1,12 @@
+{
+  "tab1": "back",
+  "toptitle": "new json",
+  "title1": "name",
+  "label1": "type it here",
+  "title2": "json source (optional)",
+  "label2": "type it here",
+  "switch1": "editable",
+  "title3": "save as",
+  "label3": "type it here",
+  "savebutton": "save"
+}

@@ -1,0 +1,16 @@
+{
+  "tab1": "voltar",
+  "toptitle": "nova entrada de arquivo",
+  "title": "título",
+  "label": "digte aqui",
+  "title2": "número de arquivos",
+  "label2": "digte aqui",
+  "type": "formatos aceitos",
+  "pdf": "pdf",
+  "image": "imagem (jpg, png, heic e mais)",
+  "csv": "csv",
+  "mp4": "mp4",
+  "saveas": "salvar como",
+  "labelsave": "digte aqui",
+  "savebutton": "salvar"
+}

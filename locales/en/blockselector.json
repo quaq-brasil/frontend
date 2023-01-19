@@ -1,0 +1,22 @@
+{
+  "creations": "creations",
+  "image": "image",
+  "text": "text",
+  "embed": "embed",
+  "file": "file",
+  "textentry": "text entry",
+  "fileentry": "file entry",
+  "pool": "pool",
+  "button": "button",
+  "toggle": "toggle",
+  "review": "review",
+  "json": "json",
+  "counter": "counter",
+  "automation": "automation",
+  "redirect": "redirect",
+  "content": "content",
+  "entry": "entry",
+  "action": "action",
+  "selected": "cancel",
+  "nonselected": "add new block"
+}

@@ -1,16 +1,8 @@
 import useTranslation from "next-translate/useTranslation";
-import dynamic from "next/dynamic";
 import { Header } from "../../../components/Header/Header";
 import { TabBar } from "../../../components/TabBar/TabBar";
 import { Tag } from "../../../components/Tag/Tag";
 import { WorkspaceSettingsContent } from "./WorkspaceSettingsContent";
-
-const ContextMenu = dynamic(
-  () => import("../../../components/ContextMenu/ContextMenu"),
-  {
-    ssr: false,
-  }
-);
 
 export default function WorkspaceSettings() {
   const text = useTranslation().t;
