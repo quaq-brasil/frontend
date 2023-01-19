@@ -1,20 +1,20 @@
-import useTranslation from "next-translate/useTranslation";
-import { BracketsCurly } from "phosphor-react";
-import { Card } from "../../../components/Card/Card";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
-import { Dialog } from "../../../components/Dialog/Dialog";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
+import useTranslation from "next-translate/useTranslation"
+import { BracketsCurly } from "phosphor-react"
+import { Card } from "../../../components/Card/Card"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { Dialog } from "../../../components/Dialog/Dialog"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
 
 type CounterConfigProps = {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  size?: "sm" | "md" | "full";
-};
+  isOpen: boolean
+  setIsOpen: () => void
+  size?: "sm" | "md" | "full"
+}
 
 export function CounterConfig(props: CounterConfigProps) {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   function handleTabBar() {
     return [
@@ -22,9 +22,9 @@ export function CounterConfig(props: CounterConfigProps) {
         key={1}
         variant="txt"
         text={text("counterconfig:tab1")}
-        onClick={() => console.log("tab1")}
+        onClick={() => props.setIsOpen()}
       />,
-    ];
+    ]
   }
 
   return (
@@ -92,5 +92,5 @@ export function CounterConfig(props: CounterConfigProps) {
         </div>
       </Dialog>
     </>
-  );
+  )
 }

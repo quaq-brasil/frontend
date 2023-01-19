@@ -1,19 +1,19 @@
-import useTranslation from "next-translate/useTranslation";
-import { Card } from "../../../components/Card/Card";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { Dialog } from "../../../components/Dialog/Dialog";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
-import TextEditor from "../../../components/TextEditor/TextEditor";
+import useTranslation from "next-translate/useTranslation"
+import { Card } from "../../../components/Card/Card"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { Dialog } from "../../../components/Dialog/Dialog"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
+import TextEditor from "../../../components/TextEditor/TextEditor"
 
 type TextConfigProps = {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  size?: "sm" | "md" | "full";
-};
+  isOpen: boolean
+  setIsOpen: () => void
+  size?: "sm" | "md" | "full"
+}
 
 export function TextConfig(props: TextConfigProps) {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   function handleTabBar() {
     return [
@@ -21,9 +21,9 @@ export function TextConfig(props: TextConfigProps) {
         key={1}
         variant="txt"
         text={text("textconfig:tab1")}
-        onClick={() => console.log("tab1")}
+        onClick={() => props.setIsOpen()}
       />,
-    ];
+    ]
   }
 
   return (
@@ -57,5 +57,5 @@ export function TextConfig(props: TextConfigProps) {
         />
       </Dialog>
     </>
-  );
+  )
 }

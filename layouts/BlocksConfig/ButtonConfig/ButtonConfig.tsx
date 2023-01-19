@@ -1,21 +1,21 @@
-import useTranslation from "next-translate/useTranslation";
-import { BracketsCurly } from "phosphor-react";
-import { Card } from "../../../components/Card/Card";
-import { CardColorSelector } from "../../../components/Card/CardContentVariants/CardColorSelector";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
-import { Dialog } from "../../../components/Dialog/Dialog";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
+import useTranslation from "next-translate/useTranslation"
+import { BracketsCurly } from "phosphor-react"
+import { Card } from "../../../components/Card/Card"
+import { CardColorSelector } from "../../../components/Card/CardContentVariants/CardColorSelector"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { Dialog } from "../../../components/Dialog/Dialog"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
 
 type ButtonConfigProps = {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  size?: "sm" | "md" | "full";
-};
+  isOpen: boolean
+  setIsOpen: () => void
+  size?: "sm" | "md" | "full"
+}
 
 export function ButtonConfig(props: ButtonConfigProps) {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   function handleTabBar() {
     return [
@@ -23,9 +23,9 @@ export function ButtonConfig(props: ButtonConfigProps) {
         key={1}
         variant="txt"
         text={text("buttonconfig:tab1")}
-        onClick={() => console.log("tab1")}
+        onClick={() => props.setIsOpen()}
       />,
-    ];
+    ]
   }
 
   return (
@@ -82,5 +82,5 @@ export function ButtonConfig(props: ButtonConfigProps) {
         </div>
       </Dialog>
     </>
-  );
+  )
 }

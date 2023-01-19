@@ -1,26 +1,26 @@
-import useTranslation from "next-translate/useTranslation";
-import { BracketsCurly } from "phosphor-react";
-import { useState } from "react";
-import { Card } from "../../../components/Card/Card";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
-import { Dialog } from "../../../components/Dialog/Dialog";
-import { FileProps } from "../../../components/FileEntryBlock/FileEntryBlock";
-import { FileManager } from "../../../components/FileManager/FileManager";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
+import useTranslation from "next-translate/useTranslation"
+import { BracketsCurly } from "phosphor-react"
+import { useState } from "react"
+import { Card } from "../../../components/Card/Card"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { Dialog } from "../../../components/Dialog/Dialog"
+import { FileProps } from "../../../components/FileEntryBlock/FileEntryBlock"
+import { FileManager } from "../../../components/FileManager/FileManager"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
 
 type FileSharingConfigProps = {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  size?: "sm" | "md" | "full";
-};
+  isOpen: boolean
+  setIsOpen: () => void
+  size?: "sm" | "md" | "full"
+}
 
 export function FileSharingConfig(props: FileSharingConfigProps) {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
-  const [files, setFiles] = useState<FileProps[]>([]);
+  const [files, setFiles] = useState<FileProps[]>([])
 
   function handleAddFile({ file, name }: FileProps) {
     setFiles([
@@ -29,7 +29,7 @@ export function FileSharingConfig(props: FileSharingConfigProps) {
         name: name,
         file: file,
       },
-    ]);
+    ])
   }
 
   function handleTabBar() {
@@ -38,9 +38,9 @@ export function FileSharingConfig(props: FileSharingConfigProps) {
         key={1}
         variant="txt"
         text={text("filesharingconfig:tab1")}
-        onClick={() => console.log("tab1")}
+        onClick={() => props.setIsOpen()}
       />,
-    ];
+    ]
   }
 
   return (
@@ -95,5 +95,5 @@ export function FileSharingConfig(props: FileSharingConfigProps) {
         />
       </Dialog>
     </>
-  );
+  )
 }

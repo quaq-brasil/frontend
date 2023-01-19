@@ -1,25 +1,25 @@
-import useTranslation from "next-translate/useTranslation";
-import { BracketsCurly, Check } from "phosphor-react";
-import { useState } from "react";
-import { Card } from "../../../components/Card/Card";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { CardSwitch } from "../../../components/Card/CardContentVariants/CardSwitch";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
-import { Dialog } from "../../../components/Dialog/Dialog";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
+import useTranslation from "next-translate/useTranslation"
+import { BracketsCurly, Check } from "phosphor-react"
+import { useState } from "react"
+import { Card } from "../../../components/Card/Card"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardSwitch } from "../../../components/Card/CardContentVariants/CardSwitch"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { Dialog } from "../../../components/Dialog/Dialog"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
 
 type AutomationConfigProps = {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  size?: "sm" | "md" | "full";
-};
+  isOpen: boolean
+  setIsOpen: () => void
+  size?: "sm" | "md" | "full"
+}
 
 export function AutomationConfig(props: AutomationConfigProps) {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
-  const [type, setType] = useState<String>("");
+  const [type, setType] = useState<String>("")
 
   function handleTabBar() {
     return [
@@ -27,13 +27,13 @@ export function AutomationConfig(props: AutomationConfigProps) {
         key={1}
         variant="txt"
         text={text("automationconfig:back")}
-        onClick={() => console.log("back")}
+        onClick={() => props.setIsOpen()}
       />,
-    ];
+    ]
   }
 
   function handleChangeType(newType: string) {
-    setType(newType);
+    setType(newType)
   }
 
   return (
@@ -161,5 +161,5 @@ export function AutomationConfig(props: AutomationConfigProps) {
         </div>
       </Dialog>
     </>
-  );
+  )
 }
