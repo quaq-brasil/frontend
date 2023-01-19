@@ -1,10 +1,13 @@
 import Image from "next/image";
+import { IconProps } from "phosphor-react";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 type CardLogProps = {
   img_url: string;
   name: string;
+  icon?: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
   date: string;
-  method: string;
+  method?: string;
 };
 
 export function CardLog(props: CardLogProps) {
@@ -22,13 +25,22 @@ export function CardLog(props: CardLogProps) {
         </div>
         <div className="flex flex-col justify-start">
           <p className="text-[0.875rem] lg:text-[1.1rem]">{props.name}</p>
+
           <p className="text-[0.75rem] lg:text-[0.875rem] text-slate-500">
             {props.date}
           </p>
         </div>
       </div>
       <div>
-        <p className="text-[0.875rem] lg:text-[1.1rem]">{props.method}</p>
+        {props.icon && (
+          <props.icon
+            className={`w-[1.375rem] h-[1.375rem] m-[0.3125rem] lg:w-[1.5625rem]
+             lg:h-[1.5625rem]`}
+          />
+        )}
+        {props.method && (
+          <p className="text-[0.875rem] lg:text-[1.1rem]">{props.method}</p>
+        )}
       </div>
     </div>
   );
