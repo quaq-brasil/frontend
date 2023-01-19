@@ -43,7 +43,8 @@
       "filesharingconfig",
       "jsonconfig",
       "fileentryconfig",
-      "generalsettings"
+      "generalsettings",
+      "centraloptions"
     ]
   }
 }
