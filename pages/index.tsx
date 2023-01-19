@@ -1,9 +1,9 @@
-import PublishTemplate from "../layouts/main/PublishTemplate/PublishTemplate";
+import CreatorPage from "../layouts/main/CreatorPage/CreatorPage";
 
 export default function Home() {
   return (
     <div>
-      <PublishTemplate />
+      <CreatorPage headerImageUrl="https://source.unsplash.com/featured/" />
     </div>
   );
 }

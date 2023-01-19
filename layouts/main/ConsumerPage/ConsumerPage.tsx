@@ -1,4 +1,5 @@
 import useTranslation from "next-translate/useTranslation";
+import { UserCircle, UserCirclePlus, UserPlus } from "phosphor-react";
 import { Header } from "../../../components/Header/Header";
 import { TabBar } from "../../../components/TabBar/TabBar";
 import { Tag } from "../../../components/Tag/Tag";
@@ -12,29 +13,48 @@ type ConsumerPageProps = {
 export default function ConsumerPage(props: ConsumerPageProps) {
   const text = useTranslation().t;
 
-  const { handleToggleContextMenu } = useContextMenu();
+  const { handleToggleContextMenu, handleCloseContextMenu } = useContextMenu();
+
+  const isSignedIn = false;
 
   const handleHeaderTagContextMenu = () => {
-    const isSignedIn = false;
-
     const handleContent = () => {
-      if (isSignedIn) {
+      if (!isSignedIn) {
         return (
-          <div className="flex flex-col gap-3">
-            <Tag variant="txt" text={text("example")} />
-            <Tag variant="txt" text={text("example")} />
-            <Tag variant="txt" text={text("example")} />
-            <Tag variant="txt" text={text("example")} />
+          <div
+            className={`flex fixed z-10 top-0 left-0 right-0 bg-image
+      justify-end min-h-[6.875rem] pb-[2rem] max-w-[1024px]
+      lg:rounded-[2.5rem] mx-auto lg:min-h-[2.5rem] lg:px-10 
+      lg:py-10 text-white lg:mt-[1.5rem] mt-[19px] md:mt-0"`}
+          >
+            <div className="pr-4 z-10 flex space-x-3">
+              <div className="flex flex-col items-end gap-3">
+                <div className="w-fit">
+                  <Tag
+                    variant="icn"
+                    icon={UserCirclePlus}
+                    onClick={handleCloseContextMenu}
+                  />
+                </div>
+                <div className="w-fit">
+                  <Tag
+                    variant="icn-txt"
+                    text={text("consumerpage:login")}
+                    icon={UserCircle}
+                  />
+                </div>
+                <div className="w-fit">
+                  <Tag
+                    variant="icn-txt"
+                    text={text("consumerpage:signup")}
+                    icon={UserPlus}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         );
       }
-
-      return (
-        <div>
-          <Tag variant="txt" text={text("consumerpage:signup")} />
-          <Tag variant="txt" text={text("consumerpage:login")} />
-        </div>
-      );
     };
 
     handleToggleContextMenu(handleContent());
@@ -67,20 +87,32 @@ export default function ConsumerPage(props: ConsumerPageProps) {
     );
   }
 
+  function loadHeader() {
+    if (isSignedIn) {
+      return (
+        <Header background_url={props.headerImageUrl}>{handleMainTag()}</Header>
+      );
+    } else {
+      return (
+        <Header
+          reightContent={
+            <Tag
+              variant="icn"
+              icon={UserCirclePlus}
+              onClick={handleHeaderTagContextMenu}
+            />
+          }
+          background_url={props.headerImageUrl}
+        >
+          {handleMainTag()}
+        </Header>
+      );
+    }
+  }
+
   return (
     <div className="bg-slate-100 fixed inset-0">
-      <Header
-        reightContent={
-          <Tag
-            variant="img"
-            img_url="https://source.unsplash.com/featured/"
-            onClick={handleHeaderTagContextMenu}
-          />
-        }
-        background_url={props.headerImageUrl}
-      >
-        {handleMainTag()}
-      </Header>
+      {loadHeader()}
       <ConsumerPageContent />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
