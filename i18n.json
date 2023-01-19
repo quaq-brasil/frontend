@@ -45,7 +45,8 @@
       "fileentryconfig",
       "generalsettings",
       "centraloptions",
-      "centraltrackers"
+      "centraltrackers",
+      "centrallogs"
     ]
   }
 }
