@@ -5,6 +5,7 @@ type ContextMenuHookProps = {
   handleOpenContextMenu: (content: React.ReactNode) => void;
   handleCloseContextMenu: () => void;
   handleToggleContextMenu: (content: React.ReactNode) => void;
+  handleUpdateContextMenu: (content: React.ReactNode) => void;
 };
 
 const ContextMenuHook = createContext({} as ContextMenuHookProps);
@@ -32,12 +33,17 @@ function ContextMenuProvider({ children }: ContextMenuProviderProps) {
     setContent(!isOpen ? content : null);
   };
 
+  const handleUpdateContextMenu = (content: React.ReactNode) => {
+    setContent(content);
+  };
+
   return (
     <ContextMenuHook.Provider
       value={{
         handleOpenContextMenu,
         handleCloseContextMenu,
         handleToggleContextMenu,
+        handleUpdateContextMenu,
       }}
     >
       <>

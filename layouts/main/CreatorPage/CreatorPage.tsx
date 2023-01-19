@@ -1,5 +1,11 @@
 import useTranslation from "next-translate/useTranslation";
-import { ArrowsCounterClockwise } from "phosphor-react";
+import {
+  ArrowsCounterClockwise,
+  ArrowsLeftRight,
+  GearSix,
+  UserCircle,
+} from "phosphor-react";
+import { useEffect, useState } from "react";
 import { Header } from "../../../components/Header/Header";
 import { TabBar } from "../../../components/TabBar/TabBar";
 import { Tag } from "../../../components/Tag/Tag";
@@ -13,32 +19,102 @@ type CreatorPageProps = {
 export default function CreatorPage(props: CreatorPageProps) {
   const text = useTranslation().t;
 
-  const { handleToggleContextMenu } = useContextMenu();
+  const {
+    handleToggleContextMenu,
+    handleUpdateContextMenu,
+    handleCloseContextMenu,
+  } = useContextMenu();
 
-  const handleHeaderTagContextMenu = () => {
-    const isSignedIn = false;
+  const [isSwitchSelected, setIsSwitchSelected] = useState(false);
 
-    const handleContent = () => {
-      if (isSignedIn) {
-        return (
-          <div className="flex flex-col gap-3">
-            <Tag variant="txt" text={text("example")} />
-            <Tag variant="txt" text={text("example")} />
-            <Tag variant="txt" text={text("example")} />
-            <Tag variant="txt" text={text("example")} />
-          </div>
-        );
-      }
+  useEffect(() => {
+    console.log("useEffect", isSwitchSelected);
+  }, [isSwitchSelected]);
 
-      return (
-        <div>
-          <Tag variant="txt" text={text("consumerpage:signup")} />
-          <Tag variant="txt" text={text("consumerpage:login")} />
+  function handleSwitchClick(isSwitchSelected: boolean) {
+    setIsSwitchSelected((prev) => !prev);
+    handleUpdateContextMenu(handleContent(isSwitchSelected));
+  }
+
+  function loadWorkspaces() {
+    return (
+      <>
+        <div className="w-fit">
+          <Tag
+            variant="img-txt"
+            text="example"
+            img_url="https://source.unsplash.com/featured/"
+          />
         </div>
-      );
-    };
+        <div className="w-fit">
+          <Tag
+            variant="img-txt"
+            text="example"
+            img_url="https://source.unsplash.com/featured/"
+          />
+        </div>
+        <div className="w-fit">
+          <Tag
+            variant="img-txt"
+            text="example"
+            img_url="https://source.unsplash.com/featured/"
+          />
+        </div>
+      </>
+    );
+  }
 
-    handleToggleContextMenu(handleContent());
+  const handleContent = (isSwitchSelected: boolean) => {
+    console.log("aaaa", isSwitchSelected);
+
+    return (
+      <div
+        className={`flex fixed z-10 top-0 left-0 right-0 bg-image
+    justify-end min-h-[6.875rem] pb-[2rem] max-w-[1024px]
+    lg:rounded-[2.5rem] mx-auto lg:min-h-[2.5rem] lg:px-10 
+    lg:py-10 text-white lg:mt-[1.5rem] mt-[19px] md:mt-0"`}
+      >
+        <div className="pr-4 z-10 flex space-x-3">
+          <div className="flex flex-col items-end gap-3">
+            <div className="w-fit">
+              <Tag
+                variant="img"
+                img_url="https://source.unsplash.com/featured/"
+                onClick={handleCloseContextMenu}
+              />
+            </div>
+            <div className="w-fit">
+              <Tag
+                variant="icn-txt"
+                text={text("creatorpage:switch")}
+                icon={ArrowsLeftRight}
+                isSelected={isSwitchSelected}
+                onClick={() => handleSwitchClick(isSwitchSelected)}
+              />
+            </div>
+            <div className={`w-fit ${isSwitchSelected ? "hidden" : ""}`}>
+              <Tag
+                variant="icn-txt"
+                text={text("creatorpage:settings")}
+                icon={GearSix}
+              />
+            </div>
+            <div className={`w-fit ${isSwitchSelected ? "hidden" : ""}`}>
+              <Tag
+                variant="icn-txt"
+                text={text("creatorpage:profile")}
+                icon={UserCircle}
+              />
+            </div>
+            {isSwitchSelected && <>{loadWorkspaces()}</>}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const handleHeaderTagContextMenu = (isSwitchSelected: boolean) => {
+    handleToggleContextMenu(handleContent(isSwitchSelected));
   };
 
   function handleTabBar() {
@@ -74,20 +150,26 @@ export default function CreatorPage(props: CreatorPageProps) {
     );
   }
 
-  return (
-    <div className="bg-slate-100 fixed inset-0">
+  function loadHeader(isSwitchSelected: boolean) {
+    return (
       <Header
         reightContent={
           <Tag
             variant="img"
             img_url="https://source.unsplash.com/featured/"
-            onClick={handleHeaderTagContextMenu}
+            onClick={() => handleHeaderTagContextMenu(isSwitchSelected)}
           />
         }
         background_url={props.headerImageUrl}
       >
         {handleMainTag()}
       </Header>
+    );
+  }
+
+  return (
+    <div className="bg-slate-100 fixed inset-0">
+      {isSwitchSelected ? loadHeader(true) : loadHeader(false)}
       <CreatorPageContent />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

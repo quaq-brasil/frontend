@@ -18,8 +18,6 @@ export default function ConsumerPage(props: ConsumerPageProps) {
   const isSignedIn = false;
 
   const handleHeaderTagContextMenu = () => {
-    const isSignedIn = false;
-
     const handleContent = () => {
       if (!isSignedIn) {
         return (
