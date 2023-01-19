@@ -47,7 +47,8 @@
       "centraloptions",
       "centraltrackers",
       "centrallogs",
-      "centralstats"
+      "centralstats",
+      "creationsconfig"
     ]
   }
 }
