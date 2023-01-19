@@ -44,7 +44,8 @@
       "jsonconfig",
       "fileentryconfig",
       "generalsettings",
-      "centraloptions"
+      "centraloptions",
+      "centraltrackers"
     ]
   }
 }
