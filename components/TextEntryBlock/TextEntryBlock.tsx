@@ -1,165 +1,28 @@
-import useTranslation from "next-translate/useTranslation";
-import { useState } from "react";
-import {
-  validateEmail,
-  validateNumber,
-  validateUrl,
-} from "../../utils/validations";
+import { PencilSimple } from "phosphor-react"
+import { TextEntry } from "./TextEntry"
 
 type TextEntryBlockProps = {
-  type: "text" | "long-text" | "number" | "email" | "password" | "url";
-  placeholder?: string;
-};
+  isEditable: boolean
+  type: "number" | "text" | "long-text" | "email" | "password" | "url"
+  updateFunc?: () => void
+}
 
-export function TextEntryBlock({ type }: TextEntryBlockProps) {
-  const [value, setValue] = useState<string | number | undefined>(undefined);
-  const [valid, setValid] = useState(true);
-  const [error, setError] = useState("");
-
-  const text = useTranslation().t;
-
-  const handleChange = (e: any) => {
-    setValue(e.target.value);
-    switch (type) {
-      case "email":
-        const emailValid = validateEmail(e.target.value);
-        if (!emailValid) {
-          setError(text("textentryblock:invalid_email"));
-          setValid(false);
-        } else {
-          setError("");
-          setValid(true);
-        }
-        break;
-      case "number":
-        const numberValid = validateNumber(e.target.value);
-        if (!numberValid) {
-          setError(text("textentryblock:invalid_number"));
-          setValid(false);
-        } else {
-          setError("");
-          setValid(true);
-        }
-        break;
-      case "url":
-        const urlValid = validateUrl(e.target.value);
-        if (!urlValid) {
-          setError(text("textentryblock:invalid_url"));
-          setValid(false);
-        } else {
-          setError("");
-          setValid(true);
-        }
-        break;
-      default:
-        setError("");
-        setValid(true);
-    }
-  };
-
-  switch (type) {
-    case "text":
-      return (
-        <div>
-          <input
-            type="text"
-            className={`w-full bg-slate-50 p-3 placeholder:text-slate-500 focus:outline-none text-[1rem] md:text-[1.125rem]`}
-            placeholder={text("textentryblock:placeholder")}
-            value={value}
-            onChange={handleChange}
-          />
-          {!valid && (
-            <p className="text-red-500 w-full text-center text-[1rem] md:text-[1.125rem]">
-              {error}
-            </p>
-          )}
+export const TextEntryBlock = (props: TextEntryBlockProps) => {
+  return (
+    <div className="flex relative min-w-[100%] justify-end content-center">
+      {props.isEditable && (
+        <div className="z-10 absolute flex justify-start content-center rounded-full bg-white border border-slate-100">
+          <PencilSimple className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
         </div>
-      );
-    case "long-text":
-      return (
-        <div>
-          <textarea
-            className={`w-full bg-slate-50 p-3 placeholder:text-slate-500 focus:outline-none text-[1rem] md:text-[1.125rem]`}
-            placeholder={text("textentryblock:placeholder")}
-            value={value}
-            onChange={handleChange}
-          />
-          {!valid && (
-            <p className="text-red-500 w-full text-center text-[1rem] md:text-[1.125rem]">
-              {error}
-            </p>
-          )}
+      )}
+      <div
+        className="flex justify-between items-center
+            min-w-[100%] bg-white py-[1.125rem] rounded-[20px] lg:rounded-[30px]"
+      >
+        <div className="w-full">
+          <TextEntry type={props.type} />
         </div>
-      );
-    case "number":
-      return (
-        <div>
-          <input
-            type="number"
-            className="w-full bg-slate-50 p-3 placeholder:text-slate-500 focus:outline-none text-[1rem] md:text-[1.125rem]"
-            placeholder={text("textentryblock:placeholder")}
-            value={value}
-            onChange={handleChange}
-          />
-          {!valid && (
-            <p className="text-red-500 w-full text-center text-[1rem] md:text-[1.125rem]">
-              {error}
-            </p>
-          )}
-        </div>
-      );
-    case "email":
-      return (
-        <div>
-          <input
-            type="email"
-            className="w-full bg-slate-50 p-3 placeholder:text-slate-500 focus:outline-none text-[1rem] md:text-[1.125rem]"
-            placeholder={text("textentryblock:placeholder")}
-            value={value}
-            onChange={handleChange}
-          />
-          {!valid && (
-            <p className="text-red-500 w-full text-center text-[1rem] md:text-[1.125rem]">
-              {error}
-            </p>
-          )}
-        </div>
-      );
-    case "password":
-      return (
-        <div>
-          <input
-            type="password"
-            className="w-full bg-slate-50 p-3 placeholder:text-slate-500 focus:outline-none text-[1rem] md:text-[1.125rem]"
-            placeholder={text("textentryblock:placeholder")}
-            value={value}
-            onChange={handleChange}
-          />
-          {!valid && (
-            <p className="text-red-500 w-full text-center text-[1rem] md:text-[1.125rem]">
-              {error}
-            </p>
-          )}
-        </div>
-      );
-    case "url":
-      return (
-        <div>
-          <input
-            type="url"
-            className={`w-full bg-slate-50 p-3 placeholder:text-slate-500 focus:outline-none text-[1rem] md:text-[1.125rem]`}
-            placeholder={text("textentryblock:placeholder")}
-            value={value}
-            onChange={handleChange}
-          />
-          {!valid && (
-            <p className="text-red-500 w-full text-center text-[1rem] md:text-[1.125rem]">
-              {error}
-            </p>
-          )}
-        </div>
-      );
-    default:
-      return null;
-  }
+      </div>
+    </div>
+  )
 }
