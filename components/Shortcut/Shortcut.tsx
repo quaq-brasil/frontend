@@ -1,28 +1,33 @@
-import type { Identifier, XYCoord } from "dnd-core";
-import Image from "next/image";
-import { useRef } from "react";
-import { useDrag, useDrop } from "react-dnd";
-import ShortcutMenu from "../ShortcutMenu/ShortcutMenu";
+import type { Identifier, XYCoord } from "dnd-core"
+import Image from "next/image"
+import { useRef } from "react"
+import { useDrag, useDrop } from "react-dnd"
+import ShortcutMenu from "../ShortcutMenu/ShortcutMenu"
 
 type ShortcutProps = {
-  title: string;
-  img_url: string;
-  size: "small" | "large";
-  isCreator?: boolean;
-  isSelect?: boolean;
-  onMove?: (dragIndex: number, hoverIndex: number) => void;
-  index: number;
-  id: string;
-};
+  title: string
+  img_url: string
+  size: "small" | "large"
+  isCreator?: boolean
+  isSelected?: boolean
+  onClick?: () => void
+  onMove?: (dragIndex: number, hoverIndex: number) => void
+  index: number
+  id: string
+}
 
 interface DragItem {
-  index: number;
-  id: string;
-  type: string;
+  index: number
+  id: string
+  type: string
 }
 
 export const Shortcut = (props: ShortcutProps) => {
-  const ref = useRef<HTMLDivElement>(null);
+  function handleClick() {
+    props.onClick && props.onClick()
+  }
+
+  const ref = useRef<HTMLDivElement>(null)
 
   const [{ handlerId }, drop] = useDrop<
     DragItem,
@@ -33,58 +38,59 @@ export const Shortcut = (props: ShortcutProps) => {
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
-      };
+      }
     },
     hover(item: DragItem, monitor) {
       if (!ref.current) {
-        return;
+        return
       }
-      const dragIndex = item.index;
-      const hoverIndex = props.index;
+      const dragIndex = item.index
+      const hoverIndex = props.index
 
       if (dragIndex === hoverIndex) {
-        return;
+        return
       }
 
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverBoundingRect = ref.current?.getBoundingClientRect()
 
       const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 
-      const clientOffset = monitor.getClientOffset();
+      const clientOffset = monitor.getClientOffset()
 
-      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
+        return
       }
 
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
+        return
       }
 
-      props.onMove && props.onMove(dragIndex, hoverIndex);
+      props.onMove && props.onMove(dragIndex, hoverIndex)
 
-      item.index = hoverIndex;
+      item.index = hoverIndex
     },
-  });
+  })
 
   const [{ isDragging }, drag] = useDrag({
     type: "card",
     item: () => {
-      return { id: props.id, index: props.index, type: "card" };
+      return { id: props.id, index: props.index, type: "card" }
     },
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),
-  });
+  })
 
-  const opacity = isDragging ? 0 : 1;
-  drag(drop(ref));
+  const opacity = isDragging ? 0 : 1
+  drag(drop(ref))
 
   return (
     <>
       <div
+        onClick={handleClick}
         ref={ref}
         style={{ opacity }}
         data-handler-id={handlerId}
@@ -111,12 +117,12 @@ export const Shortcut = (props: ShortcutProps) => {
           alt={""}
         />
 
-        {props.isCreator && props.isSelect ? (
+        {props.isCreator && props.isSelected ? (
           <div className="relative z-10 h-fit min-w-full w-fit pt-3 pl-3 overflow-scroll flex scrollbar-hide gap-3 items-center justify-start">
             <ShortcutMenu />
           </div>
         ) : null}
       </div>
     </>
-  );
-};
+  )
+}

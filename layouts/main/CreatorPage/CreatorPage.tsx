@@ -3,6 +3,8 @@ import {
   ArrowsCounterClockwise,
   ArrowsLeftRight,
   GearSix,
+  MagnifyingGlass,
+  Plus,
   UserCircle,
 } from "phosphor-react"
 import { useEffect, useState } from "react"
@@ -27,7 +29,11 @@ export default function CreatorPage(props: CreatorPageProps) {
 
   const [isSwitchSelected, setIsSwitchSelected] = useState(false)
 
-  const contextMenuContent = (
+  const [contextMenuSwitch, setContextMenuSwitch] = useState<string | null>(
+    null
+  )
+
+  const workspaceContextMenuContent = (
     <div
       className={`flex fixed z-10 top-0 left-0 right-0 bg-image
     justify-end min-h-[6.875rem] pb-[2rem] max-w-[1024px]
@@ -72,14 +78,115 @@ export default function CreatorPage(props: CreatorPageProps) {
     </div>
   )
 
+  const tabbarContextMenuContent = (
+    <div className="fixed w-full px-[16px] flex flex-row justify-between left-0 right-0 bottom-[16px]">
+      <div className="flex flex-col gap-3">
+        <div className="w-fit">
+          <Tag variant="txt" text={text("creatorpage:pages")} />
+        </div>
+        <div className="w-fit">
+          <Tag
+            variant="img-txt"
+            text="page example"
+            img_url="https://source.unsplash.com/featured/"
+            isSelected
+          />
+        </div>
+        <div className="w-fit">
+          <Tag
+            variant="img-txt"
+            text="page example"
+            img_url="https://source.unsplash.com/featured/"
+          />
+        </div>
+        <div className="w-fit">
+          <Tag
+            variant="img-txt"
+            text="page example"
+            img_url="https://source.unsplash.com/featured/"
+          />
+        </div>
+        <div className="w-fit">
+          <Tag
+            variant="icn-txt"
+            text={text("creatorpage:newpage")}
+            icon={Plus}
+          />
+        </div>
+      </div>
+      <div className="flex flex-col justify-end items-end gap-3">
+        <div className="w-fit">
+          <Tag
+            variant="icn-txt"
+            text={text("creatorpage:explore")}
+            icon={MagnifyingGlass}
+          />
+        </div>
+        <div className="w-fit">
+          <Tag
+            variant="icn"
+            icon={ArrowsCounterClockwise}
+            onClick={handleCloseContextMenu}
+          />
+        </div>
+      </div>
+    </div>
+  )
+
+  const lateralMenuContent = (
+    <div>
+      <div className="w-fit">
+        <Tag variant="txt" text={text("creatorpage:explore")} />
+      </div>
+      <div className="flex flex-col gap-3 mt-3">
+        <div className="w-fit">
+          <Tag variant="txt" text={text("creatorpage:pages")} isSeparated />
+        </div>
+        <div className="w-fit">
+          <Tag
+            variant="img-txt"
+            text="page example"
+            img_url="https://source.unsplash.com/featured/"
+            isSelected
+          />
+        </div>
+        <div className="w-fit">
+          <Tag
+            variant="img-txt"
+            text="page example"
+            img_url="https://source.unsplash.com/featured/"
+          />
+        </div>
+        <div className="w-fit">
+          <Tag
+            variant="img-txt"
+            text="page example"
+            img_url="https://source.unsplash.com/featured/"
+          />
+        </div>
+        <div className="w-fit">
+          <Tag
+            variant="icn-txt"
+            text={text("creatorpage:newpage")}
+            icon={Plus}
+          />
+        </div>
+      </div>
+    </div>
+  )
+
   useEffect(() => {
-    handleUpdateContextMenu(contextMenuContent)
+    if (contextMenuSwitch === "workspace") {
+      handleUpdateContextMenu(workspaceContextMenuContent)
+    } else if (contextMenuSwitch === "tabbar") {
+      handleUpdateContextMenu(tabbarContextMenuContent)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSwitchSelected])
 
   function handleSwitchClick() {
     setIsSwitchSelected((prev) => !prev)
-    handleUpdateContextMenu(contextMenuContent)
+    handleUpdateContextMenu(workspaceContextMenuContent)
   }
 
   function loadWorkspaces() {
@@ -106,12 +213,25 @@ export default function CreatorPage(props: CreatorPageProps) {
             img_url="https://source.unsplash.com/featured/"
           />
         </div>
+        <div className={`w-fit`}>
+          <Tag
+            variant="icn-txt"
+            text={text("creatorpage:newworkspace")}
+            icon={Plus}
+          />
+        </div>
       </>
     )
   }
 
   const handleHeaderTagContextMenu = () => {
-    handleToggleContextMenu(contextMenuContent)
+    setContextMenuSwitch("workspace")
+    handleToggleContextMenu(workspaceContextMenuContent)
+  }
+
+  const handleTabBarContextMenu = () => {
+    setContextMenuSwitch("tabbar")
+    handleToggleContextMenu(tabbarContextMenuContent)
   }
 
   function handleTabBar() {
@@ -128,12 +248,16 @@ export default function CreatorPage(props: CreatorPageProps) {
         text={text("creatorpage:new")}
         onClick={() => console.log("new")}
       />,
-      <Tag
-        key={3}
-        variant="icn"
-        icon={ArrowsCounterClockwise}
-        onClick={() => console.log("switch")}
-      />,
+      <div key={3} className="xl:hidden w-fit">
+        <Tag
+          variant="icn"
+          icon={ArrowsCounterClockwise}
+          onClick={() => handleTabBarContextMenu()}
+        />
+      </div>,
+      <div key={4} className="hidden xl:block">
+        {lateralMenuContent}
+      </div>,
     ]
   }
 

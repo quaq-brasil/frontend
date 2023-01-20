@@ -1,4 +1,11 @@
 {
   "general": "general",
-  "new": "new"
+  "new": "new",
+  "pages": "pages",
+  "newpage": "new page",
+  "explore": "explore",
+  "switch": "switch",
+  "settings": "settings",
+  "profile": "profile",
+  "newworkspace": "new workspace"
 }
