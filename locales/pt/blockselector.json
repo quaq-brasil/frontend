@@ -17,6 +17,6 @@
   "content": "conteúdo",
   "entry": "entrada",
   "action": "ação",
-  "selected": "adicionar novo bloco",
-  "nonselected": "cancelar"
+  "selected": "cancelar",
+  "nonselected": "adicionar bloco"
 }
