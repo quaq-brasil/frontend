@@ -50,7 +50,8 @@
       "centralstats",
       "creationsconfig",
       "automationconfig",
-      "createtemplate"
+      "createtemplate",
+      "automationblock"
     ]
   }
 }
