@@ -1,18 +1,18 @@
-import useTranslation from "next-translate/useTranslation";
-import { Dialog } from "../../../components/Dialog/Dialog";
-import { Shortcut } from "../../../components/Shortcut/Shortcut";
-import { ShortcutGrid } from "../../../components/ShortcutGrid/ShortcutGrid";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
+import useTranslation from "next-translate/useTranslation"
+import { Dialog } from "../../../components/Dialog/Dialog"
+import { Shortcut } from "../../../components/Shortcut/Shortcut"
+import { ShortcutGrid } from "../../../components/ShortcutGrid/ShortcutGrid"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
 
 type CreationsConfigTemplatesProps = {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  size?: "sm" | "md" | "full";
-};
+  isOpen: boolean
+  setIsOpen: () => void
+  size?: "sm" | "md" | "full"
+}
 
 export function CreationsConfigTemplates(props: CreationsConfigTemplatesProps) {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   function handleTabBar() {
     return [
@@ -20,9 +20,9 @@ export function CreationsConfigTemplates(props: CreationsConfigTemplatesProps) {
         key={1}
         variant="txt"
         text={text("creationsconfig:back")}
-        onClick={() => console.log("tab1")}
+        onClick={() => props.setIsOpen()}
       />,
-    ];
+    ]
   }
 
   function loadTemplates() {
@@ -63,7 +63,7 @@ export function CreationsConfigTemplates(props: CreationsConfigTemplatesProps) {
         size="large"
         title="template 6"
       />,
-    ];
+    ]
   }
 
   return (
@@ -87,5 +87,5 @@ export function CreationsConfigTemplates(props: CreationsConfigTemplatesProps) {
         />
       </Dialog>
     </>
-  );
+  )
 }

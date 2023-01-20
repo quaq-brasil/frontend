@@ -1,4 +1,4 @@
-import useTranslation from "next-translate/useTranslation";
+import useTranslation from "next-translate/useTranslation"
 import {
   ArrowCounterClockwise,
   Article,
@@ -20,21 +20,30 @@ import {
   TextIndent,
   ToggleLeft,
   X,
-} from "phosphor-react";
-import { useState } from "react";
-import { Tag } from "../Tag/Tag";
+} from "phosphor-react"
+import { useState } from "react"
+import { Tag } from "../Tag/Tag"
 
-export function BlockSelector() {
-  const text = useTranslation().t;
+type BlockSelectorProps = {
+  onBlockSelect: (type: string | undefined) => void
+}
 
-  const [selected, setSelected] = useState(false);
+export function BlockSelector(props: BlockSelectorProps) {
+  const text = useTranslation().t
+
+  const [selected, setSelected] = useState(false)
 
   const [options, setOptions] = useState<"content" | "entry" | "action">(
     "content"
-  );
+  )
+
+  function handleBlockSelection(block: string) {
+    handleSelectorOpening()
+    props.onBlockSelect(block)
+  }
 
   function handleSelectorOpening() {
-    setSelected(!selected);
+    setSelected(!selected)
   }
 
   function handleBlockOptions(type: string) {
@@ -48,6 +57,7 @@ export function BlockSelector() {
               text={text("blockselector:creations")}
               isSelected={false}
               hasOutline={true}
+              onClick={() => handleBlockSelection("creations")}
             />
             <Tag
               variant="icn-txt"
@@ -55,6 +65,7 @@ export function BlockSelector() {
               text={text("blockselector:image")}
               isSelected={false}
               hasOutline={true}
+              onClick={() => handleBlockSelection("image")}
             />
             <Tag
               variant="icn-txt"
@@ -62,6 +73,7 @@ export function BlockSelector() {
               text={text("blockselector:text")}
               isSelected={false}
               hasOutline={true}
+              onClick={() => handleBlockSelection("text")}
             />
             <Tag
               variant="icn-txt"
@@ -69,6 +81,7 @@ export function BlockSelector() {
               text={text("blockselector:embed")}
               isSelected={false}
               hasOutline={true}
+              onClick={() => handleBlockSelection("embed")}
             />
             <Tag
               variant="icn-txt"
@@ -76,9 +89,10 @@ export function BlockSelector() {
               text={text("blockselector:file")}
               isSelected={false}
               hasOutline={true}
+              onClick={() => handleBlockSelection("file")}
             />
           </>
-        );
+        )
       case "entry":
         return (
           <>
@@ -87,51 +101,59 @@ export function BlockSelector() {
               icon={Textbox}
               text={text("blockselector:textentry")}
               hasOutline={true}
+              onClick={() => handleBlockSelection("textentry")}
             />
             <Tag
               variant="icn-txt"
               icon={FileArrowDown}
               text={text("blockselector:fileentry")}
               hasOutline={true}
+              onClick={() => handleBlockSelection("fileentry")}
             />
             <Tag
               variant="icn-txt"
               icon={CheckSquare}
               text={text("blockselector:pool")}
               hasOutline={true}
+              onClick={() => handleBlockSelection("pool")}
             />
             <Tag
               variant="icn-txt"
               icon={RadioButton}
               text={text("blockselector:button")}
               hasOutline={true}
+              onClick={() => handleBlockSelection("button")}
             />
             <Tag
               variant="icn-txt"
               icon={ToggleLeft}
               text={text("blockselector:toggle")}
               hasOutline={true}
+              onClick={() => handleBlockSelection("toggle")}
             />
             <Tag
               variant="icn-txt"
               icon={Star}
               text={text("blockselector:review")}
               hasOutline={true}
+              onClick={() => handleBlockSelection("review")}
             />
             <Tag
               variant="icn-txt"
               icon={BracketsCurly}
               text={text("blockselector:json")}
               hasOutline={true}
+              onClick={() => handleBlockSelection("json")}
             />
             <Tag
               variant="icn-txt"
               icon={PlusMinus}
               text={text("blockselector:counter")}
               hasOutline={true}
+              onClick={() => handleBlockSelection("counter")}
             />
           </>
-        );
+        )
       case "action":
         return (
           <>
@@ -140,15 +162,17 @@ export function BlockSelector() {
               icon={Robot}
               text={text("blockselector:automation")}
               hasOutline={true}
+              onClick={() => handleBlockSelection("automation")}
             />
             <Tag
               variant="icn-txt"
               icon={ShuffleSimple}
               text={text("blockselector:redirect")}
               hasOutline={true}
+              onClick={() => handleBlockSelection("redirect")}
             />
           </>
-        );
+        )
     }
   }
 
@@ -218,5 +242,5 @@ export function BlockSelector() {
         </span>
       </button>
     </div>
-  );
+  )
 }

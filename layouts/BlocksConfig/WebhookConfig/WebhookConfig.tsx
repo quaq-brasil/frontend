@@ -1,23 +1,23 @@
-import useTranslation from "next-translate/useTranslation";
-import { BracketsCurly, Check } from "phosphor-react";
-import { useState } from "react";
-import { Card } from "../../../components/Card/Card";
-import { CardSwitch } from "../../../components/Card/CardContentVariants/CardSwitch";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
-import { Dialog } from "../../../components/Dialog/Dialog";
-import { JsonEditor } from "../../../components/JsonEditor/JsonEditor";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
+import useTranslation from "next-translate/useTranslation"
+import { BracketsCurly, Check } from "phosphor-react"
+import { useState } from "react"
+import { Card } from "../../../components/Card/Card"
+import { CardSwitch } from "../../../components/Card/CardContentVariants/CardSwitch"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { Dialog } from "../../../components/Dialog/Dialog"
+import { JsonEditor } from "../../../components/JsonEditor/JsonEditor"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
 
 type WebhookConfigProps = {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  size?: "sm" | "md" | "full";
-};
+  isOpen: boolean
+  setIsOpen: () => void
+  size?: "sm" | "md" | "full"
+}
 
 export function WebhookConfig(props: WebhookConfigProps) {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   function handleTabBar() {
     return [
@@ -25,17 +25,15 @@ export function WebhookConfig(props: WebhookConfigProps) {
         key={1}
         variant="txt"
         text={text("webhookconfig:tab1")}
-        onClick={() => console.log("tab1")}
+        onClick={() => props.setIsOpen()}
       />,
-    ];
+    ]
   }
 
-  const [type, setType] = useState<"GET" | "POST" | "DELETE" | "PATCH" | "">(
-    ""
-  );
+  const [type, setType] = useState<"GET" | "POST" | "DELETE" | "PATCH" | "">("")
 
   function handleChangeType(type: "GET" | "POST" | "DELETE" | "PATCH" | "") {
-    setType(type);
+    setType(type)
   }
 
   return (
@@ -171,5 +169,5 @@ export function WebhookConfig(props: WebhookConfigProps) {
         <TabBar isHidden={true} tags={handleTabBar()} />
       </Dialog>
     </>
-  );
+  )
 }

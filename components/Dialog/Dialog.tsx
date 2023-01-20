@@ -1,19 +1,19 @@
-import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Dialog as HeadlessDialog, Transition } from "@headlessui/react"
+import { Fragment } from "react"
 
 type DialogProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-  title?: string;
-  height?: "full" | "md" | "sm";
-};
+  isOpen: boolean
+  onClose: () => void
+  children: React.ReactNode
+  title?: string
+  height?: "full" | "md" | "sm"
+}
 
 const heightClasses = {
   full: "h-full",
   md: "h-3/4",
   sm: "h-1/2",
-};
+}
 
 export function Dialog({
   isOpen,
@@ -53,10 +53,12 @@ export function Dialog({
                ${heightClasses[height]} `}
               >
                 <div className="bg-slate-100 overflow-y-auto rounded-t-3xl text-left h-[calc(100%-0.75rem)] unset-0 pb-20 mt-3">
-                  <div className="bg-white w-full h-8 flex items-center justify-center py-2 mb-3">
+                  <div className="absolute z-50 rounded-t-3xl bg-white w-full h-8 flex items-center justify-center py-2 mb-3">
                     <h4>{title}</h4>
                   </div>
-                  <div className="w-full content-center px-2">{children}</div>
+                  <div className="w-full content-center px-2 pt-[42px] md:pt-[52px]">
+                    {children}
+                  </div>
                 </div>
               </HeadlessDialog.Panel>
             </Transition.Child>
@@ -64,5 +66,5 @@ export function Dialog({
         </div>
       </HeadlessDialog>
     </Transition.Root>
-  );
+  )
 }

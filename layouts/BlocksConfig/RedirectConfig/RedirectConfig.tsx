@@ -1,28 +1,30 @@
-import useTranslation from "next-translate/useTranslation";
-import { BracketsCurly } from "phosphor-react";
-import { useState } from "react";
-import { Card } from "../../../components/Card/Card";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
-import { Dialog } from "../../../components/Dialog/Dialog";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
-import { ExtendedConfig } from "./ExtendedConfig";
-import { TypeSelector } from "./TypeSelector";
+import useTranslation from "next-translate/useTranslation"
+import { BracketsCurly, Check } from "phosphor-react"
+import { useState } from "react"
+import { Card } from "../../../components/Card/Card"
+import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { Dialog } from "../../../components/Dialog/Dialog"
+import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
 
 type RedirectConfigProps = {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  size?: "sm" | "md" | "full";
-};
+  isOpen: boolean
+  setIsOpen: () => void
+  size?: "sm" | "md" | "full"
+}
 
 export function RedirectConfig(props: RedirectConfigProps) {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
-  const [redirectType, setRedirectType] = useState<string>("");
+  const [redirectType, setRedirectType] = useState<string>("")
 
   function handleChangeRedirectType(type: string) {
-    setRedirectType(type);
+    setRedirectType(type)
+    console.log(type)
   }
 
   function handleTabBar() {
@@ -30,10 +32,10 @@ export function RedirectConfig(props: RedirectConfigProps) {
       <Tag
         key={1}
         variant="txt"
-        text={text("redirectconfig:tab1")}
-        onClick={() => console.log("tab1")}
+        text={text("redirectconfig:back")}
+        onClick={() => props.setIsOpen()}
       />,
-    ];
+    ]
   }
 
   return (
@@ -44,12 +46,12 @@ export function RedirectConfig(props: RedirectConfigProps) {
         onClose={() => console.log()}
         title={text("redirectconfig:toptitle")}
       >
-        <div className="flex flex-col items-center gap-3 lg:gap-6">
+        <div className="flex flex-col items-center gap-3 lg:gap-6 scrollbar-hide">
           <Card>
-            <CardText label={text("redirectconfig:title1")} />
+            <CardText label={text("redirectconfig:description")} />
             <CardTextInput
               input={{
-                label: text("redirectconfig:label1"),
+                label: text("redirectconfig:descriptionlabel"),
                 onChange: (e) => console.log(e),
               }}
               indicator={{
@@ -59,10 +61,10 @@ export function RedirectConfig(props: RedirectConfigProps) {
             />
           </Card>
           <Card>
-            <CardText label={text("redirectconfig:title2")} />
+            <CardText label={text("redirectconfig:link")} />
             <CardTextInput
               input={{
-                label: text("redirectconfig:label2"),
+                label: text("redirectconfig:linklabel"),
                 onChange: (e) => console.log(e),
               }}
               indicator={{
@@ -71,8 +73,54 @@ export function RedirectConfig(props: RedirectConfigProps) {
               }}
             />
           </Card>
-          <TypeSelector changeRedirectType={handleChangeRedirectType} />
-          <>{redirectType != "" && <ExtendedConfig type={redirectType} />}</>
+          <Card>
+            <CardText label={text("redirectconfig:type")} />
+            <CardLine />
+            <CardText
+              label={text("redirectconfig:manual")}
+              indicator={{
+                icon: Check,
+                isVisible: redirectType !== "manual",
+                onClick: () => handleChangeRedirectType("manual"),
+              }}
+            />
+            <CardLine />
+            <CardText
+              label={text("redirectconfig:auto")}
+              indicator={{
+                icon: Check,
+                isVisible: redirectType !== "auto",
+                onClick: () => handleChangeRedirectType("auto"),
+              }}
+            />
+            <CardLine />
+          </Card>
+
+          {redirectType === "manual" && (
+            <Card>
+              <CardText label={text("redirectconfig:coverimage")} />
+              <CardImageInput
+                imageSelector={
+                  <ImageSelector onImageChange={() => console.log()} />
+                }
+              />
+            </Card>
+          )}
+
+          <Card>
+            <CardText label={text("redirectconfig:saveas")} />
+            <CardTextInput
+              input={{
+                label: text("redirectconfig:saveaslabel"),
+                onChange: (e) => console.log(e),
+              }}
+              indicator={{
+                icon: BracketsCurly,
+                onClick: () => console.log("click"),
+              }}
+            />
+          </Card>
+
           {props.size === "sm" && (
             <button
               className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white
@@ -90,5 +138,5 @@ export function RedirectConfig(props: RedirectConfigProps) {
         />
       </Dialog>
     </>
-  );
+  )
 }

@@ -1,21 +1,21 @@
-import useTranslation from "next-translate/useTranslation";
-import { ArrowRight } from "phosphor-react";
-import { Card } from "../../../components/Card/Card";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { CardLog } from "../../../components/Card/CardContentVariants/CardLog";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { Dialog } from "../../../components/Dialog/Dialog";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
+import useTranslation from "next-translate/useTranslation"
+import { ArrowRight } from "phosphor-react"
+import { Card } from "../../../components/Card/Card"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardLog } from "../../../components/Card/CardContentVariants/CardLog"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { Dialog } from "../../../components/Dialog/Dialog"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
 
 type CreationsConfigPagesProps = {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  size?: "sm" | "md" | "full";
-};
+  isOpen: boolean
+  setIsOpen: () => void
+  size?: "sm" | "md" | "full"
+}
 
 export function CreationsConfigPages(props: CreationsConfigPagesProps) {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   function handleTabBar() {
     return [
@@ -23,9 +23,9 @@ export function CreationsConfigPages(props: CreationsConfigPagesProps) {
         key={1}
         variant="txt"
         text={text("creationsconfig:back")}
-        onClick={() => console.log("tab1")}
+        onClick={() => props.setIsOpen()}
       />,
-    ];
+    ]
   }
 
   function loadContent() {
@@ -90,7 +90,7 @@ export function CreationsConfigPages(props: CreationsConfigPagesProps) {
         />
         <CardLine />
       </>
-    );
+    )
   }
 
   return (
@@ -110,5 +110,5 @@ export function CreationsConfigPages(props: CreationsConfigPagesProps) {
         />
       </Dialog>
     </>
-  );
+  )
 }

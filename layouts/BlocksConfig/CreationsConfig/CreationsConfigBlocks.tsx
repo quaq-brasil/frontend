@@ -1,20 +1,20 @@
-import useTranslation from "next-translate/useTranslation";
-import { useState } from "react";
-import { Dialog } from "../../../components/Dialog/Dialog";
-import { ImageBlock } from "../../../components/ImageBlock/ImageBlock";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
+import useTranslation from "next-translate/useTranslation"
+import { useState } from "react"
+import { Dialog } from "../../../components/Dialog/Dialog"
+import { ImageBlock } from "../../../components/ImageBlock/ImageBlock"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
 
 type CreationsConfigBlocksProps = {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  size?: "sm" | "md" | "full";
-};
+  isOpen: boolean
+  setIsOpen: () => void
+  size?: "sm" | "md" | "full"
+}
 
 export function CreationsConfigBlocks(props: CreationsConfigBlocksProps) {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
-  const [selected, setSelected] = useState<number[]>([]);
+  const [selected, setSelected] = useState<number[]>([])
 
   function handleTabBar() {
     return [
@@ -22,9 +22,9 @@ export function CreationsConfigBlocks(props: CreationsConfigBlocksProps) {
         key={1}
         variant="txt"
         text={text("creationsconfig:back")}
-        onClick={() => console.log("tab1")}
+        onClick={() => props.setIsOpen()}
       />,
-    ];
+    ]
   }
 
   const blocks = [
@@ -53,16 +53,16 @@ export function CreationsConfigBlocks(props: CreationsConfigBlocksProps) {
       img_url="https://source.unsplash.com/featured/"
       isEditable={false}
     />,
-  ];
+  ]
 
   function handleSelection(index: number) {
     if (selected.includes(index)) {
-      setSelected(selected.filter((item) => item !== index));
+      setSelected(selected.filter((item) => item !== index))
     } else {
-      setSelected([...selected, index]);
+      setSelected([...selected, index])
     }
 
-    console.log(selected);
+    console.log(selected)
   }
 
   return (
@@ -87,7 +87,7 @@ export function CreationsConfigBlocks(props: CreationsConfigBlocksProps) {
               >
                 {block}
               </button>
-            );
+            )
           })}
           {props.size === "sm" && (
             <button
@@ -106,5 +106,5 @@ export function CreationsConfigBlocks(props: CreationsConfigBlocksProps) {
         />
       </Dialog>
     </>
-  );
+  )
 }
