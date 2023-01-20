@@ -1,21 +1,21 @@
-import useTranslation from "next-translate/useTranslation";
-import { Header } from "../../../components/Header/Header";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
-import { EmailUpdateContent } from "./EmailUpdateContent";
+import useTranslation from "next-translate/useTranslation"
+import { Header } from "../../../components/Header/Header"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
+import { EmailUpdateContent } from "./EmailUpdateContent"
 
 export default function EmailUpdate() {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   function handleTabBar() {
     return [
       <Tag
         key={1}
         variant="txt"
-        text={text("emailupdate:tab1")}
-        onClick={() => console.log("tab1")}
+        text={text("emailupdate:back")}
+        onClick={() => console.log("back")}
       />,
-    ];
+    ]
   }
 
   function loadHeader() {
@@ -28,7 +28,7 @@ export default function EmailUpdate() {
         />
         <Tag variant="txt" text={text("emailupdate:titletag")} />
       </Header>
-    );
+    )
   }
 
   return (
@@ -37,5 +37,5 @@ export default function EmailUpdate() {
       <EmailUpdateContent />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
-  );
+  )
 }

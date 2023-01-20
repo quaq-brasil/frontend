@@ -1,9 +1,9 @@
-import CreateTemplate from "../layouts/main/CreateTemplate/CreateTemplate"
+import PasswordUpdate from "../layouts/Workflows/PasswordUpdate/PasswordUpdate"
 
 export default function Home() {
   return (
     <div>
-      <CreateTemplate />
+      <PasswordUpdate />
     </div>
   )
 }

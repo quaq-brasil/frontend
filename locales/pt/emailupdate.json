@@ -5,5 +5,6 @@
   "password": "digite a sua senha",
   "inputpassword": "digite aqui",
   "confirm": "confirmar",
-  "validation": "Para concluir a alteração, acesse o link enviado para o email fornecido."
+  "validation": "Para concluir a alteração, acesse o link enviado para o email fornecido.",
+  "back": "voltar"
 }
