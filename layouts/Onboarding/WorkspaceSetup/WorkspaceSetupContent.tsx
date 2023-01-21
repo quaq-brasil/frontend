@@ -1,18 +1,13 @@
-import useTranslation from "next-translate/useTranslation";
-import dynamic from "next/dynamic";
-import { Button } from "../../../components/Button/Button";
-import { Card } from "../../../components/Card/Card";
-import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
-import { ImageSelector } from "../../../components/ImageSelector/ImageSelector";
-
-const QuickIn = dynamic(() => import("../../../components/QuickIn/QuickIn"), {
-  ssr: false,
-});
+import useTranslation from "next-translate/useTranslation"
+import { Button } from "../../../components/Button/Button"
+import { Card } from "../../../components/Card/Card"
+import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 
 export function WorkspaceSetupContent() {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   function handleFinishSignUp() {}
 
@@ -54,5 +49,5 @@ export function WorkspaceSetupContent() {
         </div>
       </div>
     </div>
-  );
+  )
 }
