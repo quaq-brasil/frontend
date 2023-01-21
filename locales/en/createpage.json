@@ -1,0 +1,13 @@
+{
+  "next": "next",
+  "titletag": "new page",
+  "firstmessage": "Your workspace was created successfuly, now let's create its first page.",
+  "pagetitle": "page title",
+  "inputpagetitle": "type it here",
+  "pagepicture": "page profile picture",
+  "pagelink": "page access link",
+  "inputpagelink": "",
+  "pagedescription": "page description",
+  "inputpagedescription": "type it here",
+  "confirm": "confirm"
+}
