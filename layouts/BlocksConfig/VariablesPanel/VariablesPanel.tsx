@@ -128,8 +128,8 @@ export const VariablesPanel = ({
       variant="txt"
       text={
         variablePath.length > 0
-          ? text("toggleconfig:back")
-          : text("toggleconfig:cancel")
+          ? text("variablespanel:back")
+          : text("variablespanel:cancel")
       }
       onClick={variablePath.length > 0 ? handleBack : onClose}
     />,
@@ -137,7 +137,7 @@ export const VariablesPanel = ({
       <Tag
         key={2}
         variant="txt"
-        text={text("toggleconfig:tab1")}
+        text={text("variablespanel:available")}
         onClick={() => setPage("available_variables")}
         isSelected={page === "available_variables" ? true : false}
       />
@@ -146,7 +146,7 @@ export const VariablesPanel = ({
       <Tag
         key={3}
         variant="txt"
-        text={text("toggleconfig:tab1")}
+        text={text("variablespanel:sources")}
         onClick={() => setPage("sources_variables")}
         isSelected={page === "sources_variables" ? true : false}
       />
@@ -157,13 +157,13 @@ export const VariablesPanel = ({
     <Tag
       key={1}
       variant="txt"
-      text={text("toggleconfig:tab1")}
+      text={text("variablespanel:cancel")}
       onClick={() => setSelectedVariable(null)}
     />,
     <Tag
       key={2}
       variant="txt"
-      text={text("toggleconfig:tab1")}
+      text={text("variablespanel:value")}
       onClick={() =>
         onAddVariable({ mode: "value", variable: selectedVariable as Variable })
       }
@@ -171,7 +171,7 @@ export const VariablesPanel = ({
     <Tag
       key={3}
       variant="txt"
-      text={text("toggleconfig:tab1")}
+      text={text("variablespanel:path")}
       onClick={() =>
         onAddVariable({ mode: "path", variable: selectedVariable as Variable })
       }
@@ -180,7 +180,7 @@ export const VariablesPanel = ({
       <Tag
         key={4}
         variant="txt"
-        text={text("toggleconfig:tab1")}
+        text={text("variablespanel:path and fallback")}
         onClick={() =>
           onAddVariable({
             mode: "path_with_default_value",
@@ -195,7 +195,7 @@ export const VariablesPanel = ({
     <Dialog
       height={size}
       isOpen={isOpen}
-      title={text("toggleconfig:toptitle")}
+      title={text("variablespanel:variables")}
       onClose={() => console.log("closed")}
     >
       <TabBar
