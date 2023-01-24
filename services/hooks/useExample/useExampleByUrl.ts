@@ -27,7 +27,7 @@ export function useExampleByUrl({
   const endpointWithParams = `${endpoint}/url:${url}`
 
   return useQuery({
-    queryKey: ["example"],
+    queryKey: ["example", endpointWithParams, queryDocument],
     queryFn: async () => {
       const {
         posts: { data },

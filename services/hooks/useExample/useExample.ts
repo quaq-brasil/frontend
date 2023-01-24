@@ -19,7 +19,7 @@ export function useExample({
   options,
 }: useQueryProps): UseQueryResult<IExample, unknown> | any {
   return useQuery({
-    queryKey: ["example"],
+    queryKey: ["example", endpoint, queryDocument],
     queryFn: async () => {
       const {
         posts: { data },
