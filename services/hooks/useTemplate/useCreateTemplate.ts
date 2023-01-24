@@ -26,7 +26,7 @@ export function useCreateTemplate({
   options,
 }: useMutationProps): UseMutationResult<ITemplate, unknown> | any {
   return useMutation({
-    mutationKey: ["templateCreation"],
+    mutationKey: ["createTemplate"],
     mutationFn: async (body) => {
       // Como tipar body do request?
       return request(endpoint, { mutationDocument, body })
