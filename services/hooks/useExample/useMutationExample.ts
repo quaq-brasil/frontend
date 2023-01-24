@@ -3,8 +3,8 @@ import { gql, request } from "graphql-request"
 import { IExample } from "../../../types/Example.type"
 import { useMutationProps } from "../../../types/useQueryProps"
 
-const queryDocument = gql`
-  query {
+const mutationDocument = gql`
+  mutation {
     posts {
       data {
         id
@@ -29,7 +29,7 @@ export function useExampleByUrl({
   return useMutation({
     mutationKey: ["ok"],
     mutationFn: async (body) => {
-      return request(endpointWithParams, { queryDocument, body })
+      return request(endpointWithParams, { mutationDocument, body })
     },
     ...options,
   })
