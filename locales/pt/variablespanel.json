@@ -1,0 +1,13 @@
+{
+  "back": "voltar",
+  "cancel": "cancelar",
+  "available": "disponível",
+  "sources": "fontes",
+  "value": "valor",
+  "path": "caminho",
+  "path_and_fallback": "caminho e valor padrão",
+  "variables": "variáveis",
+  "connect_templates": "templates conectados",
+  "this_template": "este template",
+  "connect_new_template": "conectar novo template"
+}

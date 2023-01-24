@@ -1,0 +1,13 @@
+{
+  "back": "back",
+  "cancel": "cancel",
+  "available": "available",
+  "sources": "sources",
+  "value": "value",
+  "path": "path",
+  "path_and_fallback": "path and fallback",
+  "variables": "variables",
+  "connect_templates": "connect templates",
+  "this_template": "this template",
+  "connect_new_template": "connect new template"
+}
