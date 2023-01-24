@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
 import { gql, request } from "graphql-request"
+import { ITemplate } from "../../../types/Template.type"
 import { useQueryProps } from "../../../types/useQueryProps"
-import { ITemplate } from "./../../../types/Template.type"
 
 const queryDocument = gql`
   query {
@@ -22,18 +22,18 @@ const queryDocument = gql`
 
 const endpoint = `${process.env.API_HOST}/template`
 
-type useGetTemplateByIdProps = {
-  id: string
+type useGetTemplateByUrlProps = {
+  url: string
 } & useQueryProps
 
-export function useGetTemplateById({
-  id,
+export function useGetTemplateByUrl({
+  url,
   options,
-}: useGetTemplateByIdProps): UseQueryResult<ITemplate, unknown> | any {
-  const endpointWithParams = `${endpoint}/${id}`
+}: useGetTemplateByUrlProps): UseQueryResult<ITemplate, unknown> | any {
+  const endpointWithParams = `${endpoint}/url/${url}`
 
   return useQuery({
-    queryKey: ["getTemplateById", id],
+    queryKey: ["getTemplateByUrl", url],
     queryFn: async () => {
       const {
         posts: { data },

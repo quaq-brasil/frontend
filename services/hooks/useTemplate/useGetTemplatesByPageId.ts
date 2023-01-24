@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
 import { gql, request } from "graphql-request"
+import { ITemplate } from "../../../types/Template.type"
 import { useQueryProps } from "../../../types/useQueryProps"
-import { ITemplate } from "./../../../types/Template.type"
 
 const queryDocument = gql`
   query {
