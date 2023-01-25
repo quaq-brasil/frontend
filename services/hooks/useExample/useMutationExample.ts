@@ -1,36 +1,25 @@
-import { useMutation, UseQueryResult } from "@tanstack/react-query"
-import { gql, request } from "graphql-request"
+import { useMutation } from "@tanstack/react-query"
 import { IExample } from "../../../types/Example.type"
 import { useMutationProps } from "../../../types/useQueryProps"
+import { api } from "../../api"
 
-const queryDocument = gql`
-  query {
-    posts {
-      data {
-        id
-        title
-      }
-    }
-  }
-`
+type useUpdateExampleProps = {
+  id: string
+} & useMutationProps &
+  IExample
 
-const endpoint = `${process.env.API_HOST}/example`
-
-type useExampleByUrlProps = {
-  url: string
-} & useMutationProps
-
-export function useExampleByUrl({
-  url,
+export const useUpdateExample = ({
+  id,
+  name,
   options,
-}: useExampleByUrlProps): UseQueryResult<IExample, unknown> | any {
-  const endpointWithParams = `${endpoint}/url:${url}`
+}: useUpdateExampleProps) => {
+  const updateExample = async () => {
+    await api.put(`/example/${id}`, { name })
+  }
 
   return useMutation({
-    mutationKey: ["ok"],
-    mutationFn: async (body) => {
-      return request(endpointWithParams, { queryDocument, body })
-    },
+    mutationKey: ["example", id],
+    mutationFn: updateExample,
     ...options,
   })
 }

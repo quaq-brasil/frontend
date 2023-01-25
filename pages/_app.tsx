@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { SessionProvider } from "next-auth/react"
 import type { AppProps } from "next/app"
 import { AppHooks } from "../hooks"
@@ -12,6 +13,7 @@ export default function App({
 }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
       <SessionProvider session={session}>
         <AppHooks>
           <Component {...pageProps} />

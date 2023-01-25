@@ -1,39 +1,19 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query"
-import { gql, request } from "graphql-request"
-import { IExample } from "../../../types/Example.type"
+import { useQuery } from "@tanstack/react-query"
 import { useQueryProps } from "../../../types/useQueryProps"
-
-const queryDocument = gql`
-  query {
-    posts {
-      data {
-        id
-        title
-      }
-    }
-  }
-`
-
-const endpoint = `${process.env.API_HOST}/example`
+import { api } from "../../api"
 
 type useExampleByUrlProps = {
   url: string
 } & useQueryProps
 
-export function useExampleByUrl({
-  url,
-  options,
-}: useExampleByUrlProps): UseQueryResult<IExample, unknown> | any {
-  const endpointWithParams = `${endpoint}/url:${url}`
+export const useExampleByUrl = ({ url, options }: useExampleByUrlProps) => {
+  const getExampleByUrl = async () => {
+    await api.get(`/example/${url}`)
+  }
 
   return useQuery({
-    queryKey: ["example", endpointWithParams, queryDocument],
-    queryFn: async () => {
-      const {
-        posts: { data },
-      } = await request(endpointWithParams, queryDocument)
-      return data
-    },
+    queryKey: ["example", url],
+    queryFn: getExampleByUrl,
     ...options,
   })
 }
