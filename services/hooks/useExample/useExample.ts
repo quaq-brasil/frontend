@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { useQueryProps } from "../../../types/useQueryProps"
-import { api } from "../../api"
+import { api } from "../../apiClient"
 
 export const useExample = ({ options }: useQueryProps) => {
   const getExample = async () => {

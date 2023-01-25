@@ -12,10 +12,10 @@ Content-Type: application/json
     "url": "url",
     "shortcut_image": "shortcutImage",
     "shortcut_size": "shortcutSize",
-    "current_publication_id": "1",
+    "current_publication_id": "63ae050ffbbce66bbc152486",
     "number_of_new_interactions": 1,
-    "facebook_pixel_id": "1",
-    "page_id": "1"
+    "facebook_pixel_id": "63ae050ffbbce66bbc152486",
+    "page_id": "63ae050ffbbce66bbc152486"
 }
 
 ###
@@ -28,21 +28,22 @@ GET https://bff.quaq.com.br/template/url/url
 
 # get many template by page id
 
-GET https://bff.quaq.com.br/template/page/1
+GET https://bff.quaq.com.br/template/page/63ae050ffbbce66bbc152486
 
 ###
 
-PUT https://bff.quaq.com.br/template/180faab0-4854-4aec-b921-0b26c30d6256
+PUT https://bff.quaq.com.br/template/63ae050ffbbce66bbc152486
 Content-Type: application/json
 
 {
-    "title": "title",
+    "name": "name 2",
     "url": "url",
-    "shortcutImage": "shortcutImage",
-    "shortcutSize": "shortcutSize",
-    "numberOfNewInteractions": 1,
-    "publication_id": "1",
-    "id_facebook_pixel": "1"
+    "shortcut_image": "shortcutImage",
+    "shortcut_size": "shortcutSize",
+    "current_publication_id": "1",
+    "number_of_new_interactions": 1,
+    "page_id": "1",
+    "facebook_pixel_id": "1"
 }
 
 ###

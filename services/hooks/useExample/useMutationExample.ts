@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
 import { IExample } from "../../../types/Example.type"
 import { useMutationProps } from "../../../types/useQueryProps"
-import { api } from "../../api"
+import { api } from "../../apiClient"
 
 type useUpdateExampleProps = {
   id: string

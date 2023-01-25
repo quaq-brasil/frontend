@@ -1,27 +1,19 @@
-import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { gql, request } from "graphql-request"
-import { ITemplate } from "../../../types/Template.type"
+import { useMutation } from "@tanstack/react-query"
 import { useMutationProps } from "../../../types/useQueryProps"
-
-const mutationDocument = gql``
-
-const endpoint = `${process.env.API_HOST}/template`
+import { api } from "../../apiClient"
 
 type useDeleteTemplateProps = {
   id: string
 } & useMutationProps
 
-export function useDeleteTemplate({
-  options,
-  id,
-}: useDeleteTemplateProps): UseMutationResult<ITemplate, unknown> | any {
-  const endpointWithParams = `${endpoint}/${id}`
+export const useDeleteTemplate = ({ id, options }: useDeleteTemplateProps) => {
+  const deleteTemplate = async () => {
+    await api.delete(`/template/${id}`)
+  }
 
   return useMutation({
-    mutationKey: ["templateCreation"],
-    mutationFn: async (body) => {
-      return request(endpointWithParams, { mutationDocument, body })
-    },
+    mutationKey: ["deleteTemplate", id],
+    mutationFn: deleteTemplate,
     ...options,
   })
 }

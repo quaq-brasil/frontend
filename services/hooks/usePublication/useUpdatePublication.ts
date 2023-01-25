@@ -1,38 +1,25 @@
-import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { gql, request } from "graphql-request"
-import { ITemplate } from "../../../types/Template.type"
+import { useMutation } from "@tanstack/react-query"
 import { useMutationProps } from "../../../types/useQueryProps"
-
-const mutationDocument = gql`
-  mutation {
-    publication {
-      data {
-        title
-        blocks
-        template_id
-        page_id
-      }
-    }
-  }
-`
-
-const endpoint = `${process.env.API_HOST}/publication`
+import { api } from "../../apiClient"
+import { IPublication } from "./../../../types/Publication.type"
 
 type useUpdatePublicationProps = {
   id: string
+  data: IPublication
 } & useMutationProps
 
-export function useUpdatePublication({
-  options,
+export const useUpdatePublication = ({
   id,
-}: useUpdatePublicationProps): UseMutationResult<ITemplate, unknown> | any {
-  const endpointWithParams = `${endpoint}/${id}`
+  data,
+  options,
+}: useUpdatePublicationProps) => {
+  const updatePublication = async () => {
+    await api.put(`/publication/${id}`, { data })
+  }
 
   return useMutation({
     mutationKey: ["updatePublication", id],
-    mutationFn: async (body) => {
-      return request(endpoint, { mutationDocument, body })
-    },
+    mutationFn: updatePublication,
     ...options,
   })
 }
