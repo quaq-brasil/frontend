@@ -52,6 +52,7 @@
       "automationconfig",
       "createtemplate",
       "automationblock",
+      "createpage",
       "variablespanel"
     ]
   }

@@ -6,7 +6,7 @@ import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 
-export function WorkspaceSetupContent() {
+export function CreatePageContent() {
   const text = useTranslation().t
 
   function handleFinishSignUp() {}
@@ -20,30 +20,50 @@ export function WorkspaceSetupContent() {
       >
         <div className="flex flex-col gap-2 md:gap-4 items-center">
           <Card>
-            <CardText label={text("wssetup:firstmessage")} />
+            <CardText label={text("createpage:firstmessage")} />
           </Card>
           <Card>
-            <CardText label={text("wssetup:getwsname")} />
+            <CardText label={text("createpage:pagetitle")} />
             <CardTextInput
               input={{
-                label: text("wssetup:inputwsname"),
+                label: text("createpage:inputpagetitle"),
                 onChange: (e) => console.log(e),
                 type: "text",
               }}
             />
           </Card>
           <Card>
-            <CardText label={text("wssetup:uploadimg")} />
+            <CardText label={text("createpage:pagepicture")} />
             <CardImageInput
               imageSelector={
                 <ImageSelector onImageChange={(e) => console.log(e)} />
               }
             />
           </Card>
+          <Card>
+            <CardText label={text("createpage:pagelink")} />
+            <CardTextInput
+              input={{
+                label: text("createpage:inputpagelink"),
+                onChange: (e) => console.log(e),
+                type: "text",
+              }}
+            />
+          </Card>
+          <Card>
+            <CardText label={text("createpage:pagedescription")} />
+            <CardTextInput
+              input={{
+                label: text("createpage:inputpagedescription"),
+                onChange: (e) => console.log(e),
+                type: "text",
+              }}
+            />
+          </Card>
           <Button
             color="slate-900"
             onClick={handleFinishSignUp}
-            text={text("wssetup:confirm")}
+            text={text("createpage:confirm")}
           />
           <span className="w-full h-[4rem]"></span>
         </div>
