@@ -1,17 +1,32 @@
-import useTranslation from "next-translate/useTranslation";
-import { useState } from "react";
-import { Button } from "../../../components/Button/Button";
-import { Card } from "../../../components/Card/Card";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
+import useTranslation from "next-translate/useTranslation"
+import { useState } from "react"
+import { Button } from "../../../components/Button/Button"
+import { Card } from "../../../components/Card/Card"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 
-export function EmailUpdateContent() {
-  const text = useTranslation().t;
+type EmailUpdateContentProps = {
+  handleChangeEmail: (email: string) => void
+}
 
-  const [finished, setFinished] = useState(false);
+export function EmailUpdateContent({
+  handleChangeEmail,
+}: EmailUpdateContentProps) {
+  const text = useTranslation().t
 
-  function handleFinishSignUp() {
-    setFinished(true);
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  function handleUpdate() {
+    handleChangeEmail(email)
+  }
+
+  const onChangeEmail = (value: string) => {
+    setEmail(value)
+  }
+
+  const onChangePassword = (value: string) => {
+    setPassword(value)
   }
 
   return (
@@ -27,7 +42,7 @@ export function EmailUpdateContent() {
             <CardTextInput
               input={{
                 label: text("emailupdate:inputemail"),
-                onChange: (e) => console.log(e),
+                onChange: (value) => onChangeEmail(value),
                 type: "email",
               }}
             />
@@ -37,24 +52,20 @@ export function EmailUpdateContent() {
             <CardTextInput
               input={{
                 label: text("emailupdate:inputpassword"),
-                onChange: (e) => console.log(e),
+                onChange: (value) => onChangePassword(value),
                 type: "password",
               }}
             />
           </Card>
           <Button
             color="slate-900"
-            onClick={handleFinishSignUp}
+            onClick={handleUpdate}
             text={text("emailupdate:confirm")}
           />
-          {finished && (
-            <Card>
-              <CardText label={text("emailupdate:validation")} />
-            </Card>
-          )}
+
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>
     </div>
-  );
+  )
 }
