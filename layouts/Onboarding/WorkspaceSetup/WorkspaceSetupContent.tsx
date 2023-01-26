@@ -1,4 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
+import { useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -6,10 +7,35 @@ import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 
-export function WorkspaceSetupContent() {
+type WorkspaceSetupContentProps = {
+  handleCoverChange: (value: string) => void
+  handleTitleChange: (value: string) => void
+  handleCreateWorkspace: (title: string, cover: string) => void
+}
+
+export function WorkspaceSetupContent({
+  handleCoverChange,
+  handleTitleChange,
+  handleCreateWorkspace,
+}: WorkspaceSetupContentProps) {
   const text = useTranslation().t
 
-  function handleFinishSignUp() {}
+  const [title, setTitle] = useState<string>("")
+  const [cover, setCover] = useState<string>("")
+
+  function onChangeTitle(value: string) {
+    setTitle(value)
+    handleTitleChange(value)
+  }
+
+  function onChangeCover(value: string) {
+    setCover(value)
+    handleCoverChange(value)
+  }
+
+  function onCreateWorkspace() {
+    handleCreateWorkspace(title, cover)
+  }
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -27,7 +53,7 @@ export function WorkspaceSetupContent() {
             <CardTextInput
               input={{
                 label: text("wssetup:inputwsname"),
-                onChange: (e) => console.log(e),
+                onChange: (e) => onChangeTitle(e),
                 type: "text",
               }}
             />
@@ -36,13 +62,13 @@ export function WorkspaceSetupContent() {
             <CardText label={text("wssetup:uploadimg")} />
             <CardImageInput
               imageSelector={
-                <ImageSelector onImageChange={(e) => console.log(e)} />
+                <ImageSelector onImageChange={(e) => onChangeCover(e)} />
               }
             />
           </Card>
           <Button
             color="slate-900"
-            onClick={handleFinishSignUp}
+            onClick={onCreateWorkspace}
             text={text("wssetup:confirm")}
           />
           <span className="w-full h-[4rem]"></span>
