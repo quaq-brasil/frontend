@@ -20,13 +20,13 @@ Content-Type: application/json
 
 # get many publication by template id
 
-GET https://bff.quaq.com.br/publication/template/63ae052efbbce66bbc152487
+GET https://bff.quaq.com.br/publication/template/1
 
 ###
 
 # get many publication by page id
 
-GET https://bff.quaq.com.br/publication/page/63ae052efbbce66bbc152487
+GET https://bff.quaq.com.br/publication/page/1
 
 ###
 
