@@ -1,4 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
+import { useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -6,10 +7,59 @@ import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 
-export function CreatePageContent() {
+type CreatePageContentProps = {
+  handleCreatePage: (
+    name: string,
+    url: string,
+    workspace_id: string,
+    avatar_url: string,
+    background_url: string
+  ) => void
+  handleChangePageTitle: (title: string) => void
+  handleChangePagePicture: (url: string) => void
+  handleChangePageCover: (url: string) => void
+}
+
+export function CreatePageContent({
+  handleCreatePage,
+  handleChangePageTitle,
+  handleChangePagePicture,
+  handleChangePageCover,
+}: CreatePageContentProps) {
   const text = useTranslation().t
 
-  function handleFinishSignUp() {}
+  const [title, setTitle] = useState("")
+  const [url, setUrl] = useState("")
+  const [description, setDescription] = useState("")
+  const [profile, setProfile] = useState("")
+  const [cover, setCover] = useState("")
+
+  function handleUpdate() {
+    handleCreatePage(title, url, description, profile, cover)
+  }
+
+  const onChangeTitle = (value: string) => {
+    setTitle(value)
+    handleChangePageTitle(value)
+  }
+
+  const onChangeUrl = (value: string) => {
+    setUrl(value)
+  }
+
+  const onChangeDescription = (value: string) => {
+    setDescription(value)
+  }
+
+  const onChangeProfile = (value: string) => {
+    setProfile(value)
+    handleChangePagePicture(value)
+  }
+
+  const onChangeCover = (value: string) => {
+    setCover(value)
+    handleChangePageCover(value)
+  }
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -27,7 +77,7 @@ export function CreatePageContent() {
             <CardTextInput
               input={{
                 label: text("createpage:inputpagetitle"),
-                onChange: (e) => console.log(e),
+                onChange: (e) => onChangeTitle(e),
                 type: "text",
               }}
             />
@@ -36,7 +86,15 @@ export function CreatePageContent() {
             <CardText label={text("createpage:pagepicture")} />
             <CardImageInput
               imageSelector={
-                <ImageSelector onImageChange={(e) => console.log(e)} />
+                <ImageSelector onImageChange={(e) => onChangeProfile(e)} />
+              }
+            />
+          </Card>
+          <Card>
+            <CardText label={text("createpage:pagecover")} />
+            <CardImageInput
+              imageSelector={
+                <ImageSelector onImageChange={(e) => onChangeCover(e)} />
               }
             />
           </Card>
@@ -45,8 +103,9 @@ export function CreatePageContent() {
             <CardTextInput
               input={{
                 label: text("createpage:inputpagelink"),
-                onChange: (e) => console.log(e),
+                onChange: (e) => onChangeUrl(e),
                 type: "text",
+                fixedText: "quaq.me/",
               }}
             />
           </Card>
@@ -55,14 +114,14 @@ export function CreatePageContent() {
             <CardTextInput
               input={{
                 label: text("createpage:inputpagedescription"),
-                onChange: (e) => console.log(e),
+                onChange: (e) => onChangeDescription(e),
                 type: "text",
               }}
             />
           </Card>
           <Button
             color="slate-900"
-            onClick={handleFinishSignUp}
+            onClick={handleUpdate}
             text={text("createpage:confirm")}
           />
           <span className="w-full h-[4rem]"></span>

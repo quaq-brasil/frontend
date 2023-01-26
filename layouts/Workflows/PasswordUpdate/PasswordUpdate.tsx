@@ -1,11 +1,20 @@
-import useTranslation from "next-translate/useTranslation";
-import { Header } from "../../../components/Header/Header";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
-import { PasswordUpdateContent } from "./PasswordUpdateContent";
+import useTranslation from "next-translate/useTranslation"
+import { Header } from "../../../components/Header/Header"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
+import { PasswordUpdateContent } from "./PasswordUpdateContent"
 
-export default function PasswordUpdate() {
-  const text = useTranslation().t;
+type IData = {
+  name: string
+  avatar_url: string
+}
+
+type PasswordUpdateProps = {
+  data?: IData
+}
+
+export function PasswordUpdate({ data }: PasswordUpdateProps) {
+  const text = useTranslation().t
 
   function handleTabBar() {
     return [
@@ -15,7 +24,7 @@ export default function PasswordUpdate() {
         text={text("pwupdate:tab1")}
         onClick={() => console.log("tab1")}
       />,
-    ];
+    ]
   }
 
   function loadHeader() {
@@ -23,12 +32,16 @@ export default function PasswordUpdate() {
       <Header background_url="https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80">
         <Tag
           variant="img-txt"
-          text="username"
-          img_url="https://source.unsplash.com/featured/"
+          text={data?.name ? data.name : "username"}
+          img_url={
+            data?.avatar_url
+              ? data.avatar_url
+              : "https://source.unsplash.com/featured/"
+          }
         />
         <Tag variant="txt" text={text("pwupdate:titletag")} />
       </Header>
-    );
+    )
   }
 
   return (
@@ -37,5 +50,5 @@ export default function PasswordUpdate() {
       <PasswordUpdateContent />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
-  );
+  )
 }

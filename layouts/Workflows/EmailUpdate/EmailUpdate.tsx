@@ -14,10 +14,7 @@ type EmailUpdateProps = {
   data?: IData
 }
 
-export default function EmailUpdate({
-  handleChangeEmail,
-  data,
-}: EmailUpdateProps) {
+export function EmailUpdate({ handleChangeEmail, data }: EmailUpdateProps) {
   const text = useTranslation().t
 
   function handleTabBar() {

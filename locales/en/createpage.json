@@ -1,5 +1,5 @@
 {
-  "next": "next",
+  "back": "back",
   "titletag": "new page",
   "firstmessage": "Your workspace was created successfuly, now let's create its first page.",
   "pagetitle": "page title",
@@ -9,5 +9,6 @@
   "inputpagelink": "",
   "pagedescription": "page description",
   "inputpagedescription": "type it here",
-  "confirm": "confirm"
+  "confirm": "confirm",
+  "pagecover": "page cover picture"
 }

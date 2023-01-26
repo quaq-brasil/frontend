@@ -1,31 +1,49 @@
-import { IconProps } from "phosphor-react";
-import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { IconProps } from "phosphor-react"
+import { ForwardRefExoticComponent, RefAttributes } from "react"
 
 type CardTextInputProps = {
   input?: {
-    onChange: (value: string) => void;
-    type?: string;
-    label: string;
-  };
+    onChange: (value: string) => void
+    type?: string
+    label: string
+    fixedText?: string
+  }
   indicator?: {
-    icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
-    bgColor?: string;
-    onClick: () => void;
-  };
+    icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+    bgColor?: string
+    onClick: () => void
+  }
   dropdown?: {
-    options: string[];
-    onChange: (value: string) => void;
-  };
-};
+    options: string[]
+    onChange: (value: string) => void
+  }
+}
 
 export function CardTextInput(props: CardTextInputProps) {
   return (
     <div className="flex flex-row justify-between items-center bg-slate-50 my-2">
+      {props.input?.fixedText && (
+        <p className="lg:text-[1.1rem] px-3 lg:px-[1.125rem] font-semibold">
+          {props.input.fixedText}
+        </p>
+      )}
+
       {props.input && (
         <input
-          onChange={(e) => props?.input?.onChange(e.target.value)}
-          className="bg-slate-50 border-0 w-full h-12 px-3 lg:px-[1.125rem] lg:h-[3.375rem]
-      placeholder:text-slate-300 lg:text-[1.1rem] hover:outline-none focus:outline-none"
+          onChange={(e) =>
+            props?.input?.onChange(
+              `${props.input.fixedText ? props.input.fixedText : ""}${
+                e.target.value
+              }`
+            )
+          }
+          className={`bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem]
+        placeholder:text-slate-300 lg:text-[1.1rem] hover:outline-none focus:outline-none
+          ${
+            props.input.fixedText
+              ? "ml-[-10px] lg:ml-[-18px]"
+              : "px-3 lg:px-[1.125rem]"
+          }`}
           type={props.input.type || "text"}
           placeholder={props.input.label}
         />
@@ -65,5 +83,5 @@ export function CardTextInput(props: CardTextInputProps) {
         </div>
       )}
     </div>
-  );
+  )
 }

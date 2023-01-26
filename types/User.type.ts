@@ -12,6 +12,7 @@ export type IUser = {
   email_activation_token_expires: Date
   password_reset_token_expires: Date
   last_login: Date
+  workspace_id: string
 }
 
 export type IUserUpdate = {
@@ -28,4 +29,5 @@ export type IUserUpdate = {
   email_activation_token_expires?: Date
   password_reset_token_expires?: Date
   last_login?: Date
+  workspace_id?: string
 }

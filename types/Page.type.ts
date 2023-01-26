@@ -5,3 +5,11 @@ export type IPage = {
   avatar_url: string
   background_url: string
 }
+
+export type IUpdatePage = {
+  name?: string
+  url?: string
+  workspace_id?: string
+  avatar_url?: string
+  background_url?: string
+}

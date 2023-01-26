@@ -1,5 +1,5 @@
 {
-  "next": "póxima",
+  "back": "voltar",
   "titletag": "nova página",
   "firstmessage": "O seu workspace foi criado com sucesso, agora vamos criar a sua primeira página.",
   "pagetitle": "títul da página",
@@ -9,5 +9,6 @@
   "inputpagelink": "",
   "pagedescription": "descrição da página",
   "inputpagedescription": "digite aqui",
-  "confirm": "confirmar"
+  "confirm": "confirmar",
+  "pagecover": "imagem de capa da página"
 }
