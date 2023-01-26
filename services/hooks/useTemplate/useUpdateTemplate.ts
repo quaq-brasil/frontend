@@ -1,25 +1,20 @@
 import { useMutation } from "@tanstack/react-query"
-import { ITemplate } from "../../../types/Template.type"
+import { IUpateTemplate } from "../../../types/Template.type"
 import { useMutationProps } from "../../../types/useQueryProps"
 import { api } from "../../apiClient"
 
 type useUpdateTemplateProps = {
   id: string
-  data: ITemplate
+  data: IUpateTemplate
 } & useMutationProps
 
-export const useUpdateTemplate = ({
-  id,
-  data,
-  options,
-}: useUpdateTemplateProps) => {
-  const updateTemplate = async () => {
-    await api.put(`/template/${id}`, { data })
+export const useUpdateTemplate = () => {
+  const updateTemplate = async ({ id, data }: useUpdateTemplateProps) => {
+    await api.put(`/template/${id}`, data)
   }
 
   return useMutation({
-    mutationKey: ["updateTemplate", id],
+    mutationKey: ["updateTemplate"],
     mutationFn: updateTemplate,
-    ...options,
   })
 }

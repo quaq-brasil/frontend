@@ -1,10 +1,33 @@
-import useTranslation from "next-translate/useTranslation";
-import { Card } from "../../../components/Card/Card";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
+import useTranslation from "next-translate/useTranslation"
+import { useState } from "react"
+import { Button } from "../../../components/Button/Button"
+import { Card } from "../../../components/Card/Card"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 
-export function CentralTrackersContent() {
-  const text = useTranslation().t;
+type CentralTrackersContentProps = {
+  handleUpdateTrackers: (face?: string, google?: string) => void
+}
+
+export function CentralTrackersContent({
+  handleUpdateTrackers,
+}: CentralTrackersContentProps) {
+  const text = useTranslation().t
+
+  const [facePixel, setFacePixel] = useState<string>()
+  const [googlePixel, setGooglePixel] = useState<string>()
+
+  function onChangeFacePixel(value: string) {
+    setFacePixel(value)
+  }
+
+  function onChangeGooglePixel(value: string) {
+    setGooglePixel(value)
+  }
+
+  function onUpdateTrackers() {
+    handleUpdateTrackers(facePixel, googlePixel)
+  }
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -19,7 +42,7 @@ export function CentralTrackersContent() {
             <CardTextInput
               input={{
                 label: text("centraltrackers:facebooklabel"),
-                onChange: () => console.log(),
+                onChange: (e) => onChangeFacePixel(e),
               }}
             />
           </Card>
@@ -29,14 +52,22 @@ export function CentralTrackersContent() {
             <CardTextInput
               input={{
                 label: text("centraltrackers:googlelabel"),
-                onChange: () => console.log(),
+                onChange: (e) => onChangeGooglePixel(e),
               }}
             />
           </Card>
+
+          {(facePixel || googlePixel) && (
+            <Button
+              color="black"
+              onClick={onUpdateTrackers}
+              text={text("centraltrackers:confirm")}
+            />
+          )}
 
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>
     </div>
-  );
+  )
 }
