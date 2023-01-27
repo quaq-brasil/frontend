@@ -27,6 +27,25 @@ export default function Profile({ userData, handleUserUpdate }: ProfileProps) {
     setIsUpdating(stat)
   }
 
+  function handleUserNameUpdate(name: string) {
+    setUserName(name)
+    handleIsUpdating(true)
+  }
+
+  function handleUserAvatarUpdate(name: string) {
+    setUserAvatar(name)
+    handleIsUpdating(true)
+  }
+
+  function handleUpdate() {
+    const newData = {
+      name: userName,
+      avatar_url: userName,
+    }
+    handleUserUpdate(newData)
+    handleIsUpdating(false)
+  }
+
   function handleTabBar() {
     if (isUpdating) {
       return [
@@ -72,10 +91,12 @@ export default function Profile({ userData, handleUserUpdate }: ProfileProps) {
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
       <ProfileContent
-        userData={userData}
-        handleIsUpdating={handleIsUpdating}
+        handleUserNameUpdate={handleUserNameUpdate}
+        handleUserAvatarUpdate={handleUserAvatarUpdate}
+        handleUpdate={handleUpdate}
         isUpdating={isUpdating}
-        handleUserUpdate={handleUserUpdate}
+        name={userName}
+        avatar={userAvatar}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

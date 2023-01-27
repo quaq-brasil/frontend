@@ -4,13 +4,13 @@ import { useUser } from "../../services/hooks/useUser/useUser"
 import { IUser, IUserUpdate } from "../../types/User.type"
 
 export default function ProfilePage() {
-  const getUser = useUser({ id: "63d26f06ea1e68c873e97ab0" })
+  const getUser = useUser({ id: "63d44488cbb9780ad98047bb" })
 
   const updateUser = useUpdateUser()
 
   function handleUserUpdate(data: IUserUpdate) {
     updateUser.mutate({
-      id: "63d26f06ea1e68c873e97ab0",
+      id: "63d44488cbb9780ad98047bb",
       data,
     })
   }

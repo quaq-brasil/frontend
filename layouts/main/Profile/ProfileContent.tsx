@@ -1,6 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
 import { ArrowRight } from "phosphor-react"
-import { useEffect, useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -8,55 +7,25 @@ import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
-import { IUserUpdate } from "../../../types/User.type"
 
 type ProfileContentProps = {
-  userData: IUserUpdate
+  handleUserNameUpdate: (name: string) => void
+  handleUserAvatarUpdate: (avatar: string) => void
+  handleUpdate: () => void
   isUpdating: boolean
-  handleIsUpdating: (stat: boolean) => void
-  handleUserUpdate: (userData: IUserUpdate) => void
+  name: string
+  avatar: string
 }
 
 export function ProfileContent({
-  userData,
   isUpdating,
-  handleIsUpdating,
-  handleUserUpdate,
+  handleUserNameUpdate,
+  handleUserAvatarUpdate,
+  handleUpdate,
+  name,
+  avatar,
 }: ProfileContentProps) {
   const text = useTranslation().t
-
-  const [name, setName] = useState("")
-  const [avatar, setAvatar] = useState("")
-
-  function handleUpdateName(name: string) {
-    setName(name)
-    handleIsUpdating(true)
-  }
-
-  function handleUpdateAvatar(avatar: string) {
-    setAvatar(avatar)
-    handleIsUpdating(true)
-  }
-
-  useEffect(() => {
-    setName(userData?.name || "")
-    setAvatar(userData?.avatar_url || "")
-  }, [userData])
-
-  function handleUpdate() {
-    const newData = {
-      name: name,
-      avatar_url: avatar,
-    }
-    handleUserUpdate(newData)
-    handleIsUpdating(false)
-  }
-
-  useEffect(() => {
-    if (isUpdating) {
-      handleUpdate()
-    }
-  }, [isUpdating])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -71,7 +40,7 @@ export function ProfileContent({
             <CardImageInput
               imageSelector={
                 <ImageSelector
-                  onImageChange={(e) => handleUpdateAvatar(e)}
+                  onImageChange={(e) => handleUserAvatarUpdate(e)}
                   url={avatar}
                 />
               }
@@ -82,18 +51,20 @@ export function ProfileContent({
             <CardTextInput
               input={{
                 label: text("profile:inputname"),
-                onChange: (e) => handleUpdateName(e),
+                onChange: (e) => handleUserNameUpdate(e),
                 type: "text",
                 defaultValue: name,
               }}
             />
           </Card>
           {isUpdating && (
-            <Button
-              color="black"
-              onClick={handleUpdate}
-              text={text("profile:confirm")}
-            />
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="black"
+                onClick={handleUpdate}
+                text={text("profile:confirm")}
+              />
+            </div>
           )}
           <Card>
             <CardText label={text("profile:options")} />
