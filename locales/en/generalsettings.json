@@ -13,5 +13,6 @@
   "options": "options",
   "delete": "delete page",
   "terms": "terms and policies",
-  "trackers": "trackers"
+  "trackers": "trackers",
+  "confirm": "update page"
 }

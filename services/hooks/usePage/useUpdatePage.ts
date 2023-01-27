@@ -1,21 +1,20 @@
 import { useMutation } from "@tanstack/react-query"
+import { IUpdatePage } from "../../../types/Page.type"
 import { useMutationProps } from "../../../types/useQueryProps"
 import { api } from "../../apiClient"
-import { IPage } from "./../../../types/Page.type"
 
 type useUpdatePageProps = {
   id: string
-  data: IPage
+  data: IUpdatePage
 } & useMutationProps
 
-export const useUpdatePage = ({ id, data, options }: useUpdatePageProps) => {
-  const updatePage = async () => {
-    await api.put(`/page/${id}`, { data })
+export const useUpdatePage = () => {
+  const updatePage = async ({ id, data }: useUpdatePageProps) => {
+    await api.put(`/page/${id}`, data)
   }
 
   return useMutation({
-    mutationKey: ["updatePage", id],
+    mutationKey: ["updatePage"],
     mutationFn: updatePage,
-    ...options,
   })
 }

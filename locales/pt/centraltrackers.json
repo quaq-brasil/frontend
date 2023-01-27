@@ -4,5 +4,6 @@
   "facebook": "facebook pixel",
   "facebooklabel": "digite aqui",
   "google": "google analytics",
-  "googlelabel": "digite aqui"
+  "googlelabel": "digite aqui",
+  "confirm": "atualizar rastreadores"
 }
