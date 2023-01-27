@@ -8,7 +8,7 @@ type useCreatePageProps = {
 
 export const useCreatePage = () => {
   const createPage = async ({ data }: useCreatePageProps) => {
-    await api.post(`/page`, data)
+    await api.post(`/pages`, data)
   }
 
   return useMutation({

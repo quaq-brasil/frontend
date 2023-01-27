@@ -9,7 +9,7 @@ type usePageByUrlProps = {
 
 export const usePageByUrl = ({ url, options }: usePageByUrlProps) => {
   const getPageByUrl = async () => {
-    return api.get(`/page/url/${url}`)
+    return api.get(`/pages/url/${url}`)
   }
 
   const response = useQuery({

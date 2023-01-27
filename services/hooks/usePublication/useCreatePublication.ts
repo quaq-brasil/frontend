@@ -9,7 +9,7 @@ type useCreatePublicationProps = {
 
 export const useCreatePublication = () => {
   const createPublication = async ({ data }: useCreatePublicationProps) => {
-    await api.post(`/publication`, data)
+    await api.post(`/publications`, data)
   }
 
   return useMutation({

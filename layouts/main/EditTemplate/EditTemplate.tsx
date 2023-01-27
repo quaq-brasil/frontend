@@ -20,52 +20,24 @@ export default function EditTemplate({
 }: EditTemplateProps) {
   const text = useTranslation().t
 
+  const [pageTitle, setPageTitle] = useState<string>("")
+  const [pageAvatar, setPageAvatar] = useState<string>("")
+  const [pageCover, setPageCover] = useState<string>("")
+  const [templateTitle, setTemplateTitle] = useState<string>("")
+  const [templateAvatar, setTemplateAvatar] = useState<string>("")
   const [isUpdating, setIsUpdating] = useState(false)
 
   function handleIsUpdating(stat: boolean) {
     setIsUpdating(stat)
   }
 
-  const [pageTitle, setPageTitle] = useState<string>("")
-  const [pageAvatar, setPageAvatar] = useState<string>("")
-  const [pageCover, setPageCover] = useState<string>("")
-  const [templateTitle, setTemplateTitle] = useState<string>("")
-  const [templateAvatar, setTemplateAvatar] = useState<string>("")
-
-  function handleUpdatePageTitle(title: string) {
-    setPageTitle(title)
-  }
-
-  function handleUpdatePageAvatar(avatar: string) {
-    setPageAvatar(avatar)
-  }
-
-  function handleUpdatePageCover(cover: string) {
-    setPageCover(cover)
-  }
-
-  function handleUpdateTemplateTitle(title: string) {
-    setTemplateTitle(title)
-  }
-
-  function handleUpdateTemplateAvatar(avatar: string) {
-    setTemplateAvatar(avatar)
-  }
-
   useEffect(() => {
-    handleUpdatePageTitle(pageData?.name || "")
-    handleUpdatePageAvatar(pageData?.avatar_url || "")
-    handleUpdatePageCover(pageData?.background_url || "")
-    handleUpdateTemplateTitle(templateData?.name || "")
-    handleUpdateTemplateAvatar(templateData?.shortcut_image || "")
+    setPageTitle(pageData?.name || "")
+    setPageAvatar(pageData?.avatar_url || "")
+    setPageCover(pageData?.background_url || "")
+    setTemplateTitle(templateData?.name || "")
+    setTemplateAvatar(templateData?.shortcut_image || "")
   }, [pageData, templateData])
-
-  const [runUpdate, setRunUpdate] = useState(false)
-
-  function handleRunUpdate() {
-    handleIsUpdating(false)
-    setRunUpdate(true)
-  }
 
   function handleTabBar() {
     if (isUpdating) {
@@ -80,7 +52,7 @@ export default function EditTemplate({
           <Tag
             variant="txt"
             text={text("edittemplate:confirm")}
-            onClick={handleRunUpdate}
+            onClick={() => handleIsUpdating(false)}
           />
         </div>,
       ]
@@ -112,7 +84,7 @@ export default function EditTemplate({
         handleUpdateTemplate={handleUpdateTemplate}
         templateData={templateData}
         handleIsUpdating={handleIsUpdating}
-        runUpdate={runUpdate}
+        isUpdating={isUpdating}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

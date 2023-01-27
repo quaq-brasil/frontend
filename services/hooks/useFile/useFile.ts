@@ -9,7 +9,7 @@ type useFileProps = {
 
 export const useFile = ({ id, options }: useFileProps) => {
   const getFile = async () => {
-    return api.get(`/file/${id}`)
+    return api.get(`/files/${id}`)
   }
 
   const response = useQuery({

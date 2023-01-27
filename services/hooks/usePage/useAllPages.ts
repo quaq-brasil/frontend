@@ -5,7 +5,7 @@ import { IPage } from "./../../../types/Page.type"
 
 export const usePage = ({ options }: useQueryProps) => {
   const getPages = async () => {
-    return api.get(`/page`)
+    return api.get(`/pages`)
   }
 
   const response = useQuery({

@@ -10,7 +10,7 @@ type useUpdateTemplateProps = {
 
 export const useUpdateTemplate = () => {
   const updateTemplate = async ({ id, data }: useUpdateTemplateProps) => {
-    await api.put(`/template/${id}`, data)
+    await api.put(`/templates/${id}`, data)
   }
 
   return useMutation({

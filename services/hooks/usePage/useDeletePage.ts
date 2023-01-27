@@ -8,7 +8,7 @@ type useDeletePageProps = {
 
 export const useDeletePage = ({ id, options }: useDeletePageProps) => {
   const deletePage = async () => {
-    await api.delete(`/page/${id}`)
+    await api.delete(`/pages/${id}`)
   }
 
   return useMutation({

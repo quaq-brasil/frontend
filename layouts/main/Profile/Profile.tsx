@@ -1,21 +1,59 @@
-import useTranslation from "next-translate/useTranslation";
-import { Header } from "../../../components/Header/Header";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
-import { ProfileContent } from "./ProfileContent";
+import useTranslation from "next-translate/useTranslation"
+import { useEffect, useState } from "react"
+import { Header } from "../../../components/Header/Header"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
+import { IUser, IUserUpdate } from "../../../types/User.type"
+import { ProfileContent } from "./ProfileContent"
 
-export default function Profile() {
-  const text = useTranslation().t;
+type ProfileProps = {
+  userData: IUser
+  handleUserUpdate: (userData: IUserUpdate) => void
+}
+
+export default function Profile({ userData, handleUserUpdate }: ProfileProps) {
+  const text = useTranslation().t
+
+  const [userName, setUserName] = useState("")
+  const [userAvatar, setUserAvatar] = useState("")
+  const [isUpdating, setIsUpdating] = useState(false)
+
+  useEffect(() => {
+    setUserName(userData?.name || "")
+    setUserAvatar(userData?.avatar_url || "")
+  }, [userData])
+
+  function handleIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
 
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("profile:tab1")}
-        onClick={() => console.log("tab1")}
-      />,
-    ];
+    if (isUpdating) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("edittemplate:tab1")}
+          onClick={() => console.log("tab1")}
+        />,
+        <div key={2} className={`w-fit h-fit xl:hidden`}>
+          <Tag
+            variant="txt"
+            text={text("edittemplate:confirm")}
+            onClick={() => handleIsUpdating(false)}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("profile:tab1")}
+          onClick={() => console.log("tab1")}
+        />,
+      ]
+    }
   }
 
   function loadHeader() {
@@ -25,20 +63,21 @@ export default function Profile() {
           "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
         }
       >
-        <Tag
-          variant="img-txt"
-          text="User Name"
-          img_url="https://source.unsplash.com/featured/"
-        />
+        <Tag variant="img-txt" text={userName} img_url={userAvatar} />
       </Header>
-    );
+    )
   }
 
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <ProfileContent />
+      <ProfileContent
+        userData={userData}
+        handleIsUpdating={handleIsUpdating}
+        isUpdating={isUpdating}
+        handleUserUpdate={handleUserUpdate}
+      />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
-  );
+  )
 }

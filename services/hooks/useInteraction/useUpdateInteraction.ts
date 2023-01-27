@@ -14,7 +14,7 @@ export const useUpdateInteraction = ({
   options,
 }: useUpdateInteractionProps) => {
   const updateInteraction = async () => {
-    await api.put(`/interaction/${id}`, { data })
+    await api.put(`/interactions/${id}`, { data })
   }
 
   return useMutation({

@@ -15,64 +15,51 @@ type EditTemplateContentProps = {
   templateData: ITemplate
   handleUpdateTemplate: (data: IUpateTemplate) => void
   handleIsUpdating: (stats: boolean) => void
-  runUpdate: boolean
+  isUpdating: boolean
 }
 
 export function EditTemplateContent({
   templateData,
   handleUpdateTemplate,
   handleIsUpdating,
-  runUpdate,
+  isUpdating,
 }: EditTemplateContentProps) {
   const text = useTranslation().t
-
-  const [isUpdating, setIsUpdating] = useState(false)
 
   const [title, setTitle] = useState<string>("")
   const [link, setLink] = useState<string>("")
   const [avatar, setAvatar] = useState<string>("")
   const [size, setSize] = useState<string>("")
   const [publicationId, setPublicationId] = useState<string>("")
-
-  function changeIsUpdating(stat: boolean) {
-    setIsUpdating(stat)
-    handleIsUpdating(stat)
-  }
-
-  function handleChangeSize(type: "small" | "large") {
-    setSize(type)
-    changeIsUpdating(true)
-  }
+  const [currentPublication, setCurrentPublication] = useState<string>("")
 
   function handleUpdateTitle(title: string) {
     setTitle(title)
-    changeIsUpdating(true)
+    handleIsUpdating(true)
   }
 
   function handleUpdateLink(link: string) {
     setLink(link)
-    changeIsUpdating(true)
+    handleIsUpdating(true)
   }
 
   function handleUpdateAvatar(avatar: string) {
     setAvatar(avatar)
-    changeIsUpdating(true)
+    handleIsUpdating(true)
   }
 
   function handleUpdateSize(size: string) {
     setSize(size)
-    changeIsUpdating(true)
+    handleIsUpdating(true)
   }
 
   const getPubliation = usePublication({
     id: publicationId,
   })
 
-  const [currentPublication, setCurrentPublication] = useState<string>("")
-
   function handleCurrentPublicationUpdate(pub: string) {
     setCurrentPublication(pub)
-    changeIsUpdating(false)
+    handleIsUpdating(false)
   }
 
   useEffect(() => {
@@ -94,19 +81,21 @@ export function EditTemplateContent({
   }
 
   function handleUpdate() {
-    const newData = {
+    const newData: IUpateTemplate = {
       name: title,
       url: link,
       shortcut_image: avatar,
       shortcut_size: size,
     }
     handleUpdateTemplate(newData)
-    setIsUpdating(false)
+    handleIsUpdating(false)
   }
 
   useEffect(() => {
-    handleUpdate()
-  }, [runUpdate])
+    if (isUpdating) {
+      handleUpdate()
+    }
+  }, [isUpdating])
 
   return (
     <div className="w-full h-screen bg-slate-100">

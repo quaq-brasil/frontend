@@ -1,14 +1,62 @@
-import useTranslation from "next-translate/useTranslation";
-import { ArrowRight } from "phosphor-react";
-import { Card } from "../../../components/Card/Card";
-import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
-import { ImageSelector } from "../../../components/ImageSelector/ImageSelector";
+import useTranslation from "next-translate/useTranslation"
+import { ArrowRight } from "phosphor-react"
+import { useEffect, useState } from "react"
+import { Button } from "../../../components/Button/Button"
+import { Card } from "../../../components/Card/Card"
+import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
+import { IUserUpdate } from "../../../types/User.type"
 
-export function ProfileContent() {
-  const text = useTranslation().t;
+type ProfileContentProps = {
+  userData: IUserUpdate
+  isUpdating: boolean
+  handleIsUpdating: (stat: boolean) => void
+  handleUserUpdate: (userData: IUserUpdate) => void
+}
+
+export function ProfileContent({
+  userData,
+  isUpdating,
+  handleIsUpdating,
+  handleUserUpdate,
+}: ProfileContentProps) {
+  const text = useTranslation().t
+
+  const [name, setName] = useState("")
+  const [avatar, setAvatar] = useState("")
+
+  function handleUpdateName(name: string) {
+    setName(name)
+    handleIsUpdating(true)
+  }
+
+  function handleUpdateAvatar(avatar: string) {
+    setAvatar(avatar)
+    handleIsUpdating(true)
+  }
+
+  useEffect(() => {
+    setName(userData?.name || "")
+    setAvatar(userData?.avatar_url || "")
+  }, [userData])
+
+  function handleUpdate() {
+    const newData = {
+      name: name,
+      avatar_url: avatar,
+    }
+    handleUserUpdate(newData)
+    handleIsUpdating(false)
+  }
+
+  useEffect(() => {
+    if (isUpdating) {
+      handleUpdate()
+    }
+  }, [isUpdating])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -22,7 +70,10 @@ export function ProfileContent() {
             <CardText label={text("profile:photo")} />
             <CardImageInput
               imageSelector={
-                <ImageSelector onImageChange={(e) => console.log(e)} />
+                <ImageSelector
+                  onImageChange={(e) => handleUpdateAvatar(e)}
+                  url={avatar}
+                />
               }
             />
           </Card>
@@ -31,11 +82,19 @@ export function ProfileContent() {
             <CardTextInput
               input={{
                 label: text("profile:inputname"),
-                onChange: (e) => console.log(e),
+                onChange: (e) => handleUpdateName(e),
                 type: "text",
+                defaultValue: name,
               }}
             />
           </Card>
+          {isUpdating && (
+            <Button
+              color="black"
+              onClick={handleUpdate}
+              text={text("profile:confirm")}
+            />
+          )}
           <Card>
             <CardText label={text("profile:options")} />
             <CardText
@@ -67,5 +126,5 @@ export function ProfileContent() {
         </div>
       </div>
     </div>
-  );
+  )
 }

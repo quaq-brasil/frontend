@@ -1,16 +1,16 @@
 # find one
 
-GET https://bff.quaq.com.br/workspace/63b7543e7d02f98b8692255d
+GET http://localhost:5000/api/v1/workspaces/63b7543e7d02f98b8692255d
 
 ###
 
 # create one
 
-POST https://bff.quaq.com.br/workspace
+POST http://localhost:5000/api/v1/workspaces
 Content-Type: application/json
 
 {
-  "name": "My Workspace",
+  "name": "My Workspaces",
   "avatar_url": "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1222&q=80",
   "services": [
     {
@@ -24,11 +24,11 @@ Content-Type: application/json
 
 # update one
 
-PUT  https://bff.quaq.com.br/workspace/63b7543e7d02f98b8692255d
+PUT  http://localhost:5000/api/v1/workspaces/63b7543e7d02f98b8692255d
 Content-Type: application/json
 
 {
-  "name": "My Workspace2",
+  "name": "My Workspaces2",
   "avatar_url": "http://example.com/avatar2.png",
   "services": [
     {
@@ -42,4 +42,4 @@ Content-Type: application/json
 
 # delete one
 
-DELETE https://bff.quaq.com.br/workspace/63b7543e7d02f98b8692255d
+DELETE http://localhost:5000/api/v1/workspaces/63b7543e7d02f98b8692255d

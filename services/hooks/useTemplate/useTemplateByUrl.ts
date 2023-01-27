@@ -9,7 +9,7 @@ type useTemplateByUrlProps = {
 
 export const useTemplateByUrl = ({ url, options }: useTemplateByUrlProps) => {
   const getTemplateByUrl = async () => {
-    return api.get(`/template/url/${url}`)
+    return api.get(`/templates/url/${url}`)
   }
 
   const response = useQuery({

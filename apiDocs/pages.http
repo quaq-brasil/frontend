@@ -1,17 +1,17 @@
 # find one
 
-GET https://bff.quaq.com.br/page/63b754987d02f98b8692255e
+GET http://localhost:5000/api/v1/pages/63b754987d02f98b8692255e
 
 
 ###
 
 # create one
 
-POST https://bff.quaq.com.br/page
+POST http://localhost:5000/api/v1/pages
 Content-Type: application/json
 
 {
-    "name": "page test",
+    "name": "pages test",
     "url": "url/url12",
     "workspace_id": "63b34032485edc50f1bdfa72",
     "avatar_url": "url/url",
@@ -22,25 +22,25 @@ Content-Type: application/json
 
 # find all
 
-GET https://bff.quaq.com.br/page
+GET http://localhost:5000/api/v1/pages
 
 ###
 
 # find one by url
 
-GET https://bff.quaq.com.br/page/url/url21
+GET http://localhost:5000/api/v1/pages/url/url21
 
 ###
 
 # find all by workspace
 
-GET https://bff.quaq.com.br/page/workspace/63b34032485edc50f1bdfa72
+GET http://localhost:5000/api/v1/pages/workspace/63b34032485edc50f1bdfa72
 
 ###
 
 # update one
 
-PUT https://bff.quaq.com.br/page/63b754987d02f98b8692255e
+PUT http://localhost:5000/api/v1/pages/63b754987d02f98b8692255e
 Content-Type: application/json
 
 {
@@ -51,6 +51,6 @@ Content-Type: application/json
 
 # delete one
 
-DELETE https://bff.quaq.com.br/page/63b75045a43fc9f320321e9f
+DELETE http://localhost:5000/api/v1/pages/63b75045a43fc9f320321e9f
 
 

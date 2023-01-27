@@ -9,7 +9,7 @@ type useUpdateUserProps = {
 
 export const useUpdateUser = () => {
   const updateUser = async ({ id, data }: useUpdateUserProps) => {
-    await api.put(`/user/${id}`, data)
+    await api.put(`/users/${id}`, data)
   }
 
   return useMutation({

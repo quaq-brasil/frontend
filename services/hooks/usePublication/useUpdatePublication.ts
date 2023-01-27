@@ -14,7 +14,7 @@ export const useUpdatePublication = ({
   options,
 }: useUpdatePublicationProps) => {
   const updatePublication = async () => {
-    await api.put(`/publication/${id}`, { data })
+    await api.put(`/publications/${id}`, { data })
   }
 
   return useMutation({

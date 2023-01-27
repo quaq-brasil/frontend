@@ -9,7 +9,7 @@ type useLoginProps = {
 
 export const useLogin = () => {
   const loginUser = async ({ email, password }: useLoginProps) => {
-    await api.post(`/user/login`, { email, password })
+    await api.post(`/users/login`, { email, password })
   }
 
   return useMutation({

@@ -1,10 +1,10 @@
-# get template
+# get templates
 
-GET https://bff.quaq.com.br/template/63d2f4dd092cd140517d49c4
+GET http://localhost:5000/api/v1/templates/63d2f4dd092cd140517d49c4
 
 ###
 
-POST https://bff.quaq.com.br/template
+POST http://localhost:5000/api/v1/templates
 Content-Type: application/json
 
 {
@@ -20,19 +20,19 @@ Content-Type: application/json
 
 ###
 
-# get template by url
+# get templates by url
 
-GET https://bff.quaq.com.br/template/url/url
-
-###
-
-# get many template by page id
-
-GET https://bff.quaq.com.br/template/page/63b754987d02f98b8692255e
+GET http://localhost:5000/api/v1/templates/url/url
 
 ###
 
-PUT https://bff.quaq.com.br/template/63d2f4dd092cd140517d49c4
+# get many templates by page id
+
+GET http://localhost:5000/api/v1/templates/page/63b754987d02f98b8692255e
+
+###
+
+PUT http://localhost:5000/api/v1/templates/63d2f4dd092cd140517d49c4
 Content-Type: application/json
 
 {
@@ -41,9 +41,9 @@ Content-Type: application/json
 
 ###
 
-# delete one template
+# delete one templates
 
-DELETE https://bff.quaq.com.br/template/1ead50e3-c81b-4a64-87da-a1ff0f2e6b54
+DELETE http://localhost:5000/api/v1/templates/1ead50e3-c81b-4a64-87da-a1ff0f2e6b54
 
 ###
 

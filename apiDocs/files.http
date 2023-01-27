@@ -1,12 +1,12 @@
 # find one
 
-GET https://bff.quaq.com.br/file/63b34032485edc50f1bdfa72
+GET http://localhost:5000/api/v1/files/63b34032485edc50f1bdfa72
 
 ###
 
 # create one
 
-POST https://bff.quaq.com.br/file
+POST http://localhost:5000/api/v1/files
 Content-Type: application/json
 
 {
@@ -24,13 +24,13 @@ Content-Type: application/json
 
 # find one by url
 
-GET https://bff.quaq.com.br/file/url/1
+GET http://localhost:5000/api/v1/files/url/1
 
 ###
 
 # update one
 
-PUT https://bff.quaq.com.br/file/63b34032485edc50f1bdfa72
+PUT http://localhost:5000/api/v1/files/63b34032485edc50f1bdfa72
 Content-Type: application/json
 
 {
@@ -48,4 +48,4 @@ Content-Type: application/json
 
 # delete one
 
-DELETE https://bff.quaq.com.br/file/63b34032485edc50f1bdfa72
+DELETE http://localhost:5000/api/v1/files/63b34032485edc50f1bdfa72

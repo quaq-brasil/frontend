@@ -12,7 +12,7 @@ export const useInteractionByUserId = ({
   options,
 }: useInteractionByUserIdProps) => {
   const getInteractionByUserId = async () => {
-    return api.get(`/interaction/user/${id}`)
+    return api.get(`/interactions/user/${id}`)
   }
 
   const response = useQuery({

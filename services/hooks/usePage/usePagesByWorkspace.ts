@@ -12,7 +12,7 @@ export const usePagesByWorkspace = ({
   options,
 }: usePagesByWorkspaceProps) => {
   const getPagesByWorkspace = async () => {
-    return api.get(`/page/workspace/${id}`)
+    return api.get(`/pages/workspace/${id}`)
   }
 
   const response = useQuery({
