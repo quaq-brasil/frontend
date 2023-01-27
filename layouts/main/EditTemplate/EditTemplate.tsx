@@ -60,6 +60,13 @@ export default function EditTemplate({
     handleUpdateTemplateAvatar(templateData?.shortcut_image || "")
   }, [pageData, templateData])
 
+  const [runUpdate, setRunUpdate] = useState(false)
+
+  function handleRunUpdate() {
+    handleIsUpdating(false)
+    setRunUpdate(true)
+  }
+
   function handleTabBar() {
     if (isUpdating) {
       return [
@@ -73,7 +80,7 @@ export default function EditTemplate({
           <Tag
             variant="txt"
             text={text("edittemplate:confirm")}
-            onClick={() => console.log("tab1")}
+            onClick={handleRunUpdate}
           />
         </div>,
       ]
@@ -105,6 +112,7 @@ export default function EditTemplate({
         handleUpdateTemplate={handleUpdateTemplate}
         templateData={templateData}
         handleIsUpdating={handleIsUpdating}
+        runUpdate={runUpdate}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

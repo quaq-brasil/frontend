@@ -15,12 +15,14 @@ type EditTemplateContentProps = {
   templateData: ITemplate
   handleUpdateTemplate: (data: IUpateTemplate) => void
   handleIsUpdating: (stats: boolean) => void
+  runUpdate: boolean
 }
 
 export function EditTemplateContent({
   templateData,
   handleUpdateTemplate,
   handleIsUpdating,
+  runUpdate,
 }: EditTemplateContentProps) {
   const text = useTranslation().t
 
@@ -102,6 +104,10 @@ export function EditTemplateContent({
     setIsUpdating(false)
   }
 
+  useEffect(() => {
+    handleUpdate()
+  }, [runUpdate])
+
   return (
     <div className="w-full h-screen bg-slate-100">
       <div
@@ -163,9 +169,9 @@ export function EditTemplateContent({
             <CardLine />
           </Card>
           <Card>
-            <CardText label={text("edittemplate:title4")} />
             {!createNewPublication && (
               <>
+                <CardText label={text("edittemplate:title4")} />
                 <CardLine />
                 <CardText label={currentPublication} />
                 <CardLine />
@@ -180,7 +186,6 @@ export function EditTemplateContent({
             )}
             {createNewPublication && (
               <>
-                <CardLine />
                 <CardText
                   label={text("edittemplate:cancelnewpub")}
                   indicator={{
