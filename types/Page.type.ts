@@ -4,10 +4,10 @@ export type IPage = {
   workspace_id: string
   avatar_url: string
   background_url: string
-  is_stripe_active: boolean
-  stripe_id: string
-  facebook_pixel_id: string
-  google_analytics_id: string
+  is_stripe_active?: boolean
+  stripe_id?: string
+  facebook_pixel_id?: string
+  google_analytics_id?: string
 }
 
 export type IUpdatePage = {

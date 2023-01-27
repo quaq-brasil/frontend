@@ -1,5 +1,5 @@
-import { Shortcut } from "../../../components/Shortcut/Shortcut";
-import { ShortcutGrid } from "../../../components/ShortcutGrid/ShortcutGrid";
+import { Shortcut } from "../../../components/Shortcut/Shortcut"
+import { ShortcutGrid } from "../../../components/ShortcutGrid/ShortcutGrid"
 
 export function ConsumerPageContent() {
   function loadTemplates() {
@@ -9,38 +9,50 @@ export function ConsumerPageContent() {
         img_url="https://source.unsplash.com/featured/"
         size="small"
         title="template 1"
+        index={0}
+        id={""}
       />,
       <Shortcut
         key={2}
         img_url="https://source.unsplash.com/featured/"
         size="small"
         title="template 2"
+        index={0}
+        id={""}
       />,
       <Shortcut
         key={3}
         img_url="https://source.unsplash.com/featured/"
         size="small"
         title="template 3"
+        index={0}
+        id={""}
       />,
       <Shortcut
         key={4}
         img_url="https://source.unsplash.com/featured/"
         size="large"
         title="template 4"
+        index={0}
+        id={""}
       />,
       <Shortcut
         key={5}
         img_url="https://source.unsplash.com/featured/"
         size="small"
         title="template 5"
+        index={0}
+        id={""}
       />,
       <Shortcut
         key={6}
         img_url="https://source.unsplash.com/featured/"
         size="large"
         title="template 6"
+        index={0}
+        id={""}
       />,
-    ];
+    ]
   }
 
   return (
@@ -55,5 +67,5 @@ export function ConsumerPageContent() {
         </ShortcutGrid>
       </div>
     </div>
-  );
+  )
 }
