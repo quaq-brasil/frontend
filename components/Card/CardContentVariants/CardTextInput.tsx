@@ -5,7 +5,7 @@ type CardTextInputProps = {
   input?: {
     onChange: (value: string) => void
     type?: string
-    label: string
+    label?: string
     fixedText?: string
     defaultValue?: string
   }
@@ -42,12 +42,12 @@ export function CardTextInput(props: CardTextInputProps) {
         placeholder:text-slate-300 lg:text-[1.1rem] hover:outline-none focus:outline-none
           ${
             props.input.fixedText
-              ? "ml-[-10px] lg:ml-[-18px]"
+              ? "ml-[-12px] lg:ml-[-18px]"
               : "px-3 lg:px-[1.125rem]"
           }`}
           type={props.input.type || "text"}
           placeholder={props.input.label}
-          defaultValue={props.input.defaultValue}
+          defaultValue={props.input.defaultValue?.replace("quaq.me/", "")}
         />
       )}
 

@@ -1,20 +1,105 @@
-import useTranslation from "next-translate/useTranslation";
-import { Check, Plus } from "phosphor-react";
-import { useState } from "react";
-import { Card } from "../../../components/Card/Card";
-import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
-import { ImageSelector } from "../../../components/ImageSelector/ImageSelector";
+import useTranslation from "next-translate/useTranslation"
+import { Check, Plus, X } from "phosphor-react"
+import { useEffect, useState } from "react"
+import { Button } from "../../../components/Button/Button"
+import { Card } from "../../../components/Card/Card"
+import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
+import { usePublication } from "../../../services/hooks/usePublication/usePublication"
+import { ITemplate, IUpateTemplate } from "../../../types/Template.type"
 
-export function EditTemplateContent() {
-  const text = useTranslation().t;
+type EditTemplateContentProps = {
+  templateData: ITemplate
+  handleUpdateTemplate: (data: IUpateTemplate) => void
+  handleIsUpdating: (stats: boolean) => void
+}
 
-  const [size, serSize] = useState<"small" | "large">("small");
+export function EditTemplateContent({
+  templateData,
+  handleUpdateTemplate,
+  handleIsUpdating,
+}: EditTemplateContentProps) {
+  const text = useTranslation().t
+
+  const [isUpdating, setIsUpdating] = useState(false)
+
+  const [title, setTitle] = useState<string>("")
+  const [link, setLink] = useState<string>("")
+  const [avatar, setAvatar] = useState<string>("")
+  const [size, setSize] = useState<string>("")
+  const [publicationId, setPublicationId] = useState<string>("")
+
+  function changeIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+    handleIsUpdating(stat)
+  }
 
   function handleChangeSize(type: "small" | "large") {
-    serSize(type);
+    setSize(type)
+    changeIsUpdating(true)
+  }
+
+  function handleUpdateTitle(title: string) {
+    setTitle(title)
+    changeIsUpdating(true)
+  }
+
+  function handleUpdateLink(link: string) {
+    setLink(link)
+    changeIsUpdating(true)
+  }
+
+  function handleUpdateAvatar(avatar: string) {
+    setAvatar(avatar)
+    changeIsUpdating(true)
+  }
+
+  function handleUpdateSize(size: string) {
+    setSize(size)
+    changeIsUpdating(true)
+  }
+
+  const getPubliation = usePublication({
+    id: publicationId,
+  })
+
+  const [currentPublication, setCurrentPublication] = useState<string>("")
+
+  function handleCurrentPublicationUpdate(pub: string) {
+    setCurrentPublication(pub)
+    changeIsUpdating(false)
+  }
+
+  useEffect(() => {
+    setTitle(templateData?.name || "")
+    setLink(templateData?.url || "")
+    setAvatar(templateData?.shortcut_image || "")
+    setSize(templateData?.shortcut_size || "")
+    setPublicationId(templateData?.current_publication_id || "")
+  }, [templateData])
+
+  useEffect(() => {
+    handleCurrentPublicationUpdate(getPubliation?.data.title || "")
+  }, [getPubliation])
+
+  const [createNewPublication, setCreateNewPublication] = useState(false)
+
+  function handleCreateNewPublication() {
+    setCreateNewPublication(!createNewPublication)
+  }
+
+  function handleUpdate() {
+    const newData = {
+      name: title,
+      url: link,
+      shortcut_image: avatar,
+      shortcut_size: size,
+    }
+    handleUpdateTemplate(newData)
+    setIsUpdating(false)
   }
 
   return (
@@ -29,8 +114,8 @@ export function EditTemplateContent() {
             <CardText label={text("edittemplate:title")} />
             <CardTextInput
               input={{
-                label: text("edittemplate:label"),
-                onChange: () => console.log(),
+                onChange: (e) => handleUpdateTitle(e),
+                defaultValue: title,
               }}
             />
           </Card>
@@ -38,8 +123,9 @@ export function EditTemplateContent() {
             <CardText label={text("edittemplate:title2")} />
             <CardTextInput
               input={{
-                label: text("edittemplate:label2"),
-                onChange: () => console.log(),
+                onChange: (e) => handleUpdateLink(e),
+                fixedText: "quaq.me/",
+                defaultValue: link,
               }}
             />
           </Card>
@@ -47,7 +133,10 @@ export function EditTemplateContent() {
             <CardText label={text("edittemplate:title3")} />
             <CardImageInput
               imageSelector={
-                <ImageSelector onImageChange={() => console.log()} />
+                <ImageSelector
+                  onImageChange={(e) => handleUpdateAvatar(e)}
+                  url={avatar}
+                />
               }
             />
           </Card>
@@ -58,7 +147,7 @@ export function EditTemplateContent() {
               label={text("edittemplate:small")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeSize("small"),
+                onClick: () => handleUpdateSize("small"),
                 isVisible: size == "small" ? false : true,
               }}
             />
@@ -67,7 +156,7 @@ export function EditTemplateContent() {
               label={text("edittemplate:large")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeSize("large"),
+                onClick: () => handleUpdateSize("large"),
                 isVisible: size == "large" ? false : true,
               }}
             />
@@ -75,17 +164,52 @@ export function EditTemplateContent() {
           </Card>
           <Card>
             <CardText label={text("edittemplate:title4")} />
-            <CardLine />
-            <CardText label="publication name" />
-            <CardLine />
-            <CardText
-              label={text("edittemplate:title5")}
-              indicator={{ icon: Plus, onClick: () => console.log() }}
-            />
+            {!createNewPublication && (
+              <>
+                <CardLine />
+                <CardText label={currentPublication} />
+                <CardLine />
+                <CardText
+                  label={text("edittemplate:title5")}
+                  indicator={{
+                    icon: Plus,
+                    onClick: () => handleCreateNewPublication(),
+                  }}
+                />
+              </>
+            )}
+            {createNewPublication && (
+              <>
+                <CardLine />
+                <CardText
+                  label={text("edittemplate:cancelnewpub")}
+                  indicator={{
+                    icon: X,
+                    onClick: () => handleCreateNewPublication(),
+                  }}
+                />
+                <CardTextInput
+                  input={{
+                    label: text("edittemplate:newpublabel"),
+                    onChange: (e) => handleCurrentPublicationUpdate(e),
+                  }}
+                />
+              </>
+            )}
           </Card>
+
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="black"
+                onClick={handleUpdate}
+                text={text("edittemplate:confirm")}
+              />
+            </div>
+          )}
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>
     </div>
-  );
+  )
 }

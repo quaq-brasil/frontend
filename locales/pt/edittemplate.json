@@ -1,13 +1,16 @@
 {
-  "tab1": "cancel",
-  "title": "title",
-  "lable": "type it here",
-  "title2": "access link",
-  "lable2": "",
-  "title3": "cover image",
-  "size": "size",
-  "small": "small",
-  "large": "large",
-  "title4": "publish as",
-  "title5": "new publication"
+  "tab1": "voltar",
+  "title": "título",
+  "lable": "digite aqui",
+  "title2": "link de acesso",
+  "lable2": "digite aqui",
+  "title3": "imagem de capa",
+  "size": "tamanho",
+  "small": "pequeno",
+  "large": "grande",
+  "title4": "publicar como",
+  "title5": "nova publicação",
+  "cancelnewpub": "cancelar",
+  "newpublabel": "digite aqui",
+  "confirm": "confirmar"
 }

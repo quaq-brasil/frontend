@@ -5,12 +5,10 @@ import { IUpdatePage } from "../../types/Page.type"
 
 type GeneralSettingsPageProps = {
   pageId: string
-  templateId: string
 }
 
 export default function GeneralSettingsPage({
   pageId,
-  templateId,
 }: GeneralSettingsPageProps) {
   const pageResponse = usePage({
     id: pageId ? pageId : "63b754987d02f98b8692255e",
