@@ -1,10 +1,11 @@
 {
-  "tab1": "cancelar",
+  "back": "voltar",
+  "confirm": "confirmar",
   "title": "template publicado com sucesso!",
   "longtext": "abaixo você encontrará como permitir que as pessoas acessem e usem.",
-  "title2": "link de acesso",
-  "label": "",
-  "title3": "compartilhar link",
-  "title4": "rastreadores",
-  "title5": "configurar rastreadores"
+  "link": "link de acesso",
+  "linklabel": "digite aqui",
+  "share": "compartilhar link",
+  "trackers": "rastreadores",
+  "setuptrackers": "configurar rastreadores"
 }

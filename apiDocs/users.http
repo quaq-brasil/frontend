@@ -31,12 +31,10 @@ Content-Type: application/json
 
 # update one
 
-PUT http://localhost:5000/api/v1/users/63b6eb776e2cf11afe9f163a
-PUT http://localhost:5000/api/v1/users/63d26f06ea1e68c873e97ab0
+PUT http://localhost:5000/api/v1/users/63d44488cbb9780ad98047bb
 Content-Type: application/json
 
 {
-    "email": "udhasudh@gmail.com",
     "avatar_url": "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
 }
 

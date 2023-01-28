@@ -8,6 +8,7 @@ type CardTextInputProps = {
     label?: string
     fixedText?: string
     defaultValue?: string
+    value?: string
   }
   indicator?: {
     icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
@@ -42,6 +43,7 @@ export function CardTextInput(props: CardTextInputProps) {
           type={props.input.type || "text"}
           placeholder={props.input.label}
           defaultValue={props.input.defaultValue}
+          value={props.input.value}
         />
       )}
 

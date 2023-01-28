@@ -25,7 +25,6 @@ export default function EditTemplatePage({
   const updateTemplate = useUpdateTemplate()
 
   const handleUpdateTemplate = (data: IUpateTemplate) => {
-    console.log("aqui foi")
     updateTemplate.mutate({
       id: "63d2f4dd092cd140517d49c4",
       data: {

@@ -1,10 +1,11 @@
 {
-  "tab1": "cancel",
+  "back": "back",
+  "confirm": "confirm",
   "title": "template successfuly published!",
   "longtext": "below you will find how you can let people access and use it.",
-  "title2": "access link",
-  "label": "",
-  "title3": "share link",
-  "title4": "trackers",
-  "title5": "set up trackers"
+  "link": "access link",
+  "linklabel": "type it here",
+  "share": "share link",
+  "trackers": "trackers",
+  "setuptrackers": "set up trackers"
 }
