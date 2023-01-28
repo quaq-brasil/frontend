@@ -52,13 +52,13 @@ export default function Profile({ userData, handleUserUpdate }: ProfileProps) {
         <Tag
           key={1}
           variant="txt"
-          text={text("edittemplate:tab1")}
+          text={text("edittemplate:back")}
           onClick={() => console.log("tab1")}
         />,
         <div key={2} className={`w-fit h-fit xl:hidden`}>
           <Tag
             variant="txt"
-            text={text("edittemplate:confirm")}
+            text={text("edittemplate:update")}
             onClick={() => handleIsUpdating(false)}
           />
         </div>,
@@ -68,7 +68,7 @@ export default function Profile({ userData, handleUserUpdate }: ProfileProps) {
         <Tag
           key={1}
           variant="txt"
-          text={text("profile:tab1")}
+          text={text("profile:back")}
           onClick={() => console.log("tab1")}
         />,
       ]
