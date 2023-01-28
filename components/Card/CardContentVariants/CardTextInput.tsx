@@ -30,7 +30,7 @@ export function CardTextInput(props: CardTextInputProps) {
         </p>
       )}
 
-      {props.input && (
+      {props.input && !props.input.value && (
         <input
           onChange={(e) => props?.input?.onChange(e.target.value)}
           className={`bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem]
@@ -43,7 +43,6 @@ export function CardTextInput(props: CardTextInputProps) {
           type={props.input.type || "text"}
           placeholder={props.input.label}
           defaultValue={props.input.defaultValue}
-          value={props.input.value}
         />
       )}
 
@@ -58,6 +57,15 @@ export function CardTextInput(props: CardTextInputProps) {
             </option>
           ))}
         </select>
+      )}
+
+      {props.input?.value && (
+        <div
+          className={`bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem]
+          flex items-center ml-[-12px] lg:ml-[-18px]`}
+        >
+          <p className="lg:text-[1.1rem]">{props.input.value}</p>
+        </div>
       )}
 
       {props.indicator && (

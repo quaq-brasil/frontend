@@ -78,8 +78,13 @@ export function EditTemplateContent({
               input={{
                 onChange: (link) => handleUpdateTemplateData({ url: link }),
                 fixedText: "quaq.me/",
-                defaultValue: templateData?.url,
+                value: templateData?.url,
                 label: text("edittemplate:linklabel"),
+              }}
+              indicator={{
+                icon: Check,
+                bgColor: "green-500",
+                onClick: () => console.log(),
               }}
             />
           </Card>
