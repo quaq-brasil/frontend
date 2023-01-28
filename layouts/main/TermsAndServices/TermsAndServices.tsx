@@ -1,21 +1,21 @@
-import useTranslation from "next-translate/useTranslation";
-import { Header } from "../../../components/Header/Header";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
-import { TermsAndServicesContent } from "./TermsAndServicesContent";
+import useTranslation from "next-translate/useTranslation"
+import { Header } from "../../../components/Header/Header"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
+import { TermsAndServicesContent } from "./TermsAndServicesContent"
 
 export default function TermsAndServices() {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   function handleTabBar() {
     return [
       <Tag
         key={1}
         variant="txt"
-        text={text("profile:tab1")}
+        text={text("profile:back")}
         onClick={() => console.log("tab1")}
       />,
-    ];
+    ]
   }
 
   function loadHeader() {
@@ -27,7 +27,7 @@ export default function TermsAndServices() {
       >
         <Tag variant="txt" text={text("terms:titletag")} />
       </Header>
-    );
+    )
   }
 
   return (
@@ -36,5 +36,5 @@ export default function TermsAndServices() {
       <TermsAndServicesContent />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
-  );
+  )
 }
