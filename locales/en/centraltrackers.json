@@ -5,5 +5,6 @@
   "facebooklabel": "type it here",
   "google": "google analytics",
   "googlelabel": "type it here",
-  "confirm": "update trackers"
+  "confirm": "update trackers",
+  "update": "update"
 }
