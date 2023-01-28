@@ -7,53 +7,80 @@ import { IUpdatePage } from "../../../types/Page.type"
 import { GeneralSettingsContent } from "./GeneralSettingsContent"
 
 type GeneralSettingsProps = {
-  pageData: IUpdatePage
+  initialPageData: IUpdatePage
   handleUpdatePage: (data: IUpdatePage) => void
 }
 
 export default function GeneralSettings({
-  pageData,
+  initialPageData,
   handleUpdatePage,
 }: GeneralSettingsProps) {
   const text = useTranslation().t
 
-  const [title, setTitle] = useState<string>("")
-  const [avatar, setAvatar] = useState<string>("")
-  const [cover, setCover] = useState<string>("")
+  const [pageData, setPageData] = useState<IUpdatePage>()
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
 
-  function handleUpdateTitle(title: string) {
-    setTitle(title)
+  function handleUpdatePageData(newData: IUpdatePage) {
+    setPageData({
+      ...pageData,
+      avatar_url: newData.avatar_url || pageData?.avatar_url,
+      background_url: newData.background_url || pageData?.background_url,
+      url: newData.url || pageData?.url,
+      name: newData.name || pageData?.name,
+    })
+    setIsUpdating(true)
   }
 
-  function handleUpdateAvatar(avatar: string) {
-    setAvatar(avatar)
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
   }
 
-  function handleUpdateCover(cover: string) {
-    setCover(cover)
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
   }
 
   useEffect(() => {
-    setTitle(pageData?.name || "")
-    setAvatar(pageData?.avatar_url || "")
-    setCover(pageData?.background_url || "")
-  }, [pageData])
+    setPageData(initialPageData)
+  }, [initialPageData])
 
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("generalsettings:tab1")}
-        onClick={() => console.log("tab1")}
-      />,
-    ]
+    if (isUpdating) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("generalsettings:back")}
+          onClick={() => console.log("tab1")}
+        />,
+        <div key={2} className="w-fit h-fit xl:hidden">
+          <Tag
+            variant="txt"
+            text={text("generalsettings:update")}
+            onClick={() => handleUpdateRunUpdate(true)}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("generalsettings:back")}
+          onClick={() => console.log("tab1")}
+        />,
+      ]
+    }
   }
 
   function loadHeader() {
     return (
-      <Header background_url={cover}>
-        <Tag variant="img-txt" text={title} img_url={avatar} />
+      <Header background_url={pageData?.background_url || ""}>
+        <Tag
+          variant="img-txt"
+          text={pageData?.name || ""}
+          img_url={pageData?.avatar_url || ""}
+        />
         <Tag variant="txt" text={text("generalsettings:titletag")} />
       </Header>
     )
@@ -63,11 +90,13 @@ export default function GeneralSettings({
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
       <GeneralSettingsContent
-        initialData={pageData}
+        pageData={pageData}
+        handleUpdatePageData={handleUpdatePageData}
         handleUpdatePage={handleUpdatePage}
-        handleUpdateAvatar={handleUpdateAvatar}
-        handleUpdateTitle={handleUpdateTitle}
-        handleUpdateCover={handleUpdateCover}
+        isUpdating={isUpdating}
+        handleUpdateIsUpdating={handleUpdateIsUpdating}
+        runUpdate={runUpdate}
+        handleUpdateRunUpdate={handleUpdateRunUpdate}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

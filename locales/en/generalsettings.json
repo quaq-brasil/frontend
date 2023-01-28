@@ -1,5 +1,6 @@
 {
-  "tab1": "back",
+  "back": "back",
+  "update": "update",
   "titletag": "general",
   "title": "page title",
   "titlelabel": "",

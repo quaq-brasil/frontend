@@ -11,9 +11,9 @@ POST http://localhost:5000/api/v1/pages
 Content-Type: application/json
 
 {
-    "name": "pages test",
-    "url": "url/url12",
-    "workspace_id": "63b34032485edc50f1bdfa72",
+    "name": "pages sdasdas",
+    "url": "url/wdsasdae",
+    "workspace_id": "63b754987d02f98b8692255e",
     "avatar_url": "url/url",
     "background_url": "url/url"
 }

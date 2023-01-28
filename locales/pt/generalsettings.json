@@ -1,5 +1,6 @@
 {
-  "tab1": "voltar",
+  "back": "voltar",
+  "upadate": "atualizar",
   "titletag": "geral",
   "title": "título da página",
   "titlelabel": "",
