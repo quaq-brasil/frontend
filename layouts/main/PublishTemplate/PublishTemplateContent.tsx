@@ -1,98 +1,35 @@
 import useTranslation from "next-translate/useTranslation"
 import { Check } from "phosphor-react"
-import { useEffect, useState } from "react"
+import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
-import { usePublication } from "../../../services/hooks/usePublication/usePublication"
-import { IPage } from "../../../types/Page.type"
-import { ITemplate } from "../../../types/Template.type"
 
 type PublishTemplateContentProps = {
-  handleCreateTemplate: (pageData: ITemplate) => void
-  pageData: IPage
+  handleCreate: () => void
   isUpdating: boolean
-  handleIsUpdating: (stat: boolean) => void
+  handleUpdateTemplateTitle: (value: string) => void
+  handleUpdateTemplateLink: (value: string) => void
+  handleUpdateTemplateCover: (value: string) => void
+  handleUpdateTemplateSize: (value: string) => void
+  handleUpdatePublicationTitle: (value: string) => void
+  size: string
 }
 
 export function PublishTemplateContent({
-  handleCreateTemplate,
-  pageData,
+  handleCreate,
   isUpdating,
-  handleIsUpdating,
+  handleUpdateTemplateTitle,
+  handleUpdateTemplateLink,
+  handleUpdateTemplateCover,
+  handleUpdateTemplateSize,
+  handleUpdatePublicationTitle,
+  size,
 }: PublishTemplateContentProps) {
   const text = useTranslation().t
-
-  const [title, setTitle] = useState<string>("")
-  const [link, setLink] = useState<string>("")
-  const [avatar, setAvatar] = useState<string>("")
-  const [size, setSize] = useState<string>("")
-  const [publicationId, setPublicationId] = useState<string>("")
-  const [currentPublication, setCurrentPublication] = useState<string>("")
-
-  function handleUpdateTitle(title: string) {
-    setTitle(title)
-    handleIsUpdating(true)
-  }
-
-  function handleUpdateLink(link: string) {
-    setLink(link)
-    handleIsUpdating(true)
-  }
-
-  function handleUpdateAvatar(avatar: string) {
-    setAvatar(avatar)
-    handleIsUpdating(true)
-  }
-
-  function handleUpdateSize(size: string) {
-    setSize(size)
-    handleIsUpdating(true)
-  }
-
-  const getPubliation = usePublication({
-    id: publicationId,
-  })
-
-  function handleCurrentPublicationUpdate(pub: string) {
-    setCurrentPublication(pub)
-    handleIsUpdating(false)
-  }
-
-  useEffect(() => {
-    handleCurrentPublicationUpdate(getPubliation?.data.title || "")
-  }, [getPubliation])
-
-  const [createNewPublication, setCreateNewPublication] = useState(false)
-
-  function handleCreateNewPublication() {
-    setCreateNewPublication(!createNewPublication)
-  }
-
-  function handleCreate() {
-    const newData: ITemplate = {
-      current_publication_id: "",
-      name: "",
-      number_of_new_interactions: 1,
-      page_id: "",
-      shortcut_image: "",
-      shortcut_size: "",
-      url: "",
-      facebook_pixel_id: "",
-      google_analytics_id: "",
-    }
-    handleCreateTemplate(newData)
-    handleIsUpdating(false)
-  }
-
-  useEffect(() => {
-    if (isUpdating) {
-      handleUpdate()
-    }
-  }, [isUpdating])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -106,25 +43,28 @@ export function PublishTemplateContent({
             <CardText label={text("publish:title")} />
             <CardTextInput
               input={{
-                label: text("publish:label"),
-                onChange: () => console.log(),
+                label: text("publish:titlelabel"),
+                onChange: (e) => handleUpdateTemplateTitle(e),
               }}
             />
           </Card>
           <Card>
-            <CardText label={text("publish:title2")} />
+            <CardText label={text("publish:link")} />
             <CardTextInput
               input={{
-                label: text("publish:label2"),
-                onChange: () => console.log(),
+                label: text("publish:linklabel"),
+                onChange: (e) => handleUpdateTemplateLink(e),
+                fixedText: "quaq.me/",
               }}
             />
           </Card>
           <Card>
-            <CardText label={text("publish:title3")} />
+            <CardText label={text("publish:cover")} />
             <CardImageInput
               imageSelector={
-                <ImageSelector onImageChange={() => console.log()} />
+                <ImageSelector
+                  onImageChange={(e) => handleUpdateTemplateCover(e)}
+                />
               }
             />
           </Card>
@@ -135,7 +75,7 @@ export function PublishTemplateContent({
               label={text("publish:small")}
               indicator={{
                 icon: Check,
-                onClick: () => handleUpdateSize("small"),
+                onClick: () => handleUpdateTemplateSize("small"),
                 isVisible: size == "small" ? false : true,
               }}
             />
@@ -144,21 +84,30 @@ export function PublishTemplateContent({
               label={text("publish:large")}
               indicator={{
                 icon: Check,
-                onClick: () => handleUpdateSize("large"),
+                onClick: () => handleUpdateTemplateSize("large"),
                 isVisible: size == "large" ? false : true,
               }}
             />
             <CardLine />
           </Card>
           <Card>
-            <CardText label={text("publish:title4")} />
+            <CardText label={text("publish:publishas")} />
             <CardTextInput
               input={{
-                label: text("publish:label4"),
-                onChange: () => console.log(),
+                label: text("publish:publishaslabel"),
+                onChange: (e) => handleUpdatePublicationTitle(e),
               }}
             />
           </Card>
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="black"
+                onClick={handleCreate}
+                text={text("publish:confirm")}
+              />
+            </div>
+          )}
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>

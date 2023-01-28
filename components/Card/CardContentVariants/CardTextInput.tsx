@@ -31,13 +31,7 @@ export function CardTextInput(props: CardTextInputProps) {
 
       {props.input && (
         <input
-          onChange={(e) =>
-            props?.input?.onChange(
-              `${props.input.fixedText ? props.input.fixedText : ""}${
-                e.target.value
-              }`
-            )
-          }
+          onChange={(e) => props?.input?.onChange(e.target.value)}
           className={`bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem]
         placeholder:text-slate-300 lg:text-[1.1rem] hover:outline-none focus:outline-none
           ${
@@ -47,7 +41,7 @@ export function CardTextInput(props: CardTextInputProps) {
           }`}
           type={props.input.type || "text"}
           placeholder={props.input.label}
-          defaultValue={props.input.defaultValue?.replace("quaq.me/", "")}
+          defaultValue={props.input.defaultValue}
         />
       )}
 

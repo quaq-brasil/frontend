@@ -8,11 +8,11 @@ POST http://localhost:5000/api/v1/templates
 Content-Type: application/json
 
 {
-  "name": "test",
-  "url": "url",
+  "name": "aefnap",
+  "url": "araasz",
   "shortcut_image": "shortcutImage",
   "shortcut_size": "shortcutSize",
-  "current_publication_id": "63ae050ffbbce66bbc152486",
+  "current_publication_id": "",
   "number_of_new_interactions": 1,
   "page_id": "63b754987d02f98b8692255e",
   "facebook_pixel_id": "1"
@@ -22,7 +22,7 @@ Content-Type: application/json
 
 # get templates by url
 
-GET http://localhost:5000/api/v1/templates/url/url
+GET http://localhost:5000/api/v1/templates/url/testing
 
 ###
 

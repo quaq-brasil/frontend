@@ -1,14 +1,15 @@
 {
+  "back": "back",
+  "publish": "publish",
   "titletag": "new template",
-  "tab1": "cancel",
   "title": "title",
-  "label": "type it here",
-  "title2": "access link",
-  "label2": "",
-  "title3": "cover image",
-  "size": "size",
+  "titlelabel": "type it here",
+  "link": "access link",
+  "linklabel": " type it here",
+  "cover": "cover image",
+  "size": "shortcut size",
   "small": "small",
   "large": "large",
-  "title4": "publish as",
-  "label4": "type it here"
+  "publishas": "publish as",
+  "publishaslabel": "type it here"
 }
