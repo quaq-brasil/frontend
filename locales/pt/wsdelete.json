@@ -1,5 +1,7 @@
 {
-  "tab1": "voltar",
+  "back": "voltar",
+  "update": "atualizar",
+  "confirm": "confirmar",
   "titletag": "configurações",
   "titletag2": "avançado",
   "titletag3": "deletar",

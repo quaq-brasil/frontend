@@ -1,18 +1,38 @@
-import useTranslation from "next-translate/useTranslation";
-import dynamic from "next/dynamic";
-import { Card } from "../../../components/Card/Card";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
+import useTranslation from "next-translate/useTranslation"
+import { useEffect } from "react"
+import { Button } from "../../../components/Button/Button"
+import { Card } from "../../../components/Card/Card"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 
-const QuickIn = dynamic(() => import("../../../components/QuickIn/QuickIn"), {
-  ssr: false,
-});
+type WorkspaceDeleteContentProps = {
+  isUpdating: boolean
+  runUpdate: boolean
+  handleUpdateIsUpdating: (stat: boolean) => void
+  handleUpdateRunUpdate: (stat: boolean) => void
+  handleDeleteWorkspace: () => void
+}
 
-export function WorkspaceDeleteContent() {
-  const text = useTranslation().t;
+export function WorkspaceDeleteContent({
+  isUpdating,
+  runUpdate,
+  handleUpdateIsUpdating,
+  handleUpdateRunUpdate,
+}: WorkspaceDeleteContentProps) {
+  const text = useTranslation().t
 
-  function handleFinishSignUp() {}
+  function handleDeleteWorkspace() {
+    handleUpdateRunUpdate(false)
+    handleUpdateIsUpdating(false)
+  }
+
+  useEffect(() => {
+    if (runUpdate) {
+      handleDeleteWorkspace()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -37,9 +57,18 @@ export function WorkspaceDeleteContent() {
               }}
             />
           </Card>
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="black"
+                onClick={() => handleUpdateRunUpdate(true)}
+                text={text("generalsettings:confirm")}
+              />
+            </div>
+          )}
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,5 +1,7 @@
 {
-  "tab1": "back",
+  "back": "back",
+  "update": "update",
+  "confirm": "confirm",
   "titletag": "settings",
   "titletag2": "advanced",
   "titletag3": "delete",
