@@ -17,7 +17,6 @@ export default function GeneralSettingsPage({
   const updatePage = useUpdatePage()
 
   function handleUpdatePage(data: IUpdatePage) {
-    console.log(data)
     updatePage.mutate({
       id: "63b754987d02f98b8692255e",
       data: {
