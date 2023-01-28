@@ -9,7 +9,7 @@ type useFileByUrlProps = {
 
 export const useFileByUrl = ({ url, options }: useFileByUrlProps) => {
   const getFileByUrl = async () => {
-    return api.get(`/file/url/${url}`)
+    return api.get(`/files/url/${url}`)
   }
 
   const response = useQuery({

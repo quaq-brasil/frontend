@@ -9,7 +9,7 @@ type usePublicationProps = {
 
 export const usePublication = ({ id, options }: usePublicationProps) => {
   const getPublication = async () => {
-    return api.get(`/publication/${id}`)
+    return api.get(`/publications/${id}`)
   }
 
   const response = useQuery({

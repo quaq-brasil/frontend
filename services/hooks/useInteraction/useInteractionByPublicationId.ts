@@ -12,7 +12,7 @@ export const useInteractionByPublicationId = ({
   options,
 }: useInteractionByPublicationIdProps) => {
   const getInteractionByPublicationId = async () => {
-    return api.get(`/interaction/publication/${id}`)
+    return api.get(`/interactions/publication/${id}`)
   }
 
   const response = useQuery({

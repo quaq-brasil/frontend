@@ -4,7 +4,7 @@ import { IPage } from "./../../../types/Page.type"
 
 export const useCreateInteraction = () => {
   const createPage = async (data: IPage) => {
-    await api.post(`/page`, data)
+    await api.post(`/pages`, data)
   }
 
   return useMutation({

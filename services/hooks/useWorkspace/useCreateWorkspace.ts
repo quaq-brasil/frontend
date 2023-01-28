@@ -9,7 +9,7 @@ type useCreateWorkspaceProps = {
 
 export const useCreateWorkspace = () => {
   const createWorkspace = async ({ data }: useCreateWorkspaceProps) => {
-    await api.post(`/workspace`, data)
+    await api.post(`/workspaces`, data)
   }
 
   return useMutation({

@@ -8,7 +8,7 @@ type useDeleteUserProps = {
 
 export const useDeleteUser = ({ id, options }: useDeleteUserProps) => {
   const deleteUser = async () => {
-    await api.delete(`/user/${id}`)
+    await api.delete(`/users/${id}`)
   }
 
   return useMutation({

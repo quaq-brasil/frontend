@@ -2,6 +2,7 @@ import CentralTrackers from "../../layouts/main/CentralTrackers/CentralTrackers"
 import { usePage } from "../../services/hooks/usePage/usePage"
 import { useTemplate } from "../../services/hooks/useTemplate/useTemplate"
 import { useUpdateTemplate } from "../../services/hooks/useTemplate/useUpdateTemplate"
+import { IUpateTemplate } from "../../types/Template.type"
 
 type CentralTrackersPageProps = {
   pageId: string
@@ -18,20 +19,14 @@ export default function CentralTrackersPage({
 
   const templateUpdate = useUpdateTemplate()
 
-  function handleUpdateTrackers(face?: string, google?: string) {
-    if (face) {
-      templateUpdate.mutate({
-        id: templateId ? templateId : "63d2f4dd092cd140517d49c4",
-        data: {
-          facebook_pixel_id: face,
-        },
-      })
-    }
-    if (google) {
-    }
+  function handleUpdateTrackers(data: IUpateTemplate) {
+    templateUpdate.mutate({
+      id: templateId ? templateId : "63d2f4dd092cd140517d49c4",
+      data: data,
+    })
   }
 
-  const templateResponse = useTemplate({
+  const getTemplate = useTemplate({
     id: templateId ? templateId : "63d2f4dd092cd140517d49c4",
   })
 
@@ -39,7 +34,7 @@ export default function CentralTrackersPage({
     <CentralTrackers
       handleUpdateTrackers={handleUpdateTrackers}
       pageData={pageResponse?.data}
-      templateData={templateResponse?.data}
+      templateData={getTemplate?.data}
     />
   )
 }

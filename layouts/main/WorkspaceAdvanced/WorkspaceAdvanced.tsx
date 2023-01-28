@@ -1,11 +1,25 @@
-import useTranslation from "next-translate/useTranslation";
-import { Header } from "../../../components/Header/Header";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
-import { WorkspaceAdvancedContent } from "./WorkspaceAdvancedContent";
+import useTranslation from "next-translate/useTranslation"
+import { useEffect, useState } from "react"
+import { Header } from "../../../components/Header/Header"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
+import { IUpdateWorkspace, IWorkspace } from "../../../types/Workspace.type"
+import { WorkspaceAdvancedContent } from "./WorkspaceAdvancedContent"
 
-export default function WorkspaceAdvanced() {
-  const text = useTranslation().t;
+type WorkspaceAdvancedProps = {
+  initialWorkspaceData: IWorkspace
+}
+
+export default function WorkspaceAdvanced({
+  initialWorkspaceData,
+}: WorkspaceAdvancedProps) {
+  const text = useTranslation().t
+
+  const [workspaceData, setWorkspaceData] = useState<IUpdateWorkspace>()
+
+  useEffect(() => {
+    setWorkspaceData(initialWorkspaceData)
+  }, [initialWorkspaceData])
 
   function handleTabBar() {
     return [
@@ -15,7 +29,7 @@ export default function WorkspaceAdvanced() {
         text={text("wsadvanced:tab1")}
         onClick={() => console.log("tab1")}
       />,
-    ];
+    ]
   }
 
   function loadHeader() {
@@ -27,12 +41,13 @@ export default function WorkspaceAdvanced() {
       >
         <Tag
           variant="img-txt"
-          text={text("wsadvanced:titletag")}
-          img_url="https://source.unsplash.com/featured/"
+          text={workspaceData?.name || ""}
+          img_url={workspaceData?.avatar_url || ""}
         />
+        <Tag variant="txt" text={text("wsadvanced:titletag")} />
         <Tag variant="txt" text={text("wsadvanced:titletag2")} />
       </Header>
-    );
+    )
   }
 
   return (
@@ -41,5 +56,5 @@ export default function WorkspaceAdvanced() {
       <WorkspaceAdvancedContent />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
-  );
+  )
 }

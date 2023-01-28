@@ -5,9 +5,10 @@ type CardTextInputProps = {
   input?: {
     onChange: (value: string) => void
     type?: string
-    label: string
+    label?: string
     fixedText?: string
     defaultValue?: string
+    value?: string
   }
   indicator?: {
     icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
@@ -29,20 +30,14 @@ export function CardTextInput(props: CardTextInputProps) {
         </p>
       )}
 
-      {props.input && (
+      {props.input && !props.input.value && (
         <input
-          onChange={(e) =>
-            props?.input?.onChange(
-              `${props.input.fixedText ? props.input.fixedText : ""}${
-                e.target.value
-              }`
-            )
-          }
+          onChange={(e) => props?.input?.onChange(e.target.value)}
           className={`bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem]
         placeholder:text-slate-300 lg:text-[1.1rem] hover:outline-none focus:outline-none
           ${
             props.input.fixedText
-              ? "ml-[-10px] lg:ml-[-18px]"
+              ? "ml-[-12px] lg:ml-[-18px]"
               : "px-3 lg:px-[1.125rem]"
           }`}
           type={props.input.type || "text"}
@@ -62,6 +57,15 @@ export function CardTextInput(props: CardTextInputProps) {
             </option>
           ))}
         </select>
+      )}
+
+      {props.input?.value && (
+        <div
+          className={`bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem]
+          flex items-center ml-[-12px] lg:ml-[-18px]`}
+        >
+          <p className="lg:text-[1.1rem]">{props.input.value}</p>
+        </div>
       )}
 
       {props.indicator && (

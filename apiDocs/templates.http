@@ -1,0 +1,49 @@
+# get templates
+
+GET http://localhost:5000/api/v1/templates/63d2f4dd092cd140517d49c4
+
+###
+
+POST http://localhost:5000/api/v1/templates
+Content-Type: application/json
+
+{
+  "name": "aefnap",
+  "url": "araasz",
+  "shortcut_image": "shortcutImage",
+  "shortcut_size": "shortcutSize",
+  "current_publication_id": "",
+  "number_of_new_interactions": 1,
+  "page_id": "63b754987d02f98b8692255e",
+  "facebook_pixel_id": "1"
+}
+
+###
+
+# get templates by url
+
+GET http://localhost:5000/api/v1/templates/url/testing
+
+###
+
+# get many templates by page id
+
+GET http://localhost:5000/api/v1/templates/page/63b754987d02f98b8692255e
+
+###
+
+PUT http://localhost:5000/api/v1/templates/63d2f4dd092cd140517d49c4
+Content-Type: application/json
+
+{
+  "current_publication_id": "63d56a928f9e0158905655cb"
+}
+
+###
+
+# delete one templates
+
+DELETE http://localhost:5000/api/v1/templates/1ead50e3-c81b-4a64-87da-a1ff0f2e6b54
+
+###
+

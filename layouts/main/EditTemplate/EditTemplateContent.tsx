@@ -1,20 +1,57 @@
-import useTranslation from "next-translate/useTranslation";
-import { Check, Plus } from "phosphor-react";
-import { useState } from "react";
-import { Card } from "../../../components/Card/Card";
-import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
-import { ImageSelector } from "../../../components/ImageSelector/ImageSelector";
+import useTranslation from "next-translate/useTranslation"
+import { Check, Plus, X } from "phosphor-react"
+import { useEffect, useState } from "react"
+import { Button } from "../../../components/Button/Button"
+import { Card } from "../../../components/Card/Card"
+import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
+import { IUpateTemplate } from "../../../types/Template.type"
 
-export function EditTemplateContent() {
-  const text = useTranslation().t;
+type EditTemplateContentProps = {
+  templateData: IUpateTemplate | undefined
+  handleUpdateTemplateData: (data: IUpateTemplate) => void
+  handleUpdateTemplate: (data: IUpateTemplate) => void
+  isUpdating: boolean
+  handleUpdateIsUpdating: (stat: boolean) => void
+  runUpdate: boolean
+  handleUpdateRunUpdate: (stat: boolean) => void
+}
 
-  const [size, serSize] = useState<"small" | "large">("small");
+export function EditTemplateContent({
+  templateData,
+  handleUpdateTemplateData,
+  handleUpdateTemplate,
+  isUpdating,
+  handleUpdateIsUpdating,
+  runUpdate,
+  handleUpdateRunUpdate,
+}: EditTemplateContentProps) {
+  const text = useTranslation().t
 
-  function handleChangeSize(type: "small" | "large") {
-    serSize(type);
+  function onTemplateUpdate() {
+    handleUpdateTemplate(templateData as IUpateTemplate)
+    handleUpdateIsUpdating(false)
+  }
+
+  useEffect(() => {
+    if (runUpdate) {
+      onTemplateUpdate()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
+  const [createNewPublication, setCreateNewPublication] = useState(false)
+  const [newPublicationTitle, setNewPublicationTitle] = useState("")
+
+  function handleCreateNewPublication(stat: boolean) {
+    setCreateNewPublication(stat)
+  }
+
+  function handleCurrentPublicationUpdate(title: string) {
+    setNewPublicationTitle(title)
   }
 
   return (
@@ -29,25 +66,38 @@ export function EditTemplateContent() {
             <CardText label={text("edittemplate:title")} />
             <CardTextInput
               input={{
-                label: text("edittemplate:label"),
-                onChange: () => console.log(),
+                onChange: (title) => handleUpdateTemplateData({ name: title }),
+                defaultValue: templateData?.name,
+                label: text("edittemplate:titlelabel"),
               }}
             />
           </Card>
           <Card>
-            <CardText label={text("edittemplate:title2")} />
+            <CardText label={text("edittemplate:link")} />
             <CardTextInput
               input={{
-                label: text("edittemplate:label2"),
-                onChange: () => console.log(),
+                onChange: (link) => handleUpdateTemplateData({ url: link }),
+                fixedText: "quaq.me/",
+                value: templateData?.url,
+                label: text("edittemplate:linklabel"),
+              }}
+              indicator={{
+                icon: Check,
+                bgColor: "green-500",
+                onClick: () => console.log(),
               }}
             />
           </Card>
           <Card>
-            <CardText label={text("edittemplate:title3")} />
+            <CardText label={text("edittemplate:cover")} />
             <CardImageInput
               imageSelector={
-                <ImageSelector onImageChange={() => console.log()} />
+                <ImageSelector
+                  onImageChange={(avatar) =>
+                    handleUpdateTemplateData({ shortcut_image: avatar })
+                  }
+                  url={templateData?.shortcut_image}
+                />
               }
             />
           </Card>
@@ -58,8 +108,10 @@ export function EditTemplateContent() {
               label={text("edittemplate:small")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeSize("small"),
-                isVisible: size == "small" ? false : true,
+                onClick: () =>
+                  handleUpdateTemplateData({ shortcut_size: "small" }),
+                isVisible:
+                  templateData?.shortcut_size == "small" ? false : true,
               }}
             />
             <CardLine />
@@ -67,25 +119,64 @@ export function EditTemplateContent() {
               label={text("edittemplate:large")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeSize("large"),
-                isVisible: size == "large" ? false : true,
+                onClick: () =>
+                  handleUpdateTemplateData({ shortcut_size: "large" }),
+                isVisible:
+                  templateData?.shortcut_size == "large" ? false : true,
               }}
             />
             <CardLine />
           </Card>
           <Card>
-            <CardText label={text("edittemplate:title4")} />
-            <CardLine />
-            <CardText label="publication name" />
-            <CardLine />
-            <CardText
-              label={text("edittemplate:title5")}
-              indicator={{ icon: Plus, onClick: () => console.log() }}
-            />
+            {!createNewPublication && (
+              <>
+                <CardText label={text("edittemplate:publishas")} />
+                <span className="w-full h-0 lg:hidden"></span>
+                <CardLine />
+                <span className="w-full h-0 lg:hidden"></span>
+                <CardText label={"publication"} />
+                <span className="w-full h-0 lg:hidden"></span>
+                <CardLine />
+                <CardText
+                  label={text("edittemplate:newpublication")}
+                  indicator={{
+                    icon: Plus,
+                    onClick: () => handleCreateNewPublication(true),
+                  }}
+                />
+              </>
+            )}
+            {createNewPublication && (
+              <>
+                <CardText
+                  label={text("edittemplate:cancelnewpub")}
+                  indicator={{
+                    icon: X,
+                    onClick: () => handleCreateNewPublication(false),
+                  }}
+                />
+                <CardTextInput
+                  input={{
+                    label: text("edittemplate:newpublabel"),
+                    onChange: (e) => handleCurrentPublicationUpdate(e),
+                  }}
+                />
+              </>
+            )}
           </Card>
+
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="black"
+                onClick={() => handleUpdateRunUpdate(true)}
+                text={text("edittemplate:confirm")}
+              />
+            </div>
+          )}
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -9,7 +9,7 @@ type useWorkspaceProps = {
 
 export const useWorkspace = ({ id, options }: useWorkspaceProps) => {
   const geWorkspace = async () => {
-    return api.get(`/workspace/${id}`)
+    return api.get(`/workspaces/${id}`)
   }
 
   const response = useQuery({

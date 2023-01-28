@@ -9,7 +9,7 @@ type useInteractionProps = {
 
 export const useInteraction = ({ id, options }: useInteractionProps) => {
   const getInteraction = async () => {
-    return api.get(`/interaction/${id}`)
+    return api.get(`/interactions/${id}`)
   }
 
   const response = useQuery({

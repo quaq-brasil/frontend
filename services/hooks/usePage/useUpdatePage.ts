@@ -10,7 +10,7 @@ type useUpdatePageProps = {
 
 export const useUpdatePage = () => {
   const updatePage = async ({ id, data }: useUpdatePageProps) => {
-    await api.put(`/page/${id}`, data)
+    await api.put(`/pages/${id}`, data)
   }
 
   return useMutation({

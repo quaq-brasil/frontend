@@ -8,7 +8,7 @@ type useDeleteTemplateProps = {
 
 export const useDeleteTemplate = ({ id, options }: useDeleteTemplateProps) => {
   const deleteTemplate = async () => {
-    await api.delete(`/template/${id}`)
+    await api.delete(`/templates/${id}`)
   }
 
   return useMutation({

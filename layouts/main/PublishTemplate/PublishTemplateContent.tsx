@@ -1,21 +1,35 @@
-import useTranslation from "next-translate/useTranslation";
-import { Check } from "phosphor-react";
-import { useState } from "react";
-import { Card } from "../../../components/Card/Card";
-import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
-import { ImageSelector } from "../../../components/ImageSelector/ImageSelector";
+import useTranslation from "next-translate/useTranslation"
+import { Check } from "phosphor-react"
+import { Button } from "../../../components/Button/Button"
+import { Card } from "../../../components/Card/Card"
+import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 
-export function PublishTemplateContent() {
-  const text = useTranslation().t;
+type PublishTemplateContentProps = {
+  handleCreate: () => void
+  isUpdating: boolean
+  handleUpdateTemplateTitle: (value: string) => void
+  handleUpdateTemplateLink: (value: string) => void
+  handleUpdateTemplateCover: (value: string) => void
+  handleUpdateTemplateSize: (value: string) => void
+  handleUpdatePublicationTitle: (value: string) => void
+  size: string
+}
 
-  const [size, serSize] = useState<"small" | "large">("small");
-
-  function handleChangeSize(type: "small" | "large") {
-    serSize(type);
-  }
+export function PublishTemplateContent({
+  handleCreate,
+  isUpdating,
+  handleUpdateTemplateTitle,
+  handleUpdateTemplateLink,
+  handleUpdateTemplateCover,
+  handleUpdateTemplateSize,
+  handleUpdatePublicationTitle,
+  size,
+}: PublishTemplateContentProps) {
+  const text = useTranslation().t
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -29,25 +43,28 @@ export function PublishTemplateContent() {
             <CardText label={text("publish:title")} />
             <CardTextInput
               input={{
-                label: text("publish:label"),
-                onChange: () => console.log(),
+                label: text("publish:titlelabel"),
+                onChange: (e) => handleUpdateTemplateTitle(e),
               }}
             />
           </Card>
           <Card>
-            <CardText label={text("publish:title2")} />
+            <CardText label={text("publish:link")} />
             <CardTextInput
               input={{
-                label: text("publish:label2"),
-                onChange: () => console.log(),
+                label: text("publish:linklabel"),
+                onChange: (e) => handleUpdateTemplateLink(e),
+                fixedText: "quaq.me/",
               }}
             />
           </Card>
           <Card>
-            <CardText label={text("publish:title3")} />
+            <CardText label={text("publish:cover")} />
             <CardImageInput
               imageSelector={
-                <ImageSelector onImageChange={() => console.log()} />
+                <ImageSelector
+                  onImageChange={(e) => handleUpdateTemplateCover(e)}
+                />
               }
             />
           </Card>
@@ -58,7 +75,7 @@ export function PublishTemplateContent() {
               label={text("publish:small")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeSize("small"),
+                onClick: () => handleUpdateTemplateSize("small"),
                 isVisible: size == "small" ? false : true,
               }}
             />
@@ -67,24 +84,33 @@ export function PublishTemplateContent() {
               label={text("publish:large")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeSize("large"),
+                onClick: () => handleUpdateTemplateSize("large"),
                 isVisible: size == "large" ? false : true,
               }}
             />
             <CardLine />
           </Card>
           <Card>
-            <CardText label={text("publish:title4")} />
+            <CardText label={text("publish:publishas")} />
             <CardTextInput
               input={{
-                label: text("publish:label4"),
-                onChange: () => console.log(),
+                label: text("publish:publishaslabel"),
+                onChange: (e) => handleUpdatePublicationTitle(e),
               }}
             />
           </Card>
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="black"
+                onClick={handleCreate}
+                text={text("publish:confirm")}
+              />
+            </div>
+          )}
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>
     </div>
-  );
+  )
 }

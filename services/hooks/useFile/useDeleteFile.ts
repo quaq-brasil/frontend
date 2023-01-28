@@ -8,7 +8,7 @@ type useDeleteFileProps = {
 
 export const useDeleteFile = ({ id, options }: useDeleteFileProps) => {
   const deleteFile = async () => {
-    await api.delete(`/file/${id}`)
+    await api.delete(`/files/${id}`)
   }
 
   return useMutation({

@@ -12,7 +12,7 @@ export const useTemplatesByPageId = ({
   options,
 }: useTemplatesByPageIdProps) => {
   const getTemplatesByPageId = async () => {
-    return api.get(`/template/page/${id}`)
+    return api.get(`/templates/page/${id}`)
   }
 
   const response = useQuery({

@@ -1,33 +1,63 @@
 import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { IUpateTemplate } from "../../../types/Template.type"
 
 type CentralTrackersContentProps = {
-  handleUpdateTrackers: (face?: string, google?: string) => void
+  handleUpdateTrackers: (data: IUpateTemplate) => void
+  isUpdating: boolean
+  handleUpdateIsUpdating: (stat: boolean) => void
+  templateData: IUpateTemplate | undefined
+  runUpdate: boolean
+  handleUpdateRunUpdate: (stat: boolean) => void
 }
 
 export function CentralTrackersContent({
   handleUpdateTrackers,
+  isUpdating,
+  handleUpdateIsUpdating,
+  templateData,
+  runUpdate,
+  handleUpdateRunUpdate,
 }: CentralTrackersContentProps) {
   const text = useTranslation().t
 
-  const [facePixel, setFacePixel] = useState<string>()
-  const [googlePixel, setGooglePixel] = useState<string>()
+  const [template, setTemplate] = useState<IUpateTemplate>()
 
-  function onChangeFacePixel(value: string) {
-    setFacePixel(value)
+  function handleUpdateFacebookPixel(pixel: string) {
+    setTemplate({ ...template, facebook_pixel_id: pixel })
+    handleUpdateIsUpdating(true)
   }
 
-  function onChangeGooglePixel(value: string) {
-    setGooglePixel(value)
+  function handleUpdateGoogleAnalytics(tag: string) {
+    setTemplate({ ...template, google_analytics_id: tag })
+    handleUpdateIsUpdating(true)
   }
+
+  useEffect(() => {
+    setTemplate(templateData)
+  }, [templateData])
 
   function onUpdateTrackers() {
-    handleUpdateTrackers(facePixel, googlePixel)
+    if (template) {
+      const newData = {
+        current_publication_id: template.current_publication_id,
+        facebook_pixel_id: template.facebook_pixel_id,
+        google_analytics_id: template.google_analytics_id,
+      }
+      handleUpdateTrackers(newData)
+    }
+    handleUpdateIsUpdating(false)
   }
+
+  useEffect(() => {
+    onUpdateTrackers()
+    handleUpdateRunUpdate(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -42,7 +72,8 @@ export function CentralTrackersContent({
             <CardTextInput
               input={{
                 label: text("centraltrackers:facebooklabel"),
-                onChange: (e) => onChangeFacePixel(e),
+                onChange: (e) => handleUpdateFacebookPixel(e),
+                defaultValue: template?.facebook_pixel_id,
               }}
             />
           </Card>
@@ -52,17 +83,20 @@ export function CentralTrackersContent({
             <CardTextInput
               input={{
                 label: text("centraltrackers:googlelabel"),
-                onChange: (e) => onChangeGooglePixel(e),
+                onChange: (e) => handleUpdateGoogleAnalytics(e),
+                defaultValue: template?.google_analytics_id,
               }}
             />
           </Card>
 
-          {(facePixel || googlePixel) && (
-            <Button
-              color="black"
-              onClick={onUpdateTrackers}
-              text={text("centraltrackers:confirm")}
-            />
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="black"
+                onClick={onUpdateTrackers}
+                text={text("centraltrackers:confirm")}
+              />
+            </div>
           )}
 
           <span className="w-full h-[4rem]"></span>

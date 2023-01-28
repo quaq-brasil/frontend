@@ -9,7 +9,7 @@ type useUserProps = {
 
 export const useUser = ({ id, options }: useUserProps) => {
   const getUser = async () => {
-    return api.get(`/user/${id}`)
+    return api.get(`/users/${id}`)
   }
 
   const response = useQuery({

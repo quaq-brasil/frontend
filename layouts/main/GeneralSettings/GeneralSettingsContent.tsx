@@ -1,6 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { ArrowRight } from "phosphor-react"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -11,70 +11,37 @@ import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { IUpdatePage } from "../../../types/Page.type"
 
 type GeneralSettingsContent = {
-  initialData: IUpdatePage
+  pageData: IUpdatePage | undefined
   handleUpdatePage: (data: IUpdatePage) => void
-  handleUpdateAvatar: (value: string) => void
-  handleUpdateTitle: (value: string) => void
-  handleUpdateCover: (value: string) => void
+  handleUpdatePageData: (newData: IUpdatePage) => void
+  handleUpdateIsUpdating: (stat: boolean) => void
+  isUpdating: boolean
+  runUpdate: boolean
+  handleUpdateRunUpdate: (stat: boolean) => void
 }
 
 export function GeneralSettingsContent({
-  initialData,
+  pageData,
   handleUpdatePage,
-  handleUpdateAvatar,
-  handleUpdateTitle,
-  handleUpdateCover,
+  handleUpdatePageData,
+  handleUpdateIsUpdating,
+  isUpdating,
+  runUpdate,
+  handleUpdateRunUpdate,
 }: GeneralSettingsContent) {
   const text = useTranslation().t
 
-  const [data, setData] = useState<IUpdatePage>(initialData)
+  function onPageUpdate() {
+    handleUpdatePage(pageData as IUpdatePage)
+    handleUpdateIsUpdating(false)
+  }
 
   useEffect(() => {
-    setData(initialData)
-  }, [initialData])
-
-  const [pageDataChange, setPageDataChange] = useState(false)
-
-  function onChangeName(value: string) {
-    setData({ ...data, name: value })
-    handleUpdateTitle(value)
-    setPageDataChange(true)
-  }
-
-  // function onChangeDescription(value: string) {
-  //   setData({ ...data, description: value })
-  //   setPageDataChange(true)
-  // }
-
-  function onChangeUrl(value: string) {
-    setData({ ...data, url: value })
-    setPageDataChange(true)
-  }
-
-  function onChangeBackground(value: string) {
-    setData({ ...data, background_url: value })
-    handleUpdateCover(value)
-    setPageDataChange(true)
-  }
-
-  function onChangeAvatar(value: string) {
-    setData({ ...data, avatar_url: value })
-    handleUpdateAvatar(value)
-    setPageDataChange(true)
-  }
-
-  function onPageUpdate() {
-    const newData = {
-      name: data.name,
-      url: data.url,
-      background_url: data.background_url,
-      avatar_url: data.avatar_url,
+    if (runUpdate) {
+      onPageUpdate()
     }
-
-    handleUpdatePage(newData)
-
-    setPageDataChange(false)
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -89,8 +56,8 @@ export function GeneralSettingsContent({
             <CardTextInput
               input={{
                 label: text("generalsettings:titlelabel"),
-                onChange: (e) => onChangeName(e),
-                defaultValue: data?.name,
+                onChange: (title) => handleUpdatePageData({ name: title }),
+                defaultValue: pageData?.name,
               }}
             />
           </Card>
@@ -109,9 +76,9 @@ export function GeneralSettingsContent({
             <CardTextInput
               input={{
                 label: text("generalsettings:linklabel"),
-                onChange: (e) => onChangeUrl(e),
+                onChange: (link) => handleUpdatePageData({ url: link }),
                 fixedText: "quaq.me/",
-                defaultValue: data?.url,
+                defaultValue: pageData?.url,
               }}
             />
             <CardText
@@ -124,8 +91,10 @@ export function GeneralSettingsContent({
             <CardImageInput
               imageSelector={
                 <ImageSelector
-                  onImageChange={(e) => onChangeAvatar(e)}
-                  url={data?.avatar_url}
+                  onImageChange={(avatar) =>
+                    handleUpdatePageData({ avatar_url: avatar })
+                  }
+                  url={pageData?.avatar_url}
                 />
               }
             />
@@ -135,22 +104,26 @@ export function GeneralSettingsContent({
             <CardImageInput
               imageSelector={
                 <ImageSelector
-                  onImageChange={(e) => onChangeBackground(e)}
-                  url={data?.background_url}
+                  onImageChange={(cover) =>
+                    handleUpdatePageData({ background_url: cover })
+                  }
+                  url={pageData?.background_url}
                 />
               }
             />
           </Card>
 
-          {pageDataChange && (
-            <Button
-              color="black"
-              onClick={onPageUpdate}
-              text={text("generalsettings:confirm")}
-            />
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="black"
+                onClick={() => handleUpdateRunUpdate(true)}
+                text={text("generalsettings:confirm")}
+              />
+            </div>
           )}
 
-          {!pageDataChange && (
+          {!isUpdating && (
             <Card>
               <CardText label={text("generalsettings:options")} />
               <CardText

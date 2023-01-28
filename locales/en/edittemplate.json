@@ -1,13 +1,17 @@
 {
-  "tab1": "cancel",
+  "back": "back",
+  "update": "update",
   "title": "title",
-  "lable": "type it here",
-  "title2": "access link",
-  "lable2": "",
-  "title3": "cover image",
+  "titlelabel": "type it here",
+  "link": "access link",
+  "linklabel": "type it here",
+  "cover": "cover image",
   "size": "size",
   "small": "small",
   "large": "large",
-  "title4": "publish as",
-  "title5": "new publication"
+  "publishas": "publish as",
+  "newpublication": "new publication",
+  "cancelnewpub": "cancel new publication",
+  "newpublabel": "type it here",
+  "confirm": "confirm"
 }

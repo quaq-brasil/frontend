@@ -12,7 +12,7 @@ export const useGetPublicationByTemplateId = ({
   options,
 }: useGetPublicationByTemplateIdProps) => {
   const getPublicationByTemplateId = async () => {
-    return api.get(`/publication/template/${id}`)
+    return api.get(`/publications/template/${id}`)
   }
 
   const response = useQuery({

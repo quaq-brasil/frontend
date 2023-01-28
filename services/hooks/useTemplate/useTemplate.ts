@@ -9,7 +9,7 @@ type useTemplateProps = {
 
 export const useTemplate = ({ id, options }: useTemplateProps) => {
   const getTemplate = async () => {
-    return api.get(`/template/${id}`)
+    return api.get(`/templates/${id}`)
   }
 
   const response = useQuery({

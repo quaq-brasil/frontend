@@ -1,21 +1,65 @@
-import useTranslation from "next-translate/useTranslation";
-import { Header } from "../../../components/Header/Header";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
-import { WorkspaceDeleteContent } from "./WorkspaceDeleteContent";
+import useTranslation from "next-translate/useTranslation"
+import { useEffect, useState } from "react"
+import { Header } from "../../../components/Header/Header"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
+import { IUpdateWorkspace, IWorkspace } from "../../../types/Workspace.type"
+import { WorkspaceDeleteContent } from "./WorkspaceDeleteContent"
 
-export default function WorkspaceDelete() {
-  const text = useTranslation().t;
+type WorkspaceDeleteProps = {
+  initialWorkspaceData: IWorkspace | undefined
+  handleDeleteWorkspace: () => void
+}
+
+export default function WorkspaceDelete({
+  initialWorkspaceData,
+  handleDeleteWorkspace,
+}: WorkspaceDeleteProps) {
+  const text = useTranslation().t
+
+  const [workspaceData, setWorkspaceData] = useState<IUpdateWorkspace>()
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
+
+  useEffect(() => {
+    setWorkspaceData(initialWorkspaceData)
+  }, [initialWorkspaceData])
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
+
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
+  }
 
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("wsdelete:tab1")}
-        onClick={() => console.log("tab1")}
-      />,
-    ];
+    if (isUpdating) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("wsdelete:back")}
+          onClick={() => console.log("tab1")}
+        />,
+        <div key={2} className="w-fit h-fit xl:hidden">
+          <Tag
+            variant="txt"
+            text={text("wsdelete:update")}
+            onClick={() => handleUpdateRunUpdate(true)}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("wsdelete:back")}
+          onClick={() => console.log("tab1")}
+        />,
+      ]
+    }
   }
 
   return (
@@ -27,14 +71,21 @@ export default function WorkspaceDelete() {
       >
         <Tag
           variant="img-txt"
-          text={text("wsdelete:titletag")}
-          img_url="https://source.unsplash.com/featured/"
+          text={workspaceData?.name || ""}
+          img_url={workspaceData?.avatar_url || ""}
         />
+        <Tag variant="txt" text={text("wsdelete:titletag")} />
         <Tag variant="txt" text={text("wsdelete:titletag2")} />
         <Tag variant="txt" text={text("wsdelete:titletag3")} />
       </Header>
-      <WorkspaceDeleteContent />
+      <WorkspaceDeleteContent
+        isUpdating={isUpdating}
+        runUpdate={runUpdate}
+        handleUpdateIsUpdating={handleUpdateIsUpdating}
+        handleUpdateRunUpdate={handleUpdateRunUpdate}
+        handleDeleteWorkspace={handleDeleteWorkspace}
+      />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
-  );
+  )
 }

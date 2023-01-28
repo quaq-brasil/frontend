@@ -1,14 +1,15 @@
 {
+  "back": "voltar",
+  "publish": "publicar",
   "titletag": "novo template",
-  "tab1": "cancel",
   "title": "título",
-  "label": "digite aqui",
-  "title2": "link de acesso",
-  "label2": "",
-  "title3": "imagem de capa",
-  "size": "tamanho",
+  "titlelabel": "digite aqui",
+  "link": "link de acesso",
+  "linklabel": " digite aqui",
+  "cover": "imagem de capa",
+  "size": "tamanho do shortcut",
   "small": "pequeno",
   "large": "grande",
-  "title4": "publique como",
-  "label4": "digite aqui"
+  "publishas": "publicar como",
+  "publishaslabel": "digite aqui"
 }

@@ -1,12 +1,20 @@
-import useTranslation from "next-translate/useTranslation";
-import { ArrowRight, Check } from "phosphor-react";
-import { Card } from "../../../components/Card/Card";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
+import useTranslation from "next-translate/useTranslation"
+import { ArrowRight, Check } from "phosphor-react"
+import { Button } from "../../../components/Button/Button"
+import { Card } from "../../../components/Card/Card"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { IUpateTemplate } from "../../../types/Template.type"
 
-export function TemplateAccessControlContent() {
-  const text = useTranslation().t;
+type TemplateAccessControlContentProps = {
+  templateData: IUpateTemplate | undefined
+}
+
+export function TemplateAccessControlContent({
+  templateData,
+}: TemplateAccessControlContentProps) {
+  const text = useTranslation().t
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -23,11 +31,13 @@ export function TemplateAccessControlContent() {
             <CardLine />
           </Card>
           <Card>
-            <CardText label={text("accesscontrol:title2")} />
+            <CardText label={text("accesscontrol:link")} />
             <CardTextInput
               input={{
-                label: text("accesscontrol:label"),
+                label: text("accesscontrol:linklabel"),
                 onChange: () => console.log(),
+                value: templateData?.url,
+                fixedText: "quaq.me/",
               }}
               indicator={{
                 icon: Check,
@@ -36,20 +46,29 @@ export function TemplateAccessControlContent() {
               }}
             />
             <CardText
-              label={text("accesscontrol:title3")}
+              label={text("accesscontrol:share")}
               indicator={{ icon: ArrowRight, onClick: () => console.log() }}
             />
           </Card>
           <Card>
-            <CardText label={text("accesscontrol:title4")} />
+            <CardText label={text("accesscontrol:trackers")} />
+            <CardLine />
             <CardText
-              label={text("accesscontrol:title5")}
+              label={text("accesscontrol:setuptrackers")}
               indicator={{ icon: ArrowRight, onClick: () => console.log() }}
             />
+            <CardLine />
           </Card>
+          <div className="hidden w-full h-fit xl:block">
+            <Button
+              color="black"
+              onClick={() => console.log()}
+              text={text("accesscontrol:confirm")}
+            />
+          </div>
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>
     </div>
-  );
+  )
 }

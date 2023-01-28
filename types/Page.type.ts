@@ -1,4 +1,5 @@
 export type IPage = {
+  id?: string
   name: string
   url: string
   workspace_id: string

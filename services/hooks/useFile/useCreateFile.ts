@@ -4,7 +4,7 @@ import { api } from "../../apiClient"
 
 export const useCreateFile = () => {
   const createFile = async (data: IFile) => {
-    await api.post(`/file`, data)
+    await api.post(`/files`, data)
   }
 
   return useMutation({

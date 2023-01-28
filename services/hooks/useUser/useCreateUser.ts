@@ -4,7 +4,7 @@ import { IUser } from "./../../../types/User.type"
 
 export const useCreateUser = () => {
   const createUser = async (data: IUser) => {
-    await api.post(`/user`, data)
+    await api.post(`/users`, data)
   }
 
   return useMutation({

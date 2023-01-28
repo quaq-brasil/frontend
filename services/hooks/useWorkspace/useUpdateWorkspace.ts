@@ -14,7 +14,7 @@ export const useUpdateWorkspace = ({
   options,
 }: useUpdateWorkspaceProps) => {
   const updateWorkspace = async () => {
-    await api.put(`/workspace/${id}`, { data })
+    await api.put(`/workspaces/${id}`, { data })
   }
 
   return useMutation({

@@ -12,7 +12,7 @@ export const usePublicationByPageId = ({
   options,
 }: usePublicationByPageIdProps) => {
   const getPublicationByPageId = async () => {
-    return api.get(`/publication/page/${id}`)
+    return api.get(`/publications/page/${id}`)
   }
 
   const response = useQuery({

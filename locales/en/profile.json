@@ -1,5 +1,7 @@
 {
-  "tab1": "back",
+  "back": "back",
+  "update": "update",
+  "confirm": "confirm",
   "photo": "your profile photo",
   "name": "your name",
   "inputname": "type it here",

@@ -1,22 +1,21 @@
 # find one
 
-GET https://bff.quaq.com.br/user/63d26f06ea1e68c873e97ab0
+GET http://localhost:5000/api/v1/users/63d26f06ea1e68c873e97ab0
 
 ###
 
 # create one
 
-POST https://bff.quaq.com.br/user
+POST http://localhost:5000/api/v1/users
 Content-Type: application/json
 
 {
-    "id": "63d26f06ea1e68c873e97ab2",
-    "email": "udhasudh@gmail.com",
-    "password": "password",
+    "email": "felipe@gmail.com",
+    "password": "qweasmdidonn#1235*$FIIN",
     "type": "registered",
     "email_verified": true,
-    "password_reset_token_attempts": 5,
-    "name": "string",
+    "password_reset_token_attempts": 0,
+    "name": "felipe",
     "avatar_url": "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80",
     "stripe_customer_id": "string",
     "email_activation_token": "string",
@@ -24,21 +23,18 @@ Content-Type: application/json
     "password_reset_token": "string",
     "password_reset_token_expires": "2018-01-01T00:00:00.000Z",
     "last_login": "2018-01-01T00:00:00.000Z",
-    "workspace_id": "63d2cad7865315c9b416ef99",
     "created_at": "2023-01-26T12:16:06.166Z",
-    "updated_at": "2023-01-26T12:45:08.895Z"
+    "updated_at": "2023-01-27T01:03:01.881Z"
 }
 
 ###
 
 # update one
 
-PUT https://bff.quaq.com.br/user/63b6eb776e2cf11afe9f163a
-PUT https://bff.quaq.com.br/user/63d26f06ea1e68c873e97ab0
+PUT http://localhost:5000/api/v1/users/63d44488cbb9780ad98047bb
 Content-Type: application/json
 
 {
-    "email": "udhasudh@gmail.com",
     "avatar_url": "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
 }
 
@@ -47,13 +43,13 @@ Content-Type: application/json
 
 # delete one
 
-DELETE https://bff.quaq.com.br/user/63b6ed226e2cf11afe9f163c
+DELETE http://localhost:5000/api/v1/users/63b6ed226e2cf11afe9f163c
 
 ###
 
 # login
 
-POST https://bff.quaq.com.br/user/login
+POST http://localhost:5000/api/v1/users/login
 Content-Type: application/json
 
 {

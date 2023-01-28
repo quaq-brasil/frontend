@@ -1,0 +1,56 @@
+# find one
+
+GET http://localhost:5000/api/v1/pages/63b754987d02f98b8692255e
+
+
+###
+
+# create one
+
+POST http://localhost:5000/api/v1/pages
+Content-Type: application/json
+
+{
+    "name": "pages sdasdas",
+    "url": "url/wdsasdae",
+    "workspace_id": "63b754987d02f98b8692255e",
+    "avatar_url": "url/url",
+    "background_url": "url/url"
+}
+
+###
+
+# find all
+
+GET http://localhost:5000/api/v1/pages
+
+###
+
+# find one by url
+
+GET http://localhost:5000/api/v1/pages/url/testing
+
+###
+
+# find all by workspace
+
+GET http://localhost:5000/api/v1/pages/workspace/63b34032485edc50f1bdfa72
+
+###
+
+# update one
+
+PUT http://localhost:5000/api/v1/pages/63b754987d02f98b8692255e
+Content-Type: application/json
+
+{
+    "url": "testing"
+}
+
+###
+
+# delete one
+
+DELETE http://localhost:5000/api/v1/pages/63b75045a43fc9f320321e9f
+
+

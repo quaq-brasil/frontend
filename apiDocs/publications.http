@@ -1,0 +1,47 @@
+# get publications
+
+GET http://localhost:5000/api/v1/publications/63ae050ffbbce66bbc152486
+
+###
+
+# create publications
+
+POST http://localhost:5000/api/v1/publications
+Content-Type: application/json
+
+{
+    "title": "title",
+    "blocks": {},
+    "template_id": "63d2f4dd092cd140517d49c4",
+    "page_id": "63b754987d02f98b8692255e"
+}
+
+###
+
+# get many publications by template id
+
+GET http://localhost:5000/api/v1/publications/template/1
+
+###
+
+# get many publications by page id
+
+GET http://localhost:5000/api/v1/publications/page/1
+
+###
+
+# update publications
+
+PUT http://localhost:5000/api/v1/publications/63920eab9b5c95524c8205ed
+Content-Type: application/json
+
+{
+    "title": "title1",
+    "blocks": {
+        "1": {
+            "id": "1",
+            "type": "type",
+            "content": "content"
+        }
+    }
+}

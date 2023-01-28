@@ -1,11 +1,11 @@
-import useTranslation from "next-translate/useTranslation";
-import { Header } from "../../../components/Header/Header";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
-import { WorkspaceSettingsContent } from "./WorkspaceSettingsContent";
+import useTranslation from "next-translate/useTranslation"
+import { Header } from "../../../components/Header/Header"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
+import { FirsWorkspaceContent } from "./FirstWorkspaceContent"
 
-export default function WorkspaceSettings() {
-  const text = useTranslation().t;
+export default function FirstWorkspace() {
+  const text = useTranslation().t
 
   function handleTabBar() {
     return [
@@ -15,7 +15,7 @@ export default function WorkspaceSettings() {
         text={text("wssettings:tab1")}
         onClick={() => console.log("tab1")}
       />,
-    ];
+    ]
   }
 
   return (
@@ -31,8 +31,8 @@ export default function WorkspaceSettings() {
           img_url="https://source.unsplash.com/featured/"
         />
       </Header>
-      <WorkspaceSettingsContent />
+      <FirsWorkspaceContent />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
-  );
+  )
 }

@@ -9,7 +9,7 @@ type useCreateTemplateProps = {
 
 export const useCreateTemplate = () => {
   const createTemplate = async ({ data }: useCreateTemplateProps) => {
-    await api.post(`/template`, data)
+    return await api.post(`/templates`, data)
   }
 
   return useMutation({

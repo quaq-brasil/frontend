@@ -1,5 +1,7 @@
 {
-  "tab1": "voltar",
+  "back": "voltar",
+  "update": "atualizar",
+  "confirm": "confirmar",
   "photo": "sua foto de perfil",
   "name": "seu nome",
   "inputname": "digite aqui",

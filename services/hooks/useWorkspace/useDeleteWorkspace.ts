@@ -11,7 +11,7 @@ export const useDeleteWorkspace = ({
   options,
 }: useDeleteWorkspaceProps) => {
   const deleteWorkspace = async () => {
-    await api.delete(`/workspace/${id}`)
+    await api.delete(`/workspaces/${id}`)
   }
 
   return useMutation({

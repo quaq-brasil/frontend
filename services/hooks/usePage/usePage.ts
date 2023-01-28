@@ -9,7 +9,7 @@ type usePageProps = {
 
 export const usePage = ({ id, options }: usePageProps) => {
   const getPage = async () => {
-    return api.get(`/page/${id}`)
+    return api.get(`/pages/${id}`)
   }
 
   const response = useQuery({
