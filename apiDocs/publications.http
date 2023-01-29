@@ -10,10 +10,9 @@ POST http://localhost:5000/api/v1/publications
 Content-Type: application/json
 
 {
-    "title": "title",
+    "title": "title2",
     "blocks": [{}],
-    "template_id": "63d2f4dd092cd140517d49c4",
-    "page_id": "63b754987d02f98b8692255e"
+    "page_id": "63d66e73e933f0d739d70f0b"
 }
 
 ###
