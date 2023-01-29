@@ -2,6 +2,7 @@ export type IPage = {
   id?: string
   name: string
   url: string
+  description: string
   workspace_id: string
   avatar_url: string
   background_url: string
@@ -15,6 +16,7 @@ export type IUpdatePage = {
   id?: string
   name?: string
   url?: string
+  description?: string
   workspace_id?: string
   avatar_url?: string
   background_url?: string

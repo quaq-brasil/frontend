@@ -24,6 +24,7 @@ export default function GeneralSettingsPage({
         background_url: data.background_url,
         name: data.name,
         url: data.url,
+        description: data.description,
       },
     })
   }

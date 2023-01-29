@@ -28,6 +28,7 @@ export default function GeneralSettings({
       background_url: newData.background_url || pageData?.background_url,
       url: newData.url || pageData?.url,
       name: newData.name || pageData?.name,
+      description: newData.description || pageData?.description,
     })
     setIsUpdating(true)
   }

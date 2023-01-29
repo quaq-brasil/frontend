@@ -66,8 +66,9 @@ export function GeneralSettingsContent({
             <CardTextInput
               input={{
                 label: text("generalsettings:descriptionlabel"),
-                onChange: (e) => console.log(e),
-                defaultValue: "description",
+                onChange: (description) =>
+                  handleUpdatePageData({ description: description }),
+                defaultValue: pageData?.description,
               }}
             />
           </Card>
