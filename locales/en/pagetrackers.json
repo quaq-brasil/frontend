@@ -1,0 +1,11 @@
+{
+  "back": "back",
+  "update": "update",
+  "general": "general",
+  "trackers": "trackers",
+  "facebook": "facebook pixel",
+  "facebooklabel": "type it here",
+  "google": "google analytics id",
+  "googlelabel": "type it here",
+  "confirm": "confirm"
+}

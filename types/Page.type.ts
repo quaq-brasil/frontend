@@ -1,3 +1,8 @@
+export type ITrackers = {
+  facebook?: string
+  google?: string
+}
+
 export type IPage = {
   id?: string
   name: string
@@ -8,8 +13,7 @@ export type IPage = {
   background_url: string
   is_stripe_active: boolean
   stripe_id: string
-  facebook_pixel_id: string
-  google_analytics_id: string
+  trackers: ITrackers
 }
 
 export type IUpdatePage = {
@@ -22,6 +26,5 @@ export type IUpdatePage = {
   background_url?: string
   is_stripe_active?: boolean
   stripe_id?: string
-  facebook_pixel_id?: string
-  google_analytics_id?: string
+  trackers?: ITrackers
 }
