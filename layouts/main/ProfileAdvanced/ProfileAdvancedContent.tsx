@@ -1,13 +1,11 @@
-import useTranslation from "next-translate/useTranslation";
-import { ArrowRight } from "phosphor-react";
-import { Card } from "../../../components/Card/Card";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
+import useTranslation from "next-translate/useTranslation"
+import { ArrowRight } from "phosphor-react"
+import { Card } from "../../../components/Card/Card"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 
 export function ProfileAdvancedContent() {
-  const text = useTranslation().t;
-
-  function handleFinishSignUp() {}
+  const text = useTranslation().t
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -29,5 +27,5 @@ export function ProfileAdvancedContent() {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -54,7 +54,8 @@
       "automationblock",
       "createpage",
       "variablespanel",
-      "createwspace"
+      "createwspace",
+      "pagedelete"
     ]
   }
 }
