@@ -1,10 +1,12 @@
 import useTranslation from "next-translate/useTranslation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { useLogin } from "../../../services/hooks/useUser/useLogin"
+import { IUpdateUser } from "../../../types/User.type"
 
 type WorkspaceDeleteContentProps = {
   isUpdating: boolean
@@ -12,6 +14,7 @@ type WorkspaceDeleteContentProps = {
   handleUpdateIsUpdating: (stat: boolean) => void
   handleUpdateRunUpdate: (stat: boolean) => void
   handleDeleteWorkspace: () => void
+  userData: IUpdateUser | undefined
 }
 
 export function WorkspaceDeleteContent({
@@ -19,20 +22,48 @@ export function WorkspaceDeleteContent({
   runUpdate,
   handleUpdateIsUpdating,
   handleUpdateRunUpdate,
+  handleDeleteWorkspace,
+  userData,
 }: WorkspaceDeleteContentProps) {
   const text = useTranslation().t
 
-  function handleDeleteWorkspace() {
-    handleUpdateRunUpdate(false)
-    handleUpdateIsUpdating(false)
+  const [password, setPassword] = useState<string>()
+  const [passwordNotValid, setPasswordNotValid] = useState(false)
+
+  function hnadleUpdatePassword(password: string) {
+    setPassword(password)
+    handleUpdateIsUpdating(true)
+    setPasswordNotValid(false)
   }
 
   useEffect(() => {
     if (runUpdate) {
-      handleDeleteWorkspace()
+      handleVerifyUser()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
+
+  const getUser = useLogin()
+
+  function handleVerifyUser() {
+    getUser.mutate(
+      {
+        email: userData?.email || "",
+        password: password || "",
+      },
+      {
+        onSuccess: () => {
+          handleDeleteWorkspace()
+          handleUpdateRunUpdate(true)
+          handleUpdateIsUpdating(false)
+        },
+        onError: () => {
+          setPasswordNotValid(true)
+          handleUpdateIsUpdating(false)
+        },
+      }
+    )
+  }
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -49,11 +80,12 @@ export function WorkspaceDeleteContent({
             <CardLine />
           </Card>
           <Card>
-            <CardText label={text("wsdelete:title2")} />
+            <CardText label={text("wsdelete:password")} />
             <CardTextInput
               input={{
-                label: text("wsdelete:input"),
-                onChange: () => console.log(),
+                label: text("wsdelete:passwordinput"),
+                onChange: (password) => hnadleUpdatePassword(password),
+                type: "password",
               }}
             />
           </Card>
@@ -62,9 +94,14 @@ export function WorkspaceDeleteContent({
               <Button
                 color="black"
                 onClick={() => handleUpdateRunUpdate(true)}
-                text={text("generalsettings:confirm")}
+                text={text("wsdelete:confirm")}
               />
             </div>
+          )}
+          {passwordNotValid && (
+            <Card>
+              <CardText label={text("wsdelete:failed")} />
+            </Card>
           )}
           <span className="w-full h-[4rem]"></span>
         </div>

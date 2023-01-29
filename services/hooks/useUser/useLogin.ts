@@ -1,6 +1,7 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { useMutationProps } from "../../../types/useQueryProps"
 import { api } from "../../apiClient"
+import { IUser } from "./../../../types/User.type"
 
 type useLoginProps = {
   email: string
@@ -9,7 +10,11 @@ type useLoginProps = {
 
 export const useLogin = () => {
   const loginUser = async ({ email, password }: useLoginProps) => {
-    await api.post(`/users/login`, { email, password })
+    const response: UseMutationResult<IUser> = await api.post(`/auth/login`, {
+      email,
+      password,
+    })
+    return response.data as IUser
   }
 
   return useMutation({

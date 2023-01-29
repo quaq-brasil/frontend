@@ -2,11 +2,12 @@
   "back": "back",
   "update": "update",
   "confirm": "confirm",
-  "titletag": "settings",
-  "titletag2": "advanced",
-  "titletag3": "delete",
+  "settings": "settings",
+  "advanced": "advanced",
+  "delete": "delete",
   "title": "delete workspace",
   "largetext": "by deleting this worksapce all the pages, templates, data and everything else related to this workspace will be permanently deleted.",
-  "title2": "type your password here to confirm and delete your workspace",
-  "input": "type it here"
+  "password": "type your password here to confirm and delete your workspace",
+  "passwordinput": "type it here",
+  "failed": "your password is incorrect, please try again"
 }

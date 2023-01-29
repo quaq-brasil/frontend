@@ -2,11 +2,12 @@
   "back": "voltar",
   "update": "atualizar",
   "confirm": "confirmar",
-  "titletag": "configurações",
-  "titletag2": "avançado",
-  "titletag3": "deletar",
+  "settings": "configurações",
+  "advanced": "avançado",
+  "delete": "deletar",
   "title": "deletar workspace",
   "largetext": "ao deletar este workspace todas as páginas, templates, dados e tudo aquilo que for relacionado com este workspace também serão permanentemente deletados.",
-  "title2": "digite a sua senha para confirmar e deletar o seu workspace",
-  "input": "digite aqui"
+  "password": "digite a sua senha para confirmar e deletar o seu workspace",
+  "passwordinput": "digite aqui",
+  "failed": "sua senha está incorreta, por favor tente novamente"
 }
