@@ -2,7 +2,7 @@ import CentralTrackers from "../../layouts/main/CentralTrackers/CentralTrackers"
 import { usePage } from "../../services/hooks/usePage/usePage"
 import { useTemplate } from "../../services/hooks/useTemplate/useTemplate"
 import { useUpdateTemplate } from "../../services/hooks/useTemplate/useUpdateTemplate"
-import { IUpateTemplate } from "../../types/Template.type"
+import { IUpdateTemplate } from "../../types/Template.type"
 
 type CentralTrackersPageProps = {
   pageId: string
@@ -19,7 +19,7 @@ export default function CentralTrackersPage({
 
   const templateUpdate = useUpdateTemplate()
 
-  function handleUpdateTrackers(data: IUpateTemplate) {
+  function handleUpdateTrackers(data: IUpdateTemplate) {
     templateUpdate.mutate({
       id: templateId ? templateId : "63d2f4dd092cd140517d49c4",
       data: data,

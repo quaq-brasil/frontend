@@ -1,25 +1,26 @@
-import { useMutation } from "@tanstack/react-query"
-import { useMutationProps } from "../../../types/useQueryProps"
+import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { api } from "../../apiClient"
-import { IPublication } from "./../../../types/Publication.type"
+import {
+  IPublication,
+  IUpdatePublication,
+} from "./../../../types/Publication.type"
 
-type useUpdatePublicationProps = {
+type useUpdatePublicationPros = {
   id: string
-  data: IPublication
-} & useMutationProps
+  data: IUpdatePublication
+}
 
-export const useUpdatePublication = ({
-  id,
-  data,
-  options,
-}: useUpdatePublicationProps) => {
-  const updatePublication = async () => {
-    await api.put(`/publications/${id}`, { data })
+export const useUpdatePublication = () => {
+  const updatePublication = async ({ id, data }: useUpdatePublicationPros) => {
+    const response: UseMutationResult<IPublication> = await api.put(
+      `/publications/${id}`,
+      data
+    )
+    return response.data as IPublication
   }
 
   return useMutation({
-    mutationKey: ["updatePublication", id],
+    mutationKey: ["updatePublication"],
     mutationFn: updatePublication,
-    ...options,
   })
 }

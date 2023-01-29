@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query"
-import { IUpateTemplate } from "../../../types/Template.type"
+import { IUpdateTemplate } from "../../../types/Template.type"
 import { useMutationProps } from "../../../types/useQueryProps"
 import { api } from "../../apiClient"
 
 type useUpdateTemplateProps = {
   id: string
-  data: IUpateTemplate
+  data: IUpdateTemplate
 } & useMutationProps
 
 export const useUpdateTemplate = () => {

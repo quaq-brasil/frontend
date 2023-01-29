@@ -3,14 +3,14 @@ import { useQueryProps } from "../../../types/useQueryProps"
 import { api } from "../../apiClient"
 import { IPublication } from "./../../../types/Publication.type"
 
-type useGetPublicationByTemplateIdProps = {
+type usePublicationByTemplateIdProps = {
   id: string
 } & useQueryProps
 
-export const useGetPublicationByTemplateId = ({
+export const usePublicationByTemplateId = ({
   id,
   options,
-}: useGetPublicationByTemplateIdProps) => {
+}: usePublicationByTemplateIdProps) => {
   const getPublicationByTemplateId = async () => {
     return api.get(`/publications/template/${id}`)
   }

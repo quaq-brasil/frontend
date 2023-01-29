@@ -1,4 +1,5 @@
 export type ITemplate = {
+  id?: string
   name: string
   url: string
   shortcut_image: string
@@ -10,7 +11,8 @@ export type ITemplate = {
   page_id: string
 }
 
-export type IUpateTemplate = {
+export type IUpdateTemplate = {
+  id?: string
   name?: string
   url?: string
   shortcut_image?: string

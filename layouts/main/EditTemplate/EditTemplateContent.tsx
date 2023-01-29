@@ -8,12 +8,17 @@ import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
-import { IUpateTemplate } from "../../../types/Template.type"
+import { useCreatePublication } from "../../../services/hooks/usePublication/useCreatePublication"
+import { useUpdatePublication } from "../../../services/hooks/usePublication/useUpdatePublication"
+import { IUpdatePage } from "../../../types/Page.type"
+import { IPublication } from "../../../types/Publication.type"
+import { IUpdateTemplate } from "../../../types/Template.type"
 
 type EditTemplateContentProps = {
-  templateData: IUpateTemplate | undefined
-  handleUpdateTemplateData: (data: IUpateTemplate) => void
-  handleUpdateTemplate: (data: IUpateTemplate) => void
+  templateData: IUpdateTemplate | undefined
+  pageData: IUpdatePage | undefined
+  handleUpdateTemplateData: (data: IUpdateTemplate) => void
+  handleUpdateTemplate: (data: IUpdateTemplate) => void
   isUpdating: boolean
   handleUpdateIsUpdating: (stat: boolean) => void
   runUpdate: boolean
@@ -22,6 +27,7 @@ type EditTemplateContentProps = {
 
 export function EditTemplateContent({
   templateData,
+  pageData,
   handleUpdateTemplateData,
   handleUpdateTemplate,
   isUpdating,
@@ -31,10 +37,16 @@ export function EditTemplateContent({
 }: EditTemplateContentProps) {
   const text = useTranslation().t
 
-  function onTemplateUpdate() {
-    handleUpdateTemplate(templateData as IUpateTemplate)
-    handleUpdateIsUpdating(false)
+  async function onTemplateUpdate() {
+    handleCreatePublication()
   }
+
+  useEffect(() => {
+    if (templateData?.current_publication_id) {
+      getCurrentPublication()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templateData])
 
   useEffect(() => {
     if (runUpdate) {
@@ -45,14 +57,68 @@ export function EditTemplateContent({
 
   const [createNewPublication, setCreateNewPublication] = useState(false)
   const [newPublicationTitle, setNewPublicationTitle] = useState("")
+  const [publicationId, setPublicationId] = useState<string>()
+  const [currentPublicationTitle, setCurrentPublicationTitle] = useState("")
+
+  const createPublication = useCreatePublication()
+
+  function handleCreatePublication() {
+    createPublication.mutate(
+      {
+        data: {
+          title: newPublicationTitle,
+          blocks: [],
+          page_id: pageData?.id || "",
+          template_id: templateData?.id || "",
+        },
+      },
+      {
+        onSuccess: (data: IPublication) => {
+          setPublicationId(data.id as string)
+        },
+      }
+    )
+    setCreateNewPublication(false)
+  }
+
+  const getPublication = useUpdatePublication()
+
+  function getCurrentPublication() {
+    getPublication.mutate(
+      {
+        id: templateData?.current_publication_id as string,
+        data: {},
+      },
+      {
+        onSuccess: (data: IPublication) => {
+          setCurrentPublicationTitle(data.title as string)
+        },
+      }
+    )
+  }
 
   function handleCreateNewPublication(stat: boolean) {
     setCreateNewPublication(stat)
   }
 
   function handleCurrentPublicationUpdate(title: string) {
+    handleUpdateIsUpdating(true)
     setNewPublicationTitle(title)
+    if (title === "") {
+      handleUpdateIsUpdating(false)
+    }
   }
+
+  useEffect(() => {
+    if (publicationId) {
+      handleUpdateTemplate({
+        ...templateData,
+        current_publication_id: publicationId,
+      })
+      handleUpdateIsUpdating(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [publicationId])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -134,7 +200,7 @@ export function EditTemplateContent({
                 <span className="w-full h-0 lg:hidden"></span>
                 <CardLine />
                 <span className="w-full h-0 lg:hidden"></span>
-                <CardText label={"publication"} />
+                <CardText label={currentPublicationTitle} />
                 <span className="w-full h-0 lg:hidden"></span>
                 <CardLine />
                 <CardText

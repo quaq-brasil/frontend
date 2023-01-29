@@ -1,9 +1,7 @@
-import { UseMutationOptions, UseQueryOptions } from "@tanstack/react-query"
+import { UseQueryOptions } from "@tanstack/react-query"
 
 export type useQueryProps = {
   options?: UseQueryOptions
 }
 
-export type useMutationProps = {
-  options?: UseMutationOptions
-}
+export type useMutationProps = {}

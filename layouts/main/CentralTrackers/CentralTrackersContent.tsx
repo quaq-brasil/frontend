@@ -4,13 +4,13 @@ import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
-import { IUpateTemplate } from "../../../types/Template.type"
+import { IUpdateTemplate } from "../../../types/Template.type"
 
 type CentralTrackersContentProps = {
-  handleUpdateTrackers: (data: IUpateTemplate) => void
+  handleUpdateTrackers: (data: IUpdateTemplate) => void
   isUpdating: boolean
   handleUpdateIsUpdating: (stat: boolean) => void
-  templateData: IUpateTemplate | undefined
+  templateData: IUpdateTemplate | undefined
   runUpdate: boolean
   handleUpdateRunUpdate: (stat: boolean) => void
 }
@@ -25,7 +25,7 @@ export function CentralTrackersContent({
 }: CentralTrackersContentProps) {
   const text = useTranslation().t
 
-  const [template, setTemplate] = useState<IUpateTemplate>()
+  const [template, setTemplate] = useState<IUpdateTemplate>()
 
   function handleUpdateFacebookPixel(pixel: string) {
     setTemplate({ ...template, facebook_pixel_id: pixel })

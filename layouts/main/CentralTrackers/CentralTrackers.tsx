@@ -4,11 +4,11 @@ import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage, IUpdatePage } from "../../../types/Page.type"
-import { ITemplate, IUpateTemplate } from "../../../types/Template.type"
+import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
 import { CentralTrackersContent } from "./CentralTrackersContent"
 
 type CentralTrackersProps = {
-  handleUpdateTrackers: (data: IUpateTemplate) => void
+  handleUpdateTrackers: (data: IUpdateTemplate) => void
   pageData?: IPage
   templateData?: ITemplate
 }
@@ -22,7 +22,7 @@ export default function CentralTrackers({
 
   const [isUpdating, setIsUpdating] = useState<boolean>(false)
   const [page, setPage] = useState<IUpdatePage>()
-  const [template, setTemplate] = useState<IUpateTemplate>()
+  const [template, setTemplate] = useState<IUpdateTemplate>()
 
   function handleUpdateIsUpdating(stat: boolean) {
     setIsUpdating(stat)
@@ -32,7 +32,7 @@ export default function CentralTrackers({
     setPage(page)
   }
 
-  function handleUpdateTemplate(template: IUpateTemplate) {
+  function handleUpdateTemplate(template: IUpdateTemplate) {
     setTemplate(template)
   }
 
@@ -41,7 +41,7 @@ export default function CentralTrackers({
   }, [pageData])
 
   useEffect(() => {
-    handleUpdateTemplate(templateData as IUpateTemplate)
+    handleUpdateTemplate(templateData as IUpdateTemplate)
   }, [templateData])
 
   const [runUpdate, setRunUpdate] = useState(false)

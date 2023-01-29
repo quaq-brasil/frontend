@@ -12,6 +12,7 @@ export type IPage = {
 }
 
 export type IUpdatePage = {
+  id?: string
   name?: string
   url?: string
   workspace_id?: string
