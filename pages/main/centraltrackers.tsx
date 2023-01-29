@@ -14,27 +14,29 @@ export default function CentralTrackersPage({
   templateId,
 }: CentralTrackersPageProps) {
   const pageResponse = usePage({
-    id: pageId ? pageId : "63b754987d02f98b8692255e",
+    id: "63b754987d02f98b8692255e",
   })
 
   const templateUpdate = useUpdateTemplate()
 
   function handleUpdateTrackers(data: IUpdateTemplate) {
     templateUpdate.mutate({
-      id: templateId ? templateId : "63d2f4dd092cd140517d49c4",
-      data: data,
+      id: "63d2f4dd092cd140517d49c4",
+      data: {
+        trackers: data.trackers,
+      },
     })
   }
 
   const getTemplate = useTemplate({
-    id: templateId ? templateId : "63d2f4dd092cd140517d49c4",
+    id: "63d2f4dd092cd140517d49c4",
   })
 
   return (
     <CentralTrackers
       handleUpdateTrackers={handleUpdateTrackers}
-      pageData={pageResponse?.data}
-      templateData={getTemplate?.data}
+      initialPageData={pageResponse?.data}
+      initialTemplateData={getTemplate?.data}
     />
   )
 }

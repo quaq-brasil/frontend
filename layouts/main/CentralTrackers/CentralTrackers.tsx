@@ -9,40 +9,42 @@ import { CentralTrackersContent } from "./CentralTrackersContent"
 
 type CentralTrackersProps = {
   handleUpdateTrackers: (data: IUpdateTemplate) => void
-  pageData?: IPage
-  templateData?: ITemplate
+  initialPageData: IPage | undefined
+  initialTemplateData: ITemplate | undefined
 }
 
 export default function CentralTrackers({
   handleUpdateTrackers,
-  pageData,
-  templateData,
+  initialPageData,
+  initialTemplateData,
 }: CentralTrackersProps) {
   const text = useTranslation().t
 
   const [isUpdating, setIsUpdating] = useState<boolean>(false)
-  const [page, setPage] = useState<IUpdatePage>()
-  const [template, setTemplate] = useState<IUpdateTemplate>()
+  const [pageData, setPageData] = useState<IUpdatePage>()
+  const [templateData, setTemplateData] = useState<IUpdateTemplate>()
 
   function handleUpdateIsUpdating(stat: boolean) {
     setIsUpdating(stat)
   }
 
-  function handleUpdatePage(page: IUpdatePage) {
-    setPage(page)
-  }
-
-  function handleUpdateTemplate(template: IUpdateTemplate) {
-    setTemplate(template)
+  function handleUpdateTemplateData(newData: IUpdateTemplate) {
+    setTemplateData({
+      ...templateData,
+      trackers: newData.trackers || templateData?.trackers,
+    })
+    handleUpdateIsUpdating(true)
   }
 
   useEffect(() => {
-    handleUpdatePage(pageData as IUpdatePage)
-  }, [pageData])
+    setPageData(initialPageData)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialPageData])
 
   useEffect(() => {
-    handleUpdateTemplate(templateData as IUpdateTemplate)
-  }, [templateData])
+    setTemplateData(initialTemplateData)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialTemplateData])
 
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -81,16 +83,16 @@ export default function CentralTrackers({
 
   function loadHeader() {
     return (
-      <Header background_url={page?.background_url || ""}>
+      <Header background_url={pageData?.background_url || ""}>
         <Tag
           variant="img-txt"
-          text={page?.name || ""}
-          img_url={page?.avatar_url || ""}
+          text={pageData?.name || ""}
+          img_url={pageData?.avatar_url || ""}
         />
         <Tag
           variant="img-txt"
-          text={template?.name || ""}
-          img_url={template?.shortcut_image || ""}
+          text={templateData?.name || ""}
+          img_url={templateData?.shortcut_image || ""}
         />
         <Tag variant="txt" text={text("centraltrackers:trackers")} />
       </Header>
@@ -103,10 +105,10 @@ export default function CentralTrackers({
       <CentralTrackersContent
         handleUpdateTrackers={handleUpdateTrackers}
         isUpdating={isUpdating}
-        handleUpdateIsUpdating={handleUpdateIsUpdating}
-        templateData={template}
+        templateData={templateData}
         runUpdate={runUpdate}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
+        handleUpdateTemplateData={handleUpdateTemplateData}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

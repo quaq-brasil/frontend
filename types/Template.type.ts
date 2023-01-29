@@ -1,3 +1,8 @@
+export type ITrackers = {
+  facebook?: string
+  google?: string
+}
+
 export type ITemplate = {
   id?: string
   name: string
@@ -8,6 +13,7 @@ export type ITemplate = {
   number_of_new_interactions: number
   facebook_pixel_id?: string
   google_analytics_id?: string
+  trackers: ITrackers
   page_id: string
 }
 
@@ -21,5 +27,6 @@ export type IUpdateTemplate = {
   number_of_new_interactions?: number
   facebook_pixel_id?: string
   google_analytics_id?: string
+  trackers?: ITrackers
   page_id?: string
 }
