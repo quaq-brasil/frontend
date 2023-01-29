@@ -1,6 +1,7 @@
 export type IWorkspace = {
   name: string
   avatar_url: string
+  user_id: string
   services: [
     {
       name: string
@@ -12,6 +13,7 @@ export type IWorkspace = {
 export type IUpdateWorkspace = {
   name?: string
   avatar_url?: string
+  user_id?: string
   services?: [
     {
       name?: string

@@ -53,7 +53,8 @@
       "createtemplate",
       "automationblock",
       "createpage",
-      "variablespanel"
+      "variablespanel",
+      "createwspace"
     ]
   }
 }
