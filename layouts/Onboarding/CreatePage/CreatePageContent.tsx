@@ -1,65 +1,24 @@
 import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
+import { IUpdatePage } from "../../../types/Page.type"
 
 type CreatePageContentProps = {
-  handleCreatePage: (
-    name: string,
-    url: string,
-    workspace_id: string,
-    avatar_url: string,
-    background_url: string
-  ) => void
-  handleChangePageTitle: (title: string) => void
-  handleChangePagePicture: (url: string) => void
-  handleChangePageCover: (url: string) => void
+  handleUpatePageData: (data: IUpdatePage) => void
+  isUpdating: boolean
+  handleUpdateRunUpdate: (stat: boolean) => void
 }
 
 export function CreatePageContent({
-  handleCreatePage,
-  handleChangePageTitle,
-  handleChangePagePicture,
-  handleChangePageCover,
+  handleUpatePageData,
+  handleUpdateRunUpdate,
+  isUpdating,
 }: CreatePageContentProps) {
   const text = useTranslation().t
-
-  const [title, setTitle] = useState("")
-  const [url, setUrl] = useState("")
-  const [description, setDescription] = useState("")
-  const [profile, setProfile] = useState("")
-  const [cover, setCover] = useState("")
-
-  function handleUpdate() {
-    handleCreatePage(title, url, description, profile, cover)
-  }
-
-  const onChangeTitle = (value: string) => {
-    setTitle(value)
-    handleChangePageTitle(value)
-  }
-
-  const onChangeUrl = (value: string) => {
-    setUrl(value)
-  }
-
-  const onChangeDescription = (value: string) => {
-    setDescription(value)
-  }
-
-  const onChangeProfile = (value: string) => {
-    setProfile(value)
-    handleChangePagePicture(value)
-  }
-
-  const onChangeCover = (value: string) => {
-    setCover(value)
-    handleChangePageCover(value)
-  }
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -77,7 +36,7 @@ export function CreatePageContent({
             <CardTextInput
               input={{
                 label: text("createpage:inputpagetitle"),
-                onChange: (e) => onChangeTitle(e),
+                onChange: (title) => handleUpatePageData({ name: title }),
                 type: "text",
               }}
             />
@@ -86,7 +45,11 @@ export function CreatePageContent({
             <CardText label={text("createpage:pagepicture")} />
             <CardImageInput
               imageSelector={
-                <ImageSelector onImageChange={(e) => onChangeProfile(e)} />
+                <ImageSelector
+                  onImageChange={(picture) =>
+                    handleUpatePageData({ avatar_url: picture })
+                  }
+                />
               }
             />
           </Card>
@@ -94,7 +57,11 @@ export function CreatePageContent({
             <CardText label={text("createpage:pagecover")} />
             <CardImageInput
               imageSelector={
-                <ImageSelector onImageChange={(e) => onChangeCover(e)} />
+                <ImageSelector
+                  onImageChange={(cover) =>
+                    handleUpatePageData({ background_url: cover })
+                  }
+                />
               }
             />
           </Card>
@@ -103,7 +70,7 @@ export function CreatePageContent({
             <CardTextInput
               input={{
                 label: text("createpage:inputpagelink"),
-                onChange: (e) => onChangeUrl(e),
+                onChange: (link) => handleUpatePageData({ url: link }),
                 type: "text",
                 fixedText: "quaq.me/",
               }}
@@ -114,16 +81,21 @@ export function CreatePageContent({
             <CardTextInput
               input={{
                 label: text("createpage:inputpagedescription"),
-                onChange: (e) => onChangeDescription(e),
+                onChange: (description) =>
+                  handleUpatePageData({ description: description }),
                 type: "text",
               }}
             />
           </Card>
-          <Button
-            color="slate-900"
-            onClick={handleUpdate}
-            text={text("createpage:confirm")}
-          />
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="slate-900"
+                onClick={() => handleUpdateRunUpdate(true)}
+                text={text("createpage:confirm")}
+              />
+            </div>
+          )}
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>

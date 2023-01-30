@@ -2,9 +2,9 @@ const page = (pageSlug: string) => `/${pageSlug}`
 
 const pageSettings = (pageSlug: string, pageSettings?: string) => {
   if (pageSettings) {
-    return `/${pageSlug}/adm/${pageSettings}`
+    return `/adm/${pageSlug}/${pageSettings}`
   } else {
-    return `/${pageSlug}/adm`
+    return `/adm/${pageSlug}`
   }
 }
 
