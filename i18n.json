@@ -56,7 +56,8 @@
       "variablespanel",
       "createwspace",
       "pagedelete",
-      "pagetrackers"
+      "pagetrackers",
+      "explorer"
     ]
   }
 }

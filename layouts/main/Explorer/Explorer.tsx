@@ -1,5 +1,10 @@
 import useTranslation from "next-translate/useTranslation"
-import { UserCircle, UserCirclePlus, UserPlus } from "phosphor-react"
+import {
+  ArrowCounterClockwise,
+  UserCircle,
+  UserCirclePlus,
+  UserPlus,
+} from "phosphor-react"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
@@ -7,17 +12,17 @@ import { Tag } from "../../../components/Tag/Tag"
 import { useContextMenu } from "../../../hooks/ContextMenuHook"
 import { IPage } from "../../../types/Page.type"
 import { ITemplate } from "../../../types/Template.type"
-import { ConsumerPageContent } from "./ConsumerPageContent"
+import { ExplorerContent } from "./ExplorerContent"
 
-type ConsumerPageProps = {
+type ExplorerProps = {
   initialPageData: IPage
   initialTemplatesData: ITemplate[]
 }
 
-export default function ConsumerPage({
+export default function Explorer({
   initialPageData,
   initialTemplatesData,
-}: ConsumerPageProps) {
+}: ExplorerProps) {
   const text = useTranslation().t
 
   const [pageData, setPageData] = useState<IPage>()
@@ -57,14 +62,14 @@ export default function ConsumerPage({
                 <div className="w-fit">
                   <Tag
                     variant="icn-txt"
-                    text={text("consumerpage:login")}
+                    text={text("explorer:login")}
                     icon={UserCircle}
                   />
                 </div>
                 <div className="w-fit">
                   <Tag
                     variant="icn-txt"
-                    text={text("consumerpage:signup")}
+                    text={text("explorer:signup")}
                     icon={UserPlus}
                   />
                 </div>
@@ -79,23 +84,26 @@ export default function ConsumerPage({
   }
 
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("consumerpage:explore")}
-        onClick={() => console.log("explore")}
-      />,
-      <Tag
-        key={2}
-        variant="img-txt"
-        text={"quaq"}
-        img_url={
-          "https://images.unsplash.com/photo-1531333377070-c6575ba98c97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDN8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-        }
-        onClick={() => console.log("createpage")}
-      />,
-    ]
+    if (isSignedIn) {
+      return [
+        <Tag
+          key={1}
+          variant="icn-txt"
+          text={text("explorer:pages")}
+          icon={ArrowCounterClockwise}
+          onClick={() => console.log("explore")}
+        />,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("explorer:usequaq")}
+          onClick={handleHeaderTagContextMenu}
+        />,
+      ]
+    }
   }
 
   function handleMainTag() {
@@ -136,7 +144,7 @@ export default function ConsumerPage({
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <ConsumerPageContent templatesData={templatesData} />
+      <ExplorerContent templatesData={templatesData} />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   )

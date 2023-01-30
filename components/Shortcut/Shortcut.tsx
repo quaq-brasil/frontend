@@ -94,7 +94,7 @@ export const Shortcut = (props: ShortcutProps) => {
         ref={ref}
         style={{ opacity }}
         data-handler-id={handlerId}
-        className={`flex relative min-w-[100%] max-w-[100%] overflow-hidden rounded-[20px] h-[13.0625rem] justify-center content-center lg:h-[19rem] lg:rounded-[30px] ${
+        className={`flex relative min-w-[100%] max-w-[100%] overflow-hidden rounded-[20px] h-[13.0625rem] justify-center content-center lg:h-[16rem] lg:rounded-[30px] ${
           props.size === "large"
             ? "col-span-2  max-w-[35.25rem]"
             : "col-span-1  md:max-w-[16.5625rem]"
@@ -104,7 +104,7 @@ export const Shortcut = (props: ShortcutProps) => {
           className="z-10 absolute flex row justify-center bg-white ml-auto mr-auto left-[0.375rem]
       right-[0.375rem] rounded-[15px] bottom-[6px] px-[6px] lg:rounded-[25px]"
         >
-          <p className="inline-block py-[0.625rem] text-center lg:text-[1.25rem]">
+          <p className="inline-block py-[0.625rem] text-center lg:text-[1.1rem]">
             {props.title}
           </p>
         </div>
