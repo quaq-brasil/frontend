@@ -1,21 +1,39 @@
-import useTranslation from "next-translate/useTranslation";
-import { UserCircle, UserCirclePlus, UserPlus } from "phosphor-react";
-import { Header } from "../../../components/Header/Header";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
-import { useContextMenu } from "../../../hooks/ContextMenuHook";
-import { ConsumerPageContent } from "./ConsumerPageContent";
+import useTranslation from "next-translate/useTranslation"
+import { UserCircle, UserCirclePlus, UserPlus } from "phosphor-react"
+import { useEffect, useState } from "react"
+import { Header } from "../../../components/Header/Header"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
+import { useContextMenu } from "../../../hooks/ContextMenuHook"
+import { IPage } from "../../../types/Page.type"
+import { ITemplate } from "../../../types/Template.type"
+import { ConsumerPageContent } from "./ConsumerPageContent"
 
 type ConsumerPageProps = {
-  headerImageUrl: string;
-};
+  initialPageData: IPage
+  initialTemplatesData: ITemplate[]
+}
 
-export default function ConsumerPage(props: ConsumerPageProps) {
-  const text = useTranslation().t;
+export default function ConsumerPage({
+  initialPageData,
+  initialTemplatesData,
+}: ConsumerPageProps) {
+  const text = useTranslation().t
 
-  const { handleToggleContextMenu, handleCloseContextMenu } = useContextMenu();
+  const [pageData, setPageData] = useState<IPage>()
+  const [templatesData, setTemplatesData] = useState<ITemplate[]>()
 
-  const isSignedIn = false;
+  useEffect(() => {
+    setPageData(initialPageData)
+  }, [initialPageData])
+
+  useEffect(() => {
+    setTemplatesData(initialTemplatesData)
+  }, [initialTemplatesData])
+
+  const { handleToggleContextMenu, handleCloseContextMenu } = useContextMenu()
+
+  const isSignedIn = false
 
   const handleHeaderTagContextMenu = () => {
     const handleContent = () => {
@@ -53,12 +71,12 @@ export default function ConsumerPage(props: ConsumerPageProps) {
               </div>
             </div>
           </div>
-        );
+        )
       }
-    };
+    }
 
-    handleToggleContextMenu(handleContent());
-  };
+    handleToggleContextMenu(handleContent())
+  }
 
   function handleTabBar() {
     return [
@@ -70,28 +88,33 @@ export default function ConsumerPage(props: ConsumerPageProps) {
       />,
       <Tag
         key={2}
-        variant="txt"
-        text={text("consumerpage:createpage")}
+        variant="txt-img"
+        text={"quaq"}
+        img_url={
+          "https://images.unsplash.com/photo-1531333377070-c6575ba98c97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDN8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
+        }
         onClick={() => console.log("createpage")}
       />,
-    ];
+    ]
   }
 
   function handleMainTag() {
     return (
       <Tag
         variant="img-txt"
-        text="example"
-        img_url="https://source.unsplash.com/featured/"
+        text={pageData?.name || ""}
+        img_url={pageData?.avatar_url || ""}
       />
-    );
+    )
   }
 
   function loadHeader() {
     if (isSignedIn) {
       return (
-        <Header background_url={props.headerImageUrl}>{handleMainTag()}</Header>
-      );
+        <Header background_url={pageData?.background_url || ""}>
+          {handleMainTag()}
+        </Header>
+      )
     } else {
       return (
         <Header
@@ -102,19 +125,19 @@ export default function ConsumerPage(props: ConsumerPageProps) {
               onClick={handleHeaderTagContextMenu}
             />
           }
-          background_url={props.headerImageUrl}
+          background_url={pageData?.background_url || ""}
         >
           {handleMainTag()}
         </Header>
-      );
+      )
     }
   }
 
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <ConsumerPageContent />
+      <ConsumerPageContent templatesData={templatesData} />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
-  );
+  )
 }

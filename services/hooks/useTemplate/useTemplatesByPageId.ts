@@ -19,7 +19,7 @@ export const useTemplatesByPageId = ({
     queryKey: ["getTemplatesByPageId", id],
     queryFn: getTemplatesByPageId,
     ...options,
-  }) as UseQueryResult<{ data: ITemplate }>
+  }) as UseQueryResult<{ data: ITemplate[] }>
 
   return response.data
 }

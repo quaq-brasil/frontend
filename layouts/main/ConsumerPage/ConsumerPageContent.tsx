@@ -1,47 +1,40 @@
-import { Shortcut } from "../../../components/Shortcut/Shortcut";
-import { ShortcutGrid } from "../../../components/ShortcutGrid/ShortcutGrid";
+import { useEffect, useState } from "react"
+import { Shortcut } from "../../../components/Shortcut/Shortcut"
+import { ShortcutGrid } from "../../../components/ShortcutGrid/ShortcutGrid"
+import { ITemplate } from "../../../types/Template.type"
 
-export function ConsumerPageContent() {
-  function loadTemplates() {
-    return [
-      <Shortcut
-        key={1}
-        img_url="https://source.unsplash.com/featured/"
-        size="small"
-        title="template 1"
-      />,
-      <Shortcut
-        key={2}
-        img_url="https://source.unsplash.com/featured/"
-        size="small"
-        title="template 2"
-      />,
-      <Shortcut
-        key={3}
-        img_url="https://source.unsplash.com/featured/"
-        size="small"
-        title="template 3"
-      />,
-      <Shortcut
-        key={4}
-        img_url="https://source.unsplash.com/featured/"
-        size="large"
-        title="template 4"
-      />,
-      <Shortcut
-        key={5}
-        img_url="https://source.unsplash.com/featured/"
-        size="small"
-        title="template 5"
-      />,
-      <Shortcut
-        key={6}
-        img_url="https://source.unsplash.com/featured/"
-        size="large"
-        title="template 6"
-      />,
-    ];
+type ConsumerPageContentProps = {
+  templatesData: ITemplate[] | undefined
+}
+
+export function ConsumerPageContent({
+  templatesData,
+}: ConsumerPageContentProps) {
+  const [shortcuts, setShortcuts] = useState<JSX.Element[]>([])
+
+  function loadShortcuts() {
+    if (templatesData) {
+      const data = templatesData.map((template, index) => {
+        return (
+          <Shortcut
+            key={index}
+            id={template.id || ""}
+            img_url={template.shortcut_image || ""}
+            index={index || 0}
+            size={template.shortcut_size || "small"}
+            title={template.name}
+            isCreator={false}
+          />
+        )
+      })
+      setShortcuts(data)
+    }
   }
+
+  useEffect(() => {
+    loadShortcuts()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templatesData])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -50,10 +43,8 @@ export function ConsumerPageContent() {
       rounded-t-[25px] overflow-y-scroll scrollbar-hide pt-2 px-2 bg-slate-100
       lg:rounded-none lg:top-[156px]"
       >
-        <ShortcutGrid onDrag={(e) => console.log(e)}>
-          {loadTemplates()}
-        </ShortcutGrid>
+        <ShortcutGrid onDrag={(e) => console.log(e)}>{shortcuts}</ShortcutGrid>
       </div>
     </div>
-  );
+  )
 }

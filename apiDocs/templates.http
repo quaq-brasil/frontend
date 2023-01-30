@@ -32,11 +32,11 @@ GET http://localhost:5000/api/v1/templates/page/63b754987d02f98b8692255e
 
 ###
 
-PUT http://localhost:5000/api/v1/templates/63d2f4dd092cd140517d49c4
+PUT http://localhost:5000/api/v1/templates/63d53a0f6b9144417887b53d
 Content-Type: application/json
 
 {
-  "current_publication_id": "63d56a928f9e0158905655cb"
+  "shortcut_size": "small"
 }
 
 ###

@@ -8,7 +8,7 @@ export type ITemplate = {
   name: string
   url: string
   shortcut_image: string
-  shortcut_size: string
+  shortcut_size: "small" | "large"
   current_publication_id: string
   number_of_new_interactions: number
   facebook_pixel_id?: string
@@ -22,7 +22,7 @@ export type IUpdateTemplate = {
   name?: string
   url?: string
   shortcut_image?: string
-  shortcut_size?: string
+  shortcut_size?: "small" | "large"
   current_publication_id?: string
   number_of_new_interactions?: number
   facebook_pixel_id?: string
