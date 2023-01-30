@@ -110,34 +110,31 @@ export default function CreatorPage({
     </div>
   )
 
+  function loadPages() {
+    if (pagesData) {
+      const pages: JSX.Element[] = pagesData.map((page, index) => {
+        return (
+          <div key={index} className="w-fit">
+            <Tag
+              variant="img-txt"
+              text={page?.name || ""}
+              img_url={page?.avatar_url || ""}
+              isSelected={page.id == pageData?.id}
+            />
+          </div>
+        )
+      })
+      return pages
+    }
+  }
+
   const tabbarContextMenuContent = (
     <div className="fixed w-full px-[16px] flex flex-row justify-between left-0 right-0 bottom-[16px]">
       <div className="flex flex-col gap-3">
         <div className="w-fit">
           <Tag variant="txt" text={text("creatorpage:pages")} />
         </div>
-        <div className="w-fit">
-          <Tag
-            variant="img-txt"
-            text="page example"
-            img_url="https://source.unsplash.com/featured/"
-            isSelected
-          />
-        </div>
-        <div className="w-fit">
-          <Tag
-            variant="img-txt"
-            text="page example"
-            img_url="https://source.unsplash.com/featured/"
-          />
-        </div>
-        <div className="w-fit">
-          <Tag
-            variant="img-txt"
-            text="page example"
-            img_url="https://source.unsplash.com/featured/"
-          />
-        </div>
+        {loadPages()}
         <div className="w-fit">
           <Tag
             variant="icn-txt"
@@ -164,24 +161,6 @@ export default function CreatorPage({
       </div>
     </div>
   )
-
-  function loadPages() {
-    if (pagesData) {
-      const pages: JSX.Element[] = pagesData.map((page, index) => {
-        return (
-          <div key={index} className="w-fit">
-            <Tag
-              variant="img-txt"
-              text={page?.name || ""}
-              img_url={page?.avatar_url || ""}
-              isSelected={page.id == pageData?.id}
-            />
-          </div>
-        )
-      })
-      return pages
-    }
-  }
 
   const lateralMenuContent = (
     <div>

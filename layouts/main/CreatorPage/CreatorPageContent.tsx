@@ -11,8 +11,12 @@ export function CreatorPageContent({ templatesData }: CreatorPageContentProps) {
   const [selectedId, setSelectedId] = useState<number>()
 
   function handleSelection(id: number) {
-    setSelectedId(id)
-    console.log(id)
+    if (selectedId == id) {
+      setSelectedId(-1)
+    } else {
+      setSelectedId(id)
+      console.log(id)
+    }
   }
 
   const [shortcuts, setShortcuts] = useState<JSX.Element[]>([])
@@ -41,7 +45,7 @@ export function CreatorPageContent({ templatesData }: CreatorPageContentProps) {
   useEffect(() => {
     loadShortcuts()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [templatesData])
+  }, [templatesData, selectedId])
 
   return (
     <div className="w-full h-screen bg-slate-100">

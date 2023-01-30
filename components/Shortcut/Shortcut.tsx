@@ -118,7 +118,7 @@ export const Shortcut = (props: ShortcutProps) => {
         />
 
         {props.isCreator && props.isSelected ? (
-          <div className="relative z-10 h-fit min-w-full w-fit pt-3 pl-3 overflow-scroll flex scrollbar-hide gap-3 items-center justify-start">
+          <div className="relative z-10 h-fit min-w-full w-fit pt-0 pl-0 overflow-scroll flex scrollbar-hide gap-3 items-center justify-start">
             <ShortcutMenu />
           </div>
         ) : null}
