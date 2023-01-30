@@ -12,14 +12,46 @@ import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { useContextMenu } from "../../../hooks/ContextMenuHook"
+import { IPage } from "../../../types/Page.type"
+import { ITemplate } from "../../../types/Template.type"
+import { IWorkspace } from "../../../types/Workspace.type"
 import { CreatorPageContent } from "./CreatorPageContent"
 
 type CreatorPageProps = {
-  headerImageUrl: string
+  initialPageData: IPage
+  initialTemplatesData: ITemplate[]
+  initialCurrentWorkspaceData: IWorkspace
+  initialPagesData: IPage[]
 }
 
-export default function CreatorPage(props: CreatorPageProps) {
+export default function CreatorPage({
+  initialPageData,
+  initialTemplatesData,
+  initialCurrentWorkspaceData,
+  initialPagesData,
+}: CreatorPageProps) {
   const text = useTranslation().t
+
+  const [pageData, setPageData] = useState<IPage>()
+  const [templatesData, setTemplatesData] = useState<ITemplate[]>()
+  const [currentWorspaceData, setCurrentWorkspaceData] = useState<IWorkspace>()
+  const [pagesData, setPagesData] = useState<IPage[]>()
+
+  useEffect(() => {
+    setPageData(initialPageData)
+  }, [initialPageData])
+
+  useEffect(() => {
+    setTemplatesData(initialTemplatesData)
+  }, [initialTemplatesData])
+
+  useEffect(() => {
+    setCurrentWorkspaceData(initialCurrentWorkspaceData)
+  }, [initialCurrentWorkspaceData])
+
+  useEffect(() => {
+    setPagesData(initialPagesData)
+  }, [initialPagesData])
 
   const {
     handleToggleContextMenu,
@@ -45,7 +77,7 @@ export default function CreatorPage(props: CreatorPageProps) {
           <div className="w-fit">
             <Tag
               variant="img"
-              img_url="https://source.unsplash.com/featured/"
+              img_url={currentWorspaceData?.avatar_url || ""}
               onClick={handleCloseContextMenu}
             />
           </div>
@@ -133,6 +165,24 @@ export default function CreatorPage(props: CreatorPageProps) {
     </div>
   )
 
+  function loadPages() {
+    if (pagesData) {
+      const pages: JSX.Element[] = pagesData.map((page, index) => {
+        return (
+          <div key={index} className="w-fit">
+            <Tag
+              variant="img-txt"
+              text={page?.name || ""}
+              img_url={page?.avatar_url || ""}
+              isSelected={page.id == pageData?.id}
+            />
+          </div>
+        )
+      })
+      return pages
+    }
+  }
+
   const lateralMenuContent = (
     <div>
       <div className="w-fit">
@@ -142,33 +192,12 @@ export default function CreatorPage(props: CreatorPageProps) {
         <div className="w-fit">
           <Tag variant="txt" text={text("creatorpage:pages")} isSeparated />
         </div>
-        <div className="w-fit">
+        {loadPages()}
+        <div>
           <Tag
-            variant="img-txt"
-            text="page example"
-            img_url="https://source.unsplash.com/featured/"
-            isSelected
-          />
-        </div>
-        <div className="w-fit">
-          <Tag
-            variant="img-txt"
-            text="page example"
-            img_url="https://source.unsplash.com/featured/"
-          />
-        </div>
-        <div className="w-fit">
-          <Tag
-            variant="img-txt"
-            text="page example"
-            img_url="https://source.unsplash.com/featured/"
-          />
-        </div>
-        <div className="w-fit">
-          <Tag
-            variant="icn-txt"
+            variant="txt"
             text={text("creatorpage:newpage")}
-            icon={Plus}
+            onClick={() => console.log("new page")}
           />
         </div>
       </div>
@@ -265,8 +294,8 @@ export default function CreatorPage(props: CreatorPageProps) {
     return (
       <Tag
         variant="img-txt"
-        text="example"
-        img_url="https://source.unsplash.com/featured/"
+        text={pageData?.name || ""}
+        img_url={pageData?.avatar_url || ""}
       />
     )
   }
@@ -277,11 +306,11 @@ export default function CreatorPage(props: CreatorPageProps) {
         reightContent={
           <Tag
             variant="img"
-            img_url="https://source.unsplash.com/featured/"
+            img_url={currentWorspaceData?.avatar_url || ""}
             onClick={() => handleHeaderTagContextMenu()}
           />
         }
-        background_url={props.headerImageUrl}
+        background_url={pageData?.background_url || ""}
       >
         {handleMainTag()}
       </Header>
@@ -291,7 +320,7 @@ export default function CreatorPage(props: CreatorPageProps) {
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <CreatorPageContent />
+      <CreatorPageContent templatesData={templatesData} />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   )
