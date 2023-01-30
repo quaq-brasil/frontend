@@ -1,6 +1,6 @@
-import WorkspaceAdvanced from "../../layouts/main/WorkspaceAdvanced/WorkspaceAdvanced"
-import { useWorkspace } from "../../services/hooks/useWorkspace/useWorkspace"
-import { IWorkspace } from "../../types/Workspace.type"
+import WorkspaceAdvanced from "../../../layouts/main/WorkspaceAdvanced/WorkspaceAdvanced"
+import { useWorkspace } from "../../../services/hooks/useWorkspace/useWorkspace"
+import { IWorkspace } from "../../../types/Workspace.type"
 
 type WorkspaceAdvancedPageProps = {
   workspaceId: string

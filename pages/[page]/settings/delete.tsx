@@ -1,9 +1,9 @@
-import PageDelete from "../../layouts/main/PageDelete/PageDelete"
-import { useDeletePage } from "../../services/hooks/usePage/useDeletePage"
-import { usePage } from "../../services/hooks/usePage/usePage"
-import { useUser } from "../../services/hooks/useUser/useUser"
-import { IPage } from "../../types/Page.type"
-import { IUser } from "../../types/User.type"
+import PageDelete from "../../../layouts/main/PageDelete/PageDelete"
+import { useDeletePage } from "../../../services/hooks/usePage/useDeletePage"
+import { usePage } from "../../../services/hooks/usePage/usePage"
+import { useUser } from "../../../services/hooks/useUser/useUser"
+import { IPage } from "../../../types/Page.type"
+import { IUser } from "../../../types/User.type"
 
 type PageDeletePageProps = {
   userId: string

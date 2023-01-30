@@ -1,7 +1,7 @@
-import GeneralSettings from "../../layouts/main/GeneralSettings/GeneralSettings"
-import { usePage } from "../../services/hooks/usePage/usePage"
-import { useUpdatePage } from "../../services/hooks/usePage/useUpdatePage"
-import { IUpdatePage } from "../../types/Page.type"
+import GeneralSettings from "../../../layouts/main/GeneralSettings/GeneralSettings"
+import { usePage } from "../../../services/hooks/usePage/usePage"
+import { useUpdatePage } from "../../../services/hooks/usePage/useUpdatePage"
+import { IUpdatePage } from "../../../types/Page.type"
 
 type GeneralSettingsPageProps = {
   pageId: string

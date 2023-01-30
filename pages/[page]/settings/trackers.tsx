@@ -1,7 +1,7 @@
-import PageTrackers from "../../layouts/main/PageTrackers/PageTrackers"
-import { usePage } from "../../services/hooks/usePage/usePage"
-import { useUpdatePage } from "../../services/hooks/usePage/useUpdatePage"
-import { IUpdatePage } from "../../types/Page.type"
+import PageTrackers from "../../../layouts/main/PageTrackers/PageTrackers"
+import { usePage } from "../../../services/hooks/usePage/usePage"
+import { useUpdatePage } from "../../../services/hooks/usePage/useUpdatePage"
+import { IUpdatePage } from "../../../types/Page.type"
 
 type PageTrackersPageProps = {
   pageId: string

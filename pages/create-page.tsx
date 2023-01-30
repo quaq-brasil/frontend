@@ -1,7 +1,7 @@
-import { CreatePage } from "../../layouts/Onboarding/CreatePage/CreatePage"
-import { useCreatePage } from "../../services/hooks/usePage/useCreatePage"
-import { useUser } from "../../services/hooks/useUser/useUser"
-import { useWorkspace } from "../../services/hooks/useWorkspace/useWorkspace"
+import { CreatePage } from "../layouts/Onboarding/CreatePage/CreatePage"
+import { useCreatePage } from "../services/hooks/usePage/useCreatePage"
+import { useUser } from "../services/hooks/useUser/useUser"
+import { useWorkspace } from "../services/hooks/useWorkspace/useWorkspace"
 
 export default function CreatePagePage() {
   const userResponse = useUser({
@@ -31,8 +31,6 @@ export default function CreatePagePage() {
           : "63b7543e7d02f98b8692255d",
         avatar_url: avatar_url,
         background_url: background_url,
-        facebook_pixel_id: "",
-        google_analytics_id: "",
         is_stripe_active: false,
         stripe_id: "",
       },

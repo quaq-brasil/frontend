@@ -1,4 +1,4 @@
-import EmailUpdate from "../layouts/Workflows/EmailUpdate/EmailUpdate"
+import { EmailUpdate } from "../layouts/Workflows/EmailUpdate/EmailUpdate"
 import { useUpdateUser } from "../services/hooks/useUser/useUpdateUser"
 import { useUser } from "../services/hooks/useUser/useUser"
 
