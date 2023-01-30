@@ -3,7 +3,7 @@ import { useQueryProps } from "../../../types/useQueryProps"
 import { api } from "../../apiClient"
 import { IPage } from "./../../../types/Page.type"
 
-export const usePage = ({ options }: useQueryProps) => {
+export const useAllPages = ({ options }: useQueryProps) => {
   const getPages = async () => {
     return api.get(`/pages`)
   }

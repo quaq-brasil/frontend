@@ -1,20 +1,20 @@
-import { IconProps } from "phosphor-react";
-import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { IconProps } from "phosphor-react"
+import { ForwardRefExoticComponent, RefAttributes } from "react"
 
 type CardTextProps = {
-  label: string;
+  label: string
   indicator?: {
-    icon?: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
-    text?: string;
-    onClick?: () => void;
-    isVisible?: boolean;
-  };
-};
+    icon?: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+    text?: string
+    onClick?: () => void
+    isVisible?: boolean
+  }
+}
 
 export function CardText(props: CardTextProps) {
   function handleClick() {
     if (props.indicator?.onClick) {
-      props.indicator.onClick();
+      props.indicator.onClick()
     }
   }
 
@@ -45,5 +45,5 @@ export function CardText(props: CardTextProps) {
         </>
       )}
     </button>
-  );
+  )
 }

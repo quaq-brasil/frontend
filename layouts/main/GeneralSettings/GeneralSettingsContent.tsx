@@ -1,4 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
+import Link from "next/link"
 import { ArrowRight } from "phosphor-react"
 import { useEffect } from "react"
 import { Button } from "../../../components/Button/Button"
@@ -9,6 +10,7 @@ import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { IUpdatePage } from "../../../types/Page.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 
 type GeneralSettingsContent = {
   pageData: IUpdatePage | undefined
@@ -132,10 +134,18 @@ export function GeneralSettingsContent({
                 indicator={{ icon: ArrowRight, onClick: () => console.log() }}
               />
               <CardLine />
-              <CardText
-                label={text("generalsettings:terms")}
-                indicator={{ icon: ArrowRight, onClick: () => console.log() }}
-              />
+              <Link
+                href={pageUrls.terms()}
+                className="w-full h-fit flex flex-col justify-center"
+              >
+                <CardText
+                  label={text("generalsettings:terms")}
+                  indicator={{
+                    icon: ArrowRight,
+                    onClick: () => console.log(),
+                  }}
+                />
+              </Link>
               <CardLine />
               <CardText
                 label={text("generalsettings:trackers")}

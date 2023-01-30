@@ -53,9 +53,9 @@ export function PageDeleteContent({
       },
       {
         onSuccess: () => {
-          handleDeletePage()
           handleUpdateRunUpdate(true)
           handleUpdateIsUpdating(false)
+          handleDeletePage()
         },
         onError: () => {
           setPasswordNotValid(true)

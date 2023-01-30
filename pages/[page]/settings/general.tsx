@@ -10,7 +10,7 @@ type GeneralSettingsPageProps = {
 export default function GeneralSettingsPage({
   pageId,
 }: GeneralSettingsPageProps) {
-  const pageResponse = usePage({
+  const getPage = usePage({
     id: "63b754987d02f98b8692255e",
   })
 
@@ -31,7 +31,7 @@ export default function GeneralSettingsPage({
 
   return (
     <GeneralSettings
-      initialPageData={pageResponse?.data as IUpdatePage}
+      initialPageData={getPage?.data as IUpdatePage}
       handleUpdatePage={handleUpdatePage}
     />
   )

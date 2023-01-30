@@ -1,6 +1,6 @@
 # get publications
 
-GET http://localhost:5000/api/v1/publications/63d5c42a05e8266454c5170f
+GET http://localhost:5000/api/v1/publications/63d5d18bf70dcdbe8d21735f
 
 ###
 

@@ -1,9 +1,15 @@
 const page = (pageSlug: string) => `/${pageSlug}`
 
-const pageCentralTrackers = (pageSlug: string) =>
-  `/${pageSlug}/central/trackers`
+const templateCentralTrackers = (pageSlug: string, templateSlug: string) =>
+  `/${pageSlug}/${templateSlug}/trackers`
+
+const terms = () => `/terms`
+
+const home = () => `/`
 
 export const pageUrls = {
   page,
-  pageCentralTrackers,
+  templateCentralTrackers,
+  terms,
+  home,
 }
