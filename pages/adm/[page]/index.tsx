@@ -1,12 +1,12 @@
 import { useState } from "react"
-import CreatorPage from "../../layouts/main/CreatorPage/CreatorPage"
-import { usePage } from "../../services/hooks/usePage/usePage"
-import { usePagesByWorkspace } from "../../services/hooks/usePage/usePagesByWorkspace"
-import { useTemplatesByPageId } from "../../services/hooks/useTemplate/useTemplatesByPageId"
-import { useWorkspace } from "../../services/hooks/useWorkspace/useWorkspace"
-import { IPage } from "../../types/Page.type"
-import { ITemplate } from "../../types/Template.type"
-import { IWorkspace } from "../../types/Workspace.type"
+import CreatorPage from "../../../layouts/main/CreatorPage/CreatorPage"
+import { usePage } from "../../../services/hooks/usePage/usePage"
+import { usePagesByWorkspace } from "../../../services/hooks/usePage/usePagesByWorkspace"
+import { useTemplatesByPageId } from "../../../services/hooks/useTemplate/useTemplatesByPageId"
+import { useWorkspace } from "../../../services/hooks/useWorkspace/useWorkspace"
+import { IPage } from "../../../types/Page.type"
+import { ITemplate } from "../../../types/Template.type"
+import { IWorkspace } from "../../../types/Workspace.type"
 
 type AdmPageProps = {
   pageId: string

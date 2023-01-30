@@ -1,8 +1,8 @@
-import PublishTemplate from "../../../layouts/main/PublishTemplate/PublishTemplate"
-import { usePageByUrl } from "../../../services/hooks/usePage/usePageByUrl"
-import { useCreateTemplate } from "../../../services/hooks/useTemplate/useCreateTemplate"
-import { IPage } from "../../../types/Page.type"
-import { ITemplate } from "../../../types/Template.type"
+import PublishTemplate from "../../../../layouts/main/PublishTemplate/PublishTemplate"
+import { usePageByUrl } from "../../../../services/hooks/usePage/usePageByUrl"
+import { useCreateTemplate } from "../../../../services/hooks/useTemplate/useCreateTemplate"
+import { IPage } from "../../../../types/Page.type"
+import { ITemplate } from "../../../../types/Template.type"
 
 export default function PublishTemplatePage() {
   const pageLink = "felpspage"

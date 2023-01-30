@@ -1,10 +1,12 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage, IUpdatePage } from "../../../types/Page.type"
 import { IUpdateTemplate } from "../../../types/Template.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { PageTrackersContent } from "./PageTrackersContent"
 
 type PageTrackersProps = {
@@ -44,6 +46,8 @@ export default function PageTrackers({
     setRunUpdate(stat)
   }
 
+  const router = useRouter()
+
   function handleTabBar() {
     if (isUpdating) {
       return [
@@ -51,7 +55,9 @@ export default function PageTrackers({
           key={1}
           variant="txt"
           text={text("pagetrackers:back")}
-          onClick={() => console.log()}
+          onClick={() =>
+            router.push(pageUrls.pageSettings(pageData?.url || "", "general"))
+          }
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -67,7 +73,9 @@ export default function PageTrackers({
           key={1}
           variant="txt"
           text={text("pagetrackers:back")}
-          onClick={() => console.log()}
+          onClick={() =>
+            router.push(pageUrls.pageSettings(pageData?.url || "", "general"))
+          }
         />,
       ]
     }
@@ -80,8 +88,17 @@ export default function PageTrackers({
           variant="img-txt"
           text={pageData?.name || ""}
           img_url={pageData?.avatar_url || ""}
+          onClick={() =>
+            router.push(pageUrls.pageSettings(pageData?.url || ""))
+          }
         />
-        <Tag variant="txt" text={text("pagetrackers:general")} />
+        <Tag
+          variant="txt"
+          text={text("pagetrackers:general")}
+          onClick={() =>
+            router.push(pageUrls.pageSettings(pageData?.url || "", "general"))
+          }
+        />
         <Tag variant="txt" text={text("pagetrackers:trackers")} />
       </Header>
     )

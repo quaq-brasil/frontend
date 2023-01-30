@@ -1,7 +1,12 @@
 const page = (pageSlug: string) => `/${pageSlug}`
 
-const pageSettings = (pageSlug: string, pageSettings: string) =>
-  `/${pageSlug}/settings/${pageSettings}`
+const pageSettings = (pageSlug: string, pageSettings?: string) => {
+  if (pageSettings) {
+    return `/${pageSlug}/adm/${pageSettings}`
+  } else {
+    return `/${pageSlug}/adm`
+  }
+}
 
 const createPage = () => `/create-page`
 

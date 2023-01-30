@@ -6,15 +6,15 @@ type CardTextProps = {
   indicator?: {
     icon?: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
     text?: string
-    onClick?: () => void
     isVisible?: boolean
   }
+  onClick?: () => void
 }
 
 export function CardText(props: CardTextProps) {
   function handleClick() {
-    if (props.indicator?.onClick) {
-      props.indicator.onClick()
+    if (props?.onClick) {
+      props.onClick()
     }
   }
 

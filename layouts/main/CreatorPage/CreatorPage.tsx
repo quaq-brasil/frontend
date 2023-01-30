@@ -261,7 +261,7 @@ export default function CreatorPage({
         variant="txt"
         text={text("creatorpage:general")}
         onClick={() =>
-          router.push(pageUrls.pageSettings(pageData?.url || "", "generals"))
+          router.push(pageUrls.pageSettings(pageData?.url || "", "general"))
         }
       />,
       <Tag

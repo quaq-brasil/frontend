@@ -1,5 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
-import Link from "next/link"
+import { useRouter } from "next/router"
 import { ArrowRight } from "phosphor-react"
 import { useEffect } from "react"
 import { Button } from "../../../components/Button/Button"
@@ -45,6 +45,8 @@ export function GeneralSettingsContent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
+  const router = useRouter()
+
   return (
     <div className="w-full h-screen bg-slate-100">
       <div
@@ -86,7 +88,7 @@ export function GeneralSettingsContent({
             />
             <CardText
               label={text("generalsettings:sharelink")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              indicator={{ icon: ArrowRight }}
             />
           </Card>
           <Card>
@@ -131,25 +133,30 @@ export function GeneralSettingsContent({
               <CardText label={text("generalsettings:options")} />
               <CardText
                 label={text("generalsettings:delete")}
-                indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+                indicator={{ icon: ArrowRight }}
+                onClick={() =>
+                  router.push(
+                    pageUrls.pageSettings(pageData?.url || "", "delete")
+                  )
+                }
               />
               <CardLine />
-              <Link
-                href={pageUrls.terms()}
-                className="w-full h-fit flex flex-col justify-center"
-              >
-                <CardText
-                  label={text("generalsettings:terms")}
-                  indicator={{
-                    icon: ArrowRight,
-                    onClick: () => console.log(),
-                  }}
-                />
-              </Link>
+              <CardText
+                label={text("generalsettings:terms")}
+                indicator={{
+                  icon: ArrowRight,
+                }}
+                onClick={() => router.push(pageUrls.terms())}
+              />
               <CardLine />
               <CardText
                 label={text("generalsettings:trackers")}
-                indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+                indicator={{ icon: ArrowRight }}
+                onClick={() =>
+                  router.push(
+                    pageUrls.pageSettings(pageData?.url || "", "trackers")
+                  )
+                }
               />
               <CardLine />
             </Card>

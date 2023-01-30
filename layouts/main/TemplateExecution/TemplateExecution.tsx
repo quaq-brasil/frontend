@@ -39,7 +39,7 @@ export default function TemplateExecution({
         key={1}
         variant="txt"
         text={text("profile:back")}
-        onClick={() => console.log("tab1")}
+        onClick={() => router.push(pageUrls.page(pageData?.url || ""))}
       />,
     ]
   }
@@ -57,7 +57,6 @@ export default function TemplateExecution({
           variant="img-txt"
           text={templateData?.name || ""}
           img_url={templateData?.shortcut_image || ""}
-          onClick={() => router.push(templateData?.url || "")}
         />
       </Header>
     )

@@ -1,9 +1,11 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUpdatePage } from "../../../types/Page.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { GeneralSettingsContent } from "./GeneralSettingsContent"
 
 type GeneralSettingsProps = {
@@ -45,6 +47,8 @@ export default function GeneralSettings({
     setPageData(initialPageData)
   }, [initialPageData])
 
+  const router = useRouter()
+
   function handleTabBar() {
     if (isUpdating) {
       return [
@@ -52,7 +56,7 @@ export default function GeneralSettings({
           key={1}
           variant="txt"
           text={text("generalsettings:back")}
-          onClick={() => console.log("tab1")}
+          onClick={() => router.push(pageUrls.page(pageData?.url || ""))}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -68,7 +72,9 @@ export default function GeneralSettings({
           key={1}
           variant="txt"
           text={text("generalsettings:back")}
-          onClick={() => console.log("tab1")}
+          onClick={() =>
+            router.push(pageUrls.pageSettings(pageData?.url || ""))
+          }
         />,
       ]
     }
@@ -81,6 +87,9 @@ export default function GeneralSettings({
           variant="img-txt"
           text={pageData?.name || ""}
           img_url={pageData?.avatar_url || ""}
+          onClick={() =>
+            router.push(pageUrls.pageSettings(pageData?.url || ""))
+          }
         />
         <Tag variant="txt" text={text("generalsettings:titletag")} />
       </Header>

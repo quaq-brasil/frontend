@@ -1,10 +1,12 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage } from "../../../types/Page.type"
 import { IUser } from "../../../types/User.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { PageDeleteContent } from "./PageDeleteContent"
 
 type PageDeleteProps = {
@@ -41,6 +43,8 @@ export default function PageDelete({
     setRunUpdate(stat)
   }
 
+  const router = useRouter()
+
   function handleTabBar() {
     if (isUpdating) {
       return [
@@ -48,7 +52,9 @@ export default function PageDelete({
           key={1}
           variant="txt"
           text={text("pagedelete:back")}
-          onClick={() => console.log("tab1")}
+          onClick={() =>
+            router.push(pageUrls.pageSettings(pageData?.url || "", "general"))
+          }
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -64,7 +70,9 @@ export default function PageDelete({
           key={1}
           variant="txt"
           text={text("pagedelete:back")}
-          onClick={() => console.log("tab1")}
+          onClick={() =>
+            router.push(pageUrls.pageSettings(pageData?.url || "", "general"))
+          }
         />,
       ]
     }
@@ -77,8 +85,17 @@ export default function PageDelete({
           variant="img-txt"
           text={pageData?.name || ""}
           img_url={pageData?.avatar_url || ""}
+          onClick={() =>
+            router.push(pageUrls.pageSettings(pageData?.url || ""))
+          }
         />
-        <Tag variant="txt" text={text("pagedelete:general")} />
+        <Tag
+          variant="txt"
+          text={text("pagedelete:general")}
+          onClick={() =>
+            router.push(pageUrls.pageSettings(pageData?.url || "", "general"))
+          }
+        />
         <Tag variant="txt" text={text("pagedelete:delete")} />
       </Header>
     )
