@@ -11,9 +11,9 @@ POST http://localhost:5000/api/v1/pages
 Content-Type: application/json
 
 {
-    "name": "second page",
-    "url": "secondpage",
-    "workspace_id": "63d68863688c6d9d82a5f648",
+    "name": "pagininha",
+    "url": "pagininha",
+    "workspace_id": "63d7c6424b1d81503bf6beb9",
     "avatar_url": "https://images.unsplash.com/photo-1522124624696-7ea32eb9592c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60",
     "background_url": "https://images.unsplash.com/photo-1522124624696-7ea32eb9592c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60"
 }

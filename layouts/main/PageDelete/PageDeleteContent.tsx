@@ -60,6 +60,7 @@ export function PageDeleteContent({
         onError: () => {
           setPasswordNotValid(true)
           handleUpdateIsUpdating(false)
+          handleUpdateRunUpdate(false)
         },
       }
     )

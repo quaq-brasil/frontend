@@ -14,16 +14,16 @@ export default function PageDeletePage({
   pageId,
   userId,
 }: PageDeletePageProps) {
-  const getUser = useUser({ id: "63d68a12688c6d9d82a5f649" })
+  const getUser = useUser({ id: "63d7c5dd4b1d81503bf6beb8" })
 
   const getPage = usePage({
-    id: "63d6ab6f86257d7569799814",
+    id: "63d7c76b4b1d81503bf6bebc",
   })
 
   const deletePage = useDeletePage()
 
   function handleDeletePage() {
-    deletePage.mutate({ id: "63b754987d02f98b8692255e" })
+    deletePage.mutate({ id: "63d7c76b4b1d81503bf6bebc" })
   }
 
   return (
