@@ -1,8 +1,8 @@
-import CentralTrackers from "../../../layouts/main/CentralTrackers/CentralTrackers"
-import { usePage } from "../../../services/hooks/usePage/usePage"
-import { useTemplate } from "../../../services/hooks/useTemplate/useTemplate"
-import { useUpdateTemplate } from "../../../services/hooks/useTemplate/useUpdateTemplate"
-import { IUpdateTemplate } from "../../../types/Template.type"
+import CentralTrackers from "../../../../layouts/main/CentralTrackers/CentralTrackers"
+import { usePage } from "../../../../services/hooks/usePage/usePage"
+import { useTemplate } from "../../../../services/hooks/useTemplate/useTemplate"
+import { useUpdateTemplate } from "../../../../services/hooks/useTemplate/useUpdateTemplate"
+import { IUpdateTemplate } from "../../../../types/Template.type"
 
 type CentralTrackersPageProps = {
   pageId: string

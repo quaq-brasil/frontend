@@ -1,9 +1,9 @@
-import EditTemplate from "../../../layouts/main/EditTemplate/EditTemplate"
-import { usePage } from "../../../services/hooks/usePage/usePage"
-import { useTemplate } from "../../../services/hooks/useTemplate/useTemplate"
-import { useUpdateTemplate } from "../../../services/hooks/useTemplate/useUpdateTemplate"
-import { IPage } from "../../../types/Page.type"
-import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
+import EditTemplate from "../../../../layouts/main/EditTemplate/EditTemplate"
+import { usePage } from "../../../../services/hooks/usePage/usePage"
+import { useTemplate } from "../../../../services/hooks/useTemplate/useTemplate"
+import { useUpdateTemplate } from "../../../../services/hooks/useTemplate/useUpdateTemplate"
+import { IPage } from "../../../../types/Page.type"
+import { ITemplate, IUpdateTemplate } from "../../../../types/Template.type"
 
 type EditTemplatePageProps = {
   pageId: string
