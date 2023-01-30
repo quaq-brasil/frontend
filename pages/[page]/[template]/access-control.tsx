@@ -1,8 +1,8 @@
-import TemplateAccessControl from "../../layouts/main/TemplateAccessControl/TemplateAccessControl"
-import { usePage } from "../../services/hooks/usePage/usePage"
-import { useTemplate } from "../../services/hooks/useTemplate/useTemplate"
-import { IPage } from "../../types/Page.type"
-import { ITemplate } from "../../types/Template.type"
+import TemplateAccessControl from "../../../layouts/main/TemplateAccessControl/TemplateAccessControl"
+import { usePage } from "../../../services/hooks/usePage/usePage"
+import { useTemplate } from "../../../services/hooks/useTemplate/useTemplate"
+import { IPage } from "../../../types/Page.type"
+import { ITemplate } from "../../../types/Template.type"
 
 type TemplateAccessControlPageProps = {
   pageId: string
