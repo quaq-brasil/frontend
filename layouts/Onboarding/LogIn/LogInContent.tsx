@@ -1,16 +1,16 @@
-import useTranslation from "next-translate/useTranslation";
-import dynamic from "next/dynamic";
-import { Button } from "../../../components/Button/Button";
-import { Card } from "../../../components/Card/Card";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
+import useTranslation from "next-translate/useTranslation"
+import dynamic from "next/dynamic"
+import { Button } from "../../../components/Button/Button"
+import { Card } from "../../../components/Card/Card"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 
 const QuickIn = dynamic(() => import("../../../components/QuickIn/QuickIn"), {
   ssr: false,
-});
+})
 
 export function LogInContent() {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   function handleFinishSignUp() {}
 
@@ -22,7 +22,7 @@ export function LogInContent() {
         md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:p-[2rem]"
       >
         <div className="flex flex-col gap-2 md:gap-4 items-center">
-          <QuickIn currentUrl={(e) => console.log(e)} />
+          {/* <QuickIn currentUrl={(e) => console.log(e)} /> */}
           <Card>
             <CardText label={text("login:getemail")} />
             <CardTextInput
@@ -52,5 +52,5 @@ export function LogInContent() {
         </div>
       </div>
     </div>
-  );
+  )
 }

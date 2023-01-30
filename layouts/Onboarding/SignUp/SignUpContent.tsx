@@ -1,24 +1,24 @@
-import useTranslation from "next-translate/useTranslation";
-import dynamic from "next/dynamic";
-import { useState } from "react";
-import { Button } from "../../../components/Button/Button";
-import { Card } from "../../../components/Card/Card";
-import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
-import { ImageSelector } from "../../../components/ImageSelector/ImageSelector";
+import useTranslation from "next-translate/useTranslation"
+import dynamic from "next/dynamic"
+import { useState } from "react"
+import { Button } from "../../../components/Button/Button"
+import { Card } from "../../../components/Card/Card"
+import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 
 const QuickIn = dynamic(() => import("../../../components/QuickIn/QuickIn"), {
   ssr: false,
-});
+})
 
 export function SignUpContent() {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
-  const [finished, setFinished] = useState(false);
+  const [finished, setFinished] = useState(false)
 
   function handleFinishSignUp() {
-    setFinished(true);
+    setFinished(true)
   }
 
   return (
@@ -32,7 +32,7 @@ export function SignUpContent() {
           <Card>
             <CardText label={text("signup:firstmessage")} />
           </Card>
-          <QuickIn currentUrl={(e) => console.log(e)} />
+          {/* <QuickIn currentUrl={(e) => console.log(e)} /> */}
           <Card>
             <CardText label={text("signup:secondmessage")} />
           </Card>
@@ -88,5 +88,5 @@ export function SignUpContent() {
         </div>
       </div>
     </div>
-  );
+  )
 }
