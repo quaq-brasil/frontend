@@ -60,6 +60,7 @@ export function WorkspaceDeleteContent({
         onError: () => {
           setPasswordNotValid(true)
           handleUpdateIsUpdating(false)
+          handleUpdateRunUpdate(false)
         },
       }
     )
