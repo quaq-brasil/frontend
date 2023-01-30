@@ -4,31 +4,32 @@ import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
-import { IUpdateTemplate } from "../../../types/Template.type"
+import { IUpdatePage } from "../../../types/Page.type"
 
-type CentralTrackersContentProps = {
-  handleUpdateTrackers: (data: IUpdateTemplate) => void
+type PageTrackersContentProps = {
+  pageData: IUpdatePage | undefined
+  handleUpdateTrackers: (data: IUpdatePage) => void
   isUpdating: boolean
-  templateData: IUpdateTemplate | undefined
+  handleUpdateIsUpdating: (stat: boolean) => void
   runUpdate: boolean
   handleUpdateRunUpdate: (stat: boolean) => void
-  handleUpdateTemplateData: (data: IUpdateTemplate) => void
+  handleUpdatePageData: (data: IUpdatePage) => void
 }
 
-export function CentralTrackersContent({
+export function PageTrackersContent({
+  pageData,
   handleUpdateTrackers,
   isUpdating,
-  handleUpdateTemplateData,
-  templateData,
   runUpdate,
   handleUpdateRunUpdate,
-}: CentralTrackersContentProps) {
+  handleUpdatePageData,
+}: PageTrackersContentProps) {
   const text = useTranslation().t
 
   useEffect(() => {
     if (runUpdate) {
       handleUpdateTrackers({
-        trackers: { ...templateData?.trackers },
+        trackers: { ...pageData?.trackers },
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,35 +44,35 @@ export function CentralTrackersContent({
       >
         <div className="flex flex-col gap-2 md:gap-4 items-center">
           <Card>
-            <CardText label={text("centraltrackers:facebook")} />
+            <CardText label={text("pagetrackers:facebook")} />
             <CardTextInput
               input={{
-                label: text("centraltrackers:facebooklabel"),
+                label: text("pagetrackers:facebooklabel"),
                 onChange: (pixel) =>
-                  handleUpdateTemplateData({
+                  handleUpdatePageData({
                     trackers: {
-                      ...templateData?.trackers,
+                      ...pageData?.trackers,
                       facebook: pixel,
                     },
                   }),
-                defaultValue: templateData?.trackers?.facebook,
+                defaultValue: pageData?.trackers?.facebook,
               }}
             />
           </Card>
 
           <Card>
-            <CardText label={text("centraltrackers:google")} />
+            <CardText label={text("pagetrackers:google")} />
             <CardTextInput
               input={{
-                label: text("centraltrackers:googlelabel"),
+                label: text("pagetrackers:googlelabel"),
                 onChange: (id) =>
-                  handleUpdateTemplateData({
+                  handleUpdatePageData({
                     trackers: {
-                      ...templateData?.trackers,
+                      ...pageData?.trackers,
                       google: id,
                     },
                   }),
-                defaultValue: templateData?.trackers?.google,
+                defaultValue: pageData?.trackers?.google,
               }}
             />
           </Card>
@@ -81,7 +82,7 @@ export function CentralTrackersContent({
               <Button
                 color="black"
                 onClick={() => handleUpdateRunUpdate(true)}
-                text={text("centraltrackers:confirm")}
+                text={text("pagetrackers:confirm")}
               />
             </div>
           )}

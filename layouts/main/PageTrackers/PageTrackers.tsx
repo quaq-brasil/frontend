@@ -3,47 +3,46 @@ import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-import { IUpdatePage } from "../../../types/Page.type"
-import { GeneralSettingsContent } from "./GeneralSettingsContent"
+import { IPage, IUpdatePage } from "../../../types/Page.type"
+import { IUpdateTemplate } from "../../../types/Template.type"
+import { PageTrackersContent } from "./PageTrackersContent"
 
-type GeneralSettingsProps = {
-  initialPageData: IUpdatePage
-  handleUpdatePage: (data: IUpdatePage) => void
+type PageTrackersProps = {
+  handleUpdateTrackers: (data: IUpdateTemplate) => void
+  initialPageData?: IPage
 }
 
-export default function GeneralSettings({
+export default function PageTrackers({
+  handleUpdateTrackers,
   initialPageData,
-  handleUpdatePage,
-}: GeneralSettingsProps) {
+}: PageTrackersProps) {
   const text = useTranslation().t
 
+  const [isUpdating, setIsUpdating] = useState<boolean>(false)
   const [pageData, setPageData] = useState<IUpdatePage>()
-  const [isUpdating, setIsUpdating] = useState(false)
-  const [runUpdate, setRunUpdate] = useState(false)
-
-  function handleUpdatePageData(newData: IUpdatePage) {
-    setPageData({
-      ...pageData,
-      avatar_url: newData.avatar_url || pageData?.avatar_url,
-      background_url: newData.background_url || pageData?.background_url,
-      url: newData.url || pageData?.url,
-      name: newData.name || pageData?.name,
-      description: newData.description || pageData?.description,
-    })
-    setIsUpdating(true)
-  }
 
   function handleUpdateIsUpdating(stat: boolean) {
     setIsUpdating(stat)
   }
 
+  useEffect(() => {
+    setPageData(initialPageData)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialPageData])
+
+  function handleUpdatePageData(newData: IUpdatePage) {
+    setPageData({
+      ...pageData,
+      trackers: newData.trackers || pageData?.trackers,
+    })
+    handleUpdateIsUpdating(true)
+  }
+
+  const [runUpdate, setRunUpdate] = useState(false)
+
   function handleUpdateRunUpdate(stat: boolean) {
     setRunUpdate(stat)
   }
-
-  useEffect(() => {
-    setPageData(initialPageData)
-  }, [initialPageData])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -51,13 +50,13 @@ export default function GeneralSettings({
         <Tag
           key={1}
           variant="txt"
-          text={text("generalsettings:back")}
-          onClick={() => console.log("tab1")}
+          text={text("pagetrackers:back")}
+          onClick={() => console.log()}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("generalsettings:update")}
+            text={text("pagetrackers:update")}
             onClick={() => handleUpdateRunUpdate(true)}
           />
         </div>,
@@ -67,8 +66,8 @@ export default function GeneralSettings({
         <Tag
           key={1}
           variant="txt"
-          text={text("generalsettings:back")}
-          onClick={() => console.log("tab1")}
+          text={text("pagetrackers:back")}
+          onClick={() => console.log()}
         />,
       ]
     }
@@ -82,7 +81,8 @@ export default function GeneralSettings({
           text={pageData?.name || ""}
           img_url={pageData?.avatar_url || ""}
         />
-        <Tag variant="txt" text={text("generalsettings:titletag")} />
+        <Tag variant="txt" text={text("pagetrackers:general")} />
+        <Tag variant="txt" text={text("pagetrackers:trackers")} />
       </Header>
     )
   }
@@ -90,14 +90,14 @@ export default function GeneralSettings({
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <GeneralSettingsContent
+      <PageTrackersContent
         pageData={pageData}
-        handleUpdatePageData={handleUpdatePageData}
-        handleUpdatePage={handleUpdatePage}
+        handleUpdateTrackers={handleUpdateTrackers}
         isUpdating={isUpdating}
         handleUpdateIsUpdating={handleUpdateIsUpdating}
         runUpdate={runUpdate}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
+        handleUpdatePageData={handleUpdatePageData}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

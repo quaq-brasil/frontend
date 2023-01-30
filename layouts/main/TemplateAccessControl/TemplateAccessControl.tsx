@@ -4,7 +4,7 @@ import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage, IUpdatePage } from "../../../types/Page.type"
-import { ITemplate, IUpateTemplate } from "../../../types/Template.type"
+import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
 import { TemplateAccessControlContent } from "./TemplateAccessControlContent"
 
 type TemplateAccessControlProps = {
@@ -18,7 +18,7 @@ export default function TemplateAccessControl({
 }: TemplateAccessControlProps) {
   const text = useTranslation().t
 
-  const [templateData, setTemplateData] = useState<IUpateTemplate>()
+  const [templateData, setTemplateData] = useState<IUpdateTemplate>()
   const [pageData, setPageData] = useState<IUpdatePage>()
 
   useEffect(() => {

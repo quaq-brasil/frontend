@@ -4,13 +4,13 @@ import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage, IUpdatePage } from "../../../types/Page.type"
-import { ITemplate, IUpateTemplate } from "../../../types/Template.type"
+import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
 import { EditTemplateContent } from "./EditTemplateContent"
 
 type EditTemplateProps = {
   initialPageData: IPage
   initialTemplateData: ITemplate
-  handleUpdateTemplate: (data: IUpateTemplate) => void
+  handleUpdateTemplate: (data: IUpdateTemplate) => void
 }
 
 export default function EditTemplate({
@@ -21,7 +21,7 @@ export default function EditTemplate({
   const text = useTranslation().t
 
   const [pageData, setPageData] = useState<IUpdatePage>()
-  const [templateData, setTemplateData] = useState<IUpateTemplate>()
+  const [templateData, setTemplateData] = useState<IUpdateTemplate>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -33,7 +33,7 @@ export default function EditTemplate({
     setRunUpdate(stat)
   }
 
-  function handleUpdateTemplateData(newData: IUpateTemplate) {
+  function handleUpdateTemplateData(newData: IUpdateTemplate) {
     setTemplateData({
       ...templateData,
       name: newData.name || templateData?.name,
@@ -101,6 +101,7 @@ export default function EditTemplate({
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
       <EditTemplateContent
+        pageData={pageData}
         templateData={templateData}
         handleUpdateTemplateData={handleUpdateTemplateData}
         handleUpdateTemplate={handleUpdateTemplate}

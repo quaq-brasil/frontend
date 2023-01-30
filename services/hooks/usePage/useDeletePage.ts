@@ -6,14 +6,13 @@ type useDeletePageProps = {
   id: string
 } & useMutationProps
 
-export const useDeletePage = ({ id, options }: useDeletePageProps) => {
-  const deletePage = async () => {
+export const useDeletePage = () => {
+  const deletePage = async ({ id }: useDeletePageProps) => {
     await api.delete(`/pages/${id}`)
   }
 
   return useMutation({
-    mutationKey: ["deletePage", id],
+    mutationKey: ["deletePage"],
     mutationFn: deletePage,
-    ...options,
   })
 }

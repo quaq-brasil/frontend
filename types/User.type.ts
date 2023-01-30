@@ -1,4 +1,5 @@
 export type IUser = {
+  id?: string
   email: string
   password: string
   type: string
@@ -15,7 +16,7 @@ export type IUser = {
   workspace_id: string
 }
 
-export type IUserUpdate = {
+export type IUpdateUser = {
   email?: string
   password?: string
   type?: string

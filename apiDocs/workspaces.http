@@ -1,6 +1,6 @@
 # find one
 
-GET http://localhost:5000/api/v1/workspaces/63d58c208f9e0158905655cc
+GET http://localhost:5000/api/v1/workspaces/63d68863688c6d9d82a5f648
 
 ###
 
@@ -12,6 +12,7 @@ Content-Type: application/json
 {
   "name": "My Workspaces",
   "avatar_url": "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1222&q=80",
+  "user_id": "63d68764688c6d9d82a5f647",
   "services": [
     {
       "name": "My Service",

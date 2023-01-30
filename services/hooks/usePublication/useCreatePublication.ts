@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { useMutationProps } from "../../../types/useQueryProps"
 import { api } from "../../apiClient"
 import { IPublication } from "./../../../types/Publication.type"
@@ -9,7 +9,12 @@ type useCreatePublicationProps = {
 
 export const useCreatePublication = () => {
   const createPublication = async ({ data }: useCreatePublicationProps) => {
-    await api.post(`/publications`, data)
+    const response: UseMutationResult<IPublication> = await api.post(
+      `/publications`,
+      data
+    )
+
+    return response.data as IPublication
   }
 
   return useMutation({

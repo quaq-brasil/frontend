@@ -1,5 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { Check } from "phosphor-react"
+import { useEffect, useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -7,29 +8,85 @@ import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
+import { useCreatePublication } from "../../../services/hooks/usePublication/useCreatePublication"
+import { IPage } from "../../../types/Page.type"
+import { IPublication } from "../../../types/Publication.type"
+import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
 
 type PublishTemplateContentProps = {
-  handleCreate: () => void
+  handleCreateTemplate: (data: ITemplate) => void
   isUpdating: boolean
-  handleUpdateTemplateTitle: (value: string) => void
-  handleUpdateTemplateLink: (value: string) => void
-  handleUpdateTemplateCover: (value: string) => void
-  handleUpdateTemplateSize: (value: string) => void
-  handleUpdatePublicationTitle: (value: string) => void
-  size: string
+  runUpdate: boolean
+  handleUpdateRunUpdate: (stat: boolean) => void
+  templateData: IUpdateTemplate | undefined
+  handleUpdateTemplateData: (data: IUpdateTemplate) => void
+  pageData: IPage | undefined
+  handleUpdateIsUpdating: (stat: boolean) => void
 }
 
 export function PublishTemplateContent({
-  handleCreate,
+  handleCreateTemplate,
   isUpdating,
-  handleUpdateTemplateTitle,
-  handleUpdateTemplateLink,
-  handleUpdateTemplateCover,
-  handleUpdateTemplateSize,
-  handleUpdatePublicationTitle,
-  size,
+  runUpdate,
+  handleUpdateRunUpdate,
+  templateData,
+  handleUpdateTemplateData,
+  pageData,
+  handleUpdateIsUpdating,
 }: PublishTemplateContentProps) {
   const text = useTranslation().t
+
+  useEffect(() => {
+    if (runUpdate) {
+      handleCreatePublication()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
+  const [newPublicationTitle, setNewPublicationTitle] = useState("")
+  const [publicationId, setPublicationId] = useState<string>()
+
+  const createPublication = useCreatePublication()
+
+  function handleCreatePublication() {
+    createPublication.mutate(
+      {
+        data: {
+          title: newPublicationTitle,
+          blocks: [],
+          page_id: pageData?.id || "",
+        },
+      },
+      {
+        onSuccess: (data: IPublication) => {
+          setPublicationId(data.id as string)
+        },
+      }
+    )
+  }
+
+  function handleUpdateNewPublicationTitle(title: string) {
+    handleUpdateIsUpdating(true)
+    setNewPublicationTitle(title)
+    if (title === "") {
+      handleUpdateIsUpdating(false)
+    }
+  }
+
+  useEffect(() => {
+    if (publicationId) {
+      handleCreateTemplate({
+        current_publication_id: publicationId,
+        name: templateData?.name || "",
+        page_id: pageData?.id || "",
+        number_of_new_interactions: 0,
+        shortcut_image: templateData?.shortcut_image || "",
+        shortcut_size: templateData?.shortcut_size || "small",
+        url: templateData?.url || "",
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [publicationId])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -44,7 +101,7 @@ export function PublishTemplateContent({
             <CardTextInput
               input={{
                 label: text("publish:titlelabel"),
-                onChange: (e) => handleUpdateTemplateTitle(e),
+                onChange: (title) => handleUpdateTemplateData({ name: title }),
               }}
             />
           </Card>
@@ -53,7 +110,7 @@ export function PublishTemplateContent({
             <CardTextInput
               input={{
                 label: text("publish:linklabel"),
-                onChange: (e) => handleUpdateTemplateLink(e),
+                onChange: (link) => handleUpdateTemplateData({ url: link }),
                 fixedText: "quaq.me/",
               }}
             />
@@ -63,7 +120,9 @@ export function PublishTemplateContent({
             <CardImageInput
               imageSelector={
                 <ImageSelector
-                  onImageChange={(e) => handleUpdateTemplateCover(e)}
+                  onImageChange={(cover) =>
+                    handleUpdateTemplateData({ shortcut_image: cover })
+                  }
                 />
               }
             />
@@ -75,8 +134,10 @@ export function PublishTemplateContent({
               label={text("publish:small")}
               indicator={{
                 icon: Check,
-                onClick: () => handleUpdateTemplateSize("small"),
-                isVisible: size == "small" ? false : true,
+                onClick: () =>
+                  handleUpdateTemplateData({ shortcut_size: "small" }),
+                isVisible:
+                  templateData?.shortcut_size == "small" ? false : true,
               }}
             />
             <CardLine />
@@ -84,8 +145,10 @@ export function PublishTemplateContent({
               label={text("publish:large")}
               indicator={{
                 icon: Check,
-                onClick: () => handleUpdateTemplateSize("large"),
-                isVisible: size == "large" ? false : true,
+                onClick: () =>
+                  handleUpdateTemplateData({ shortcut_size: "large" }),
+                isVisible:
+                  templateData?.shortcut_size == "large" ? false : true,
               }}
             />
             <CardLine />
@@ -95,7 +158,7 @@ export function PublishTemplateContent({
             <CardTextInput
               input={{
                 label: text("publish:publishaslabel"),
-                onChange: (e) => handleUpdatePublicationTitle(e),
+                onChange: (title) => handleUpdateNewPublicationTitle(title),
               }}
             />
           </Card>
@@ -103,7 +166,7 @@ export function PublishTemplateContent({
             <div className="w-full h-fit hidden xl:block">
               <Button
                 color="black"
-                onClick={handleCreate}
+                onClick={() => handleUpdateRunUpdate(true)}
                 text={text("publish:confirm")}
               />
             </div>

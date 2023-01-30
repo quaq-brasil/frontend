@@ -6,31 +6,31 @@ import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { useLogin } from "../../../services/hooks/useUser/useLogin"
-import { IUpdateUser } from "../../../types/User.type"
+import { IUser } from "../../../types/User.type"
 
-type WorkspaceDeleteContentProps = {
+type PageDeleteContentProps = {
+  handleDeletePage: () => void
+  userData: IUser | undefined
   isUpdating: boolean
   runUpdate: boolean
   handleUpdateIsUpdating: (stat: boolean) => void
   handleUpdateRunUpdate: (stat: boolean) => void
-  handleDeleteWorkspace: () => void
-  userData: IUpdateUser | undefined
 }
 
-export function WorkspaceDeleteContent({
-  isUpdating,
-  runUpdate,
+export function PageDeleteContent({
+  handleDeletePage,
   handleUpdateIsUpdating,
   handleUpdateRunUpdate,
-  handleDeleteWorkspace,
+  isUpdating,
+  runUpdate,
   userData,
-}: WorkspaceDeleteContentProps) {
+}: PageDeleteContentProps) {
   const text = useTranslation().t
 
   const [password, setPassword] = useState<string>()
   const [passwordNotValid, setPasswordNotValid] = useState(false)
 
-  function hnadleUpdatePassword(password: string) {
+  function handleUpdatePassword(password: string) {
     setPassword(password)
     handleUpdateIsUpdating(true)
     setPasswordNotValid(false)
@@ -53,7 +53,7 @@ export function WorkspaceDeleteContent({
       },
       {
         onSuccess: () => {
-          handleDeleteWorkspace()
+          handleDeletePage()
           handleUpdateRunUpdate(true)
           handleUpdateIsUpdating(false)
         },
@@ -74,17 +74,17 @@ export function WorkspaceDeleteContent({
       >
         <div className="flex flex-col gap-2 md:gap-4 items-center">
           <Card>
-            <CardText label={text("wsdelete:title")} />
+            <CardText label={text("pagedelete:title")} />
             <CardLine />
-            <CardText label={text("wsdelete:largetext")} />
+            <CardText label={text("pagedelete:longtext")} />
             <CardLine />
           </Card>
           <Card>
-            <CardText label={text("wsdelete:password")} />
+            <CardText label={text("pagedelete:password")} />
             <CardTextInput
               input={{
-                label: text("wsdelete:passwordinput"),
-                onChange: (password) => hnadleUpdatePassword(password),
+                label: text("pagedelete:passwordinput"),
+                onChange: (password) => handleUpdatePassword(password),
                 type: "password",
               }}
             />
@@ -94,13 +94,13 @@ export function WorkspaceDeleteContent({
               <Button
                 color="black"
                 onClick={() => handleUpdateRunUpdate(true)}
-                text={text("wsdelete:confirm")}
+                text={text("pagedelete:confirm")}
               />
             </div>
           )}
           {passwordNotValid && (
             <Card>
-              <CardText label={text("wsdelete:failed")} />
+              <CardText label={text("pagedelete:failed")} />
             </Card>
           )}
           <span className="w-full h-[4rem]"></span>

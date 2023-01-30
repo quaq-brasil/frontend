@@ -1,0 +1,11 @@
+{
+  "back": "voltar",
+  "general": "geral",
+  "delete": "deletar",
+  "title": "deletar página",
+  "longtext": "ao deletar uma página você concorda em deletar todos os templates e os dados associados a ela",
+  "password": "digite a sua senha para deletar esta página",
+  "passwordinput": "digite aqui",
+  "confirm": "confirmar",
+  "failed": "senha incorreta, por favor tente novamente"
+}

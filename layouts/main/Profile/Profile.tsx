@@ -3,12 +3,12 @@ import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-import { IUser, IUserUpdate } from "../../../types/User.type"
+import { IUpdateUser, IUser } from "../../../types/User.type"
 import { ProfileContent } from "./ProfileContent"
 
 type ProfileProps = {
   userData: IUser
-  handleUserUpdate: (userData: IUserUpdate) => void
+  handleUserUpdate: (userData: IUpdateUser) => void
 }
 
 export default function Profile({ userData, handleUserUpdate }: ProfileProps) {

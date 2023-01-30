@@ -3,35 +3,35 @@ import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-import { IUpdatePage } from "../../../types/Page.type"
-import { GeneralSettingsContent } from "./GeneralSettingsContent"
+import { IPage } from "../../../types/Page.type"
+import { IUser } from "../../../types/User.type"
+import { PageDeleteContent } from "./PageDeleteContent"
 
-type GeneralSettingsProps = {
-  initialPageData: IUpdatePage
-  handleUpdatePage: (data: IUpdatePage) => void
+type PageDeleteProps = {
+  initialPageData: IPage | undefined
+  initialUserData: IUser | undefined
+  handleDeletePage: () => void
 }
 
-export default function GeneralSettings({
+export default function PageDelete({
+  handleDeletePage,
   initialPageData,
-  handleUpdatePage,
-}: GeneralSettingsProps) {
+  initialUserData,
+}: PageDeleteProps) {
   const text = useTranslation().t
 
-  const [pageData, setPageData] = useState<IUpdatePage>()
+  const [userData, setUserData] = useState<IUser>()
+  const [pageData, setPageData] = useState<IPage>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
-  function handleUpdatePageData(newData: IUpdatePage) {
-    setPageData({
-      ...pageData,
-      avatar_url: newData.avatar_url || pageData?.avatar_url,
-      background_url: newData.background_url || pageData?.background_url,
-      url: newData.url || pageData?.url,
-      name: newData.name || pageData?.name,
-      description: newData.description || pageData?.description,
-    })
-    setIsUpdating(true)
-  }
+  useEffect(() => {
+    setUserData(initialUserData)
+  }, [initialUserData])
+
+  useEffect(() => {
+    setPageData(initialPageData)
+  }, [initialPageData])
 
   function handleUpdateIsUpdating(stat: boolean) {
     setIsUpdating(stat)
@@ -41,23 +41,19 @@ export default function GeneralSettings({
     setRunUpdate(stat)
   }
 
-  useEffect(() => {
-    setPageData(initialPageData)
-  }, [initialPageData])
-
   function handleTabBar() {
     if (isUpdating) {
       return [
         <Tag
           key={1}
           variant="txt"
-          text={text("generalsettings:back")}
+          text={text("pagedelete:back")}
           onClick={() => console.log("tab1")}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("generalsettings:update")}
+            text={text("pagedelete:delete")}
             onClick={() => handleUpdateRunUpdate(true)}
           />
         </div>,
@@ -67,14 +63,14 @@ export default function GeneralSettings({
         <Tag
           key={1}
           variant="txt"
-          text={text("generalsettings:back")}
+          text={text("pagedelete:back")}
           onClick={() => console.log("tab1")}
         />,
       ]
     }
   }
 
-  function loadHeader() {
+  function handleHeader() {
     return (
       <Header background_url={pageData?.background_url || ""}>
         <Tag
@@ -82,21 +78,21 @@ export default function GeneralSettings({
           text={pageData?.name || ""}
           img_url={pageData?.avatar_url || ""}
         />
-        <Tag variant="txt" text={text("generalsettings:titletag")} />
+        <Tag variant="txt" text={text("pagedelete:general")} />
+        <Tag variant="txt" text={text("pagedelete:delete")} />
       </Header>
     )
   }
 
   return (
     <div className="bg-slate-100 fixed inset-0">
-      {loadHeader()}
-      <GeneralSettingsContent
-        pageData={pageData}
-        handleUpdatePageData={handleUpdatePageData}
-        handleUpdatePage={handleUpdatePage}
+      <>{handleHeader()}</>
+      <PageDeleteContent
+        handleDeletePage={handleDeletePage}
+        userData={userData}
         isUpdating={isUpdating}
-        handleUpdateIsUpdating={handleUpdateIsUpdating}
         runUpdate={runUpdate}
+        handleUpdateIsUpdating={handleUpdateIsUpdating}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />

@@ -9,7 +9,7 @@ type WorkspaceAdvancedPageProps = {
 export default function WorkspaceAdvancedPage({
   workspaceId,
 }: WorkspaceAdvancedPageProps) {
-  const getWorkspace = useWorkspace({ id: "63d58c208f9e0158905655cc" })
+  const getWorkspace = useWorkspace({ id: "63d68863688c6d9d82a5f648" })
 
   return (
     <WorkspaceAdvanced

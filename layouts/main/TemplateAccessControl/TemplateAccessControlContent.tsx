@@ -5,10 +5,10 @@ import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
-import { IUpateTemplate } from "../../../types/Template.type"
+import { IUpdateTemplate } from "../../../types/Template.type"
 
 type TemplateAccessControlContentProps = {
-  templateData: IUpateTemplate | undefined
+  templateData: IUpdateTemplate | undefined
 }
 
 export function TemplateAccessControlContent({
