@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react"
 import { Shortcut } from "../../../components/Shortcut/Shortcut"
 import { ShortcutGrid } from "../../../components/ShortcutGrid/ShortcutGrid"
+import { IPage } from "../../../types/Page.type"
 import { ITemplate } from "../../../types/Template.type"
 
 type CreatorPageContentProps = {
   templatesData: ITemplate[] | undefined
+  pageData: IPage | undefined
 }
 
-export function CreatorPageContent({ templatesData }: CreatorPageContentProps) {
+export function CreatorPageContent({
+  templatesData,
+  pageData,
+}: CreatorPageContentProps) {
   const [selectedId, setSelectedId] = useState<number>()
 
   function handleSelection(id: number) {
@@ -35,6 +40,8 @@ export function CreatorPageContent({ templatesData }: CreatorPageContentProps) {
             isCreator={true}
             isSelected={selectedId == index}
             onClick={() => handleSelection(index)}
+            templateData={template}
+            pageData={pageData}
           />
         )
       })

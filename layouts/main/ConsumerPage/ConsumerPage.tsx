@@ -1,4 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { UserCircle, UserCirclePlus, UserPlus } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
@@ -7,6 +8,7 @@ import { Tag } from "../../../components/Tag/Tag"
 import { useContextMenu } from "../../../hooks/ContextMenuHook"
 import { IPage } from "../../../types/Page.type"
 import { ITemplate } from "../../../types/Template.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { ConsumerPageContent } from "./ConsumerPageContent"
 
 type ConsumerPageProps = {
@@ -34,6 +36,8 @@ export default function ConsumerPage({
   const { handleToggleContextMenu, handleCloseContextMenu } = useContextMenu()
 
   const isSignedIn = false
+
+  const router = useRouter()
 
   const handleHeaderTagContextMenu = () => {
     const handleContent = () => {
@@ -84,16 +88,13 @@ export default function ConsumerPage({
         key={1}
         variant="txt"
         text={text("consumerpage:explore")}
-        onClick={() => console.log("explore")}
+        onClick={() => router.push(pageUrls.home())}
       />,
       <Tag
         key={2}
-        variant="img-txt"
-        text={"quaq"}
-        img_url={
-          "https://images.unsplash.com/photo-1531333377070-c6575ba98c97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDN8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-        }
-        onClick={() => console.log("createpage")}
+        variant="txt"
+        text={text("consumerpage:usequaq")}
+        onClick={handleHeaderTagContextMenu}
       />,
     ]
   }

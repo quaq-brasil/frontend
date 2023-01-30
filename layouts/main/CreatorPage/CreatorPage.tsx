@@ -1,4 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import {
   ArrowsCounterClockwise,
   ArrowsLeftRight,
@@ -15,6 +16,7 @@ import { useContextMenu } from "../../../hooks/ContextMenuHook"
 import { IPage } from "../../../types/Page.type"
 import { ITemplate } from "../../../types/Template.type"
 import { IWorkspace } from "../../../types/Workspace.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { CreatorPageContent } from "./CreatorPageContent"
 
 type CreatorPageProps = {
@@ -22,6 +24,7 @@ type CreatorPageProps = {
   initialTemplatesData: ITemplate[]
   initialCurrentWorkspaceData: IWorkspace
   initialPagesData: IPage[]
+  handleUpdateCurrentPageId: (id: string) => void
 }
 
 export default function CreatorPage({
@@ -29,6 +32,7 @@ export default function CreatorPage({
   initialTemplatesData,
   initialCurrentWorkspaceData,
   initialPagesData,
+  handleUpdateCurrentPageId,
 }: CreatorPageProps) {
   const text = useTranslation().t
 
@@ -110,6 +114,8 @@ export default function CreatorPage({
     </div>
   )
 
+  const router = useRouter()
+
   function loadPages() {
     if (pagesData) {
       const pages: JSX.Element[] = pagesData.map((page, index) => {
@@ -120,6 +126,7 @@ export default function CreatorPage({
               text={page?.name || ""}
               img_url={page?.avatar_url || ""}
               isSelected={page.id == pageData?.id}
+              onClick={() => handleUpdateCurrentPageId(page.id as string)}
             />
           </div>
         )
@@ -165,7 +172,11 @@ export default function CreatorPage({
   const lateralMenuContent = (
     <div>
       <div className="w-fit">
-        <Tag variant="txt" text={text("creatorpage:explore")} />
+        <Tag
+          variant="txt"
+          text={text("creatorpage:explore")}
+          onClick={() => router.push(pageUrls.home())}
+        />
       </div>
       <div className="flex flex-col gap-3 mt-3">
         <div className="w-fit">
@@ -174,9 +185,10 @@ export default function CreatorPage({
         {loadPages()}
         <div>
           <Tag
-            variant="txt"
+            variant="icn-txt"
+            icon={Plus}
             text={text("creatorpage:newpage")}
-            onClick={() => console.log("new page")}
+            onClick={() => router.push(pageUrls.createPage())}
           />
         </div>
       </div>
@@ -248,7 +260,9 @@ export default function CreatorPage({
         key={1}
         variant="txt"
         text={text("creatorpage:general")}
-        onClick={() => console.log("general")}
+        onClick={() =>
+          router.push(pageUrls.pageSettings(pageData?.url || "", "generals"))
+        }
       />,
       <Tag
         key={2}
@@ -275,6 +289,9 @@ export default function CreatorPage({
         variant="img-txt"
         text={pageData?.name || ""}
         img_url={pageData?.avatar_url || ""}
+        onClick={() =>
+          router.push(pageUrls.pageSettings(pageData?.url || "", "general"))
+        }
       />
     )
   }
@@ -299,7 +316,7 @@ export default function CreatorPage({
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <CreatorPageContent templatesData={templatesData} />
+      <CreatorPageContent templatesData={templatesData} pageData={pageData} />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   )

@@ -2,6 +2,8 @@ import type { Identifier, XYCoord } from "dnd-core"
 import Image from "next/image"
 import { useRef } from "react"
 import { useDrag, useDrop } from "react-dnd"
+import { IPage } from "../../types/Page.type"
+import { ITemplate } from "../../types/Template.type"
 import ShortcutMenu from "../ShortcutMenu/ShortcutMenu"
 
 type ShortcutProps = {
@@ -14,6 +16,8 @@ type ShortcutProps = {
   onMove?: (dragIndex: number, hoverIndex: number) => void
   index: number
   id: string
+  templateData: ITemplate
+  pageData: IPage | undefined
 }
 
 interface DragItem {
@@ -96,8 +100,8 @@ export const Shortcut = (props: ShortcutProps) => {
         data-handler-id={handlerId}
         className={`flex relative min-w-[100%] max-w-[100%] overflow-hidden rounded-[20px] h-[13.0625rem] justify-center content-center lg:h-[16rem] lg:rounded-[30px] ${
           props.size === "large"
-            ? "col-span-2  max-w-[35.25rem]"
-            : "col-span-1  md:max-w-[16.5625rem]"
+            ? "col-span-2  max-w-[100%]"
+            : "col-span-1  md:max-w-[100%]"
         }`}
       >
         <div
@@ -119,7 +123,10 @@ export const Shortcut = (props: ShortcutProps) => {
 
         {props.isCreator && props.isSelected ? (
           <div className="relative z-10 h-fit min-w-full w-fit pt-0 pl-0 overflow-scroll flex scrollbar-hide gap-3 items-center justify-start">
-            <ShortcutMenu />
+            <ShortcutMenu
+              templateData={props.templateData}
+              pageData={props.pageData}
+            />
           </div>
         ) : null}
       </div>
