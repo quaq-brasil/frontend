@@ -1,3 +1,4 @@
+import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { AutomationConfig } from "../../BlocksConfig/AutomationConfig/AutomationConfig"
 import { ButtonConfig } from "../../BlocksConfig/ButtonConfig/ButtonConfig"
 import { CounterConfig } from "../../BlocksConfig/CounterConfig/CounterConfig"
@@ -17,6 +18,7 @@ type RenderBlockConfig = {
   block: string | undefined
   isOpen: boolean
   onClose: () => void
+  handleAddBlock: (block: BlockProps) => void
 }
 
 export function RenderBlockConfig(props: RenderBlockConfig) {

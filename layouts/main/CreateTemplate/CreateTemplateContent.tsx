@@ -1,9 +1,11 @@
 import { useState } from "react"
+import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { BlockSelector } from "../../../components/BlockSelector/BlockSelector"
 import { RenderBlockConfig } from "./RenderBlockConfig"
 
 export function CreateTemplateContent() {
   const [blockSelected, setBlockSelected] = useState<string | undefined>()
+  const [blocks, setBlocks] = useState<BlockProps[]>([])
 
   const [isOpen, setIsOpen] = useState(false)
 
@@ -14,6 +16,10 @@ export function CreateTemplateContent() {
 
   function handleBlockConfigClosing() {
     setIsOpen(false)
+  }
+
+  const handleAddBlock = (newBlock: BlockProps) => {
+    setBlocks((state) => [...state, newBlock])
   }
 
   return (
@@ -29,6 +35,7 @@ export function CreateTemplateContent() {
             block={blockSelected}
             isOpen={isOpen}
             onClose={handleBlockConfigClosing}
+            handleAddBlock={handleAddBlock}
           />
           <span className="w-full h-[4rem]"></span>
         </div>

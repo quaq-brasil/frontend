@@ -1,12 +1,12 @@
 # find one
 
-GET http://localhost:5000/api/v1/files/63b34032485edc50f1bdfa72
+GET http://bff.quaq.me/api/v1/files/63b34032485edc50f1bdfa72
 
 ###
 
 # create one
 
-POST http://localhost:5000/api/v1/files
+POST https://bff.quaq.me/api/v1/files
 Content-Type: application/json
 
 {
