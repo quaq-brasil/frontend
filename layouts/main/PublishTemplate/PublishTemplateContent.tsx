@@ -83,6 +83,10 @@ export function PublishTemplateContent({
         shortcut_image: templateData?.shortcut_image || "",
         shortcut_size: templateData?.shortcut_size || "small",
         url: templateData?.url || "",
+        trackers: {
+          facebook: undefined,
+          google: undefined,
+        },
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -134,8 +138,8 @@ export function PublishTemplateContent({
               label={text("publish:small")}
               indicator={{
                 icon: Check,
-                onClick: () =>
-                  handleUpdateTemplateData({ shortcut_size: "small" }),
+                // onClick: () =>
+                //   handleUpdateTemplateData({ shortcut_size: "small" }),
                 isVisible:
                   templateData?.shortcut_size == "small" ? false : true,
               }}
@@ -145,8 +149,8 @@ export function PublishTemplateContent({
               label={text("publish:large")}
               indicator={{
                 icon: Check,
-                onClick: () =>
-                  handleUpdateTemplateData({ shortcut_size: "large" }),
+                // onClick: () =>
+                //   handleUpdateTemplateData({ shortcut_size: "large" }),
                 isVisible:
                   templateData?.shortcut_size == "large" ? false : true,
               }}

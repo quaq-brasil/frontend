@@ -1,5 +1,4 @@
 import useTranslation from "next-translate/useTranslation"
-import { ArrowRight } from "phosphor-react"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
@@ -19,7 +18,7 @@ export function ProfileAdvancedContent() {
             <CardText label={text("profileadvanced:options")} />
             <CardText
               label={text("profileadvanced:delete")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              // indicator={{ icon: ArrowRight, onClick: () => console.log() }}
             />
             <CardLine />
           </Card>

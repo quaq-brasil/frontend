@@ -74,7 +74,7 @@ export function FileEntryConfig(props: FileEntryConfigProps) {
               label={text("fileentryconfig:pdf")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeType("pdf"),
+                // onClick: () => handleChangeType("pdf"),
                 isVisible: types.includes("pdf") ? false : true,
               }}
             />
@@ -82,7 +82,7 @@ export function FileEntryConfig(props: FileEntryConfigProps) {
               label={text("fileentryconfig:image")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeType("image"),
+                // onClick: () => handleChangeType("image"),
                 isVisible: types.includes("image") ? false : true,
               }}
             />
@@ -90,7 +90,7 @@ export function FileEntryConfig(props: FileEntryConfigProps) {
               label={text("fileentryconfig:csv")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeType("csv"),
+                // onClick: () => handleChangeType("csv"),
                 isVisible: types.includes("csv") ? false : true,
               }}
             />
@@ -98,7 +98,7 @@ export function FileEntryConfig(props: FileEntryConfigProps) {
               label={text("fileentryconfig:mp4")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeType("mp4"),
+                // onClick: () => handleChangeType("mp4"),
                 isVisible: types.includes("mp4") ? false : true,
               }}
             />

@@ -13,6 +13,7 @@ export default function WorkspaceSetupPage() {
     createWorkspace.mutate({
       data: {
         name: name,
+        user_id: "1",
         avatar_url: avatar_url,
         services: [
           {

@@ -1,5 +1,4 @@
 import useTranslation from "next-translate/useTranslation"
-import { ArrowRight } from "phosphor-react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -70,27 +69,27 @@ export function ProfileContent({
             <CardText label={text("profile:options")} />
             <CardText
               label={text("profile:logout")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              // indicator={{ icon: ArrowRight, onClick: () => console.log() }}
             />
             <CardLine />
             <CardText
               label={text("profile:email")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              // indicator={{ icon: ArrowRight, onClick: () => console.log() }}
             />
             <CardLine />
             <CardText
               label={text("profile:password")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              // indicator={{ icon: ArrowRight, onClick: () => console.log() }}
             />
             <CardLine />
             <CardText
               label={text("profile:terms")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              // indicator={{ icon: ArrowRight, onClick: () => console.log() }}
             />
             <CardLine />
             <CardText
               label={text("profile:more")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              // indicator={{ icon: ArrowRight, onClick: () => console.log() }}
             />
           </Card>
           <span className="w-full h-[4rem]"></span>

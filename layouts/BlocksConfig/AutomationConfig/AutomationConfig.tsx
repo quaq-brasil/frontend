@@ -82,7 +82,7 @@ export function AutomationConfig(props: AutomationConfigProps) {
               label={text("automationconfig:weeks")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeType("weeks"),
+                // onClick: () => handleChangeType("weeks"),
                 isVisible: type === "weeks" ? false : true,
               }}
             />
@@ -91,7 +91,7 @@ export function AutomationConfig(props: AutomationConfigProps) {
               label={text("automationconfig:days")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeType("days"),
+                // onClick: () => handleChangeType("days"),
                 isVisible: type == "days" ? false : true,
               }}
             />
@@ -100,7 +100,7 @@ export function AutomationConfig(props: AutomationConfigProps) {
               label={text("automationconfig:hours")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeType("hours"),
+                // onClick: () => handleChangeType("hours"),
                 isVisible: type === "hours" ? false : true,
               }}
             />
@@ -109,7 +109,7 @@ export function AutomationConfig(props: AutomationConfigProps) {
               label={text("automationconfig:minutes")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeType("minutes"),
+                // onClick: () => handleChangeType("minutes"),
                 isVisible: type === "minutes" ? false : true,
               }}
             />

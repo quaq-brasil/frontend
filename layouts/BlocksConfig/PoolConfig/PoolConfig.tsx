@@ -83,7 +83,7 @@ export function PoolConfig(props: PoolConfigProps) {
                   label={`${text("poolconfig:title3")} ${index + 1}`}
                   indicator={{
                     icon: X,
-                    onClick: () => handleRemoveOption(option.id),
+                    // onClick: () => handleRemoveOption(option.id),
                   }}
                 />
                 <CardTextInput
