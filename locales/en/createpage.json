@@ -1,6 +1,6 @@
 {
   "back": "back",
-  "update": "update",
+  "update": "create",
   "titletag": "new page",
   "firstmessage": "Your workspace was created successfuly, now let's create its first page.",
   "pagetitle": "page title",

@@ -27,7 +27,7 @@ export function CreatePage({
     setWorkspaceData(initialWorkspaceData)
   }, [initialWorkspaceData])
 
-  function handleUpatePageData(newData: IUpdatePage) {
+  function handleUpdatePageData(newData: IUpdatePage) {
     setPageData({
       ...pageData,
       name: newData.name || pageData?.name,
@@ -120,9 +120,10 @@ export function CreatePage({
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
       <CreatePageContent
-        handleUpatePageData={handleUpatePageData}
+        handleUpdatePageData={handleUpdatePageData}
         isUpdating={isUpdating}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
+        pageData={pageData}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

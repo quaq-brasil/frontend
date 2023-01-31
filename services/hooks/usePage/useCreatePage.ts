@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { api } from "../../apiClient"
 import { IPage } from "./../../../types/Page.type"
 
@@ -8,7 +8,8 @@ type useCreatePageProps = {
 
 export const useCreatePage = () => {
   const createPage = async ({ data }: useCreatePageProps) => {
-    await api.post(`/pages`, data)
+    const response: UseMutationResult<IPage> = await api.post(`/pages`, data)
+    return response.data as IPage
   }
 
   return useMutation({

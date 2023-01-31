@@ -73,7 +73,9 @@ export default function GeneralSettings({
           variant="txt"
           text={text("generalsettings:back")}
           onClick={() =>
-            router.push(pageUrls.pageSettings(pageData?.url || ""))
+            router.push(
+              pageUrls.pageSettings({ pageSlug: pageData?.url || "" })
+            )
           }
         />,
       ]
@@ -88,7 +90,9 @@ export default function GeneralSettings({
           text={pageData?.name || ""}
           img_url={pageData?.avatar_url || ""}
           onClick={() =>
-            router.push(pageUrls.pageSettings(pageData?.url || ""))
+            router.push(
+              pageUrls.pageSettings({ pageSlug: pageData?.url || "" })
+            )
           }
         />
         <Tag variant="txt" text={text("generalsettings:titletag")} />

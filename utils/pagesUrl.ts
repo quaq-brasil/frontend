@@ -1,6 +1,11 @@
 const page = (pageSlug: string) => `/${pageSlug}`
 
-const pageSettings = (pageSlug: string, pageSettings?: string) => {
+type pageSettingsProps = {
+  pageSlug: string
+  pageSettings?: string
+}
+
+const pageSettings = ({ pageSlug, pageSettings }: pageSettingsProps) => {
   if (pageSettings) {
     return `/adm/${pageSlug}/${pageSettings}`
   } else {
