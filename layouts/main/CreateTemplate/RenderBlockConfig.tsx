@@ -1,3 +1,4 @@
+import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { AutomationConfig } from "../../BlocksConfig/AutomationConfig/AutomationConfig"
 import { ButtonConfig } from "../../BlocksConfig/ButtonConfig/ButtonConfig"
 import { CounterConfig } from "../../BlocksConfig/CounterConfig/CounterConfig"
@@ -17,6 +18,7 @@ type RenderBlockConfig = {
   block: string | undefined
   isOpen: boolean
   onClose: () => void
+  handleAddBlock: (block: BlockProps) => void
 }
 
 export function RenderBlockConfig(props: RenderBlockConfig) {
@@ -28,7 +30,13 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
     case "image":
       return <ImageConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
     case "text":
-      return <TextConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+      return (
+        <TextConfig
+          isOpen={props.isOpen}
+          setIsOpen={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+        />
+      )
     case "embed":
       return <EmbedConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
     case "file":

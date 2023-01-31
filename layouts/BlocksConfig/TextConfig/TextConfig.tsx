@@ -1,4 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
+import { useState } from "react"
+import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { Dialog } from "../../../components/Dialog/Dialog"
@@ -10,10 +12,22 @@ type TextConfigProps = {
   isOpen: boolean
   setIsOpen: () => void
   size?: "sm" | "md" | "full"
+  handleAddBlock: (block: BlockProps) => void
 }
 
 export function TextConfig(props: TextConfigProps) {
   const text = useTranslation().t
+
+  const [content, setContent] = useState("")
+
+  function onAddBlock() {
+    props.handleAddBlock({
+      type: "text",
+      data: {
+        content,
+      },
+    })
+  }
 
   function handleTabBar() {
     return [
@@ -37,11 +51,12 @@ export function TextConfig(props: TextConfigProps) {
         <div className="flex flex-col items-center gap-3 lg:gap-6">
           <Card>
             <CardLine />
-            <TextEditor />
+            <TextEditor content={content} onChange={setContent} />
             <CardLine />
           </Card>
           {props.size === "sm" && (
             <button
+              onClick={onAddBlock}
               className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white
             rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px]"
             >
