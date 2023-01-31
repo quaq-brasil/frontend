@@ -261,7 +261,12 @@ export default function CreatorPage({
         variant="txt"
         text={text("creatorpage:general")}
         onClick={() =>
-          router.push(pageUrls.pageSettings(pageData?.url || "", "general"))
+          router.push(
+            pageUrls.pageSettings({
+              pageSlug: pageData?.url || "",
+              pageSettings: "general",
+            })
+          )
         }
       />,
       <Tag
@@ -290,7 +295,12 @@ export default function CreatorPage({
         text={pageData?.name || ""}
         img_url={pageData?.avatar_url || ""}
         onClick={() =>
-          router.push(pageUrls.pageSettings(pageData?.url || "", "general"))
+          router.push(
+            pageUrls.pageSettings({
+              pageSlug: pageData?.url || "",
+              pageSettings: "general",
+            })
+          )
         }
       />
     )

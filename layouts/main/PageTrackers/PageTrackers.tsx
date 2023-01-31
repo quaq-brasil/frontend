@@ -56,7 +56,12 @@ export default function PageTrackers({
           variant="txt"
           text={text("pagetrackers:back")}
           onClick={() =>
-            router.push(pageUrls.pageSettings(pageData?.url || "", "general"))
+            router.push(
+              pageUrls.pageSettings({
+                pageSlug: pageData?.url || "",
+                pageSettings: "general",
+              })
+            )
           }
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
@@ -74,7 +79,12 @@ export default function PageTrackers({
           variant="txt"
           text={text("pagetrackers:back")}
           onClick={() =>
-            router.push(pageUrls.pageSettings(pageData?.url || "", "general"))
+            router.push(
+              pageUrls.pageSettings({
+                pageSlug: pageData?.url || "",
+                pageSettings: "general",
+              })
+            )
           }
         />,
       ]
@@ -89,14 +99,21 @@ export default function PageTrackers({
           text={pageData?.name || ""}
           img_url={pageData?.avatar_url || ""}
           onClick={() =>
-            router.push(pageUrls.pageSettings(pageData?.url || ""))
+            router.push(
+              pageUrls.pageSettings({ pageSlug: pageData?.url || "" })
+            )
           }
         />
         <Tag
           variant="txt"
           text={text("pagetrackers:general")}
           onClick={() =>
-            router.push(pageUrls.pageSettings(pageData?.url || "", "general"))
+            router.push(
+              pageUrls.pageSettings({
+                pageSlug: pageData?.url || "",
+                pageSettings: "general",
+              })
+            )
           }
         />
         <Tag variant="txt" text={text("pagetrackers:trackers")} />

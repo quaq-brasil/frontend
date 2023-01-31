@@ -168,7 +168,10 @@ export function GeneralSettingsContent({
                 indicator={{ icon: ArrowRight }}
                 onClick={() =>
                   router.push(
-                    pageUrls.pageSettings(pageData?.url || "", "delete")
+                    pageUrls.pageSettings({
+                      pageSlug: pageData?.url || "",
+                      pageSettings: "delete",
+                    })
                   )
                 }
               />
@@ -186,7 +189,10 @@ export function GeneralSettingsContent({
                 indicator={{ icon: ArrowRight }}
                 onClick={() =>
                   router.push(
-                    pageUrls.pageSettings(pageData?.url || "", "trackers")
+                    pageUrls.pageSettings({
+                      pageSlug: pageData?.url || "",
+                      pageSettings: "trackers",
+                    })
                   )
                 }
               />

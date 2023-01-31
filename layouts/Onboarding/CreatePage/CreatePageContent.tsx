@@ -1,24 +1,55 @@
 import useTranslation from "next-translate/useTranslation"
+import { Check } from "phosphor-react"
+import { useEffect } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
+import useDebounce from "../../../hooks/useDebouce"
+import { useGetPageUrl } from "../../../services/hooks/usePage/useGetPageUrl"
 import { IUpdatePage } from "../../../types/Page.type"
 
 type CreatePageContentProps = {
-  handleUpatePageData: (data: IUpdatePage) => void
+  handleUpdatePageData: (data: IUpdatePage) => void
   isUpdating: boolean
   handleUpdateRunUpdate: (stat: boolean) => void
+  pageData: IUpdatePage | undefined
 }
 
 export function CreatePageContent({
-  handleUpatePageData,
+  handleUpdatePageData,
   handleUpdateRunUpdate,
   isUpdating,
+  pageData,
 }: CreatePageContentProps) {
   const text = useTranslation().t
+
+  const getPageUrl = useGetPageUrl()
+
+  function handleGetPageUrl(name: string) {
+    getPageUrl.mutate(
+      { name },
+      {
+        onSuccess: (url) => {
+          handleUpdatePageData({ url })
+        },
+      }
+    )
+  }
+
+  const debouncedPageName = useDebounce({
+    value: pageData?.name,
+    delay: 1000 * 1,
+  })
+
+  useEffect(() => {
+    if (debouncedPageName && debouncedPageName !== "") {
+      handleGetPageUrl(debouncedPageName as string)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedPageName])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -36,8 +67,25 @@ export function CreatePageContent({
             <CardTextInput
               input={{
                 label: text("createpage:inputpagetitle"),
-                onChange: (title) => handleUpatePageData({ name: title }),
+                onChange: (title) => handleUpdatePageData({ name: title }),
                 type: "text",
+              }}
+            />
+          </Card>
+          <Card>
+            <CardText label={text("createpage:pagelink")} />
+            <CardTextInput
+              input={{
+                label: text("createpage:inputpagelink"),
+                onChange: (link) => handleUpdatePageData({ url: link }),
+                type: "text",
+                fixedText: "quaq.me/",
+                value: pageData?.url,
+              }}
+              indicator={{
+                icon: Check,
+                onClick: () => {},
+                bgColor: "green-500",
               }}
             />
           </Card>
@@ -47,7 +95,7 @@ export function CreatePageContent({
               imageSelector={
                 <ImageSelector
                   onImageChange={(picture) =>
-                    handleUpatePageData({ avatar_url: picture })
+                    handleUpdatePageData({ avatar_url: picture })
                   }
                 />
               }
@@ -59,21 +107,10 @@ export function CreatePageContent({
               imageSelector={
                 <ImageSelector
                   onImageChange={(cover) =>
-                    handleUpatePageData({ background_url: cover })
+                    handleUpdatePageData({ background_url: cover })
                   }
                 />
               }
-            />
-          </Card>
-          <Card>
-            <CardText label={text("createpage:pagelink")} />
-            <CardTextInput
-              input={{
-                label: text("createpage:inputpagelink"),
-                onChange: (link) => handleUpatePageData({ url: link }),
-                type: "text",
-                fixedText: "quaq.me/",
-              }}
             />
           </Card>
           <Card>
@@ -82,7 +119,7 @@ export function CreatePageContent({
               input={{
                 label: text("createpage:inputpagedescription"),
                 onChange: (description) =>
-                  handleUpatePageData({ description: description }),
+                  handleUpdatePageData({ description: description }),
                 type: "text",
               }}
             />
