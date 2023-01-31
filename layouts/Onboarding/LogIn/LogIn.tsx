@@ -1,39 +1,94 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-import { LogInContent } from "./LogInContent"
+import { IUserLogin } from "../../../types/User.type"
+import { LoginContent } from "./LoginContent"
 
-type LogInProps = {
-  headerImageUrl: string
+type LoginProps = {
+  handleUserLogin: (data: IUserLogin) => void
 }
 
-export default function LogIn(props: LogInProps) {
+export default function Login({ handleUserLogin }: LoginProps) {
   const text = useTranslation().t
 
+  const [userData, setUserdata] = useState<IUserLogin>()
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
+
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
+  }
+
+  function handleUpdateUserData(newData: IUserLogin) {
+    setUserdata({
+      ...userData,
+      email: newData.email || userData?.email,
+      password: newData.password || userData?.password,
+    })
+    handleUpdateIsUpdating(true)
+  }
+
+  useEffect(() => {
+    if (userData) {
+      handleUpdateRunUpdate(false)
+      handleUpdateIsUpdating(false)
+      handleUserLogin(userData)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
+  const router = useRouter()
+
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("login:tab1")}
-        onClick={() => console.log("tab1")}
-      />,
-      <Tag
-        key={2}
-        variant="txt"
-        text={text("login:tab2")}
-        onClick={() => console.log("tab2")}
-      />,
-    ]
+    if (isUpdating) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("login:back")}
+          onClick={() => console.log("back")}
+        />,
+        <div key={2} className="w-fit h-fit xl:hidden">
+          <Tag
+            variant="txt"
+            text={text("login:udate")}
+            onClick={() => handleUpdateRunUpdate(true)}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("login:back")}
+          onClick={() => console.log("back")}
+        />,
+      ]
+    }
   }
 
   return (
     <div className="bg-slate-100 fixed inset-0">
-      <Header background_url={props.headerImageUrl}>
+      <Header
+        background_url={
+          "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
+        }
+      >
         <Tag variant="txt" text={text("login:titletag")} />
       </Header>
-      <LogInContent />
+      <LoginContent
+        isUpdating={isUpdating}
+        handleUpdateUserData={handleUpdateUserData}
+        handleUpdateRunUpdate={handleUpdateRunUpdate}
+      />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   )

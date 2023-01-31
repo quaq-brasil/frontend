@@ -4,12 +4,23 @@ import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { IUserLogin } from "../../../types/User.type"
 
 const QuickIn = dynamic(() => import("../../../components/QuickIn/QuickIn"), {
   ssr: false,
 })
 
-export function LogInContent() {
+type LoginContentProps = {
+  isUpdating: boolean
+  handleUpdateUserData: (data: IUserLogin) => void
+  handleUpdateRunUpdate: (stat: boolean) => void
+}
+
+export function LoginContent({
+  handleUpdateRunUpdate,
+  handleUpdateUserData,
+  isUpdating,
+}: LoginContentProps) {
   const text = useTranslation().t
 
   function handleFinishSignUp() {}
@@ -28,7 +39,7 @@ export function LogInContent() {
             <CardTextInput
               input={{
                 label: text("login:inputemail"),
-                onChange: (e) => console.log(e),
+                onChange: (email) => handleUpdateUserData({ email: email }),
                 type: "email",
               }}
             />
@@ -38,16 +49,21 @@ export function LogInContent() {
             <CardTextInput
               input={{
                 label: text("login:inputpassword"),
-                onChange: (e) => console.log(e),
+                onChange: (password) =>
+                  handleUpdateUserData({ password: password }),
                 type: "password",
               }}
             />
           </Card>
-          <Button
-            color="slate-900"
-            onClick={handleFinishSignUp}
-            text={text("login:confirm")}
-          />
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="slate-900"
+                onClick={() => handleUpdateRunUpdate(true)}
+                text={text("login:confirm")}
+              />
+            </div>
+          )}
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>
