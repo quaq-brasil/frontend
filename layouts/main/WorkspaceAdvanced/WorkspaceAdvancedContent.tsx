@@ -1,10 +1,15 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
+import { ArrowRight } from "phosphor-react"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { pageUrls } from "../../../utils/pagesUrl"
 
 export function WorkspaceAdvancedContent() {
   const text = useTranslation().t
+
+  const router = useRouter()
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -18,7 +23,15 @@ export function WorkspaceAdvancedContent() {
             <CardText label={text("wsadvanced:options")} />
             <CardText
               label={text("wsadvanced:delete")}
-              // indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              indicator={{ icon: ArrowRight }}
+              onClick={() =>
+                router.push(
+                  pageUrls.workspageSettings({
+                    settings: "delete",
+                    woskpaceSlug: "wsname",
+                  })
+                )
+              }
             />
             <CardLine />
           </Card>

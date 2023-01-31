@@ -15,12 +15,12 @@ export default function WorkspaceDeletePage({
   userId,
 }: WorkspaceDeletePageProps) {
   const getUser = useUser({
-    id: "63d7c5dd4b1d81503bf6beb8",
+    id: "63d68863688c6d9d82a5f648",
   })
 
-  const getWorkspace = useWorkspace({ id: "63d7cbf14b1d81503bf6bebd" })
+  const getWorkspace = useWorkspace({ id: "63d68863688c6d9d82a5f648" })
 
-  const deleteWorkspace = useDeleteWorkspace({ id: "63d7cbf14b1d81503bf6bebd" })
+  const deleteWorkspace = useDeleteWorkspace({ id: "63d68863688c6d9d82a5f648" })
 
   function handleDeleteWorkspace() {
     deleteWorkspace.mutate()

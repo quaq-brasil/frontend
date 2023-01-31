@@ -1,10 +1,12 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUpdateUser, IUser } from "../../../types/User.type"
 import { IUpdateWorkspace, IWorkspace } from "../../../types/Workspace.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { WorkspaceDeleteContent } from "./WorkspaceDeleteContent"
 
 type WorkspaceDeleteProps = {
@@ -41,6 +43,8 @@ export default function WorkspaceDelete({
     setRunUpdate(stat)
   }
 
+  const router = useRouter()
+
   function handleTabBar() {
     if (isUpdating) {
       return [
@@ -48,7 +52,14 @@ export default function WorkspaceDelete({
           key={1}
           variant="txt"
           text={text("wsdelete:back")}
-          onClick={() => console.log("tab1")}
+          onClick={() =>
+            router.push(
+              pageUrls.workspageSettings({
+                settings: "advanced",
+                woskpaceSlug: "wsname",
+              })
+            )
+          }
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -64,7 +75,14 @@ export default function WorkspaceDelete({
           key={1}
           variant="txt"
           text={text("wsdelete:back")}
-          onClick={() => console.log("tab1")}
+          onClick={() =>
+            router.push(
+              pageUrls.workspageSettings({
+                settings: "advanced",
+                woskpaceSlug: "wsname",
+              })
+            )
+          }
         />,
       ]
     }
@@ -82,8 +100,25 @@ export default function WorkspaceDelete({
           text={workspaceData?.name || ""}
           img_url={workspaceData?.avatar_url || ""}
         />
-        <Tag variant="txt" text={text("wsdelete:settings")} />
-        <Tag variant="txt" text={text("wsdelete:advanced")} />
+        <Tag
+          variant="txt"
+          text={text("wsdelete:settings")}
+          onClick={() =>
+            router.push(pageUrls.workspageSettings({ woskpaceSlug: "wsname" }))
+          }
+        />
+        <Tag
+          variant="txt"
+          text={text("wsdelete:advanced")}
+          onClick={() =>
+            router.push(
+              pageUrls.workspageSettings({
+                woskpaceSlug: "wsname",
+                settings: "advanced",
+              })
+            )
+          }
+        />
         <Tag variant="txt" text={text("wsdelete:delete")} />
       </Header>
     )

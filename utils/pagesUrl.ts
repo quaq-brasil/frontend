@@ -30,11 +30,23 @@ const meSettings = (settings?: string) => {
   }
 }
 
-const workspageSettings = (settings?: string) => {
-  if (settings) {
-    return `/workspace/${settings}`
+type workspageSettingsProps = {
+  woskpaceSlug?: string
+  settings?: string
+}
+
+const workspageSettings = ({
+  woskpaceSlug,
+  settings,
+}: workspageSettingsProps) => {
+  if (settings && woskpaceSlug) {
+    return `/ws/${woskpaceSlug}/${settings}`
+  } else if (settings && !woskpaceSlug) {
+    return `/ws/${settings}`
+  } else if (!settings && woskpaceSlug) {
+    return `/ws/${woskpaceSlug}`
   } else {
-    return `/workspace`
+    return `/ws`
   }
 }
 

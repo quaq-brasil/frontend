@@ -5,7 +5,6 @@ import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUpdateWorkspace } from "../../../types/Workspace.type"
-import { pageUrls } from "../../../utils/pagesUrl"
 import { WorkspaceSettingsContent } from "./WorkspaceSettingsContent"
 
 type WorkspaceSettingsProps = {
@@ -62,7 +61,7 @@ export default function WorkspaceSettings({
           key={1}
           variant="txt"
           text={text("wssettings:back")}
-          onClick={() => router.push(pageUrls.workspageSettings())}
+          onClick={() => console.log()}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -78,7 +77,7 @@ export default function WorkspaceSettings({
           key={1}
           variant="txt"
           text={text("wssettings:back")}
-          onClick={() => router.push(pageUrls.workspageSettings())}
+          onClick={() => console.log()}
         />,
       ]
     }
@@ -96,7 +95,11 @@ export default function WorkspaceSettings({
           text={workspaceData?.name || ""}
           img_url={workspaceData?.avatar_url || ""}
         />
-        <Tag variant="txt" text={text("wssettings:settings")} />
+        <Tag
+          variant="txt"
+          text={text("wssettings:settings")}
+          onClick={() => console.log()}
+        />
       </Header>
     )
   }

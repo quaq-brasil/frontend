@@ -1,9 +1,11 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUpdateWorkspace, IWorkspace } from "../../../types/Workspace.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { WorkspaceAdvancedContent } from "./WorkspaceAdvancedContent"
 
 type WorkspaceAdvancedProps = {
@@ -21,13 +23,17 @@ export default function WorkspaceAdvanced({
     setWorkspaceData(initialWorkspaceData)
   }, [initialWorkspaceData])
 
+  const router = useRouter()
+
   function handleTabBar() {
     return [
       <Tag
         key={1}
         variant="txt"
         text={text("wsadvanced:tab1")}
-        onClick={() => console.log("tab1")}
+        onClick={() =>
+          router.push(pageUrls.workspageSettings({ woskpaceSlug: "wsname" }))
+        }
       />,
     ]
   }
@@ -44,7 +50,13 @@ export default function WorkspaceAdvanced({
           text={workspaceData?.name || ""}
           img_url={workspaceData?.avatar_url || ""}
         />
-        <Tag variant="txt" text={text("wsadvanced:titletag")} />
+        <Tag
+          variant="txt"
+          text={text("wsadvanced:titletag")}
+          onClick={() =>
+            router.push(pageUrls.workspageSettings({ woskpaceSlug: "wsname" }))
+          }
+        />
         <Tag variant="txt" text={text("wsadvanced:titletag2")} />
       </Header>
     )

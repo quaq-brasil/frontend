@@ -81,7 +81,12 @@ export function WorkspaceSettingsContent({
               label={text("wssettings:advanced")}
               indicator={{ icon: ArrowRight }}
               onClick={() =>
-                router.push(pageUrls.workspageSettings("advanced"))
+                router.push(
+                  pageUrls.workspageSettings({
+                    settings: "advanced",
+                    woskpaceSlug: "wsname",
+                  })
+                )
               }
             />
           </Card>
