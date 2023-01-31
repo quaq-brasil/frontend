@@ -1,6 +1,6 @@
 # find one
 
-GET https://bff.quaq.me/api/v1/users/63d68a12688c6d9d82a5f649
+GET https://bff.quaq.me/api/v1/users/63d91dfba01035ef4040fe55
 
 ###
 
@@ -11,24 +11,23 @@ Content-Type: application/json
 
 {
 
-    "password": "qweasmdidonn#1235*$FIIN",
-    "type": "registered",
-    "email_verified": true,
-    "password_reset_token_attempts": 0,
-    "name": "felps",
-    "avatar_url": "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
 }
 
 ###
 
 # update one
 
-PUT https://bff.quaq.me/api/v1/users/63d7c5dd4b1d81503bf6beb8
+PUT https://bff.quaq.me/api/v1/users/63d91dfba01035ef4040fe55
 Content-Type: application/json
 
 {
-    "email": "felps@gmail.com",
-    "password": "qweasmdidonn#1235*$FIIN"
+    "email": "felipe.t.v.d@gmail.com",
+    "password": "qweasmdidonn#1235*$FIIN",
+    "type": "registered",
+    "email_verified": true,
+    "password_reset_token_attempts": 0,
+    "name": "felps",
+    "avatar_url": "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
 }
 
 

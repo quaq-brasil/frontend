@@ -1,19 +1,19 @@
 # find one
 
-GET http://localhost:5000/api/v1/pages/63b754987d02f98b8692255e
+GET https://bff.quaq.me/api/v1/pages/63d91eb0cf6a7076d3a019ef
 
 
 ###
 
 # create one
 
-POST http://localhost:5000/api/v1/pages
+POST https://bff.quaq.me/api/v1/pages
 Content-Type: application/json
 
 {
-    "name": "pagininha",
-    "url": "pagininha",
-    "workspace_id": "63d7c6424b1d81503bf6beb9",
+    "name": "felp's page",
+    "url": "felp's page",
+    "workspace_id": "63d91e6acf6a7076d3a019ee",
     "avatar_url": "https://images.unsplash.com/photo-1522124624696-7ea32eb9592c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60",
     "background_url": "https://images.unsplash.com/photo-1522124624696-7ea32eb9592c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60"
 }
@@ -22,25 +22,25 @@ Content-Type: application/json
 
 # find all
 
-GET http://localhost:5000/api/v1/pages
+GET https://bff.quaq.me/api/v1/pages
 
 ###
 
 # find one by url
 
-GET http://localhost:5000/api/v1/pages/url/first
+GET https://bff.quaq.me/api/v1/pages/url/first
 
 ###
 
 # find all by workspace
 
-GET http://localhost:5000/api/v1/pages/workspace/63d68863688c6d9d82a5f648
+GET https://bff.quaq.me/api/v1/pages/workspace/63d68863688c6d9d82a5f648
 
 ###
 
 # update one
 
-PUT http://localhost:5000/api/v1/pages/63b754987d02f98b8692255e
+PUT https://bff.quaq.me/api/v1/pages/63b754987d02f98b8692255e
 Content-Type: application/json
 
 {
@@ -51,6 +51,6 @@ Content-Type: application/json
 
 # delete one
 
-DELETE http://localhost:5000/api/v1/pages/63b75045a43fc9f320321e9f
+DELETE https://bff.quaq.me/api/v1/pages/63b75045a43fc9f320321e9f
 
 

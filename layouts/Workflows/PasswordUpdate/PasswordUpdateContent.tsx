@@ -1,11 +1,66 @@
-import useTranslation from "next-translate/useTranslation";
-import { Button } from "../../../components/Button/Button";
-import { Card } from "../../../components/Card/Card";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
+import useTranslation from "next-translate/useTranslation"
+import { useEffect, useState } from "react"
+import { Button } from "../../../components/Button/Button"
+import { Card } from "../../../components/Card/Card"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { IUpdateUser } from "../../../types/User.type"
 
-export function PasswordUpdateContent() {
-  const text = useTranslation().t;
+type PasswordUpdateContentProps = {
+  handleUpdateUser: (data: IUpdateUser) => void
+  handleUpdateIsUpdating: (stat: boolean) => void
+  handleUpdateRunUpdate: (stat: boolean) => void
+  runUpdate: boolean
+  isUpdating: boolean
+  setPasswordMatch: (stat: boolean) => void
+  passwordMatch: boolean
+}
+
+export function PasswordUpdateContent({
+  handleUpdateIsUpdating,
+  handleUpdateRunUpdate,
+  handleUpdateUser,
+  isUpdating,
+  runUpdate,
+  passwordMatch,
+  setPasswordMatch,
+}: PasswordUpdateContentProps) {
+  const text = useTranslation().t
+
+  const [newPassword, setNewPassword] = useState<string>()
+  const [confirmPassword, setConfirmPassword] = useState<string>()
+
+  function handleUpdateNewPassword(password: string) {
+    setNewPassword(password)
+    handleUpdateIsUpdating(true)
+  }
+
+  function handleUpdateConfirmPassword(password: string) {
+    setConfirmPassword(password)
+    handleUpdateIsUpdating(true)
+  }
+
+  useEffect(() => {
+    if (newPassword === confirmPassword) {
+      if (newPassword && confirmPassword) {
+        setPasswordMatch(true)
+      } else {
+        setPasswordMatch(false)
+      }
+    } else {
+      setPasswordMatch(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newPassword, confirmPassword])
+
+  useEffect(() => {
+    if (passwordMatch) {
+      handleUpdateUser({
+        password: newPassword,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -20,7 +75,7 @@ export function PasswordUpdateContent() {
             <CardTextInput
               input={{
                 label: text("pwupdate:inputpassword"),
-                onChange: (e) => console.log(e),
+                onChange: (e) => handleUpdateNewPassword(e),
                 type: "password",
               }}
             />
@@ -30,19 +85,28 @@ export function PasswordUpdateContent() {
             <CardTextInput
               input={{
                 label: text("pwupdate:inputconfirmation"),
-                onChange: (e) => console.log(e),
+                onChange: (e) => handleUpdateConfirmPassword(e),
                 type: "password",
               }}
             />
           </Card>
-          <Button
-            color="slate-900"
-            onClick={() => console.log("clicked")}
-            text={text("pwupdate:confirm")}
-          />
+          {!passwordMatch && (
+            <Card>
+              <CardText label={text("pwupdate:dontmatch")} />
+            </Card>
+          )}
+          {isUpdating && passwordMatch && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="slate-900"
+                onClick={() => handleUpdateRunUpdate(true)}
+                text={text("pwupdate:confirm")}
+              />
+            </div>
+          )}
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,38 +1,37 @@
 # get templates
 
-GET http://localhost:5000/api/v1/templates/63d2f4dd092cd140517d49c4
+GET https://bff.quaq.me/api/v1/templates/63d91f6ecf6a7076d3a019f1
 
 ###
 
-POST http://localhost:5000/api/v1/templates
+POST https://bff.quaq.me/api/v1/templates
 Content-Type: application/json
 
 {
-  "name": "aefnap",
-  "url": "araasz",
-  "shortcut_image": "shortcutImage",
-  "shortcut_size": "shortcutSize",
-  "current_publication_id": "",
+  "name": "felp's template",
+  "url": "felp-s-template",
+  "shortcut_image": "https://images.unsplash.com/photo-1522124624696-7ea32eb9592c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60",
+  "shortcut_size": "https://images.unsplash.com/photo-1522124624696-7ea32eb9592c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60",
+  "current_publication_id": "63d91effcf6a7076d3a019f0",
   "number_of_new_interactions": 1,
-  "page_id": "63b754987d02f98b8692255e",
-  "facebook_pixel_id": "1"
+  "page_id": "63d91eb0cf6a7076d3a019ef"
 }
 
 ###
 
 # get templates by url
 
-GET http://localhost:5000/api/v1/templates/url/testing
+GET https://bff.quaq.me/api/v1/templates/url/testing
 
 ###
 
 # get many templates by page id
 
-GET http://localhost:5000/api/v1/templates/page/63b754987d02f98b8692255e
+GET https://bff.quaq.me/api/v1/templates/page/63b754987d02f98b8692255e
 
 ###
 
-PUT http://localhost:5000/api/v1/templates/63d53a0f6b9144417887b53d
+PUT https://bff.quaq.me/api/v1/templates/63d53a0f6b9144417887b53d
 Content-Type: application/json
 
 {
@@ -43,7 +42,7 @@ Content-Type: application/json
 
 # delete one templates
 
-DELETE http://localhost:5000/api/v1/templates/1ead50e3-c81b-4a64-87da-a1ff0f2e6b54
+DELETE https://bff.quaq.me/api/v1/templates/1ead50e3-c81b-4a64-87da-a1ff0f2e6b54
 
 ###
 

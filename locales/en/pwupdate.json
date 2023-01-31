@@ -5,5 +5,7 @@
   "inputpassword": "type it here",
   "getconfirmation": "confirm password",
   "inputconfirmation": "type it here",
-  "confirm": "confirm"
+  "confirm": "confirm",
+  "update": "update",
+  "dontmatch": "passwords must match"
 }

@@ -1,37 +1,37 @@
 # get publications
 
-GET http://localhost:5000/api/v1/publications/63d5d18bf70dcdbe8d21735f
+GET https://bff.quaq.me/api/v1/publications/63d91effcf6a7076d3a019f0
 
 ###
 
 # create publications
 
-POST http://localhost:5000/api/v1/publications
+POST https://bff.quaq.me/api/v1/publications
 Content-Type: application/json
 
 {
-    "title": "title2",
+    "title": "first publication",
     "blocks": [{}],
-    "page_id": "63d66e73e933f0d739d70f0b"
+    "page_id": "63d91eb0cf6a7076d3a019ef"
 }
 
 ###
 
 # get many publications by template id
 
-GET http://localhost:5000/api/v1/publications/template/1
+GET https://bff.quaq.me/api/v1/publications/template/1
 
 ###
 
 # get many publications by page id
 
-GET http://localhost:5000/api/v1/publications/page/1
+GET https://bff.quaq.me/api/v1/publications/page/1
 
 ###
 
 # update publications
 
-PUT http://localhost:5000/api/v1/publications/63d5c42a05e8266454c5170f
+PUT https://bff.quaq.me/api/v1/publications/63d5c42a05e8266454c5170f
 Content-Type: application/json
 
 {
