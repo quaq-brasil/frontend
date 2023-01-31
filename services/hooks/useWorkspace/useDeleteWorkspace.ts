@@ -6,10 +6,7 @@ type useDeleteWorkspaceProps = {
   id: string
 } & useMutationProps
 
-export const useDeleteWorkspace = ({
-  id,
-  options,
-}: useDeleteWorkspaceProps) => {
+export const useDeleteWorkspace = ({ id }: useDeleteWorkspaceProps) => {
   const deleteWorkspace = async () => {
     await api.delete(`/workspaces/${id}`)
   }
@@ -17,6 +14,5 @@ export const useDeleteWorkspace = ({
   return useMutation({
     mutationKey: ["deleteWorkspace", id],
     mutationFn: deleteWorkspace,
-    ...options,
   })
 }

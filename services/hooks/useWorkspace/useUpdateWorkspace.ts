@@ -8,11 +8,7 @@ type useUpdateWorkspaceProps = {
   data: IWorkspace
 } & useMutationProps
 
-export const useUpdateWorkspace = ({
-  id,
-  data,
-  options,
-}: useUpdateWorkspaceProps) => {
+export const useUpdateWorkspace = ({ id, data }: useUpdateWorkspaceProps) => {
   const updateWorkspace = async () => {
     await api.put(`/workspaces/${id}`, { data })
   }
@@ -20,6 +16,5 @@ export const useUpdateWorkspace = ({
   return useMutation({
     mutationKey: ["updateWorkspace", id],
     mutationFn: updateWorkspace,
-    ...options,
   })
 }

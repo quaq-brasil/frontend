@@ -11,7 +11,6 @@ type useUpdateInteractionProps = {
 export const useUpdateInteraction = ({
   id,
   data,
-  options,
 }: useUpdateInteractionProps) => {
   const updateInteraction = async () => {
     await api.put(`/interactions/${id}`, { data })
@@ -20,6 +19,5 @@ export const useUpdateInteraction = ({
   return useMutation({
     mutationKey: ["updateInteraction", id],
     mutationFn: updateInteraction,
-    ...options,
   })
 }
