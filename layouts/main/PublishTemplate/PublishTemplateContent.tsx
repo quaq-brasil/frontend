@@ -8,7 +8,9 @@ import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
+import useDebounce from "../../../hooks/useDebouce"
 import { useCreatePublication } from "../../../services/hooks/usePublication/useCreatePublication"
+import { useGetTemplateUrl } from "../../../services/hooks/useTemplate/useGetTemplateUrl"
 import { IPage } from "../../../types/Page.type"
 import { IPublication } from "../../../types/Publication.type"
 import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
@@ -35,6 +37,36 @@ export function PublishTemplateContent({
   handleUpdateIsUpdating,
 }: PublishTemplateContentProps) {
   const text = useTranslation().t
+
+  const getTemplateUrl = useGetTemplateUrl()
+
+  type handleGetTemplateUrlProps = {
+    name: string
+    pageId: string
+  }
+
+  function handleGetTemplateUrl(data: handleGetTemplateUrlProps) {
+    getTemplateUrl.mutate(data, {
+      onSuccess: (url) => {
+        handleUpdateTemplateData({ url })
+      },
+    })
+  }
+
+  const debouncedTemplateName = useDebounce({
+    value: templateData?.name,
+    delay: 1000 * 1,
+  })
+
+  useEffect(() => {
+    if (debouncedTemplateName && debouncedTemplateName !== "") {
+      handleGetTemplateUrl({
+        name: debouncedTemplateName,
+        pageId: pageData?.id as string,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedTemplateName])
 
   useEffect(() => {
     if (runUpdate) {
@@ -113,9 +145,15 @@ export function PublishTemplateContent({
             <CardText label={text("publish:link")} />
             <CardTextInput
               input={{
-                label: text("publish:linklabel"),
+                label: "",
                 onChange: (link) => handleUpdateTemplateData({ url: link }),
-                fixedText: "quaq.me/",
+                fixedText: `quaq.me/${pageData?.url}/`,
+                value: templateData?.url,
+              }}
+              indicator={{
+                icon: Check,
+                bgColor: "green-500",
+                onClick: () => {},
               }}
             />
           </Card>
