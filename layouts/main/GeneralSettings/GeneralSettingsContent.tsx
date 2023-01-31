@@ -9,6 +9,8 @@ import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
+import useDebounce from "../../../hooks/useDebouce"
+import { useGetPageUrl } from "../../../services/hooks/usePage/useGetPageUrl"
 import { IUpdatePage } from "../../../types/Page.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 
@@ -32,6 +34,31 @@ export function GeneralSettingsContent({
   handleUpdateRunUpdate,
 }: GeneralSettingsContent) {
   const text = useTranslation().t
+
+  const getPageUrl = useGetPageUrl()
+
+  function handleGetPageUrl(name: string) {
+    getPageUrl.mutate(
+      { name },
+      {
+        onSuccess: (url) => {
+          handleUpdatePageData({ url })
+        },
+      }
+    )
+  }
+
+  const debouncedPageName = useDebounce({
+    value: pageData?.name,
+    delay: 1000 * 1,
+  })
+
+  useEffect(() => {
+    if (debouncedPageName && debouncedPageName !== "") {
+      handleGetPageUrl(debouncedPageName as string)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedPageName])
 
   function onPageUpdate() {
     handleUpdatePage(pageData as IUpdatePage)
@@ -66,6 +93,21 @@ export function GeneralSettingsContent({
             />
           </Card>
           <Card>
+            <CardText label={text("generalsettings:link")} />
+            <CardTextInput
+              input={{
+                label: text("generalsettings:linklabel"),
+                onChange: (link) => handleUpdatePageData({ url: link }),
+                fixedText: "quaq.me/",
+                value: pageData?.url,
+              }}
+            />
+            <CardText
+              label={text("generalsettings:sharelink")}
+              indicator={{ icon: ArrowRight }}
+            />
+          </Card>
+          <Card>
             <CardText label={text("generalsettings:description")} />
             <CardTextInput
               input={{
@@ -74,21 +116,6 @@ export function GeneralSettingsContent({
                   handleUpdatePageData({ description: description }),
                 defaultValue: pageData?.description,
               }}
-            />
-          </Card>
-          <Card>
-            <CardText label={text("generalsettings:link")} />
-            <CardTextInput
-              input={{
-                label: text("generalsettings:linklabel"),
-                onChange: (link) => handleUpdatePageData({ url: link }),
-                fixedText: "quaq.me/",
-                defaultValue: pageData?.url,
-              }}
-            />
-            <CardText
-              label={text("generalsettings:sharelink")}
-              indicator={{ icon: ArrowRight }}
             />
           </Card>
           <Card>

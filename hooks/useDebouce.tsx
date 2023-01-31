@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 type UseDebounceProps = {
-  value: string | number | undefined
+  value: any
   delay: number
 }
 

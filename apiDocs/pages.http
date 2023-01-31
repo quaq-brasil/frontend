@@ -54,3 +54,11 @@ Content-Type: application/json
 DELETE https://bff.quaq.me/api/v1/pages/63b75045a43fc9f320321e9f
 
 
+# generate unique url
+
+POST https://bff.quaq.me/api/v1/pages/generate_unique_url
+Content-Type: application/json
+
+{
+    "name": "adm1"
+}
