@@ -24,7 +24,9 @@ type CreatorPageProps = {
   initialTemplatesData: ITemplate[]
   initialCurrentWorkspaceData: IWorkspace
   initialPagesData: IPage[]
+  initialAllWorkspacesData: IWorkspace[] | undefined
   handleUpdateCurrentPageId: (id: string) => void
+  handleUpdateCurrentWorkspaceId: (id: string) => void
 }
 
 export default function CreatorPage({
@@ -32,13 +34,16 @@ export default function CreatorPage({
   initialTemplatesData,
   initialCurrentWorkspaceData,
   initialPagesData,
+  initialAllWorkspacesData,
   handleUpdateCurrentPageId,
+  handleUpdateCurrentWorkspaceId,
 }: CreatorPageProps) {
   const text = useTranslation().t
 
   const [pageData, setPageData] = useState<IPage>()
   const [templatesData, setTemplatesData] = useState<ITemplate[]>()
   const [currentWorspaceData, setCurrentWorkspaceData] = useState<IWorkspace>()
+  const [allWorkspacesData, setAllWorkspacesdata] = useState<IWorkspace[]>()
   const [pagesData, setPagesData] = useState<IPage[]>()
 
   useEffect(() => {
@@ -56,6 +61,10 @@ export default function CreatorPage({
   useEffect(() => {
     setPagesData(initialPagesData)
   }, [initialPagesData])
+
+  useEffect(() => {
+    setAllWorkspacesdata(initialAllWorkspacesData)
+  }, [initialAllWorkspacesData])
 
   const {
     handleToggleContextMenu,
@@ -77,7 +86,7 @@ export default function CreatorPage({
     lg:py-10 text-white lg:mt-[1.5rem] mt-[19px] md:mt-0"`}
     >
       <div className="pr-4 z-10 flex space-x-3">
-        <div className="flex flex-col items-end gap-3">
+        <div className="flex flex-col items-end gap-2 md:gap-3">
           <div className="w-fit">
             <Tag
               variant="img"
@@ -210,38 +219,26 @@ export default function CreatorPage({
   }
 
   function loadWorkspaces() {
-    return (
-      <>
-        <div className="w-fit">
-          <Tag
-            variant="img-txt"
-            text="example"
-            img_url="https://source.unsplash.com/featured/"
-          />
-        </div>
-        <div className="w-fit">
-          <Tag
-            variant="img-txt"
-            text="example"
-            img_url="https://source.unsplash.com/featured/"
-          />
-        </div>
-        <div className="w-fit">
-          <Tag
-            variant="img-txt"
-            text="example"
-            img_url="https://source.unsplash.com/featured/"
-          />
-        </div>
-        <div className={`w-fit`}>
-          <Tag
-            variant="icn-txt"
-            text={text("creatorpage:newworkspace")}
-            icon={Plus}
-          />
-        </div>
-      </>
-    )
+    if (allWorkspacesData) {
+      const workspaces: JSX.Element[] = allWorkspacesData?.map(
+        (workspace, index) => {
+          return (
+            <div key={index} className="w-fit">
+              <Tag
+                variant="img-txt"
+                img_url={workspace.avatar_url || ""}
+                text={workspace.name || ""}
+                isSelected={currentWorspaceData?.id == workspace.id}
+                onClick={() =>
+                  handleUpdateCurrentWorkspaceId(workspace.id as string)
+                }
+              />
+            </div>
+          )
+        }
+      )
+      return workspaces
+    }
   }
 
   const handleHeaderTagContextMenu = () => {

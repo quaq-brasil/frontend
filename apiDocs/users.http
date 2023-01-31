@@ -1,6 +1,6 @@
 # find one
 
-GET https://bff.quaq.me/api/v1/users/63d91dfba01035ef4040fe55
+GET http://localhost:5000/api/v1/users/63d91dfba01035ef4040fe55
 
 ###
 
@@ -41,7 +41,7 @@ DELETE http://localhost:5000/api/v1/users/63b6ed226e2cf11afe9f163c
 
 # login
 
-POST https://bff.quaq.me/api/v1/auth/login
+POST http://localhost:5000/api/v1/auth/login
 Content-Type: application/json
 
 {

@@ -8,13 +8,13 @@ type useWorkspaceProps = {
 } & useQueryProps
 
 export const useWorkspace = ({ id, options }: useWorkspaceProps) => {
-  const geWorkspace = async () => {
+  const getWorkspace = async () => {
     return api.get(`/workspaces/${id}`)
   }
 
   const response = useQuery({
     queryKey: ["geWorkspace", id],
-    queryFn: geWorkspace,
+    queryFn: getWorkspace,
     ...options,
   }) as UseQueryResult<{ data: IWorkspace }>
 
