@@ -1,12 +1,12 @@
 # find one
 
-GET http://localhost:5000/api/v1/users/63d68a12688c6d9d82a5f649
+GET https://bff.quaq.me/api/v1/users/63d68a12688c6d9d82a5f649
 
 ###
 
 # create one
 
-POST http://localhost:5000/api/v1/users
+POST https://bff.quaq.me/api/v1/users
 Content-Type: application/json
 
 {
@@ -23,7 +23,7 @@ Content-Type: application/json
 
 # update one
 
-PUT http://localhost:5000/api/v1/users/63d7c5dd4b1d81503bf6beb8
+PUT https://bff.quaq.me/api/v1/users/63d7c5dd4b1d81503bf6beb8
 Content-Type: application/json
 
 {
@@ -36,13 +36,13 @@ Content-Type: application/json
 
 # delete one
 
-DELETE http://localhost:5000/api/v1/users/63b6ed226e2cf11afe9f163c
+DELETE https://bff.quaq.me/api/v1/users/63b6ed226e2cf11afe9f163c
 
 ###
 
 # login
 
-POST http://localhost:5000/api/v1/auth/login
+POST https://bff.quaq.me/api/v1/auth/login
 Content-Type: application/json
 
 {

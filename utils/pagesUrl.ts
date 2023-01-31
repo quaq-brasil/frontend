@@ -22,6 +22,14 @@ const home = () => `/`
 
 const explorer = () => `/explorer`
 
+const meSettings = (settings?: string) => {
+  if (settings) {
+    return `/me/${settings}`
+  } else {
+    return `/me`
+  }
+}
+
 export const pageUrls = {
   page,
   pageSettings,
@@ -31,4 +39,5 @@ export const pageUrls = {
   home,
   explorer,
   createPage,
+  meSettings,
 }
