@@ -1,11 +1,10 @@
-import useTranslation from "next-translate/useTranslation";
-import { ArrowRight } from "phosphor-react";
-import { Card } from "../../../components/Card/Card";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
+import useTranslation from "next-translate/useTranslation"
+import { Card } from "../../../components/Card/Card"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 
 export function WorkspaceAdvancedContent() {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -19,7 +18,7 @@ export function WorkspaceAdvancedContent() {
             <CardText label={text("wsadvanced:options")} />
             <CardText
               label={text("wsadvanced:delete")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              // indicator={{ icon: ArrowRight, onClick: () => console.log() }}
             />
             <CardLine />
           </Card>
@@ -27,5 +26,5 @@ export function WorkspaceAdvancedContent() {
         </div>
       </div>
     </div>
-  );
+  )
 }

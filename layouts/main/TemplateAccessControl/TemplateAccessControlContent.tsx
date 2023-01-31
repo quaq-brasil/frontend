@@ -1,5 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
-import { ArrowRight, Check } from "phosphor-react"
+import { Check } from "phosphor-react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
@@ -47,7 +47,7 @@ export function TemplateAccessControlContent({
             />
             <CardText
               label={text("accesscontrol:share")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              // indicator={{ icon: ArrowRight, onClick: () => console.log() }}
             />
           </Card>
           <Card>
@@ -55,7 +55,7 @@ export function TemplateAccessControlContent({
             <CardLine />
             <CardText
               label={text("accesscontrol:setuptrackers")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              // indicator={{ icon: ArrowRight, onClick: () => console.log() }}
             />
             <CardLine />
           </Card>

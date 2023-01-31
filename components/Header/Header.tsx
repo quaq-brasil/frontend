@@ -1,4 +1,5 @@
 import Image from "next/image"
+import { useEffect, useRef } from "react"
 
 type HeaderProps = {
   background_url: string
@@ -11,6 +12,17 @@ export const Header = ({
   children,
   reightContent,
 }: HeaderProps) => {
+  const scrollRef = useRef(null)
+
+  const handleScroll = () => {
+    // @ts-ignore
+    scrollRef.current.scrollLeft = scrollRef.current.scrollWidth
+  }
+
+  useEffect(() => {
+    handleScroll()
+  }, [scrollRef])
+
   return (
     <header
       className={`flex fixed z-10 top-0 left-0 right-0 bg-image
@@ -18,7 +30,10 @@ export const Header = ({
       lg:rounded-[2.5rem] mx-auto lg:min-h-[2.5rem] lg:px-10 
       lg:py-10 bg-black lg:mt-[1.5rem] outline outline-2 outline-slate-100`}
     >
-      <div className="pl-4 z-10 flex gap-3 overflow-x-auto scrollbar-hide">
+      <div
+        ref={scrollRef}
+        className="px-4 z-10 flex gap-3 overflow-x-auto scrollbar-hide "
+      >
         {children}
       </div>
       {reightContent && (

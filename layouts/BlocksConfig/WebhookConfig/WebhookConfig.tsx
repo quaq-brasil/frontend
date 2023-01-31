@@ -97,7 +97,7 @@ export function WebhookConfig(props: WebhookConfigProps) {
               label={text("webhookconfig:get")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeType("GET"),
+                // onClick: () => handleChangeType("GET"),
                 isVisible: type == "GET" ? false : true,
               }}
             />
@@ -105,7 +105,7 @@ export function WebhookConfig(props: WebhookConfigProps) {
               label={text("webhookconfig:post")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeType("POST"),
+                // onClick: () => handleChangeType("POST"),
                 isVisible: type == "POST" ? false : true,
               }}
             />
@@ -113,7 +113,7 @@ export function WebhookConfig(props: WebhookConfigProps) {
               label={text("webhookconfig:patch")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeType("PATCH"),
+                // onClick: () => handleChangeType("PATCH"),
                 isVisible: type == "PATCH" ? false : true,
               }}
             />
@@ -121,7 +121,7 @@ export function WebhookConfig(props: WebhookConfigProps) {
               label={text("webhookconfig:delete")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeType("DELETE"),
+                // onClick: () => handleChangeType("DELETE"),
                 isVisible: type == "DELETE" ? false : true,
               }}
             />

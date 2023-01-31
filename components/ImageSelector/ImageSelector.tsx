@@ -1,15 +1,15 @@
-import useTranslation from "next-translate/useTranslation";
-import Image from "next/image";
-import { ImageSquare, Plus } from "phosphor-react";
-import { useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { checkForFileSize } from "../../utils/checkForFileSize";
-import { LoadingImage } from "./LoadingImage";
+import useTranslation from "next-translate/useTranslation"
+import Image from "next/image"
+import { ImageSquare, Plus } from "phosphor-react"
+import { useEffect, useState } from "react"
+import { useDropzone } from "react-dropzone"
+import { checkForFileSize } from "../../utils/checkForFileSize"
+import { LoadingImage } from "./LoadingImage"
 
 type ImageSelectorProps = {
-  url?: string;
-  onImageChange: (url: string) => void;
-};
+  url?: string
+  onImageChange: (url: string) => void
+}
 
 function checkForCorrectFileType(file: File): boolean {
   const allowedFileTypes = [
@@ -17,67 +17,71 @@ function checkForCorrectFileType(file: File): boolean {
     "image/png",
     "image/webp",
     "image/heic",
-  ];
-  return allowedFileTypes.includes(file.type);
+  ]
+  return allowedFileTypes.includes(file.type)
 }
 
 const ErrorMessage = ({ message }: { message: string }) => {
-  return <div>{message}</div>;
-};
+  return <div>{message}</div>
+}
 
 export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
-  const [imageUrl, setImageUrl] = useState(url || "");
-  const [error, setError] = useState("");
-  const text = useTranslation().t;
-  const [isLoading, setIsLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState(url || "")
+  const [error, setError] = useState("")
+  const text = useTranslation().t
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setImageUrl(url || "")
+  }, [url])
 
   const onDrop = async (acceptedFiles: File[]) => {
-    setIsLoading(true);
-    setError("");
+    setIsLoading(true)
+    setError("")
     try {
-      const file = acceptedFiles[0];
+      const file = acceptedFiles[0]
       if (!checkForCorrectFileType(file)) {
-        setError(text("imageselector:invalid_file_type"));
+        setError(text("imageselector:invalid_file_type"))
       }
       if (!checkForFileSize(file)) {
-        setError(text("imageselector:invalid_file_size"));
+        setError(text("imageselector:invalid_file_size"))
       }
 
-      let imageUrl;
+      let imageUrl
       if (file.type === "image/heic") {
         const { convertHeicToJpeg } = await import(
           "../../utils/convertHeicToJpeg"
-        );
-        const jpegImage = await convertHeicToJpeg(file);
+        )
+        const jpegImage = await convertHeicToJpeg(file)
 
         if (typeof jpegImage !== "string") {
-          imageUrl = URL.createObjectURL(jpegImage as any);
+          imageUrl = URL.createObjectURL(jpegImage as any)
         } else {
-          setError(jpegImage);
+          setError(jpegImage)
         }
       } else {
-        imageUrl = URL.createObjectURL(file);
+        imageUrl = URL.createObjectURL(file)
       }
 
       if (!imageUrl) {
-        throw new Error("Failed to create image URL");
+        throw new Error("Failed to create image URL")
       }
 
-      setImageUrl(imageUrl);
-      onImageChange(imageUrl);
+      setImageUrl(imageUrl)
+      onImageChange(imageUrl)
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    setIsLoading(false);
-    setError("");
-  }, [imageUrl]);
+    setIsLoading(false)
+    setError("")
+  }, [imageUrl])
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({ onDrop })
 
   return (
     <div className="relative">
@@ -116,5 +120,5 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
         </div>
       )}
     </div>
-  );
+  )
 }

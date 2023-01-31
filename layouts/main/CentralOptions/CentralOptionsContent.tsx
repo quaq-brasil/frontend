@@ -1,20 +1,20 @@
-import useTranslation from "next-translate/useTranslation";
-import { ArrowRight, Check } from "phosphor-react";
-import { useState } from "react";
-import { Card } from "../../../components/Card/Card";
-import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
-import { ImageSelector } from "../../../components/ImageSelector/ImageSelector";
+import useTranslation from "next-translate/useTranslation"
+import { Check } from "phosphor-react"
+import { useState } from "react"
+import { Card } from "../../../components/Card/Card"
+import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 
 export function CentralOptionsContent() {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
-  const [size, serSize] = useState<"small" | "large">("small");
+  const [size, serSize] = useState<"small" | "large">("small")
 
   function handleChangeSize(type: "small" | "large") {
-    serSize(type);
+    serSize(type)
   }
 
   return (
@@ -30,12 +30,12 @@ export function CentralOptionsContent() {
             <CardLine />
             <CardText
               label={text("centraloptions:access")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              // indicator={{ icon: ArrowRight, onClick: () => console.log() }}
             />
             <CardLine />
             <CardText
               label={text("centraloptions:edit")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              // indicator={{ icon: ArrowRight, onClick: () => console.log() }}
             />
             <CardLine />
           </Card>
@@ -69,7 +69,7 @@ export function CentralOptionsContent() {
               label={text("centraloptions:small")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeSize("small"),
+                // onClick: () => handleChangeSize("small"),
                 isVisible: size == "small" ? false : true,
               }}
             />
@@ -78,7 +78,7 @@ export function CentralOptionsContent() {
               label={text("centraloptions:large")}
               indicator={{
                 icon: Check,
-                onClick: () => handleChangeSize("large"),
+                // onClick: () => handleChangeSize("large"),
                 isVisible: size == "large" ? false : true,
               }}
             />
@@ -89,5 +89,5 @@ export function CentralOptionsContent() {
         </div>
       </div>
     </div>
-  );
+  )
 }

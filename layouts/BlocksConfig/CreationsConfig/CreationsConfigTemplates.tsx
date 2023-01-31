@@ -34,6 +34,8 @@ export function CreationsConfigTemplates(props: CreationsConfigTemplatesProps) {
         title="template 1"
         index={0}
         id={""}
+        templateData={{} as any}
+        pageData={undefined}
       />,
       <Shortcut
         key={2}
@@ -42,6 +44,8 @@ export function CreationsConfigTemplates(props: CreationsConfigTemplatesProps) {
         title="template 2"
         index={0}
         id={""}
+        templateData={{} as any}
+        pageData={undefined}
       />,
       <Shortcut
         key={3}
@@ -50,6 +54,8 @@ export function CreationsConfigTemplates(props: CreationsConfigTemplatesProps) {
         title="template 3"
         index={0}
         id={""}
+        templateData={{} as any}
+        pageData={undefined}
       />,
       <Shortcut
         key={4}
@@ -58,6 +64,8 @@ export function CreationsConfigTemplates(props: CreationsConfigTemplatesProps) {
         title="template 4"
         index={0}
         id={""}
+        templateData={{} as any}
+        pageData={undefined}
       />,
       <Shortcut
         key={5}
@@ -66,6 +74,8 @@ export function CreationsConfigTemplates(props: CreationsConfigTemplatesProps) {
         title="template 5"
         index={0}
         id={""}
+        templateData={{} as any}
+        pageData={undefined}
       />,
       <Shortcut
         key={6}
@@ -74,6 +84,8 @@ export function CreationsConfigTemplates(props: CreationsConfigTemplatesProps) {
         title="template 6"
         index={0}
         id={""}
+        templateData={{} as any}
+        pageData={undefined}
       />,
     ]
   }

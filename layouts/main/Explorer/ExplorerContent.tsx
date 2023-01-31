@@ -22,6 +22,8 @@ export function ExplorerContent({ templatesData }: ExplorerContentProps) {
             size={template.shortcut_size || "small"}
             title={template.name}
             isCreator={false}
+            templateData={template}
+            pageData={undefined}
           />
         )
       })

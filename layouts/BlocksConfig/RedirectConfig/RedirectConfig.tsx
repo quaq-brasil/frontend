@@ -81,7 +81,7 @@ export function RedirectConfig(props: RedirectConfigProps) {
               indicator={{
                 icon: Check,
                 isVisible: redirectType !== "manual",
-                onClick: () => handleChangeRedirectType("manual"),
+                // onClick: () => handleChangeRedirectType("manual"),
               }}
             />
             <CardLine />
@@ -90,7 +90,7 @@ export function RedirectConfig(props: RedirectConfigProps) {
               indicator={{
                 icon: Check,
                 isVisible: redirectType !== "auto",
-                onClick: () => handleChangeRedirectType("auto"),
+                // onClick: () => handleChangeRedirectType("auto"),
               }}
             />
             <CardLine />
