@@ -1,6 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
-import { ArrowRight } from "phosphor-react"
+import { ArrowRight, Check } from "phosphor-react"
 import { useEffect } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
@@ -100,6 +100,11 @@ export function GeneralSettingsContent({
                 onChange: (link) => handleUpdatePageData({ url: link }),
                 fixedText: "quaq.me/",
                 value: pageData?.url,
+              }}
+              indicator={{
+                icon: Check,
+                onClick: () => {},
+                bgColor: "green-500",
               }}
             />
             <CardText
