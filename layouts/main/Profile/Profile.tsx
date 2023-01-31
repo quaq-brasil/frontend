@@ -7,44 +7,49 @@ import { IUpdateUser, IUser } from "../../../types/User.type"
 import { ProfileContent } from "./ProfileContent"
 
 type ProfileProps = {
-  userData: IUser
+  initialUserData: IUser | undefined
   handleUserUpdate: (userData: IUpdateUser) => void
 }
 
-export default function Profile({ userData, handleUserUpdate }: ProfileProps) {
+export default function Profile({
+  initialUserData,
+  handleUserUpdate,
+}: ProfileProps) {
   const text = useTranslation().t
 
-  const [userName, setUserName] = useState("")
-  const [userAvatar, setUserAvatar] = useState("")
+  const [userData, setUserData] = useState<IUpdateUser>()
   const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
 
   useEffect(() => {
-    setUserName(userData?.name || "")
-    setUserAvatar(userData?.avatar_url || "")
-  }, [userData])
+    if (initialUserData) {
+      setUserData(initialUserData)
+    }
+  }, [initialUserData])
 
-  function handleIsUpdating(stat: boolean) {
+  function handleUpdateIsUpdating(stat: boolean) {
     setIsUpdating(stat)
   }
 
-  function handleUserNameUpdate(name: string) {
-    setUserName(name)
-    handleIsUpdating(true)
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
   }
 
-  function handleUserAvatarUpdate(name: string) {
-    setUserAvatar(name)
-    handleIsUpdating(true)
+  function handleUpdateUserdata(newData: IUpdateUser) {
+    setUserData({
+      ...userData,
+      name: newData.name || userData?.name,
+      avatar_url: newData.avatar_url || userData?.avatar_url,
+    })
+    handleUpdateIsUpdating(true)
   }
 
-  function handleUpdate() {
-    const newData = {
-      name: userName,
-      avatar_url: userName,
+  useEffect(() => {
+    if (userData) {
+      handleUserUpdate(userData)
     }
-    handleUserUpdate(newData)
-    handleIsUpdating(false)
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -59,7 +64,7 @@ export default function Profile({ userData, handleUserUpdate }: ProfileProps) {
           <Tag
             variant="txt"
             text={text("edittemplate:update")}
-            onClick={() => handleIsUpdating(false)}
+            onClick={() => handleUpdateRunUpdate(true)}
           />
         </div>,
       ]
@@ -82,7 +87,11 @@ export default function Profile({ userData, handleUserUpdate }: ProfileProps) {
           "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
         }
       >
-        <Tag variant="img-txt" text={userName} img_url={userAvatar} />
+        <Tag
+          variant="img-txt"
+          text={userData?.name || ""}
+          img_url={userData?.avatar_url || ""}
+        />
       </Header>
     )
   }
@@ -91,12 +100,10 @@ export default function Profile({ userData, handleUserUpdate }: ProfileProps) {
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
       <ProfileContent
-        handleUserNameUpdate={handleUserNameUpdate}
-        handleUserAvatarUpdate={handleUserAvatarUpdate}
-        handleUpdate={handleUpdate}
+        handleUpdateUserdata={handleUpdateUserdata}
+        userData={userData}
         isUpdating={isUpdating}
-        name={userName}
-        avatar={userAvatar}
+        handleUpdateRunUpdate={handleUpdateRunUpdate}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

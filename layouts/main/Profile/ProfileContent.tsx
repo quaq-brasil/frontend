@@ -1,4 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { ArrowRight } from "phosphor-react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
@@ -7,25 +8,25 @@ import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
+import { IUpdateUser } from "../../../types/User.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 
 type ProfileContentProps = {
-  handleUserNameUpdate: (name: string) => void
-  handleUserAvatarUpdate: (avatar: string) => void
-  handleUpdate: () => void
+  handleUpdateUserdata: (data: IUpdateUser) => void
+  userData: IUpdateUser | undefined
+  handleUpdateRunUpdate: (stat: boolean) => void
   isUpdating: boolean
-  name: string
-  avatar: string
 }
 
 export function ProfileContent({
+  handleUpdateRunUpdate,
+  handleUpdateUserdata,
   isUpdating,
-  handleUserNameUpdate,
-  handleUserAvatarUpdate,
-  handleUpdate,
-  name,
-  avatar,
+  userData,
 }: ProfileContentProps) {
   const text = useTranslation().t
+
+  const router = useRouter()
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -40,8 +41,10 @@ export function ProfileContent({
             <CardImageInput
               imageSelector={
                 <ImageSelector
-                  onImageChange={(e) => handleUserAvatarUpdate(e)}
-                  url={avatar}
+                  onImageChange={(image) =>
+                    handleUpdateUserdata({ avatar_url: image })
+                  }
+                  url={userData?.avatar_url || ""}
                 />
               }
             />
@@ -51,9 +54,9 @@ export function ProfileContent({
             <CardTextInput
               input={{
                 label: text("profile:inputname"),
-                onChange: (e) => handleUserNameUpdate(e),
+                onChange: (name) => handleUpdateUserdata({ name: name }),
                 type: "text",
-                defaultValue: name,
+                defaultValue: userData?.name || "",
               }}
             />
           </Card>
@@ -61,7 +64,7 @@ export function ProfileContent({
             <div className="w-full h-fit hidden xl:block">
               <Button
                 color="black"
-                onClick={handleUpdate}
+                onClick={() => handleUpdateRunUpdate(true)}
                 text={text("profile:confirm")}
               />
             </div>
@@ -70,27 +73,34 @@ export function ProfileContent({
             <CardText label={text("profile:options")} />
             <CardText
               label={text("profile:logout")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              indicator={{ icon: ArrowRight }}
+              onClick={() => console.log()}
             />
             <CardLine />
             <CardText
               label={text("profile:email")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              indicator={{ icon: ArrowRight }}
+              onClick={() => router.push(pageUrls.meSettings("email-update"))}
             />
             <CardLine />
             <CardText
               label={text("profile:password")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              indicator={{ icon: ArrowRight }}
+              onClick={() =>
+                router.push(pageUrls.meSettings("password-update"))
+              }
             />
             <CardLine />
             <CardText
               label={text("profile:terms")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              indicator={{ icon: ArrowRight }}
+              onClick={() => router.push(pageUrls.terms())}
             />
             <CardLine />
             <CardText
               label={text("profile:more")}
-              indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              indicator={{ icon: ArrowRight }}
+              onClick={() => router.push(pageUrls.meSettings("advanced"))}
             />
           </Card>
           <span className="w-full h-[4rem]"></span>

@@ -1,24 +1,28 @@
-import { EmailUpdate } from "../../../layouts/Workflows/EmailUpdate/EmailUpdate"
-import { useUpdateUser } from "../../../services/hooks/useUser/useUpdateUser"
-import { useUser } from "../../../services/hooks/useUser/useUser"
+import { EmailUpdate } from "../../layouts/Workflows/EmailUpdate/EmailUpdate"
+import { useUpdateUser } from "../../services/hooks/useUser/useUpdateUser"
+import { useUser } from "../../services/hooks/useUser/useUser"
+import { IUpdateUser } from "../../types/User.type"
 
 export default function EmailUpdatePage() {
   const response = useUser({
-    id: "63d26f06ea1e68c873e97ab0",
+    id: "63d44488cbb9780ad98047bb",
   })
 
   const updateUser = useUpdateUser()
 
-  const handleChangeEmail = (email: string) => {
+  const handleChangeEmail = (data: IUpdateUser) => {
     updateUser.mutate({
+      id: "63d44488cbb9780ad98047bb",
       data: {
-        email: email,
+        email: data.email || "",
       },
-      id: "63d26f06ea1e68c873e97ab0",
     })
   }
 
   return (
-    <EmailUpdate handleChangeEmail={handleChangeEmail} data={response?.data} />
+    <EmailUpdate
+      handleChangeEmail={handleChangeEmail}
+      initialUserData={response?.data}
+    />
   )
 }

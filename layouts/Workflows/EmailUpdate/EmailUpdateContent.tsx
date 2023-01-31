@@ -1,33 +1,64 @@
 import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { useLogin } from "../../../services/hooks/useUser/useLogin"
+import { IUpdateUser } from "../../../types/User.type"
 
 type EmailUpdateContentProps = {
-  handleChangeEmail: (email: string) => void
+  handleUpdateRunUpdate: (stat: boolean) => void
+  handleUpdateUserData: (data: IUpdateUser) => void
+  userData: IUpdateUser | undefined
+  handleChangeEmail: (data: IUpdateUser) => void
+  runUpdate: boolean
+  isUpdating: boolean
 }
 
 export function EmailUpdateContent({
-  handleChangeEmail,
+  handleUpdateRunUpdate,
+  handleUpdateUserData,
+  userData,
+  runUpdate,
+  isUpdating,
 }: EmailUpdateContentProps) {
   const text = useTranslation().t
 
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [password, setPassword] = useState<string>("")
+  const [failed, setFailed] = useState(false)
 
-  function handleUpdate() {
-    handleChangeEmail(email)
+  const userLogin = useLogin()
+
+  function handleUserVerification() {
+    userLogin.mutate(
+      {
+        email: userData?.email || "",
+        password: password,
+      },
+      {
+        onSuccess: () => {
+          handleUpdateRunUpdate(true)
+        },
+        onError: () => {
+          handleUpdateFailed(true)
+        },
+      }
+    )
   }
 
-  const onChangeEmail = (value: string) => {
-    setEmail(value)
+  function handleUpdateFailed(stat: boolean) {
+    setFailed(stat)
   }
 
-  const onChangePassword = (value: string) => {
-    setPassword(value)
+  const handleUpdatePassword = (password: string) => {
+    setPassword(password)
   }
+
+  useEffect(() => {
+    handleUserVerification()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -42,7 +73,7 @@ export function EmailUpdateContent({
             <CardTextInput
               input={{
                 label: text("emailupdate:inputemail"),
-                onChange: (value) => onChangeEmail(value),
+                onChange: (email) => handleUpdateUserData({ email: email }),
                 type: "email",
               }}
             />
@@ -52,17 +83,20 @@ export function EmailUpdateContent({
             <CardTextInput
               input={{
                 label: text("emailupdate:inputpassword"),
-                onChange: (value) => onChangePassword(value),
+                onChange: (password) => handleUpdatePassword(password),
                 type: "password",
               }}
             />
           </Card>
-          <Button
-            color="slate-900"
-            onClick={handleUpdate}
-            text={text("emailupdate:confirm")}
-          />
-
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="slate-900"
+                onClick={() => handleUpdateRunUpdate(true)}
+                text={text("emailupdate:confirm")}
+              />
+            </div>
+          )}
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>

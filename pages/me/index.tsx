@@ -1,7 +1,7 @@
 import Profile from "../../layouts/main/Profile/Profile"
 import { useUpdateUser } from "../../services/hooks/useUser/useUpdateUser"
 import { useUser } from "../../services/hooks/useUser/useUser"
-import { IUpdateUser, IUser } from "../../types/User.type"
+import { IUpdateUser } from "../../types/User.type"
 
 export default function ProfilePage() {
   const getUser = useUser({ id: "63d44488cbb9780ad98047bb" })
@@ -11,13 +11,16 @@ export default function ProfilePage() {
   function handleUserUpdate(data: IUpdateUser) {
     updateUser.mutate({
       id: "63d44488cbb9780ad98047bb",
-      data,
+      data: {
+        name: data.name,
+        avatar_url: data.avatar_url,
+      },
     })
   }
 
   return (
     <Profile
-      userData={getUser?.data as IUser}
+      initialUserData={getUser?.data}
       handleUserUpdate={handleUserUpdate}
     />
   )
