@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { BlockSelector } from "../../../components/BlockSelector/BlockSelector"
 import { RenderBlockConfig } from "./RenderBlockConfig"
@@ -6,6 +6,10 @@ import { RenderBlockConfig } from "./RenderBlockConfig"
 export function CreateTemplateContent() {
   const [blockSelected, setBlockSelected] = useState<string | undefined>()
   const [blocks, setBlocks] = useState<BlockProps[]>([])
+
+  useEffect(() => {
+    console.log("blocks", blocks)
+  }, [blocks])
 
   const [isOpen, setIsOpen] = useState(false)
 

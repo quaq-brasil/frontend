@@ -30,7 +30,13 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
     case "image":
       return <ImageConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
     case "text":
-      return <TextConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+      return (
+        <TextConfig
+          isOpen={props.isOpen}
+          setIsOpen={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+        />
+      )
     case "embed":
       return <EmbedConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
     case "file":
