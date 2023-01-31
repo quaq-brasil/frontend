@@ -57,7 +57,8 @@
       "createwspace",
       "pagedelete",
       "pagetrackers",
-      "explorer"
+      "explorer",
+      "userdelete"
     ]
   }
 }

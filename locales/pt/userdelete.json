@@ -1,0 +1,11 @@
+{
+  "back": "voltar",
+  "delete": "deletar",
+  "advanced": "avançado",
+  "title": "deletando sua conta",
+  "longtext": "ao deletar a sua conta você concorda em deletar todos os workspaces, páginas e templates em posse desta conta.",
+  "password": "digite a sua senha para deletar a sua conta",
+  "passwordinput": "digite aqui",
+  "confirm": "confirmar",
+  "failed": "senha incorreta, por favor tente novamente"
+}

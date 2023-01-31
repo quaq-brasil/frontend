@@ -1,0 +1,11 @@
+{
+  "back": "back",
+  "delete": "delete",
+  "advanced": "advanced",
+  "title": "account deletion",
+  "longtext": "by deleting your account you agree to delete all workspaces, pages and templates in this account possesion.",
+  "password": "type your password to delete your account",
+  "passwordinput": "type it here",
+  "confirm": "confirm",
+  "failed": "incorrect password, please try again"
+}
