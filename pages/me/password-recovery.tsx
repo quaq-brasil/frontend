@@ -1,6 +1,6 @@
-import { PasswordRecovery } from "../../../layouts/Workflows/PasswordRecovery/PasswordRecovery"
-import { useUpdateUser } from "../../../services/hooks/useUser/useUpdateUser"
-import { useUser } from "../../../services/hooks/useUser/useUser"
+import { PasswordRecovery } from "../../layouts/Workflows/PasswordRecovery/PasswordRecovery"
+import { useUpdateUser } from "../../services/hooks/useUser/useUpdateUser"
+import { useUser } from "../../services/hooks/useUser/useUser"
 
 export default function PasswordRecoveryPage() {
   const response = useUser({

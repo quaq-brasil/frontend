@@ -1,6 +1,6 @@
-import { PasswordUpdate } from "../../../layouts/Workflows/PasswordUpdate/PasswordUpdate"
-import { useUpdateUser } from "../../../services/hooks/useUser/useUpdateUser"
-import { useUser } from "../../../services/hooks/useUser/useUser"
+import { PasswordUpdate } from "../../layouts/Workflows/PasswordUpdate/PasswordUpdate"
+import { useUpdateUser } from "../../services/hooks/useUser/useUpdateUser"
+import { useUser } from "../../services/hooks/useUser/useUser"
 
 export default function PasswordUpdatePage() {
   const response = useUser({

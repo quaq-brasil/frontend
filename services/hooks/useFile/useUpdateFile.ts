@@ -8,7 +8,7 @@ type useUpdateFileProps = {
   data: IFile
 } & useMutationProps
 
-export const useUpdateFile = ({ id, data, options }: useUpdateFileProps) => {
+export const useUpdateFile = ({ id, data }: useUpdateFileProps) => {
   const updateFile = async () => {
     await api.put(`/files/${id}`, { data })
   }
@@ -16,6 +16,5 @@ export const useUpdateFile = ({ id, data, options }: useUpdateFileProps) => {
   return useMutation({
     mutationKey: ["updateFile", id],
     mutationFn: updateFile,
-    ...options,
   })
 }
