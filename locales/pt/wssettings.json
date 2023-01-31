@@ -1,12 +1,12 @@
 {
-  "tab1": "cancelar",
-  "titletag": "configurações",
-  "wsimage": "imagem de capa do workspace",
-  "wsname": "nome do workspace",
-  "inputwsname": "digite aqui",
-  "options": "opções",
-  "members": "membros",
-  "services": "serviços",
-  "billing": "cobranças",
-  "advanced": "avançado"
+  "back": "voltar",
+  "update": "atualizar",
+  "settings": "configurações",
+  "title": "título do workspace",
+  "titlelabel": "digite aqui",
+  "image": "imagem do workspace",
+  "confirm": "confirmar",
+  "terms": "termos e políticas",
+  "advanced": "avançado",
+  "options": "opções"
 }

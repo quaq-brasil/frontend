@@ -12,7 +12,7 @@ export default function FirstWorkspace() {
       <Tag
         key={1}
         variant="txt"
-        text={text("wssettings:tab1")}
+        text={text("wssettup:tab1")}
         onClick={() => console.log("tab1")}
       />,
     ]
@@ -27,7 +27,7 @@ export default function FirstWorkspace() {
       >
         <Tag
           variant="img-txt"
-          text={text("wssettings:titletag")}
+          text={text("firstws:titletag")}
           img_url="https://source.unsplash.com/featured/"
         />
       </Header>

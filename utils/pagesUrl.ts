@@ -30,6 +30,14 @@ const meSettings = (settings?: string) => {
   }
 }
 
+const workspageSettings = (settings?: string) => {
+  if (settings) {
+    return `/workspace/${settings}`
+  } else {
+    return `/workspace`
+  }
+}
+
 export const pageUrls = {
   page,
   pageSettings,
@@ -40,4 +48,5 @@ export const pageUrls = {
   explorer,
   createPage,
   meSettings,
+  workspageSettings,
 }

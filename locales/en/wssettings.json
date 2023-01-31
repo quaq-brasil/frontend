@@ -1,12 +1,12 @@
 {
-  "tab1": "cancel",
-  "titletag": "settings",
-  "wsimage": "workspace cover picture",
-  "wsname": "workspace name",
-  "inputwsname": "type it here",
-  "options": "options",
-  "members": "members",
-  "services": "services",
-  "billing": "billing",
-  "advanced": "advanced"
+  "back": "back",
+  "update": "update",
+  "settings": "settings",
+  "title": "workspace title",
+  "titlelabel": "type it here",
+  "image": "workspace image",
+  "confirm": "confirm",
+  "terms": "terms and policies",
+  "advanced": "advanced",
+  "options": "options"
 }

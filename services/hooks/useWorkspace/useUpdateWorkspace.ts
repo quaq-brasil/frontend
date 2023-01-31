@@ -1,20 +1,20 @@
 import { useMutation } from "@tanstack/react-query"
 import { useMutationProps } from "../../../types/useQueryProps"
+import { IUpdateWorkspace } from "../../../types/Workspace.type"
 import { api } from "../../apiClient"
-import { IWorkspace } from "./../../../types/Workspace.type"
 
 type useUpdateWorkspaceProps = {
   id: string
-  data: IWorkspace
+  data: IUpdateWorkspace
 } & useMutationProps
 
-export const useUpdateWorkspace = ({ id, data }: useUpdateWorkspaceProps) => {
-  const updateWorkspace = async () => {
-    await api.put(`/workspaces/${id}`, { data })
+export const useUpdateWorkspace = () => {
+  const updateWorkspace = async ({ id, data }: useUpdateWorkspaceProps) => {
+    await api.put(`/workspaces/${id}`, data)
   }
 
   return useMutation({
-    mutationKey: ["updateWorkspace", id],
+    mutationKey: ["updateWorkspace"],
     mutationFn: updateWorkspace,
   })
 }
