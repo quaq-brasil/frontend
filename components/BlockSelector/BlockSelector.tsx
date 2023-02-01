@@ -9,6 +9,7 @@ import {
   FileArrowUp,
   FlowArrow,
   ImageSquare,
+  Plugs,
   Plus,
   PlusMinus,
   RadioButton,
@@ -170,6 +171,13 @@ export function BlockSelector(props: BlockSelectorProps) {
               text={text("blockselector:redirect")}
               hasOutline={true}
               onClick={() => handleBlockSelection("redirect")}
+            />
+            <Tag
+              variant="icn-txt"
+              icon={Plugs}
+              text={text("blockselector:webhook")}
+              hasOutline={true}
+              onClick={() => handleBlockSelection("webhook")}
             />
           </>
         )

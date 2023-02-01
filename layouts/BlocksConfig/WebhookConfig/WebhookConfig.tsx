@@ -1,67 +1,157 @@
 import useTranslation from "next-translate/useTranslation"
+import dynamic from "next/dynamic"
 import { BracketsCurly, Check } from "phosphor-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { BlockProps } from "../../../components/BlockReader/BlockReader"
+import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardSwitch } from "../../../components/Card/CardContentVariants/CardSwitch"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { Dialog } from "../../../components/Dialog/Dialog"
-import { JsonEditor } from "../../../components/JsonEditor/JsonEditor"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+const CodeEditorComponent = dynamic(
+  () => import("../../../components/CodeEditor/CodeEditor"),
+  {
+    ssr: false,
+  }
+)
 
 type WebhookConfigProps = {
   isOpen: boolean
   setIsOpen: () => void
-  size?: "sm" | "md" | "full"
+  handleAddBlock: (block: BlockProps) => void
 }
 
-export function WebhookConfig(props: WebhookConfigProps) {
+export function WebhookConfig({
+  isOpen,
+  setIsOpen,
+  handleAddBlock,
+}: WebhookConfigProps) {
   const text = useTranslation().t
 
-  function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("webhookconfig:tab1")}
-        onClick={() => props.setIsOpen()}
-      />,
-    ]
+  type IWebhook = {
+    description?: string
+    visibility?: boolean
+    parameters?: any
+    header?: any
+    body?: any
+    type?: string
+    link?: string
   }
 
-  const [type, setType] = useState<"GET" | "POST" | "DELETE" | "PATCH" | "">("")
+  const [content, setContent] = useState<IWebhook>()
+  const [saveas, setSaveas] = useState<string>()
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
 
-  function handleChangeType(type: "GET" | "POST" | "DELETE" | "PATCH" | "") {
-    setType(type)
+  function handleUpdateConent(newData: IWebhook) {
+    setContent({
+      description: newData.description || content?.description,
+      visibility: newData.visibility || content?.visibility,
+      parameters: newData.parameters || content?.parameters,
+      header: newData.header || content?.header,
+      body: newData.body || content?.body,
+      type: newData.type || content?.type,
+      link: newData.link || content?.link,
+    })
+    handleUpdateIsUpdating(true)
+  }
+
+  function handleUpdateSaveas(value: string) {
+    setSaveas(value)
+    handleUpdateIsUpdating(true)
+  }
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
+
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
+  }
+
+  function handleClosing() {
+    handleUpdateConent({})
+    setSaveas(undefined)
+    handleUpdateRunUpdate(false)
+    handleUpdateIsUpdating(false)
+    setIsOpen()
+  }
+
+  function onAddBlock() {
+    handleAddBlock({
+      type: "webhook",
+      savaAs: saveas,
+      data: { content },
+    })
+    handleClosing()
+  }
+
+  useEffect(() => {
+    if (content && saveas) {
+      onAddBlock()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
+  function handleTabBar() {
+    if (isUpdating) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("webhookconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+        <div key={2} className="w-fit h-fit xl:hidden">
+          <Tag
+            variant="txt"
+            text={text("webhookconfig:add")}
+            onClick={() => onAddBlock()}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("webhookconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+      ]
+    }
   }
 
   return (
     <>
       <Dialog
-        height={props.size}
-        isOpen={props.isOpen}
+        isOpen={isOpen}
         title={text("webhookconfig:toptitle")}
         onClose={() => console.log("closed")}
       >
-        <div className="flex flex-col items-center gap-3 lg:gap-6">
+        <div className="flex flex-col items-center gap-3 scrollbar-hide">
           <Card>
             <CardText label={text("webhookconfig:description")} />
             <CardTextInput
               input={{
                 label: text("webhookconfig:descriptioninput"),
-                onChange: (e) => console.log(e),
+                onChange: (description) =>
+                  handleUpdateConent({ description: description }),
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => {},
               }}
             />
           </Card>
 
           <Card>
             <CardSwitch
-              onChange={(e) => console.log()}
+              onChange={(stat) => handleUpdateConent({ visibility: stat })}
               text={text("webhookconfig:switch")}
               showStatus={true}
             />
@@ -72,23 +162,27 @@ export function WebhookConfig(props: WebhookConfigProps) {
             <CardTextInput
               input={{
                 label: text("webhookconfig:parametersinput"),
-                onChange: (e) => console.log(e),
+                onChange: (parameters) =>
+                  handleUpdateConent({ parameters: parameters }),
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => {},
               }}
             />
           </Card>
 
           <Card>
             <CardText label={text("webhookconfig:header")} />
-            <JsonEditor json={{}} name="header" />
+            <CodeEditorComponent
+              json={{}}
+              name="header"
+              onChange={(data) => handleUpdateConent({ header: data })}
+            />
           </Card>
 
           <Card>
             <CardText label={text("webhookconfig:body")} />
-            <JsonEditor json={{}} name="body" />
           </Card>
 
           <Card>
@@ -97,34 +191,38 @@ export function WebhookConfig(props: WebhookConfigProps) {
               label={text("webhookconfig:get")}
               indicator={{
                 icon: Check,
-                // onClick: () => handleChangeType("GET"),
-                isVisible: type == "GET" ? false : true,
+                isVisible: content?.type == "GET" ? false : true,
               }}
+              onClick={() => handleUpdateConent({ type: "GET" })}
             />
+            <CardLine />
             <CardText
               label={text("webhookconfig:post")}
               indicator={{
                 icon: Check,
-                // onClick: () => handleChangeType("POST"),
-                isVisible: type == "POST" ? false : true,
+                isVisible: content?.type == "POST" ? false : true,
               }}
+              onClick={() => handleUpdateConent({ type: "POST" })}
             />
+            <CardLine />
             <CardText
               label={text("webhookconfig:patch")}
               indicator={{
                 icon: Check,
-                // onClick: () => handleChangeType("PATCH"),
-                isVisible: type == "PATCH" ? false : true,
+                isVisible: content?.type == "PATCH" ? false : true,
               }}
+              onClick={() => handleUpdateConent({ type: "PATCH" })}
             />
+            <CardLine />
             <CardText
               label={text("webhookconfig:delete")}
               indicator={{
                 icon: Check,
-                // onClick: () => handleChangeType("DELETE"),
-                isVisible: type == "DELETE" ? false : true,
+                isVisible: content?.type == "DELETE" ? false : true,
               }}
+              onClick={() => handleUpdateConent({ type: "DELETE" })}
             />
+            <CardLine />
           </Card>
 
           <Card>
@@ -132,11 +230,11 @@ export function WebhookConfig(props: WebhookConfigProps) {
             <CardTextInput
               input={{
                 label: text("webhookconfig:linkinput"),
-                onChange: (e) => console.log(e),
+                onChange: (link) => handleUpdateConent({ link: link }),
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => {},
               }}
             />
           </Card>
@@ -146,24 +244,30 @@ export function WebhookConfig(props: WebhookConfigProps) {
             <CardTextInput
               input={{
                 label: text("webhookconfig:saveasinput"),
-                onChange: (e) => console.log(e),
+                onChange: (e) => handleUpdateSaveas(e),
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => {},
               }}
             />
           </Card>
 
-          {props.size === "sm" && (
-            <button
-              className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white
-            rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px]"
-            >
-              <p className="w-full p-3 lg:text-[1.1rem] lg:p-[1.125rem]">
-                {text("webhookconfig:savebutton")}
-              </p>
-            </button>
+          <div className="w-full h-fit hidden xl:block">
+            <Button
+              color="white"
+              onClick={() => handleClosing()}
+              text={text("webhookconfig:cancel")}
+            />
+          </div>
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="white"
+                onClick={() => handleUpdateRunUpdate(true)}
+                text={text("webhookconfig:addblock")}
+              />
+            </div>
           )}
         </div>
         <TabBar isHidden={true} tags={handleTabBar()} />

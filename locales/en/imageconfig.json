@@ -1,8 +1,9 @@
 {
   "toptitle": "new image",
-  "title1": "image",
-  "title2": "save as",
-  "label2": "type it here",
-  "tab1": "cancel",
-  "savebutton": "save"
+  "image": "image",
+  "saveas": "save as",
+  "saveaslabel": "type it here",
+  "cancel": "cancel",
+  "add": "add",
+  "addblock": "add block"
 }
