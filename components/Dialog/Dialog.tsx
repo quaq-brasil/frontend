@@ -56,7 +56,7 @@ export function Dialog({
                   <div className="absolute z-50 rounded-t-3xl xl:rounded-t-[30px] bg-white w-full h-8 md:h-10 flex items-center justify-center py-2 mb-3">
                     <p className="font-semibold md:text-[1.1rem]">{title}</p>
                   </div>
-                  <div className="w-full content-center px-2 pt-[42px] md:pt-[52px] md:px-3">
+                  <div className="w-full content-center px-2 pt-[42px] md:pt-[52px] md:px-3 scrollbar-hide">
                     {children}
                   </div>
                 </div>

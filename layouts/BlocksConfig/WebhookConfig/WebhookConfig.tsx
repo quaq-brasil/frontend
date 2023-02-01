@@ -30,8 +30,8 @@ export function WebhookConfig({
     description?: string
     visibility?: boolean
     parameters?: any
-    header?: any
-    body?: any
+    header?: string
+    body?: string
     type?: string
     link?: string
   }
@@ -40,6 +40,14 @@ export function WebhookConfig({
   const [saveas, setSaveas] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+
+  function handleUpdateHeader(data: string) {
+    handleUpdateConent({ header: data })
+  }
+
+  function handleUpdateBody(data: string) {
+    handleUpdateConent({ body: data })
+  }
 
   function handleUpdateConent(newData: IWebhook) {
     setContent({
@@ -168,12 +176,20 @@ export function WebhookConfig({
 
           <Card>
             <CardText label={text("webhookconfig:header")} />
-            <CodeEditor json={{}} name="header" />
+            <CodeEditor
+              initialCodedata={`"header": {}`}
+              language="json"
+              onChange={handleUpdateHeader}
+            />
           </Card>
 
           <Card>
             <CardText label={text("webhookconfig:body")} />
-            <CodeEditor json={{}} name="body" />
+            <CodeEditor
+              initialCodedata={`"body": {}`}
+              language="json"
+              onChange={handleUpdateBody}
+            />
           </Card>
 
           <Card>

@@ -1,5 +1,5 @@
 {
-  "tab1": "cancel",
+  "cancel": "cancel",
   "toptitle": "new webhook",
   "description": "description",
   "descriptioninput": "type it here",
@@ -17,5 +17,6 @@
   "linkinput": "type it here",
   "saveas": "save as",
   "saveasinput": "type it here",
-  "savebutton": "save"
+  "addblock": "add block",
+  "add": "add"
 }

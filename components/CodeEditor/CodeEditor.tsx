@@ -7,27 +7,37 @@ const Editor = dynamic(
   { ssr: false }
 )
 
-export function CodeEditor() {
-  const [code, setCode] = useState(`{}`)
+type CodeEditorProps = {
+  initialCodedata: string
+  placeHolder?: string
+  language: string
+  onChange: (data: string) => void
+}
+
+export function CodeEditor({
+  initialCodedata,
+  placeHolder,
+  language,
+  onChange,
+}: CodeEditorProps) {
+  const [code, setCode] = useState(initialCodedata)
 
   function handleChange(text: string) {
     setCode(text)
-  }
-
-  const handleParse = () => {
-    console.log("json", JSON.parse(code))
+    onChange(text)
   }
 
   return (
-    <div>
+    <div className="px-2 bg-slate-50">
       <Editor
         value={code}
-        language="json"
-        placeholder="Please enter JS code."
+        language={language}
+        placeholder={placeHolder}
         onChange={(e) => handleChange(e.target.value)}
+        style={{
+          fontSize: 16,
+        }}
       />
-
-      <button onClick={handleParse}>parse</button>
     </div>
   )
 }
