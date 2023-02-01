@@ -34,8 +34,6 @@ const terms = () => `/terms`
 
 const home = () => `/`
 
-const explorer = () => `/explorer`
-
 const meSettings = (settings?: string) => {
   if (settings) {
     return `/me/${settings}`
@@ -71,7 +69,6 @@ export const pageUrls = {
   templateCentral,
   terms,
   home,
-  explorer,
   createPage,
   meSettings,
   workspageSettings,
