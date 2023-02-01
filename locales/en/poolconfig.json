@@ -9,6 +9,7 @@
   "addoption": "new option",
   "title4": "save as",
   "label4": "type it here",
-  "savebutton": "save",
-  "tab1": "cancel"
+  "cancel": "cancel",
+  "add": "add",
+  "addblock": "add block"
 }

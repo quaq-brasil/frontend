@@ -39,7 +39,7 @@ function TextEditor({ content, onChange }: TextEditorProps) {
   return (
     <div>
       <EditorContent
-        className="w-full px-3 bg-white min-h-[11.25rem]"
+        className="w-full mt-2 px-3 bg-white min-h-[11.25rem]"
         editor={editor}
       />
     </div>

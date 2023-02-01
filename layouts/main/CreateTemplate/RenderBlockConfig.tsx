@@ -50,7 +50,13 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
         <FileSharingConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
       )
     case "pool":
-      return <PoolConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+      return (
+        <PoolConfig
+          handleAddBlock={props.handleAddBlock}
+          isOpen={props.isOpen}
+          setIsOpen={props.onClose}
+        />
+      )
     case "button":
       return <ButtonConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
     case "toggle":

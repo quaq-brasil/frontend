@@ -10,5 +10,7 @@
   "title4": "salvar como",
   "label4": "digite aqui",
   "savebutton": "salvar",
-  "tab1": "cancelar"
+  "cancel": "cancelar",
+  "add": "adicionar",
+  "addblock": "adicionar bloco"
 }

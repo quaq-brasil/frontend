@@ -29,13 +29,11 @@ export function TextConfig({
   const [runUpdate, setRunUpdate] = useState(false)
 
   function handleUpdateContent(content: string) {
-    console.log(content)
     setContent(content)
     handleUpdateIsUpdating(true)
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
-    console.log(stat)
     setIsUpdating(stat)
   }
 
@@ -46,6 +44,7 @@ export function TextConfig({
   function handleClosing() {
     handleUpdateContent("")
     handleUpdateIsUpdating(false)
+    handleUpdateRunUpdate(false)
     setIsOpen()
   }
 
@@ -61,6 +60,7 @@ export function TextConfig({
   useEffect(() => {
     if (content) {
       onAddBlock()
+      handleClosing()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
@@ -102,7 +102,7 @@ export function TextConfig({
         title={text("textconfig:toptitle")}
         onClose={() => console.log("closed")}
       >
-        <div className="flex flex-col items-center gap-3 lg:gap-3">
+        <div className="flex flex-col items-center gap-3">
           <Card>
             <TextEditor content={content} onChange={handleUpdateContent} />
             <CardLine />
