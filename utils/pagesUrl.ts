@@ -62,6 +62,10 @@ const workspageSettings = ({
   }
 }
 
+const login = () => {
+  return `/me/login`
+}
+
 export const pageUrls = {
   page,
   pageSettings,
@@ -72,4 +76,5 @@ export const pageUrls = {
   createPage,
   meSettings,
   workspageSettings,
+  login,
 }

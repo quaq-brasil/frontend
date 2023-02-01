@@ -5,8 +5,7 @@
   "getpassword": "Sua senha",
   "inputpassword": "digite aqui",
   "confirm": "login",
-  "tab1": "sair",
-  "tab2": "próximo",
+  "back": "voltar",
   "signup": "cadastrar-se",
   "login": "login"
 }

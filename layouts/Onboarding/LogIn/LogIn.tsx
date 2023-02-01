@@ -5,6 +5,7 @@ import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUserLogin } from "../../../types/User.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { LoginContent } from "./LoginContent"
 
 type LoginProps = {
@@ -13,6 +14,7 @@ type LoginProps = {
 
 export default function Login({ handleUserLogin }: LoginProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [userData, setUserdata] = useState<IUserLogin>()
   const [isUpdating, setIsUpdating] = useState(false)
@@ -44,8 +46,6 @@ export default function Login({ handleUserLogin }: LoginProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
-  const router = useRouter()
-
   function handleTabBar() {
     if (isUpdating) {
       return [
@@ -53,7 +53,7 @@ export default function Login({ handleUserLogin }: LoginProps) {
           key={1}
           variant="txt"
           text={text("login:back")}
-          onClick={() => console.log("back")}
+          onClick={() => router.push(pageUrls.home())}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -69,7 +69,7 @@ export default function Login({ handleUserLogin }: LoginProps) {
           key={1}
           variant="txt"
           text={text("login:back")}
-          onClick={() => console.log("back")}
+          onClick={() => router.push(pageUrls.home())}
         />,
       ]
     }
