@@ -1,5 +1,8 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
+import { useEffect, useState } from "react"
+import { BlockProps } from "../../../components/BlockReader/BlockReader"
+import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
@@ -10,63 +13,143 @@ import { Tag } from "../../../components/Tag/Tag"
 type TextEntryConfigProps = {
   isOpen: boolean
   setIsOpen: () => void
-  size?: "sm" | "md" | "full"
+  handleAddBlock: (block: BlockProps) => void
 }
 
-export function TextEntryConfig(props: TextEntryConfigProps) {
+export function TextEntryConfig({
+  handleAddBlock,
+  isOpen,
+  setIsOpen,
+}: TextEntryConfigProps) {
   const text = useTranslation().t
 
+  type ITextEntry = {
+    description?: string
+    placeholder?: string
+    type?: string
+  }
+
+  const [content, setContent] = useState<ITextEntry>({ placeholder: "email" })
+  const [saveas, setSaveas] = useState<string>()
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
+
+  function handleUpdateConent(newData: ITextEntry) {
+    setContent({
+      placeholder: newData.placeholder || content?.placeholder,
+      description: newData.description || content?.description,
+      type: newData.type || content?.type,
+    })
+    handleUpdateIsUpdating(true)
+  }
+
+  function handleUpdateSaveas(value: string) {
+    setSaveas(value)
+    handleUpdateIsUpdating(true)
+  }
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
+
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
+  }
+
+  function handleClosing() {
+    handleUpdateConent({})
+    setSaveas(undefined)
+    handleUpdateRunUpdate(false)
+    handleUpdateIsUpdating(false)
+    setIsOpen()
+  }
+
+  function onAddBlock() {
+    handleAddBlock({
+      type: "textentry",
+      savaAs: saveas,
+      data: { content },
+    })
+    handleClosing()
+  }
+
+  useEffect(() => {
+    if (content && saveas) {
+      onAddBlock()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("textentryconfig:tab1")}
-        onClick={() => props.setIsOpen()}
-      />,
-    ]
+    if (isUpdating) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("textentryconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+        <div key={2} className="w-fit h-fit xl:hidden">
+          <Tag
+            variant="txt"
+            text={text("textentryconfig:add")}
+            onClick={() => onAddBlock()}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("textentryconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+      ]
+    }
   }
 
   return (
     <>
       <Dialog
-        height={props.size}
-        isOpen={props.isOpen}
+        isOpen={isOpen}
         title={text("textentryconfig:toptitle")}
         onClose={() => console.log("closed")}
       >
-        <div className="flex flex-col items-center gap-3 lg:gap-6">
+        <div className="flex flex-col items-center gap-3">
           <Card>
-            <CardText label={text("textentryconfig:title1")} />
+            <CardText label={text("textentryconfig:description")} />
             <CardTextInput
               input={{
-                label: text("textentryconfig:label1"),
-                onChange: (e) => console.log(e),
+                label: text("textentryconfig:descriptionlabel"),
+                onChange: (description) =>
+                  handleUpdateConent({ description: description }),
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => {},
               }}
             />
           </Card>
           <Card>
-            <CardText label={text("textentryconfig:title2")} />
+            <CardText label={text("textentryconfig:placeholder")} />
             <CardTextInput
               input={{
-                label: text("textentryconfig:label2"),
-                onChange: (e) => console.log(e),
+                label: text("textentryconfig:placeholderlabel"),
+                onChange: (placeholder) =>
+                  handleUpdateConent({ placeholder: placeholder }),
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => {},
               }}
             />
           </Card>
           <Card>
-            <CardText label={text("textentryconfig:title3")} />
+            <CardText label={text("textentryconfig:type")} />
             <CardTextInput
               dropdown={{
-                onChange: (e) => console.log(e),
+                onChange: (type) => handleUpdateConent({ type: type }),
                 options: [
                   text("textentryconfig:option1"),
                   text("textentryconfig:option2"),
@@ -82,33 +165,36 @@ export function TextEntryConfig(props: TextEntryConfigProps) {
             />
           </Card>
           <Card>
-            <CardText label={text("textentryconfig:title4")} />
+            <CardText label={text("textentryconfig:saveas")} />
             <CardTextInput
               input={{
-                label: text("textentryconfig:label4"),
-                onChange: (e) => console.log(e),
+                label: text("textentryconfig:saveaslabel"),
+                onChange: (value) => handleUpdateSaveas(value),
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => {},
               }}
             />
           </Card>
-          {props.size === "sm" && (
-            <button
-              className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white
-            rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px]"
-            >
-              <p className="w-full p-3 lg:text-[1.1rem] lg:p-[1.125rem]">
-                {text("textentryconfig:savebutton")}
-              </p>
-            </button>
+          <div className="w-full h-fit hidden xl:block">
+            <Button
+              color="white"
+              onClick={() => handleClosing()}
+              text={text("textentryconfig:cancel")}
+            />
+          </div>
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="white"
+                onClick={() => handleUpdateRunUpdate(true)}
+                text={text("textentryconfig:addblock")}
+              />
+            </div>
           )}
         </div>
-        <TabBar
-          isHidden={props.size === "sm" ? true : false}
-          tags={handleTabBar()}
-        />
+        <TabBar isHidden={true} tags={handleTabBar()} />
       </Dialog>
     </>
   )

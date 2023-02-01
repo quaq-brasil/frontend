@@ -44,7 +44,13 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
         <FileSharingConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
       )
     case "textentry":
-      return <TextEntryConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+      return (
+        <TextEntryConfig
+          isOpen={props.isOpen}
+          setIsOpen={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+        />
+      )
     case "fileentry":
       return (
         <FileSharingConfig isOpen={props.isOpen} setIsOpen={props.onClose} />

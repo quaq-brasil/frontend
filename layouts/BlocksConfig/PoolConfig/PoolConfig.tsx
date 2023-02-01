@@ -13,7 +13,6 @@ import { Tag } from "../../../components/Tag/Tag"
 type PoolConfigProps = {
   isOpen: boolean
   setIsOpen: () => void
-  size?: "sm" | "md" | "full"
   handleAddBlock: (block: BlockProps) => void
 }
 
@@ -21,7 +20,6 @@ export function PoolConfig({
   handleAddBlock,
   isOpen,
   setIsOpen,
-  size,
 }: PoolConfigProps) {
   const text = useTranslation().t
 
@@ -144,7 +142,6 @@ export function PoolConfig({
   return (
     <>
       <Dialog
-        height={size}
         isOpen={isOpen}
         title={text("poolconfig:toptitle")}
         onClose={() => console.log("closed")}
