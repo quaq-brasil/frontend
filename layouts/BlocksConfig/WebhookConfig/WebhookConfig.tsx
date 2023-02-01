@@ -1,5 +1,4 @@
 import useTranslation from "next-translate/useTranslation"
-import dynamic from "next/dynamic"
 import { BracketsCurly, Check } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { BlockProps } from "../../../components/BlockReader/BlockReader"
@@ -9,15 +8,10 @@ import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardSwitch } from "../../../components/Card/CardContentVariants/CardSwitch"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { CodeEditor } from "../../../components/CodeEditor/CodeEditor"
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-const CodeEditorComponent = dynamic(
-  () => import("../../../components/CodeEditor/CodeEditor"),
-  {
-    ssr: false,
-  }
-)
 
 type WebhookConfigProps = {
   isOpen: boolean
@@ -174,15 +168,12 @@ export function WebhookConfig({
 
           <Card>
             <CardText label={text("webhookconfig:header")} />
-            <CodeEditorComponent
-              json={{}}
-              name="header"
-              onChange={(data) => handleUpdateConent({ header: data })}
-            />
+            <CodeEditor json={{}} name="header" />
           </Card>
 
           <Card>
             <CardText label={text("webhookconfig:body")} />
+            <CodeEditor json={{}} name="body" />
           </Card>
 
           <Card>
