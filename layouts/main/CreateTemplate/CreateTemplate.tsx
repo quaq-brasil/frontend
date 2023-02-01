@@ -1,4 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
+import { useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
@@ -11,6 +12,17 @@ type CreateTemplateProps = {
 
 export default function CreateTemplate({ page }: CreateTemplateProps) {
   const text = useTranslation().t
+
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
+
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
+  }
 
   function handleTabBar() {
     return [
@@ -44,7 +56,12 @@ export default function CreateTemplate({ page }: CreateTemplateProps) {
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <CreateTemplateContent />
+      <CreateTemplateContent
+        isUpdating={isUpdating}
+        runUpdating={runUpdate}
+        handleUpdateIsUpdating={handleUpdateIsUpdating}
+        handleUpdateRunUpdate={handleUpdateRunUpdate}
+      />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   )
