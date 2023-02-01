@@ -97,10 +97,6 @@ export function EditTemplateContent({
     )
   }
 
-  function handleCreateNewPublication(stat: boolean) {
-    setCreateNewPublication(stat)
-  }
-
   function handleCurrentPublicationUpdate(title: string) {
     handleUpdateIsUpdating(true)
     setNewPublicationTitle(title)

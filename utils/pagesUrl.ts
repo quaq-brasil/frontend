@@ -18,14 +18,21 @@ const createPage = () => `/create-page`
 const template = (pageSlug: string, templateSlug: string) =>
   `/${pageSlug}/${templateSlug}`
 
-const templateCentralTrackers = (pageSlug: string, templateSlug: string) =>
-  `/${pageSlug}/${templateSlug}/trackers`
+type templateCentralProps = {
+  pageSlug: string
+  templateSlug: string
+  settings: string
+}
+
+const templateCentral = ({
+  pageSlug,
+  templateSlug,
+  settings,
+}: templateCentralProps) => `/adm/${pageSlug}/${templateSlug}/${settings}`
 
 const terms = () => `/terms`
 
 const home = () => `/`
-
-const explorer = () => `/explorer`
 
 const meSettings = (settings?: string) => {
   if (settings) {
@@ -55,15 +62,19 @@ const workspageSettings = ({
   }
 }
 
+const login = () => {
+  return `/me/login`
+}
+
 export const pageUrls = {
   page,
   pageSettings,
   template,
-  templateCentralTrackers,
+  templateCentral,
   terms,
   home,
-  explorer,
   createPage,
   meSettings,
   workspageSettings,
+  login,
 }

@@ -1,5 +1,5 @@
-import CreateTemplate from "../../layouts/main/CreateTemplate/CreateTemplate"
-import { usePage } from "../../services/hooks/usePage/usePage"
+import CreateTemplate from "../../../../layouts/main/CreateTemplate/CreateTemplate"
+import { usePage } from "../../../../services/hooks/usePage/usePage"
 
 export default function CreateTemplatePage() {
   const pageResponse = usePage({

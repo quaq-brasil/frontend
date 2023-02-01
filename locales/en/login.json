@@ -5,8 +5,7 @@
   "getpassword": "Your password",
   "inputpassword": "type it here",
   "confirm": "login",
-  "tab1": "exit",
-  "tab2": "next",
+  "back": "back",
   "signup": "sign up",
   "login": "login"
 }

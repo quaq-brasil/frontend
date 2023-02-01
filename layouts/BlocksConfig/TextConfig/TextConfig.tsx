@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BlockProps } from "../../../components/BlockReader/BlockReader"
+import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { Dialog } from "../../../components/Dialog/Dialog"
@@ -15,13 +16,40 @@ type TextConfigProps = {
   handleAddBlock: (block: BlockProps) => void
 }
 
-export function TextConfig(props: TextConfigProps) {
+export function TextConfig({
+  handleAddBlock,
+  isOpen,
+  setIsOpen,
+  size,
+}: TextConfigProps) {
   const text = useTranslation().t
 
   const [content, setContent] = useState("")
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
+
+  function handleUpdateContent(content: string) {
+    setContent(content)
+    handleUpdateIsUpdating(true)
+  }
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
+
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
+  }
+
+  function handleClosing() {
+    handleUpdateContent("")
+    handleUpdateIsUpdating(false)
+    handleUpdateRunUpdate(false)
+    setIsOpen()
+  }
 
   function onAddBlock() {
-    props.handleAddBlock({
+    handleAddBlock({
       type: "text",
       data: {
         content,
@@ -29,47 +57,76 @@ export function TextConfig(props: TextConfigProps) {
     })
   }
 
+  useEffect(() => {
+    if (content) {
+      onAddBlock()
+      handleClosing()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("textconfig:tab1")}
-        onClick={() => props.setIsOpen()}
-      />,
-    ]
+    if (isUpdating) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("textconfig:cancel")}
+          onClick={handleClosing}
+        />,
+        <div key={2}>
+          <Tag
+            variant="txt"
+            text={text("textconfig:add")}
+            onClick={() => handleUpdateRunUpdate(true)}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("textconfig:cancel")}
+          onClick={() => setIsOpen()}
+        />,
+      ]
+    }
   }
 
   return (
     <>
       <Dialog
-        height={props.size}
-        isOpen={props.isOpen}
+        height={size}
+        isOpen={isOpen}
         title={text("textconfig:toptitle")}
         onClose={() => console.log("closed")}
       >
-        <div className="flex flex-col items-center gap-3 lg:gap-6">
+        <div className="flex flex-col items-center gap-3">
           <Card>
-            <CardLine />
-            <TextEditor content={content} onChange={setContent} />
+            <TextEditor content={content} onChange={handleUpdateContent} />
             <CardLine />
           </Card>
-          {props.size === "sm" && (
-            <button
-              onClick={onAddBlock}
-              className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white
-            rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px]"
-            >
-              <p className="w-full p-3 lg:text-[1.1rem] lg:p-[1.125rem]">
-                {text("textconfig:savebutton")}
-              </p>
-            </button>
+          {isUpdating && (
+            <>
+              <div className="w-full h-fit hidden xl:block">
+                <Button
+                  color="white"
+                  text={text("textconfig:addblock")}
+                  onClick={() => handleUpdateRunUpdate(true)}
+                />
+              </div>
+            </>
           )}
+          <div className="w-full h-fit hidden xl:block">
+            <Button
+              color="white"
+              text={text("textconfig:cancel")}
+              onClick={handleClosing}
+            />
+          </div>
         </div>
-        <TabBar
-          isHidden={props.size === "sm" ? true : false}
-          tags={handleTabBar()}
-        />
+        <TabBar isHidden={true} tags={handleTabBar()} />
       </Dialog>
     </>
   )

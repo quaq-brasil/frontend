@@ -3,7 +3,19 @@ import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { BlockSelector } from "../../../components/BlockSelector/BlockSelector"
 import { RenderBlockConfig } from "./RenderBlockConfig"
 
-export function CreateTemplateContent() {
+type CreateTemplateContentProps = {
+  isUpdating: boolean
+  runUpdating: boolean
+  handleUpdateIsUpdating: (stat: boolean) => void
+  handleUpdateRunUpdate: (stat: boolean) => void
+}
+
+export function CreateTemplateContent({
+  handleUpdateIsUpdating,
+  handleUpdateRunUpdate,
+  isUpdating,
+  runUpdating,
+}: CreateTemplateContentProps) {
   const [blockSelected, setBlockSelected] = useState<string | undefined>()
   const [blocks, setBlocks] = useState<BlockProps[]>([])
 

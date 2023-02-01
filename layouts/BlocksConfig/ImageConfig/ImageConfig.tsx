@@ -1,74 +1,163 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
+import { useEffect, useState } from "react"
+import { BlockProps } from "../../../components/BlockReader/BlockReader"
+import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { Dialog } from "../../../components/Dialog/Dialog"
+import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 
 type ImageConfigProps = {
   isOpen: boolean
   setIsOpen: () => void
-  size?: "sm" | "md" | "full"
+  handleAddBlock: (block: BlockProps) => void
 }
 
-export function ImageConfig(props: ImageConfigProps) {
+export function ImageConfig({
+  isOpen,
+  setIsOpen,
+  handleAddBlock,
+}: ImageConfigProps) {
   const text = useTranslation().t
 
+  type IImage = {
+    imageUrl?: string
+  }
+
+  const [content, setContent] = useState<IImage>()
+  const [saveas, setSaveas] = useState<string>()
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
+
+  function handleUpdateConent(newData: IImage) {
+    setContent({
+      imageUrl: newData.imageUrl || content?.imageUrl,
+    })
+    handleUpdateIsUpdating(true)
+  }
+
+  function handleUpdateSaveas(value: string) {
+    setSaveas(value)
+    handleUpdateIsUpdating(true)
+  }
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
+
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
+  }
+
+  function handleClosing() {
+    handleUpdateConent({})
+    setSaveas(undefined)
+    handleUpdateRunUpdate(false)
+    handleUpdateIsUpdating(false)
+    setIsOpen()
+  }
+
+  function onAddBlock() {
+    handleAddBlock({
+      type: "image",
+      savaAs: saveas,
+      data: { content },
+    })
+    handleClosing()
+  }
+
+  useEffect(() => {
+    if (content && saveas) {
+      onAddBlock()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("imageconfig:tab1")}
-        onClick={() => props.setIsOpen()}
-      />,
-    ]
+    if (isUpdating) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("imageconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+        <div key={2} className="w-fit h-fit xl:hidden">
+          <Tag
+            variant="txt"
+            text={text("imageconfig:add")}
+            onClick={() => onAddBlock()}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("imageconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+      ]
+    }
   }
 
   return (
     <>
       <Dialog
-        height={props.size}
-        isOpen={props.isOpen}
+        isOpen={isOpen}
         title={text("imageconfig:toptitle")}
         onClose={() => console.log("closed")}
       >
-        <div className="flex flex-col items-center gap-3 lg:gap-6">
+        <div className="flex flex-col items-center gap-3">
           <Card>
-            <CardText label={text("imageconfig:title1")} />
-            <CardImageInput imageSelector />
+            <CardText label={text("imageconfig:image")} />
+            <CardImageInput
+              imageSelector={
+                <ImageSelector
+                  onImageChange={(image) =>
+                    handleUpdateConent({ imageUrl: image })
+                  }
+                />
+              }
+            />
           </Card>
           <Card>
-            <CardText label={text("imageconfig:title2")} />
+            <CardText label={text("imageconfig:saveas")} />
             <CardTextInput
               input={{
-                label: text("imageconfig:label2"),
-                onChange: (e) => console.log(e),
+                label: text("imageconfig:saveaslabel"),
+                onChange: (e) => handleUpdateSaveas(e),
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => {},
               }}
             />
           </Card>
-          {props.size === "sm" && (
-            <button
-              className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white
-            rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px]"
-            >
-              <p className="w-full p-3 lg:text-[1.1rem] lg:p-[1.125rem]">
-                {text("imageconfig:savebutton")}
-              </p>
-            </button>
+          <div className="w-full h-fit hidden xl:block">
+            <Button
+              color="white"
+              onClick={() => handleClosing()}
+              text={text("imageconfig:cancel")}
+            />
+          </div>
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="white"
+                onClick={() => handleUpdateRunUpdate(true)}
+                text={text("imageconfig:addblock")}
+              />
+            </div>
           )}
         </div>
-        <TabBar
-          isHidden={props.size === "sm" ? true : false}
-          tags={handleTabBar()}
-        />
+        <TabBar isHidden={true} tags={handleTabBar()} />
       </Dialog>
     </>
   )

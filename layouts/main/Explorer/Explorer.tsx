@@ -1,4 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import {
   ArrowCounterClockwise,
   UserCircle,
@@ -12,6 +13,7 @@ import { Tag } from "../../../components/Tag/Tag"
 import { useContextMenu } from "../../../hooks/ContextMenuHook"
 import { IPage } from "../../../types/Page.type"
 import { ITemplate } from "../../../types/Template.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { ExplorerContent } from "./ExplorerContent"
 
 type ExplorerProps = {
@@ -24,6 +26,7 @@ export default function Explorer({
   initialTemplatesData,
 }: ExplorerProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [pageData, setPageData] = useState<IPage>()
   const [templatesData, setTemplatesData] = useState<ITemplate[]>()
@@ -39,6 +42,11 @@ export default function Explorer({
   const { handleToggleContextMenu, handleCloseContextMenu } = useContextMenu()
 
   const isSignedIn = false
+
+  function handleRedirectToLogin() {
+    handleCloseContextMenu()
+    router.push(pageUrls.login())
+  }
 
   const handleHeaderTagContextMenu = () => {
     const handleContent = () => {
@@ -64,6 +72,7 @@ export default function Explorer({
                     variant="icn-txt"
                     text={text("explorer:login")}
                     icon={UserCircle}
+                    onClick={handleRedirectToLogin}
                   />
                 </div>
                 <div className="w-fit">

@@ -4,9 +4,10 @@ export type BlockProps = {
   id?: string
   type: string
   data: any
+  savaAs?: string
 }
 
-export const BlockReader = ({ id, type, data }: BlockProps) => {
+export const BlockReader = ({ id, type, data, savaAs }: BlockProps) => {
   switch (type) {
     case "text":
       return <TextBlock id={id as string} content={data} />

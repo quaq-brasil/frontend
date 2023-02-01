@@ -14,6 +14,7 @@
   "counter": "counter",
   "automation": "automation",
   "redirect": "redirect",
+  "webhook": "webhook",
   "content": "content",
   "entry": "entry",
   "action": "action",

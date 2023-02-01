@@ -48,6 +48,7 @@ export function CardTextInput(props: CardTextInputProps) {
 
       {props.dropdown && (
         <select
+          onChange={(event) => props.dropdown?.onChange?.(event.target.value)}
           className="w-full h-12 lg:h-[3.375rem] pl-2 bg-slate-50
         lg:pl-[1.125rem] lg:mr-[2.25rem] hover:outline-none focus:outline-none"
         >

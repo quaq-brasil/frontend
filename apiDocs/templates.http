@@ -1,10 +1,10 @@
 # get templates
 
-GET https://bff.quaq.me/api/v1/templates/63d91f6ecf6a7076d3a019f1
+GET http://localhost:5000/api/v1/templates/63d91f6ecf6a7076d3a019f1
 
 ###
 
-POST https://bff.quaq.me/api/v1/templates
+POST http://localhost:5000/api/v1/templates
 Content-Type: application/json
 
 {
@@ -21,17 +21,17 @@ Content-Type: application/json
 
 # get templates by url
 
-GET https://bff.quaq.me/api/v1/templates/url/testing
+GET http://localhost:5000/api/v1/templates/url/testing
 
 ###
 
 # get many templates by page id
 
-GET https://bff.quaq.me/api/v1/templates/page/63b754987d02f98b8692255e
+GET http://localhost:5000/api/v1/templates/page/63b754987d02f98b8692255e
 
 ###
 
-PUT https://bff.quaq.me/api/v1/templates/63d53a0f6b9144417887b53d
+PUT http://localhost:5000/api/v1/templates/63d53a0f6b9144417887b53d
 Content-Type: application/json
 
 {
@@ -42,7 +42,16 @@ Content-Type: application/json
 
 # delete one templates
 
-DELETE https://bff.quaq.me/api/v1/templates/1ead50e3-c81b-4a64-87da-a1ff0f2e6b54
+DELETE http://localhost:5000/api/v1/templates/1ead50e3-c81b-4a64-87da-a1ff0f2e6b54
 
 ###
 
+# get unique url
+
+POST http://localhost:5000/api/v1/templates/generate_unique_url
+Content-Type: application/json
+
+{ 
+  "title": "testing",
+  "page_id": "63d2f4dd092cd140517d49c4"
+}

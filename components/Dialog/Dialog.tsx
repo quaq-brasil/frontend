@@ -49,14 +49,14 @@ export function Dialog({
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <HeadlessDialog.Panel
-                className={`fixed transform overflow-y-auto overflow-x-hidden w-full max-w-4xl bottom-0 scrollbar-hide
+                className={`fixed transform overflow-y-auto overflow-x-hidden w-full max-w-[1024px] bottom-0 scrollbar-hide
                ${heightClasses[height]} `}
               >
-                <div className="bg-slate-100 overflow-y-auto rounded-t-3xl text-left h-[calc(100%-0.75rem)] unset-0 pb-20 mt-3">
-                  <div className="absolute z-50 rounded-t-3xl bg-white w-full h-8 flex items-center justify-center py-2 mb-3">
-                    <h4>{title}</h4>
+                <div className="bg-slate-100 overflow-y-auto rounded-t-3xl xl:rounded-t-[30px] xl:rounded-b-[30px] text-left h-[calc(100%-0.75rem)] xl:h-[calc(100%-1.75rem)] pb-20 mt-3">
+                  <div className="absolute z-50 rounded-t-3xl xl:rounded-t-[30px] bg-white w-full h-8 md:h-10 flex items-center justify-center py-2 mb-3">
+                    <p className="font-semibold md:text-[1.1rem]">{title}</p>
                   </div>
-                  <div className="w-full content-center px-2 pt-[42px] md:pt-[52px]">
+                  <div className="w-full content-center px-2 pt-[42px] md:pt-[52px] md:px-3">
                     {children}
                   </div>
                 </div>

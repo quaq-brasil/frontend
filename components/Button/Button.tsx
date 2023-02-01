@@ -1,11 +1,11 @@
-import { PencilSimple } from "phosphor-react";
+import { PencilSimple } from "phosphor-react"
 
 type ButtonProps = {
-  text: string;
-  onClick: () => void;
-  color: string;
-  isEditable?: boolean;
-};
+  text: string
+  onClick: () => void
+  color: string
+  isEditable?: boolean
+}
 
 export function Button(props: ButtonProps) {
   return (
@@ -21,10 +21,14 @@ export function Button(props: ButtonProps) {
         p-[0.75rem] md:p-[1rem] lg:p-[1.5rem] min-w-[100%]
         rounded-[20px] lg:rounded-[30px] bg-${props.color}`}
       >
-        <span className="lg:text-[1.1rem] text-white font-semibold text-center w-full">
+        <span
+          className={`lg:text-[1.1rem] ${
+            props.color == "white" ? "text-black" : "text-white"
+          } font-semibold text-center w-full`}
+        >
           {props.text}
         </span>
       </button>
     </div>
-  );
+  )
 }

@@ -1,10 +1,12 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage, IUpdatePage } from "../../../types/Page.type"
 import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { TemplateAccessControlContent } from "./TemplateAccessControlContent"
 
 type TemplateAccessControlProps = {
@@ -26,6 +28,8 @@ export default function TemplateAccessControl({
     setTemplateData(initialTemplateData)
   }, [initialPageData, initialTemplateData])
 
+  const router = useRouter()
+
   function handleTabBar() {
     return [
       <Tag
@@ -38,7 +42,11 @@ export default function TemplateAccessControl({
         <Tag
           variant="txt"
           text={text("accesscontrol:confirm")}
-          onClick={() => console.log("tab1")}
+          onClick={() =>
+            router.push(
+              pageUrls.pageSettings({ pageSlug: pageData?.url || "" })
+            )
+          }
         />
       </div>,
     ]
@@ -51,6 +59,11 @@ export default function TemplateAccessControl({
           variant="img-txt"
           text={pageData?.name || ""}
           img_url={pageData?.avatar_url || ""}
+          onClick={() =>
+            router.push(
+              pageUrls.pageSettings({ pageSlug: pageData?.url || "" })
+            )
+          }
         />
         <Tag
           variant="img-txt"
@@ -64,7 +77,10 @@ export default function TemplateAccessControl({
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <TemplateAccessControlContent templateData={templateData} />
+      <TemplateAccessControlContent
+        templateData={templateData}
+        pageData={pageData}
+      />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   )

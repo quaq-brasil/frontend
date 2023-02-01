@@ -32,3 +32,8 @@ export type IUpdateUser = {
   last_login?: Date
   workspace_id?: string
 }
+
+export type IUserLogin = {
+  email?: string
+  password?: string
+}

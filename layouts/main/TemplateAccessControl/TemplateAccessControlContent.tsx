@@ -1,20 +1,27 @@
 import useTranslation from "next-translate/useTranslation"
-import { Check } from "phosphor-react"
+import { useRouter } from "next/router"
+import { ArrowRight, Check } from "phosphor-react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { IUpdatePage } from "../../../types/Page.type"
 import { IUpdateTemplate } from "../../../types/Template.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 
 type TemplateAccessControlContentProps = {
   templateData: IUpdateTemplate | undefined
+  pageData: IUpdatePage | undefined
 }
 
 export function TemplateAccessControlContent({
   templateData,
+  pageData,
 }: TemplateAccessControlContentProps) {
   const text = useTranslation().t
+
+  const router = useRouter()
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -25,19 +32,13 @@ export function TemplateAccessControlContent({
       >
         <div className="flex flex-col gap-2 md:gap-4 items-center">
           <Card>
-            <CardText label={text("accesscontrol:title")} />
-            <CardLine />
-            <CardText label={text("accesscontrol:longtext")} />
-            <CardLine />
-          </Card>
-          <Card>
             <CardText label={text("accesscontrol:link")} />
             <CardTextInput
               input={{
                 label: text("accesscontrol:linklabel"),
                 onChange: () => console.log(),
                 value: templateData?.url,
-                fixedText: "quaq.me/",
+                fixedText: `quaq.me/${pageData?.url}/`,
               }}
               indicator={{
                 icon: Check,
@@ -47,7 +48,7 @@ export function TemplateAccessControlContent({
             />
             <CardText
               label={text("accesscontrol:share")}
-              // indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              indicator={{ icon: ArrowRight }}
             />
           </Card>
           <Card>
@@ -55,14 +56,27 @@ export function TemplateAccessControlContent({
             <CardLine />
             <CardText
               label={text("accesscontrol:setuptrackers")}
-              // indicator={{ icon: ArrowRight, onClick: () => console.log() }}
+              indicator={{ icon: ArrowRight }}
+              onClick={() =>
+                router.push(
+                  pageUrls.templateCentral({
+                    pageSlug: pageData?.url || "",
+                    templateSlug: templateData?.url || "",
+                    settings: "trackers",
+                  })
+                )
+              }
             />
             <CardLine />
           </Card>
           <div className="hidden w-full h-fit xl:block">
             <Button
               color="black"
-              onClick={() => console.log()}
+              onClick={() =>
+                router.push(
+                  pageUrls.pageSettings({ pageSlug: pageData?.url || "" })
+                )
+              }
               text={text("accesscontrol:confirm")}
             />
           </div>

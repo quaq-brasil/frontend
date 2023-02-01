@@ -1,13 +1,13 @@
 type TabBarProps = {
-  tags: React.ReactNode[];
-  isHidden?: boolean;
-};
+  tags: React.ReactNode[]
+  isHidden?: boolean
+}
 
 export const TabBar = (props: TabBarProps) => {
   return (
     <div
       className={`flex justify-center w-full h-[74px] bg-gradient-to-t from-slate-200
-        fixed bottom-0 z-30 md:left-0 ${props.isHidden ? "hidden" : ""}
+        fixed bottom-0 z-30 md:left-0 ${props.isHidden ? "xl:hidden" : ""}
         xl:bg-gradient-to-r xl:w-fit xl:py-[43px] xl:pl-[34px] xl:h-screen xl:justify-start
          `}
     >
@@ -20,5 +20,5 @@ export const TabBar = (props: TabBarProps) => {
         {props.tags}
       </div>
     </div>
-  );
-};
+  )
+}

@@ -1,5 +1,6 @@
 {
-  "tab1": "voltar",
+  "cancel": "cancelar",
+  "add": "adicionar",
   "toptitle": "novo texto",
-  "savebutton": "salvar"
+  "addblock": "adicionar bloco"
 }

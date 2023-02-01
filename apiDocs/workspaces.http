@@ -1,12 +1,12 @@
 # find one
 
-GET https://bff.quaq.me/api/v1/workspaces/63d91e6acf6a7076d3a019ee
+GET http://localhost:5000/api/v1/workspaces/63d91e6acf6a7076d3a019ee
 
 ###
 
 # create one
 
-POST https://bff.quaq.me/api/v1/workspaces
+POST http://localhost:5000/api/v1/workspaces
 Content-Type: application/json
 
 {
@@ -25,7 +25,7 @@ Content-Type: application/json
 
 # update one
 
-PUT  https://bff.quaq.me/api/v1/workspaces/63b7543e7d02f98b8692255d
+PUT  http://localhost:5000/api/v1/workspaces/63b7543e7d02f98b8692255d
 Content-Type: application/json
 
 {
@@ -43,4 +43,11 @@ Content-Type: application/json
 
 # delete one
 
-DELETE https://bff.quaq.me/api/v1/workspaces/63b7543e7d02f98b8692255d
+DELETE http://localhost:5000/api/v1/workspaces/63b7543e7d02f98b8692255d
+
+
+###
+
+# get may by user id
+
+GET http://localhost:5000/api/v1/workspaces/user/63d91dfba01035ef4040fe55

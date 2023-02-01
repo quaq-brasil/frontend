@@ -1,12 +1,12 @@
 # find one
 
-GET https://bff.quaq.me/api/v1/users/63d91dfba01035ef4040fe55
+GET http://localhost:5000/api/v1/users/63d91dfba01035ef4040fe55
 
 ###
 
 # create one
 
-POST https://bff.quaq.me/api/v1/users
+POST http://localhost:5000/api/v1/users
 Content-Type: application/json
 
 {
@@ -17,11 +17,11 @@ Content-Type: application/json
 
 # update one
 
-PUT https://bff.quaq.me/api/v1/users/63d91dfba01035ef4040fe55
+PUT http://localhost:5000/api/v1/users/63d9875f9056e9bad8b1753c
 Content-Type: application/json
 
 {
-    "email": "felipe.t.v.d@gmail.com",
+    "email": "filipi@gmail.com",
     "password": "qweasmdidonn#1235*$FIIN",
     "type": "registered",
     "email_verified": true,
@@ -35,16 +35,16 @@ Content-Type: application/json
 
 # delete one
 
-DELETE https://bff.quaq.me/api/v1/users/63b6ed226e2cf11afe9f163c
+DELETE http://localhost:5000/api/v1/users/63b6ed226e2cf11afe9f163c
 
 ###
 
 # login
 
-POST https://bff.quaq.me/api/v1/auth/login
+POST http://localhost:5000/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "email": "outro@gmail.com",
+    "email": "filipi@gmail.com",
     "password": "qweasmdidonn#1235*$FIIN"
 }

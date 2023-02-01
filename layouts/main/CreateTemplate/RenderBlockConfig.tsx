@@ -13,6 +13,7 @@ import { ReviewConfig } from "../../BlocksConfig/ReviewConfig/ReviewConfig"
 import { TextConfig } from "../../BlocksConfig/TextConfig/TextConfig"
 import { TextEntryConfig } from "../../BlocksConfig/TextEntryConfig/TextEntryConfig"
 import { ToggleConfig } from "../../BlocksConfig/ToggleConfig/ToggleConfig"
+import { WebhookConfig } from "../../BlocksConfig/WebhookConfig/WebhookConfig"
 
 type RenderBlockConfig = {
   block: string | undefined
@@ -28,7 +29,13 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
         <CreationsConfigPages isOpen={props.isOpen} setIsOpen={props.onClose} />
       )
     case "image":
-      return <ImageConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+      return (
+        <ImageConfig
+          isOpen={props.isOpen}
+          setIsOpen={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+        />
+      )
     case "text":
       return (
         <TextConfig
@@ -44,19 +51,37 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
         <FileSharingConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
       )
     case "textentry":
-      return <TextEntryConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+      return (
+        <TextEntryConfig
+          isOpen={props.isOpen}
+          setIsOpen={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+        />
+      )
     case "fileentry":
       return (
         <FileSharingConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
       )
     case "pool":
-      return <PoolConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+      return (
+        <PoolConfig
+          handleAddBlock={props.handleAddBlock}
+          isOpen={props.isOpen}
+          setIsOpen={props.onClose}
+        />
+      )
     case "button":
       return <ButtonConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
     case "toggle":
       return <ToggleConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
     case "review":
-      return <ReviewConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+      return (
+        <ReviewConfig
+          isOpen={props.isOpen}
+          setIsOpen={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+        />
+      )
     case "json":
       return <JsonConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
     case "counter":
@@ -67,6 +92,14 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
       )
     case "redirect":
       return <RedirectConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+    case "webhook":
+      return (
+        <WebhookConfig
+          isOpen={props.isOpen}
+          setIsOpen={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+        />
+      )
     default:
       return <div></div>
   }
