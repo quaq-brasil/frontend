@@ -35,11 +35,18 @@ export function TextConfig({
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
+    console.log(stat)
     setIsUpdating(stat)
   }
 
   function handleUpdateRunUpdate(stat: boolean) {
     setRunUpdate(stat)
+  }
+
+  function handleClosing() {
+    handleUpdateContent("")
+    handleUpdateIsUpdating(false)
+    setIsOpen()
   }
 
   function onAddBlock() {
@@ -65,12 +72,12 @@ export function TextConfig({
           key={1}
           variant="txt"
           text={text("textconfig:cancel")}
-          onClick={() => setIsOpen()}
+          onClick={handleClosing}
         />,
         <div key={2}>
           <Tag
             variant="txt"
-            text={text("textconfig:addblock")}
+            text={text("textconfig:add")}
             onClick={() => handleUpdateRunUpdate(true)}
           />
         </div>,
@@ -109,15 +116,15 @@ export function TextConfig({
                   onClick={() => handleUpdateRunUpdate(true)}
                 />
               </div>
-              <div className="w-full h-fit hidden xl:block">
-                <Button
-                  color="white"
-                  text={text("textconfig:cancel")}
-                  onClick={setIsOpen}
-                />
-              </div>
             </>
           )}
+          <div className="w-full h-fit hidden xl:block">
+            <Button
+              color="white"
+              text={text("textconfig:cancel")}
+              onClick={handleClosing}
+            />
+          </div>
         </div>
         <TabBar isHidden={true} tags={handleTabBar()} />
       </Dialog>
