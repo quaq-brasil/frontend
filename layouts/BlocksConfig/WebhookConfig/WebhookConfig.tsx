@@ -5,8 +5,8 @@ import { Card } from "../../../components/Card/Card"
 import { CardSwitch } from "../../../components/Card/CardContentVariants/CardSwitch"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { CodeEditor } from "../../../components/CodeEditor/CodeEditor"
 import { Dialog } from "../../../components/Dialog/Dialog"
-import { JsonEditor } from "../../../components/JsonEditor/JsonEditor"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 
@@ -83,12 +83,12 @@ export function WebhookConfig(props: WebhookConfigProps) {
 
           <Card>
             <CardText label={text("webhookconfig:header")} />
-            <JsonEditor json={{}} name="header" />
+            <CodeEditor json={{}} name="header" />
           </Card>
 
           <Card>
             <CardText label={text("webhookconfig:body")} />
-            <JsonEditor json={{}} name="body" />
+            <CodeEditor json={{}} name="body" />
           </Card>
 
           <Card>

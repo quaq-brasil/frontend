@@ -1,7 +1,9 @@
 const nextTranslate = require('next-translate');
+const removeImports = require("next-remove-imports")();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: { esmExternals: true },
   reactStrictMode: true,
   images: {
     domains: [
@@ -34,4 +36,4 @@ const nextConfig = {
   ...nextTranslate()
 }
 
-module.exports = nextConfig
+module.exports = removeImports(nextConfig)
