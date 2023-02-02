@@ -1,5 +1,8 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
+import { useEffect, useState } from "react"
+import { BlockProps } from "../../../components/BlockReader/BlockReader"
+import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardColorSelector } from "../../../components/Card/CardContentVariants/CardColorSelector"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
@@ -11,74 +14,155 @@ import { Tag } from "../../../components/Tag/Tag"
 type ButtonConfigProps = {
   isOpen: boolean
   setIsOpen: () => void
-  size?: "sm" | "md" | "full"
+  handleAddBlock: (block: BlockProps) => void
 }
 
-export function ButtonConfig(props: ButtonConfigProps) {
+export function ButtonConfig({
+  isOpen,
+  setIsOpen,
+  handleAddBlock,
+}: ButtonConfigProps) {
   const text = useTranslation().t
 
+  type IButton = {
+    text?: string
+    color?: string
+  }
+
+  const [content, setContent] = useState<IButton>()
+  const [saveas, setSaveas] = useState<string>()
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
+
+  function handleUpdateConent(newData: IButton) {
+    setContent({
+      text: newData.text || content?.text,
+      color: newData.color || content?.color,
+    })
+    handleUpdateIsUpdating(true)
+  }
+
+  function handleUpdateSaveas(value: string) {
+    setSaveas(value)
+    handleUpdateIsUpdating(true)
+  }
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
+
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
+  }
+
+  function handleClosing() {
+    handleUpdateConent({})
+    setSaveas(undefined)
+    handleUpdateRunUpdate(false)
+    handleUpdateIsUpdating(false)
+    setIsOpen()
+  }
+
+  function onAddBlock() {
+    handleAddBlock({
+      type: "review",
+      savaAs: saveas,
+      data: { content },
+    })
+    handleClosing()
+  }
+
+  useEffect(() => {
+    if (content && saveas) {
+      onAddBlock()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("buttonconfig:tab1")}
-        onClick={() => props.setIsOpen()}
-      />,
-    ]
+    if (isUpdating) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("reviewconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+        <div key={2} className="w-fit h-fit xl:hidden">
+          <Tag
+            variant="txt"
+            text={text("reviewconfig:add")}
+            onClick={() => onAddBlock()}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("reviewconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+      ]
+    }
   }
 
   return (
     <>
       <Dialog
-        height={props.size}
-        isOpen={props.isOpen}
+        isOpen={isOpen}
         title={text("buttonconfig:toptitle")}
-        onClose={() => console.log("closed")}
+        onClose={() => {}}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
           <Card>
-            <CardText label={text("buttonconfig:title1")} />
+            <CardText label={text("buttonconfig:text")} />
             <CardTextInput
               input={{
-                label: text("buttonconfig:label1"),
-                onChange: (e) => console.log(e),
+                label: text("buttonconfig:textlabel"),
+                onChange: (text) => handleUpdateConent({ text: text }),
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => {},
               }}
             />
-            <CardText label={text("buttonconfig:title2")} />
-            <CardColorSelector onColorSelection={(e) => console.log(e)} />
+            <CardText label={text("buttonconfig:color")} />
+            <CardColorSelector
+              onColorSelection={(color) => handleUpdateConent({ color: color })}
+            />
           </Card>
           <Card>
-            <CardText label={text("buttonconfig:title3")} />
+            <CardText label={text("buttonconfig:saveas")} />
             <CardTextInput
               input={{
-                label: text("buttonconfig:label2"),
-                onChange: (e) => console.log(e),
+                label: text("buttonconfig:saveaslabel"),
+                onChange: (e) => handleUpdateSaveas(e),
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => {},
               }}
             />
           </Card>
-          {props.size === "sm" && (
-            <button
-              className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white 
-            rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px]"
-            >
-              <p className="w-full p-3 lg:text-[1.1rem] lg:p-[1.125rem]">
-                {text("buttonconfig:savebutton")}
-              </p>
-            </button>
+          <div className="w-full h-fit hidden xl:block">
+            <Button
+              color="white"
+              onClick={() => handleClosing()}
+              text={text("buttonconfig:cancel")}
+            />
+          </div>
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                color="white"
+                onClick={() => handleUpdateRunUpdate(true)}
+                text={text("buttonconfig:addblock")}
+              />
+            </div>
           )}
-          <TabBar
-            isHidden={props.size === "sm" ? true : false}
-            tags={handleTabBar()}
-          />
+          <TabBar isHidden={true} tags={handleTabBar()} />
         </div>
       </Dialog>
     </>

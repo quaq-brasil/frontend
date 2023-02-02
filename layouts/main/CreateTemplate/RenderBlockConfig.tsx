@@ -1,6 +1,7 @@
 import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { AutomationConfig } from "../../BlocksConfig/AutomationConfig/AutomationConfig"
 import { ButtonConfig } from "../../BlocksConfig/ButtonConfig/ButtonConfig"
+import { ChartConfig } from "../../BlocksConfig/ChartConfig/ChartConfig"
 import { CounterConfig } from "../../BlocksConfig/CounterConfig/CounterConfig"
 import { CreationsConfigPages } from "../../BlocksConfig/CreationsConfig/CreationsConfigPages"
 import { EmbedConfig } from "../../BlocksConfig/EmbedConfig/EmbedConfig"
@@ -71,7 +72,13 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
         />
       )
     case "button":
-      return <ButtonConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+      return (
+        <ButtonConfig
+          isOpen={props.isOpen}
+          setIsOpen={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+        />
+      )
     case "toggle":
       return <ToggleConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
     case "review":
@@ -98,6 +105,14 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           isOpen={props.isOpen}
           setIsOpen={props.onClose}
           handleAddBlock={props.handleAddBlock}
+        />
+      )
+    case "chart":
+      return (
+        <ChartConfig
+          handleAddBlock={props.handleAddBlock}
+          isOpen={props.isOpen}
+          setIsOpen={props.onClose}
         />
       )
     default:

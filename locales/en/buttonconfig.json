@@ -1,10 +1,11 @@
 {
   "toptitle": "new button",
-  "title1": "button text",
-  "label1": "type it here",
-  "title2": "button color",
-  "title3": "save as",
-  "label2": "type it here",
-  "savebutton": "save",
-  "tab1": "cancel"
+  "text": "button text",
+  "textlabel": "type it here",
+  "color": "button color",
+  "saveas": "save as",
+  "saveaslabel": "type it here",
+  "addblock": "add block",
+  "cancel": "cancel",
+  "add": "add"
 }

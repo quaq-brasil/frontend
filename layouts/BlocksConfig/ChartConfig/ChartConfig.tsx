@@ -1,5 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
-import { BracketsCurly } from "phosphor-react"
+import { BracketsCurly, Check } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { Button } from "../../../components/Button/Button"
@@ -11,31 +11,50 @@ import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 
-type ReviewConfigProps = {
+type ChartConfigProps = {
   isOpen: boolean
   setIsOpen: () => void
   handleAddBlock: (block: BlockProps) => void
 }
 
-export function ReviewConfig({
+export function ChartConfig({
   handleAddBlock,
   isOpen,
   setIsOpen,
-}: ReviewConfigProps) {
+}: ChartConfigProps) {
   const text = useTranslation().t
 
-  type IReview = {
-    description?: string
+  type IDatasets = {
+    label: string
+    data: any[]
+    backgroundColor: string
+    borderColor?: string
+    borderWidth?: number
   }
 
-  const [content, setContent] = useState<IReview>()
+  type IChart = {
+    chartType?: string
+    data?: {
+      datasets?: IDatasets[]
+      labels?: string[]
+    }
+    title?: string
+  }
+
+  const [content, setContent] = useState<IChart>()
   const [saveas, setSaveas] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
-  function handleUpdateConent(newData: IReview) {
+  function handleUpdateConent(newData: IChart) {
     setContent({
-      description: newData.description || content?.description,
+      ...content,
+      chartType: newData.chartType || content?.chartType,
+      data: {
+        datasets: newData.data?.datasets || content?.data?.datasets,
+        labels: newData.data?.labels || content?.data?.labels,
+      },
+      title: newData.title || content?.title,
     })
     handleUpdateIsUpdating(true)
   }
@@ -63,7 +82,7 @@ export function ReviewConfig({
 
   function onAddBlock() {
     handleAddBlock({
-      type: "review",
+      type: "chart",
       savaAs: saveas,
       data: { content },
     })
@@ -83,13 +102,13 @@ export function ReviewConfig({
         <Tag
           key={1}
           variant="txt"
-          text={text("reviewconfig:cancel")}
+          text={text("chartconfig:cancel")}
           onClick={() => handleClosing()}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("reviewconfig:add")}
+            text={text("chartconfig:add")}
             onClick={() => onAddBlock()}
           />
         </div>,
@@ -99,7 +118,7 @@ export function ReviewConfig({
         <Tag
           key={1}
           variant="txt"
-          text={text("reviewconfig:cancel")}
+          text={text("chartconfig:cancel")}
           onClick={() => handleClosing()}
         />,
       ]
@@ -110,17 +129,16 @@ export function ReviewConfig({
     <>
       <Dialog
         isOpen={isOpen}
-        title={text("reviewconfig:toptitle")}
-        onClose={() => {}}
+        title={text("chartconfig:toptitle")}
+        onClose={() => console.log("closed")}
       >
         <div className="flex flex-col items-center gap-3">
           <Card>
-            <CardText label={text("reviewconfig:title1")} />
+            <CardText label={text("chartconfig:title")} />
             <CardTextInput
               input={{
-                label: text("reviewconfig:label1"),
-                onChange: (description) =>
-                  handleUpdateConent({ description: description }),
+                label: text("chartconfig:titlelabel"),
+                onChange: (title) => handleUpdateConent({ title: title }),
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -130,11 +148,55 @@ export function ReviewConfig({
           </Card>
 
           <Card>
-            <CardText label={text("reviewconfig:title2")} />
+            <CardText label={text("chartconfig:type")} />
+            <CardText
+              label={text("chartconfig:line")}
+              indicator={{
+                icon: Check,
+                isVisible: content?.chartType == "line",
+              }}
+              onClick={() => handleUpdateConent({ chartType: "line" })}
+            />
+            <CardText
+              label={text("chartconfig:verticalbar")}
+              indicator={{
+                icon: Check,
+                isVisible: content?.chartType == "verticalbar",
+              }}
+              onClick={() => handleUpdateConent({ chartType: "verticalbar" })}
+            />
+            <CardText
+              label={text("chartconfig:horizontalbar")}
+              indicator={{
+                icon: Check,
+                isVisible: content?.chartType == "horizontalbar",
+              }}
+              onClick={() => handleUpdateConent({ chartType: "horizontalbar" })}
+            />
+            <CardText
+              label={text("chartconfig:scatter")}
+              indicator={{
+                icon: Check,
+                isVisible: content?.chartType == "scatter",
+              }}
+              onClick={() => handleUpdateConent({ chartType: "scatter" })}
+            />
+            <CardText
+              label={text("chartconfig:pie")}
+              indicator={{
+                icon: Check,
+                isVisible: content?.chartType == "pie",
+              }}
+              onClick={() => handleUpdateConent({ chartType: "pie" })}
+            />
+          </Card>
+
+          <Card>
+            <CardText label={text("chartconfig:labels")} />
             <CardTextInput
               input={{
-                label: text("reviewconfig:label2"),
-                onChange: (value) => handleUpdateSaveas(value),
+                label: text("chartconfig:labelslabel"),
+                onChange: (labels) => {},
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -142,11 +204,12 @@ export function ReviewConfig({
               }}
             />
           </Card>
+
           <div className="w-full h-fit hidden xl:block">
             <Button
               color="white"
               onClick={() => handleClosing()}
-              text={text("reviewconfig:cancel")}
+              text={text("chartconfig:cancel")}
             />
           </div>
           {isUpdating && (
@@ -154,7 +217,7 @@ export function ReviewConfig({
               <Button
                 color="white"
                 onClick={() => handleUpdateRunUpdate(true)}
-                text={text("reviewconfig:addblock")}
+                text={text("chartconfig:addblock")}
               />
             </div>
           )}

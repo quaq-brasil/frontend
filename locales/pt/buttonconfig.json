@@ -1,10 +1,11 @@
 {
   "toptitle": "novo botão",
-  "title1": "texto do botão",
-  "label1": "digite aqui",
-  "title2": "cor do botão",
-  "title3": "salvar como",
-  "label2": "digite aqui",
-  "savebutton": "salvar",
-  "tab1": "cancelar"
+  "text": "texto do botão",
+  "textlabel": "digite aqui",
+  "color": "cor do botão",
+  "saveas": "salvar como",
+  "saveaslabel": "digite aqui",
+  "addblock": "adicionar bloco",
+  "cancel": "cancelar",
+  "add": "adicionar"
 }

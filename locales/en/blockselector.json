@@ -16,8 +16,11 @@
   "redirect": "redirect",
   "webhook": "webhook",
   "content": "content",
+  "chart": "chart",
   "entry": "entry",
   "action": "action",
   "selected": "cancel",
-  "nonselected": "add new block"
+  "nonselected": "add new block",
+  "types": "types",
+  "blocks": "blocks"
 }
