@@ -24,6 +24,7 @@ specifiers:
   '@uiw/react-textarea-code-editor': 1.4.14
   autoprefixer: ^10.4.13
   axios: ^1.2.4
+  chart.js: ^4.2.0
   dnd-core: ^16.0.1
   eslint: 8.31.0
   eslint-config-next: 13.1.1
@@ -47,6 +48,7 @@ specifiers:
   prosemirror-transform: ^1.7.0
   prosemirror-view: ^1.29.2
   react: 18.2.0
+  react-chartjs-2: ^5.2.0
   react-dnd: ^16.0.1
   react-dnd-html5-backend: ^16.0.1
   react-dom: 18.2.0
@@ -81,6 +83,7 @@ dependencies:
   '@types/react-vis': 1.11.11
   '@uiw/react-textarea-code-editor': 1.4.14_biqbaboplfbrettd7655fr4n2y
   axios: 1.2.4
+  chart.js: 4.2.0
   dnd-core: 16.0.1
   eslint: 8.31.0
   eslint-config-next: 13.1.1_iukboom6ndih5an6iafl45j2fe
@@ -102,6 +105,7 @@ dependencies:
   prosemirror-transform: 1.7.1
   prosemirror-view: 1.30.0
   react: 18.2.0
+  react-chartjs-2: 5.2.0_uxqdnqzacoapcp4mwytn5yclyu
   react-dnd: 16.0.1_glye3pnrizqg4gu2xfqsafbxou
   react-dnd-html5-backend: 16.0.1
   react-dom: 18.2.0_react@18.2.0
@@ -476,6 +480,10 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
+    dev: false
+
+  /@kurkle/color/0.3.2:
+    resolution: {integrity: sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==}
     dev: false
 
   /@mapbox/rehype-prism/0.8.0:
@@ -1658,6 +1666,13 @@ packages:
 
   /chardet/0.7.0:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
+    dev: false
+
+  /chart.js/4.2.0:
+    resolution: {integrity: sha512-wbtcV+QKeH0F7gQZaCJEIpsNriFheacouJQTVIjITi3eQA8bTlIBoknz0+dgV79aeKLNMAX+nDslIVE/nJ3rzA==}
+    engines: {pnpm: ^7.0.0}
+    dependencies:
+      '@kurkle/color': 0.3.2
     dev: false
 
   /chokidar/3.5.3:
@@ -4896,6 +4911,16 @@ packages:
       ini: 1.3.8
       minimist: 1.2.7
       strip-json-comments: 2.0.1
+    dev: false
+
+  /react-chartjs-2/5.2.0_uxqdnqzacoapcp4mwytn5yclyu:
+    resolution: {integrity: sha512-98iN5aguJyVSxp5U3CblRLH67J8gkfyGNbiK3c+l1QI/G4irHMPQw44aEPmjVag+YKTyQ260NcF82GTQ3bdscA==}
+    peerDependencies:
+      chart.js: ^4.1.1
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      chart.js: 4.2.0
+      react: 18.2.0
     dev: false
 
   /react-dnd-html5-backend/16.0.1:
