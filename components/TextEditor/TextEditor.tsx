@@ -4,6 +4,7 @@ import Typography from "@tiptap/extension-typography"
 import { EditorContent, useEditor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import useTranslation from "next-translate/useTranslation"
+import { BracketsCurly } from "phosphor-react"
 
 type TextEditorProps = {
   content?: string
@@ -31,17 +32,21 @@ function TextEditor({ content, onChange }: TextEditorProps) {
     },
     editorProps: {
       attributes: {
-        class: "prose prose-headings:mt-0 focus:outline-none",
+        class:
+          "prose prose-headings:m-0 prose-p:m-0 focus:outline-none bg-white min-h-[11.25rem] min-w-full mt-2 px-3",
       },
     },
   })
 
   return (
     <div>
-      <EditorContent
-        className="w-full mt-2 px-3 bg-white min-h-[11.25rem]"
-        editor={editor}
-      />
+      <div className="min-w-full flex justify-end px-6">
+        <button className="p-2">
+          <BracketsCurly size={20} weight="bold" />
+        </button>
+      </div>
+
+      <EditorContent className="" editor={editor} />
     </div>
   )
 }

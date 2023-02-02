@@ -226,7 +226,7 @@ export function BlockSelector(props: BlockSelectorProps) {
             <p className="px-3 lg:text-[1.1rem]">
               {text("blockselector:blocks")}
             </p>
-            <div className="w-fit">
+            <div>
               <div className="flex flex-row gap-3 items-end py-[2px] overflow-x-scroll scrollbar-hide">
                 <>{handleBlockOptions(options)}</>
               </div>

@@ -1,16 +1,32 @@
+import { IBlock } from "../../types/Block.types"
+import { ImageBlock } from "../ImageBlock/ImageBlock"
 import { TextBlock } from "../TextBlock/TextBlock"
+import { TextEntry } from "../TextEntryBlock/TextEntry"
 
 export type BlockProps = {
-  id?: string
-  type: string
   data: any
-  savaAs?: string
+} & IBlock
+
+type BlockReaderProps = {
+  block: BlockProps
+  isEditable?: boolean
 }
 
-export const BlockReader = ({ id, type, data, savaAs }: BlockProps) => {
-  switch (type) {
+export const BlockReader = ({
+  block,
+  isEditable = false,
+}: BlockReaderProps) => {
+  switch (block.type) {
     case "text":
-      return <TextBlock id={id as string} content={data} />
+      return (
+        <div className="flex flex-col px-3 py-3 justify-center min-w-[100%] bg-white  rounded-[20px] lg:rounded-[30px] lg-px[1.125rem]">
+          <TextBlock block={block} />
+        </div>
+      )
+    case "image":
+      return <ImageBlock block={block} isEditable={isEditable} />
+    case "textentry":
+      return <TextEntry block={block} />
     default:
       return (
         <>

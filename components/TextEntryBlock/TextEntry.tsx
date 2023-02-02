@@ -1,5 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { useState } from "react"
+import { IBlock } from "../../types/Block.types"
 import {
   validateEmail,
   validateNumber,
@@ -7,11 +8,17 @@ import {
 } from "../../utils/validations"
 
 type TextEntryProps = {
-  type: "text" | "long-text" | "number" | "email" | "password" | "url"
-  placeholder?: string
+  block: ITextEntry
 }
 
-export function TextEntry({ type }: TextEntryProps) {
+type ITextEntry = {
+  data: {
+    type: "text" | "long-text" | "number" | "email" | "password" | "url"
+    placeholder?: string
+  }
+} & IBlock
+
+export function TextEntry({ block }: TextEntryProps) {
   const [value, setValue] = useState<string | number | undefined>(undefined)
   const [valid, setValid] = useState(true)
   const [error, setError] = useState("")
@@ -20,7 +27,7 @@ export function TextEntry({ type }: TextEntryProps) {
 
   const handleChange = (e: any) => {
     setValue(e.target.value)
-    switch (type) {
+    switch (block.data.type) {
       case "email":
         const emailValid = validateEmail(e.target.value)
         if (!emailValid) {
@@ -57,7 +64,7 @@ export function TextEntry({ type }: TextEntryProps) {
     }
   }
 
-  switch (type) {
+  switch (block.data.type) {
     case "text":
       return (
         <div>
