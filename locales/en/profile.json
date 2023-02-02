@@ -10,5 +10,9 @@
   "email": "update email",
   "password": "update password",
   "terms": "terms and policies",
-  "more": "advanced"
+  "more": "advanced",
+  "logoutdescription": "Are you sure that you want to logout?",
+  "logoutdecline": "cancel",
+  "logoutaccepet": "logout",
+  "logouttitle": "logging out"
 }

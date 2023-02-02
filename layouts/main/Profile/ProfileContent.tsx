@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { ArrowRight } from "phosphor-react"
+import { useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -8,6 +9,7 @@ import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
+import { Popover } from "../../../components/Popover/Popover"
 import { IUpdateUser } from "../../../types/User.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 
@@ -25,8 +27,20 @@ export function ProfileContent({
   userData,
 }: ProfileContentProps) {
   const text = useTranslation().t
-
   const router = useRouter()
+
+  const [logout, setLogout] = useState(false)
+
+  function handleUpdateLogout(stat: boolean) {
+    setLogout(stat)
+    console.log(stat)
+  }
+
+  function handleLogout() {
+    setLogout(false)
+    console.log("logout", logout)
+    router.push(pageUrls.home())
+  }
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -74,7 +88,7 @@ export function ProfileContent({
             <CardText
               label={text("profile:logout")}
               indicator={{ icon: ArrowRight }}
-              onClick={() => console.log()}
+              onClick={() => handleUpdateLogout(true)}
             />
             <CardLine />
             <CardText
@@ -103,6 +117,15 @@ export function ProfileContent({
               onClick={() => router.push(pageUrls.meSettings("advanced"))}
             />
           </Card>
+          <Popover
+            description={text("profile:logoutdescription")}
+            isOpen={logout}
+            declineButton={text("profile:logoutdecline")}
+            title={text("profile:logouttitle")}
+            acceptButton={text("profile:logoutaccepet")}
+            acceptFunc={handleLogout}
+            declineFunc={() => handleUpdateLogout(false)}
+          />
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>

@@ -10,5 +10,9 @@
   "email": "atualizar email",
   "password": "atualizar senha",
   "terms": "termos e políticas",
-  "more": "avançado"
+  "more": "avançado",
+  "logoutdescription": "Você tem certeza que deseja sair de sua conta?",
+  "logoutdecline": "cancelar",
+  "logoutaccepet": "sair",
+  "logouttitle": "saindo da conta"
 }

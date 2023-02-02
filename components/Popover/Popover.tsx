@@ -1,42 +1,30 @@
-import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Dialog as HeadlessDialog, Transition } from "@headlessui/react"
+import { Fragment } from "react"
 
 type PopoverProps = {
-  title: string;
-  description: string;
-  acceptButton?: string;
-  declineButton?: string;
-  isOpen: boolean;
-  acceptFunc?: () => void;
-  declineFunc?: () => void;
-};
+  title: string
+  description: string
+  acceptButton?: string
+  declineButton?: string
+  isOpen: boolean
+  acceptFunc?: () => void
+  declineFunc?: () => void
+}
 
-export const Popover = (props: PopoverProps) => {
-  let [isOpen, setIsOpen] = useState(true);
-
-  function closeModal(wasAccepted: boolean) {
-    setIsOpen(false);
-  }
-
-  function decline() {
-    props.declineFunc && props.declineFunc();
-    closeModal(false);
-  }
-
-  function accept() {
-    props.acceptFunc && props.acceptFunc();
-    closeModal(true);
-  }
-
+export const Popover = ({
+  description,
+  isOpen,
+  title,
+  acceptButton,
+  acceptFunc,
+  declineButton,
+  declineFunc,
+}: PopoverProps) => {
   return (
     <>
-      {props.isOpen && (
+      {isOpen && (
         <Transition appear show={isOpen} as={Fragment}>
-          <HeadlessDialog
-            as="div"
-            className="relative z-10"
-            onClose={closeModal}
-          >
+          <HeadlessDialog as="div" className="relative z-10" onClose={() => {}}>
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -68,35 +56,33 @@ export const Popover = (props: PopoverProps) => {
                       as="h3"
                       className="text-lg font-medium leading-6 text-gray-900"
                     >
-                      {props.title}
+                      {title}
                     </HeadlessDialog.Title>
                     <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        {props.description}
-                      </p>
+                      <p className="text-sm text-gray-500">{description}</p>
                     </div>
 
                     <div className="mt-4 flex justify-between">
-                      {props.declineButton && (
+                      {declineButton && (
                         <button
                           type="button"
                           className="inline-flex justify-center rounded-md border border-transparent py-2 text-sm font-medium
                       text-rose-600 hover:bg-blue-200 focus:outline-none focus-visible:ring-0 focus-visible:ring-blue-500
                       focus-visible:ring-offset-2"
-                          onClick={decline}
+                          onClick={declineFunc}
                         >
-                          {props.declineButton}
+                          {declineButton}
                         </button>
                       )}
-                      {props.acceptButton && (
+                      {acceptButton && (
                         <button
                           type="button"
                           className="inline-flex justify-center rounded-md border border-transparent py-2 text-sm font-medium
                       text-blue-600 hover:bg-blue-200 focus:outline-none focus-visible:ring-0 focus-visible:ring-blue-500
                       focus-visible:ring-offset-2"
-                          onClick={accept}
+                          onClick={acceptFunc}
                         >
-                          {props.acceptButton}
+                          {acceptButton}
                         </button>
                       )}
                     </div>
@@ -108,5 +94,5 @@ export const Popover = (props: PopoverProps) => {
         </Transition>
       )}
     </>
-  );
-};
+  )
+}
