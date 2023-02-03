@@ -1,10 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
-import { useEffect } from "react"
-import { useForm } from "react-hook-form"
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import * as zod from "zod"
 import { Card } from "../../../components/Card/Card"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
@@ -27,67 +23,7 @@ export function SignupContent({
 }: SignupContentProps) {
   const text = useTranslation().t
 
-  const newUserValidationSchema = zod
-    .object({
-      name: zod
-        .string()
-        .min(2, text("signup:namemin"))
-        .max(12, text("signup:namemax")),
-      email: zod.string().email(text("signup:emailerror")),
-      password: zod
-        .string()
-        .min(8, text("signup:passmin"))
-        .max(32, text("signup:passmax")),
-      confirmation: zod
-        .string()
-        .min(8, text("signup:passmin"))
-        .max(32, text("signup:passmax")),
-    })
-    .superRefine(({ password, confirmation }, ctx) => {
-      if (password !== confirmation) {
-        ctx.addIssue({
-          code: zod.ZodIssueCode.custom,
-          message: text("signup:passdontmatch"),
-        })
-      }
-      const passwordRegex =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/
-      if (!passwordRegex.test(password)) {
-        ctx.addIssue({
-          code: zod.ZodIssueCode.custom,
-          message: text("signup:passstrength"),
-        })
-      }
-    })
-
-  type NewUserMainData = zod.infer<typeof newUserValidationSchema>
-
-  const { register, handleSubmit, formState } = useForm<NewUserMainData>({
-    resolver: zodResolver(newUserValidationSchema),
-  })
-
   const notify = () => toast("test")
-
-  function handleCreateNewUser(data: NewUserMainData) {
-    console.log(data)
-    if (formState.errors.root) {
-      console.log("error")
-      // notify()
-    } else {
-      console.log("it worked")
-      // handleUpdateUserData(data)
-      // handleUpdateRunUpdate(true)
-    }
-  }
-
-  function onSubmit() {
-    handleSubmit(handleCreateNewUser)
-  }
-
-  useEffect(() => {
-    onSubmit()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -108,10 +44,11 @@ export function SignupContent({
                    lg:text-[1.1rem] hover:outline-none focus:outline-none px-3 lg:px-[1.125rem]"
                 type="text"
                 placeholder={text("signup:namelabel")}
-                {...register("name")}
                 maxLength={12}
                 minLength={2}
-                onChange={() => handleUpdateIsUpdating(true)}
+                onChange={(name) =>
+                  handleUpdateUserData({ name: name.target.value })
+                }
               />
             </div>
           </Card>
@@ -135,8 +72,10 @@ export function SignupContent({
                    lg:text-[1.1rem] hover:outline-none focus:outline-none px-3 lg:px-[1.125rem]"
                 type="email"
                 placeholder={text("signup:emaillabel")}
-                {...register("email")}
                 minLength={5}
+                onChange={(email) =>
+                  handleUpdateUserData({ email: email.target.value })
+                }
               />
             </div>
           </Card>
@@ -148,9 +87,11 @@ export function SignupContent({
                    lg:text-[1.1rem] hover:outline-none focus:outline-none px-3 lg:px-[1.125rem]"
                 type="password"
                 placeholder={text("signup:passwordlabel")}
-                {...register("password")}
                 maxLength={32}
                 minLength={8}
+                onChange={(password) =>
+                  handleUpdateUserData({ password: password.target.value })
+                }
               />
             </div>
           </Card>
@@ -162,7 +103,6 @@ export function SignupContent({
                    lg:text-[1.1rem] hover:outline-none focus:outline-none px-3 lg:px-[1.125rem]"
                 type="password"
                 placeholder={text("signup:confirmationlabel")}
-                {...register("confirmation")}
                 maxLength={32}
                 minLength={8}
               />

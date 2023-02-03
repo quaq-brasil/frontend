@@ -1,26 +1,48 @@
 import { useRouter } from "next/router"
+import { useState } from "react"
 import SignUp from "../../layouts/Onboarding/Signup/Signup"
-import { useLogin } from "../../services/hooks/useUser/useLogin"
-import { IUserLogin } from "../../types/User.type"
+import { useCreateUser } from "../../services/hooks/useUser/useCreateUser"
+import { useUpdateUser } from "../../services/hooks/useUser/useUpdateUser"
+import { IUpdateUser } from "../../types/User.type"
 import { pageUrls } from "../../utils/pagesUrl"
 
 export default function LoginPage() {
-  const loginUser = useLogin()
-
   const router = useRouter()
-  function handleUserLogin(data: IUserLogin) {
-    loginUser.mutate(
+
+  const createUser = useCreateUser()
+
+  const updateUser = useUpdateUser()
+
+  const [userId, setUserId] = useState<string>("")
+
+  function handleCreateUser(data: IUpdateUser) {
+    createUser.mutate(
+      {},
       {
-        email: data.email || "",
-        password: data.password || "",
+        onSuccess: (data) => {
+          setUserId(data.id as string)
+        },
+      }
+    )
+    updateUser.mutate(
+      {
+        id: userId,
+        data: {
+          avatar_url: data.avatar_url,
+          email: data.email,
+          name: data.name,
+          password: data.password,
+        },
       },
       {
         onSuccess: () => {
-          router.push(pageUrls.pageSettings({ pageSlug: "page" }))
+          router.push(
+            pageUrls.workspageSettings({ settings: "first-workspace" })
+          )
         },
       }
     )
   }
 
-  return <SignUp />
+  return <SignUp handleCreateUser={handleCreateUser} />
 }

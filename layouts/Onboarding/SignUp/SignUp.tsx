@@ -1,5 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
@@ -8,10 +8,10 @@ import { pageUrls } from "../../../utils/pagesUrl"
 import { SignupContent } from "./SignupContent"
 
 type SignUpProps = {
-  headerImageUrl: string
+  handleCreateUser: (data: IUpdateUser) => void
 }
 
-export default function SignUp() {
+export default function SignUp({ handleCreateUser }: SignUpProps) {
   const text = useTranslation().t
 
   const [userData, setUserData] = useState<IUpdateUser>()
@@ -36,6 +36,13 @@ export default function SignUp() {
     })
     handleUpdateIsUpdating(true)
   }
+
+  useEffect(() => {
+    if (userData) {
+      handleCreateUser(userData)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   function handleTabBar() {
     if (isUpdating) {
