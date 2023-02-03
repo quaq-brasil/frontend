@@ -1,31 +1,44 @@
 import { PencilSimple, Star } from "phosphor-react"
 import { useState } from "react"
+import { IBlock } from "../../types/Block.types"
+import { CardLine } from "../Card/CardContentVariants/CardLine"
+
+type IData = {
+  description: string
+}
+
+type IReviewBlock = {
+  data: IData
+} & IBlock
 
 type ReviewBlockProps = {
-  onSelect: (option: number) => void
+  block: IReviewBlock
   isEditable: boolean
 }
 
-export const ReviewBlock = (props: ReviewBlockProps) => {
+export const ReviewBlock = ({ block, isEditable }: ReviewBlockProps) => {
   const [selected, setSelected] = useState(0)
 
   function handleOnClick(option: number) {
     setSelected(option)
-    props.onSelect(option)
   }
 
   return (
     <div className="flex relative justify-end">
-      {props.isEditable === true && (
+      {isEditable === true && (
         <div className="z-10 absolute right-0 top-0 rounded-full bg-white border border-slate-100">
           <PencilSimple className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
         </div>
       )}
       <div
-        className="flex w-[23.375rem] justify-center items-center bg-white 
-          p-[0.75rem] rounded-[20px] lg:w-[35.25rem]"
+        className="flex flex-col w-full justify-center items-center bg-white 
+          p-[0.75rem] rounded-[20px] lg:rounded-[30px]"
       >
-        <div className="flex flex-row gap-1 items-center">
+        <p className="pb-3 px-1 font-semibold lg:text-[1.1rem] lg:px-[1.125rem]">
+          {block.data.description}
+        </p>
+        <CardLine />
+        <div className="flex flex-row justify-between pt-3 pb-2 w-full px-[20%] md:px-[25%] ">
           <button onClick={() => handleOnClick(1)}>
             <Star
               className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${

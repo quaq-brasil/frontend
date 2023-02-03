@@ -1,11 +1,11 @@
-import useTranslation from "next-translate/useTranslation";
-import { Button } from "../../../components/Button/Button";
-import { Card } from "../../../components/Card/Card";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
+import useTranslation from "next-translate/useTranslation"
+import { Button } from "../../../components/Button/Button"
+import { Card } from "../../../components/Card/Card"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 
 export function PasswordRecoveryContent() {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   function handleFinishSignUp() {}
 
@@ -38,13 +38,18 @@ export function PasswordRecoveryContent() {
             />
           </Card>
           <Button
-            color="slate-900"
-            onClick={handleFinishSignUp}
-            text={text("pwrecovery:confirm")}
+            block={{
+              data: {
+                color: "bg-black",
+                text: text("pwrecovery:confirm"),
+                onClick: () => handleFinishSignUp(),
+              },
+            }}
+            isEditable={false}
           />
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>
     </div>
-  );
+  )
 }

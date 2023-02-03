@@ -64,8 +64,8 @@ export function ReviewConfig({
   function onAddBlock() {
     handleAddBlock({
       type: "review",
-      savaAs: saveas,
-      data: { content },
+      saveAs: saveas,
+      data: content,
     })
     handleClosing()
   }
@@ -144,17 +144,27 @@ export function ReviewConfig({
           </Card>
           <div className="w-full h-fit hidden xl:block">
             <Button
-              color="white"
-              onClick={() => handleClosing()}
-              text={text("reviewconfig:cancel")}
+              block={{
+                data: {
+                  color: "bg-white",
+                  text: text("reviewconfig:cancel"),
+                  onClick: handleClosing,
+                },
+              }}
+              isEditable={false}
             />
           </div>
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="white"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("reviewconfig:addblock")}
+                block={{
+                  data: {
+                    color: "bg-white",
+                    text: text("reviewconfig:addblock"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

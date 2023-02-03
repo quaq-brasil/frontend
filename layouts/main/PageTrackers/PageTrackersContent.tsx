@@ -80,9 +80,14 @@ export function PageTrackersContent({
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="black"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("pagetrackers:confirm")}
+                block={{
+                  data: {
+                    color: "bg-black",
+                    text: text("pagetrackers:confirm"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

@@ -2,7 +2,6 @@ import useTranslation from "next-translate/useTranslation"
 import { useEffect, useState } from "react"
 import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { Button } from "../../../components/Button/Button"
-import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
@@ -12,7 +11,6 @@ import TextEditor from "../../../components/TextEditor/TextEditor"
 type TextConfigProps = {
   isOpen: boolean
   setIsOpen: () => void
-  size?: "sm" | "md" | "full"
   handleAddBlock: (block: BlockProps) => void
 }
 
@@ -20,7 +18,6 @@ export function TextConfig({
   handleAddBlock,
   isOpen,
   setIsOpen,
-  size,
 }: TextConfigProps) {
   const text = useTranslation().t
 
@@ -56,7 +53,7 @@ export function TextConfig({
   }
 
   useEffect(() => {
-    if (content) {
+    if (content.length > 1) {
       onAddBlock()
       handleClosing()
     }
@@ -95,32 +92,44 @@ export function TextConfig({
   return (
     <>
       <Dialog
-        height={size}
         isOpen={isOpen}
         title={text("textconfig:toptitle")}
         onClose={() => console.log("closed")}
       >
         <div className="flex flex-col items-center gap-3">
-          <Card>
+          <div
+            className="flex flex-col justify-center gap-[0.375rem] h-fit py-[16px]
+    bg-white min-w-[100%] rounded-[20px] lg:rounded-[30px] lg:gap-[0.75rem]"
+          >
             <TextEditor content={content} onChange={handleUpdateContent} />
             <CardLine />
-          </Card>
+          </div>
           {isUpdating && (
             <>
               <div className="w-full h-fit hidden xl:block">
                 <Button
-                  color="white"
-                  text={text("textconfig:addblock")}
-                  onClick={() => handleUpdateRunUpdate(true)}
+                  block={{
+                    data: {
+                      color: "bg-white",
+                      text: text("textconfig:addblock"),
+                      onClick: () => handleUpdateRunUpdate(true),
+                    },
+                  }}
+                  isEditable={false}
                 />
               </div>
             </>
           )}
           <div className="w-full h-fit hidden xl:block">
             <Button
-              color="white"
-              text={text("textconfig:cancel")}
-              onClick={handleClosing}
+              block={{
+                data: {
+                  color: "bg-white",
+                  text: text("textconfig:cancel"),
+                  onClick: () => handleClosing(),
+                },
+              }}
+              isEditable={false}
             />
           </div>
         </div>

@@ -156,16 +156,26 @@ export function TextEntryConfig({
           </Card>
           <div className="w-full h-fit hidden xl:block">
             <Button
-              color="white"
-              onClick={() => handleClosing()}
-              text={text("textentryconfig:cancel")}
+              block={{
+                data: {
+                  color: "bg-white",
+                  text: text("textentryconfig:cancel"),
+                  onClick: () => handleClosing(),
+                },
+              }}
+              isEditable={false}
             />
           </div>
           <div className="w-full h-fit hidden xl:block">
             <Button
-              color="white"
-              onClick={() => handleUpdateRunUpdate(true)}
-              text={text("textentryconfig:addblock")}
+              block={{
+                data: {
+                  color: "bg-white",
+                  text: text("textentryconfig:addblock"),
+                  onClick: () => handleUpdateRunUpdate(true),
+                },
+              }}
+              isEditable={false}
             />
           </div>
         </div>

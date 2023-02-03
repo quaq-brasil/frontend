@@ -93,9 +93,14 @@ export function WorkspaceDeleteContent({
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="black"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("wsdelete:confirm")}
+                block={{
+                  data: {
+                    color: "bg-black",
+                    text: text("wsdelete:confirm"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

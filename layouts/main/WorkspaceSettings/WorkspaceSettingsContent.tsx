@@ -63,9 +63,14 @@ export function WorkspaceSettingsContent({
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="slate-900"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("wssettings:confirm")}
+                block={{
+                  data: {
+                    color: "bg-black",
+                    text: text("wssettings:confirm"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

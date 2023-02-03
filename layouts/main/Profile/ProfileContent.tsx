@@ -77,9 +77,14 @@ export function ProfileContent({
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="black"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("profile:confirm")}
+                block={{
+                  data: {
+                    color: "bg-black",
+                    text: text("profile:confirm"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

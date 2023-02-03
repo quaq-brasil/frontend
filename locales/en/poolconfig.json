@@ -1,15 +1,17 @@
 {
   "toptitle": "new pool",
-  "title1": "max number of selection (optional)",
-  "label1": "type it here",
-  "title2": "min number of selection (optional)",
-  "label2": "type it here",
-  "title3": "option",
-  "label3": "type it here",
+  "max": "max number of selection (optional)",
+  "maxlabel": "type it here",
+  "min": "min number of selection (optional)",
+  "minlabel": "type it here",
+  "option": "option",
+  "optionlabel": "type it here",
   "addoption": "new option",
-  "title4": "save as",
-  "label4": "type it here",
+  "saveas": "save as",
+  "saveaslabel": "type it here",
   "cancel": "cancel",
   "add": "add",
-  "addblock": "add block"
+  "addblock": "add block",
+  "title": "pool description",
+  "titlelabel": "type it here"
 }

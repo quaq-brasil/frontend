@@ -143,9 +143,14 @@ export function CentralOptionsContent({
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="black"
-                text={text("centraloptions:confirm")}
-                onClick={() => handleUpdateRunUpdate(true)}
+                block={{
+                  data: {
+                    color: "bg-black",
+                    text: text("centraloptions:confirm"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

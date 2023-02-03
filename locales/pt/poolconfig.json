@@ -1,16 +1,17 @@
 {
   "toptitle": "nova enquete",
-  "title1": "número máximo de seleções (opcional)",
-  "label1": "digite aqui",
-  "title2": "número mínimo de seleções (opcional)",
-  "label2": "digite aqui",
-  "title3": "opção",
-  "label3": "digite aqui",
+  "max": "número máximo de seleções (opcional)",
+  "maxlabel": "digite aqui",
+  "min": "número mínimo de seleções (opcional)",
+  "minlabel": "digite aqui",
+  "option": "opção",
+  "optionlabel": "digite aqui",
   "addoption": "nova opção",
-  "title4": "salvar como",
-  "label4": "digite aqui",
-  "savebutton": "salvar",
+  "saveas": "salvar como",
+  "saveaslabel": "digite aqui",
   "cancel": "cancelar",
   "add": "adicionar",
-  "addblock": "adicionar bloco"
+  "addblock": "adicionar bloco",
+  "title": "pool description",
+  "titlelabel": "type it here"
 }

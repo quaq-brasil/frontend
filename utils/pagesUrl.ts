@@ -1,3 +1,5 @@
+import { useRouter } from "next/router"
+
 const page = (pageSlug: string) => `/${pageSlug}`
 
 type pageSettingsProps = {
@@ -66,6 +68,12 @@ const login = () => {
   return `/me/login`
 }
 
+const Back = () => {
+  const router = useRouter()
+
+  return router.back()
+}
+
 export const pageUrls = {
   page,
   pageSettings,
@@ -77,4 +85,5 @@ export const pageUrls = {
   meSettings,
   workspageSettings,
   login,
+  Back,
 }
