@@ -40,20 +40,25 @@ export function WebhookConfig({
   const [saveas, setSaveas] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+  const [visibility, setVisibility] = useState(false)
 
   function handleUpdateHeader(data: string) {
-    handleUpdateConent({ header: data })
+    handleUpdateContent({ header: data })
   }
 
   function handleUpdateBody(data: string) {
-    handleUpdateConent({ body: data })
+    handleUpdateContent({ body: data })
   }
 
-  function handleUpdateConent(newData: IWebhook) {
+  function handleUpdateVisibility(stat: boolean) {
+    setVisibility(stat)
+  }
+
+  function handleUpdateContent(newData: IWebhook) {
     setContent({
       description: newData.description || content?.description,
-      visibility: newData.visibility || content?.visibility,
       parameters: newData.parameters || content?.parameters,
+      visibility: visibility,
       header: newData.header || content?.header,
       body: newData.body || content?.body,
       type: newData.type || content?.type,
@@ -76,7 +81,7 @@ export function WebhookConfig({
   }
 
   function handleClosing() {
-    handleUpdateConent({})
+    handleUpdateContent({})
     setSaveas(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
@@ -87,7 +92,7 @@ export function WebhookConfig({
     handleAddBlock({
       type: "webhook",
       saveAs: saveas,
-      data: { content },
+      data: content,
     })
     handleClosing()
   }
@@ -142,7 +147,7 @@ export function WebhookConfig({
               input={{
                 label: text("webhookconfig:descriptioninput"),
                 onChange: (description) =>
-                  handleUpdateConent({ description: description }),
+                  handleUpdateContent({ description: description }),
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -153,7 +158,7 @@ export function WebhookConfig({
 
           <Card>
             <CardSwitch
-              onChange={(stat) => handleUpdateConent({ visibility: stat })}
+              onChange={(stat) => handleUpdateVisibility(stat)}
               text={text("webhookconfig:switch")}
               showStatus={true}
             />
@@ -165,7 +170,7 @@ export function WebhookConfig({
               input={{
                 label: text("webhookconfig:parametersinput"),
                 onChange: (parameters) =>
-                  handleUpdateConent({ parameters: parameters }),
+                  handleUpdateContent({ parameters: parameters }),
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -200,7 +205,7 @@ export function WebhookConfig({
                 icon: Check,
                 isVisible: content?.type == "GET" ? false : true,
               }}
-              onClick={() => handleUpdateConent({ type: "GET" })}
+              onClick={() => handleUpdateContent({ type: "GET" })}
             />
             <CardLine />
             <CardText
@@ -209,7 +214,7 @@ export function WebhookConfig({
                 icon: Check,
                 isVisible: content?.type == "POST" ? false : true,
               }}
-              onClick={() => handleUpdateConent({ type: "POST" })}
+              onClick={() => handleUpdateContent({ type: "POST" })}
             />
             <CardLine />
             <CardText
@@ -218,7 +223,7 @@ export function WebhookConfig({
                 icon: Check,
                 isVisible: content?.type == "PATCH" ? false : true,
               }}
-              onClick={() => handleUpdateConent({ type: "PATCH" })}
+              onClick={() => handleUpdateContent({ type: "PATCH" })}
             />
             <CardLine />
             <CardText
@@ -227,7 +232,7 @@ export function WebhookConfig({
                 icon: Check,
                 isVisible: content?.type == "DELETE" ? false : true,
               }}
-              onClick={() => handleUpdateConent({ type: "DELETE" })}
+              onClick={() => handleUpdateContent({ type: "DELETE" })}
             />
             <CardLine />
           </Card>
@@ -237,7 +242,7 @@ export function WebhookConfig({
             <CardTextInput
               input={{
                 label: text("webhookconfig:linkinput"),
-                onChange: (link) => handleUpdateConent({ link: link }),
+                onChange: (link) => handleUpdateContent({ link: link }),
               }}
               indicator={{
                 icon: BracketsCurly,

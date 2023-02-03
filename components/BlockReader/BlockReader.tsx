@@ -3,6 +3,7 @@ import { Button } from "../Button/Button"
 import { ImageBlock } from "../ImageBlock/ImageBlock"
 import { PoolBlock } from "../PoolBlock/PoolBlock"
 import { ReviewBlock } from "../ReviewBlock/ReviewBlock"
+import { TechBlock } from "../TechBlock/TechBlock"
 import { TextBlock } from "../TextBlock/TextBlock"
 import { TextEntry } from "../TextEntryBlock/TextEntry"
 
@@ -36,6 +37,8 @@ export const BlockReader = ({
       return <TextEntry block={block} />
     case "button":
       return <Button block={block} isEditable={true} />
+    case "webhook":
+      return <TechBlock block={block} isEditable={true} type="webhook" />
     default:
       return (
         <>
