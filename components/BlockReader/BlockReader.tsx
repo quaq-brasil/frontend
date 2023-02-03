@@ -1,4 +1,4 @@
-import { IBlock } from "../../types/Block.types"
+import { BlockProps } from "../../types/Block.types"
 import { Button } from "../Button/Button"
 import { ImageBlock } from "../ImageBlock/ImageBlock"
 import { PoolBlock } from "../PoolBlock/PoolBlock"
@@ -6,10 +6,6 @@ import { ReviewBlock } from "../ReviewBlock/ReviewBlock"
 import { TechBlock } from "../TechBlock/TechBlock"
 import { TextBlock } from "../TextBlock/TextBlock"
 import { TextEntryBlock } from "../TextEntryBlock/TextEntryBlock"
-
-export type BlockProps = {
-  data: any
-} & IBlock
 
 type BlockReaderProps = {
   block: BlockProps

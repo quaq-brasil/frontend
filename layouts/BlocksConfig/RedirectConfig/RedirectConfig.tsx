@@ -10,12 +10,11 @@ import { Dialog } from "../../../components/Dialog/Dialog"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 
 type RedirectConfigProps = {
-  isOpen: boolean
-  setIsOpen: () => void
   size?: "sm" | "md" | "full"
-}
+} & BlocksConfigProps
 
 export function RedirectConfig(props: RedirectConfigProps) {
   const text = useTranslation().t
@@ -33,7 +32,7 @@ export function RedirectConfig(props: RedirectConfigProps) {
         key={1}
         variant="txt"
         text={text("redirectconfig:back")}
-        onClick={() => props.setIsOpen()}
+        onClick={() => props.onClose()}
       />,
     ]
   }

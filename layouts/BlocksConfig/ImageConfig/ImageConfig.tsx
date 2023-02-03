@@ -1,7 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
-import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -11,18 +10,13 @@ import { Dialog } from "../../../components/Dialog/Dialog"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-
-type ImageConfigProps = {
-  isOpen: boolean
-  setIsOpen: () => void
-  handleAddBlock: (block: BlockProps) => void
-}
+import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 
 export function ImageConfig({
   isOpen,
-  setIsOpen,
+  onClose,
   handleAddBlock,
-}: ImageConfigProps) {
+}: BlocksConfigProps) {
   const text = useTranslation().t
 
   type IImage = {
@@ -59,7 +53,7 @@ export function ImageConfig({
     setSaveas(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
-    setIsOpen()
+    onClose()
   }
 
   function onAddBlock() {

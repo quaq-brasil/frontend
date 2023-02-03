@@ -7,12 +7,11 @@ import { CardTextInput } from "../../../components/Card/CardContentVariants/Card
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 
 type JsonConfigProps = {
-  isOpen: boolean
-  setIsOpen: () => void
   size?: "sm" | "md" | "full"
-}
+} & BlocksConfigProps
 
 export function JsonConfig(props: JsonConfigProps) {
   const text = useTranslation().t
@@ -23,7 +22,7 @@ export function JsonConfig(props: JsonConfigProps) {
         key={1}
         variant="txt"
         text={text("jsonconfig:tab1")}
-        onClick={() => props.setIsOpen()}
+        onClick={() => props.onClose()}
       />,
     ]
   }

@@ -1,7 +1,7 @@
-import { BlockProps } from "../../../components/BlockReader/BlockReader"
+import { BlockProps } from "../../../types/Block.types"
 import { AutomationConfig } from "../../BlocksConfig/AutomationConfig/AutomationConfig"
 import { ButtonConfig } from "../../BlocksConfig/ButtonConfig/ButtonConfig"
-import { ChartConfig } from "../../BlocksConfig/ChartConfig/ChartConfig"
+import ChartConfig from "../../BlocksConfig/ChartConfig/ChartConfig"
 import { CounterConfig } from "../../BlocksConfig/CounterConfig/CounterConfig"
 import { CreationsConfigPages } from "../../BlocksConfig/CreationsConfig/CreationsConfigPages"
 import { EmbedConfig } from "../../BlocksConfig/EmbedConfig/EmbedConfig"
@@ -21,90 +21,151 @@ type RenderBlockConfig = {
   isOpen: boolean
   onClose: () => void
   handleAddBlock: (block: BlockProps) => void
+  handleOpenVariablePanel: () => void
+  setFunctionHandleAddVariable: (variable: any) => void
 }
 
 export function RenderBlockConfig(props: RenderBlockConfig) {
   switch (props.block) {
     case "creations":
       return (
-        <CreationsConfigPages isOpen={props.isOpen} setIsOpen={props.onClose} />
+        <CreationsConfigPages isOpen={props.isOpen} onClose={props.onClose} />
       )
     case "image":
       return (
         <ImageConfig
           isOpen={props.isOpen}
-          setIsOpen={props.onClose}
+          onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
         />
       )
     case "text":
       return (
         <TextConfig
           isOpen={props.isOpen}
-          setIsOpen={props.onClose}
+          onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
         />
       )
     case "embed":
-      return <EmbedConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+      return (
+        <EmbedConfig
+          isOpen={props.isOpen}
+          onClose={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
+        />
+      )
     case "file":
       return (
-        <FileSharingConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+        <FileSharingConfig
+          isOpen={props.isOpen}
+          onClose={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
+        />
       )
     case "textentry":
       return (
         <TextEntryConfig
           isOpen={props.isOpen}
-          setIsOpen={props.onClose}
+          onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "fileentry":
       return (
-        <FileSharingConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+        <FileSharingConfig
+          isOpen={props.isOpen}
+          onClose={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
+        />
       )
     case "pool":
       return (
         <PoolConfig
           handleAddBlock={props.handleAddBlock}
           isOpen={props.isOpen}
-          setIsOpen={props.onClose}
+          onClose={props.onClose}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
         />
       )
     case "button":
       return (
         <ButtonConfig
           isOpen={props.isOpen}
-          setIsOpen={props.onClose}
+          onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
         />
       )
     case "toggle":
-      return <ToggleConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+      return (
+        <ToggleConfig
+          isOpen={props.isOpen}
+          onClose={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
+        />
+      )
     case "review":
       return (
         <ReviewConfig
           isOpen={props.isOpen}
-          setIsOpen={props.onClose}
+          onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "json":
-      return <JsonConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+      return (
+        <JsonConfig
+          isOpen={props.isOpen}
+          onClose={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
+        />
+      )
     case "counter":
-      return <CounterConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+      return (
+        <CounterConfig
+          isOpen={props.isOpen}
+          onClose={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
+        />
+      )
     case "automation":
       return (
-        <AutomationConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+        <AutomationConfig
+          isOpen={props.isOpen}
+          onClose={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
+        />
       )
     case "redirect":
-      return <RedirectConfig isOpen={props.isOpen} setIsOpen={props.onClose} />
+      return (
+        <RedirectConfig
+          isOpen={props.isOpen}
+          onClose={props.onClose}
+          handleAddBlock={props.handleAddBlock}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
+        />
+      )
     case "webhook":
       return (
         <WebhookConfig
           isOpen={props.isOpen}
-          setIsOpen={props.onClose}
+          onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
         />
       )
     case "chart":
@@ -112,7 +173,8 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
         <ChartConfig
           handleAddBlock={props.handleAddBlock}
           isOpen={props.isOpen}
-          setIsOpen={props.onClose}
+          onClose={props.onClose}
+          handleOpenVariablePanel={props.handleOpenVariablePanel}
         />
       )
     default:

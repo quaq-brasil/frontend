@@ -10,12 +10,11 @@ import { FileProps } from "../../../components/FileEntryBlock/FileEntry"
 import { FileManager } from "../../../components/FileManager/FileManager"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 
 type FileSharingConfigProps = {
-  isOpen: boolean
-  setIsOpen: () => void
   size?: "sm" | "md" | "full"
-}
+} & BlocksConfigProps
 
 export function FileSharingConfig(props: FileSharingConfigProps) {
   const text = useTranslation().t
@@ -38,7 +37,7 @@ export function FileSharingConfig(props: FileSharingConfigProps) {
         key={1}
         variant="txt"
         text={text("filesharingconfig:tab1")}
-        onClick={() => props.setIsOpen()}
+        onClick={() => props.onClose()}
       />,
     ]
   }

@@ -9,6 +9,7 @@ type CardTextInputProps = {
     fixedText?: string
     defaultValue?: string
     value?: string
+    inputValue?: string
   }
   indicator?: {
     icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
@@ -27,6 +28,14 @@ type DropdownOptions = {
 }
 
 export function CardTextInput(props: CardTextInputProps) {
+  const verifyInputValue = (value: string | undefined) => {
+    if (value === "" || value) {
+      return true
+    }
+
+    return false
+  }
+
   return (
     <div className="flex flex-row justify-between items-center bg-slate-50 my-2">
       {props.input?.fixedText && (
@@ -35,21 +44,42 @@ export function CardTextInput(props: CardTextInputProps) {
         </p>
       )}
 
-      {props.input && !props.input.value && (
-        <input
-          onChange={(e) => props?.input?.onChange(e.target.value)}
-          className={`bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem]
+      {props.input &&
+        !props.input.value &&
+        !verifyInputValue(props.input.inputValue) && (
+          <input
+            onChange={(e) => props?.input?.onChange(e.target.value)}
+            className={`bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem]
         placeholder:text-slate-300 lg:text-[1.1rem] hover:outline-none focus:outline-none
           ${
             props.input.fixedText
               ? "ml-[-12px] lg:ml-[-18px]"
               : "px-3 lg:px-[1.125rem]"
           }`}
-          type={props.input.type || "text"}
-          placeholder={props.input.label}
-          defaultValue={props.input.defaultValue}
-        />
-      )}
+            type={props.input.type || "text"}
+            placeholder={props.input.label}
+            defaultValue={props.input.defaultValue}
+          />
+        )}
+
+      {props.input &&
+        !props.input.value &&
+        verifyInputValue(props.input.inputValue) && (
+          <input
+            onChange={(e) => props?.input?.onChange(e.target.value)}
+            className={`bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem]
+        placeholder:text-slate-300 lg:text-[1.1rem] hover:outline-none focus:outline-none
+          ${
+            props.input.fixedText
+              ? "ml-[-12px] lg:ml-[-18px]"
+              : "px-3 lg:px-[1.125rem]"
+          }`}
+            type={props.input.type || "text"}
+            placeholder={props.input.label}
+            defaultValue={props.input.defaultValue}
+            value={props.input.inputValue || ""}
+          />
+        )}
 
       {props.dropdown && (
         <select

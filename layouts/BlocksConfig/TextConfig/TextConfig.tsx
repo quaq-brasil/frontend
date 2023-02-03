@@ -1,24 +1,18 @@
 import useTranslation from "next-translate/useTranslation"
 import { useEffect, useState } from "react"
-import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { Button } from "../../../components/Button/Button"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import TextEditor from "../../../components/TextEditor/TextEditor"
-
-type TextConfigProps = {
-  isOpen: boolean
-  setIsOpen: () => void
-  handleAddBlock: (block: BlockProps) => void
-}
+import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 
 export function TextConfig({
   handleAddBlock,
   isOpen,
-  setIsOpen,
-}: TextConfigProps) {
+  onClose,
+}: BlocksConfigProps) {
   const text = useTranslation().t
 
   const [content, setContent] = useState("")
@@ -42,7 +36,7 @@ export function TextConfig({
     handleUpdateContent("")
     handleUpdateIsUpdating(false)
     handleUpdateRunUpdate(false)
-    setIsOpen()
+    onClose()
   }
 
   function onAddBlock() {
@@ -83,7 +77,7 @@ export function TextConfig({
           key={1}
           variant="txt"
           text={text("textconfig:cancel")}
-          onClick={() => setIsOpen()}
+          onClick={() => onClose()}
         />,
       ]
     }
