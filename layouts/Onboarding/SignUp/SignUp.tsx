@@ -43,10 +43,10 @@ export default function SignUp() {
         <Tag
           key={1}
           variant="txt"
-          text={text("signup:cancel")}
+          text={text("signup:back")}
           onClick={() => pageUrls.Back()}
         />,
-        <div key={2}>
+        <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
             text={text("signup:signup")}
@@ -59,7 +59,7 @@ export default function SignUp() {
         <Tag
           key={1}
           variant="txt"
-          text={text("signup:cancel")}
+          text={text("signup:back")}
           onClick={() => pageUrls.Back()}
         />,
       ]
@@ -80,6 +80,7 @@ export default function SignUp() {
         handleUpdateIsUpdating={handleUpdateIsUpdating}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
         isUpdating={isUpdating}
+        runUpdate={runUpdate}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
