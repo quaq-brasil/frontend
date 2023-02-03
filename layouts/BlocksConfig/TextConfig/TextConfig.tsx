@@ -11,7 +11,6 @@ import TextEditor from "../../../components/TextEditor/TextEditor"
 type TextConfigProps = {
   isOpen: boolean
   setIsOpen: () => void
-  size?: "sm" | "md" | "full"
   handleAddBlock: (block: BlockProps) => void
 }
 
@@ -19,7 +18,6 @@ export function TextConfig({
   handleAddBlock,
   isOpen,
   setIsOpen,
-  size,
 }: TextConfigProps) {
   const text = useTranslation().t
 
@@ -94,7 +92,6 @@ export function TextConfig({
   return (
     <>
       <Dialog
-        height={size}
         isOpen={isOpen}
         title={text("textconfig:toptitle")}
         onClose={() => console.log("closed")}

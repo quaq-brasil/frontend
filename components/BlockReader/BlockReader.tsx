@@ -1,6 +1,7 @@
 import { IBlock } from "../../types/Block.types"
 import { ImageBlock } from "../ImageBlock/ImageBlock"
 import { PoolBlock } from "../PoolBlock/PoolBlock"
+import { ReviewBlock } from "../ReviewBlock/ReviewBlock"
 import { TextBlock } from "../TextBlock/TextBlock"
 import { TextEntry } from "../TextEntryBlock/TextEntry"
 
@@ -27,7 +28,9 @@ export const BlockReader = ({
     case "pool":
       return <PoolBlock block={block} isEditable={true} />
     case "image":
-      return <ImageBlock block={block} isEditable={isEditable} />
+      return <ImageBlock block={block} isEditable={true} />
+    case "review":
+      return <ReviewBlock block={block} isEditable={true} />
     case "textentry":
       return <TextEntry block={block} />
     default:

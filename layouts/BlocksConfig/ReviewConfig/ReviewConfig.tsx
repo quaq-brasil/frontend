@@ -64,8 +64,8 @@ export function ReviewConfig({
   function onAddBlock() {
     handleAddBlock({
       type: "review",
-      savaAs: saveas,
-      data: { content },
+      saveAs: saveas,
+      data: content,
     })
     handleClosing()
   }
