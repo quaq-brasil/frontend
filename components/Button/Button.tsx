@@ -31,9 +31,9 @@ export function Button({ block, isEditable }: ButtonProps) {
         rounded-[20px] lg:rounded-[30px] ${block.data.color}`}
       >
         <span
-          className={`lg:text-[1.1rem] ${
-            block.data.color == "white" ? "text-black" : "text-white"
-          } font-semibold text-center w-full`}
+          className={`lg:text-[1.1rem] font-semibold text-center w-full ${
+            block.data.color == "bg-white" ? "text-black" : "text-white"
+          }`}
         >
           {block.data.text}
         </span>
