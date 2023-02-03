@@ -1,0 +1,18 @@
+{
+  "cancel": "cancel",
+  "add": "add",
+  "toptitle": "new chart",
+  "title": "title",
+  "titlelabel": "type it here",
+  "type": "type",
+  "line": "line",
+  "verticalbar": "vertical bar",
+  "horizontalbar": "horizontal bar",
+  "scatter": "scatter",
+  "pie": "pie",
+  "labels": "labels",
+  "labelslabel": "type it here",
+  "saveas": "save as",
+  "saveaslabel": "type it here",
+  "addblock": "add block"
+}

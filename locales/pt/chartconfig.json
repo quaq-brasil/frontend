@@ -1,0 +1,18 @@
+{
+  "cancel": "cancelar",
+  "add": "adicionar",
+  "toptitle": "novo gráfico",
+  "title": "título",
+  "titlelabel": "digite aqui",
+  "type": "tipo",
+  "line": "linha",
+  "verticalbar": "barra vertical",
+  "horizontalbar": "barra horizontal",
+  "scatter": "dispersão",
+  "pie": "pizza",
+  "labels": "legendas",
+  "labelslabel": "digite aqui",
+  "saveas": "salvar como",
+  "saveaslabel": "digite aqui",
+  "addblock": "adicionar bloco"
+}
