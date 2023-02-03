@@ -58,7 +58,8 @@
       "pagedelete",
       "pagetrackers",
       "explorer",
-      "userdelete"
+      "userdelete",
+      "chartconfig"
     ]
   }
 }

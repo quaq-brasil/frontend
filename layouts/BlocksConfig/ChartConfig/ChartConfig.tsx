@@ -5,6 +5,7 @@ import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { Button } from "../../../components/Button/Button"
 
 import { Card } from "../../../components/Card/Card"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { Dialog } from "../../../components/Dialog/Dialog"
@@ -84,7 +85,7 @@ export function ChartConfig({
     handleAddBlock({
       type: "chart",
       saveAs: saveas,
-      data: { content },
+      data: content,
     })
     handleClosing()
   }
@@ -130,7 +131,7 @@ export function ChartConfig({
       <Dialog
         isOpen={isOpen}
         title={text("chartconfig:toptitle")}
-        onClose={() => console.log("closed")}
+        onClose={() => {}}
       >
         <div className="flex flex-col items-center gap-3">
           <Card>
@@ -153,39 +154,43 @@ export function ChartConfig({
               label={text("chartconfig:line")}
               indicator={{
                 icon: Check,
-                isVisible: content?.chartType == "line",
+                isVisible: content?.chartType !== "line",
               }}
               onClick={() => handleUpdateConent({ chartType: "line" })}
             />
+            <CardLine />
             <CardText
               label={text("chartconfig:verticalbar")}
               indicator={{
                 icon: Check,
-                isVisible: content?.chartType == "verticalbar",
+                isVisible: content?.chartType !== "verticalbar",
               }}
               onClick={() => handleUpdateConent({ chartType: "verticalbar" })}
             />
+            <CardLine />
             <CardText
               label={text("chartconfig:horizontalbar")}
               indicator={{
                 icon: Check,
-                isVisible: content?.chartType == "horizontalbar",
+                isVisible: content?.chartType !== "horizontalbar",
               }}
               onClick={() => handleUpdateConent({ chartType: "horizontalbar" })}
             />
+            <CardLine />
             <CardText
               label={text("chartconfig:scatter")}
               indicator={{
                 icon: Check,
-                isVisible: content?.chartType == "scatter",
+                isVisible: content?.chartType !== "scatter",
               }}
               onClick={() => handleUpdateConent({ chartType: "scatter" })}
             />
+            <CardLine />
             <CardText
               label={text("chartconfig:pie")}
               indicator={{
                 icon: Check,
-                isVisible: content?.chartType == "pie",
+                isVisible: content?.chartType !== "pie",
               }}
               onClick={() => handleUpdateConent({ chartType: "pie" })}
             />
@@ -197,6 +202,20 @@ export function ChartConfig({
               input={{
                 label: text("chartconfig:labelslabel"),
                 onChange: (labels) => {},
+              }}
+              indicator={{
+                icon: BracketsCurly,
+                onClick: () => console.log("click"),
+              }}
+            />
+          </Card>
+
+          <Card>
+            <CardText label={text("chartconfig:saveas")} />
+            <CardTextInput
+              input={{
+                label: text("chartconfig:saveaslabel"),
+                onChange: (value) => handleUpdateSaveas(value),
               }}
               indicator={{
                 icon: BracketsCurly,

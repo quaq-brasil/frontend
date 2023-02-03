@@ -14,6 +14,7 @@ type IDataset = {
 
 type IData = {
   datasets: IDataset[]
+  labels?: string[]
 }
 
 type PieChartProps = {
