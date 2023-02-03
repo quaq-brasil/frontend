@@ -24,40 +24,31 @@ export function PoolConfig({
   const text = useTranslation().t
 
   type options = {
-    id: number
-    value: string
+    id?: number
+    value?: string
   }
 
-  type maxAndMin = {
+  type IContent = {
+    options?: options[]
+    title?: string
     max?: string
     min?: string
   }
 
-  const [options, setOptions] = useState<options[]>([{ id: 0, value: "" }])
-  const [limits, setLimits] = useState<maxAndMin>()
+  const [content, setContent] = useState<IContent>({
+    options: [{ id: 0, value: "" }],
+  })
   const [saveas, setSaveas] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
-  function handleUpdateSetOptions({ id, value }: options) {
-    const newOptions: options[] = options.map((option) => {
-      if (option.id === id) {
-        return {
-          id: option.id,
-          value: value,
-        }
-      } else {
-        return option
-      }
-    })
-    setOptions(newOptions)
-    handleUpdateIsUpdating(true)
-  }
-
-  function handleUpdateLimits({ max, min }: maxAndMin) {
-    setLimits({
-      max: max || limits?.max,
-      min: min || limits?.min,
+  function handleUpdateContent(newData: IContent) {
+    setContent({
+      ...content,
+      max: newData.max || content?.max,
+      min: newData.min || content?.min,
+      options: newData.options || content?.options,
+      title: newData.title || content.title,
     })
     handleUpdateIsUpdating(true)
   }
@@ -76,8 +67,7 @@ export function PoolConfig({
   }
 
   function handleClosing() {
-    setOptions([{ id: 0, value: "" }])
-    setLimits(undefined)
+    setContent({})
     setSaveas(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
@@ -87,14 +77,14 @@ export function PoolConfig({
   function onAddBlock() {
     handleAddBlock({
       type: "pool",
-      savaAs: saveas,
-      data: { options, limits },
+      saveAs: saveas,
+      data: content,
     })
     handleClosing()
   }
 
   useEffect(() => {
-    if (options && saveas) {
+    if (content?.options && saveas) {
       onAddBlock()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,14 +119,46 @@ export function PoolConfig({
     }
   }
 
-  function handleAddOption() {
-    const newOption = { id: options.length, value: "" }
-    setOptions([...options, newOption])
+  type HandleUpdateOptionsProps = {
+    id?: number
+    value?: string
+    option: string
   }
 
-  function handleRemoveOption(id: number) {
-    const newOptions = options.filter((option) => option.id !== id)
-    setOptions(newOptions)
+  function handleUpdateOptions({
+    id,
+    option,
+    value,
+  }: HandleUpdateOptionsProps) {
+    switch (option) {
+      case "add":
+        if (content.options) {
+          const options = content.options
+          options.push({ id: content.options.length, value: "" })
+          handleUpdateContent({ options: options })
+        }
+      case "remove":
+        if (content.options) {
+          const options = content.options.map((option) => {
+            if (option.id != id) {
+              return option
+            }
+          })
+          handleUpdateContent({ options: options as options[] })
+        }
+      case "update":
+        if (content.options) {
+          const options = content.options.map((option) => {
+            if (option.id == id) {
+              option.value = value
+              return option
+            } else {
+              return option
+            }
+          })
+          handleUpdateContent({ options: options as options[] })
+        }
+    }
   }
 
   return (
@@ -146,14 +168,13 @@ export function PoolConfig({
         title={text("poolconfig:toptitle")}
         onClose={() => console.log("closed")}
       >
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-3 scrollbar-hide">
           <Card>
-            <CardText label={text("poolconfig:title1")} />
+            <CardText label={text("poolconfig:title")} />
             <CardTextInput
               input={{
-                label: text("poolconfig:label1"),
-                onChange: (max) => handleUpdateLimits({ max: max }),
-                type: "number",
+                label: text("poolconfig:titlelabel"),
+                onChange: (title) => handleUpdateContent({ title: title }),
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -162,12 +183,24 @@ export function PoolConfig({
             />
           </Card>
           <Card>
-            <CardText label={text("poolconfig:title2")} />
+            <CardText label={text("poolconfig:max")} />
             <CardTextInput
               input={{
-                label: text("poolconfig:label2"),
-                onChange: (min) => handleUpdateLimits({ min: min }),
-                type: "number",
+                label: text("poolconfig:maxlabel"),
+                onChange: (max) => handleUpdateContent({ max: max }),
+              }}
+              indicator={{
+                icon: BracketsCurly,
+                onClick: () => console.log("click"),
+              }}
+            />
+          </Card>
+          <Card>
+            <CardText label={text("poolconfig:min")} />
+            <CardTextInput
+              input={{
+                label: text("poolconfig:minlabel"),
+                onChange: (min) => handleUpdateContent({ min: min }),
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -176,42 +209,49 @@ export function PoolConfig({
             />
           </Card>
           <>
-            {options.map((option, index) => (
-              <Card key={option.id}>
-                <CardText
-                  label={`${text("poolconfig:title3")} ${index + 1}`}
-                  indicator={{
-                    icon: X,
-                  }}
-                  onClick={() => handleRemoveOption(option.id)}
-                />
-                <CardTextInput
-                  input={{
-                    label: text("poolconfig:label3"),
-                    onChange: (value) =>
-                      handleUpdateSetOptions({ id: index, value: value }),
-                    defaultValue: option.value,
-                  }}
-                  indicator={{
-                    icon: BracketsCurly,
-                    onClick: () => console.log(),
-                  }}
-                />
-              </Card>
-            ))}
+            {content.options &&
+              content?.options.map((option, index) => (
+                <Card key={option.id}>
+                  <CardText
+                    label={`${text("poolconfig:option")} ${index + 1}`}
+                    indicator={{
+                      icon: X,
+                    }}
+                    onClick={() =>
+                      handleUpdateOptions({ id: index, option: "remove" })
+                    }
+                  />
+                  <CardTextInput
+                    input={{
+                      label: text("poolconfig:optionlabel"),
+                      onChange: (value) =>
+                        handleUpdateOptions({
+                          id: index,
+                          option: "update",
+                          value: value,
+                        }),
+                      defaultValue: option.value,
+                    }}
+                    indicator={{
+                      icon: BracketsCurly,
+                      onClick: () => console.log(),
+                    }}
+                  />
+                </Card>
+              ))}
           </>
 
           <Tag
             variant="txt"
             text={text("poolconfig:addoption")}
-            onClick={handleAddOption}
+            onClick={() => handleUpdateOptions({ option: "add" })}
           />
 
           <Card>
-            <CardText label={text("poolconfig:title4")} />
+            <CardText label={text("poolconfig:saveas")} />
             <CardTextInput
               input={{
-                label: text("poolconfig:label4"),
+                label: text("poolconfig:saveaslabel"),
                 onChange: (e) => handleUpdateSaveas(e),
               }}
               indicator={{

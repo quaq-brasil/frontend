@@ -2,7 +2,6 @@ import useTranslation from "next-translate/useTranslation"
 import { useEffect, useState } from "react"
 import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { Button } from "../../../components/Button/Button"
-import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
@@ -56,7 +55,7 @@ export function TextConfig({
   }
 
   useEffect(() => {
-    if (content) {
+    if (content.length > 1) {
       onAddBlock()
       handleClosing()
     }
@@ -101,10 +100,13 @@ export function TextConfig({
         onClose={() => console.log("closed")}
       >
         <div className="flex flex-col items-center gap-3">
-          <Card>
+          <div
+            className="flex flex-col justify-center gap-[0.375rem] h-fit py-[16px]
+    bg-white min-w-[100%] rounded-[20px] lg:rounded-[30px] lg:gap-[0.75rem]"
+          >
             <TextEditor content={content} onChange={handleUpdateContent} />
             <CardLine />
-          </Card>
+          </div>
           {isUpdating && (
             <>
               <div className="w-full h-fit hidden xl:block">

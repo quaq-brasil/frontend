@@ -1,5 +1,6 @@
 import { IBlock } from "../../types/Block.types"
 import { ImageBlock } from "../ImageBlock/ImageBlock"
+import { PoolBlock } from "../PoolBlock/PoolBlock"
 import { TextBlock } from "../TextBlock/TextBlock"
 import { TextEntry } from "../TextEntryBlock/TextEntry"
 
@@ -20,9 +21,11 @@ export const BlockReader = ({
     case "text":
       return (
         <div className="flex flex-col px-3 py-3 justify-center min-w-[100%] bg-white  rounded-[20px] lg:rounded-[30px] lg-px[1.125rem]">
-          <TextBlock block={block} />
+          <TextBlock block={block} isEditable={true} />
         </div>
       )
+    case "pool":
+      return <PoolBlock block={block} isEditable={true} />
     case "image":
       return <ImageBlock block={block} isEditable={isEditable} />
     case "textentry":

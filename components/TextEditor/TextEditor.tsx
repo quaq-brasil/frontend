@@ -39,14 +39,16 @@ function TextEditor({ content, onChange }: TextEditorProps) {
   })
 
   return (
-    <div>
-      <div className="min-w-full flex justify-end px-6">
-        <button className="p-2">
-          <BracketsCurly size={20} weight="bold" />
-        </button>
+    <div className="flex relative min-w-[100%] justify-end content-center">
+      <div
+        className="z-10 absolute right-0 top-[-5px] content-center
+          rounded-full bg-white border border-slate-100 mr-[10px]"
+      >
+        <BracketsCurly className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
       </div>
-
-      <EditorContent className="" editor={editor} />
+      <div className="w-full">
+        <EditorContent className="" editor={editor} />
+      </div>
     </div>
   )
 }
