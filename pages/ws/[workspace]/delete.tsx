@@ -1,8 +1,7 @@
+import { useUserAuth } from "../../../contexts/userAuth"
 import WorkspaceDelete from "../../../layouts/main/WorkspaceDelete/WorkspaceDelete"
-import { useUser } from "../../../services/hooks/useUser/useUser"
 import { useDeleteWorkspace } from "../../../services/hooks/useWorkspace/useDeleteWorkspace"
 import { useWorkspace } from "../../../services/hooks/useWorkspace/useWorkspace"
-import { IUser } from "../../../types/User.type"
 import { IWorkspace } from "../../../types/Workspace.type"
 
 type WorkspaceDeletePageProps = {
@@ -14,9 +13,7 @@ export default function WorkspaceDeletePage({
   workspaceId,
   userId,
 }: WorkspaceDeletePageProps) {
-  const getUser = useUser({
-    id: "63d68863688c6d9d82a5f648",
-  })
+  const { user } = useUserAuth()
 
   const getWorkspace = useWorkspace({ id: "63d68863688c6d9d82a5f648" })
 
@@ -29,7 +26,7 @@ export default function WorkspaceDeletePage({
   return (
     <WorkspaceDelete
       initialWorkspaceData={getWorkspace?.data as IWorkspace}
-      initialUserData={getUser?.data as IUser}
+      initialUserData={user}
       handleDeleteWorkspace={handleDeleteWorkspace}
     />
   )

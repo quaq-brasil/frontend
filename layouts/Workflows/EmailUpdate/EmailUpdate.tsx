@@ -10,7 +10,7 @@ import { EmailUpdateContent } from "./EmailUpdateContent"
 
 type EmailUpdateProps = {
   handleChangeEmail: (data: IUpdateUser) => void
-  initialUserData?: IUser
+  initialUserData?: IUser | null
 }
 
 export function EmailUpdate({
@@ -19,12 +19,12 @@ export function EmailUpdate({
 }: EmailUpdateProps) {
   const text = useTranslation().t
 
-  const [userData, setUserData] = useState<IUpdateUser>()
+  const [userData, setUserData] = useState<IUser | null>(null)
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
   useEffect(() => {
-    setUserData(initialUserData)
+    setUserData(initialUserData as IUser | null)
   }, [initialUserData])
 
   function handleUpdateIsUpdating(stat: boolean) {

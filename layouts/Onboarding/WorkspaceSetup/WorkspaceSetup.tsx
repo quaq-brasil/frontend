@@ -3,16 +3,12 @@ import { useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+import { IUser } from "../../../types/User.type"
 import { WorkspaceSetupContent } from "./WorkspaceSetupContent"
-
-type IData = {
-  name: string
-  avatar_url: string
-}
 
 type WorkspaceSetupProps = {
   handleCreateWorkspace: (name: string, avatar_url: string) => void
-  data?: IData
+  data?: IUser | null
 }
 
 export default function WorkspaceSetup({

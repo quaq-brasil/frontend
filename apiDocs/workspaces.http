@@ -6,13 +6,13 @@ GET http://localhost:5000/api/v1/workspaces/63d91e6acf6a7076d3a019ee
 
 # create one
 
-POST http://localhost:5000/api/v1/workspaces
+POST https://bff.quaq.me/api/v1/workspaces
 Content-Type: application/json
 
 {
   "name": "felp's world",
   "avatar_url": "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1222&q=80",
-  "user_id": "63d91dfba01035ef4040fe55",
+  "user_id": "63d26f06ea1e68c873e97ab2",
   "services": [
     {
       "name": "My Service",

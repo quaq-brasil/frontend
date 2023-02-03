@@ -10,7 +10,7 @@ import { IUpdateUser } from "../../../types/User.type"
 type EmailUpdateContentProps = {
   handleUpdateRunUpdate: (stat: boolean) => void
   handleUpdateUserData: (data: IUpdateUser) => void
-  userData: IUpdateUser | undefined
+  userData: IUpdateUser | null
   handleChangeEmail: (data: IUpdateUser) => void
   runUpdate: boolean
   isUpdating: boolean

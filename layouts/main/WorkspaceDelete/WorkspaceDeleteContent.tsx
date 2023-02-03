@@ -6,7 +6,7 @@ import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { useLogin } from "../../../services/hooks/useUser/useLogin"
-import { IUpdateUser } from "../../../types/User.type"
+import { IUser } from "../../../types/User.type"
 
 type WorkspaceDeleteContentProps = {
   isUpdating: boolean
@@ -14,7 +14,7 @@ type WorkspaceDeleteContentProps = {
   handleUpdateIsUpdating: (stat: boolean) => void
   handleUpdateRunUpdate: (stat: boolean) => void
   handleDeleteWorkspace: () => void
-  userData: IUpdateUser | undefined
+  userData: IUser | null
 }
 
 export function WorkspaceDeleteContent({
