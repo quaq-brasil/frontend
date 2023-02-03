@@ -60,9 +60,14 @@ export const AutomationBlock = (props: AutomationBlockProps) => {
       ))}
       <div className="w-full pt-3">
         <Button
-          color="slate-900"
-          onClick={handleOpenBlocks}
-          text={text("automationblock:button")}
+          block={{
+            data: {
+              color: "bg-slate-900",
+              text: text("automationblock:button"),
+              onClick: () => handleOpenBlocks(),
+            },
+          }}
+          isEditable={false}
         />
       </div>
       <AutomationBlockBlocks isOpen={blocksOpen} setIsOpen={handleOpenBlocks} />
