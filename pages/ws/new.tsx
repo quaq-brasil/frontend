@@ -1,7 +1,6 @@
+import { useUserAuth } from "../../contexts/userAuth"
 import CreateWorkspace from "../../layouts/main/CreateWorkspace/CreateWorkspace"
-import { useUser } from "../../services/hooks/useUser/useUser"
 import { useCreateWorkspace } from "../../services/hooks/useWorkspace/useCreateWorkspace"
-import { IUser } from "../../types/User.type"
 import { IUpdateWorkspace } from "../../types/Workspace.type"
 
 type CreateWorkspacePageProps = {
@@ -13,9 +12,7 @@ export default function CreateWorkspacePage({
   workspaceId,
   userId,
 }: CreateWorkspacePageProps) {
-  const getUser = useUser({
-    id: "63d68764688c6d9d82a5f647",
-  })
+  const { user } = useUserAuth()
 
   const createWorkspace = useCreateWorkspace()
 
@@ -32,7 +29,7 @@ export default function CreateWorkspacePage({
 
   return (
     <CreateWorkspace
-      initialUserData={getUser?.data as IUser}
+      initialUserData={user}
       handleCreateWorkspace={handleCreateWorkspace}
     />
   )

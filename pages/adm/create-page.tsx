@@ -1,20 +1,16 @@
 import { useRouter } from "next/router"
+import { useUserAuth } from "../../contexts/userAuth"
 import { CreatePage } from "../../layouts/Onboarding/CreatePage/CreatePage"
 import { useCreatePage } from "../../services/hooks/usePage/useCreatePage"
-import { useUser } from "../../services/hooks/useUser/useUser"
 import { useWorkspace } from "../../services/hooks/useWorkspace/useWorkspace"
 import { IUpdatePage } from "../../types/Page.type"
 import { pageUrls } from "../../utils/pagesUrl"
 
 export default function CreatePagePage() {
-  const userResponse = useUser({
-    id: "63d26f06ea1e68c873e97ab2",
-  })
+  const { user } = useUserAuth()
 
   const workspaceResponse = useWorkspace({
-    id: userResponse?.data.workspace_id
-      ? userResponse?.data.workspace_id
-      : "63d68863688c6d9d82a5f648",
+    id: user?.workspace_id ? user?.workspace_id : "63d68863688c6d9d82a5f648",
   })
 
   const createPage = useCreatePage()
@@ -28,8 +24,8 @@ export default function CreatePagePage() {
           name: data.name || "",
           url: data.url || "",
           description: data.description || "",
-          workspace_id: userResponse?.data.workspace_id
-            ? userResponse?.data.workspace_id
+          workspace_id: user?.workspace_id
+            ? user?.workspace_id
             : "63b7543e7d02f98b8692255d",
           avatar_url: data.avatar_url || "",
           background_url: data.background_url || "",

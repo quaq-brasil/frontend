@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-import { IUpdateUser, IUser } from "../../../types/User.type"
+import { IUser } from "../../../types/User.type"
 import { IUpdateWorkspace, IWorkspace } from "../../../types/Workspace.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 import { WorkspaceDeleteContent } from "./WorkspaceDeleteContent"
@@ -12,7 +12,7 @@ import { WorkspaceDeleteContent } from "./WorkspaceDeleteContent"
 type WorkspaceDeleteProps = {
   initialWorkspaceData: IWorkspace | undefined
   handleDeleteWorkspace: () => void
-  initialUserData: IUser | undefined
+  initialUserData: IUser | null
 }
 
 export default function WorkspaceDelete({
@@ -23,7 +23,7 @@ export default function WorkspaceDelete({
   const text = useTranslation().t
 
   const [workspaceData, setWorkspaceData] = useState<IUpdateWorkspace>()
-  const [userData, setUserData] = useState<IUpdateUser>()
+  const [userData, setUserData] = useState<IUser | null>(null)
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 

@@ -9,7 +9,7 @@ import { pageUrls } from "../../../utils/pagesUrl"
 import { PasswordUpdateContent } from "./PasswordUpdateContent"
 
 type PasswordUpdateProps = {
-  initialUserData: IUser | undefined
+  initialUserData: IUser | null
   handleUpdateUser: (data: IUpdateUser) => void
 }
 

@@ -8,7 +8,7 @@ import { IUpdateWorkspace } from "../../../types/Workspace.type"
 import { CreateWorkspaceContent } from "./CreateWorkspaceContent"
 
 type CreateWorkspaceProps = {
-  initialUserData: IUser
+  initialUserData: IUser | null
   handleCreateWorkspace: (data: IUpdateWorkspace) => void
 }
 
@@ -18,7 +18,7 @@ export default function CreateWorkspace({
 }: CreateWorkspaceProps) {
   const text = useTranslation().t
 
-  const [userData, setUserData] = useState<IUser>()
+  const [userData, setUserData] = useState<IUser | null>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
   const [workspaceData, setWorkspaceData] = useState<IUpdateWorkspace>()
