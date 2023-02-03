@@ -51,9 +51,7 @@ export function TextConfig({
   function onAddBlock() {
     handleAddBlock({
       type: "text",
-      data: {
-        content,
-      },
+      data: content,
     })
   }
 

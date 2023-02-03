@@ -16,9 +16,14 @@ type CardTextInputProps = {
     onClick: () => void
   }
   dropdown?: {
-    options: string[]
+    options: DropdownOptions[]
     onChange: (value: string) => void
   }
+}
+
+type DropdownOptions = {
+  value: string
+  title: string
 }
 
 export function CardTextInput(props: CardTextInputProps) {
@@ -53,8 +58,8 @@ export function CardTextInput(props: CardTextInputProps) {
         lg:pl-[1.125rem] lg:mr-[2.25rem] hover:outline-none focus:outline-none"
         >
           {props.dropdown.options.map((option, index) => (
-            <option key={index} value={option}>
-              {option}
+            <option key={index} value={option.value}>
+              {option.title}
             </option>
           ))}
         </select>

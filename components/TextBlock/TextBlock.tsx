@@ -1,14 +1,18 @@
-import { ReactNode } from "react";
+import parse from "html-react-parser"
+import { IBlock } from "../../types/Block.types"
 
 type TextBlockProps = {
-  id: string;
-  content: ReactNode;
-};
+  block: ITextBlock
+}
 
-export const TextBlock = ({ id, content }: TextBlockProps) => {
+type ITextBlock = {
+  data: string
+} & IBlock
+
+export const TextBlock = ({ block }: TextBlockProps) => {
   return (
-    <>
-      <div className="prose">{content}</div>
-    </>
-  );
-};
+    <div className="prose prose-headings:m-0 prose-p:m-0 focus:outline-none">
+      {parse(block.data)}
+    </div>
+  )
+}
