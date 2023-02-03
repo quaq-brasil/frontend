@@ -10,7 +10,7 @@ import { Tag } from "../../../components/Tag/Tag"
 
 type CreationsConfigPagesProps = {
   isOpen: boolean
-  setIsOpen: () => void
+  onClose: () => void
   size?: "sm" | "md" | "full"
 }
 
@@ -23,7 +23,7 @@ export function CreationsConfigPages(props: CreationsConfigPagesProps) {
         key={1}
         variant="txt"
         text={text("creationsconfig:back")}
-        onClick={() => props.setIsOpen()}
+        onClick={() => props.onClose()}
       />,
     ]
   }

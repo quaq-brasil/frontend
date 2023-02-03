@@ -1,7 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, Check } from "phosphor-react"
 import { useEffect, useState } from "react"
-import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { Button } from "../../../components/Button/Button"
 
 import { Card } from "../../../components/Card/Card"
@@ -11,18 +10,13 @@ import { CardTextInput } from "../../../components/Card/CardContentVariants/Card
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 
-type ChartConfigProps = {
-  isOpen: boolean
-  setIsOpen: () => void
-  handleAddBlock: (block: BlockProps) => void
-}
-
-export function ChartConfig({
+export default function ChartConfig({
   handleAddBlock,
   isOpen,
-  setIsOpen,
-}: ChartConfigProps) {
+  onClose,
+}: BlocksConfigProps) {
   const text = useTranslation().t
 
   type IDatasets = {
@@ -78,7 +72,7 @@ export function ChartConfig({
     setSaveas(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
-    setIsOpen()
+    onClose()
   }
 
   function onAddBlock() {

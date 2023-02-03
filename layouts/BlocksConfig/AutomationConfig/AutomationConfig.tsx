@@ -9,12 +9,11 @@ import { CardTextInput } from "../../../components/Card/CardContentVariants/Card
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 
 type AutomationConfigProps = {
-  isOpen: boolean
-  setIsOpen: () => void
   size?: "sm" | "md" | "full"
-}
+} & BlocksConfigProps
 
 export function AutomationConfig(props: AutomationConfigProps) {
   const text = useTranslation().t
@@ -27,7 +26,7 @@ export function AutomationConfig(props: AutomationConfigProps) {
         key={1}
         variant="txt"
         text={text("automationconfig:back")}
-        onClick={() => props.setIsOpen()}
+        onClick={() => props.onClose()}
       />,
     ]
   }

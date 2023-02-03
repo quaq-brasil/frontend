@@ -1,7 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, X } from "phosphor-react"
 import { useEffect, useState } from "react"
-import { BlockProps } from "../../../components/BlockReader/BlockReader"
 
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
@@ -10,17 +9,19 @@ import { CardTextInput } from "../../../components/Card/CardContentVariants/Card
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+import { BlockProps } from "../../../types/Block.types"
+import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 type PoolConfigProps = {
   isOpen: boolean
-  setIsOpen: () => void
+  onClose: () => void
   handleAddBlock: (block: BlockProps) => void
 }
 
 export function PoolConfig({
   handleAddBlock,
   isOpen,
-  setIsOpen,
-}: PoolConfigProps) {
+  onClose,
+}: BlocksConfigProps) {
   const text = useTranslation().t
 
   type options = {
@@ -71,7 +72,7 @@ export function PoolConfig({
     setSaveas(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
-    setIsOpen()
+    onClose()
   }
 
   function onAddBlock() {

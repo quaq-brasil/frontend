@@ -6,12 +6,11 @@ import { CardTextInput } from "../../../components/Card/CardContentVariants/Card
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 
 type EmbedConfigProps = {
-  isOpen: boolean
-  setIsOpen: () => void
   size?: "sm" | "md" | "full"
-}
+} & BlocksConfigProps
 
 export function EmbedConfig(props: EmbedConfigProps) {
   const text = useTranslation().t
@@ -22,7 +21,7 @@ export function EmbedConfig(props: EmbedConfigProps) {
         key={1}
         variant="txt"
         text={text("embedconfig:tab1")}
-        onClick={() => props.setIsOpen()}
+        onClick={() => props.onClose()}
       />,
     ]
   }

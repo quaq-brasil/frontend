@@ -1,7 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
-import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
@@ -9,18 +8,15 @@ import { CardTextInput } from "../../../components/Card/CardContentVariants/Card
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-
-type TextEntryConfigProps = {
-  isOpen: boolean
-  setIsOpen: () => void
-  handleAddBlock: (block: BlockProps) => void
-}
+import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 
 export function TextEntryConfig({
   handleAddBlock,
   isOpen,
-  setIsOpen,
-}: TextEntryConfigProps) {
+  onClose,
+  handleOpenVariablePanel,
+  setFunctionHandleAddVariable,
+}: BlocksConfigProps) {
   const text = useTranslation().t
 
   type ITextEntry = {
@@ -28,7 +24,10 @@ export function TextEntryConfig({
     type?: string
   }
 
-  const [content, setContent] = useState<ITextEntry>({ type: "email" })
+  const [content, setContent] = useState<ITextEntry>({
+    type: "email",
+    placeholder: "",
+  })
   const [saveas, setSaveas] = useState<string>()
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -51,7 +50,7 @@ export function TextEntryConfig({
     handleUpdateConent({})
     setSaveas(undefined)
     handleUpdateRunUpdate(false)
-    setIsOpen()
+    onClose()
     setContent({ type: "email" })
   }
 
@@ -89,6 +88,14 @@ export function TextEntryConfig({
     ]
   }
 
+  const handleOpenVariablePanelForPlaceholder = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateConent({ placeholder: variable })
+      })
+    handleOpenVariablePanel()
+  }
+
   return (
     <>
       <Dialog
@@ -102,12 +109,13 @@ export function TextEntryConfig({
             <CardTextInput
               input={{
                 label: text("textentryconfig:placeholderlabel"),
+                inputValue: content.placeholder,
                 onChange: (placeholder) =>
                   handleUpdateConent({ placeholder: placeholder }),
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => {},
+                onClick: handleOpenVariablePanelForPlaceholder,
               }}
             />
           </Card>
@@ -150,7 +158,7 @@ export function TextEntryConfig({
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => {},
+                onClick: handleOpenVariablePanel,
               }}
             />
           </Card>

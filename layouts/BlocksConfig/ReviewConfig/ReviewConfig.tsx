@@ -1,7 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
-import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { Button } from "../../../components/Button/Button"
 
 import { Card } from "../../../components/Card/Card"
@@ -10,18 +9,15 @@ import { CardTextInput } from "../../../components/Card/CardContentVariants/Card
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-
-type ReviewConfigProps = {
-  isOpen: boolean
-  setIsOpen: () => void
-  handleAddBlock: (block: BlockProps) => void
-}
+import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 
 export function ReviewConfig({
   handleAddBlock,
   isOpen,
-  setIsOpen,
-}: ReviewConfigProps) {
+  onClose,
+  handleOpenVariablePanel,
+  setFunctionHandleAddVariable,
+}: BlocksConfigProps) {
   const text = useTranslation().t
 
   type IReview = {
@@ -58,7 +54,7 @@ export function ReviewConfig({
     setSaveas(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
-    setIsOpen()
+    onClose()
   }
 
   function onAddBlock() {
@@ -106,6 +102,14 @@ export function ReviewConfig({
     }
   }
 
+  const handleOpenVariablePanelForDescription = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateConent({ description: variable })
+      })
+    handleOpenVariablePanel()
+  }
+
   return (
     <>
       <Dialog
@@ -119,12 +123,13 @@ export function ReviewConfig({
             <CardTextInput
               input={{
                 label: text("reviewconfig:label1"),
+                inputValue: content?.description,
                 onChange: (description) =>
                   handleUpdateConent({ description: description }),
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: handleOpenVariablePanelForDescription,
               }}
             />
           </Card>

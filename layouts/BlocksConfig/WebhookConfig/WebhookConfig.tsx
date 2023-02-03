@@ -1,7 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, Check } from "phosphor-react"
 import { useEffect, useState } from "react"
-import { BlockProps } from "../../../components/BlockReader/BlockReader"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
@@ -12,18 +11,13 @@ import { CodeEditor } from "../../../components/CodeEditor/CodeEditor"
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-
-type WebhookConfigProps = {
-  isOpen: boolean
-  setIsOpen: () => void
-  handleAddBlock: (block: BlockProps) => void
-}
+import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 
 export function WebhookConfig({
   isOpen,
-  setIsOpen,
+  onClose,
   handleAddBlock,
-}: WebhookConfigProps) {
+}: BlocksConfigProps) {
   const text = useTranslation().t
 
   type IWebhook = {
@@ -85,7 +79,7 @@ export function WebhookConfig({
     setSaveas(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
-    setIsOpen()
+    onClose()
   }
 
   function onAddBlock() {

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
-import {
-  BlockProps,
-  BlockReader,
-} from "../../../components/BlockReader/BlockReader"
+import { BlockReader } from "../../../components/BlockReader/BlockReader"
 import { BlockSelector } from "../../../components/BlockSelector/BlockSelector"
+import { BlockProps } from "../../../types/Block.types"
+import { VariablesPanelDialog } from "../../BlocksConfig/VariablesPanel/VariablesPanelDialog"
 import { RenderBlockConfig } from "./RenderBlockConfig"
 
 type CreateTemplateContentProps = {
@@ -21,6 +20,20 @@ export function CreateTemplateContent({
 }: CreateTemplateContentProps) {
   const [blockSelected, setBlockSelected] = useState<string | undefined>()
   const [blocks, setBlocks] = useState<BlockProps[]>([])
+  const [isVariablesPanelOpen, setIsVariablesPanelOpen] = useState(false)
+  const [functionHandleAddVariable, setFunctionHandleAddVariable] = useState(
+    () => (variable: any) => {
+      console.log(variable)
+    }
+  )
+
+  const handleOpenVariablePanel = () => {
+    setIsVariablesPanelOpen(true)
+  }
+
+  const handleCloseVariablePanel = () => {
+    setIsVariablesPanelOpen(false)
+  }
 
   useEffect(() => {
     console.log("blocks", blocks)
@@ -63,6 +76,14 @@ export function CreateTemplateContent({
             isOpen={isOpen}
             onClose={handleBlockConfigClosing}
             handleAddBlock={handleAddBlock}
+            handleOpenVariablePanel={handleOpenVariablePanel}
+            setFunctionHandleAddVariable={setFunctionHandleAddVariable}
+          />
+          <VariablesPanelDialog
+            handleInsertVariable={functionHandleAddVariable}
+            isOpen={isVariablesPanelOpen}
+            onClose={handleCloseVariablePanel}
+            blocks={blocks}
           />
           <span className="w-full h-[4rem]"></span>
         </div>
