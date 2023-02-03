@@ -5,7 +5,7 @@ import { PoolBlock } from "../PoolBlock/PoolBlock"
 import { ReviewBlock } from "../ReviewBlock/ReviewBlock"
 import { TechBlock } from "../TechBlock/TechBlock"
 import { TextBlock } from "../TextBlock/TextBlock"
-import { TextEntry } from "../TextEntryBlock/TextEntry"
+import { TextEntryBlock } from "../TextEntryBlock/TextEntryBlock"
 
 export type BlockProps = {
   data: any
@@ -34,7 +34,7 @@ export const BlockReader = ({
     case "review":
       return <ReviewBlock block={block} isEditable={true} />
     case "textentry":
-      return <TextEntry block={block} />
+      return <TextEntryBlock block={block} isEditable={true} />
     case "button":
       return <Button block={block} isEditable={true} />
     case "webhook":

@@ -1,6 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
 import { useState } from "react"
-import { IBlock } from "../../types/Block.types"
 import {
   validateEmail,
   validateNumber,
@@ -8,17 +7,11 @@ import {
 } from "../../utils/validations"
 
 type TextEntryProps = {
-  block: ITextEntry
+  type: string
+  placeholder?: string
 }
 
-type ITextEntry = {
-  data: {
-    type: "text" | "long-text" | "number" | "email" | "password" | "url"
-    placeholder?: string
-  }
-} & IBlock
-
-export function TextEntry({ block }: TextEntryProps) {
+export function TextEntry({ placeholder, type }: TextEntryProps) {
   const [value, setValue] = useState<string | number | undefined>(undefined)
   const [valid, setValid] = useState(true)
   const [error, setError] = useState("")
@@ -27,7 +20,7 @@ export function TextEntry({ block }: TextEntryProps) {
 
   const handleChange = (e: any) => {
     setValue(e.target.value)
-    switch (block.data.type) {
+    switch (type) {
       case "email":
         const emailValid = validateEmail(e.target.value)
         if (!emailValid) {
@@ -64,14 +57,14 @@ export function TextEntry({ block }: TextEntryProps) {
     }
   }
 
-  switch (block.data.type) {
+  switch (type) {
     case "text":
       return (
         <div>
           <input
             type="text"
             className={`w-full bg-slate-50 p-3 placeholder:text-slate-500 focus:outline-none text-[1rem] md:text-[1.125rem]`}
-            placeholder={text("textentryblock:placeholder")}
+            placeholder={placeholder || text("textentryblock:placeholder")}
             value={value}
             onChange={handleChange}
           />
@@ -87,7 +80,7 @@ export function TextEntry({ block }: TextEntryProps) {
         <div>
           <textarea
             className={`w-full bg-slate-50 p-3 placeholder:text-slate-500 focus:outline-none text-[1rem] md:text-[1.125rem]`}
-            placeholder={text("textentryblock:placeholder")}
+            placeholder={placeholder || text("textentryblock:placeholder")}
             value={value}
             onChange={handleChange}
           />
@@ -104,7 +97,7 @@ export function TextEntry({ block }: TextEntryProps) {
           <input
             type="number"
             className="w-full bg-slate-50 p-3 placeholder:text-slate-500 focus:outline-none text-[1rem] md:text-[1.125rem]"
-            placeholder={text("textentryblock:placeholder")}
+            placeholder={placeholder || text("textentryblock:placeholder")}
             value={value}
             onChange={handleChange}
           />
@@ -121,7 +114,7 @@ export function TextEntry({ block }: TextEntryProps) {
           <input
             type="email"
             className="w-full bg-slate-50 p-3 placeholder:text-slate-500 focus:outline-none text-[1rem] md:text-[1.125rem]"
-            placeholder={text("textentryblock:placeholder")}
+            placeholder={placeholder || text("textentryblock:placeholder")}
             value={value}
             onChange={handleChange}
           />
@@ -138,7 +131,7 @@ export function TextEntry({ block }: TextEntryProps) {
           <input
             type="password"
             className="w-full bg-slate-50 p-3 placeholder:text-slate-500 focus:outline-none text-[1rem] md:text-[1.125rem]"
-            placeholder={text("textentryblock:placeholder")}
+            placeholder={placeholder || text("textentryblock:placeholder")}
             value={value}
             onChange={handleChange}
           />
@@ -155,7 +148,7 @@ export function TextEntry({ block }: TextEntryProps) {
           <input
             type="url"
             className={`w-full bg-slate-50 p-3 placeholder:text-slate-500 focus:outline-none text-[1rem] md:text-[1.125rem]`}
-            placeholder={text("textentryblock:placeholder")}
+            placeholder={placeholder || text("textentryblock:placeholder")}
             value={value}
             onChange={handleChange}
           />
