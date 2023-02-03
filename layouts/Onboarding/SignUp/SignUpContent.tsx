@@ -1,24 +1,73 @@
+import { zodResolver } from "@hookform/resolvers/zod"
 import useTranslation from "next-translate/useTranslation"
-import dynamic from "next/dynamic"
-import { useState } from "react"
-import { Button } from "../../../components/Button/Button"
+import { useForm } from "react-hook-form"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import * as zod from "zod"
 import { Card } from "../../../components/Card/Card"
-import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
+import { IUpdateUser } from "../../../types/User.type"
 
-const QuickIn = dynamic(() => import("../../../components/QuickIn/QuickIn"), {
-  ssr: false,
-})
+type SignupContentProps = {
+  handleUpdateUserData: (data: IUpdateUser) => void
+  handleUpdateIsUpdating: (stat: boolean) => void
+  handleUpdateRunUpdate: (stat: boolean) => void
+  isUpdating: boolean
+}
 
-export function SignUpContent() {
+export function SignupContent({
+  handleUpdateIsUpdating,
+  handleUpdateRunUpdate,
+  handleUpdateUserData,
+  isUpdating,
+}: SignupContentProps) {
   const text = useTranslation().t
 
-  const [finished, setFinished] = useState(false)
+  const newUserValidationSchema = zod
+    .object({
+      name: zod
+        .string()
+        .min(2, text("signup:namemin"))
+        .max(12, text("signup:namemax")),
+      email: zod.string().email(text("signup:emailerror")),
+      password: zod
+        .string()
+        .min(8, text("signup:passmin"))
+        .max(32, text("signup:passmax")),
+      confirmation: zod
+        .string()
+        .min(8, text("signup:passmin"))
+        .max(32, text("signup:passmax")),
+    })
+    .superRefine(({ password, confirmation }, ctx) => {
+      if (password !== confirmation) {
+        ctx.addIssue({
+          code: zod.ZodIssueCode.custom,
+          message: text("signup:passdontmatch"),
+        })
+      }
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/
+      if (!passwordRegex.test(password)) {
+        ctx.addIssue({
+          code: zod.ZodIssueCode.custom,
+          message: text("signup:passstrength"),
+        })
+      }
+    })
 
-  function handleFinishSignUp() {
-    setFinished(true)
+  type NewUserMainData = zod.infer<typeof newUserValidationSchema>
+
+  const { register, handleSubmit, formState } = useForm<NewUserMainData>({
+    resolver: zodResolver(newUserValidationSchema),
+  })
+
+  const notify = () => toast("test")
+
+  function handleCreateNewUser() {
+    notify()
+    console.log(formState.errors.root)
   }
 
   return (
@@ -28,64 +77,90 @@ export function SignUpContent() {
       bg-slate-100 rounded-t-[25px] overflow-y-scroll scrollbar-hide pt-2 px-2
       md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:p-[2rem]"
       >
-        <div className="flex flex-col gap-2 md:gap-4 items-center">
+        <form
+          onSubmit={handleSubmit(handleCreateNewUser)}
+          className="flex flex-col gap-2 md:gap-4 items-center"
+          action=""
+        >
           <Card>
-            <CardText label={text("signup:firstmessage")} />
-          </Card>
-          {/* <QuickIn currentUrl={(e) => console.log(e)} /> */}
-          <Card>
-            <CardText label={text("signup:secondmessage")} />
-          </Card>
-          <Card>
-            <CardText label={text("signup:getemail")} />
-            <CardTextInput
-              input={{
-                label: text("signup:inputemail"),
-                onChange: (e) => console.log(e),
-                type: "email",
-              }}
-            />
+            <CardText label={text("signup:intro")} />
           </Card>
           <Card>
-            <CardText label={text("signup:getpassword")} />
-            <CardTextInput
-              input={{
-                label: text("signup:inputpassword"),
-                onChange: (e) => console.log(e),
-                type: "password",
-              }}
-            />
+            <CardText label={text("signup:name")} />
+            <div className="w-full flex flex-row justify-between items-center bg-slate-50 my-2">
+              <input
+                className="bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem] placeholder:text-slate-300
+                   lg:text-[1.1rem] hover:outline-none focus:outline-none px-3 lg:px-[1.125rem]"
+                type="text"
+                placeholder={text("signup:namelabel")}
+                {...register("name")}
+                maxLength={12}
+                minLength={2}
+              />
+            </div>
           </Card>
           <Card>
-            <CardText label={text("signup:getconfirmation")} />
-            <CardTextInput
-              input={{
-                label: text("signup:inputconfirmation"),
-                onChange: (e) => console.log(e),
-                type: "password",
-              }}
-            />
+            <CardText label={text("signup:picture")} />
+            <div className="w-full flex flex-row justify-between items-center bg-slate-50 my-2 py-3 px-3 lg:px-[1.125rem]">
+              <ImageSelector onImageChange={() => {}} />
+            </div>
           </Card>
           <Card>
-            <CardText label={text("signup:uploadimg")} />
-            <CardImageInput
-              imageSelector={
-                <ImageSelector onImageChange={(e) => console.log(e)} />
-              }
-            />
+            <CardText label={text("signup:email")} />
+            <div className="w-full flex flex-row justify-between items-center bg-slate-50 my-2">
+              <input
+                className="bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem] placeholder:text-slate-300
+                   lg:text-[1.1rem] hover:outline-none focus:outline-none px-3 lg:px-[1.125rem]"
+                type="email"
+                placeholder={text("signup:emaillabel")}
+                {...register("email")}
+              />
+            </div>
           </Card>
-          <Button
-            color="slate-900"
-            onClick={handleFinishSignUp}
-            text={text("signup:confirm")}
-          />
-          {finished && (
-            <Card>
-              <CardText label={text("signup:finished")} />
-            </Card>
-          )}
+          <Card>
+            <CardText label={text("signup:password")} />
+            <div className="w-full flex flex-row justify-between items-center bg-slate-50 my-2">
+              <input
+                className="bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem] placeholder:text-slate-300
+                   lg:text-[1.1rem] hover:outline-none focus:outline-none px-3 lg:px-[1.125rem]"
+                type="password"
+                placeholder={text("signup:passwordlabel")}
+                {...register("password")}
+                maxLength={32}
+                minLength={8}
+              />
+            </div>
+          </Card>
+          <Card>
+            <CardText label={text("signup:confirmation")} />
+            <div className="w-full flex flex-row justify-between items-center bg-slate-50 my-2">
+              <input
+                className="bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem] placeholder:text-slate-300
+                   lg:text-[1.1rem] hover:outline-none focus:outline-none px-3 lg:px-[1.125rem]"
+                type="password"
+                placeholder={text("signup:confirmation")}
+                {...register("confirmation")}
+                maxLength={32}
+                minLength={8}
+              />
+            </div>
+          </Card>
+          <button
+            className="flex justify-between items-center font-semibold
+            p-[0.75rem] md:p-[1rem] lg:p-[1.5rem] min-w-[100%]
+            rounded-[20px] lg:rounded-[30px] bg-black text-white"
+            type="submit"
+            onClick={handleCreateNewUser}
+          >
+            <p className="lg:text-[1.1rem] text-center w-full">
+              {text("signup:confirm")}
+            </p>
+          </button>
           <span className="w-full h-[4rem]"></span>
-        </div>
+          <div className="absolute z-30">
+            <ToastContainer />
+          </div>
+        </form>
       </div>
     </div>
   )
