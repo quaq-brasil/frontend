@@ -110,6 +110,14 @@ export function ReviewConfig({
     handleOpenVariablePanel()
   }
 
+  const handleOpenVariablePanelForSaveAs = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateSaveas(variable)
+      })
+    handleOpenVariablePanel()
+  }
+
   return (
     <>
       <Dialog
@@ -139,11 +147,12 @@ export function ReviewConfig({
             <CardTextInput
               input={{
                 label: text("reviewconfig:label2"),
+                inputValue: saveas,
                 onChange: (value) => handleUpdateSaveas(value),
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
           </Card>
