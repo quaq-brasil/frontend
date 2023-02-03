@@ -41,9 +41,14 @@ export function FirsWorkspaceContent() {
             />
           </Card>
           <Button
-            color="slate-900"
-            onClick={handleFinishSignUp}
-            text={text("wssetup:confirm")}
+            block={{
+              data: {
+                color: "bg-black",
+                text: text("wssetup:confirm"),
+                onClick: () => handleFinishSignUp(),
+              },
+            }}
+            isEditable={false}
           />
           <span className="w-full h-[4rem]"></span>
         </div>

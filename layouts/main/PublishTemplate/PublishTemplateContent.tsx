@@ -207,9 +207,14 @@ export function PublishTemplateContent({
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="black"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("publish:confirm")}
+                block={{
+                  data: {
+                    color: "bg-black",
+                    text: text("publish:confirm"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

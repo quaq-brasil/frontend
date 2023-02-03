@@ -65,7 +65,7 @@ export function ImageConfig({
   function onAddBlock() {
     handleAddBlock({
       type: "image",
-      savaAs: saveas,
+      saveAs: saveas,
       data: { content },
     })
     handleClosing()
@@ -142,17 +142,27 @@ export function ImageConfig({
           </Card>
           <div className="w-full h-fit hidden xl:block">
             <Button
-              color="white"
-              onClick={() => handleClosing()}
-              text={text("imageconfig:cancel")}
+              block={{
+                data: {
+                  color: "bg-white",
+                  text: text("imageconfig:cancel"),
+                  onClick: () => handleClosing(),
+                },
+              }}
+              isEditable={false}
             />
           </div>
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="white"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("imageconfig:addblock")}
+                block={{
+                  data: {
+                    color: "bg-white",
+                    text: text("imageconfig:addblock"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

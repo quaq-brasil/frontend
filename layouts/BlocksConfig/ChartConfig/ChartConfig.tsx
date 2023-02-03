@@ -83,7 +83,7 @@ export function ChartConfig({
   function onAddBlock() {
     handleAddBlock({
       type: "chart",
-      savaAs: saveas,
+      saveAs: saveas,
       data: { content },
     })
     handleClosing()
@@ -207,17 +207,27 @@ export function ChartConfig({
 
           <div className="w-full h-fit hidden xl:block">
             <Button
-              color="white"
-              onClick={() => handleClosing()}
-              text={text("chartconfig:cancel")}
+              block={{
+                data: {
+                  color: "bg-white",
+                  text: text("chartconfig:cancel"),
+                  onClick: () => handleClosing(),
+                },
+              }}
+              isEditable={false}
             />
           </div>
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="white"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("chartconfig:addblock")}
+                block={{
+                  data: {
+                    color: "bg-white",
+                    text: text("chartconfig:addblock"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

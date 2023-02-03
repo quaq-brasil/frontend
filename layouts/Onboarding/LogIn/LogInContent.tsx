@@ -58,9 +58,14 @@ export function LoginContent({
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="slate-900"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("login:confirm")}
+                block={{
+                  data: {
+                    color: "bg-black",
+                    text: text("login:confirm"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

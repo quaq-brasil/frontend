@@ -67,9 +67,14 @@ export function WorkspaceSetupContent({
             />
           </Card>
           <Button
-            color="slate-900"
-            onClick={onCreateWorkspace}
-            text={text("wssetup:confirm")}
+            block={{
+              data: {
+                color: "bg-black",
+                text: text("wssetup:confirm"),
+                onClick: () => onCreateWorkspace(),
+              },
+            }}
+            isEditable={false}
           />
           <span className="w-full h-[4rem]"></span>
         </div>

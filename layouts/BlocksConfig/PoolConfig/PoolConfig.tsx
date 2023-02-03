@@ -264,18 +264,28 @@ export function PoolConfig({
             <>
               <div className="w-full h-fit hidden xl:block">
                 <Button
-                  color="white"
-                  text={text("textconfig:addblock")}
-                  onClick={() => handleUpdateRunUpdate(true)}
+                  block={{
+                    data: {
+                      color: "bg-white",
+                      text: text("textconfig:addblock"),
+                      onClick: () => handleUpdateRunUpdate(true),
+                    },
+                  }}
+                  isEditable={false}
                 />
               </div>
             </>
           )}
           <div className="w-full h-fit hidden xl:block">
             <Button
-              color="white"
-              text={text("textconfig:cancel")}
-              onClick={handleClosing}
+              block={{
+                data: {
+                  color: "bg-white",
+                  text: text("textconfig:cancel"),
+                  onClick: () => handleClosing(),
+                },
+              }}
+              isEditable={false}
             />
           </div>
         </div>

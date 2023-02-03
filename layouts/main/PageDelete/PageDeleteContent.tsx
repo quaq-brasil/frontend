@@ -93,9 +93,14 @@ export function PageDeleteContent({
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="black"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("pagedelete:confirm")}
+                block={{
+                  data: {
+                    color: "bg-black",
+                    text: text("pagedelete:confirm"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

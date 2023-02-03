@@ -79,9 +79,14 @@ export function CentralTrackersContent({
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="black"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("centraltrackers:confirm")}
+                block={{
+                  data: {
+                    color: "bg-black",
+                    text: text("centraltrackers:confirm"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

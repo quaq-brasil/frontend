@@ -91,9 +91,14 @@ export function EmailUpdateContent({
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="slate-900"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("emailupdate:confirm")}
+                block={{
+                  data: {
+                    color: "bg-black",
+                    text: text("emailupdate:confirm"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

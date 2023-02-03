@@ -86,7 +86,7 @@ export function WebhookConfig({
   function onAddBlock() {
     handleAddBlock({
       type: "webhook",
-      savaAs: saveas,
+      saveAs: saveas,
       data: { content },
     })
     handleClosing()
@@ -262,17 +262,27 @@ export function WebhookConfig({
 
           <div className="w-full h-fit hidden xl:block">
             <Button
-              color="white"
-              onClick={() => handleClosing()}
-              text={text("webhookconfig:cancel")}
+              block={{
+                data: {
+                  color: "bg-white",
+                  text: text("webhookconfig:cancel"),
+                  onClick: () => handleClosing(),
+                },
+              }}
+              isEditable={false}
             />
           </div>
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="white"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("webhookconfig:addblock")}
+                block={{
+                  data: {
+                    color: "bg-white",
+                    text: text("webhookconfig:addblock"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

@@ -71,13 +71,17 @@ export function TemplateAccessControlContent({
           </Card>
           <div className="hidden w-full h-fit xl:block">
             <Button
-              color="black"
-              onClick={() =>
-                router.push(
-                  pageUrls.pageSettings({ pageSlug: pageData?.url || "" })
-                )
-              }
-              text={text("accesscontrol:confirm")}
+              block={{
+                data: {
+                  color: "bg-black",
+                  text: text("accesscontrol:confirm"),
+                  onClick: () =>
+                    router.push(
+                      pageUrls.pageSettings({ pageSlug: pageData?.url || "" })
+                    ),
+                },
+              }}
+              isEditable={false}
             />
           </div>
           <span className="w-full h-[4rem]"></span>

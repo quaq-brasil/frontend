@@ -98,9 +98,14 @@ export function PasswordUpdateContent({
           {isUpdating && passwordMatch && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="slate-900"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("pwupdate:confirm")}
+                block={{
+                  data: {
+                    color: "bg-black",
+                    text: text("pwupdate:confirm"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

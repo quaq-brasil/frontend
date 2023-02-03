@@ -65,9 +65,9 @@ export function ButtonConfig({
 
   function onAddBlock() {
     handleAddBlock({
-      type: "review",
-      savaAs: saveas,
-      data: { content },
+      type: "button",
+      saveAs: saveas,
+      data: content,
     })
     handleClosing()
   }
@@ -115,7 +115,7 @@ export function ButtonConfig({
         title={text("buttonconfig:toptitle")}
         onClose={() => {}}
       >
-        <div className="flex flex-col items-center gap-3 lg:gap-6">
+        <div className="flex flex-col items-center gap-3">
           <Card>
             <CardText label={text("buttonconfig:text")} />
             <CardTextInput
@@ -130,7 +130,7 @@ export function ButtonConfig({
             />
             <CardText label={text("buttonconfig:color")} />
             <CardColorSelector
-              onColorSelection={(color) => handleUpdateConent({ color: color })}
+              onColorSelection={(color) => console.log(color)}
             />
           </Card>
           <Card>
@@ -148,17 +148,27 @@ export function ButtonConfig({
           </Card>
           <div className="w-full h-fit hidden xl:block">
             <Button
-              color="white"
-              onClick={() => handleClosing()}
-              text={text("buttonconfig:cancel")}
+              block={{
+                data: {
+                  color: "bg-white",
+                  text: text("buttonconfig:cancel"),
+                  onClick: handleClosing,
+                },
+              }}
+              isEditable={false}
             />
           </div>
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="white"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("buttonconfig:addblock")}
+                block={{
+                  data: {
+                    color: "bg-white",
+                    text: text("buttonconfig:addblock"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}

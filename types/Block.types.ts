@@ -1,5 +1,5 @@
 export type IBlock = {
   id?: string
-  type: string
+  type?: string
   saveAs?: string
 }

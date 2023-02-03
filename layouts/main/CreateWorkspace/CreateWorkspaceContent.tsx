@@ -59,9 +59,14 @@ export function CreateWorkspaceContent({
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
-                color="slate-900"
-                onClick={() => handleUpdateRunUpdate(true)}
-                text={text("createwspace:confirm")}
+                block={{
+                  data: {
+                    color: "bg-slate-900",
+                    text: text("createwspace:confirm"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
               />
             </div>
           )}
