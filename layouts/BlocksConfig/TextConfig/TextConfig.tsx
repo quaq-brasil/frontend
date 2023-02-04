@@ -12,6 +12,8 @@ export function TextConfig({
   handleAddBlock,
   isOpen,
   onClose,
+  handleOpenVariablePanel,
+  setFunctionHandleAddVariable,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -83,6 +85,14 @@ export function TextConfig({
     }
   }
 
+  const handleOpenVariablePanelForText = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent(`${content} ${variable}`)
+      })
+    handleOpenVariablePanel()
+  }
+
   return (
     <>
       <Dialog
@@ -95,7 +105,11 @@ export function TextConfig({
             className="flex flex-col justify-center gap-[0.375rem] h-fit py-[16px]
     bg-white min-w-[100%] rounded-[20px] lg:rounded-[30px] lg:gap-[0.75rem]"
           >
-            <TextEditor content={content} onChange={handleUpdateContent} />
+            <TextEditor
+              content={content}
+              onChange={handleUpdateContent}
+              handleOpenVariablePanelForText={handleOpenVariablePanelForText}
+            />
             <CardLine />
           </div>
           {isUpdating && (

@@ -23,7 +23,7 @@ export const TextBlock = ({ block, isEditable }: TextBlockProps) => {
         </div>
       )}
       <div
-        className="min-w-[100%] bg-white px-1 lg:px-[0.75rem]  
+        className="min-w-[100%] bg-white px-1 lg:px-[0.5rem]  
         rounded-[20px] lg:rounded-[30px] text-black lg:text-[1.1rem]"
       >
         {parse(block.data)}

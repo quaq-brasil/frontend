@@ -14,5 +14,17 @@
   "labelslabel": "digite aqui",
   "saveas": "salvar como",
   "saveaslabel": "digite aqui",
-  "addblock": "adicionar bloco"
+  "addblock": "adicionar bloco",
+  "dataset": "conjunto de dados",
+  "label": "legenda",
+  "labellabel": "digite aqui",
+  "data": "dados",
+  "datalabel": "digite aqui",
+  "bgcolor": "cor de fundo",
+  "bgcolorlabel": "rgba(00, 00, 00, 0.0)",
+  "bordercolor": "cor da borda",
+  "bordercolorlabel": "rgba(00, 00, 00, 0.0)",
+  "borderwidth": "largura da borda",
+  "borderwidthlabel": "digite um número",
+  "newdataset": "novo conjunto de dados"
 }

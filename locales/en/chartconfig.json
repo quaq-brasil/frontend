@@ -14,5 +14,17 @@
   "labelslabel": "type it here",
   "saveas": "save as",
   "saveaslabel": "type it here",
-  "addblock": "add block"
+  "addblock": "add block",
+  "dataset": "data set",
+  "label": "label",
+  "labellabel": "type it here",
+  "data": "data",
+  "datalabel": "type it here",
+  "bgcolor": "background color",
+  "bgcolorlabel": "rgba(00, 00, 00, 0.0)",
+  "bordercolor": "border color",
+  "bordercolorlabel": "rgba(00, 00, 00, 0.0)",
+  "borderwidth": "border width",
+  "borderwidthlabel": "type a number",
+  "newdataset": "new data set"
 }

@@ -1,5 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
-import { BracketsCurly, Check } from "phosphor-react"
+import { BracketsCurly, Check, X } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { Button } from "../../../components/Button/Button"
 
@@ -16,22 +16,24 @@ export default function ChartConfig({
   handleAddBlock,
   isOpen,
   onClose,
+  handleOpenVariablePanel,
+  setFunctionHandleAddVariable,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
   type IDatasets = {
-    label: string
-    data: any[]
-    backgroundColor: string
+    label?: string
+    data?: string
+    backgroundColor?: string
     borderColor?: string
-    borderWidth?: number
+    borderWidth?: string
   }
 
   type IChart = {
     chartType?: string
     data?: {
       datasets?: IDatasets[]
-      labels?: string[]
+      labels?: string
     }
     title?: string
   }
@@ -40,8 +42,17 @@ export default function ChartConfig({
   const [saveas, setSaveas] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+  const [datasets, setDatasets] = useState<IDatasets[]>([
+    {
+      backgroundColor: "",
+      borderColor: "",
+      borderWidth: "",
+      data: "",
+      label: "",
+    },
+  ])
 
-  function handleUpdateConent(newData: IChart) {
+  function handleUpdateContent(newData: IChart) {
     setContent({
       ...content,
       chartType: newData.chartType || content?.chartType,
@@ -52,6 +63,55 @@ export default function ChartConfig({
       title: newData.title || content?.title,
     })
     handleUpdateIsUpdating(true)
+  }
+
+  type IUpdateDatasets = {
+    id?: number
+    type: string
+    newData?: IDatasets
+  }
+
+  function handleUpdateDatasets({ id, type, newData }: IUpdateDatasets) {
+    switch (type) {
+      case "add":
+        setDatasets([
+          ...datasets,
+          {
+            backgroundColor: "",
+            data: "",
+            label: "",
+            borderColor: "",
+            borderWidth: "",
+          },
+        ])
+        handleUpdateContent({ data: { datasets: datasets } })
+        break
+      case "update":
+        if (newData) {
+          const updateDatasets = [...(datasets as IDatasets[])]
+          updateDatasets[id as number] = {
+            backgroundColor:
+              newData.backgroundColor ||
+              updateDatasets[id as number].backgroundColor,
+            data: newData.data || updateDatasets[id as number].data,
+            label: newData.label || updateDatasets[id as number].label,
+            borderColor:
+              newData.borderColor || updateDatasets[id as number].borderColor,
+            borderWidth:
+              newData.borderWidth || updateDatasets[id as number].borderWidth,
+          }
+          setDatasets([...updateDatasets])
+          handleUpdateContent({ data: { datasets: updateDatasets } })
+        }
+        break
+      case "delete":
+        const keptDatasets = [...(datasets as IDatasets[])]
+        keptDatasets.splice(id as number, 1)
+        if (keptDatasets) {
+          setDatasets([...keptDatasets])
+          handleUpdateContent({ data: { datasets: keptDatasets } })
+        }
+    }
   }
 
   function handleUpdateSaveas(value: string) {
@@ -68,8 +128,17 @@ export default function ChartConfig({
   }
 
   function handleClosing() {
-    handleUpdateConent({})
+    handleUpdateContent({})
     setSaveas(undefined)
+    setDatasets([
+      {
+        backgroundColor: "",
+        borderColor: "",
+        borderWidth: "",
+        data: "",
+        label: "",
+      },
+    ])
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
     onClose()
@@ -120,6 +189,88 @@ export default function ChartConfig({
     }
   }
 
+  const handleOpenVariablePanelForTitle = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({ title: variable })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForLabel = ({ id, type }: IUpdateDatasets) => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateDatasets({ id, type, newData: { label: variable } })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForData = ({ id, type }: IUpdateDatasets) => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateDatasets({ id, type, newData: { data: variable } })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForBgColor = ({ id, type }: IUpdateDatasets) => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateDatasets({
+          id,
+          type,
+          newData: { backgroundColor: variable },
+        })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForBorderColor = ({
+    id,
+    type,
+  }: IUpdateDatasets) => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateDatasets({
+          id,
+          type,
+          newData: { borderColor: variable },
+        })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForBorderWidth = ({
+    id,
+    type,
+  }: IUpdateDatasets) => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateDatasets({
+          id,
+          type,
+          newData: { borderWidth: variable },
+        })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForLabels = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({ data: { labels: variable } })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForSaveAs = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateSaveas(variable)
+      })
+    handleOpenVariablePanel()
+  }
+
   return (
     <>
       <Dialog
@@ -133,11 +284,12 @@ export default function ChartConfig({
             <CardTextInput
               input={{
                 label: text("chartconfig:titlelabel"),
-                onChange: (title) => handleUpdateConent({ title: title }),
+                onChange: (title) => handleUpdateContent({ title: title }),
+                inputValue: content?.title,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: handleOpenVariablePanelForTitle,
               }}
             />
           </Card>
@@ -150,7 +302,7 @@ export default function ChartConfig({
                 icon: Check,
                 isVisible: content?.chartType !== "line",
               }}
-              onClick={() => handleUpdateConent({ chartType: "line" })}
+              onClick={() => handleUpdateContent({ chartType: "line" })}
             />
             <CardLine />
             <CardText
@@ -159,7 +311,7 @@ export default function ChartConfig({
                 icon: Check,
                 isVisible: content?.chartType !== "verticalbar",
               }}
-              onClick={() => handleUpdateConent({ chartType: "verticalbar" })}
+              onClick={() => handleUpdateContent({ chartType: "verticalbar" })}
             />
             <CardLine />
             <CardText
@@ -168,7 +320,9 @@ export default function ChartConfig({
                 icon: Check,
                 isVisible: content?.chartType !== "horizontalbar",
               }}
-              onClick={() => handleUpdateConent({ chartType: "horizontalbar" })}
+              onClick={() =>
+                handleUpdateContent({ chartType: "horizontalbar" })
+              }
             />
             <CardLine />
             <CardText
@@ -177,7 +331,7 @@ export default function ChartConfig({
                 icon: Check,
                 isVisible: content?.chartType !== "scatter",
               }}
-              onClick={() => handleUpdateConent({ chartType: "scatter" })}
+              onClick={() => handleUpdateContent({ chartType: "scatter" })}
             />
             <CardLine />
             <CardText
@@ -186,23 +340,160 @@ export default function ChartConfig({
                 icon: Check,
                 isVisible: content?.chartType !== "pie",
               }}
-              onClick={() => handleUpdateConent({ chartType: "pie" })}
+              onClick={() => handleUpdateContent({ chartType: "pie" })}
             />
           </Card>
 
-          <Card>
-            <CardText label={text("chartconfig:labels")} />
-            <CardTextInput
-              input={{
-                label: text("chartconfig:labelslabel"),
-                onChange: (labels) => {},
-              }}
-              indicator={{
-                icon: BracketsCurly,
-                onClick: () => console.log("click"),
-              }}
-            />
-          </Card>
+          {content?.chartType === "pie" && (
+            <Card>
+              <CardText label={text("chartconfig:labels")} />
+              <CardTextInput
+                input={{
+                  label: text("chartconfig:labelslabel"),
+                  onChange: (labels) =>
+                    handleUpdateContent({ data: { labels: labels } }),
+                  inputValue: content?.data?.labels?.toString() || "",
+                }}
+                indicator={{
+                  icon: BracketsCurly,
+                  onClick: handleOpenVariablePanelForLabels,
+                }}
+              />
+            </Card>
+          )}
+
+          {datasets?.map((dataset, index) => {
+            return (
+              <Card key={index}>
+                <CardText
+                  label={`${text("chartconfig:dataset")} ${index + 1}`}
+                  indicator={{ icon: X }}
+                  onClick={() =>
+                    handleUpdateDatasets({ id: index, type: "delete" })
+                  }
+                />
+                <CardLine />
+                <CardText label={text("chartconfig:label")} />
+                <CardTextInput
+                  input={{
+                    onChange: (label) =>
+                      handleUpdateDatasets({
+                        id: index,
+                        type: "update",
+                        newData: { label: label },
+                      }),
+                    inputValue: dataset.label,
+                    label: text("chartconfig:labellabel"),
+                  }}
+                  indicator={{
+                    icon: BracketsCurly,
+                    onClick: () =>
+                      handleOpenVariablePanelForLabel({
+                        id: index,
+                        type: "update",
+                      }),
+                  }}
+                />
+                <CardText label={text("chartconfig:data")} />
+                <CardTextInput
+                  input={{
+                    onChange: (data) =>
+                      handleUpdateDatasets({
+                        id: index,
+                        type: "update",
+                        newData: { data: data },
+                      }),
+                    inputValue: dataset.data,
+                    label: text("chartconfig:datalabel"),
+                  }}
+                  indicator={{
+                    icon: BracketsCurly,
+                    onClick: () =>
+                      handleOpenVariablePanelForData({
+                        id: index,
+                        type: "update",
+                      }),
+                  }}
+                />
+                <CardText label={text("chartconfig:bgcolor")} />
+                <CardTextInput
+                  input={{
+                    onChange: (color) =>
+                      handleUpdateDatasets({
+                        id: index,
+                        type: "update",
+                        newData: { backgroundColor: color },
+                      }),
+                    inputValue: dataset.backgroundColor,
+                    label: text("chartconfig:bgcolorlabel"),
+                  }}
+                  indicator={{
+                    icon: BracketsCurly,
+                    onClick: () =>
+                      handleOpenVariablePanelForBgColor({
+                        id: index,
+                        type: "update",
+                      }),
+                  }}
+                />
+                {content?.chartType !== "scatter" && (
+                  <>
+                    <CardText label={text("chartconfig:bordercolor")} />
+                    <CardTextInput
+                      input={{
+                        onChange: (color) =>
+                          handleUpdateDatasets({
+                            id: index,
+                            type: "update",
+                            newData: { borderColor: color },
+                          }),
+                        inputValue: dataset.borderColor,
+                        label: text("chartconfig:bordercolorlabel"),
+                      }}
+                      indicator={{
+                        icon: BracketsCurly,
+                        onClick: () =>
+                          handleOpenVariablePanelForBorderColor({
+                            id: index,
+                            type: "update",
+                          }),
+                      }}
+                    />
+                    {content?.chartType === "pie" && (
+                      <>
+                        <CardText label={text("chartconfig:borderwidth")} />
+                        <CardTextInput
+                          input={{
+                            onChange: (width) =>
+                              handleUpdateDatasets({
+                                id: index,
+                                type: "update",
+                                newData: { borderWidth: width },
+                              }),
+                            inputValue: dataset.borderWidth,
+                            label: text("chartconfig:borderwidthlabel"),
+                          }}
+                          indicator={{
+                            icon: BracketsCurly,
+                            onClick: () =>
+                              handleOpenVariablePanelForBorderWidth({
+                                id: index,
+                                type: "update",
+                              }),
+                          }}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
+              </Card>
+            )
+          })}
+          <Tag
+            variant="txt"
+            text={text("chartconfig:newdataset")}
+            onClick={() => handleUpdateDatasets({ type: "add" })}
+          />
 
           <Card>
             <CardText label={text("chartconfig:saveas")} />
@@ -210,10 +501,11 @@ export default function ChartConfig({
               input={{
                 label: text("chartconfig:saveaslabel"),
                 onChange: (value) => handleUpdateSaveas(value),
+                inputValue: saveas,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
           </Card>

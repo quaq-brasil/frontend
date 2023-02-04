@@ -15,6 +15,8 @@ export function ButtonConfig({
   isOpen,
   onClose,
   handleAddBlock,
+  handleOpenVariablePanel,
+  setFunctionHandleAddVariable,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -28,7 +30,7 @@ export function ButtonConfig({
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
-  function handleUpdateConent(newData: IButton) {
+  function handleUpdateContent(newData: IButton) {
     setContent({
       text: newData.text || content?.text,
       color: newData.color || content?.color,
@@ -50,7 +52,7 @@ export function ButtonConfig({
   }
 
   function handleClosing() {
-    handleUpdateConent({})
+    handleUpdateContent({})
     setSaveas(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
@@ -102,6 +104,22 @@ export function ButtonConfig({
     }
   }
 
+  const handleOpenVariablePanelForText = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({ text: variable })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForSaveAs = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateSaveas(variable)
+      })
+    handleOpenVariablePanel()
+  }
+
   return (
     <>
       <Dialog
@@ -115,16 +133,19 @@ export function ButtonConfig({
             <CardTextInput
               input={{
                 label: text("buttonconfig:textlabel"),
-                onChange: (text) => handleUpdateConent({ text: text }),
+                onChange: (text) => handleUpdateContent({ text: text }),
+                inputValue: content?.text,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => {},
+                onClick: handleOpenVariablePanelForText,
               }}
             />
             <CardText label={text("buttonconfig:color")} />
             <CardColorSelector
-              onColorSelection={(color) => console.log(color)}
+              onColorSelection={(color) =>
+                handleUpdateContent({ color: color })
+              }
             />
           </Card>
           <Card>
@@ -133,10 +154,11 @@ export function ButtonConfig({
               input={{
                 label: text("buttonconfig:saveaslabel"),
                 onChange: (e) => handleUpdateSaveas(e),
+                inputValue: saveas,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => {},
+                onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
           </Card>

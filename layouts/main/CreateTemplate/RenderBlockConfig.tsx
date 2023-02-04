@@ -38,6 +38,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "text":
@@ -47,6 +48,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "embed":
@@ -56,6 +58,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "file":
@@ -65,6 +68,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "textentry":
@@ -84,6 +88,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "pool":
@@ -93,6 +98,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           isOpen={props.isOpen}
           onClose={props.onClose}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "button":
@@ -102,6 +108,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "toggle":
@@ -111,6 +118,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "review":
@@ -130,6 +138,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "counter":
@@ -139,6 +148,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "automation":
@@ -148,6 +158,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "redirect":
@@ -157,6 +168,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "webhook":
@@ -166,6 +178,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           onClose={props.onClose}
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     case "chart":
@@ -175,6 +188,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           isOpen={props.isOpen}
           onClose={props.onClose}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
+          setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         />
       )
     default:

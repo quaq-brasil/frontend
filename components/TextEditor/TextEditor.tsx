@@ -9,9 +9,14 @@ import { BracketsCurly } from "phosphor-react"
 type TextEditorProps = {
   content?: string
   onChange?: (content: string) => void
+  handleOpenVariablePanelForText: () => void
 }
 
-function TextEditor({ content, onChange }: TextEditorProps) {
+function TextEditor({
+  content,
+  onChange,
+  handleOpenVariablePanelForText,
+}: TextEditorProps) {
   const text = useTranslation().t
 
   const editor = useEditor({
@@ -41,6 +46,7 @@ function TextEditor({ content, onChange }: TextEditorProps) {
   return (
     <div className="flex relative min-w-[100%] justify-end content-center">
       <div
+        onClick={handleOpenVariablePanelForText}
         className="z-10 absolute right-0 top-[-5px] content-center
           rounded-full bg-white border border-slate-100 mr-[10px]"
       >

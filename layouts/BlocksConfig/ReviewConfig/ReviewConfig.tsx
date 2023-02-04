@@ -29,7 +29,7 @@ export function ReviewConfig({
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
-  function handleUpdateConent(newData: IReview) {
+  function handleUpdateContent(newData: IReview) {
     setContent({
       description: newData.description || content?.description,
     })
@@ -50,7 +50,7 @@ export function ReviewConfig({
   }
 
   function handleClosing() {
-    handleUpdateConent({})
+    handleUpdateContent({})
     setSaveas(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
@@ -105,7 +105,7 @@ export function ReviewConfig({
   const handleOpenVariablePanelForDescription = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateConent({ description: variable })
+        handleUpdateContent({ description: variable })
       })
     handleOpenVariablePanel()
   }
@@ -133,7 +133,7 @@ export function ReviewConfig({
                 label: text("reviewconfig:label1"),
                 inputValue: content?.description,
                 onChange: (description) =>
-                  handleUpdateConent({ description: description }),
+                  handleUpdateContent({ description: description }),
               }}
               indicator={{
                 icon: BracketsCurly,

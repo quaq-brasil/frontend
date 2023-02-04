@@ -16,6 +16,8 @@ export function ImageConfig({
   isOpen,
   onClose,
   handleAddBlock,
+  handleOpenVariablePanel,
+  setFunctionHandleAddVariable,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -60,7 +62,7 @@ export function ImageConfig({
     handleAddBlock({
       type: "image",
       saveAs: saveas,
-      data: { content },
+      data: content,
     })
     handleClosing()
   }
@@ -101,6 +103,14 @@ export function ImageConfig({
     }
   }
 
+  const handleOpenVariablePanelForSaveAs = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateSaveas(variable)
+      })
+    handleOpenVariablePanel()
+  }
+
   return (
     <>
       <Dialog
@@ -126,11 +136,12 @@ export function ImageConfig({
             <CardTextInput
               input={{
                 label: text("imageconfig:saveaslabel"),
-                onChange: (e) => handleUpdateSaveas(e),
+                inputValue: saveas,
+                onChange: (value) => handleUpdateSaveas(value),
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => {},
+                onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
           </Card>

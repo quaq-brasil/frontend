@@ -17,6 +17,8 @@ export function WebhookConfig({
   isOpen,
   onClose,
   handleAddBlock,
+  handleOpenVariablePanel,
+  setFunctionHandleAddVariable,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -127,6 +129,38 @@ export function WebhookConfig({
     }
   }
 
+  const handleOpenVariablePanelForDescription = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({ description: variable })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForParameters = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({ description: variable })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForLink = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({ link: variable })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForSaveAs = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateSaveas(variable)
+      })
+    handleOpenVariablePanel()
+  }
+
   return (
     <>
       <Dialog
@@ -142,10 +176,11 @@ export function WebhookConfig({
                 label: text("webhookconfig:descriptioninput"),
                 onChange: (description) =>
                   handleUpdateContent({ description: description }),
+                inputValue: content?.description,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => {},
+                onClick: handleOpenVariablePanelForDescription,
               }}
             />
           </Card>
@@ -165,10 +200,11 @@ export function WebhookConfig({
                 label: text("webhookconfig:parametersinput"),
                 onChange: (parameters) =>
                   handleUpdateContent({ parameters: parameters }),
+                inputValue: content?.parameters,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => {},
+                onClick: handleOpenVariablePanelForParameters,
               }}
             />
           </Card>
@@ -237,10 +273,11 @@ export function WebhookConfig({
               input={{
                 label: text("webhookconfig:linkinput"),
                 onChange: (link) => handleUpdateContent({ link: link }),
+                inputValue: content?.link,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => {},
+                onClick: handleOpenVariablePanelForLink,
               }}
             />
           </Card>
@@ -251,10 +288,11 @@ export function WebhookConfig({
               input={{
                 label: text("webhookconfig:saveasinput"),
                 onChange: (e) => handleUpdateSaveas(e),
+                inputValue: saveas,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => {},
+                onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
           </Card>

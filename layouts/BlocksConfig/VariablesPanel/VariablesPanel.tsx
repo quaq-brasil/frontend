@@ -199,7 +199,7 @@ export const VariablesPanel = ({
       onClose={() => console.log("closed")}
     >
       <TabBar
-        isHidden={size === "sm" ? true : false}
+        isHidden={false}
         tags={selectedVariable ? tabbarAddOptions : tabbarPages}
       />
 

@@ -9,18 +9,14 @@ import { CardTextInput } from "../../../components/Card/CardContentVariants/Card
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-import { BlockProps } from "../../../types/Block.types"
 import { BlocksConfigProps } from "../../../types/BlockConfig.types"
-type PoolConfigProps = {
-  isOpen: boolean
-  onClose: () => void
-  handleAddBlock: (block: BlockProps) => void
-}
 
 export function PoolConfig({
   handleAddBlock,
   isOpen,
   onClose,
+  handleOpenVariablePanel,
+  setFunctionHandleAddVariable,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -162,12 +158,31 @@ export function PoolConfig({
     }
   }
 
+  const handleOpenVariablePanelForOption = ({
+    option,
+    id,
+  }: HandleUpdateOptionsProps) => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateOptions({ option, id, value: variable })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForSaveAs = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateSaveas(variable)
+      })
+    handleOpenVariablePanel()
+  }
+
   return (
     <>
       <Dialog
         isOpen={isOpen}
         title={text("poolconfig:toptitle")}
-        onClose={() => console.log("closed")}
+        onClose={() => {}}
       >
         <div className="flex flex-col items-center gap-3 scrollbar-hide">
           <Card>
@@ -232,32 +247,36 @@ export function PoolConfig({
                           value: value,
                         }),
                       defaultValue: option.value,
+                      inputValue: option.value,
                     }}
                     indicator={{
                       icon: BracketsCurly,
-                      onClick: () => console.log(),
+                      onClick: () =>
+                        handleOpenVariablePanelForOption({
+                          option: "update",
+                          id: index,
+                        }),
                     }}
                   />
                 </Card>
               ))}
           </>
-
           <Tag
             variant="txt"
             text={text("poolconfig:addoption")}
             onClick={() => handleUpdateOptions({ option: "add" })}
           />
-
           <Card>
             <CardText label={text("poolconfig:saveas")} />
             <CardTextInput
               input={{
                 label: text("poolconfig:saveaslabel"),
                 onChange: (e) => handleUpdateSaveas(e),
+                inputValue: saveas,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log(),
+                onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
           </Card>
