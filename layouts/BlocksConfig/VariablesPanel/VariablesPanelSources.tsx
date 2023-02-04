@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { Plus, X } from "phosphor-react"
 import { useState } from "react"
+import { useUserAuth } from "../../../contexts/userAuth"
 
 type VariablesPanelSourcesProps = {}
 
@@ -21,6 +22,8 @@ const VariablesPanelSources = ({}: VariablesPanelSourcesProps) => {
   const [connectTemplates, setConnectTemplates] = useState<
     ConnectTemplatesProps[]
   >([])
+
+  const { user } = useUserAuth()
 
   return (
     <div className="px-3  flex flex-col">
