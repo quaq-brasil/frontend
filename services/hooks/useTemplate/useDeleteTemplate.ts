@@ -6,13 +6,13 @@ type useDeleteTemplateProps = {
   id: string
 } & useMutationProps
 
-export const useDeleteTemplate = ({ id }: useDeleteTemplateProps) => {
-  const deleteTemplate = async () => {
+export const useDeleteTemplate = () => {
+  const deleteTemplate = async ({ id }: useDeleteTemplateProps) => {
     await api.delete(`/templates/${id}`)
   }
 
   return useMutation({
-    mutationKey: ["deleteTemplate", id],
+    mutationKey: ["deleteTemplate"],
     mutationFn: deleteTemplate,
   })
 }

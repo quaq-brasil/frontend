@@ -83,14 +83,14 @@ export default function CentralOptions({
             )
           }
         />,
-        <Tag
-          key={2}
-          variant="txt"
-          text={text("centraloptions:options")}
-          onClick={() => console.log()}
-          isSelected
-          isSeparated
-        />,
+        // <Tag
+        //   key={2}
+        //   variant="txt"
+        //   text={text("centraloptions:options")}
+        //   onClick={() => console.log()}
+        //   isSelected
+        //   isSeparated
+        // />,
         // <Tag
         //   key={3}
         //   variant="txt"
@@ -103,7 +103,7 @@ export default function CentralOptions({
         //   text={text("centraloptions:stats")}
         //   onClick={() => console.log()}
         // />,
-        <div key={3} className="w-fit h-fit xl:hidden">
+        <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
             text={text("centraloptions:update")}
@@ -125,14 +125,14 @@ export default function CentralOptions({
             )
           }
         />,
-        <Tag
-          key={2}
-          variant="txt"
-          text={text("centraloptions:options")}
-          onClick={() => console.log()}
-          isSelected
-          isSeparated
-        />,
+        // <Tag
+        //   key={2}
+        //   variant="txt"
+        //   text={text("centraloptions:options")}
+        //   onClick={() => console.log()}
+        //   isSelected
+        //   isSeparated
+        // />,
         // <Tag
         //   key={3}
         //   variant="txt"
