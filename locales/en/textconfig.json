@@ -2,5 +2,7 @@
   "cancel": "cancel",
   "add": "add",
   "toptitle": "new text",
-  "addblock": "add block"
+  "addblock": "add block",
+  "saveas": "save as",
+  "saveaslabel": "type it here"
 }

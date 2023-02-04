@@ -1,7 +1,11 @@
 import useTranslation from "next-translate/useTranslation"
+import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { Button } from "../../../components/Button/Button"
+import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
@@ -18,11 +22,17 @@ export function TextConfig({
   const text = useTranslation().t
 
   const [content, setContent] = useState("")
+  const [saveas, setSaveas] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
   function handleUpdateContent(content: string) {
     setContent(content)
+    handleUpdateIsUpdating(true)
+  }
+
+  function handleUpdateSaveas(value: string) {
+    setSaveas(value)
     handleUpdateIsUpdating(true)
   }
 
@@ -45,6 +55,7 @@ export function TextConfig({
     handleAddBlock({
       type: "text",
       data: content,
+      saveAs: saveas,
     })
   }
 
@@ -93,6 +104,14 @@ export function TextConfig({
     handleOpenVariablePanel()
   }
 
+  const handleOpenVariablePanelForSaveAs = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateSaveas(variable)
+      })
+    handleOpenVariablePanel()
+  }
+
   return (
     <>
       <Dialog
@@ -112,6 +131,20 @@ export function TextConfig({
             />
             <CardLine />
           </div>
+          <Card>
+            <CardText label={text("poolconfig:saveas")} />
+            <CardTextInput
+              input={{
+                label: text("poolconfig:saveaslabel"),
+                onChange: (e) => handleUpdateSaveas(e),
+                inputValue: saveas,
+              }}
+              indicator={{
+                icon: BracketsCurly,
+                onClick: handleOpenVariablePanelForSaveAs,
+              }}
+            />
+          </Card>
           {isUpdating && (
             <>
               <div className="w-full h-fit hidden xl:block">
@@ -128,6 +161,7 @@ export function TextConfig({
               </div>
             </>
           )}
+
           <div className="w-full h-fit hidden xl:block">
             <Button
               block={{

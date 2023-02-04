@@ -2,5 +2,7 @@
   "cancel": "cancelar",
   "add": "adicionar",
   "toptitle": "novo texto",
-  "addblock": "adicionar bloco"
+  "addblock": "adicionar bloco",
+  "saveas": "salvar como",
+  "saveaslabel": "digite aqui"
 }
