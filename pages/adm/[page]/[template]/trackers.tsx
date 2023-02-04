@@ -1,36 +1,36 @@
+import { GetServerSideProps } from "next"
+import { ParsedUrlQuery } from "querystring"
 import CentralTrackers from "../../../../layouts/main/CentralTrackers/CentralTrackers"
-import { usePage } from "../../../../services/hooks/usePage/usePage"
-import { useTemplate } from "../../../../services/hooks/useTemplate/useTemplate"
+import { usePageByUrl } from "../../../../services/hooks/usePage/usePageByUrl"
+import { useTemplateByUrl } from "../../../../services/hooks/useTemplate/useTemplateByUrl"
 import { useUpdateTemplate } from "../../../../services/hooks/useTemplate/useUpdateTemplate"
 import { IUpdateTemplate } from "../../../../types/Template.type"
 
 type CentralTrackersPageProps = {
-  pageId: string
-  templateId: string
+  page: string
+  template: string
 }
 
 export default function CentralTrackersPage({
-  pageId,
-  templateId,
+  page,
+  template,
 }: CentralTrackersPageProps) {
-  const pageResponse = usePage({
-    id: "63b754987d02f98b8692255e",
+  const pageResponse = usePageByUrl({ url: page })
+
+  const getTemplate = useTemplateByUrl({
+    url: template,
   })
 
   const templateUpdate = useUpdateTemplate()
 
   function handleUpdateTrackers(data: IUpdateTemplate) {
     templateUpdate.mutate({
-      id: "63d2f4dd092cd140517d49c4",
+      id: getTemplate?.data.id as string,
       data: {
         trackers: data.trackers,
       },
     })
   }
-
-  const getTemplate = useTemplate({
-    id: "63d2f4dd092cd140517d49c4",
-  })
 
   return (
     <CentralTrackers
@@ -39,4 +39,20 @@ export default function CentralTrackersPage({
       initialTemplateData={getTemplate?.data}
     />
   )
+}
+
+type Params = {
+  page: string
+  template: string
+} & ParsedUrlQuery
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { page, template } = params as Params
+
+  return {
+    props: {
+      page,
+      template,
+    },
+  }
 }

@@ -1,32 +1,34 @@
+import { GetServerSideProps } from "next"
+import { ParsedUrlQuery } from "querystring"
 import EditTemplate from "../../../../layouts/main/EditTemplate/EditTemplate"
-import { usePage } from "../../../../services/hooks/usePage/usePage"
-import { useTemplate } from "../../../../services/hooks/useTemplate/useTemplate"
+import { usePageByUrl } from "../../../../services/hooks/usePage/usePageByUrl"
+import { useTemplateByUrl } from "../../../../services/hooks/useTemplate/useTemplateByUrl"
 import { useUpdateTemplate } from "../../../../services/hooks/useTemplate/useUpdateTemplate"
 import { IPage } from "../../../../types/Page.type"
 import { ITemplate, IUpdateTemplate } from "../../../../types/Template.type"
 
 type EditTemplatePageProps = {
-  pageId: string
-  templateId: string
+  page: string
+  template: string
 }
 
 export default function EditTemplatePage({
-  templateId,
-  pageId,
+  page,
+  template,
 }: EditTemplatePageProps) {
-  const getPage = usePage({
-    id: "63b754987d02f98b8692255e",
+  const getPage = usePageByUrl({
+    url: page,
   })
 
-  const getTemplate = useTemplate({
-    id: "63d2f4dd092cd140517d49c4",
+  const getTemplate = useTemplateByUrl({
+    url: template,
   })
 
   const updateTemplate = useUpdateTemplate()
 
   const handleUpdateTemplate = (data: IUpdateTemplate) => {
     updateTemplate.mutate({
-      id: "63d2f4dd092cd140517d49c4",
+      id: getTemplate?.data.id as string,
       data: {
         name: data.name,
         url: data.url,
@@ -44,4 +46,20 @@ export default function EditTemplatePage({
       handleUpdateTemplate={handleUpdateTemplate}
     />
   )
+}
+
+type Params = {
+  page: string
+  template: string
+} & ParsedUrlQuery
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { page, template } = params as Params
+
+  return {
+    props: {
+      page,
+      template,
+    },
+  }
 }

@@ -1,19 +1,30 @@
+import { GetServerSideProps } from "next"
+import { ParsedUrlQuery } from "querystring"
+import { useEffect, useState } from "react"
 import ConsumerPage from "../../layouts/main/ConsumerPage/ConsumerPage"
-import { usePage } from "../../services/hooks/usePage/usePage"
+import { usePageByUrl } from "../../services/hooks/usePage/usePageByUrl"
 import { useTemplatesByPageId } from "../../services/hooks/useTemplate/useTemplatesByPageId"
 import { IPage } from "../../types/Page.type"
 import { ITemplate } from "../../types/Template.type"
 
 type ConsumerPagePageProps = {
-  pageId: string
+  page: string
 }
 
-export default function ConsumerPagePage({ pageId }: ConsumerPagePageProps) {
-  const getPage = usePage({
-    id: "63b754987d02f98b8692255e",
+export default function ConsumerPagePage({ page }: ConsumerPagePageProps) {
+  const [pageId, setPageId] = useState<string>()
+
+  const getPage = usePageByUrl({
+    url: page,
   })
 
-  const getTemplates = useTemplatesByPageId({ id: "63b754987d02f98b8692255e" })
+  useEffect(() => {
+    if (getPage) {
+      setPageId(getPage.data.id)
+    }
+  }, [getPage])
+
+  const getTemplates = useTemplatesByPageId({ id: pageId as string })
 
   return (
     <ConsumerPage
@@ -21,4 +32,18 @@ export default function ConsumerPagePage({ pageId }: ConsumerPagePageProps) {
       initialTemplatesData={getTemplates?.data as ITemplate[]}
     />
   )
+}
+
+type Params = {
+  page: string
+} & ParsedUrlQuery
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { page } = params as Params
+
+  return {
+    props: {
+      page,
+    },
+  }
 }

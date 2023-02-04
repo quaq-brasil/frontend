@@ -1,26 +1,22 @@
+import { GetServerSideProps } from "next"
+import { ParsedUrlQuery } from "querystring"
 import PageTrackers from "../../../layouts/main/PageTrackers/PageTrackers"
-import { usePage } from "../../../services/hooks/usePage/usePage"
+import { usePageByUrl } from "../../../services/hooks/usePage/usePageByUrl"
 import { useUpdatePage } from "../../../services/hooks/usePage/useUpdatePage"
 import { IUpdatePage } from "../../../types/Page.type"
 
 type PageTrackersPageProps = {
-  pageId: string
-  templateId: string
+  page: string
 }
 
-export default function PageTrackersPage({
-  pageId,
-  templateId,
-}: PageTrackersPageProps) {
-  const pageResponse = usePage({
-    id: "63b754987d02f98b8692255e",
-  })
+export default function PageTrackersPage({ page }: PageTrackersPageProps) {
+  const getPage = usePageByUrl({ url: page })
 
   const pageUpdate = useUpdatePage()
 
   function handleUpdateTrackers(data: IUpdatePage) {
     pageUpdate.mutate({
-      id: "63b754987d02f98b8692255e",
+      id: getPage?.data.id as string,
       data: {
         trackers: data.trackers,
       },
@@ -30,7 +26,21 @@ export default function PageTrackersPage({
   return (
     <PageTrackers
       handleUpdateTrackers={handleUpdateTrackers}
-      initialPageData={pageResponse?.data}
+      initialPageData={getPage?.data}
     />
   )
+}
+
+type Params = {
+  page: string
+} & ParsedUrlQuery
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { page } = params as Params
+
+  return {
+    props: {
+      page,
+    },
+  }
 }

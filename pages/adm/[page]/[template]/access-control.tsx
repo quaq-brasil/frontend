@@ -1,22 +1,26 @@
+import { GetServerSideProps } from "next"
+import { ParsedUrlQuery } from "querystring"
 import TemplateAccessControl from "../../../../layouts/main/TemplateAccessControl/TemplateAccessControl"
-import { usePage } from "../../../../services/hooks/usePage/usePage"
-import { useTemplate } from "../../../../services/hooks/useTemplate/useTemplate"
+import { usePageByUrl } from "../../../../services/hooks/usePage/usePageByUrl"
+import { useTemplateByUrl } from "../../../../services/hooks/useTemplate/useTemplateByUrl"
 import { IPage } from "../../../../types/Page.type"
 import { ITemplate } from "../../../../types/Template.type"
 
 type TemplateAccessControlPageProps = {
-  pageId: string
+  page: string
+  template: string
 }
 
 export default function TemplateAccessControlPage({
-  pageId,
+  page,
+  template,
 }: TemplateAccessControlPageProps) {
-  const getPage = usePage({
-    id: "63b754987d02f98b8692255e",
+  const getPage = usePageByUrl({
+    url: page,
   })
 
-  const getTemplate = useTemplate({
-    id: "63d2f4dd092cd140517d49c4",
+  const getTemplate = useTemplateByUrl({
+    url: template,
   })
 
   return (
@@ -25,4 +29,20 @@ export default function TemplateAccessControlPage({
       initialPageData={getPage?.data as IPage}
     />
   )
+}
+
+type Params = {
+  page: string
+  template: string
+} & ParsedUrlQuery
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { page, template } = params as Params
+
+  return {
+    props: {
+      page,
+      template,
+    },
+  }
 }

@@ -1,25 +1,23 @@
+import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
+import { ParsedUrlQuery } from "querystring"
 import PageDelete from "../../../layouts/main/PageDelete/PageDelete"
 import { useDeletePage } from "../../../services/hooks/usePage/useDeletePage"
-import { usePage } from "../../../services/hooks/usePage/usePage"
+import { usePageByUrl } from "../../../services/hooks/usePage/usePageByUrl"
 import { useUser } from "../../../services/hooks/useUser/useUser"
 import { IPage } from "../../../types/Page.type"
 import { IUser } from "../../../types/User.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 
 type PageDeletePageProps = {
-  userId: string
-  pageId: string
+  page: string
 }
 
-export default function PageDeletePage({
-  pageId,
-  userId,
-}: PageDeletePageProps) {
+export default function PageDeletePage({ page }: PageDeletePageProps) {
   const getUser = useUser({ id: "63d7c5dd4b1d81503bf6beb8" })
 
-  const getPage = usePage({
-    id: "63b754987d02f98b8692255e",
+  const getPage = usePageByUrl({
+    url: page,
   })
 
   const deletePage = useDeletePage()
@@ -28,7 +26,7 @@ export default function PageDeletePage({
 
   function handleDeletePage() {
     deletePage.mutate(
-      { id: "63d7c76b4b1d81503bf6bebc" },
+      { id: getPage?.data.id as string },
       {
         onSuccess: () => {
           router.push(pageUrls.home())
@@ -44,4 +42,18 @@ export default function PageDeletePage({
       handleDeletePage={handleDeletePage}
     />
   )
+}
+
+type Params = {
+  page: string
+} & ParsedUrlQuery
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { page } = params as Params
+
+  return {
+    props: {
+      page,
+    },
+  }
 }
