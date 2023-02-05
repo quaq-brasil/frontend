@@ -1,6 +1,6 @@
 # get publications
 
-GET https://bff.quaq.me/api/v1/publications/63d91effcf6a7076d3a019f0
+GET https://bff.quaq.me/api/v1/publications/63dfd2a7c861c288325bcc6d
 
 ###
 
@@ -12,14 +12,14 @@ Content-Type: application/json
 {
     "title": "first publication",
     "blocks": [{}],
-    "page_id": "63d91eb0cf6a7076d3a019ef"
+    "page_id": "63df08bef243bdc4870d6b09"
 }
 
 ###
 
 # get many publications by template id
 
-GET https://bff.quaq.me/api/v1/publications/template/1
+GET https://bff.quaq.me/api/v1/publications/template/63dfd2d5c861c288325bcc6e
 
 ###
 
@@ -31,16 +31,9 @@ GET https://bff.quaq.me/api/v1/publications/page/1
 
 # update publications
 
-PUT https://bff.quaq.me/api/v1/publications/63d5c42a05e8266454c5170f
+PUT https://bff.quaq.me/api/v1/publications/63dfd2a7c861c288325bcc6d
 Content-Type: application/json
 
 {
-    "title": "title1",
-    "blocks": {
-        "1": {
-            "id": "1",
-            "type": "type",
-            "content": "content"
-        }
-    }
+    "template_id": "63dfd2d5c861c288325bcc6e"  
 }

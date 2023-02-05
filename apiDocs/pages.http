@@ -1,6 +1,6 @@
 # find one
 
-GET https://bff.quaq.me/api/v1/pages/63d91eb0cf6a7076d3a019ef
+GET https://bff.quaq.me/api/v1/pages/63df08bef243bdc4870d6b09
 
 
 ###
@@ -13,7 +13,7 @@ Content-Type: application/json
 {
     "name": "felp's page",
     "url": "felp's page",
-    "workspace_id": "63d91e6acf6a7076d3a019ee",
+    "workspace_id": "63dd14cdc3a3b5901c1675ff",
     "avatar_url": "https://images.unsplash.com/photo-1522124624696-7ea32eb9592c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60",
     "background_url": "https://images.unsplash.com/photo-1522124624696-7ea32eb9592c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60"
 }
@@ -34,7 +34,7 @@ GET https://bff.quaq.me/api/v1/pages/url/first
 
 # find all by workspace
 
-GET https://bff.quaq.me/api/v1/pages/workspace/63d68863688c6d9d82a5f648
+GET https://bff.quaq.me/api/v1/pages/workspace/63dd14cdc3a3b5901c1675ff
 
 ###
 

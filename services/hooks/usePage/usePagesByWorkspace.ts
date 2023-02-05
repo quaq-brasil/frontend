@@ -7,18 +7,14 @@ type usePagesByWorkspaceProps = {
   id: string
 } & useQueryProps
 
-export const usePagesByWorkspace = ({
-  id,
-  options,
-}: usePagesByWorkspaceProps) => {
+export const usePagesByWorkspace = ({ id }: usePagesByWorkspaceProps) => {
   const getPagesByWorkspace = async () => {
     return api.get(`/pages/workspace/${id}`)
   }
 
   const response = useQuery({
-    queryKey: ["getPagesByWorkspace", id],
+    queryKey: ["getPagesByWorkspace"],
     queryFn: getPagesByWorkspace,
-    ...options,
   }) as UseQueryResult<{ data: IPage[] }>
 
   return response.data

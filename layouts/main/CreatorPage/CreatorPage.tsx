@@ -13,6 +13,8 @@ import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { useContextMenu } from "../../../hooks/ContextMenuHook"
+import { useMutatePagesByWorkspaceId } from "../../../services/hooks/usePage/useMutatePagesByWorkspaceId"
+import { useMutateTemplatesByPageId } from "../../../services/hooks/useTemplate/useMutateTemplatesByPageId"
 import { IPage } from "../../../types/Page.type"
 import { ITemplate } from "../../../types/Template.type"
 import { IWorkspace } from "../../../types/Workspace.type"
@@ -20,51 +22,46 @@ import { pageUrls } from "../../../utils/pagesUrl"
 import { CreatorPageContent } from "./CreatorPageContent"
 
 type CreatorPageProps = {
-  initialPageData: IPage
-  initialTemplatesData: ITemplate[]
-  initialCurrentWorkspaceData: IWorkspace
-  initialPagesData: IPage[]
-  initialAllWorkspacesData: IWorkspace[] | undefined
-  handleUpdateCurrentPageId: (id: string) => void
-  handleUpdateCurrentWorkspaceId: (id: string) => void
+  initialWorkspacesData: IWorkspace[]
 }
 
 export default function CreatorPage({
-  initialPageData,
-  initialTemplatesData,
-  initialCurrentWorkspaceData,
-  initialPagesData,
-  initialAllWorkspacesData,
-  handleUpdateCurrentPageId,
-  handleUpdateCurrentWorkspaceId,
+  initialWorkspacesData,
 }: CreatorPageProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
-  const [pageData, setPageData] = useState<IPage>()
-  const [templatesData, setTemplatesData] = useState<ITemplate[]>()
-  const [currentWorspaceData, setCurrentWorkspaceData] = useState<IWorkspace>()
-  const [allWorkspacesData, setAllWorkspacesdata] = useState<IWorkspace[]>()
-  const [pagesData, setPagesData] = useState<IPage[]>()
+  const [workspaces, setWorkspaces] = useState<IWorkspace[]>()
+  const [currentWorkspace, setCurrentWorkspace] = useState<IWorkspace>()
 
   useEffect(() => {
-    setPageData(initialPageData)
-  }, [initialPageData])
+    if (initialWorkspacesData) {
+      setWorkspaces([...initialWorkspacesData])
+      setCurrentWorkspace(initialWorkspacesData[0])
+    }
+  }, [initialWorkspacesData])
+
+  const getPages = useMutatePagesByWorkspaceId()
+
+  const [pages, setPages] = useState<IPage[]>()
+  const [currentPage, setCurrentPage] = useState<IPage>()
 
   useEffect(() => {
-    setTemplatesData(initialTemplatesData)
-  }, [initialTemplatesData])
-
-  useEffect(() => {
-    setCurrentWorkspaceData(initialCurrentWorkspaceData)
-  }, [initialCurrentWorkspaceData])
-
-  useEffect(() => {
-    setPagesData(initialPagesData)
-  }, [initialPagesData])
-
-  useEffect(() => {
-    setAllWorkspacesdata(initialAllWorkspacesData)
-  }, [initialAllWorkspacesData])
+    if (currentWorkspace) {
+      getPages.mutate(
+        {
+          id: currentWorkspace.id as string,
+        },
+        {
+          onSuccess: (data) => {
+            setPages([...data])
+            setCurrentPage(data[0])
+          },
+        }
+      )
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentWorkspace])
 
   const {
     handleToggleContextMenu,
@@ -90,7 +87,7 @@ export default function CreatorPage({
           <div className="w-fit">
             <Tag
               variant="img"
-              img_url={currentWorspaceData?.avatar_url || ""}
+              img_url={currentWorkspace?.avatar_url || ""}
               onClick={handleCloseContextMenu}
             />
           </div>
@@ -123,24 +120,22 @@ export default function CreatorPage({
     </div>
   )
 
-  const router = useRouter()
-
   function loadPages() {
-    if (pagesData) {
-      const pages: JSX.Element[] = pagesData.map((page, index) => {
+    if (pages) {
+      const pagesTags: JSX.Element[] = pages.map((page, index) => {
         return (
           <div key={index} className="w-fit">
             <Tag
               variant="img-txt"
               text={page?.name || ""}
               img_url={page?.avatar_url || ""}
-              isSelected={page.id == pageData?.id}
-              onClick={() => handleUpdateCurrentPageId(page.id as string)}
+              isSelected={page.id == currentPage?.id}
+              onClick={() => setCurrentPage(page as IPage)}
             />
           </div>
         )
       })
-      return pages
+      return pagesTags
     }
   }
 
@@ -150,7 +145,7 @@ export default function CreatorPage({
         <div className="w-fit">
           <Tag variant="txt" text={text("creatorpage:pages")} />
         </div>
-        {loadPages()}
+        <>{loadPages()}</>
         <div className="w-fit">
           <Tag
             variant="icn-txt"
@@ -191,7 +186,7 @@ export default function CreatorPage({
         <div className="w-fit">
           <Tag variant="txt" text={text("creatorpage:pages")} isSeparated />
         </div>
-        {loadPages()}
+        <>{loadPages()}</>
         <div>
           <Tag
             variant="icn-txt"
@@ -219,8 +214,8 @@ export default function CreatorPage({
   }
 
   function loadWorkspaces() {
-    if (allWorkspacesData) {
-      const workspaces: JSX.Element[] = allWorkspacesData?.map(
+    if (workspaces) {
+      const workspacesTags: JSX.Element[] = workspaces.map(
         (workspace, index) => {
           return (
             <div key={index} className="w-fit">
@@ -228,16 +223,14 @@ export default function CreatorPage({
                 variant="img-txt"
                 img_url={workspace.avatar_url || ""}
                 text={workspace.name || ""}
-                isSelected={currentWorspaceData?.id == workspace.id}
-                onClick={() =>
-                  handleUpdateCurrentWorkspaceId(workspace.id as string)
-                }
+                isSelected={workspace.id == currentWorkspace?.id}
+                onClick={() => setCurrentWorkspace(workspace as IWorkspace)}
               />
             </div>
           )
         }
       )
-      return workspaces
+      return workspacesTags
     }
   }
 
@@ -260,7 +253,7 @@ export default function CreatorPage({
         onClick={() =>
           router.push(
             pageUrls.pageSettings({
-              pageSlug: pageData?.url || "",
+              pageSlug: currentPage?.url || "",
               pageSettings: "general",
             })
           )
@@ -289,12 +282,12 @@ export default function CreatorPage({
     return (
       <Tag
         variant="img-txt"
-        text={pageData?.name || ""}
-        img_url={pageData?.avatar_url || ""}
+        text={currentPage?.name || ""}
+        img_url={currentPage?.avatar_url || ""}
         onClick={() =>
           router.push(
             pageUrls.pageSettings({
-              pageSlug: pageData?.url || "",
+              pageSlug: currentPage?.url || "",
               pageSettings: "general",
             })
           )
@@ -309,21 +302,41 @@ export default function CreatorPage({
         reightContent={
           <Tag
             variant="img"
-            img_url={currentWorspaceData?.avatar_url || ""}
+            img_url={currentWorkspace?.avatar_url || ""}
             onClick={() => handleHeaderTagContextMenu()}
           />
         }
-        background_url={pageData?.background_url || ""}
+        background_url={currentPage?.background_url || ""}
       >
         {handleMainTag()}
       </Header>
     )
   }
 
+  const getTemplates = useMutateTemplatesByPageId()
+
+  const [templates, setTemplates] = useState<ITemplate[]>()
+
+  useEffect(() => {
+    if (currentPage) {
+      getTemplates.mutate(
+        {
+          id: currentPage.id as string,
+        },
+        {
+          onSuccess: (data) => {
+            setTemplates(data)
+          },
+        }
+      )
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage])
+
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <CreatorPageContent templatesData={templatesData} pageData={pageData} />
+      <CreatorPageContent templatesData={templates} pageData={currentPage} />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   )

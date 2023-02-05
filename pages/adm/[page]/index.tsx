@@ -1,12 +1,7 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useUserAuth } from "../../../contexts/userAuth"
 import CreatorPage from "../../../layouts/main/CreatorPage/CreatorPage"
-import { usePage } from "../../../services/hooks/usePage/usePage"
-import { usePagesByWorkspace } from "../../../services/hooks/usePage/usePagesByWorkspace"
-import { useTemplatesByPageId } from "../../../services/hooks/useTemplate/useTemplatesByPageId"
-import { useWorkspace } from "../../../services/hooks/useWorkspace/useWorkspace"
-import { useWorkspacesByUserId } from "../../../services/hooks/useWorkspace/useWorkspacesByUserId"
-import { IPage } from "../../../types/Page.type"
-import { ITemplate } from "../../../types/Template.type"
+import { useMutateGetAllWorkspacesByUserId } from "../../../services/hooks/useWorkspace/useMutateGetAllWorkspacesByUserId"
 import { IWorkspace } from "../../../types/Workspace.type"
 
 type AdmPageProps = {
@@ -15,45 +10,27 @@ type AdmPageProps = {
 }
 
 export default function AdmPage({ pageId, workspaceId }: AdmPageProps) {
-  const [currentPageId, setCurrentPageId] = useState("63b754987d02f98b8692255e")
-  const [currentWorkspaceId, setCurrentWorkspaceId] = useState(
-    "63d91e2cffbb3c0bab4e3a30"
-  )
+  const { user } = useUserAuth()
 
-  function handleUpdateCurrentPageId(id: string) {
-    setCurrentPageId(id)
-  }
+  const getAllWorkspaces = useMutateGetAllWorkspacesByUserId()
 
-  function handleUpdateCurrentWorkspaceId(id: string) {
-    console.log(id)
-    setCurrentWorkspaceId(id)
-  }
+  const [workspaces, setWorkspaces] = useState<IWorkspace[]>()
 
-  const getPage = usePage({
-    id: currentPageId,
-  })
+  useEffect(() => {
+    if (user) {
+      getAllWorkspaces.mutate(
+        {
+          id: user.id as string,
+        },
+        {
+          onSuccess: (data) => {
+            setWorkspaces(data)
+          },
+        }
+      )
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
-  const getTemplates = useTemplatesByPageId({ id: currentPageId })
-
-  const getCurrentWorkspace = useWorkspace({ id: currentWorkspaceId })
-
-  const getAllWorkspaces = useWorkspacesByUserId({
-    id: "63d91dfba01035ef4040fe55",
-  })
-
-  const getPagesByWorkspaces = usePagesByWorkspace({
-    id: currentWorkspaceId,
-  })
-
-  return (
-    <CreatorPage
-      initialPageData={getPage?.data as IPage}
-      initialTemplatesData={getTemplates?.data as ITemplate[]}
-      initialCurrentWorkspaceData={getCurrentWorkspace?.data as IWorkspace}
-      initialPagesData={getPagesByWorkspaces?.data as IPage[]}
-      initialAllWorkspacesData={getAllWorkspaces?.data}
-      handleUpdateCurrentPageId={handleUpdateCurrentPageId}
-      handleUpdateCurrentWorkspaceId={handleUpdateCurrentWorkspaceId}
-    />
-  )
+  return <CreatorPage initialWorkspacesData={workspaces as IWorkspace[]} />
 }
