@@ -29,6 +29,8 @@ type VariablesPanelPublicationsProps = {
     }
   }
   handleUpdateConnectedTemplates: (data: ConnectTemplatesProps) => void
+  onBack: () => void
+  connectedTemplates: ConnectTemplatesProps[]
 }
 
 export const VariablesPanelPublications = ({
@@ -36,6 +38,8 @@ export const VariablesPanelPublications = ({
   onClose,
   initialData,
   handleUpdateConnectedTemplates,
+  onBack,
+  connectedTemplates,
 }: VariablesPanelPublicationsProps) => {
   const text = useTranslation().t
 
@@ -51,7 +55,20 @@ export const VariablesPanelPublications = ({
         },
         {
           onSuccess: (data) => {
-            setPublications(data)
+            const newPublications = data.map((publication) => {
+              let filter = false
+              connectedTemplates.map((connectedPublication) => {
+                if (publication.id === connectedPublication.publicationId) {
+                  filter = true
+                }
+              })
+              if (!filter) {
+                return publication
+              }
+            })
+            if (newPublications) {
+              setPublications(newPublications as IPublication[])
+            }
           },
         }
       )
@@ -64,7 +81,7 @@ export const VariablesPanelPublications = ({
       key={1}
       variant="txt"
       text={text("variablespanel:back")}
-      onClick={onClose}
+      onClick={onBack}
     />,
   ]
 
@@ -76,33 +93,39 @@ export const VariablesPanelPublications = ({
     >
       <Card>
         <CardText label={text("variablespanel:allpublications")} />
-        {publications &&
-          publications.map((publication, index) => {
-            return (
-              <>
-                <CardLog
-                  key={index}
-                  name={publication.title as string}
-                  onClick={() =>
-                    handleUpdateConnectedTemplates({
-                      workspaceId: initialData.workspaceData
-                        .workspaceId as string,
-                      workspaceName: initialData.workspaceData
-                        .workspaceName as string,
-                      pageId: initialData.pageData.pageId as string,
-                      pageName: initialData.pageData.pageName as string,
-                      templateId: initialData.templateData.templateId as string,
-                      templateName: initialData.templateData
-                        .templateName as string,
-                      publicationId: publication.id as string,
-                      publicationName: publication.title as string,
-                    })
-                  }
-                />
-                <CardLine full={true} />
-              </>
-            )
-          })}
+        <>
+          {publications &&
+            publications.map((publication, index) => {
+              if (publication) {
+                return (
+                  <>
+                    <CardLog
+                      key={index}
+                      name={publication.title}
+                      onClick={() => {
+                        handleUpdateConnectedTemplates({
+                          workspaceId: initialData.workspaceData
+                            .workspaceId as string,
+                          workspaceName: initialData.workspaceData
+                            .workspaceName as string,
+                          pageId: initialData.pageData.pageId as string,
+                          pageName: initialData.pageData.pageName as string,
+                          templateId: initialData.templateData
+                            .templateId as string,
+                          templateName: initialData.templateData
+                            .templateName as string,
+                          publicationId: publication.id as string,
+                          publicationName: publication.title as string,
+                        })
+                        onClose()
+                      }}
+                    />
+                    <CardLine full={true} />
+                  </>
+                )
+              }
+            })}
+        </>
       </Card>
       <TabBar shiftLayoutOnXl={false} tags={tabbarPages} />
     </Dialog>

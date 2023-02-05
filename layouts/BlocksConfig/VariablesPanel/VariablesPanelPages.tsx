@@ -18,12 +18,14 @@ type VariablesPanelPagesProps = {
   isOpen: boolean
   onClose: () => void
   handleUpdateConnectedTemplates: (data: ConnectTemplatesProps) => void
+  connectedTemplates: ConnectTemplatesProps[]
 }
 
 export const VariablesPanelPages = ({
   isOpen,
   onClose,
   handleUpdateConnectedTemplates,
+  connectedTemplates,
 }: VariablesPanelPagesProps) => {
   const text = useTranslation().t
 
@@ -174,7 +176,12 @@ export const VariablesPanelPages = ({
           isOpen={openTemplates}
           initialData={selectedSource as ISelectedSource}
           handleUpdateConnectedTemplates={handleUpdateConnectedTemplates}
-          onClose={() => setOpenTemplates(false)}
+          onClose={() => {
+            setOpenTemplates(false)
+            onClose()
+          }}
+          onBack={() => setOpenTemplates(false)}
+          connectedTemplates={connectedTemplates}
         />
       )}
       <TabBar shiftLayoutOnXl={false} tags={tabbarPages} />

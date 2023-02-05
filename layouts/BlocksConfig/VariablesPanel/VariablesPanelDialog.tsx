@@ -1,7 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { ArrowRight } from "phosphor-react"
 import { useEffect, useState } from "react"
-import { Card } from "../../../components/Card/Card"
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
@@ -49,6 +48,10 @@ export const VariablesPanelDialog = ({
     useState<SelectedVariableProps | null>(null)
   const [page, setPage] = useState("available_variables")
 
+  function resetSelection() {
+    setSelectedVariable(null)
+  }
+
   useEffect(() => {
     setVariablesBlocks(
       blocks.filter((block) =>
@@ -90,6 +93,7 @@ export const VariablesPanelDialog = ({
       }
     }
     onClose()
+    resetSelection()
   }
 
   const handleBack = () => {
@@ -185,19 +189,19 @@ export const VariablesPanelDialog = ({
     data,
   }: VariableProps) => {
     return (
-      <div className="border-b-[1px]  border-slate-100 flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <div
-          className={`px-5 py-3 w-full cursor-pointer ${
+          className={`px-2 w-full mx-1 lg:mx-2 rounded-[12px] lg:rounded-[18px] cursor-pointer ${
             selectedVariable?.path === path && selectedVariable.value === value
-              ? "bg-slate-100"
+              ? "bg-slate-50"
               : ""
           }`}
           onClick={() => setSelectedVariable({ path, value })}
         >
           <h4>{name}</h4>
-          <p>{from}</p>
+          <p className="mt-1 mb-2 text-[0.8rem] text-slate-500">{from}</p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center">
             {value || type ? (
               <p onClick={() => setSelectedVariable({ path, value })}>
                 {value || type}
@@ -208,6 +212,16 @@ export const VariablesPanelDialog = ({
               <ArrowRight className="cursor-pointer" weight="bold" size={20} />
             ) : null}
           </div>
+          {selectedVariable?.path === path &&
+          selectedVariable.value === value ? (
+            <div className={"w-full flex flex-col justify-start"}>
+              <span className="w-full p-[0.5px] bg-white"></span>
+            </div>
+          ) : (
+            <div className={"w-full flex flex-col justify-start"}>
+              <span className="w-full p-[0.5px] bg-slate-100"></span>
+            </div>
+          )}
         </div>
       </div>
     )
@@ -222,7 +236,10 @@ export const VariablesPanelDialog = ({
       {page === "available_variables" ? (
         <>
           {variablesBlocks.length > 0 ? (
-            <Card>
+            <div
+              className="flex flex-col justify-center gap-[0.375rem] h-fit py-2
+          bg-white min-w-[100%] rounded-[20px] lg:rounded-[30px] lg:gap-[0.75rem] lg:py-3"
+            >
               {variablesBlocks.map((block, index) => {
                 return (
                   <VariableOption
@@ -233,7 +250,7 @@ export const VariablesPanelDialog = ({
                   />
                 )
               })}
-            </Card>
+            </div>
           ) : null}
         </>
       ) : (
