@@ -1,6 +1,13 @@
 const nextTranslate = require('next-translate');
 const removeImports = require("next-remove-imports")();
 
+const securityHeaders = [
+  {
+    key: 'X-Frame-Options',
+    value: 'ALLOWALL'
+  }
+]
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: { esmExternals: true },
@@ -16,7 +23,6 @@ const nextConfig = {
     ]
   },
   webpack: (config) => {
-    // load worker files as a urls with file-loader
     config.module.rules.unshift({
       test: /pdf.worker.(min.)?js/,
       use: [
@@ -32,6 +38,14 @@ const nextConfig = {
     });
 
     return config;
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)?',
+        headers: securityHeaders,
+      },
+    ]
   },
   ...nextTranslate()
 }
