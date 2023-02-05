@@ -1,6 +1,6 @@
-import { useUserAuth } from "../../contexts/userAuth"
-import WorkspaceSetup from "../../layouts/Onboarding/WorkspaceSetup/WorkspaceSetup"
-import { useCreateWorkspace } from "../../services/hooks/useWorkspace/useCreateWorkspace"
+import { useUserAuth } from "../../../contexts/userAuth"
+import WorkspaceSetup from "../../../layouts/Onboarding/WorkspaceSetup/WorkspaceSetup"
+import { useCreateWorkspace } from "../../../services/hooks/useWorkspace/useCreateWorkspace"
 
 export default function WorkspaceSetupPage() {
   const { user } = useUserAuth()

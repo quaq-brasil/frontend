@@ -1,8 +1,8 @@
-import { useUserAuth } from "../../../contexts/userAuth"
-import WorkspaceDelete from "../../../layouts/main/WorkspaceDelete/WorkspaceDelete"
-import { useDeleteWorkspace } from "../../../services/hooks/useWorkspace/useDeleteWorkspace"
-import { useWorkspace } from "../../../services/hooks/useWorkspace/useWorkspace"
-import { IWorkspace } from "../../../types/Workspace.type"
+import { useUserAuth } from "../../../../contexts/userAuth"
+import WorkspaceDelete from "../../../../layouts/main/WorkspaceDelete/WorkspaceDelete"
+import { useDeleteWorkspace } from "../../../../services/hooks/useWorkspace/useDeleteWorkspace"
+import { useWorkspace } from "../../../../services/hooks/useWorkspace/useWorkspace"
+import { IWorkspace } from "../../../../types/Workspace.type"
 
 type WorkspaceDeletePageProps = {
   workspaceId: string

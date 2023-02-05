@@ -1,7 +1,7 @@
-import WorkspaceSettings from "../../../layouts/main/WorkspaceSettings/WorkspaceSettings"
-import { useUpdateWorkspace } from "../../../services/hooks/useWorkspace/useUpdateWorkspace"
-import { useWorkspace } from "../../../services/hooks/useWorkspace/useWorkspace"
-import { IUpdateWorkspace } from "../../../types/Workspace.type"
+import WorkspaceSettings from "../../../../layouts/main/WorkspaceSettings/WorkspaceSettings"
+import { useUpdateWorkspace } from "../../../../services/hooks/useWorkspace/useUpdateWorkspace"
+import { useWorkspace } from "../../../../services/hooks/useWorkspace/useWorkspace"
+import { IUpdateWorkspace } from "../../../../types/Workspace.type"
 
 export default function WorkspaceSettingsPage() {
   const getWorkspace = useWorkspace({ id: "63d91e6acf6a7076d3a019ee" })

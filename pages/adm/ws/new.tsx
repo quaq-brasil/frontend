@@ -1,7 +1,7 @@
-import { useUserAuth } from "../../contexts/userAuth"
-import CreateWorkspace from "../../layouts/main/CreateWorkspace/CreateWorkspace"
-import { useCreateWorkspace } from "../../services/hooks/useWorkspace/useCreateWorkspace"
-import { IUpdateWorkspace } from "../../types/Workspace.type"
+import { useUserAuth } from "../../../contexts/userAuth"
+import CreateWorkspace from "../../../layouts/main/CreateWorkspace/CreateWorkspace"
+import { useCreateWorkspace } from "../../../services/hooks/useWorkspace/useCreateWorkspace"
+import { IUpdateWorkspace } from "../../../types/Workspace.type"
 
 type CreateWorkspacePageProps = {
   workspaceId: string
