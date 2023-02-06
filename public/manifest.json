@@ -1,0 +1,33 @@
+{
+  "name": "Quaq",
+  "short_name": "Quaq",
+  "start_url": "/",
+  "description": "Em uma missão de melhorar as nossas vidas, através da melhora dos meios de interação",
+  "theme_color": "#000",
+  "background_color": "#000",
+  "display": "minimal-ui",
+  "lang": "pt-BR",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-1024x1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ]
+}
