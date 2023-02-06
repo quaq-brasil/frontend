@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { ITemplate } from "../../../types/Template.type"
 import { useMutationProps } from "../../../types/useQueryProps"
 import { api } from "../../apiClient"
@@ -9,7 +9,12 @@ type useCreateTemplateProps = {
 
 export const useCreateTemplate = () => {
   const createTemplate = async ({ data }: useCreateTemplateProps) => {
-    return await api.post(`/templates`, data)
+    const response: UseMutationResult<ITemplate> = await api.post(
+      `/templates`,
+      data
+    )
+
+    return response.data as ITemplate
   }
 
   return useMutation({

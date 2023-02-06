@@ -1,20 +1,25 @@
 import useTranslation from "next-translate/useTranslation"
 import { useEffect, useState } from "react"
+import { Dialog } from "../../../components/Dialog/Dialog"
 import { Header } from "../../../components/Header/Header"
-import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+import { useCreateTemplate } from "../../../services/hooks/useTemplate/useCreateTemplate"
 import { IPage } from "../../../types/Page.type"
 import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
 import { PublishTemplateContent } from "./PublishTemplateContent"
 
 type PublishTemplateProps = {
   initialPageData: IPage | undefined
-  handleCreateTemplate: (data: ITemplate) => void
+  blocks: any[]
+  isOpen: boolean
+  onClose: () => void
 }
 
 export default function PublishTemplate({
   initialPageData,
-  handleCreateTemplate,
+  blocks,
+  isOpen,
+  onClose,
 }: PublishTemplateProps) {
   const text = useTranslation().t
 
@@ -22,6 +27,21 @@ export default function PublishTemplate({
   const [templateData, setTemplateData] = useState<IUpdateTemplate>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+
+  const createTemplate = useCreateTemplate()
+
+  const handleCreateTemplate = (data: ITemplate) => {
+    createTemplate.mutate(
+      {
+        data,
+      },
+      {
+        onSuccess: (data) => {
+          setTemplateData(data)
+        },
+      }
+    )
+  }
 
   useEffect(() => {
     setPageData(initialPageData)
@@ -46,35 +66,6 @@ export default function PublishTemplate({
       url: newData.url || templateData?.url,
     })
     handleUpdateIsUpdating(true)
-  }
-
-  function handleTabBar() {
-    if (isUpdating) {
-      return [
-        <Tag
-          key={1}
-          variant="txt"
-          text={text("publish:back")}
-          onClick={() => console.log("tab1")}
-        />,
-        <div key={2} className={`w-fit h-fit xl:hidden`}>
-          <Tag
-            variant="txt"
-            text={text("publish:publish")}
-            onClick={() => handleUpdateRunUpdate(true)}
-          />
-        </div>,
-      ]
-    } else {
-      return [
-        <Tag
-          key={1}
-          variant="txt"
-          text={text("publish:back")}
-          onClick={() => console.log("tab1")}
-        />,
-      ]
-    }
   }
 
   function loadHeader() {
@@ -103,19 +94,27 @@ export default function PublishTemplate({
   }
 
   return (
-    <div className="bg-slate-100 fixed inset-0">
-      {loadHeader()}
-      <PublishTemplateContent
-        handleCreateTemplate={handleCreateTemplate}
-        isUpdating={isUpdating}
-        runUpdate={runUpdate}
-        handleUpdateRunUpdate={handleUpdateRunUpdate}
-        templateData={templateData}
-        handleUpdateTemplateData={handleUpdateTemplateData}
-        pageData={pageData}
-        handleUpdateIsUpdating={handleUpdateIsUpdating}
-      />
-      <TabBar isHidden={false} tags={handleTabBar()} />
-    </div>
+    <Dialog
+      height={"full"}
+      isOpen={isOpen}
+      title={text("publish:titletag")}
+      onClose={onClose}
+    >
+      <div className="bg-slate-100 fixed inset-0">
+        {/* {loadHeader()} */}
+        <PublishTemplateContent
+          handleCreateTemplate={handleCreateTemplate}
+          isUpdating={isUpdating}
+          runUpdate={runUpdate}
+          handleUpdateRunUpdate={handleUpdateRunUpdate}
+          templateData={templateData}
+          handleUpdateTemplateData={handleUpdateTemplateData}
+          pageData={pageData}
+          handleUpdateIsUpdating={handleUpdateIsUpdating}
+          blocks={blocks}
+          onClose={onClose}
+        />
+      </div>
+    </Dialog>
   )
 }

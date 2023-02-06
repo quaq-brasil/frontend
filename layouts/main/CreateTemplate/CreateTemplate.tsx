@@ -1,8 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
-import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
-import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage } from "../../../types/Page.type"
 import { CreateTemplateContent } from "./CreateTemplateContent"
@@ -13,10 +11,14 @@ type CreateTemplateProps = {
 
 export default function CreateTemplate({ page }: CreateTemplateProps) {
   const text = useTranslation().t
-  const router = useRouter()
 
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+  const [pageData, setPageData] = useState<IPage>()
+
+  useEffect(() => {
+    setPageData(page)
+  }, [page])
 
   function handleUpdateIsUpdating(stat: boolean) {
     setIsUpdating(stat)
@@ -24,17 +26,6 @@ export default function CreateTemplate({ page }: CreateTemplateProps) {
 
   function handleUpdateRunUpdate(stat: boolean) {
     setRunUpdate(stat)
-  }
-
-  function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("createtemplate:back")}
-        onClick={() => router.back()}
-      />,
-    ]
   }
 
   function loadHeader() {
@@ -63,8 +54,8 @@ export default function CreateTemplate({ page }: CreateTemplateProps) {
         runUpdating={runUpdate}
         handleUpdateIsUpdating={handleUpdateIsUpdating}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
+        pageData={pageData}
       />
-      <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   )
 }

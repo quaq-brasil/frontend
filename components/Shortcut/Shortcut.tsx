@@ -1,6 +1,6 @@
 import type { Identifier, XYCoord } from "dnd-core"
 import Image from "next/image"
-import Link from "next/link"
+import { useRouter } from "next/router"
 import { useRef } from "react"
 import { useDrag, useDrop } from "react-dnd"
 import { IPage } from "../../types/Page.type"
@@ -28,8 +28,13 @@ interface DragItem {
 }
 
 export const Shortcut = (props: ShortcutProps) => {
+  const router = useRouter()
+
   function handleClick() {
-    props.onClick && props.onClick()
+    props.onClick
+      ? props.onClick()
+      : !props.isCreator &&
+        router.push(`/${props.pageData?.url}/${props.templateData.url}`)
   }
 
   const ref = useRef<HTMLDivElement>(null)
@@ -105,36 +110,31 @@ export const Shortcut = (props: ShortcutProps) => {
             : "col-span-1  md:max-w-[100%]"
         }`}
       >
-        <Link
-          className="bg-red-500 min-w-[100%] max-w-[100%]"
-          href={`/${props.pageData?.url}/${props.templateData.url}`}
-        >
-          <div
-            className="z-10 absolute flex row justify-center bg-white ml-auto mr-auto left-[0.375rem]
+        <div
+          className="z-10 absolute flex row justify-center bg-white ml-auto mr-auto left-[0.375rem]
       right-[0.375rem] rounded-[15px] bottom-[6px] px-[6px] lg:rounded-[25px]"
-          >
-            <p className="inline-block py-[0.625rem] text-center lg:text-[1.1rem]">
-              {props.title}
-            </p>
+        >
+          <p className="inline-block py-[0.625rem] text-center lg:text-[1.1rem]">
+            {props.title}
+          </p>
+        </div>
+
+        <Image
+          className="rounded-[20px] lg:rounded-[30px]"
+          src={props.img_url}
+          fill
+          style={{ objectFit: "cover" }}
+          alt={""}
+        />
+
+        {props.isCreator && props.isSelected ? (
+          <div className="relative z-10 h-fit min-w-full w-fit pt-0 pl-0 overflow-scroll flex scrollbar-hide gap-3 items-center justify-start">
+            <ShortcutMenu
+              templateData={props.templateData}
+              pageData={props.pageData}
+            />
           </div>
-
-          <Image
-            className="rounded-[20px] lg:rounded-[30px]"
-            src={props.img_url}
-            fill
-            style={{ objectFit: "cover" }}
-            alt={""}
-          />
-
-          {props.isCreator && props.isSelected ? (
-            <div className="relative z-10 h-fit min-w-full w-fit pt-0 pl-0 overflow-scroll flex scrollbar-hide gap-3 items-center justify-start">
-              <ShortcutMenu
-                templateData={props.templateData}
-                pageData={props.pageData}
-              />
-            </div>
-          ) : null}
-        </Link>
+        ) : null}
       </div>
     </>
   )
