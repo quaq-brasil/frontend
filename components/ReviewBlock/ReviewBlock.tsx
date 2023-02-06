@@ -1,6 +1,7 @@
 import { Star, Trash } from "phosphor-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { IBlock } from "../../types/Block.types"
+import { IInteractionData } from "../../types/Interaction.type"
 import { CardLine } from "../Card/CardContentVariants/CardLine"
 
 type IData = {
@@ -15,18 +16,38 @@ type ReviewBlockProps = {
   block: IReviewBlock
   isEditable: boolean
   onDelete?: () => void
+  handleUpdateInteractions?: (interaction: IInteractionData) => void
 }
 
 export const ReviewBlock = ({
   block,
   isEditable,
   onDelete,
+  handleUpdateInteractions,
 }: ReviewBlockProps) => {
   const [selected, setSelected] = useState(0)
 
   function handleOnClick(option: number) {
     setSelected(option)
   }
+
+  const onInteraction = () => {
+    handleUpdateInteractions &&
+      handleUpdateInteractions({
+        id: block.id as string,
+        saveAs: block.saveAs as string,
+        type: block.type as string,
+        data: {
+          description: block.data.description,
+          answer: selected,
+        },
+      })
+  }
+
+  useEffect(() => {
+    onInteraction()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected])
 
   return (
     <div className="flex relative justify-end">

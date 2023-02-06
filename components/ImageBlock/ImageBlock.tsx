@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { Trash } from "phosphor-react"
 import { IBlock } from "../../types/Block.types"
+import { IInteractionData } from "../../types/Interaction.type"
 
 type ImageProps = {
   data: {
@@ -12,12 +13,14 @@ type ImageBlockProps = {
   block: ImageProps
   isEditable: boolean
   onDelete?: () => void
+  handleUpdateInteractions?: (interaction: IInteractionData) => void
 }
 
 export const ImageBlock = ({
   block,
   isEditable,
   onDelete,
+  handleUpdateInteractions,
 }: ImageBlockProps) => {
   return (
     <div

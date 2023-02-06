@@ -30,15 +30,28 @@ export const BlockReader = ({
             block={block}
             isEditable={isEditable}
             onDelete={onDelete}
+            handleUpdateInteractions={handleUpdateInteractions}
           />
         </div>
       )
     case "pool":
       return <PoolBlock block={block} isEditable={isEditable} />
     case "image":
-      return <ImageBlock block={block} isEditable={isEditable} />
+      return (
+        <ImageBlock
+          block={block}
+          isEditable={isEditable}
+          handleUpdateInteractions={handleUpdateInteractions}
+        />
+      )
     case "review":
-      return <ReviewBlock block={block} isEditable={isEditable} />
+      return (
+        <ReviewBlock
+          block={block}
+          isEditable={isEditable}
+          handleUpdateInteractions={handleUpdateInteractions}
+        />
+      )
     case "textentry":
       return (
         <TextEntryBlock
@@ -48,7 +61,13 @@ export const BlockReader = ({
         />
       )
     case "button":
-      return <Button block={block} isEditable={isEditable} />
+      return (
+        <Button
+          block={block}
+          isEditable={isEditable}
+          handleUpdateInteractions={handleUpdateInteractions}
+        />
+      )
     case "webhook":
       return <TechBlock block={block} isEditable={isEditable} type="webhook" />
     case "chart":

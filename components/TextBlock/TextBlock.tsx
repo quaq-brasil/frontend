@@ -1,6 +1,7 @@
 import parse from "html-react-parser"
 import { Trash } from "phosphor-react"
 import { IBlock } from "../../types/Block.types"
+import { IInteractionData } from "../../types/Interaction.type"
 
 type ITextBlock = {
   data: string
@@ -10,9 +11,15 @@ type TextBlockProps = {
   block: ITextBlock
   isEditable: boolean
   onDelete?: () => void
+  handleUpdateInteractions?: (interaction: IInteractionData) => void
 }
 
-export const TextBlock = ({ block, isEditable, onDelete }: TextBlockProps) => {
+export const TextBlock = ({
+  block,
+  isEditable,
+  onDelete,
+  handleUpdateInteractions,
+}: TextBlockProps) => {
   return (
     <div className="flex relative min-w-[100%] content-center">
       {isEditable && (
