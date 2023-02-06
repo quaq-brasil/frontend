@@ -1,13 +1,16 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { BlockReader } from "../../../components/BlockReader/BlockReader"
 import { Card } from "../../../components/Card/Card"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { useUserAuth } from "../../../contexts/userAuth"
+import { useTerms } from "../../../contexts/useTerms"
 import { useCreateInteraction } from "../../../services/hooks/useInteraction/useCreateInteraction"
 import { useUpdateInteraction } from "../../../services/hooks/useInteraction/useUpdateInteraction"
 import { IInteractionData } from "../../../types/Interaction.type"
 import { getTemplateByUrlAndPageUrlProps } from "../../../types/Template.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 
 type TemplateExecutionContentProps = {
   initialData: getTemplateByUrlAndPageUrlProps | undefined
@@ -17,6 +20,8 @@ export function TemplateExecutionContent({
   initialData,
 }: TemplateExecutionContentProps) {
   const text = useTranslation().t
+  const { isCookiesAccepted } = useTerms()
+  const router = useRouter()
 
   const blocks: any = initialData?.publication?.blocks || {}
 
@@ -85,6 +90,21 @@ export function TemplateExecutionContent({
       bg-slate-100 rounded-t-[25px] overflow-y-scroll scrollbar-hide pt-2 px-2
       md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:p-[2rem]"
       >
+        {isCookiesAccepted && (
+          <div className="mb-2 md:mb-4 lg:mb-6">
+            <Card>
+              <p className="w-full text-left lg:text-[1.1rem] px-5 py-2">
+                {text("consumerpage:firstaccess")}
+                <span
+                  className="lg:text-[1.1rem] text-blue-500 cursor-pointer"
+                  onClick={() => router.push(pageUrls.terms())}
+                >
+                  {text("consumerpage:learnmore")}
+                </span>
+              </p>
+            </Card>
+          </div>
+        )}
         <div className="flex flex-col gap-2 md:gap-4 items-center mb-2">
           <Card>
             <CardText label={text("terms:title")} />

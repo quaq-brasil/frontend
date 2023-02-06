@@ -21,6 +21,7 @@ export default function ConsumerPage({
   initialTemplatesData,
 }: ConsumerPageProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [pageData, setPageData] = useState<IPage>()
   const [templatesData, setTemplatesData] = useState<ITemplate[]>()
@@ -36,8 +37,6 @@ export default function ConsumerPage({
   const { handleToggleContextMenu, handleCloseContextMenu } = useContextMenu()
 
   const isSignedIn = false
-
-  const router = useRouter()
 
   const handleHeaderTagContextMenu = () => {
     const handleContent = () => {

@@ -3,5 +3,7 @@
   "createpage": "crie sua página",
   "usequaq": "use quaq",
   "signup": "cadastrar-se",
-  "login": "login"
+  "login": "login",
+  "firstaccess": "Ao interagir com está página, você está concordando com os nossos termos de uso e políticas de privacidade",
+  "learnmore": " (aprender mais)."
 }
