@@ -24,6 +24,8 @@ type VariableProps = {
   type?: string
   value?: any
   data?: any
+  selectedVariable: SelectedVariableProps | null
+  setSelectedVariable: (data: SelectedVariableProps | null) => void
 }
 
 type SelectedVariableProps = {
@@ -176,43 +178,6 @@ export const VariablesPanelDialog = ({
     ) : null,
   ]
 
-  const VariableOption = ({
-    name,
-    from,
-    path,
-    type,
-    value,
-    data,
-  }: VariableProps) => {
-    return (
-      <div className="border-b-[1px]  border-slate-100 flex items-center justify-between">
-        <div
-          className={`px-5 py-3 w-full cursor-pointer ${
-            selectedVariable?.path === path && selectedVariable.value === value
-              ? "bg-slate-100"
-              : ""
-          }`}
-          onClick={() => setSelectedVariable({ path, value })}
-        >
-          <h4>{name}</h4>
-          <p>{from}</p>
-
-          <div className="flex items-center gap-4">
-            {value || type ? (
-              <p onClick={() => setSelectedVariable({ path, value })}>
-                {value || type}
-              </p>
-            ) : null}
-
-            {data ? (
-              <ArrowRight className="cursor-pointer" weight="bold" size={20} />
-            ) : null}
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <Dialog
       isOpen={isOpen}
@@ -226,10 +191,12 @@ export const VariablesPanelDialog = ({
               {variablesBlocks.map((block, index) => {
                 return (
                   <VariableOption
-                    key={index}
+                    key={block.id || index}
                     name={block?.saveAs || ""}
                     path={block?.saveAs || ""}
                     from="this template"
+                    selectedVariable={selectedVariable}
+                    setSelectedVariable={setSelectedVariable}
                   />
                 )
               })}
@@ -245,5 +212,44 @@ export const VariablesPanelDialog = ({
         tags={selectedVariable ? tabbarAddOptions : tabbarPages}
       />
     </Dialog>
+  )
+}
+
+const VariableOption = ({
+  name,
+  from,
+  path,
+  type,
+  value,
+  data,
+  selectedVariable,
+  setSelectedVariable,
+}: VariableProps) => {
+  return (
+    <div className="border-b-[1px]  border-slate-100 flex items-center justify-between">
+      <div
+        className={`px-5 py-3 w-full cursor-pointer ${
+          selectedVariable?.path === path && selectedVariable.value === value
+            ? "bg-slate-100"
+            : ""
+        }`}
+        onClick={() => setSelectedVariable({ path, value })}
+      >
+        <h4>{name}</h4>
+        <p>{from}</p>
+
+        <div className="flex items-center gap-4">
+          {value || type ? (
+            <p onClick={() => setSelectedVariable({ path, value })}>
+              {value || type}
+            </p>
+          ) : null}
+
+          {data ? (
+            <ArrowRight className="cursor-pointer" weight="bold" size={20} />
+          ) : null}
+        </div>
+      </div>
+    </div>
   )
 }

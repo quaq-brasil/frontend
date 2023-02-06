@@ -18,7 +18,7 @@ type AutomationConfigProps = {
 export function AutomationConfig(props: AutomationConfigProps) {
   const text = useTranslation().t
 
-  const [type, setType] = useState<String>("")
+  const [type, setType] = useState<string>("")
 
   function handleTabBar() {
     return [

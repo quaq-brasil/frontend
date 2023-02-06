@@ -1,8 +1,7 @@
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import TemplateExecution from "../../../layouts/main/TemplateExecution/TemplateExecution"
-import { usePageByUrl } from "../../../services/hooks/usePage/usePageByUrl"
-import { useTemplateByUrl } from "../../../services/hooks/useTemplate/useTemplateByUrl"
+import { useTemplateByUrlAndPageUrl } from "../../../services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
 
 type TemplateExecutionPageProps = {
   page: string
@@ -13,18 +12,12 @@ export default function TemplateExecutionPage({
   page,
   template,
 }: TemplateExecutionPageProps) {
-  const getPage = usePageByUrl({ url: page })
-
-  const getTemplate = useTemplateByUrl({
+  const getTemplateAndPage = useTemplateByUrlAndPageUrl({
     url: template,
+    page_url: page,
   })
 
-  return (
-    <TemplateExecution
-      initialPageData={getPage?.data}
-      initialTemplateData={getTemplate?.data}
-    />
-  )
+  return <TemplateExecution initialData={getTemplateAndPage?.data} />
 }
 
 type Params = {

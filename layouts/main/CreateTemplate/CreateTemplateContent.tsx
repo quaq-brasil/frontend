@@ -64,7 +64,7 @@ export function CreateTemplateContent({
         {blocks.length > 0 ? (
           <div className="flex flex-col gap-2 mb-2 md:gap-4 md:mb-4">
             {blocks.map((block, index) => {
-              return <BlockReader key={index} block={block} />
+              return <BlockReader key={index} block={block} isEditable={true} />
             })}
           </div>
         ) : null}

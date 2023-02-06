@@ -1,7 +1,7 @@
 export type IPublication = {
   id?: string
   title: string
-  blocks: object
+  blocks: any[]
   template_id?: string
   page_id: string
   published_at?: string
@@ -10,7 +10,7 @@ export type IPublication = {
 export type IUpdatePublication = {
   id?: string
   title?: string
-  blocks?: object
+  blocks?: any[]
   template_id?: string
   page_id?: string
   published_at?: string

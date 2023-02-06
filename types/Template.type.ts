@@ -1,3 +1,6 @@
+import { IPage } from "./Page.type"
+import { IPublication } from "./Publication.type"
+
 export type ITrackers = {
   facebook?: string
   google?: string
@@ -30,3 +33,9 @@ export type IUpdateTemplate = {
   trackers?: ITrackers
   page_id?: string
 }
+
+export type getTemplateByUrlAndPageUrlProps = {
+  Page: IPage
+  publication: IPublication
+  Publications: IPublication[]
+} & ITemplate

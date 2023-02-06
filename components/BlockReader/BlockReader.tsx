@@ -21,23 +21,23 @@ export const BlockReader = ({
     case "text":
       return (
         <div className="flex flex-col px-3 py-3 justify-center min-w-[100%] bg-white  rounded-[20px] lg:rounded-[30px] lg-px[1.125rem]">
-          <TextBlock block={block} isEditable={true} />
+          <TextBlock block={block} isEditable={isEditable} />
         </div>
       )
     case "pool":
-      return <PoolBlock block={block} isEditable={true} />
+      return <PoolBlock block={block} isEditable={isEditable} />
     case "image":
-      return <ImageBlock block={block} isEditable={true} />
+      return <ImageBlock block={block} isEditable={isEditable} />
     case "review":
-      return <ReviewBlock block={block} isEditable={true} />
+      return <ReviewBlock block={block} isEditable={isEditable} />
     case "textentry":
-      return <TextEntryBlock block={block} isEditable={true} />
+      return <TextEntryBlock block={block} isEditable={isEditable} />
     case "button":
-      return <Button block={block} isEditable={true} />
+      return <Button block={block} isEditable={isEditable} />
     case "webhook":
-      return <TechBlock block={block} isEditable={true} type="webhook" />
+      return <TechBlock block={block} isEditable={isEditable} type="webhook" />
     case "chart":
-      return <ChartBlock block={block} isEditable={true} />
+      return <ChartBlock block={block} isEditable={isEditable} />
     default:
       return (
         <>

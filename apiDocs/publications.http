@@ -1,6 +1,6 @@
 # get publications
 
-GET https://bff.quaq.me/api/v1/publications/63dfd2a7c861c288325bcc6d
+GET https://bff.quaq.me/api/v1/publications/63e048a4acfb6a691c18af64
 
 ###
 
@@ -11,8 +11,12 @@ Content-Type: application/json
 
 {
     "title": "first publication",
-    "blocks": [{}],
-    "page_id": "63df08bef243bdc4870d6b09"
+    "blocks": [{
+        "id": "1",
+        "type": "text",
+        "data": "<h1>testeee</h1>"
+    }],
+    "page_id": "63e04850acfb6a691c18af63"
 }
 
 ###

@@ -1,6 +1,6 @@
 # find one
 
-GET https://bff.quaq.me/api/v1/pages/63df08bef243bdc4870d6b09
+GET https://bff.quaq.me/api/v1/pages/63e04850acfb6a691c18af63
 
 
 ###
@@ -11,8 +11,8 @@ POST https://bff.quaq.me/api/v1/pages
 Content-Type: application/json
 
 {
-    "name": "felp's page",
-    "url": "felp's page",
+    "name": "paginateste",
+    "url": "paginateste",
     "workspace_id": "63dd14cdc3a3b5901c1675ff",
     "avatar_url": "https://images.unsplash.com/photo-1522124624696-7ea32eb9592c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60",
     "background_url": "https://images.unsplash.com/photo-1522124624696-7ea32eb9592c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60"

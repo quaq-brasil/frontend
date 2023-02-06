@@ -9,12 +9,12 @@ Content-Type: application/json
 
 {
   "name": "felp's template",
-  "url": "felp-s-template",
+  "url": "templateteste",
   "shortcut_image": "https://images.unsplash.com/photo-1522124624696-7ea32eb9592c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60",
   "shortcut_size": "https://images.unsplash.com/photo-1522124624696-7ea32eb9592c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60",
-  "current_publication_id": "63dfd2a7c861c288325bcc6d",
+  "current_publication_id": "63e048a4acfb6a691c18af64",
   "number_of_new_interactions": 1,
-  "page_id": "63df08bef243bdc4870d6b09"
+  "page_id": "63e04850acfb6a691c18af63"
 }
 
 ###
