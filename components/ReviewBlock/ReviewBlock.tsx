@@ -73,6 +73,7 @@ export const ReviewBlock = ({
               className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
                 selected > 0 ? "text-yellow-500" : "text-slate-500"
               }`}
+              weight="fill"
             />
           </button>
           <button onClick={() => handleOnClick(2)}>
@@ -80,6 +81,7 @@ export const ReviewBlock = ({
               className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
                 selected > 1 ? "text-yellow-500" : "text-slate-500"
               }`}
+              weight="fill"
             />
           </button>
           <button onClick={() => handleOnClick(3)}>
@@ -87,6 +89,7 @@ export const ReviewBlock = ({
               className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
                 selected > 2 ? "text-yellow-500" : "text-slate-500"
               }`}
+              weight="fill"
             />
           </button>
           <button onClick={() => handleOnClick(4)}>
@@ -94,6 +97,7 @@ export const ReviewBlock = ({
               className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
                 selected > 3 ? "text-yellow-500" : "text-slate-500"
               }`}
+              weight="fill"
             />
           </button>
           <button onClick={() => handleOnClick(5)}>
@@ -101,6 +105,7 @@ export const ReviewBlock = ({
               className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
                 selected > 4 ? "text-yellow-500" : "text-slate-500"
               }`}
+              weight="fill"
             />
           </button>
         </div>
