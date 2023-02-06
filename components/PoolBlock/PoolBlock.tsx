@@ -1,6 +1,7 @@
 import { Trash } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { IBlock } from "../../types/Block.types"
+import { IInteractionData } from "../../types/Interaction.type"
 
 type options = {
   id: number
@@ -22,9 +23,15 @@ type PoolBlockProps = {
   block: IPoolBlock
   isEditable: boolean
   onDelete?: () => void
+  handleUpdateInteractions?: (interaction: IInteractionData) => void
 }
 
-export const PoolBlock = ({ block, isEditable, onDelete }: PoolBlockProps) => {
+export const PoolBlock = ({
+  block,
+  isEditable,
+  onDelete,
+  handleUpdateInteractions,
+}: PoolBlockProps) => {
   type IAnswer = {
     id: number
     value: string
@@ -60,6 +67,24 @@ export const PoolBlock = ({ block, isEditable, onDelete }: PoolBlockProps) => {
 
   const isMaxAchieved = selectedAnswers === (Number(block?.data.max) || 0)
   const isMinAchieved = selectedAnswers >= (Number(block.data.min) || 0)
+
+  const onInteraction = () => {
+    handleUpdateInteractions &&
+      handleUpdateInteractions({
+        id: block.id as string,
+        saveAs: block.saveAs as string,
+        type: block.type as string,
+        data: {
+          title: block.data.title,
+          answers: selectedAnswers,
+        },
+      })
+  }
+
+  useEffect(() => {
+    onInteraction()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedAnswers])
 
   return (
     <div className="flex relative justify-end min-w-[100%]">

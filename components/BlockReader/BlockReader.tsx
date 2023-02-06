@@ -35,7 +35,13 @@ export const BlockReader = ({
         </div>
       )
     case "pool":
-      return <PoolBlock block={block} isEditable={isEditable} />
+      return (
+        <PoolBlock
+          block={block}
+          isEditable={isEditable}
+          handleUpdateInteractions={handleUpdateInteractions}
+        />
+      )
     case "image":
       return (
         <ImageBlock

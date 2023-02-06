@@ -49,6 +49,7 @@ export function Button({
         saveAs: block.saveAs as string,
         type: block.type as string,
         data: {
+          text: block.data.text,
           events: events,
         },
       })
