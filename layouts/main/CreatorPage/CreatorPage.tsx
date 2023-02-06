@@ -23,10 +23,12 @@ import { CreatorPageContent } from "./CreatorPageContent"
 
 type CreatorPageProps = {
   initialWorkspacesData: IWorkspace[]
+  initalCurrentPageData?: IPage
 }
 
 export default function CreatorPage({
   initialWorkspacesData,
+  initalCurrentPageData,
 }: CreatorPageProps) {
   const text = useTranslation().t
   const router = useRouter()
@@ -55,7 +57,11 @@ export default function CreatorPage({
         {
           onSuccess: (data) => {
             setPages([...data])
-            setCurrentPage(data[0])
+            if (initalCurrentPageData) {
+              setCurrentPage(initalCurrentPageData)
+            } else {
+              setCurrentPage(data[0])
+            }
           },
         }
       )
@@ -112,6 +118,7 @@ export default function CreatorPage({
               variant="icn-txt"
               text={text("creatorpage:profile")}
               icon={UserCircle}
+              onClick={() => router.push(pageUrls.meSettings())}
             />
           </div>
           {isSwitchSelected && <>{loadWorkspaces()}</>}
@@ -263,7 +270,9 @@ export default function CreatorPage({
         key={2}
         variant="txt"
         text={text("creatorpage:new")}
-        onClick={() => console.log("new")}
+        onClick={() =>
+          router.push(pageUrls.createTemplate(currentPage?.url as string))
+        }
       />,
       <div key={3} className="xl:hidden w-fit">
         <Tag

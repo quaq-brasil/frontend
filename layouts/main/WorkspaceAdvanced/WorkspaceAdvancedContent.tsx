@@ -26,7 +26,7 @@ export function WorkspaceAdvancedContent() {
               indicator={{ icon: ArrowRight }}
               onClick={() =>
                 router.push(
-                  pageUrls.workspageSettings({
+                  pageUrls.workspaceSettings({
                     settings: "delete",
                     woskpaceSlug: "wsname",
                   })

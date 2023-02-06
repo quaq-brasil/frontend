@@ -10,6 +10,7 @@ import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+import { useUserAuth } from "../../../contexts/userAuth"
 import { useContextMenu } from "../../../hooks/ContextMenuHook"
 import { IPage } from "../../../types/Page.type"
 import { ITemplate } from "../../../types/Template.type"
@@ -28,6 +29,8 @@ export default function Explorer({
   const text = useTranslation().t
   const router = useRouter()
 
+  const user = useUserAuth()
+
   const [pageData, setPageData] = useState<IPage>()
   const [templatesData, setTemplatesData] = useState<ITemplate[]>()
 
@@ -41,7 +44,7 @@ export default function Explorer({
 
   const { handleToggleContextMenu, handleCloseContextMenu } = useContextMenu()
 
-  const isSignedIn = false
+  const isSignedIn = user ? true : false
 
   function handleRedirectToLogin() {
     handleCloseContextMenu()
@@ -100,7 +103,7 @@ export default function Explorer({
           variant="icn-txt"
           text={text("explorer:pages")}
           icon={ArrowCounterClockwise}
-          onClick={() => console.log("explore")}
+          onClick={() => router.push(pageUrls.adm())}
         />,
       ]
     } else {

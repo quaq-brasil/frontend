@@ -1,6 +1,6 @@
 # get templates
 
-GET https://bff.quaq.me/api/v1/templates/63dfd2d5c861c288325bcc6e
+GET https://bff.quaq.me/api/v1/templates/63d91f6ecf6a7076d3a019f1
 
 ###
 
@@ -31,7 +31,7 @@ GET https://bff.quaq.me/api/v1/templates/page/63df08bef243bdc4870d6b09
 
 ###
 
-PUT https://bff.quaq.me/api/v1/templates/63d53a0f6b9144417887b53d
+PUT https://bff.quaq.me/api/v1/templates/63d91f6ecf6a7076d3a019f1
 Content-Type: application/json
 
 {

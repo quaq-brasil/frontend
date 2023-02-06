@@ -19,6 +19,7 @@ export default function TemplateAccessControl({
   initialPageData,
 }: TemplateAccessControlProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [templateData, setTemplateData] = useState<IUpdateTemplate>()
   const [pageData, setPageData] = useState<IUpdatePage>()
@@ -28,15 +29,13 @@ export default function TemplateAccessControl({
     setTemplateData(initialTemplateData)
   }, [initialPageData, initialTemplateData])
 
-  const router = useRouter()
-
   function handleTabBar() {
     return [
       <Tag
         key={1}
         variant="txt"
         text={text("accesscontrol:back")}
-        onClick={() => console.log("tab1")}
+        onClick={() => router.back()}
       />,
       <div key={2} className="xl:hidden w-fit h-fit">
         <Tag

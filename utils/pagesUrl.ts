@@ -3,15 +3,17 @@ import { useRouter } from "next/router"
 const page = (pageSlug: string) => `/${pageSlug}`
 
 type pageSettingsProps = {
-  pageSlug: string
+  pageSlug?: string
   pageSettings?: string
 }
 
 const pageSettings = ({ pageSlug, pageSettings }: pageSettingsProps) => {
-  if (pageSettings) {
+  if (pageSettings && pageSlug) {
     return `/adm/${pageSlug}/${pageSettings}`
-  } else {
+  } else if (pageSlug) {
     return `/adm/${pageSlug}`
+  } else {
+    return `/adm`
   }
 }
 
@@ -38,40 +40,48 @@ const home = () => `/`
 
 const meSettings = (settings?: string) => {
   if (settings) {
-    return `/me/${settings}`
+    return `/account/${settings}`
   } else {
-    return `/me`
+    return `/account`
   }
 }
 
-type workspageSettingsProps = {
+type workspaceSettingsProps = {
   woskpaceSlug?: string
   settings?: string
 }
 
-const workspageSettings = ({
+const workspaceSettings = ({
   woskpaceSlug,
   settings,
-}: workspageSettingsProps) => {
+}: workspaceSettingsProps) => {
   if (settings && woskpaceSlug) {
-    return `/ws/${woskpaceSlug}/${settings}`
+    return `/adm/ws/${woskpaceSlug}/${settings}`
   } else if (settings && !woskpaceSlug) {
-    return `/ws/${settings}`
+    return `/adm/ws/${settings}`
   } else if (!settings && woskpaceSlug) {
-    return `/ws/${woskpaceSlug}`
+    return `/adm/ws/${woskpaceSlug}`
   } else {
-    return `/ws`
+    return `/adm/ws`
   }
 }
 
 const login = () => {
-  return `/me/login`
+  return `/account/login`
 }
 
 const Back = () => {
   const router = useRouter()
 
   return router.back()
+}
+
+const createTemplate = (pageSlug: string) => {
+  return `/adm/${pageSlug}/new-template`
+}
+
+const adm = () => {
+  return `/adm`
 }
 
 export const pageUrls = {
@@ -83,7 +93,9 @@ export const pageUrls = {
   home,
   createPage,
   meSettings,
-  workspageSettings,
+  workspaceSettings,
   login,
   Back,
+  createTemplate,
+  adm,
 }

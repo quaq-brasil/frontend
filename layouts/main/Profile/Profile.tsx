@@ -1,4 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
@@ -16,6 +17,7 @@ export default function Profile({
   handleUserUpdate,
 }: ProfileProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [userData, setUserData] = useState<IUpdateUser>()
   const [isUpdating, setIsUpdating] = useState(false)
@@ -58,7 +60,7 @@ export default function Profile({
           key={1}
           variant="txt"
           text={text("edittemplate:back")}
-          onClick={() => console.log("tab1")}
+          onClick={() => router.back()}
         />,
         <div key={2} className={`w-fit h-fit xl:hidden`}>
           <Tag
@@ -74,7 +76,7 @@ export default function Profile({
           key={1}
           variant="txt"
           text={text("profile:back")}
-          onClick={() => console.log("tab1")}
+          onClick={() => router.back()}
         />,
       ]
     }

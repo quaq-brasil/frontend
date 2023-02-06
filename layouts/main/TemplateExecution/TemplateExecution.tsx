@@ -39,6 +39,12 @@ export default function TemplateExecution({
         key={1}
         variant="txt"
         text={text("profile:back")}
+        onClick={() => router.back()}
+      />,
+      <Tag
+        key={2}
+        variant="txt"
+        text={pageData?.name as string}
         onClick={() => router.push(pageUrls.page(pageData?.url || ""))}
       />,
     ]
