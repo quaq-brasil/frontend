@@ -20,6 +20,7 @@ type TechBlockProps = {
   block: ITechBlock
   isEditable: boolean
   type: string
+  isVisible?: boolean
 }
 
 export const TechBlock = ({ block, isEditable, type }: TechBlockProps) => {

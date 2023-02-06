@@ -2,7 +2,6 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import { PencilSimple } from "phosphor-react"
 import { useEffect } from "react"
-import { TechBlock } from "../TechBlock/TechBlock"
 
 type RedirectBlockProps = {
   destination_url: string
@@ -32,8 +31,7 @@ export const RedirectBlock = (props: RedirectBlockProps) => {
             props.isVisible ? "" : "hidden"
           }`}
         >
-          <TechBlock
-            description={props.description || ""}
+          {/* <TechBlock
             isEditable={props.isEditable}
             isVisible={props.isVisible}
             specs={[
@@ -46,7 +44,7 @@ export const RedirectBlock = (props: RedirectBlockProps) => {
                 description: props.save_as || "missing value",
               },
             ]}
-          />
+          /> */}
         </div>
       )}
       {props.isManual === true && (

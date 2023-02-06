@@ -1,5 +1,6 @@
 import { useRouter } from "next/router"
-import Login from "../../layouts/Onboarding/LogIn/LogIn"
+import Login from "../../layouts/Onboarding/Login/LogIn"
+
 import { useLogin } from "../../services/hooks/useUser/useLogin"
 import { IUserLogin } from "../../types/User.type"
 import { pageUrls } from "../../utils/pagesUrl"

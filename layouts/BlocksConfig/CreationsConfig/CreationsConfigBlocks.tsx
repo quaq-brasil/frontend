@@ -1,7 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { useState } from "react"
 import { Dialog } from "../../../components/Dialog/Dialog"
-import { ImageBlock } from "../../../components/ImageBlock/ImageBlock"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 
@@ -27,33 +26,33 @@ export function CreationsConfigBlocks(props: CreationsConfigBlocksProps) {
     ]
   }
 
-  const blocks = [
-    <ImageBlock
-      key={1}
-      img_url="https://source.unsplash.com/featured/"
-      isEditable={false}
-    />,
-    <ImageBlock
-      key={2}
-      img_url="https://source.unsplash.com/featured/"
-      isEditable={false}
-    />,
-    <ImageBlock
-      key={3}
-      img_url="https://source.unsplash.com/featured/"
-      isEditable={false}
-    />,
-    <ImageBlock
-      key={4}
-      img_url="https://source.unsplash.com/featured/"
-      isEditable={false}
-    />,
-    <ImageBlock
-      key={5}
-      img_url="https://source.unsplash.com/featured/"
-      isEditable={false}
-    />,
-  ]
+  // const blocks = [
+  //   <ImageBlock
+  //     key={1}
+  //     img_url="https://source.unsplash.com/featured/"
+  //     isEditable={false}
+  //   />,
+  //   <ImageBlock
+  //     key={2}
+  //     img_url="https://source.unsplash.com/featured/"
+  //     isEditable={false}
+  //   />,
+  //   <ImageBlock
+  //     key={3}
+  //     img_url="https://source.unsplash.com/featured/"
+  //     isEditable={false}
+  //   />,
+  //   <ImageBlock
+  //     key={4}
+  //     img_url="https://source.unsplash.com/featured/"
+  //     isEditable={false}
+  //   />,
+  //   <ImageBlock
+  //     key={5}
+  //     img_url="https://source.unsplash.com/featured/"
+  //     isEditable={false}
+  //   />,
+  // ]
 
   function handleSelection(index: number) {
     if (selected.includes(index)) {
@@ -74,7 +73,7 @@ export function CreationsConfigBlocks(props: CreationsConfigBlocksProps) {
         onClose={() => console.log("closed")}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
-          {blocks.map((block, index) => {
+          {/* {blocks.map((block, index) => {
             return (
               <button
                 className={`w-full rounded-[20px] lg:rounded-[30px] ${
@@ -88,7 +87,7 @@ export function CreationsConfigBlocks(props: CreationsConfigBlocksProps) {
                 {block}
               </button>
             )
-          })}
+          })} */}
           {props.size === "sm" && (
             <button
               className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white

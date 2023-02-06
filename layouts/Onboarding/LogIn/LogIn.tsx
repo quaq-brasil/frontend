@@ -6,7 +6,7 @@ import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUserLogin } from "../../../types/User.type"
 import { pageUrls } from "../../../utils/pagesUrl"
-import { LoginContent } from "./LogInContent"
+import { LoginContent } from "./LoginContent"
 
 type LoginProps = {
   handleUserLogin: (data: IUserLogin) => void
