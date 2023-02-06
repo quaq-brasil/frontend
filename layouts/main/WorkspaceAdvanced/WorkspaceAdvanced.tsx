@@ -32,7 +32,7 @@ export default function WorkspaceAdvanced({
         variant="txt"
         text={text("wsadvanced:tab1")}
         onClick={() =>
-          router.push(pageUrls.workspageSettings({ woskpaceSlug: "wsname" }))
+          router.push(pageUrls.workspaceSettings({ woskpaceSlug: "wsname" }))
         }
       />,
     ]
@@ -54,7 +54,7 @@ export default function WorkspaceAdvanced({
           variant="txt"
           text={text("wsadvanced:titletag")}
           onClick={() =>
-            router.push(pageUrls.workspageSettings({ woskpaceSlug: "wsname" }))
+            router.push(pageUrls.workspaceSettings({ woskpaceSlug: "wsname" }))
           }
         />
         <Tag variant="txt" text={text("wsadvanced:titletag2")} />

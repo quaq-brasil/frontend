@@ -37,7 +37,7 @@ export default function LoginPage() {
       {
         onSuccess: () => {
           router.push(
-            pageUrls.workspageSettings({ settings: "first-workspace" })
+            pageUrls.workspaceSettings({ settings: "first-workspace" })
           )
         },
       }

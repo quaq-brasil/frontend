@@ -87,7 +87,7 @@ export function WorkspaceSettingsContent({
               indicator={{ icon: ArrowRight }}
               onClick={() =>
                 router.push(
-                  pageUrls.workspageSettings({
+                  pageUrls.workspaceSettings({
                     settings: "advanced",
                     woskpaceSlug: "wsname",
                   })

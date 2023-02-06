@@ -120,7 +120,7 @@ export function CentralOptionsContent({
               label={text("centraloptions:small")}
               indicator={{
                 icon: Check,
-                isVisible: templateData?.shortcut_size == "small",
+                isVisible: templateData?.shortcut_size !== "small",
               }}
               onClick={() =>
                 handleUpdateTemplateData({ shortcut_size: "small" })
@@ -131,7 +131,7 @@ export function CentralOptionsContent({
               label={text("centraloptions:large")}
               indicator={{
                 icon: Check,
-                isVisible: templateData?.shortcut_size == "large",
+                isVisible: templateData?.shortcut_size !== "large",
               }}
               onClick={() =>
                 handleUpdateTemplateData({ shortcut_size: "large" })

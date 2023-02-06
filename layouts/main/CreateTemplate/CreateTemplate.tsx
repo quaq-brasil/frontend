@@ -1,4 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
@@ -12,6 +13,7 @@ type CreateTemplateProps = {
 
 export default function CreateTemplate({ page }: CreateTemplateProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
@@ -30,7 +32,7 @@ export default function CreateTemplate({ page }: CreateTemplateProps) {
         key={1}
         variant="txt"
         text={text("createtemplate:back")}
-        onClick={() => console.log("back")}
+        onClick={() => router.back()}
       />,
     ]
   }

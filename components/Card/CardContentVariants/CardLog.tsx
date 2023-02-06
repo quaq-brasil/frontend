@@ -30,7 +30,7 @@ export function CardLog(props: CardLogProps) {
           </div>
         )}
         <div className="flex flex-col items-start">
-          <p className="text-[0.875rem] lg:text-[1.1rem]">{props.name}</p>
+          <p className="lg:text-[1.1rem]">{props.name}</p>
 
           {props.date && (
             <p className="text-[0.75rem] lg:text-[0.875rem] text-slate-500">

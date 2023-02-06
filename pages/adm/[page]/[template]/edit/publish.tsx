@@ -1,11 +1,11 @@
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
-import EditTemplate from "../../../../layouts/main/EditTemplate/EditTemplate"
-import { usePageByUrl } from "../../../../services/hooks/usePage/usePageByUrl"
-import { useTemplateByUrl } from "../../../../services/hooks/useTemplate/useTemplateByUrl"
-import { useUpdateTemplate } from "../../../../services/hooks/useTemplate/useUpdateTemplate"
-import { IPage } from "../../../../types/Page.type"
-import { ITemplate, IUpdateTemplate } from "../../../../types/Template.type"
+import EditTemplate from "../../../../../layouts/main/EditTemplate/EditTemplate"
+import { usePageByUrl } from "../../../../../services/hooks/usePage/usePageByUrl"
+import { useTemplateByUrl } from "../../../../../services/hooks/useTemplate/useTemplateByUrl"
+import { useUpdateTemplate } from "../../../../../services/hooks/useTemplate/useUpdateTemplate"
+import { IPage } from "../../../../../types/Page.type"
+import { ITemplate, IUpdateTemplate } from "../../../../../types/Template.type"
 
 type EditTemplatePageProps = {
   page: string

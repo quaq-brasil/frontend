@@ -24,6 +24,8 @@ type VariablesPanelTemplatesProps = {
     }
   }
   handleUpdateConnectedTemplates: (data: ConnectTemplatesProps) => void
+  onBack: () => void
+  connectedTemplates: ConnectTemplatesProps[]
 }
 
 export const VariablesPanelTemplates = ({
@@ -31,6 +33,8 @@ export const VariablesPanelTemplates = ({
   onClose,
   initialData,
   handleUpdateConnectedTemplates,
+  onBack,
+  connectedTemplates,
 }: VariablesPanelTemplatesProps) => {
   const text = useTranslation().t
 
@@ -80,7 +84,7 @@ export const VariablesPanelTemplates = ({
       key={1}
       variant="txt"
       text={text("variablespanel:back")}
-      onClick={onClose}
+      onClick={onBack}
     />,
   ]
 
@@ -103,8 +107,13 @@ export const VariablesPanelTemplates = ({
               templateName: template?.name as string,
             },
           }}
-          isOpen={openPublications}
-          onClose={() => setOpenPublications(false)}
+          isOpen={isOpen}
+          onClose={() => {
+            setOpenPublications(false)
+            onClose()
+          }}
+          onBack={() => setOpenPublications(false)}
+          connectedTemplates={connectedTemplates}
         />
       )}
     </Dialog>

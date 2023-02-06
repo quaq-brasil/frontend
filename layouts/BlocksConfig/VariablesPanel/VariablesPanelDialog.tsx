@@ -1,7 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { ArrowRight } from "phosphor-react"
 import { useEffect, useState } from "react"
-import { Card } from "../../../components/Card/Card"
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
@@ -51,6 +50,10 @@ export const VariablesPanelDialog = ({
     useState<SelectedVariableProps | null>(null)
   const [page, setPage] = useState("available_variables")
 
+  function resetSelection() {
+    setSelectedVariable(null)
+  }
+
   useEffect(() => {
     setVariablesBlocks(
       blocks.filter((block) =>
@@ -92,6 +95,7 @@ export const VariablesPanelDialog = ({
       }
     }
     onClose()
+    resetSelection()
   }
 
   const handleBack = () => {
@@ -187,7 +191,10 @@ export const VariablesPanelDialog = ({
       {page === "available_variables" ? (
         <>
           {variablesBlocks.length > 0 ? (
-            <Card>
+            <div
+              className="flex flex-col justify-center gap-[0.375rem] h-fit py-2
+          bg-white min-w-[100%] rounded-[20px] lg:rounded-[30px] lg:gap-[0.75rem] lg:py-3"
+            >
               {variablesBlocks.map((block, index) => {
                 return (
                   <VariableOption
@@ -200,7 +207,7 @@ export const VariablesPanelDialog = ({
                   />
                 )
               })}
-            </Card>
+            </div>
           ) : null}
         </>
       ) : (

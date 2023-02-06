@@ -56,7 +56,7 @@ export default function GeneralSettings({
           key={1}
           variant="txt"
           text={text("generalsettings:back")}
-          onClick={() => router.push(pageUrls.page(pageData?.url || ""))}
+          onClick={() => router.back()}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -72,11 +72,7 @@ export default function GeneralSettings({
           key={1}
           variant="txt"
           text={text("generalsettings:back")}
-          onClick={() =>
-            router.push(
-              pageUrls.pageSettings({ pageSlug: pageData?.url || "" })
-            )
-          }
+          onClick={() => router.back()}
         />,
       ]
     }
