@@ -57,7 +57,7 @@ export function ConsumerPageContent({
       rounded-t-[25px] overflow-y-scroll scrollbar-hide pt-2 px-2 bg-slate-100
       lg:rounded-none lg:top-[156px]"
       >
-        {isCookiesAccepted && (
+        {!isCookiesAccepted && (
           <div className="lg:px-5 lg:mt-2 lg:mb-0 mb-2">
             <Card>
               <p className="w-full text-left lg:text-[1.1rem] px-5 py-2">

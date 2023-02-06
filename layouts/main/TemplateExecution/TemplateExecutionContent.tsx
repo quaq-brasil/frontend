@@ -3,7 +3,6 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { BlockReader } from "../../../components/BlockReader/BlockReader"
 import { Card } from "../../../components/Card/Card"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { useUserAuth } from "../../../contexts/userAuth"
 import { useTerms } from "../../../contexts/useTerms"
 import { useCreateInteraction } from "../../../services/hooks/useInteraction/useCreateInteraction"
@@ -90,7 +89,7 @@ export function TemplateExecutionContent({
       bg-slate-100 rounded-t-[25px] overflow-y-scroll scrollbar-hide pt-2 px-2
       md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:p-[2rem]"
       >
-        {isCookiesAccepted && (
+        {!isCookiesAccepted && (
           <div className="mb-2 md:mb-4 lg:mb-6">
             <Card>
               <p className="w-full text-left lg:text-[1.1rem] px-5 py-2">
@@ -105,13 +104,6 @@ export function TemplateExecutionContent({
             </Card>
           </div>
         )}
-        <div className="flex flex-col gap-2 md:gap-4 items-center mb-2">
-          <Card>
-            <CardText label={text("terms:title")} />
-            <CardText label={text("terms:terms")} />
-          </Card>
-        </div>
-
         {blocks ? (
           <div className="flex flex-col gap-2 mb-2 md:gap-4 md:mb-4">
             {Object.keys(blocks).map((key) => {
