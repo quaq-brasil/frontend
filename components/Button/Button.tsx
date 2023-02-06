@@ -1,4 +1,4 @@
-import { PencilSimple } from "phosphor-react"
+import { Trash } from "phosphor-react"
 import { IBlock } from "../../types/Block.types"
 
 type IData = {
@@ -14,15 +14,19 @@ type IReviewBlock = {
 type ButtonProps = {
   block: IReviewBlock
   isEditable: boolean
+  onDelete?: () => void
 }
 
-export function Button({ block, isEditable }: ButtonProps) {
+export function Button({ block, isEditable, onDelete }: ButtonProps) {
   return (
     <div className="w-full h-fit relative">
       {isEditable === true && (
-        <div className="z-10 absolute right-0 top-0 rounded-full bg-white border border-slate-100">
-          <PencilSimple className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
-        </div>
+        <button
+          onClick={onDelete}
+          className="z-10 absolute right-0 top-0 rounded-full bg-white border border-slate-100"
+        >
+          <Trash className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
+        </button>
       )}
       <button
         onClick={block.data.onClick}

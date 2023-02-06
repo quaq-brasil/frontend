@@ -40,9 +40,14 @@ type IChartBlock = {
 type ChartBlockProps = {
   block: IChartBlock
   isEditable: boolean
+  onDelete?: () => void
 }
 
-export const ChartBlock = ({ block, isEditable }: ChartBlockProps) => {
+export const ChartBlock = ({
+  block,
+  isEditable,
+  onDelete,
+}: ChartBlockProps) => {
   function renderChart(type: string) {
     switch (type) {
       case "line":
@@ -53,6 +58,8 @@ export const ChartBlock = ({ block, isEditable }: ChartBlockProps) => {
               labels: block.data.labels as string[],
             }}
             title={block.title as string}
+            onDelete={onDelete}
+            isEditable={isEditable}
           />
         )
       case "horizontalbar":
@@ -63,6 +70,8 @@ export const ChartBlock = ({ block, isEditable }: ChartBlockProps) => {
               labels: block.data.labels as string[],
             }}
             title={block.title as string}
+            onDelete={onDelete}
+            isEditable={isEditable}
           />
         )
       case "verticalbar":
@@ -73,6 +82,8 @@ export const ChartBlock = ({ block, isEditable }: ChartBlockProps) => {
               labels: block.data.labels as string[],
             }}
             title={block.title as string}
+            onDelete={onDelete}
+            isEditable={isEditable}
           />
         )
       case "pie":
@@ -83,6 +94,8 @@ export const ChartBlock = ({ block, isEditable }: ChartBlockProps) => {
               labels: block.data.labels as string[],
             }}
             title={block.title as string}
+            onDelete={onDelete}
+            isEditable={isEditable}
           />
         )
       case "scatter":
@@ -90,6 +103,8 @@ export const ChartBlock = ({ block, isEditable }: ChartBlockProps) => {
           <ScatterChart
             data={{ datasets: block.data as IDataSet3[] }}
             title={block.title as string}
+            onDelete={onDelete}
+            isEditable={isEditable}
           />
         )
     }

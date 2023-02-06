@@ -115,6 +115,7 @@ export default function TestPage() {
             <LineChart
               data={{ datasets: datasets, labels: labels }}
               title="title"
+              isEditable={true}
             />
             <VerticalBarChart
               data={{ datasets: datasets, labels: labels }}

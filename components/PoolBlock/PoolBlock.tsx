@@ -1,4 +1,4 @@
-import { PencilSimple } from "phosphor-react"
+import { Trash } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { IBlock } from "../../types/Block.types"
 
@@ -21,9 +21,10 @@ type IPoolBlock = {
 type PoolBlockProps = {
   block: IPoolBlock
   isEditable: boolean
+  onDelete?: () => void
 }
 
-export const PoolBlock = ({ block, isEditable }: PoolBlockProps) => {
+export const PoolBlock = ({ block, isEditable, onDelete }: PoolBlockProps) => {
   type IAnswer = {
     id: number
     value: string
@@ -63,9 +64,12 @@ export const PoolBlock = ({ block, isEditable }: PoolBlockProps) => {
   return (
     <div className="flex relative justify-end min-w-[100%]">
       {isEditable === true && (
-        <div className="z-10 absolute right-0 top-0 rounded-full bg-white border border-slate-100">
-          <PencilSimple className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
-        </div>
+        <button
+          onClick={onDelete}
+          className="z-10 absolute right-0 top-0 rounded-full bg-white border border-slate-100"
+        >
+          <Trash className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
+        </button>
       )}
       <div
         className="flex flex-col px-2 pt-3 gap-[0.3125rem] justify-center

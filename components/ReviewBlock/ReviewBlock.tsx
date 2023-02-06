@@ -1,4 +1,4 @@
-import { PencilSimple, Star } from "phosphor-react"
+import { Star, Trash } from "phosphor-react"
 import { useState } from "react"
 import { IBlock } from "../../types/Block.types"
 import { CardLine } from "../Card/CardContentVariants/CardLine"
@@ -14,9 +14,14 @@ type IReviewBlock = {
 type ReviewBlockProps = {
   block: IReviewBlock
   isEditable: boolean
+  onDelete?: () => void
 }
 
-export const ReviewBlock = ({ block, isEditable }: ReviewBlockProps) => {
+export const ReviewBlock = ({
+  block,
+  isEditable,
+  onDelete,
+}: ReviewBlockProps) => {
   const [selected, setSelected] = useState(0)
 
   function handleOnClick(option: number) {
@@ -26,9 +31,12 @@ export const ReviewBlock = ({ block, isEditable }: ReviewBlockProps) => {
   return (
     <div className="flex relative justify-end">
       {isEditable === true && (
-        <div className="z-10 absolute right-0 top-0 rounded-full bg-white border border-slate-100">
-          <PencilSimple className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
-        </div>
+        <button
+          onClick={onDelete}
+          className="z-10 absolute right-0 top-0 rounded-full bg-white border border-slate-100"
+        >
+          <Trash className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
+        </button>
       )}
       <div
         className="flex flex-col w-full justify-center items-center bg-white 

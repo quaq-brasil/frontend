@@ -11,17 +11,23 @@ import { TextEntryBlock } from "../TextEntryBlock/TextEntryBlock"
 type BlockReaderProps = {
   block: BlockProps
   isEditable?: boolean
+  onDelete?: () => void
 }
 
 export const BlockReader = ({
   block,
   isEditable = false,
+  onDelete,
 }: BlockReaderProps) => {
   switch (block.type) {
     case "text":
       return (
         <div className="flex flex-col px-3 py-3 justify-center min-w-[100%] bg-white  rounded-[20px] lg:rounded-[30px] lg-px[1.125rem]">
-          <TextBlock block={block} isEditable={isEditable} />
+          <TextBlock
+            block={block}
+            isEditable={isEditable}
+            onDelete={onDelete}
+          />
         </div>
       )
     case "pool":
@@ -37,7 +43,9 @@ export const BlockReader = ({
     case "webhook":
       return <TechBlock block={block} isEditable={isEditable} type="webhook" />
     case "chart":
-      return <ChartBlock block={block} isEditable={isEditable} />
+      return (
+        <ChartBlock block={block} isEditable={isEditable} onDelete={onDelete} />
+      )
     default:
       return (
         <>
