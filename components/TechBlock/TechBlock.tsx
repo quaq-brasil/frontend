@@ -1,5 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
-import { EyeSlash, PencilSimple } from "phosphor-react"
+import { EyeSlash, Trash } from "phosphor-react"
 import { IBlock } from "../../types/Block.types"
 
 type IWebhook = {
@@ -21,9 +21,15 @@ type TechBlockProps = {
   isEditable: boolean
   type: string
   isVisible?: boolean
+  onDelete?: () => void
 }
 
-export const TechBlock = ({ block, isEditable, type }: TechBlockProps) => {
+export const TechBlock = ({
+  block,
+  isEditable,
+  type,
+  onDelete,
+}: TechBlockProps) => {
   const text = useTranslation().t
 
   return (
@@ -38,9 +44,12 @@ export const TechBlock = ({ block, isEditable, type }: TechBlockProps) => {
             `}
     >
       {isEditable && (
-        <div className="z-10 absolute shrink-0 flex content-center rounded-full bg-white right-0 top-0">
-          <PencilSimple className="w-[1rem] h-[1rem] m-[5px] lg:w-[1.25rem] lg:h-[1.25rem] drop-shadow-md" />
-        </div>
+        <button
+          onClick={onDelete}
+          className="z-10 absolute shrink-0 flex content-center rounded-full bg-white right-0 top-0"
+        >
+          <Trash className="w-[1rem] h-[1rem] m-[5px] lg:w-[1.25rem] lg:h-[1.25rem] drop-shadow-md" />
+        </button>
       )}
       <div className="flex flex-row gap-3 items-center  mb-[0.5rem]">
         {!block.data.visibility && (

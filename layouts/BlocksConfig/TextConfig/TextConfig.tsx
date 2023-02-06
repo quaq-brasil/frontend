@@ -48,6 +48,7 @@ export function TextConfig({
     handleUpdateContent("")
     handleUpdateIsUpdating(false)
     handleUpdateRunUpdate(false)
+    handleUpdateSaveas("")
     onClose()
   }
 

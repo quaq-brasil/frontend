@@ -39,9 +39,7 @@ const VariablesPanelSources = ({}: VariablesPanelSourcesProps) => {
       const newSources = connectedTemplates.filter(
         (source) => data.publicationId !== source.publicationId
       )
-      console.log(newSources)
       setConnectedTemplates([...newSources])
-      console.log(connectedTemplates)
     }
   }
 

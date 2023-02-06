@@ -9,9 +9,10 @@ import {
 type TextEntryProps = {
   type: string
   placeholder?: string
+  onChange?: (value: string) => void
 }
 
-export function TextEntry({ placeholder, type }: TextEntryProps) {
+export function TextEntry({ placeholder, type, onChange }: TextEntryProps) {
   const [value, setValue] = useState<string | number | undefined>(undefined)
   const [valid, setValid] = useState(true)
   const [error, setError] = useState("")
@@ -20,6 +21,7 @@ export function TextEntry({ placeholder, type }: TextEntryProps) {
 
   const handleChange = (e: any) => {
     setValue(e.target.value)
+    onChange && onChange(e.target.value)
     switch (type) {
       case "email":
         const emailValid = validateEmail(e.target.value)

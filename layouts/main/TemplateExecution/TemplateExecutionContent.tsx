@@ -1,7 +1,12 @@
 import useTranslation from "next-translate/useTranslation"
+import { useEffect, useState } from "react"
 import { BlockReader } from "../../../components/BlockReader/BlockReader"
 import { Card } from "../../../components/Card/Card"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { useUserAuth } from "../../../contexts/userAuth"
+import { useCreateInteraction } from "../../../services/hooks/useInteraction/useCreateInteraction"
+import { useUpdateInteraction } from "../../../services/hooks/useInteraction/useUpdateInteraction"
+import { IInteractionData } from "../../../types/Interaction.type"
 import { getTemplateByUrlAndPageUrlProps } from "../../../types/Template.type"
 
 type TemplateExecutionContentProps = {
@@ -15,7 +20,63 @@ export function TemplateExecutionContent({
 
   const blocks: any = initialData?.publication?.blocks || {}
 
-  console.log(initialData)
+  const [interactions, setInteractions] = useState<IInteractionData[]>([])
+  const [interactionId, setInteractionId] = useState<string | null>(null)
+
+  const createInteraction = useCreateInteraction()
+  const updateInteraction = useUpdateInteraction()
+
+  const { user } = useUserAuth()
+
+  function handleUpdateInteractions(interaction: any) {
+    setInteractions((state) => {
+      const ints = state.filter((int) => {
+        if (int?.id !== interaction.id) {
+          return int
+        }
+      })
+
+      return [...ints, interaction]
+    })
+  }
+
+  useEffect(() => {
+    if (user?.id && interactions.length > 0) {
+      if (interactionId) {
+        updateInteraction.mutate({
+          id: interactionId,
+          data: {
+            blocks: Object.keys(blocks).map((key) => blocks[key]),
+            data: interactions,
+            events: [],
+            template_id: initialData?.id as string,
+            publication_id: initialData?.publication.id as string,
+            page_id: initialData?.Page.id as string,
+            user_id: user.id,
+          },
+        })
+      } else {
+        createInteraction.mutate(
+          {
+            blocks: Object.keys(blocks).map((key) => blocks[key]),
+            data: interactions,
+            events: [],
+            template_id: initialData?.id as string,
+            publication_id: initialData?.publication.id as string,
+            page_id: initialData?.Page.id as string,
+            user_id: user.id,
+          },
+          {
+            onSuccess: (data) => {
+              setInteractionId(data?.id || null)
+            },
+          }
+        )
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [interactions])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -35,7 +96,11 @@ export function TemplateExecutionContent({
           <div className="flex flex-col gap-2 mb-2 md:gap-4 md:mb-4">
             {Object.keys(blocks).map((key) => {
               return (
-                <BlockReader key={blocks[key].id || key} block={blocks[key]} />
+                <BlockReader
+                  key={blocks[key].id || key}
+                  block={blocks[key]}
+                  handleUpdateInteractions={handleUpdateInteractions}
+                />
               )
             })}
           </div>
