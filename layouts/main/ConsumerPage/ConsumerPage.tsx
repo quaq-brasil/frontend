@@ -137,7 +137,7 @@ export default function ConsumerPage({
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <ConsumerPageContent templatesData={templatesData} />
+      <ConsumerPageContent templatesData={templatesData} pageData={pageData} />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   )

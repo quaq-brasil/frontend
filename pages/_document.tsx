@@ -21,6 +21,8 @@ export default function Document() {
         <meta name="theme-color" content="#000" />
         <link rel="apple-touch-icon" href="/icon-128x128.png" />
         <meta name="apple-mobile-web-app-status-bar" content="#90cdf4" />
+
+        <title>Quaq</title>
       </Head>
       <body>
         <Main />

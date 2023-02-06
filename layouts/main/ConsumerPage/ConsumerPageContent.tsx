@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react"
 import { Shortcut } from "../../../components/Shortcut/Shortcut"
 import { ShortcutGrid } from "../../../components/ShortcutGrid/ShortcutGrid"
+import { IPage } from "../../../types/Page.type"
 import { ITemplate } from "../../../types/Template.type"
 
 type ConsumerPageContentProps = {
   templatesData: ITemplate[] | undefined
+  pageData: IPage | undefined
 }
 
 export function ConsumerPageContent({
   templatesData,
+  pageData,
 }: ConsumerPageContentProps) {
   const [shortcuts, setShortcuts] = useState<JSX.Element[]>([])
 
@@ -25,7 +28,7 @@ export function ConsumerPageContent({
             title={template.name}
             isCreator={false}
             templateData={template}
-            pageData={undefined}
+            pageData={pageData}
           />
         )
       })

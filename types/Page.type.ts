@@ -1,3 +1,5 @@
+import { ITemplate } from "./Template.type"
+
 export type ITrackers = {
   facebook?: string
   google?: string
@@ -14,6 +16,7 @@ export type IPage = {
   is_stripe_active: boolean
   stripe_id: string
   trackers: ITrackers
+  templates?: ITemplate[]
 }
 
 export type IUpdatePage = {
