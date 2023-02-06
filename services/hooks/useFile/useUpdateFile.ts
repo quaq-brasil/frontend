@@ -10,7 +10,7 @@ type useUpdateFileProps = {
 
 export const useUpdateFile = ({ id, data }: useUpdateFileProps) => {
   const updateFile = async () => {
-    await api.put(`/files/${id}`, { data })
+    await api.put(`/files/${id}`, data)
   }
 
   return useMutation({
