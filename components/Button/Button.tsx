@@ -72,7 +72,7 @@ export function Button({
       )}
       <button
         onClick={() => {
-          block.data.onClick
+          block.data.onClick && block.data.onClick()
           handleEvents({ click: { timestamp: Date.now().toString() } })
         }}
         className={`flex relative justify-between items-center 
