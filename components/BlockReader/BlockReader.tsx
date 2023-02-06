@@ -1,4 +1,5 @@
 import { BlockProps } from "../../types/Block.types"
+import { IInteractionData } from "../../types/Interaction.type"
 import { Button } from "../Button/Button"
 import { ChartBlock } from "../ChartBlock/ChartBlock"
 import { ImageBlock } from "../ImageBlock/ImageBlock"
@@ -12,12 +13,14 @@ type BlockReaderProps = {
   block: BlockProps
   isEditable?: boolean
   onDelete?: () => void
+  handleUpdateInteractions?: (interaction: IInteractionData) => void
 }
 
 export const BlockReader = ({
   block,
   isEditable = false,
   onDelete,
+  handleUpdateInteractions,
 }: BlockReaderProps) => {
   switch (block.type) {
     case "text":
@@ -37,7 +40,13 @@ export const BlockReader = ({
     case "review":
       return <ReviewBlock block={block} isEditable={isEditable} />
     case "textentry":
-      return <TextEntryBlock block={block} isEditable={isEditable} />
+      return (
+        <TextEntryBlock
+          block={block}
+          isEditable={isEditable}
+          handleUpdateInteractions={handleUpdateInteractions}
+        />
+      )
     case "button":
       return <Button block={block} isEditable={isEditable} />
     case "webhook":

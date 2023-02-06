@@ -1,23 +1,20 @@
 import { useMutation } from "@tanstack/react-query"
+import { IInteraction } from "../../../types/Interaction.type"
 import { useMutationProps } from "../../../types/useQueryProps"
 import { api } from "../../apiClient"
-import { IInteraction } from "./../../../types/Interaction.type"
 
 type useUpdateInteractionProps = {
   id: string
   data: IInteraction
 } & useMutationProps
 
-export const useUpdateInteraction = ({
-  id,
-  data,
-}: useUpdateInteractionProps) => {
-  const updateInteraction = async () => {
-    await api.put(`/interactions/${id}`, { data })
+export const useUpdateInteraction = () => {
+  const updateInteraction = async ({ id, data }: useUpdateInteractionProps) => {
+    await api.put(`/interactions/${id}`, data)
   }
 
   return useMutation({
-    mutationKey: ["updateInteraction", id],
+    mutationKey: ["updateInteraction"],
     mutationFn: updateInteraction,
   })
 }
