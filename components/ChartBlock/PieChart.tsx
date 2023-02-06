@@ -1,4 +1,5 @@
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js"
+import { Trash } from "phosphor-react"
 import { Pie } from "react-chartjs-2"
 import { Card } from "../Card/Card"
 
@@ -20,9 +21,11 @@ type IData = {
 type PieChartProps = {
   data: IData
   title: string
+  isEditable: boolean
+  onDelete?: () => void
 }
 
-export function PieChart({ data, title }: PieChartProps) {
+export function PieChart({ data, title, isEditable, onDelete }: PieChartProps) {
   const options = {
     responsive: true,
     plugins: {
@@ -37,8 +40,18 @@ export function PieChart({ data, title }: PieChartProps) {
   }
 
   return (
-    <Card>
-      <Pie className="px-2 md:px-6" data={data} options={options} />
-    </Card>
+    <div className="flex relative justify-end w-full">
+      {isEditable === true && (
+        <button
+          onClick={onDelete}
+          className="z-10 absolute right-0 top-0 rounded-full bg-white border border-slate-100"
+        >
+          <Trash className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
+        </button>
+      )}
+      <Card>
+        <Pie className="px-2 md:px-6" data={data} options={options} />
+      </Card>
+    </div>
   )
 }

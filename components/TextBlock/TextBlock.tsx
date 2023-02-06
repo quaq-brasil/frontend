@@ -1,6 +1,7 @@
 import parse from "html-react-parser"
-import { PencilSimple } from "phosphor-react"
+import { Trash } from "phosphor-react"
 import { IBlock } from "../../types/Block.types"
+import { IInteractionData } from "../../types/Interaction.type"
 
 type ITextBlock = {
   data: string
@@ -9,18 +10,26 @@ type ITextBlock = {
 type TextBlockProps = {
   block: ITextBlock
   isEditable: boolean
+  onDelete?: () => void
+  handleUpdateInteractions?: (interaction: IInteractionData) => void
 }
 
-export const TextBlock = ({ block, isEditable }: TextBlockProps) => {
+export const TextBlock = ({
+  block,
+  isEditable,
+  onDelete,
+  handleUpdateInteractions,
+}: TextBlockProps) => {
   return (
     <div className="flex relative min-w-[100%] content-center">
       {isEditable && (
-        <div
+        <button
+          onClick={onDelete}
           className="z-10 absolute right-[-12px] top-[-12px] content-center
           rounded-full bg-white border border-slate-100"
         >
-          <PencilSimple className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
-        </div>
+          <Trash className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
+        </button>
       )}
       <div
         className="min-w-[100%] bg-white px-1 lg:px-[0.5rem]  

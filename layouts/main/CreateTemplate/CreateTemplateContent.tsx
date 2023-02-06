@@ -54,6 +54,13 @@ export function CreateTemplateContent({
     setBlocks((state) => [...state, newBlock])
   }
 
+  const handleRemoveBlock = (removeIndex: number) => {
+    const newBlocks = blocks.filter((block, index) => {
+      return removeIndex !== index
+    })
+    setBlocks(newBlocks)
+  }
+
   return (
     <div className="w-full h-screen bg-slate-100">
       <div
@@ -64,7 +71,14 @@ export function CreateTemplateContent({
         {blocks.length > 0 ? (
           <div className="flex flex-col gap-2 mb-2 md:gap-4 md:mb-4">
             {blocks.map((block, index) => {
-              return <BlockReader key={index} block={block} isEditable={true} />
+              return (
+                <BlockReader
+                  key={index}
+                  block={block}
+                  isEditable={true}
+                  onDelete={() => handleRemoveBlock(index)}
+                />
+              )
             })}
           </div>
         ) : null}

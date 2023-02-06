@@ -6,6 +6,7 @@ import {
   PointElement,
   Tooltip,
 } from "chart.js"
+import { Trash } from "phosphor-react"
 import { Scatter } from "react-chartjs-2"
 import { Card } from "../Card/Card"
 
@@ -24,9 +25,16 @@ type IData = {
 type ScatterChartProps = {
   data: IData
   title: string
+  isEditable: boolean
+  onDelete?: () => void
 }
 
-export function ScatterChart({ data, title }: ScatterChartProps) {
+export function ScatterChart({
+  data,
+  title,
+  isEditable,
+  onDelete,
+}: ScatterChartProps) {
   const options = {
     scales: {
       y: {
@@ -45,8 +53,18 @@ export function ScatterChart({ data, title }: ScatterChartProps) {
   }
 
   return (
-    <Card>
-      <Scatter className="px-2 md:px-6" options={options} data={data} />
-    </Card>
+    <div className="flex relative justify-end w-full">
+      {isEditable === true && (
+        <button
+          onClick={onDelete}
+          className="z-10 absolute right-0 top-0 rounded-full bg-white border border-slate-100"
+        >
+          <Trash className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
+        </button>
+      )}
+      <Card>
+        <Scatter className="px-2 md:px-6" options={options} data={data} />
+      </Card>
+    </div>
   )
 }
