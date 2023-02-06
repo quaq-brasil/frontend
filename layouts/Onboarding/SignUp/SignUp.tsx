@@ -5,7 +5,7 @@ import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUpdateUser } from "../../../types/User.type"
 import { pageUrls } from "../../../utils/pagesUrl"
-import { SignupContent } from "./SignupContent"
+import { SignupContent } from "./SignUpContent"
 
 type SignUpProps = {
   handleCreateUser: (data: IUpdateUser) => void
