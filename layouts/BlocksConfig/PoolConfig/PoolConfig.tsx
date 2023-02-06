@@ -169,6 +169,30 @@ export function PoolConfig({
     handleOpenVariablePanel()
   }
 
+  const handleOpenVariablePanelForTitle = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({ title: variable })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForMax = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({ max: variable })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForMin = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({ min: variable })
+      })
+    handleOpenVariablePanel()
+  }
+
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
@@ -191,10 +215,11 @@ export function PoolConfig({
               input={{
                 label: text("poolconfig:titlelabel"),
                 onChange: (title) => handleUpdateContent({ title: title }),
+                inputValue: content.title,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: handleOpenVariablePanelForTitle,
               }}
             />
           </Card>
@@ -204,10 +229,11 @@ export function PoolConfig({
               input={{
                 label: text("poolconfig:maxlabel"),
                 onChange: (max) => handleUpdateContent({ max: max }),
+                inputValue: content.max,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: handleOpenVariablePanelForMax,
               }}
             />
           </Card>
@@ -217,10 +243,11 @@ export function PoolConfig({
               input={{
                 label: text("poolconfig:minlabel"),
                 onChange: (min) => handleUpdateContent({ min: min }),
+                inputValue: content.min,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: handleOpenVariablePanelForMin,
               }}
             />
           </Card>
