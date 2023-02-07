@@ -5,9 +5,9 @@ import { ChartBlock } from "../ChartBlock/ChartBlock"
 import { ImageBlock } from "../ImageBlock/ImageBlock"
 import { PoolBlock } from "../PoolBlock/PoolBlock"
 import { ReviewBlock } from "../ReviewBlock/ReviewBlock"
-import { TechBlock } from "../TechBlock/TechBlock"
 import { TextBlock } from "../TextBlock/TextBlock"
 import { TextEntryBlock } from "../TextEntryBlock/TextEntryBlock"
+import { WebhookBlock } from "../WebhookBlock/WebhookBlock"
 
 type BlockReaderProps = {
   block: BlockProps
@@ -75,7 +75,7 @@ export const BlockReader = ({
         />
       )
     case "webhook":
-      return <TechBlock block={block} isEditable={isEditable} type="webhook" />
+      return <WebhookBlock block={block} isEditable={isEditable} />
     case "chart":
       return (
         <ChartBlock block={block} isEditable={isEditable} onDelete={onDelete} />

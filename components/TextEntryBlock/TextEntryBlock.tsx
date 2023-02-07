@@ -24,17 +24,65 @@ export const TextEntryBlock = ({
   onDelete,
   handleUpdateInteractions,
 }: TextEntryBlockProps) => {
+  type IEvent = {
+    displayedAt?: string
+    lastInteractionAt?: string
+    firstInteractionAt?: string
+  }
+
+  const [events, setEvents] = useState<IEvent>()
   const [value, setValue] = useState("")
+
+  function handleUpdateValue(text: string) {
+    if (events?.firstInteractionAt) {
+      const lastInteractionAt = new Date().toString()
+      handleUpdateEvents({ lastInteractionAt: lastInteractionAt })
+      setValue(text)
+    } else {
+      const firstAndLast = new Date().toString()
+      handleUpdateEvents({
+        firstInteractionAt: firstAndLast,
+        lastInteractionAt: firstAndLast,
+      })
+      setValue(text)
+    }
+  }
+
+  function handleUpdateEvents(newEvent: IEvent) {
+    setEvents({
+      displayedAt: newEvent.displayedAt || events?.displayedAt,
+      firstInteractionAt:
+        newEvent.firstInteractionAt || events?.firstInteractionAt,
+      lastInteractionAt:
+        newEvent.lastInteractionAt || events?.lastInteractionAt,
+    })
+  }
+
+  useEffect(() => {
+    if (!events?.displayedAt) {
+      const displayedAt = new Date().toString()
+      handleUpdateEvents({ displayedAt: displayedAt })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onInteraction = () => {
     handleUpdateInteractions &&
       handleUpdateInteractions({
-        id: block.id as string,
-        saveAs: block.saveAs as string,
-        type: block.type as string,
-        data: {
-          type: block.data.type,
-          value,
+        config: {
+          id: block.id as string,
+          saveAs: block.saveAs as string,
+          type: block.type as string,
+          data: {
+            placeholder: block.data.placeholder,
+            type: block.data.type,
+          },
+        },
+        output: {
+          events: events,
+          data: {
+            value: value,
+          },
         },
       })
   }
@@ -42,7 +90,7 @@ export const TextEntryBlock = ({
   useEffect(() => {
     onInteraction()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value])
+  }, [value, events])
 
   return (
     <div className="flex relative min-w-[100%] justify-end content-center">
@@ -62,7 +110,7 @@ export const TextEntryBlock = ({
           <TextEntry
             placeholder={block.data.placeholder}
             type={block.data.type}
-            onChange={setValue}
+            onChange={handleUpdateValue}
           />
         </div>
       </div>

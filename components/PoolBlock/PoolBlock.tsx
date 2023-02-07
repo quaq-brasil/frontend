@@ -32,14 +32,25 @@ export const PoolBlock = ({
   onDelete,
   handleUpdateInteractions,
 }: PoolBlockProps) => {
+  type IEvent = {
+    displayedAt?: string
+    lastInteractionAt?: string
+    firstInteractionAt?: string
+    maxAchievedAt?: string
+    minAchievedAt?: string
+  }
+
   type IAnswer = {
     id: number
     value: string
     selected: boolean
   }
 
+  const [events, setEvents] = useState<IEvent>()
   const [answers, setAnswers] = useState<IAnswer[]>()
   const [selectedAnswers, setSelectedAnswers] = useState(0)
+  const isMaxAchieved = selectedAnswers === (Number(block?.data.max) || 0)
+  const isMinAchieved = selectedAnswers >= (Number(block.data.min) || 0)
 
   useEffect(() => {
     const tempAnswers: IAnswer[] = block.data.options.map((option) => {
@@ -52,7 +63,30 @@ export const PoolBlock = ({
     setAnswers(tempAnswers as IAnswer[])
   }, [block])
 
+  function handleUpdateEvents(newEvent: IEvent) {
+    setEvents({
+      displayedAt: newEvent.displayedAt || events?.displayedAt,
+      firstInteractionAt:
+        newEvent.firstInteractionAt || events?.firstInteractionAt,
+      lastInteractionAt:
+        newEvent.lastInteractionAt || events?.lastInteractionAt,
+      maxAchievedAt: newEvent.maxAchievedAt || events?.maxAchievedAt,
+      minAchievedAt: newEvent.minAchievedAt || events?.minAchievedAt,
+    })
+  }
+
   function handleSelect(answer: IAnswer) {
+    if (events?.firstInteractionAt) {
+      const firstAndLast = new Date().toString()
+      handleUpdateEvents({
+        firstInteractionAt: firstAndLast,
+        lastInteractionAt: firstAndLast,
+      })
+    } else {
+      const lastInteractionAt = new Date().toString()
+      handleUpdateEvents({ lastInteractionAt: lastInteractionAt })
+    }
+
     const tempAnswers = [...(answers as IAnswer[])]
 
     if (answer.selected) {
@@ -65,18 +99,33 @@ export const PoolBlock = ({
     setAnswers(tempAnswers)
   }
 
-  const isMaxAchieved = selectedAnswers === (Number(block?.data.max) || 0)
-  const isMinAchieved = selectedAnswers >= (Number(block.data.min) || 0)
+  useEffect(() => {
+    if (!events?.displayedAt) {
+      const displayedAt = new Date().toString()
+      handleUpdateEvents({ displayedAt: displayedAt })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onInteraction = () => {
     handleUpdateInteractions &&
       handleUpdateInteractions({
-        id: block.id as string,
-        saveAs: block.saveAs as string,
-        type: block.type as string,
-        data: {
-          title: block.data.title,
-          answers: selectedAnswers,
+        config: {
+          id: block.id as string,
+          saveAs: block.saveAs as string,
+          type: block.type as string,
+          data: {
+            title: block.data.title,
+            min: block.data.min,
+            max: block.data.max,
+            options: block.data.options.map((option) => option.value),
+          },
+        },
+        output: {
+          events: events,
+          data: {
+            options: answers,
+          },
         },
       })
   }
@@ -85,6 +134,22 @@ export const PoolBlock = ({
     onInteraction()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedAnswers])
+
+  useEffect(() => {
+    if (isMaxAchieved) {
+      const maxAchievedAt = new Date().toString()
+      handleUpdateEvents({ maxAchievedAt: maxAchievedAt })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMaxAchieved])
+
+  useEffect(() => {
+    if (isMaxAchieved) {
+      const minAchievedAt = new Date().toString()
+      handleUpdateEvents({ minAchievedAt: minAchievedAt })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMinAchieved])
 
   return (
     <div className="flex relative justify-end min-w-[100%]">

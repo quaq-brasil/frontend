@@ -27,30 +27,57 @@ export function Button({
   handleUpdateInteractions,
 }: ButtonProps) {
   type IEvent = {
-    click?: {
-      timestamp: string
-    }
+    displayedAt?: string
+    lastInteractionAt?: string
+    firstInteractionAt?: string
   }
 
-  const [events, setEvents] = useState<IEvent[]>()
+  const [clicked, setClicked] = useState(false)
+  const [events, setEvents] = useState<IEvent>()
 
-  const handleEvents = (event: IEvent) => {
-    if (events) {
-      setEvents([...events, event])
+  function handleUpdateEvents(newEvent: IEvent) {
+    setEvents({
+      displayedAt: newEvent.displayedAt || events?.displayedAt,
+      firstInteractionAt:
+        newEvent.firstInteractionAt || events?.firstInteractionAt,
+      lastInteractionAt:
+        newEvent.lastInteractionAt || events?.lastInteractionAt,
+    })
+  }
+
+  function handleUpdateClicked() {
+    if (!clicked) {
+      setClicked(true)
+    }
+    if (events?.firstInteractionAt) {
+      const firstAndLast = new Date().toString()
+      handleUpdateEvents({
+        firstInteractionAt: firstAndLast,
+        lastInteractionAt: firstAndLast,
+      })
     } else {
-      setEvents([event])
+      const lastInteractionAt = new Date().toString()
+      handleUpdateEvents({ lastInteractionAt: lastInteractionAt })
     }
   }
 
   const onInteraction = () => {
     handleUpdateInteractions &&
       handleUpdateInteractions({
-        id: block.id as string,
-        saveAs: block.saveAs as string,
-        type: block.type as string,
-        data: {
-          text: block.data.text,
+        config: {
+          id: block.id as string,
+          saveAs: block.saveAs as string,
+          type: block.type as string,
+          data: {
+            text: block.data.text,
+            color: block.data.color,
+          },
+        },
+        output: {
           events: events,
+          data: {
+            clicked: clicked,
+          },
         },
       })
   }
@@ -59,6 +86,14 @@ export function Button({
     onInteraction()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [events])
+
+  useEffect(() => {
+    if (!events?.displayedAt) {
+      const displayedAt = new Date().toString()
+      handleUpdateEvents({ displayedAt: displayedAt })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="w-full h-fit relative">
@@ -73,7 +108,7 @@ export function Button({
       <button
         onClick={() => {
           block.data.onClick && block.data.onClick()
-          handleEvents({ click: { timestamp: Date.now().toString() } })
+          handleUpdateClicked()
         }}
         className={`flex relative justify-between items-center 
         p-[0.75rem] md:p-[1rem] lg:p-[1.5rem] min-w-[100%]

@@ -14,8 +14,14 @@ export type IInteraction = {
 }
 
 export type IInteractionData = {
-  id: string
-  type: string
-  saveAs: string
-  data: any
+  config: {
+    id: string
+    type: string
+    saveAs: string
+    data: any
+  }
+  output: {
+    data?: any
+    events: any
+  }
 }

@@ -25,21 +25,55 @@ export const ReviewBlock = ({
   onDelete,
   handleUpdateInteractions,
 }: ReviewBlockProps) => {
-  const [selected, setSelected] = useState(0)
+  type IEvent = {
+    displayedAt?: string
+    lastInteractionAt?: string
+    firstInteractionAt?: string
+  }
 
-  function handleOnClick(option: number) {
-    setSelected(option)
+  const [review, setReview] = useState(0)
+  const [events, setEvents] = useState<IEvent>()
+
+  function handleUpdateEvents(newEvent: IEvent) {
+    setEvents({
+      displayedAt: newEvent.displayedAt || events?.displayedAt,
+      firstInteractionAt:
+        newEvent.firstInteractionAt || events?.firstInteractionAt,
+      lastInteractionAt:
+        newEvent.lastInteractionAt || events?.lastInteractionAt,
+    })
+  }
+
+  function handleUpdateSelected(option: number) {
+    if (events?.firstInteractionAt) {
+      const firstAndLast = new Date().toString()
+      handleUpdateEvents({
+        firstInteractionAt: firstAndLast,
+        lastInteractionAt: firstAndLast,
+      })
+    } else {
+      const lastInteractionAt = new Date().toString()
+      handleUpdateEvents({ lastInteractionAt: lastInteractionAt })
+    }
+    setReview(option)
   }
 
   const onInteraction = () => {
     handleUpdateInteractions &&
       handleUpdateInteractions({
-        id: block.id as string,
-        saveAs: block.saveAs as string,
-        type: block.type as string,
-        data: {
-          description: block.data.description,
-          answer: selected,
+        config: {
+          id: block.id as string,
+          saveAs: block.saveAs as string,
+          type: block.type as string,
+          data: {
+            description: block.data.description,
+          },
+        },
+        output: {
+          events: events,
+          data: {
+            curentReview: review,
+          },
         },
       })
   }
@@ -47,7 +81,15 @@ export const ReviewBlock = ({
   useEffect(() => {
     onInteraction()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected])
+  }, [review])
+
+  useEffect(() => {
+    if (!events?.displayedAt) {
+      const displayedAt = new Date().toString()
+      handleUpdateEvents({ displayedAt: displayedAt })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="flex relative justify-end">
@@ -68,42 +110,42 @@ export const ReviewBlock = ({
         </p>
         <CardLine />
         <div className="flex flex-row justify-between pt-3 pb-2 w-full px-[20%] md:px-[25%] ">
-          <button onClick={() => handleOnClick(1)}>
+          <button onClick={() => handleUpdateSelected(1)}>
             <Star
               className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
-                selected > 0 ? "text-yellow-500" : "text-slate-500"
+                review > 0 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"
             />
           </button>
-          <button onClick={() => handleOnClick(2)}>
+          <button onClick={() => handleUpdateSelected(2)}>
             <Star
               className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
-                selected > 1 ? "text-yellow-500" : "text-slate-500"
+                review > 1 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"
             />
           </button>
-          <button onClick={() => handleOnClick(3)}>
+          <button onClick={() => handleUpdateSelected(3)}>
             <Star
               className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
-                selected > 2 ? "text-yellow-500" : "text-slate-500"
+                review > 2 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"
             />
           </button>
-          <button onClick={() => handleOnClick(4)}>
+          <button onClick={() => handleUpdateSelected(4)}>
             <Star
               className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
-                selected > 3 ? "text-yellow-500" : "text-slate-500"
+                review > 3 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"
             />
           </button>
-          <button onClick={() => handleOnClick(5)}>
+          <button onClick={() => handleUpdateSelected(5)}>
             <Star
               className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
-                selected > 4 ? "text-yellow-500" : "text-slate-500"
+                review > 4 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"
             />

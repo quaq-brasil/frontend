@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { Trash } from "phosphor-react"
+import { useEffect, useState } from "react"
 import { IBlock } from "../../types/Block.types"
 import { IInteractionData } from "../../types/Interaction.type"
 
@@ -22,6 +23,42 @@ export const ImageBlock = ({
   onDelete,
   handleUpdateInteractions,
 }: ImageBlockProps) => {
+  type IEvent = {
+    displayedAt: string
+  }
+
+  const [events, setEvents] = useState<IEvent>()
+
+  useEffect(() => {
+    if (!events?.displayedAt) {
+      const event = {
+        displayedAt: new Date().toString(),
+      }
+      setEvents(event)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const onInteraction = () => {
+    handleUpdateInteractions &&
+      handleUpdateInteractions({
+        config: {
+          id: block.id as string,
+          saveAs: block.saveAs as string,
+          type: block.type as string,
+          data: block.data,
+        },
+        output: {
+          events: events,
+        },
+      })
+  }
+
+  useEffect(() => {
+    onInteraction()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [events])
+
   return (
     <div
       className="flex relative justify-center content-center

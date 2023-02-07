@@ -2,7 +2,7 @@ import useTranslation from "next-translate/useTranslation"
 import { EyeSlash, Trash } from "phosphor-react"
 import { IBlock } from "../../types/Block.types"
 
-type IWebhook = {
+type IData = {
   description?: string
   visibility?: boolean
   parameters?: any
@@ -12,24 +12,22 @@ type IWebhook = {
   link?: string
 }
 
-type ITechBlock = {
-  data: IWebhook
+type IWebhookBlock = {
+  data: IData
 } & IBlock
 
-type TechBlockProps = {
-  block: ITechBlock
+type WebhookBlockProps = {
+  block: IWebhookBlock
   isEditable: boolean
-  type: string
   isVisible?: boolean
   onDelete?: () => void
 }
 
-export const TechBlock = ({
+export const WebhookBlock = ({
   block,
   isEditable,
-  type,
   onDelete,
-}: TechBlockProps) => {
+}: WebhookBlockProps) => {
   const text = useTranslation().t
 
   return (
@@ -66,18 +64,16 @@ export const TechBlock = ({
         </p>
       </div>
       <span className="w-full p-[0.5px] bg-slate-100 mb-[0.5rem] lg:text-[1.1rem]"></span>
-      {type === "webhook" && (
-        <div>
-          <p className="font-semibold">{text("webhookconfig:type")}</p>
-          <p className="pl-3 mb-2">{block.data.type}</p>
-          <p className="font-semibold">link</p>
-          <p className="pl-3 mb-2">{block.data.link}</p>
-          <p className="font-semibold">{text("webhookconfig:parameters")}</p>
-          <p className="pl-3 mb-2">{block.data.parameters}</p>
-          <p className="font-semibold">{text("webhookconfig:saveas")}</p>
-          <p className="pl-3 mb-2">{block.saveAs}</p>
-        </div>
-      )}
+      <div>
+        <p className="font-semibold">{text("webhookconfig:type")}</p>
+        <p className="pl-3 mb-2">{block.data.type}</p>
+        <p className="font-semibold">link</p>
+        <p className="pl-3 mb-2">{block.data.link}</p>
+        <p className="font-semibold">{text("webhookconfig:parameters")}</p>
+        <p className="pl-3 mb-2">{block.data.parameters}</p>
+        <p className="font-semibold">{text("webhookconfig:saveas")}</p>
+        <p className="pl-3 mb-2">{block.saveAs}</p>
+      </div>
     </div>
   )
 }

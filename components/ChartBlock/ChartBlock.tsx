@@ -1,5 +1,7 @@
 import { PencilSimple } from "phosphor-react"
+import { useEffect, useState } from "react"
 import { IBlock } from "../../types/Block.types"
+import { IInteractionData } from "../../types/Interaction.type"
 import { HorizontalBarChart } from "./HorizontalBarChart"
 import { LineChart } from "./LineChart"
 import { PieChart } from "./PieChart"
@@ -41,13 +43,51 @@ type ChartBlockProps = {
   block: IChartBlock
   isEditable: boolean
   onDelete?: () => void
+  handleUpdateInteractions?: (interaction: IInteractionData) => void
 }
 
 export const ChartBlock = ({
   block,
   isEditable,
   onDelete,
+  handleUpdateInteractions,
 }: ChartBlockProps) => {
+  type IEvent = {
+    displayedAt: string
+  }
+
+  const [events, setEvents] = useState<IEvent>()
+
+  useEffect(() => {
+    if (!events?.displayedAt) {
+      const event = {
+        displayedAt: new Date().toString(),
+      }
+      setEvents(event)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const onInteraction = () => {
+    handleUpdateInteractions &&
+      handleUpdateInteractions({
+        config: {
+          id: block.id as string,
+          saveAs: block.saveAs as string,
+          type: block.type as string,
+          data: block.data,
+        },
+        output: {
+          events: events,
+        },
+      })
+  }
+
+  useEffect(() => {
+    onInteraction()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [events])
+
   function renderChart(type: string) {
     switch (type) {
       case "line":
