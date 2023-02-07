@@ -1,81 +1,81 @@
-import Image from "next/image";
-import { IconProps } from "phosphor-react";
-import { ForwardRefExoticComponent, RefAttributes } from "react";
+import Image from "next/image"
+import { IconProps } from "phosphor-react"
+import { ForwardRefExoticComponent, RefAttributes } from "react"
 
 export type TagProps =
   | {
-      text: string;
-      variant: "txt";
-      isSelected?: boolean;
-      onClick?: () => void;
-      isSeparated?: boolean;
-      hasOutline?: boolean;
+      text: string
+      variant: "txt"
+      isSelected?: boolean
+      onClick?: () => void
+      isSeparated?: boolean
+      hasOutline?: boolean
     }
   | {
-      text: string;
-      img_url: string;
-      variant: "txt-img";
-      isSelected?: boolean;
-      onClick?: () => void;
-      isSeparated?: boolean;
-      hasOutline?: boolean;
+      text: string
+      img_url: string
+      variant: "txt-img"
+      isSelected?: boolean
+      onClick?: () => void
+      isSeparated?: boolean
+      hasOutline?: boolean
     }
   | {
-      text: string;
-      img_url: string;
-      variant: "img-txt";
-      isSelected?: boolean;
-      onClick?: () => void;
-      isSeparated?: boolean;
-      hasOutline?: boolean;
+      text: string
+      img_url: string
+      variant: "img-txt"
+      isSelected?: boolean
+      onClick?: () => void
+      isSeparated?: boolean
+      hasOutline?: boolean
     }
   | {
-      img_url: string;
-      variant: "img";
-      isSelected?: boolean;
-      onClick?: () => void;
-      isSeparated?: boolean;
-      hasOutline?: boolean;
+      img_url: string
+      variant: "img"
+      isSelected?: boolean
+      onClick?: () => void
+      isSeparated?: boolean
+      hasOutline?: boolean
     }
   | {
-      text: string;
-      icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
-      variant: "txt-icn";
-      isSelected?: boolean;
-      onClick?: () => void;
-      isSeparated?: boolean;
-      hasOutline?: boolean;
+      text: string
+      icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+      variant: "txt-icn"
+      isSelected?: boolean
+      onClick?: () => void
+      isSeparated?: boolean
+      hasOutline?: boolean
     }
   | {
-      text: string;
-      icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
-      variant: "icn-txt";
-      isSelected?: boolean;
-      onClick?: () => void;
-      isSeparated?: boolean;
-      hasOutline?: boolean;
+      text: string
+      icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+      variant: "icn-txt"
+      isSelected?: boolean
+      onClick?: () => void
+      isSeparated?: boolean
+      hasOutline?: boolean
     }
   | {
-      text: string;
-      icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
-      variant: "icn-txt-xl";
-      isSelected?: boolean;
-      onClick?: () => void;
-      isSeparated?: boolean;
-      hasOutline?: boolean;
+      text: string
+      icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+      variant: "icn-txt-xl"
+      isSelected?: boolean
+      onClick?: () => void
+      isSeparated?: boolean
+      hasOutline?: boolean
     }
   | {
-      icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
-      variant: "icn";
-      isSelected?: boolean;
-      onClick?: () => void;
-      isSeparated?: boolean;
-      hasOutline?: boolean;
-    };
+      icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+      variant: "icn"
+      isSelected?: boolean
+      onClick?: () => void
+      isSeparated?: boolean
+      hasOutline?: boolean
+    }
 
 export const Tag = (props: TagProps) => {
   function handleClick() {
-    props.onClick && props.onClick();
+    props.onClick && props.onClick()
   }
 
   return (
@@ -133,14 +133,20 @@ export const Tag = (props: TagProps) => {
             <div className="flex row shrink-0 gap-[0.625rem] content-center justify-center items-center h-[2.5rem] px-[0.625rem] lg:text-[1.1rem] lg:px-3 lg:h-[3.25rem]">
               <p className="lg:text-[1.1rem]">{props.text}</p>
               <>
-                <props.icon className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]" />
+                <props.icon
+                  weight="bold"
+                  className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]"
+                />
               </>
             </div>
           )}
           {props.variant === "icn-txt" && (
             <div className="flex row shrink-0 gap-[0.625rem] content-center justify-center items-center h-[2.5rem] px-[0.625rem] lg:text-[1.1rem] lg:px-3 lg:h-[3.25rem]">
               <>
-                <props.icon className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]" />
+                <props.icon
+                  weight="bold"
+                  className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]"
+                />
               </>
               <p className="lg:text-[1.1rem]">{props.text}</p>
             </div>
@@ -148,7 +154,10 @@ export const Tag = (props: TagProps) => {
           {props.variant === "icn-txt-xl" && (
             <div className="flex row shrink-0 gap-[0.625rem] content-center justify-start items-center h-[2.5rem] px-[0.625rem] lg:text-[1.1rem] lg:px-3 lg:h-[3.25rem]">
               <>
-                <props.icon className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]" />
+                <props.icon
+                  weight="bold"
+                  className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]"
+                />
               </>
               <p className="lg:text-[1.1rem]">{props.text}</p>
             </div>
@@ -157,7 +166,10 @@ export const Tag = (props: TagProps) => {
             <div className="h-[2.5rem] w-[2.5rem] flex shrink-0 justify-center items-center lg:h-[3.25rem] lg:w-[3.25rem]">
               {
                 <div className="">
-                  <props.icon className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]" />
+                  <props.icon
+                    weight="bold"
+                    className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]"
+                  />
                 </div>
               }
             </div>
@@ -165,5 +177,5 @@ export const Tag = (props: TagProps) => {
         </>
       </div>
     </button>
-  );
-};
+  )
+}

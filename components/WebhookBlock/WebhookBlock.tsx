@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
-import { EyeSlash, Trash } from "phosphor-react"
+import { EyeSlash } from "phosphor-react"
 import { IBlock } from "../../types/Block.types"
+import { BlockMenu } from "../BlockMenu/BlockMenu"
 
 type IData = {
   description?: string
@@ -41,14 +42,7 @@ export const WebhookBlock = ({
             }
             `}
     >
-      {isEditable && (
-        <button
-          onClick={onDelete}
-          className="z-10 absolute shrink-0 flex content-center rounded-full bg-white right-0 top-0"
-        >
-          <Trash className="w-[1rem] h-[1rem] m-[5px] lg:w-[1.25rem] lg:h-[1.25rem] drop-shadow-md" />
-        </button>
-      )}
+      {isEditable && <BlockMenu />}
       <div className="flex flex-row gap-3 items-center  mb-[0.5rem]">
         {!block.data.visibility && (
           <div className="w-[1.25rem] h-[1.25rem] lg:w-[1.75rem] lg:h-[1.75rem]">

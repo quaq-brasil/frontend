@@ -1,8 +1,8 @@
 import Image from "next/image"
-import { Trash } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { IBlock } from "../../types/Block.types"
 import { IInteractionData } from "../../types/Interaction.type"
+import { BlockMenu } from "../BlockMenu/BlockMenu"
 
 type ImageProps = {
   data: {
@@ -64,15 +64,7 @@ export const ImageBlock = ({
       className="flex relative justify-center content-center
             min-w-[100%] h-[13.0625rem]  lg:h-[19rem]"
     >
-      {isEditable && (
-        <button
-          onClick={onDelete}
-          className="z-10 absolute flex justify-start right-0 top-0 content-center
-          rounded-full bg-white border border-slate-100"
-        >
-          <Trash className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
-        </button>
-      )}
+      {isEditable && <BlockMenu />}
       <Image
         className="rounded-[20px] lg:rounded-[30px]"
         // mock link

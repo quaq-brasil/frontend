@@ -1,7 +1,7 @@
-import { PencilSimple } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { IBlock } from "../../types/Block.types"
 import { IInteractionData } from "../../types/Interaction.type"
+import { BlockMenu } from "../BlockMenu/BlockMenu"
 import { HorizontalBarChart } from "./HorizontalBarChart"
 import { LineChart } from "./LineChart"
 import { PieChart } from "./PieChart"
@@ -152,11 +152,7 @@ export const ChartBlock = ({
 
   return (
     <div className="flex relative justify-end">
-      {isEditable === true && (
-        <div className="z-10 absolute right-0 top-0 rounded-full bg-white border border-slate-100">
-          <PencilSimple className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
-        </div>
-      )}
+      {isEditable && <BlockMenu />}
       <div
         className="flex flex-col w-full justify-center items-center bg-white 
           p-[0.75rem] rounded-[20px] lg:rounded-[30px]"

@@ -1,7 +1,7 @@
-import { Trash } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { IBlock } from "../../types/Block.types"
 import { IInteractionData } from "../../types/Interaction.type"
+import { BlockMenu } from "../BlockMenu/BlockMenu"
 
 type options = {
   id: number
@@ -153,14 +153,7 @@ export const PoolBlock = ({
 
   return (
     <div className="flex relative justify-end min-w-[100%]">
-      {isEditable === true && (
-        <button
-          onClick={onDelete}
-          className="z-10 absolute right-0 top-0 rounded-full bg-white border border-slate-100"
-        >
-          <Trash className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
-        </button>
-      )}
+      {isEditable === true && <BlockMenu />}
       <div
         className="flex flex-col px-2 pt-3 gap-[0.3125rem] justify-center
             min-w-[100%] bg-white 
