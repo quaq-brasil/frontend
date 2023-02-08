@@ -1,9 +1,9 @@
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
-import GeneralSettings from "../../../layouts/main/GeneralSettings/GeneralSettings"
-import { usePageByUrl } from "../../../services/hooks/usePage/usePageByUrl"
-import { useUpdatePage } from "../../../services/hooks/usePage/useUpdatePage"
-import { IUpdatePage } from "../../../types/Page.type"
+import GeneralSettings from "../../../../layouts/main/GeneralSettings/GeneralSettings"
+import { usePageByUrl } from "../../../../services/hooks/usePage/usePageByUrl"
+import { useUpdatePage } from "../../../../services/hooks/usePage/useUpdatePage"
+import { IUpdatePage } from "../../../../types/Page.type"
 
 type GeneralSettingsPageProps = {
   page: string
