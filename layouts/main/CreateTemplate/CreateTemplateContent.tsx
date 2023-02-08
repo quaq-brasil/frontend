@@ -7,6 +7,7 @@ import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { BlockProps } from "../../../types/Block.types"
 import { IPage } from "../../../types/Page.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { VariablesPanelDialog } from "../../BlocksConfig/VariablesPanel/VariablesPanelDialog"
 import PublishTemplate from "../PublishTemplate/PublishTemplate"
 import { RenderBlockConfig } from "./RenderBlockConfig"
@@ -80,11 +81,13 @@ export function CreateTemplateContent({
         key={1}
         variant="txt"
         text={text("createtemplate:back")}
-        onClick={() => router.back()}
+        onClick={() =>
+          router.push(pageUrls.pageSettings({ pageSlug: pageData?.url }))
+        }
       />,
       blocks.length > 0 && (
         <Tag
-          key={1}
+          key={2}
           variant="txt"
           text={text("publish:publish")}
           onClick={() => setIsOpenPublishTemplate(true)}

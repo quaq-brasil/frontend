@@ -1,8 +1,10 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage } from "../../../types/Page.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { CreateTemplateContent } from "./CreateTemplateContent"
 
 type CreateTemplateProps = {
@@ -11,6 +13,7 @@ type CreateTemplateProps = {
 
 export default function CreateTemplate({ page }: CreateTemplateProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
@@ -40,6 +43,9 @@ export default function CreateTemplate({ page }: CreateTemplateProps) {
           variant="img-txt"
           text={page?.name || ""}
           img_url={page?.avatar_url || "https://source.unsplash.com/featured/"}
+          onClick={() =>
+            router.push(pageUrls.pageSettings({ pageSlug: pageData?.url }))
+          }
         />
         <Tag variant="txt" text={text("createtemplate:newtemplate")} />
       </Header>

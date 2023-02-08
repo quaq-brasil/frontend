@@ -137,7 +137,10 @@ export default function CreatorPage({
               text={page?.name || ""}
               img_url={page?.avatar_url || ""}
               isSelected={page.id == currentPage?.id}
-              onClick={() => setCurrentPage(page as IPage)}
+              onClick={() => {
+                setCurrentPage(page)
+                router.push(pageUrls.pageSettings({ pageSlug: page.url }))
+              }}
             />
           </div>
         )
@@ -148,7 +151,7 @@ export default function CreatorPage({
 
   const tabbarContextMenuContent = (
     <div className="fixed w-full px-[16px] flex flex-row justify-between left-0 right-0 bottom-[16px]">
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2 lg:gap-3">
         <div className="w-fit">
           <Tag variant="txt" text={text("creatorpage:pages")} />
         </div>
@@ -158,10 +161,13 @@ export default function CreatorPage({
             variant="icn-txt"
             text={text("creatorpage:newpage")}
             icon={Plus}
+            onClick={() =>
+              router.push(pageUrls.createPage(currentWorkspace?.name as string))
+            }
           />
         </div>
       </div>
-      <div className="flex flex-col justify-end items-end gap-3">
+      <div className="flex flex-col justify-end items-end gap-2 lg:gap-3">
         <div className="w-fit">
           <Tag
             variant="icn-txt"
@@ -199,7 +205,9 @@ export default function CreatorPage({
             variant="icn-txt"
             icon={Plus}
             text={text("creatorpage:newpage")}
-            onClick={() => router.push(pageUrls.createPage())}
+            onClick={() =>
+              router.push(pageUrls.createPage(currentWorkspace?.name as string))
+            }
           />
         </div>
       </div>
@@ -231,7 +239,7 @@ export default function CreatorPage({
                 img_url={workspace.avatar_url || ""}
                 text={workspace.name || ""}
                 isSelected={workspace.id == currentWorkspace?.id}
-                onClick={() => setCurrentWorkspace(workspace as IWorkspace)}
+                onClick={() => setCurrentWorkspace(workspace)}
               />
             </div>
           )

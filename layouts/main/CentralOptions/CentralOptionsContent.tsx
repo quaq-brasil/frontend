@@ -75,7 +75,6 @@ export function CentralOptionsContent({
             <CardText label={text("centraloptions:title")} />
             <CardTextInput
               input={{
-                label: text("centraloptions:titlelabel"),
                 onChange: (title) => handleUpdateTemplateData({ name: title }),
                 defaultValue: templateData?.url,
                 type: "text",
@@ -87,7 +86,6 @@ export function CentralOptionsContent({
             <CardText label={text("centraloptions:link")} />
             <CardTextInput
               input={{
-                label: text("centraloptions:linklabel"),
                 onChange: (url) => handleUpdateTemplateData({ url: url }),
                 value: templateData?.url,
                 fixedText: `quaq.me/${pageData?.url}/`,
@@ -154,19 +152,18 @@ export function CentralOptionsContent({
               />
             </div>
           )}
-
           <Card>
             <CardText label={text("centraloptions:moreoptions")} />
             <CardLine />
             <CardText
-              label={text("centraloptions:access")}
+              label={text("accesscontrol:setuptrackers")}
               indicator={{ icon: ArrowRight }}
               onClick={() =>
                 router.push(
                   pageUrls.templateCentral({
                     pageSlug: pageData?.url || "",
                     templateSlug: templateData?.url || "",
-                    settings: "access-control",
+                    settings: "trackers",
                   })
                 )
               }

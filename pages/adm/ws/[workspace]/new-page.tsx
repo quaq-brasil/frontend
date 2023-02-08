@@ -1,10 +1,10 @@
 import { useRouter } from "next/router"
-import { useUserAuth } from "../../contexts/userAuth"
-import { CreatePage } from "../../layouts/Onboarding/CreatePage/CreatePage"
-import { useCreatePage } from "../../services/hooks/usePage/useCreatePage"
-import { useWorkspace } from "../../services/hooks/useWorkspace/useWorkspace"
-import { IUpdatePage } from "../../types/Page.type"
-import { pageUrls } from "../../utils/pagesUrl"
+import { useUserAuth } from "../../../../contexts/userAuth"
+import { CreatePage } from "../../../../layouts/Onboarding/CreatePage/CreatePage"
+import { useCreatePage } from "../../../../services/hooks/usePage/useCreatePage"
+import { useWorkspace } from "../../../../services/hooks/useWorkspace/useWorkspace"
+import { IUpdatePage } from "../../../../types/Page.type"
+import { pageUrls } from "../../../../utils/pagesUrl"
 
 export default function CreatePagePage() {
   const { user } = useUserAuth()

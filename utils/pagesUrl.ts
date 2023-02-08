@@ -9,7 +9,7 @@ type pageSettingsProps = {
 
 const pageSettings = ({ pageSlug, pageSettings }: pageSettingsProps) => {
   if (pageSettings && pageSlug) {
-    return `/adm/${pageSlug}/${pageSettings}`
+    return `/adm/${pageSlug}/config/${pageSettings}`
   } else if (pageSlug) {
     return `/adm/${pageSlug}`
   } else {
@@ -17,7 +17,7 @@ const pageSettings = ({ pageSlug, pageSettings }: pageSettingsProps) => {
   }
 }
 
-const createPage = () => `/create-page`
+const createPage = (wsSlug: string) => `/adm/ws/${wsSlug}/new-page`
 
 const template = (pageSlug: string, templateSlug: string) =>
   `/${pageSlug}/${templateSlug}`

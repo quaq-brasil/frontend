@@ -1,10 +1,12 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUpdatePage } from "../../../types/Page.type"
 import { IUpdateWorkspace, IWorkspace } from "../../../types/Workspace.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { CreatePageContent } from "./CreatePageContent"
 
 type CreatePageProps = {
@@ -17,6 +19,7 @@ export function CreatePage({
   handleCreatePage,
 }: CreatePageProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [pageData, setPageData] = useState<IUpdatePage>()
   const [workspaceData, setWorkspaceData] = useState<IUpdateWorkspace>()
@@ -61,7 +64,7 @@ export function CreatePage({
           key={1}
           variant="txt"
           text={text("createpage:back")}
-          onClick={() => console.log("back")}
+          onClick={() => router.push(pageUrls.pageSettings({}))}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -77,7 +80,7 @@ export function CreatePage({
           key={1}
           variant="txt"
           text={text("createpage:back")}
-          onClick={() => handleUpdateRunUpdate(true)}
+          onClick={() => router.push(pageUrls.pageSettings({}))}
         />,
       ]
     }

@@ -1,10 +1,12 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage, IUpdatePage } from "../../../types/Page.type"
 import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { CentralTrackersContent } from "./CentralTrackersContent"
 
 type CentralTrackersProps = {
@@ -19,6 +21,7 @@ export default function CentralTrackers({
   initialTemplateData,
 }: CentralTrackersProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [isUpdating, setIsUpdating] = useState<boolean>(false)
   const [pageData, setPageData] = useState<IUpdatePage>()
@@ -59,7 +62,15 @@ export default function CentralTrackers({
           key={1}
           variant="txt"
           text={text("centraltrackers:back")}
-          onClick={() => console.log()}
+          onClick={() =>
+            router.push(
+              pageUrls.templateCentral({
+                pageSlug: pageData?.url as string,
+                templateSlug: templateData?.url as string,
+                settings: "central",
+              })
+            )
+          }
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -75,7 +86,15 @@ export default function CentralTrackers({
           key={1}
           variant="txt"
           text={text("centraltrackers:back")}
-          onClick={() => console.log()}
+          onClick={() =>
+            router.push(
+              pageUrls.templateCentral({
+                pageSlug: pageData?.url as string,
+                templateSlug: templateData?.url as string,
+                settings: "central",
+              })
+            )
+          }
         />,
       ]
     }
@@ -88,11 +107,21 @@ export default function CentralTrackers({
           variant="img-txt"
           text={pageData?.name || ""}
           img_url={pageData?.avatar_url || ""}
+          onClick={() => router.push(pageUrls.pageSettings({}))}
         />
         <Tag
           variant="img-txt"
           text={templateData?.name || ""}
           img_url={templateData?.shortcut_image || ""}
+          onClick={() =>
+            router.push(
+              pageUrls.templateCentral({
+                pageSlug: pageData?.url as string,
+                templateSlug: templateData?.url as string,
+                settings: "central",
+              })
+            )
+          }
         />
         <Tag variant="txt" text={text("centraltrackers:trackers")} />
       </Header>
