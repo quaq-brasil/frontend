@@ -20,6 +20,7 @@ export default function CreateWorkspacePage({
     createWorkspace.mutate({
       data: {
         name: data.name || "",
+        slug: data.name || "",
         avatar_url: data.avatar_url || "",
         user_id: "63d68764688c6d9d82a5f647",
         services: [{ name: "", description: "" }],
