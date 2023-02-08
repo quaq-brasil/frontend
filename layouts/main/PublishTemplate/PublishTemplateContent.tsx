@@ -11,9 +11,9 @@ import { CardTextInput } from "../../../components/Card/CardContentVariants/Card
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-import useDebounce from "../../../hooks/useDebouce"
+import { useDebounce } from "../../../hooks/useDebouce"
 import { useCreatePublication } from "../../../services/hooks/usePublication/useCreatePublication"
-import { useGetTemplateUrl } from "../../../services/hooks/useTemplate/useGetTemplateUrl"
+import { useGenerateTemplateUniqueUrl } from "../../../services/hooks/useTemplate/useGenerateTemplateUniqueUrl"
 import { IPage } from "../../../types/Page.type"
 import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
 
@@ -44,19 +44,22 @@ export function PublishTemplateContent({
 }: PublishTemplateContentProps) {
   const text = useTranslation().t
 
-  const getTemplateUrl = useGetTemplateUrl()
+  const generateTemplateUniqueUrl = useGenerateTemplateUniqueUrl()
 
   type handleGetTemplateUrlProps = {
-    name: string
-    pageId: string
+    title: string
+    page_id: string
   }
 
   function handleGetTemplateUrl(data: handleGetTemplateUrlProps) {
-    getTemplateUrl.mutate(data, {
-      onSuccess: (url) => {
-        handleUpdateTemplateData({ url })
-      },
-    })
+    generateTemplateUniqueUrl.mutate(
+      { data },
+      {
+        onSuccess: (url) => {
+          handleUpdateTemplateData({ url })
+        },
+      }
+    )
   }
 
   const debouncedTemplateName = useDebounce({
@@ -67,8 +70,8 @@ export function PublishTemplateContent({
   useEffect(() => {
     if (debouncedTemplateName && debouncedTemplateName !== "") {
       handleGetTemplateUrl({
-        name: debouncedTemplateName,
-        pageId: pageData?.id as string,
+        title: debouncedTemplateName,
+        page_id: pageData?.id as string,
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

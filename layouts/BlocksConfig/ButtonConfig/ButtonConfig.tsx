@@ -32,7 +32,7 @@ export function ButtonConfig({
 
   function handleUpdateContent(newData: IButton) {
     setContent({
-      text: newData.text || content?.text,
+      text: newData.text || "",
       color: newData.color || content?.color,
     })
     handleUpdateIsUpdating(true)

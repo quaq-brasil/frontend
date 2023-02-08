@@ -5,7 +5,7 @@ type UseDebounceProps = {
   delay: number
 }
 
-const useDebounce = ({ value, delay }: UseDebounceProps) => {
+export const useDebounce = ({ value, delay }: UseDebounceProps) => {
   const [debouncedValue, setDebouncedValue] = useState(value)
 
   useEffect(() => {
@@ -20,5 +20,3 @@ const useDebounce = ({ value, delay }: UseDebounceProps) => {
 
   return debouncedValue
 }
-
-export default useDebounce

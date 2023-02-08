@@ -9,8 +9,8 @@ import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
-import useDebounce from "../../../hooks/useDebouce"
-import { useGetTemplateUrl } from "../../../services/hooks/useTemplate/useGetTemplateUrl"
+import { useDebounce } from "../../../hooks/useDebouce"
+import { useGenerateTemplateUniqueUrl } from "../../../services/hooks/useTemplate/useGenerateTemplateUniqueUrl"
 import { IUpdatePage } from "../../../types/Page.type"
 import { IUpdateTemplate } from "../../../types/Template.type"
 import { pageUrls } from "../../../utils/pagesUrl"
@@ -33,19 +33,22 @@ export function CentralOptionsContent({
   const text = useTranslation().t
   const router = useRouter()
 
-  const getTemplateUrl = useGetTemplateUrl()
+  const generateTemplateUniqueUrl = useGenerateTemplateUniqueUrl()
 
   type handleGetTemplateUrlProps = {
-    name: string
-    pageId: string
+    title: string
+    page_id: string
   }
 
   function handleGetTemplateUrl(data: handleGetTemplateUrlProps) {
-    getTemplateUrl.mutate(data, {
-      onSuccess: (url) => {
-        handleUpdateTemplateData({ url })
-      },
-    })
+    generateTemplateUniqueUrl.mutate(
+      { data },
+      {
+        onSuccess: (url) => {
+          handleUpdateTemplateData({ url })
+        },
+      }
+    )
   }
 
   const debouncedTemplateName = useDebounce({
@@ -54,10 +57,10 @@ export function CentralOptionsContent({
   })
 
   useEffect(() => {
-    if (debouncedTemplateName && debouncedTemplateName !== "") {
+    if (isUpdating && debouncedTemplateName && templateData?.name) {
       handleGetTemplateUrl({
-        name: debouncedTemplateName,
-        pageId: pageData?.id as string,
+        title: debouncedTemplateName,
+        page_id: pageData?.id as string,
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -76,7 +79,7 @@ export function CentralOptionsContent({
             <CardTextInput
               input={{
                 onChange: (title) => handleUpdateTemplateData({ name: title }),
-                defaultValue: templateData?.url,
+                inputValue: templateData?.name,
                 type: "text",
               }}
             />

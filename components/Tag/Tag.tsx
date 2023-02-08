@@ -100,7 +100,7 @@ export const Tag = (props: TagProps) => {
                 <p className="lg:text-[1.1rem]">{props.text}</p>
               ) : (
                 <>
-                  <p className="h-4 bg-slate-400 rounded col-span-1 w-16" />
+                  <p className="h-3.5 bg-slate-400 rounded col-span-1 w-16" />
                 </>
               )}
               <ImageTag img_url={props.img_url} />
@@ -114,7 +114,7 @@ export const Tag = (props: TagProps) => {
                 <p className="lg:text-[1.1rem]">{props.text}</p>
               ) : (
                 <>
-                  <p className="h-4 bg-slate-400 rounded col-span-1 w-16" />
+                  <p className="h-3.5 bg-slate-400 rounded col-span-1 w-16" />
                 </>
               )}
             </div>
@@ -130,7 +130,7 @@ export const Tag = (props: TagProps) => {
                 <p className="lg:text-[1.1rem]">{props.text}</p>
               ) : (
                 <>
-                  <p className="h-4 bg-slate-400 rounded col-span-1 w-16" />
+                  <p className="h-3.5 bg-slate-400 rounded col-span-1 w-16" />
                 </>
               )}
               <>
@@ -153,7 +153,7 @@ export const Tag = (props: TagProps) => {
                 <p className="lg:text-[1.1rem]">{props.text}</p>
               ) : (
                 <>
-                  <p className="h-4 bg-slate-400 rounded col-span-1 w-16" />
+                  <p className="h-3.5 bg-slate-400 rounded col-span-1 w-16" />
                 </>
               )}
             </div>
@@ -170,7 +170,7 @@ export const Tag = (props: TagProps) => {
                 <p className="lg:text-[1.1rem]">{props.text}</p>
               ) : (
                 <>
-                  <p className="h-4 bg-slate-400 rounded col-span-1 w-16" />
+                  <p className="h-3.5 bg-slate-400 rounded col-span-1 w-16" />
                 </>
               )}
             </div>
