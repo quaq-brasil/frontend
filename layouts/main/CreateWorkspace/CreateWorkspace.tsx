@@ -39,6 +39,7 @@ export default function CreateWorkspace({
     setWorkspaceData({
       avatar_url: newData.avatar_url || workspaceData?.avatar_url,
       name: newData.name || workspaceData?.name,
+      slug: newData.name || workspaceData?.name,
     })
     handleUpdateIsUpdating(true)
   }
