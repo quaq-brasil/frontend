@@ -96,14 +96,27 @@ export const Tag = (props: TagProps) => {
           )}
           {props.variant === "txt-img" && (
             <div className="flex row shrink-0 justify-center content-center items-center gap-[0.5rem] h-[2.5rem] pr-[0.125rem] pl-[0.625rem] lg:h-[3.25rem] lg:pr-[0.1875rem] lg:pl-[0.75rem] lg:gap-[0.75rem]">
-              <p className="lg:text-[1.1rem]">{props.text}</p>
+              {props.text ? (
+                <p className="lg:text-[1.1rem]">{props.text}</p>
+              ) : (
+                <>
+                  <p className="h-4 bg-slate-400 rounded col-span-1 w-16" />
+                </>
+              )}
               <ImageTag img_url={props.img_url} />
             </div>
           )}
           {props.variant === "img-txt" && (
             <div className="flex row shrink-0 justify-center content-center items-center gap-[0.5rem] h-[2.5rem] pr-[0.625rem] pl-[0.125rem] lg:h-[3.25rem] lg:pr-[0.75rem] lg:pl-[0.1875rem] lg:gap-[0.75rem]">
               <ImageTag img_url={props.img_url} />
-              <p className="lg:text-[1.1rem]">{props.text}</p>
+
+              {props.text ? (
+                <p className="lg:text-[1.1rem]">{props.text}</p>
+              ) : (
+                <>
+                  <p className="h-4 bg-slate-400 rounded col-span-1 w-16" />
+                </>
+              )}
             </div>
           )}
           {props.variant === "img" && (
@@ -113,7 +126,13 @@ export const Tag = (props: TagProps) => {
           )}
           {props.variant === "txt-icn" && (
             <div className="flex row shrink-0 gap-[0.625rem] content-center justify-center items-center h-[2.5rem] px-[0.625rem] lg:text-[1.1rem] lg:px-3 lg:h-[3.25rem]">
-              <p className="lg:text-[1.1rem]">{props.text}</p>
+              {props.text ? (
+                <p className="lg:text-[1.1rem]">{props.text}</p>
+              ) : (
+                <>
+                  <p className="h-4 bg-slate-400 rounded col-span-1 w-16" />
+                </>
+              )}
               <>
                 <props.icon
                   weight="bold"
@@ -130,7 +149,13 @@ export const Tag = (props: TagProps) => {
                   className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]"
                 />
               </>
-              <p className="lg:text-[1.1rem]">{props.text}</p>
+              {props.text ? (
+                <p className="lg:text-[1.1rem]">{props.text}</p>
+              ) : (
+                <>
+                  <p className="h-4 bg-slate-400 rounded col-span-1 w-16" />
+                </>
+              )}
             </div>
           )}
           {props.variant === "icn-txt-xl" && (
@@ -141,7 +166,13 @@ export const Tag = (props: TagProps) => {
                   className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]"
                 />
               </>
-              <p className="lg:text-[1.1rem]">{props.text}</p>
+              {props.text ? (
+                <p className="lg:text-[1.1rem]">{props.text}</p>
+              ) : (
+                <>
+                  <p className="h-4 bg-slate-400 rounded col-span-1 w-16" />
+                </>
+              )}
             </div>
           )}
           {props.variant === "icn" && (
@@ -170,7 +201,7 @@ const ImageTag = ({ img_url }: ImageTagProps) => {
   if (img_url) {
     return (
       <Image
-        className="h-[2.25rem] w-[2.25rem] rounded-full lg:h-[2.875rem] lg:w-[2.875rem] shrink-0"
+        className="h-[2.25rem] w-[2.25rem] rounded-full lg:h-[2.875rem] lg:w-[2.875rem] shrink-0 bg-slate-400"
         src={img_url}
         width={100}
         height={100}

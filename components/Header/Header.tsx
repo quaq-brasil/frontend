@@ -45,7 +45,7 @@ export const Header = ({
       {background_url ? (
         <Image
           src={background_url}
-          className="lg:rounded-[2.5rem] opacity-90"
+          className="lg:rounded-[2.5rem] opacity-90 bg-slate-300"
           priority
           fill
           style={{ objectFit: "cover" }}
