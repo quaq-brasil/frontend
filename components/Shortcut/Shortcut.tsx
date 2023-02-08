@@ -118,14 +118,17 @@ export const Shortcut = (props: ShortcutProps) => {
             {props.title}
           </p>
         </div>
-
-        <Image
-          className="rounded-[20px] lg:rounded-[30px]"
-          src={props.img_url}
-          fill
-          style={{ objectFit: "cover" }}
-          alt={""}
-        />
+        {props.img_url ? (
+          <Image
+            className="rounded-[20px] lg:rounded-[30px]"
+            src={props.img_url}
+            fill
+            style={{ objectFit: "cover" }}
+            alt={""}
+          />
+        ) : (
+          <div className="min-w-full min-h-full bg-slate-300 animate-pulse"></div>
+        )}
 
         {props.isCreator && props.isSelected ? (
           <div className="relative z-10 h-fit min-w-full w-fit pt-0 pl-0 overflow-scroll flex scrollbar-hide gap-3 items-center justify-start">
