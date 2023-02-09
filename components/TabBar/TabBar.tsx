@@ -1,5 +1,7 @@
+import { ReactNode } from "react"
+
 type TabBarProps = {
-  tags: React.ReactNode[]
+  tags: ReactNode[]
   isHidden?: boolean
   shiftLayoutOnXl?: boolean
 }
@@ -23,10 +25,10 @@ export const TabBar = ({
       <div
         className={`flex flex-row scrollbar-hide items-center gap-2 ${
           tags.length === 1 ? "justify-end" : "justify-between"
-        } overflow-x-auto px-[16px] w-full md:flex-col  min-h-screen
+        } overflow-x-auto px-[16px] w-full 
       ${
         shiftLayoutOnXl
-          ? "xl:items-start xl:gap-3 xl:px-0  xl:overflow-hidden xl:flex-col xl:justify-start"
+          ? "xl:items-start xl:gap-3 xl:px-0  xl:overflow-hidden xl:flex-col xl:justify-start  xl:min-h-screen"
           : ""
       }`}
       >

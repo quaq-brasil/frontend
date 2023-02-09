@@ -1,3 +1,4 @@
+import { Translate } from "next-translate"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { Check } from "phosphor-react"
@@ -8,6 +9,7 @@ import { CardImageInput } from "../../../components/Card/CardContentVariants/Car
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { Header } from "../../../components/Header/Header"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
@@ -15,39 +17,41 @@ import { useDebounce } from "../../../hooks/useDebouce"
 import { useCreatePublication } from "../../../services/hooks/usePublication/useCreatePublication"
 import { useGenerateTemplateUniqueUrl } from "../../../services/hooks/useTemplate/useGenerateTemplateUniqueUrl"
 import { IPage } from "../../../types/Page.type"
-import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
+import {
+  getTemplateByUrlAndPageUrlProps,
+  IUpdateTemplate,
+} from "../../../types/Template.type"
 
-type PublishTemplateContentProps = {
-  handleCreateTemplate: (data: ITemplate) => void
-  isUpdating: boolean
-  runUpdate: boolean
-  handleUpdateRunUpdate: (stat: boolean) => void
-  templateData: IUpdateTemplate | undefined
-  handleUpdateTemplateData: (data: IUpdateTemplate) => void
-  pageData: IPage | undefined
-  handleUpdateIsUpdating: (stat: boolean) => void
+type PublishPublicationProps = {
   blocks: any[]
   onClose: () => void
+  pageData: IPage | undefined
+  template: getTemplateByUrlAndPageUrlProps | undefined
 }
 
 type handleGetTemplateUrlProps = {
+  id?: string
   title: string
   page_id: string
 }
 
-export function PublishTemplateContent({
-  handleCreateTemplate,
-  isUpdating,
-  runUpdate,
-  handleUpdateRunUpdate,
-  templateData,
-  handleUpdateTemplateData,
-  pageData,
-  handleUpdateIsUpdating,
+export const PublishPublication = ({
   blocks,
   onClose,
-}: PublishTemplateContentProps) {
+  pageData,
+  template,
+}: PublishPublicationProps) => {
   const text = useTranslation().t
+
+  const [publicationTitle, setPublicationTitle] = useState("")
+  const [isUpdating, setIsUpdating] = useState(false)
+  const router = useRouter()
+  const [templateData, setTemplateData] =
+    useState<getTemplateByUrlAndPageUrlProps>()
+
+  useEffect(() => {
+    setTemplateData(template)
+  }, [template])
 
   const generateTemplateUniqueUrl = useGenerateTemplateUniqueUrl()
 
@@ -68,8 +72,9 @@ export function PublishTemplateContent({
   })
 
   useEffect(() => {
-    if (debouncedTemplateName && debouncedTemplateName !== "") {
+    if (isUpdating && debouncedTemplateName) {
       handleGetTemplateUrl({
+        id: templateData?.id,
         title: debouncedTemplateName,
         page_id: pageData?.id as string,
       })
@@ -77,23 +82,24 @@ export function PublishTemplateContent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedTemplateName])
 
-  useEffect(() => {
-    handleCreatePublication()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [templateData])
-
-  const [newPublicationTitle, setNewPublicationTitle] = useState("")
+  const handleUpdateTemplateData = (newData: IUpdateTemplate) => {
+    setTemplateData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as getTemplateByUrlAndPageUrlProps
+    })
+    setIsUpdating(true)
+  }
 
   const createPublication = useCreatePublication()
-
-  const router = useRouter()
 
   function handleCreatePublication() {
     if (templateData?.id) {
       createPublication.mutate(
         {
           data: {
-            title: newPublicationTitle,
+            title: publicationTitle,
             blocks,
             template_id: templateData.id,
             page_id: pageData?.id as string,
@@ -108,65 +114,34 @@ export function PublishTemplateContent({
     }
   }
 
-  function handleUpdateNewPublicationTitle(title: string) {
-    handleUpdateIsUpdating(true)
-    setNewPublicationTitle(title)
-    if (title === "") {
-      handleUpdateIsUpdating(false)
-    }
-  }
-
-  const onCreateTemplate = () => {
-    handleCreateTemplate({
-      current_publication_id: "63e00c3ca62ce469e303482d",
-      name: templateData?.name || "",
-      page_id: pageData?.id || "",
-      number_of_new_interactions: 0,
-      shortcut_image:
-        "https://images.unsplash.com/photo-1674225636667-0e12bccc2b4a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
-      shortcut_size: templateData?.shortcut_size || "small",
-      url: templateData?.url || "",
-      trackers: {
-        facebook: undefined,
-        google: undefined,
-      },
-    })
-  }
-
   function handleTabBar() {
-    if (isUpdating) {
-      return [
+    return [
+      <Tag
+        key={1}
+        variant="txt"
+        text={text("publish:back")}
+        onClick={onClose}
+      />,
+      <div key={2} className={`w-fit h-fit xl:hidden`}>
         <Tag
-          key={1}
           variant="txt"
-          text={text("publish:back")}
-          onClick={onClose}
-        />,
-        <div key={2} className={`w-fit h-fit xl:hidden`}>
-          <Tag
-            variant="txt"
-            text={text("publish:publish")}
-            onClick={onCreateTemplate}
-          />
-        </div>,
-      ]
-    } else {
-      return [
-        <Tag
-          key={1}
-          variant="txt"
-          text={text("publish:back")}
-          onClick={() => console.log("tab1")}
-        />,
-      ]
-    }
+          text={text("publish:publish")}
+          onClick={handleCreatePublication}
+        />
+      </div>,
+    ]
   }
 
   return (
     <>
+      <PublishPublicationHeader
+        pageData={pageData}
+        templateData={templateData}
+        text={text}
+      />
       <div className="w-full h-screen bg-slate-100">
         <div
-          className="fixed z-20 bottom-0 left-0 right-0 top-[50px] max-w-[1024px] mx-auto
+          className="fixed z-20 bottom-0 left-0 right-0 top-[76px] max-w-[1024px] mx-auto
       bg-slate-100 rounded-t-[25px] overflow-y-scroll scrollbar-hide pt-2 px-2
       md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:p-[2rem]"
         >
@@ -176,6 +151,7 @@ export function PublishTemplateContent({
               <CardTextInput
                 input={{
                   label: text("publish:titlelabel"),
+                  defaultValue: templateData?.name,
                   onChange: (title) =>
                     handleUpdateTemplateData({ name: title }),
                 }}
@@ -202,6 +178,7 @@ export function PublishTemplateContent({
               <CardImageInput
                 imageSelector={
                   <ImageSelector
+                    url={templateData?.shortcut_image}
                     onImageChange={(cover) =>
                       handleUpdateTemplateData({ shortcut_image: cover })
                     }
@@ -240,29 +217,64 @@ export function PublishTemplateContent({
               <CardTextInput
                 input={{
                   label: text("publish:publishaslabel"),
-                  onChange: (title) => handleUpdateNewPublicationTitle(title),
+                  defaultValue: publicationTitle,
+                  onChange: (publicationTitle) =>
+                    setPublicationTitle(publicationTitle),
                 }}
               />
             </Card>
-            {isUpdating && (
-              <div className="w-full h-fit hidden xl:block">
-                <Button
-                  block={{
-                    data: {
-                      color: "bg-black",
-                      text: text("publish:confirm"),
-                      onClick: () => handleUpdateRunUpdate(true),
-                    },
-                  }}
-                  isEditable={false}
-                />
-              </div>
-            )}
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                block={{
+                  data: {
+                    color: "bg-black",
+                    text: text("publish:publish"),
+                    onClick: () => handleCreatePublication,
+                  },
+                }}
+                isEditable={false}
+              />
+            </div>
             <span className="w-full h-[4rem]"></span>
           </div>
         </div>
       </div>
       <TabBar isHidden={false} tags={handleTabBar()} />
     </>
+  )
+}
+
+type PublishPublicationHeaderProps = {
+  pageData: IPage | undefined
+  templateData: getTemplateByUrlAndPageUrlProps | undefined
+  text: Translate
+}
+
+const PublishPublicationHeader = ({
+  pageData,
+  templateData,
+  text,
+}: PublishPublicationHeaderProps) => {
+  return (
+    <Header background_url={pageData?.background_url || ""}>
+      <Tag
+        variant="img-txt"
+        text={pageData?.name || ""}
+        img_url={pageData?.avatar_url || ""}
+      />
+      {!templateData?.name && !templateData?.shortcut_image && (
+        <Tag variant="txt" text={text("publish:titletag")} />
+      )}
+      {templateData?.name && !templateData?.shortcut_image && (
+        <Tag variant="txt" text={templateData.name} />
+      )}
+      {templateData?.name && templateData?.shortcut_image && (
+        <Tag
+          variant="img-txt"
+          text={templateData.name}
+          img_url={templateData.shortcut_image}
+        />
+      )}
+    </Header>
   )
 }
