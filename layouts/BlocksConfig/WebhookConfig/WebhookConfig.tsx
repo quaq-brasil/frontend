@@ -51,15 +51,14 @@ export function WebhookConfig({
   }
 
   function handleUpdateContent(newData: IWebhook) {
-    setContent({
-      description: newData.description || content?.description,
-      parameters: newData.parameters || content?.parameters,
-      visibility: visibility,
-      header: newData.header || content?.header,
-      body: newData.body || content?.body,
-      type: newData.type || content?.type,
-      link: newData.link || content?.link,
-    })
+    switch (newData) {
+      case newData.description:
+        setContent({
+          description: newData.description,
+        })
+        break
+      case newData.parameters:
+    }
     handleUpdateIsUpdating(true)
   }
 

@@ -31,10 +31,20 @@ export function ButtonConfig({
   const [runUpdate, setRunUpdate] = useState(false)
 
   function handleUpdateContent(newData: IButton) {
-    setContent({
-      text: newData.text || "",
-      color: newData.color || content?.color,
-    })
+    switch (newData) {
+      case newData.text:
+        setContent({
+          text: newData.text || "",
+        })
+        break
+      case newData.color:
+        setContent({
+          color: newData.color || content?.color,
+        })
+        break
+      default:
+        break
+    }
     handleUpdateIsUpdating(true)
   }
 

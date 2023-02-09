@@ -4,9 +4,16 @@ import { ArrowRight } from "phosphor-react"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { IUpdateWorkspace } from "../../../types/Workspace.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 
-export function WorkspaceAdvancedContent() {
+type WorkspaceAdvancedContentProps = {
+  workspaceData: IUpdateWorkspace | undefined
+}
+
+export function WorkspaceAdvancedContent({
+  workspaceData,
+}: WorkspaceAdvancedContentProps) {
   const text = useTranslation().t
 
   const router = useRouter()
@@ -28,7 +35,7 @@ export function WorkspaceAdvancedContent() {
                 router.push(
                   pageUrls.workspaceSettings({
                     settings: "delete",
-                    woskpaceSlug: "wsname",
+                    woskpaceSlug: workspaceData?.slug,
                   })
                 )
               }

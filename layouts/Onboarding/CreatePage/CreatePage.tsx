@@ -33,11 +33,17 @@ export function CreatePage({
   function handleUpdatePageData(newData: IUpdatePage) {
     setPageData({
       ...pageData,
-      name: newData.name || pageData?.name,
-      avatar_url: newData.avatar_url || pageData?.avatar_url,
-      background_url: newData.background_url || pageData?.background_url,
-      description: newData.description || pageData?.description,
-      url: newData.url || pageData?.url,
+      name: newData.name ? newData.name : pageData?.name,
+      avatar_url: newData.avatar_url
+        ? newData.avatar_url
+        : pageData?.avatar_url,
+      background_url: newData.background_url
+        ? newData.background_url
+        : pageData?.background_url,
+      description: newData.description
+        ? newData.description
+        : pageData?.description,
+      url: newData.url ? newData.url : pageData?.url,
     })
     handleUpdateIsUpdating(true)
   }
@@ -64,7 +70,7 @@ export function CreatePage({
           key={1}
           variant="txt"
           text={text("createpage:back")}
-          onClick={() => router.push(pageUrls.pageSettings({}))}
+          onClick={() => router.push(pageUrls.adm())}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -80,7 +86,7 @@ export function CreatePage({
           key={1}
           variant="txt"
           text={text("createpage:back")}
-          onClick={() => router.push(pageUrls.pageSettings({}))}
+          onClick={() => router.push(pageUrls.adm())}
         />,
       ]
     }

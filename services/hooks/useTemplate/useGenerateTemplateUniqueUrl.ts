@@ -3,6 +3,7 @@ import { useMutationProps } from "../../../types/useQueryProps"
 import { api } from "../../apiClient"
 
 type dataProps = {
+  id?: string
   title: string
   page_id: string
 }

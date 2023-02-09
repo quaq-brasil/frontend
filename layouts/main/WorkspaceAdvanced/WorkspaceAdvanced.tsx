@@ -32,7 +32,9 @@ export default function WorkspaceAdvanced({
         variant="txt"
         text={text("wsadvanced:tab1")}
         onClick={() =>
-          router.push(pageUrls.workspaceSettings({ woskpaceSlug: "wsname" }))
+          router.push(
+            pageUrls.workspaceSettings({ woskpaceSlug: workspaceData?.slug })
+          )
         }
       />,
     ]
@@ -49,12 +51,19 @@ export default function WorkspaceAdvanced({
           variant="img-txt"
           text={workspaceData?.name || ""}
           img_url={workspaceData?.avatar_url || ""}
+          onClick={() =>
+            router.push(
+              pageUrls.workspaceSettings({ woskpaceSlug: workspaceData?.slug })
+            )
+          }
         />
         <Tag
           variant="txt"
           text={text("wsadvanced:titletag")}
           onClick={() =>
-            router.push(pageUrls.workspaceSettings({ woskpaceSlug: "wsname" }))
+            router.push(
+              pageUrls.workspaceSettings({ woskpaceSlug: workspaceData?.slug })
+            )
           }
         />
         <Tag variant="txt" text={text("wsadvanced:titletag2")} />
@@ -65,7 +74,7 @@ export default function WorkspaceAdvanced({
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <WorkspaceAdvancedContent />
+      <WorkspaceAdvancedContent workspaceData={workspaceData} />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   )

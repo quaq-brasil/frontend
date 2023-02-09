@@ -31,7 +31,7 @@ export function ReviewConfig({
 
   function handleUpdateContent(newData: IReview) {
     setContent({
-      description: newData.description || content?.description,
+      description: newData.description,
     })
     handleUpdateIsUpdating(true)
   }

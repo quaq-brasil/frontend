@@ -1,10 +1,12 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUser } from "../../../types/User.type"
 import { IUpdateWorkspace } from "../../../types/Workspace.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { CreateWorkspaceContent } from "./CreateWorkspaceContent"
 
 type CreateWorkspaceProps = {
@@ -17,6 +19,7 @@ export default function CreateWorkspace({
   handleCreateWorkspace,
 }: CreateWorkspaceProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [userData, setUserData] = useState<IUser | null>()
   const [isUpdating, setIsUpdating] = useState(false)
@@ -36,11 +39,20 @@ export default function CreateWorkspace({
   }
 
   function handleUpdateWorkspaceData(newData: IUpdateWorkspace) {
-    setWorkspaceData({
-      avatar_url: newData.avatar_url || workspaceData?.avatar_url,
-      name: newData.name || workspaceData?.name,
-      slug: newData.name || workspaceData?.name,
-    })
+    switch (newData) {
+      case newData.name:
+        setWorkspaceData({
+          name: newData.name,
+        })
+        break
+      case newData.avatar_url:
+        setWorkspaceData({
+          avatar_url: newData.avatar_url,
+        })
+        break
+      default:
+        break
+    }
     handleUpdateIsUpdating(true)
   }
 
@@ -58,7 +70,7 @@ export default function CreateWorkspace({
           key={1}
           variant="txt"
           text={text("createwspace:back")}
-          onClick={() => console.log("tab1")}
+          onClick={() => router.push(pageUrls.adm())}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -74,7 +86,7 @@ export default function CreateWorkspace({
           key={1}
           variant="txt"
           text={text("createwspace:back")}
-          onClick={() => console.log("tab1")}
+          onClick={() => router.push(pageUrls.adm())}
         />,
       ]
     }
@@ -117,7 +129,6 @@ export default function CreateWorkspace({
       {loadHeader()}
       <CreateWorkspaceContent
         isUpdating={isUpdating}
-        runUpdate={runUpdate}
         workspaceData={workspaceData}
         handleCreateWorkspace={handleCreateWorkspace}
         handleUpdateWorkspaceData={handleUpdateWorkspaceData}

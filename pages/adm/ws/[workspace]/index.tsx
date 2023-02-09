@@ -1,16 +1,24 @@
+import { GetServerSideProps } from "next"
+import { ParsedUrlQuery } from "querystring"
 import WorkspaceSettings from "../../../../layouts/main/WorkspaceSettings/WorkspaceSettings"
 import { useUpdateWorkspace } from "../../../../services/hooks/useWorkspace/useUpdateWorkspace"
-import { useWorkspace } from "../../../../services/hooks/useWorkspace/useWorkspace"
+import { useWorkspaceBySlug } from "../../../../services/hooks/useWorkspace/useWorkspaceBySlug"
 import { IUpdateWorkspace } from "../../../../types/Workspace.type"
 
-export default function WorkspaceSettingsPage() {
-  const getWorkspace = useWorkspace({ id: "63d91e6acf6a7076d3a019ee" })
+type WorkspaceSettingsPageProps = {
+  workspace: string
+}
+
+export default function WorkspaceSettingsPage({
+  workspace,
+}: WorkspaceSettingsPageProps) {
+  const getWorkspace = useWorkspaceBySlug({ slug: workspace })
 
   const updateWorkspace = useUpdateWorkspace()
 
   function handleUpdateWorkspace(data: IUpdateWorkspace) {
     updateWorkspace.mutate({
-      id: "63d91e6acf6a7076d3a019ee",
+      id: getWorkspace?.data.id || "",
       data: {
         name: data?.name || "",
         avatar_url: data.avatar_url || "",
@@ -24,4 +32,18 @@ export default function WorkspaceSettingsPage() {
       handleUpdateWorkspace={handleUpdateWorkspace}
     />
   )
+}
+
+type Params = {
+  workspace: string
+} & ParsedUrlQuery
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { workspace } = params as Params
+
+  return {
+    props: {
+      workspace,
+    },
+  }
 }

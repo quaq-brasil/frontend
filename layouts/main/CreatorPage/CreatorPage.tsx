@@ -111,6 +111,13 @@ export default function CreatorPage({
               variant="icn-txt"
               text={text("creatorpage:settings")}
               icon={GearSix}
+              onClick={() =>
+                router.push(
+                  pageUrls.workspaceSettings({
+                    woskpaceSlug: currentWorkspace?.slug,
+                  })
+                )
+              }
             />
           </div>
           <div className={`w-fit ${isSwitchSelected ? "hidden" : ""}`}>
@@ -122,6 +129,16 @@ export default function CreatorPage({
             />
           </div>
           {isSwitchSelected && <>{loadWorkspaces()}</>}
+          {isSwitchSelected && (
+            <Tag
+              variant="icn-txt"
+              text={text("creatorpage:newworkspace")}
+              icon={Plus}
+              onClick={() =>
+                router.push(pageUrls.workspaceSettings({ settings: "new" }))
+              }
+            />
+          )}
         </div>
       </div>
     </div>
@@ -162,7 +179,12 @@ export default function CreatorPage({
             text={text("creatorpage:newpage")}
             icon={Plus}
             onClick={() =>
-              router.push(pageUrls.createPage(currentWorkspace?.name as string))
+              router.push(
+                pageUrls.workspaceSettings({
+                  woskpaceSlug: currentWorkspace?.slug,
+                  settings: "new-page",
+                })
+              )
             }
           />
         </div>
@@ -206,7 +228,12 @@ export default function CreatorPage({
             icon={Plus}
             text={text("creatorpage:newpage")}
             onClick={() =>
-              router.push(pageUrls.createPage(currentWorkspace?.name as string))
+              router.push(
+                pageUrls.workspaceSettings({
+                  woskpaceSlug: currentWorkspace?.slug,
+                  settings: "new-page",
+                })
+              )
             }
           />
         </div>

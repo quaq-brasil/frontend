@@ -29,7 +29,7 @@ export const Header = ({
       justify-between min-h-[6.875rem] pb-[2rem] max-w-[1024px]
       lg:rounded-[2.5rem] mx-auto lg:min-h-[2.5rem] lg:px-10 
       lg:py-10 lg:mt-[1.5rem] outline outline-2 outline-slate-100 ${
-        background_url ? "" : "animate-pulse bg-slate-300"
+        background_url ? "bg-black" : "animate-pulse bg-slate-300"
       }`}
     >
       <div

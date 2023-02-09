@@ -1,6 +1,6 @@
 # find one
 
-GET http://localhost:5000/api/v1/workspaces/63d91e6acf6a7076d3a019ee
+GET https://bff.quaq.me/api/v1/workspaces/63d91e6acf6a7076d3a019ee
 
 ###
 
@@ -26,29 +26,28 @@ Content-Type: application/json
 
 # update one
 
-PUT  http://localhost:5000/api/v1/workspaces/63b7543e7d02f98b8692255d
+PUT  https://bff.quaq.me/api/v1/workspaces/63dd14cdc3a3b5901c1675ff
 Content-Type: application/json
 
 {
-  "name": "My Workspaces2",
-  "avatar_url": "http://example.com/avatar2.png",
-  "services": [
-    {
-      "name": "My Service2",
-      "description": "My Service Description"
-    }
-  ]
+  "slug": "felpsworld"
 }
 
 ###
 
 # delete one
 
-DELETE http://localhost:5000/api/v1/workspaces/63b7543e7d02f98b8692255d
+DELETE https://bff.quaq.me/api/v1/workspaces/63b7543e7d02f98b8692255d
 
 
 ###
 
-# get may by user id
+# get many by user id
 
 GET http://bff.quaq.me/api/v1/workspaces/user/63d26f06ea1e68c873e97ab2
+
+###
+
+# find one by slug
+
+GET http://bff.quaq.me/api/v1/workspaces/slug/felpsworld

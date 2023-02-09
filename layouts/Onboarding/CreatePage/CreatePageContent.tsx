@@ -33,7 +33,9 @@ export function CreatePageContent({
       { name },
       {
         onSuccess: (url) => {
-          handleUpdatePageData({ url })
+          handleUpdatePageData({
+            url,
+          })
         },
       }
     )
@@ -59,9 +61,6 @@ export function CreatePageContent({
       md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:pt-[2rem]"
       >
         <div className="flex flex-col gap-2 md:gap-4 items-center">
-          <Card>
-            <CardText label={text("createpage:firstmessage")} />
-          </Card>
           <Card>
             <CardText label={text("createpage:pagetitle")} />
             <CardTextInput
@@ -90,6 +89,17 @@ export function CreatePageContent({
             />
           </Card>
           <Card>
+            <CardText label={text("createpage:pagedescription")} />
+            <CardTextInput
+              input={{
+                label: text("createpage:inputpagedescription"),
+                onChange: (description) =>
+                  handleUpdatePageData({ description: description }),
+                type: "text",
+              }}
+            />
+          </Card>
+          <Card>
             <CardText label={text("createpage:pagepicture")} />
             <CardImageInput
               imageSelector={
@@ -111,17 +121,6 @@ export function CreatePageContent({
                   }
                 />
               }
-            />
-          </Card>
-          <Card>
-            <CardText label={text("createpage:pagedescription")} />
-            <CardTextInput
-              input={{
-                label: text("createpage:inputpagedescription"),
-                onChange: (description) =>
-                  handleUpdatePageData({ description: description }),
-                type: "text",
-              }}
             />
           </Card>
           {isUpdating && (

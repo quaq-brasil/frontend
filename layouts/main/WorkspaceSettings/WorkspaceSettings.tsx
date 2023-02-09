@@ -5,6 +5,7 @@ import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUpdateWorkspace } from "../../../types/Workspace.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { WorkspaceSettingsContent } from "./WorkspaceSettingsContent"
 
 type WorkspaceSettingsProps = {
@@ -29,7 +30,7 @@ export default function WorkspaceSettings({
   function handleUpdateWorkspaceData(newData: IUpdateWorkspace) {
     setWorkspaceData({
       ...workspaceData,
-      name: newData.name || workspaceData?.name,
+      name: newData.name || "",
       avatar_url: newData.avatar_url || workspaceData?.avatar_url,
     })
     handleUpdateIsUpdating(true)
@@ -61,7 +62,7 @@ export default function WorkspaceSettings({
           key={1}
           variant="txt"
           text={text("wssettings:back")}
-          onClick={() => console.log()}
+          onClick={() => router.push(pageUrls.adm())}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -77,7 +78,7 @@ export default function WorkspaceSettings({
           key={1}
           variant="txt"
           text={text("wssettings:back")}
-          onClick={() => console.log()}
+          onClick={() => router.push(pageUrls.adm())}
         />,
       ]
     }
@@ -95,11 +96,7 @@ export default function WorkspaceSettings({
           text={workspaceData?.name || ""}
           img_url={workspaceData?.avatar_url || ""}
         />
-        <Tag
-          variant="txt"
-          text={text("wssettings:settings")}
-          onClick={() => console.log()}
-        />
+        <Tag variant="txt" text={text("wssettings:settings")} />
       </Header>
     )
   }

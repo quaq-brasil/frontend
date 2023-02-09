@@ -9,7 +9,6 @@ import { IUpdateWorkspace } from "../../../types/Workspace.type"
 
 type CreateWorkspaceContentProps = {
   isUpdating: boolean
-  runUpdate: boolean
   workspaceData: IUpdateWorkspace | undefined
   handleCreateWorkspace: (data: IUpdateWorkspace) => void
   handleUpdateWorkspaceData: (data: IUpdateWorkspace) => void
@@ -19,7 +18,6 @@ type CreateWorkspaceContentProps = {
 export function CreateWorkspaceContent({
   isUpdating,
   handleCreateWorkspace,
-  runUpdate,
   workspaceData,
   handleUpdateWorkspaceData,
   handleUpdateRunUpdate,

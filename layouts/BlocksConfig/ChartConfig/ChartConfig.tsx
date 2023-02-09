@@ -53,15 +53,34 @@ export default function ChartConfig({
   ])
 
   function handleUpdateContent(newData: IChart) {
-    setContent({
-      ...content,
-      chartType: newData.chartType || content?.chartType,
-      data: {
-        datasets: newData.data?.datasets || content?.data?.datasets,
-        labels: newData.data?.labels || content?.data?.labels,
-      },
-      title: newData.title || content?.title,
-    })
+    switch (newData) {
+      case newData.title:
+        setContent({
+          title: newData.title,
+        })
+        break
+      case newData.chartType:
+        setContent({
+          chartType: newData.chartType,
+        })
+        break
+      case newData.data?.datasets:
+        setContent({
+          data: {
+            datasets: newData.data?.datasets,
+          },
+        })
+        break
+      case newData.data?.labels:
+        setContent({
+          data: {
+            labels: newData.data?.labels,
+          },
+        })
+        break
+      default:
+        break
+    }
     handleUpdateIsUpdating(true)
   }
 

@@ -1,17 +1,18 @@
+import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
-import { useUserAuth } from "../../../../contexts/userAuth"
+import { ParsedUrlQuery } from "querystring"
 import { CreatePage } from "../../../../layouts/Onboarding/CreatePage/CreatePage"
 import { useCreatePage } from "../../../../services/hooks/usePage/useCreatePage"
-import { useWorkspace } from "../../../../services/hooks/useWorkspace/useWorkspace"
+import { useWorkspaceBySlug } from "../../../../services/hooks/useWorkspace/useWorkspaceBySlug"
 import { IUpdatePage } from "../../../../types/Page.type"
 import { pageUrls } from "../../../../utils/pagesUrl"
 
-export default function CreatePagePage() {
-  const { user } = useUserAuth()
+type CreatePagePagePros = {
+  workspace: string
+}
 
-  const workspaceResponse = useWorkspace({
-    id: user?.workspace_id ? user?.workspace_id : "63d68863688c6d9d82a5f648",
-  })
+export default function CreatePagePage({ workspace }: CreatePagePagePros) {
+  const getWorkspace = useWorkspaceBySlug({ slug: workspace })
 
   const createPage = useCreatePage()
 
@@ -24,9 +25,7 @@ export default function CreatePagePage() {
           name: data.name || "",
           url: data.url || "",
           description: data.description || "",
-          workspace_id: user?.workspace_id
-            ? user?.workspace_id
-            : "63b7543e7d02f98b8692255d",
+          workspace_id: getWorkspace?.data.id || "",
           avatar_url: data.avatar_url || "",
           background_url: data.background_url || "",
           is_stripe_active: false,
@@ -46,7 +45,21 @@ export default function CreatePagePage() {
   return (
     <CreatePage
       handleCreatePage={handleCreatePage}
-      initialWorkspaceData={workspaceResponse?.data}
+      initialWorkspaceData={getWorkspace?.data}
     />
   )
+}
+
+type Params = {
+  workspace: string
+} & ParsedUrlQuery
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { workspace } = params as Params
+
+  return {
+    props: {
+      workspace,
+    },
+  }
 }

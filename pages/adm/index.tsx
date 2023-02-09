@@ -4,12 +4,7 @@ import CreatorPage from "../../layouts/main/CreatorPage/CreatorPage"
 import { useMutateGetAllWorkspacesByUserId } from "../../services/hooks/useWorkspace/useMutateGetAllWorkspacesByUserId"
 import { IWorkspace } from "../../types/Workspace.type"
 
-type AdmPageProps = {
-  pageId: string
-  workspaceId: string
-}
-
-export default function AdmPage({ pageId, workspaceId }: AdmPageProps) {
+export default function AdmPage() {
   const { user } = useUserAuth()
 
   const getAllWorkspaces = useMutateGetAllWorkspacesByUserId()

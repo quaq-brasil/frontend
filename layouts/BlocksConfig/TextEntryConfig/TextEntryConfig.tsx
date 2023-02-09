@@ -30,12 +30,24 @@ export function TextEntryConfig({
   })
   const [saveas, setSaveas] = useState<string>()
   const [runUpdate, setRunUpdate] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
 
   function handleUpdateConent(newData: ITextEntry) {
-    setContent({
-      placeholder: newData.placeholder || content?.placeholder,
-      type: newData.type || content?.type,
-    })
+    switch (newData) {
+      case newData.placeholder:
+        setContent({
+          placeholder: newData.placeholder,
+        })
+        break
+      case newData.type:
+        setContent({
+          type: newData.type,
+        })
+        break
+      default:
+        break
+    }
+    handleUpdateIsUpdating(true)
   }
 
   function handleUpdateSaveas(value: string) {
@@ -44,6 +56,10 @@ export function TextEntryConfig({
 
   function handleUpdateRunUpdate(stat: boolean) {
     setRunUpdate(stat)
+  }
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
   }
 
   function handleClosing() {
@@ -71,21 +87,32 @@ export function TextEntryConfig({
   }, [runUpdate])
 
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("textentryconfig:cancel")}
-        onClick={() => handleClosing()}
-      />,
-      <div key={2} className="w-fit h-fit xl:hidden">
+    if (isUpdating) {
+      return [
         <Tag
+          key={1}
           variant="txt"
-          text={text("textentryconfig:add")}
-          onClick={() => onAddBlock()}
-        />
-      </div>,
-    ]
+          text={text("textentryconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+        <div key={2} className="w-fit h-fit xl:hidden">
+          <Tag
+            variant="txt"
+            text={text("textentryconfig:add")}
+            onClick={() => onAddBlock()}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("textentryconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+      ]
+    }
   }
 
   const handleOpenVariablePanelForPlaceholder = () => {
@@ -174,18 +201,20 @@ export function TextEntryConfig({
               isEditable={false}
             />
           </div>
-          <div className="w-full h-fit hidden xl:block">
-            <Button
-              block={{
-                data: {
-                  color: "bg-white",
-                  text: text("textentryconfig:addblock"),
-                  onClick: () => handleUpdateRunUpdate(true),
-                },
-              }}
-              isEditable={false}
-            />
-          </div>
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                block={{
+                  data: {
+                    color: "bg-white",
+                    text: text("textentryconfig:addblock"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
+              />
+            </div>
+          )}
         </div>
         <TabBar isHidden={true} tags={handleTabBar()} />
       </Dialog>

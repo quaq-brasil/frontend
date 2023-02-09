@@ -32,7 +32,7 @@ export function ImageConfig({
 
   function handleUpdateConent(newData: IImage) {
     setContent({
-      imageUrl: newData.imageUrl || content?.imageUrl,
+      imageUrl: newData.imageUrl,
     })
     handleUpdateIsUpdating(true)
   }
