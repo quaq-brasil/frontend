@@ -333,6 +333,78 @@ export default function CreatorPage({
     ]
   }
 
+  function loadTabBar() {
+    return (
+      <div
+        className="hidden xl:block pt-[34px] pl-[34px] justify-center h-full bg-gradient-to-r from-slate-200 top-0 
+        fixed z-30 left-0"
+      >
+        <div className=" flex flex-col gap-3 top-0 h-screen">
+          <div className="w-fit">
+            <Tag
+              key={1}
+              variant="txt"
+              text={text("creatorpage:general")}
+              onClick={() =>
+                router.push(
+                  pageUrls.pageSettings({
+                    pageSlug: currentPage?.url || "",
+                    pageSettings: "general",
+                  })
+                )
+              }
+            />
+          </div>
+          <div className="w-fit">
+            <Tag
+              key={2}
+              variant="txt"
+              text={text("creatorpage:new")}
+              onClick={() =>
+                router.push(pageUrls.createTemplate(currentPage?.url as string))
+              }
+            />
+          </div>
+          <div key={3} className="xl:hidden w-fit">
+            <Tag
+              variant="icn"
+              icon={ArrowsCounterClockwise}
+              onClick={() => handleTabBarContextMenu()}
+            />
+          </div>
+          <div className="w-fit">
+            <Tag
+              variant="txt"
+              text={text("creatorpage:explore")}
+              onClick={() => router.push(pageUrls.home())}
+            />
+          </div>
+          <div className="w-fit mt-3">
+            <Tag variant="txt" text={text("creatorpage:pages")} isSeparated />
+          </div>
+          <div className="overflow-y-auto scrollbar-hide max-h-fit">
+            <div className="flex flex-col gap-3">{loadPages()}</div>
+          </div>
+          <div className="mb-[68px]">
+            <Tag
+              variant="icn-txt"
+              icon={Plus}
+              text={text("creatorpage:newpage")}
+              onClick={() =>
+                router.push(
+                  pageUrls.workspaceSettings({
+                    woskpaceSlug: currentWorkspace?.slug,
+                    settings: "new-page",
+                  })
+                )
+              }
+            />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   function handleMainTag() {
     return (
       <Tag
@@ -392,7 +464,8 @@ export default function CreatorPage({
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
       <CreatorPageContent templatesData={templates} pageData={currentPage} />
-      <TabBar isHidden={false} tags={handleTabBar()} />
+      <TabBar isHidden={true} tags={handleTabBar()} />
+      {loadTabBar()}
     </div>
   )
 }
