@@ -32,7 +32,7 @@ export function TextEntryConfig({
   const [runUpdate, setRunUpdate] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
 
-  function handleUpdateConent(newData: ITextEntry) {
+  function handleUpdateContent(newData: ITextEntry) {
     switch (newData) {
       case newData.placeholder:
         setContent({
@@ -63,7 +63,7 @@ export function TextEntryConfig({
   }
 
   function handleClosing() {
-    handleUpdateConent({})
+    handleUpdateContent({})
     setSaveas(undefined)
     handleUpdateRunUpdate(false)
     onClose()
@@ -118,7 +118,7 @@ export function TextEntryConfig({
   const handleOpenVariablePanelForPlaceholder = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateConent({ placeholder: variable })
+        handleUpdateContent({ placeholder: variable })
       })
     handleOpenVariablePanel()
   }
@@ -138,7 +138,7 @@ export function TextEntryConfig({
                 label: text("textentryconfig:placeholderlabel"),
                 inputValue: content.placeholder,
                 onChange: (placeholder) =>
-                  handleUpdateConent({ placeholder: placeholder }),
+                  handleUpdateContent({ placeholder: placeholder }),
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -150,7 +150,7 @@ export function TextEntryConfig({
             <CardText label={text("textentryconfig:type")} />
             <CardTextInput
               dropdown={{
-                onChange: (type) => handleUpdateConent({ type: type }),
+                onChange: (type) => handleUpdateContent({ type: type }),
                 options: [
                   {
                     title: text("textentryconfig:option1"),

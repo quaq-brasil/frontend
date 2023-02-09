@@ -36,7 +36,6 @@ export function WebhookConfig({
   const [saveas, setSaveas] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
-  const [visibility, setVisibility] = useState(false)
 
   function handleUpdateHeader(data: string) {
     handleUpdateContent({ header: data })
@@ -46,18 +45,41 @@ export function WebhookConfig({
     handleUpdateContent({ body: data })
   }
 
-  function handleUpdateVisibility(stat: boolean) {
-    setVisibility(stat)
-  }
-
   function handleUpdateContent(newData: IWebhook) {
-    switch (newData) {
-      case newData.description:
-        setContent({
-          description: newData.description,
-        })
-        break
-      case newData.parameters:
+    if (newData.description) {
+      setContent({
+        description: newData.description,
+      })
+    }
+    if (newData.parameters) {
+      setContent({
+        parameters: newData.parameters,
+      })
+    }
+    if (newData.header) {
+      setContent({
+        header: newData.header,
+      })
+    }
+    if (newData.body) {
+      setContent({
+        body: newData.body,
+      })
+    }
+    if (newData.type) {
+      setContent({
+        type: newData.type,
+      })
+    }
+    if (newData.link) {
+      setContent({
+        link: newData.link,
+      })
+    }
+    if (newData.visibility) {
+      setContent({
+        visibility: newData.visibility,
+      })
     }
     handleUpdateIsUpdating(true)
   }
@@ -112,7 +134,7 @@ export function WebhookConfig({
           <Tag
             variant="txt"
             text={text("webhookconfig:add")}
-            onClick={() => onAddBlock()}
+            onClick={() => handleUpdateRunUpdate(true)}
           />
         </div>,
       ]
@@ -186,7 +208,7 @@ export function WebhookConfig({
 
           <Card>
             <CardSwitch
-              onChange={(stat) => handleUpdateVisibility(stat)}
+              onChange={(stat) => handleUpdateContent({ visibility: stat })}
               text={text("webhookconfig:switch")}
               showStatus={true}
             />
