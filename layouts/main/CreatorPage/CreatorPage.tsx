@@ -22,13 +22,13 @@ import { pageUrls } from "../../../utils/pagesUrl"
 import { CreatorPageContent } from "./CreatorPageContent"
 
 type CreatorPageProps = {
-  initialWorkspacesData: IWorkspace[]
-  initalCurrentPageData?: IPage
+  initialWorkspacesData?: IWorkspace[]
+  initialCurrentPageData?: IPage
 }
 
 export default function CreatorPage({
   initialWorkspacesData,
-  initalCurrentPageData,
+  initialCurrentPageData,
 }: CreatorPageProps) {
   const text = useTranslation().t
   const router = useRouter()
@@ -39,9 +39,9 @@ export default function CreatorPage({
   useEffect(() => {
     if (initialWorkspacesData) {
       setWorkspaces([...initialWorkspacesData])
-      if (initalCurrentPageData) {
-        workspaces?.forEach((workspace) => {
-          if (workspace.id == initalCurrentPageData.workspace_id) {
+      if (initialCurrentPageData && workspaces) {
+        workspaces.forEach((workspace) => {
+          if (workspace.id === initialCurrentPageData.workspace_id) {
             setCurrentWorkspace(workspace)
           }
         })
@@ -66,10 +66,15 @@ export default function CreatorPage({
         {
           onSuccess: (data) => {
             setPages([...data])
-            if (initalCurrentPageData) {
-              setCurrentPage(initalCurrentPageData)
-            } else {
+            let changeNewPage = true
+            data.forEach((page) => {
+              if (currentPage == page) {
+                changeNewPage = false
+              }
+            })
+            if (changeNewPage) {
               setCurrentPage(data[0])
+              router.push(pageUrls.pageSettings({ pageSlug: data[0].url }))
             }
           },
         }

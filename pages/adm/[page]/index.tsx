@@ -40,7 +40,7 @@ export default function AdmSelectedPage({ page }: AdmSelectedPageProps) {
   return (
     <CreatorPage
       initialWorkspacesData={workspaces as IWorkspace[]}
-      initalCurrentPageData={getCurrentPage?.data as IPage}
+      initialCurrentPageData={getCurrentPage?.data as IPage}
     />
   )
 }
