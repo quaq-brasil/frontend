@@ -31,20 +31,34 @@ export function CreatePage({
   }, [initialWorkspaceData])
 
   function handleUpdatePageData(newData: IUpdatePage) {
-    setPageData({
-      ...pageData,
-      name: newData.name ? newData.name : pageData?.name,
-      avatar_url: newData.avatar_url
-        ? newData.avatar_url
-        : pageData?.avatar_url,
-      background_url: newData.background_url
-        ? newData.background_url
-        : pageData?.background_url,
-      description: newData.description
-        ? newData.description
-        : pageData?.description,
-      url: newData.url ? newData.url : pageData?.url,
-    })
+    if (newData.name) {
+      setPageData({
+        ...pageData,
+        name: newData.name || "",
+      })
+    } else if (newData.url) {
+      setPageData({
+        ...pageData,
+        url: newData.url,
+      })
+    } else if (newData.description) {
+      setPageData({
+        ...pageData,
+        description: newData.description,
+      })
+    } else if (newData.avatar_url) {
+      setPageData({
+        ...pageData,
+        avatar_url: newData.avatar_url,
+      })
+    } else if (newData.background_url) {
+      setPageData({
+        ...pageData,
+        background_url: newData.background_url,
+      })
+    } else {
+      // default case
+    }
     handleUpdateIsUpdating(true)
   }
 

@@ -11,7 +11,7 @@ export const TabBar = ({
 }: TabBarProps) => {
   return (
     <div
-      className={`flex justify-center w-full h-[74px] bg-gradient-to-t from-slate-200 bottom-0
+      className={`flex justify-center w-full h-[74px] bg-gradient-to-t from-slate-200 bottom-0 
         fixed z-30 md:left-0 ${isHidden ? "xl:hidden" : ""}
         ${
           shiftLayoutOnXl
@@ -23,7 +23,7 @@ export const TabBar = ({
       <div
         className={`flex flex-row scrollbar-hide items-center gap-2 ${
           tags.length === 1 ? "justify-end" : "justify-between"
-        } overflow-x-auto px-[16px] w-full
+        } overflow-x-auto px-[16px] w-full md:flex-col  min-h-screen
       ${
         shiftLayoutOnXl
           ? "xl:items-start xl:gap-3 xl:px-0  xl:overflow-hidden xl:flex-col xl:justify-start"

@@ -39,8 +39,17 @@ export default function CreatorPage({
   useEffect(() => {
     if (initialWorkspacesData) {
       setWorkspaces([...initialWorkspacesData])
-      setCurrentWorkspace(initialWorkspacesData[0])
+      if (initalCurrentPageData) {
+        workspaces?.forEach((workspace) => {
+          if (workspace.id == initalCurrentPageData.workspace_id) {
+            setCurrentWorkspace(workspace)
+          }
+        })
+      } else {
+        setCurrentWorkspace(initialWorkspacesData[0])
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialWorkspacesData])
 
   const getPages = useMutatePagesByWorkspaceId()
@@ -172,7 +181,7 @@ export default function CreatorPage({
         <div className="w-fit">
           <Tag variant="txt" text={text("creatorpage:pages")} />
         </div>
-        <>{loadPages()}</>
+        <div>{loadPages()}</div>
         <div className="w-fit">
           <Tag
             variant="icn-txt"
@@ -209,7 +218,7 @@ export default function CreatorPage({
   )
 
   const lateralMenuContent = (
-    <div>
+    <div className="min-h-[100] flex flex-col">
       <div className="w-fit">
         <Tag
           variant="txt"
@@ -217,11 +226,13 @@ export default function CreatorPage({
           onClick={() => router.push(pageUrls.home())}
         />
       </div>
-      <div className="flex flex-col gap-3 mt-3">
+      <div className="flex flex-col gap-3 mt-3 min-h-[100%]">
         <div className="w-fit">
           <Tag variant="txt" text={text("creatorpage:pages")} isSeparated />
         </div>
-        <>{loadPages()}</>
+        <div className="min-h-[100] flex flex-col">
+          <div className="flex flex-col gap-3">{loadPages()}</div>
+        </div>
         <div>
           <Tag
             variant="icn-txt"
@@ -316,7 +327,7 @@ export default function CreatorPage({
           onClick={() => handleTabBarContextMenu()}
         />
       </div>,
-      <div key={4} className="hidden xl:block">
+      <div key={4} className="hidden xl:block min-h-[100%]">
         {lateralMenuContent}
       </div>,
     ]
