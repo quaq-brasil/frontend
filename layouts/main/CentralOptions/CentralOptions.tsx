@@ -37,13 +37,20 @@ export default function CentralOptions({
   }
 
   function handleUpdateTemplateData(newData: IUpdateTemplate) {
-    setTemplateData({
-      ...templateData,
-      name: newData.name || templateData?.name,
-      url: newData.url || templateData?.url,
-      shortcut_image: newData.shortcut_image || templateData?.shortcut_image,
-      shortcut_size: newData.shortcut_size || templateData?.shortcut_size,
-    })
+    const newTamplateData = { ...templateData }
+
+    if (newData.name || newData.name === "") {
+      newTamplateData.name = newData.name
+    } else if (newData.url || newData.url === "") {
+      newTamplateData.url = newData.url
+    } else if (newData.shortcut_image || newData.shortcut_image === "") {
+      newTamplateData.shortcut_image = newData.shortcut_image
+    } else if (newData.shortcut_size || newData.shortcut_size === "") {
+      newTamplateData.shortcut_size = newData.shortcut_size
+    }
+
+    setTemplateData(newTamplateData)
+
     handleUpdateIsUpdating(true)
   }
 

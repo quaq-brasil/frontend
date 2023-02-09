@@ -28,9 +28,14 @@ export function CreatePageContent({
 
   const getPageUrl = useGetPageUrl()
 
-  function handleGetPageUrl(name: string) {
+  type IGetPageUrl = {
+    name: string
+    id: string
+  }
+
+  function handleGetPageUrl({ id, name }: IGetPageUrl) {
     getPageUrl.mutate(
-      { name },
+      { name, id },
       {
         onSuccess: (url) => {
           handleUpdatePageData({
@@ -47,8 +52,8 @@ export function CreatePageContent({
   })
 
   useEffect(() => {
-    if (debouncedPageName && debouncedPageName !== "") {
-      handleGetPageUrl(debouncedPageName as string)
+    if (isUpdating && debouncedPageName && pageData?.name) {
+      handleGetPageUrl({ id: pageData.id as string, name: pageData.name })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedPageName])
