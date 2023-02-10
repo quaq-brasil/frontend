@@ -49,7 +49,6 @@ export default function CreatorPage({
 
   useEffect(() => {
     if (initialCurrentPageData && workspaces) {
-      console.log("yeah")
       setCurrentPage(initialCurrentPageData)
       const newCurrentWorkspace = workspaces.filter((workspace) => {
         if (workspace.id === initialCurrentPageData.workspace_id) {
