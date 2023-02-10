@@ -33,21 +33,13 @@ export function TextEntryConfig({
   const [isUpdating, setIsUpdating] = useState(false)
 
   function handleUpdateContent(newData: ITextEntry) {
-    switch (newData) {
-      case newData.placeholder:
-        setContent({
-          placeholder: newData.placeholder,
-        })
-        break
-      case newData.type:
-        setContent({
-          type: newData.type,
-        })
-        break
-      default:
-        break
-    }
-    handleUpdateIsUpdating(true)
+    setContent((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as ITextEntry
+    })
+    setIsUpdating(true)
   }
 
   function handleUpdateSaveas(value: string) {

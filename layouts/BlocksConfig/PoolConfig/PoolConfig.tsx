@@ -40,31 +40,13 @@ export function PoolConfig({
   const [runUpdate, setRunUpdate] = useState(false)
 
   function handleUpdateContent(newData: IContent) {
-    switch (newData) {
-      case newData.title:
-        setContent({
-          title: newData.title,
-        })
-        break
-      case newData.max:
-        setContent({
-          max: newData.max,
-        })
-        break
-      case newData.min:
-        setContent({
-          min: newData.min,
-        })
-        break
-      case newData.options:
-        setContent({
-          options: newData.options,
-        })
-        break
-      default:
-        break
-    }
-    handleUpdateIsUpdating(true)
+    setContent((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IContent
+    })
+    setIsUpdating(true)
   }
 
   function handleUpdateSaveas(value: string) {

@@ -46,42 +46,13 @@ export function WebhookConfig({
   }
 
   function handleUpdateContent(newData: IWebhook) {
-    if (newData.description) {
-      setContent({
-        description: newData.description,
-      })
-    }
-    if (newData.parameters) {
-      setContent({
-        parameters: newData.parameters,
-      })
-    }
-    if (newData.header) {
-      setContent({
-        header: newData.header,
-      })
-    }
-    if (newData.body) {
-      setContent({
-        body: newData.body,
-      })
-    }
-    if (newData.type) {
-      setContent({
-        type: newData.type,
-      })
-    }
-    if (newData.link) {
-      setContent({
-        link: newData.link,
-      })
-    }
-    if (newData.visibility) {
-      setContent({
-        visibility: newData.visibility,
-      })
-    }
-    handleUpdateIsUpdating(true)
+    setContent((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IWebhook
+    })
+    setIsUpdating(true)
   }
 
   function handleUpdateSaveas(value: string) {
