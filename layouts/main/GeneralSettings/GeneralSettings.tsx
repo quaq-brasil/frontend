@@ -24,14 +24,22 @@ export default function GeneralSettings({
   const [runUpdate, setRunUpdate] = useState(false)
 
   function handleUpdatePageData(newData: IUpdatePage) {
-    setPageData({
-      ...pageData,
-      avatar_url: newData.avatar_url || pageData?.avatar_url,
-      background_url: newData.background_url || pageData?.background_url,
-      url: newData.url || pageData?.url,
-      name: newData.name || pageData?.name,
-      description: newData.description || pageData?.description,
-    })
+    const newPageData = { ...pageData }
+
+    if (newData.name || newData.name === "") {
+      newPageData.name = newData.name
+    } else if (newData.url || newData.url === "") {
+      newPageData.url = newData.url
+    } else if (newData.description || newData.description === "") {
+      newPageData.description = newData.description
+    } else if (newData.avatar_url || newData.avatar_url === "") {
+      newPageData.avatar_url = newData.avatar_url
+    } else if (newData.background_url || newData.background_url === "") {
+      newPageData.background_url = newData.background_url
+    }
+
+    setPageData(newPageData)
+
     setIsUpdating(true)
   }
 

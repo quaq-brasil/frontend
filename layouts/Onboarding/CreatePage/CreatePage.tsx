@@ -31,34 +31,22 @@ export function CreatePage({
   }, [initialWorkspaceData])
 
   function handleUpdatePageData(newData: IUpdatePage) {
-    if (newData.name) {
-      setPageData({
-        ...pageData,
-        name: newData.name || "",
-      })
-    } else if (newData.url) {
-      setPageData({
-        ...pageData,
-        url: newData.url,
-      })
-    } else if (newData.description) {
-      setPageData({
-        ...pageData,
-        description: newData.description,
-      })
-    } else if (newData.avatar_url) {
-      setPageData({
-        ...pageData,
-        avatar_url: newData.avatar_url,
-      })
-    } else if (newData.background_url) {
-      setPageData({
-        ...pageData,
-        background_url: newData.background_url,
-      })
-    } else {
-      // default case
+    const newPageData = { ...pageData }
+
+    if (newData.name || newData.name === "") {
+      newPageData.name = newData.name
+    } else if (newData.url || newData.url === "") {
+      newPageData.url = newData.url
+    } else if (newData.avatar_url || newData.avatar_url === "") {
+      newPageData.avatar_url = newData.avatar_url
+    } else if (newData.background_url || newData.background_url === "") {
+      newPageData.background_url = newData.background_url
+    } else if (newData.description || newData.description === "") {
+      newPageData.description = newData.description
     }
+
+    setPageData(newPageData)
+
     handleUpdateIsUpdating(true)
   }
 
@@ -84,7 +72,7 @@ export function CreatePage({
           key={1}
           variant="txt"
           text={text("createpage:back")}
-          onClick={() => router.push(pageUrls.adm())}
+          onClick={() => router.back()}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag

@@ -17,16 +17,15 @@ export default function AdmSelectedPage({ page }: AdmSelectedPageProps) {
 
   const getAllWorkspaces = useMutateGetAllWorkspacesByUserId()
 
-  const [workspaces, setWorkspaces] = useState<IWorkspace[]>()
-
   const getCurrentPage = usePageByUrl({ url: page })
+
+  const [workspaces, setWorkspaces] = useState<IWorkspace[]>()
+  const [curentPage, setCurrentPage] = useState<IPage>()
 
   useEffect(() => {
     if (user) {
       getAllWorkspaces.mutate(
-        {
-          id: user.id as string,
-        },
+        { id: user.id as string },
         {
           onSuccess: (data) => {
             setWorkspaces(data)
@@ -37,10 +36,16 @@ export default function AdmSelectedPage({ page }: AdmSelectedPageProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
 
+  useEffect(() => {
+    if (getCurrentPage?.data) {
+      setCurrentPage(getCurrentPage.data)
+    }
+  }, [getCurrentPage])
+
   return (
     <CreatorPage
       initialWorkspacesData={workspaces as IWorkspace[]}
-      initialCurrentPageData={getCurrentPage?.data as IPage}
+      initialCurrentPageData={curentPage as IPage}
     />
   )
 }

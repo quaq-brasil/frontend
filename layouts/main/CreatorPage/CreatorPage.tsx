@@ -33,55 +33,68 @@ export default function CreatorPage({
   const text = useTranslation().t
   const router = useRouter()
 
+  const getPages = useMutatePagesByWorkspaceId()
+
+  const [pages, setPages] = useState<IPage[]>()
+  const [currentPage, setCurrentPage] = useState<IPage>()
   const [workspaces, setWorkspaces] = useState<IWorkspace[]>()
   const [currentWorkspace, setCurrentWorkspace] = useState<IWorkspace>()
 
   useEffect(() => {
     if (initialWorkspacesData) {
       setWorkspaces([...initialWorkspacesData])
-      if (initialCurrentPageData && workspaces) {
-        workspaces.forEach((workspace) => {
-          if (workspace.id === initialCurrentPageData.workspace_id) {
-            setCurrentWorkspace(workspace)
-          }
-        })
-      } else {
-        setCurrentWorkspace(initialWorkspacesData[0])
-      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialWorkspacesData])
 
-  const getPages = useMutatePagesByWorkspaceId()
-
-  const [pages, setPages] = useState<IPage[]>()
-  const [currentPage, setCurrentPage] = useState<IPage>()
-
   useEffect(() => {
-    if (currentWorkspace) {
+    if (initialCurrentPageData && workspaces) {
+      console.log("yeah")
+      setCurrentPage(initialCurrentPageData)
+      const newCurrentWorkspace = workspaces.filter((workspace) => {
+        if (workspace.id === initialCurrentPageData.workspace_id) {
+          return workspace
+        }
+      })
+      if (newCurrentWorkspace[0]) {
+        setCurrentWorkspace(newCurrentWorkspace[0])
+        getPages.mutate(
+          { id: newCurrentWorkspace[0].id as string },
+          {
+            onSuccess: (data) => {
+              setPages(data)
+            },
+          }
+        )
+      }
+    } else if (workspaces) {
+      setCurrentWorkspace(workspaces[0])
       getPages.mutate(
-        {
-          id: currentWorkspace.id as string,
-        },
+        { id: workspaces[0].id as string },
         {
           onSuccess: (data) => {
-            setPages([...data])
-            let changeNewPage = true
-            data.forEach((page) => {
-              if (currentPage == page) {
-                changeNewPage = false
-              }
-            })
-            if (changeNewPage) {
-              setCurrentPage(data[0])
-              router.push(pageUrls.pageSettings({ pageSlug: data[0].url }))
-            }
+            setPages(data)
+            setCurrentPage(data[0])
           },
         }
       )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentWorkspace])
+  }, [initialCurrentPageData, workspaces])
+
+  function handleCurrentWorkspaceUpdate(newWorkspace: IWorkspace) {
+    setCurrentWorkspace(newWorkspace)
+    getPages.mutate(
+      { id: newWorkspace.id as string },
+      {
+        onSuccess: (data) => {
+          setPages(data)
+          setCurrentPage(data[0])
+          router.push(pageUrls.pageSettings({ pageSlug: data[0].url }))
+        },
+      }
+    )
+  }
 
   const {
     handleToggleContextMenu,
@@ -94,6 +107,27 @@ export default function CreatorPage({
   const [contextMenuSwitch, setContextMenuSwitch] = useState<string | null>(
     null
   )
+
+  function loadWorkspaces() {
+    if (workspaces) {
+      const workspacesTags: JSX.Element[] = workspaces.map(
+        (workspace, index) => {
+          return (
+            <div key={index} className="w-fit">
+              <Tag
+                variant="img-txt"
+                img_url={workspace.avatar_url || ""}
+                text={workspace.name || ""}
+                isSelected={workspace.id == currentWorkspace?.id}
+                onClick={() => handleCurrentWorkspaceUpdate(workspace)}
+              />
+            </div>
+          )
+        }
+      )
+      return workspacesTags
+    }
+  }
 
   const workspaceContextMenuContent = (
     <div
@@ -270,28 +304,6 @@ export default function CreatorPage({
     setIsSwitchSelected((prev) => !prev)
     handleUpdateContextMenu(workspaceContextMenuContent)
   }
-
-  function loadWorkspaces() {
-    if (workspaces) {
-      const workspacesTags: JSX.Element[] = workspaces.map(
-        (workspace, index) => {
-          return (
-            <div key={index} className="w-fit">
-              <Tag
-                variant="img-txt"
-                img_url={workspace.avatar_url || ""}
-                text={workspace.name || ""}
-                isSelected={workspace.id == currentWorkspace?.id}
-                onClick={() => setCurrentWorkspace(workspace)}
-              />
-            </div>
-          )
-        }
-      )
-      return workspacesTags
-    }
-  }
-
   const handleHeaderTagContextMenu = () => {
     setContextMenuSwitch("workspace")
     handleToggleContextMenu(workspaceContextMenuContent)
