@@ -52,7 +52,18 @@ export default function ShortcutMenu({
       <button className="min-w-[40px] h-10 rounded-full bg-white p-1 flex items-center justify-center">
         <ArrowsOutCardinal className="w-5 h-5 text-black" weight="bold" />
       </button>
-      <button className="min-w-[40px] h-10 rounded-full bg-white p-1 flex items-center justify-center">
+      <button
+        onClick={() =>
+          router.push(
+            pageUrls.templateCentral({
+              pageSlug: pageData?.url as string,
+              templateSlug: templateData?.url as string,
+              settings: "edit",
+            })
+          )
+        }
+        className="min-w-[40px] h-10 rounded-full bg-white p-1 flex items-center justify-center"
+      >
         <PencilSimple className="w-5 h-5 text-black" weight="bold" />
       </button>
       <button

@@ -1,8 +1,12 @@
 import parse from "html-react-parser"
+import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 import { IBlock } from "../../types/Block.types"
 import { IInteractionData } from "../../types/Interaction.type"
-import { BlockMenu } from "../BlockMenu/BlockMenu"
+const BlockMenu = dynamic(
+  () => import("../BlockMenu/BlockMenu").then((mod) => mod.default),
+  { ssr: false }
+)
 
 type ITextBlock = {
   data: string
@@ -58,10 +62,10 @@ export const TextBlock = ({
   }, [events])
 
   return (
-    <div className="flex relative min-w-[100%] content-center">
+    <div className="flex relative min-w-[100%]">
       {isEditable && <BlockMenu />}
       <div
-        className="min-w-[100%] bg-white px-1 lg:px-[0.5rem]  
+        className="min-w-[100%] px-3 py-3 bg-white lg:px-[1rem] lg:py-[1rem]
         rounded-[20px] lg:rounded-[30px] text-black lg:text-[1.1rem]"
       >
         {parse(block.data)}

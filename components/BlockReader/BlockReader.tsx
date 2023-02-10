@@ -25,14 +25,12 @@ export const BlockReader = ({
   switch (block.type) {
     case "text":
       return (
-        <div className="flex flex-col px-3 py-3 justify-center min-w-[100%] bg-white  rounded-[20px] lg:rounded-[30px] lg-px[1.125rem]">
-          <TextBlock
-            block={block}
-            isEditable={isEditable}
-            onDelete={onDelete}
-            handleUpdateInteractions={handleUpdateInteractions}
-          />
-        </div>
+        <TextBlock
+          block={block}
+          isEditable={isEditable}
+          onDelete={onDelete}
+          handleUpdateInteractions={handleUpdateInteractions}
+        />
       )
     case "pool":
       return (

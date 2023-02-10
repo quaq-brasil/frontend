@@ -1,12 +1,12 @@
 import useTranslation from "next-translate/useTranslation"
-import { HorizontalBarChart } from "../components/ChartBlock/HorizontalBarChart"
-import { LineChart } from "../components/ChartBlock/LineChart"
-import { PieChart } from "../components/ChartBlock/PieChart"
-import { ScatterChart } from "../components/ChartBlock/ScatterChart"
-import { VerticalBarChart } from "../components/ChartBlock/VerticalBarChart"
+import dynamic from "next/dynamic"
 import { Header } from "../components/Header/Header"
 import { TabBar } from "../components/TabBar/TabBar"
 import { Tag } from "../components/Tag/Tag"
+const BlockMenu = dynamic(
+  () => import("../components/BlockMenu/BlockMenu").then((mod) => mod.default),
+  { ssr: false }
+)
 
 export default function TestPage() {
   const text = useTranslation().t
@@ -112,21 +112,9 @@ export default function TestPage() {
       md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:p-[2rem]"
         >
           <div className="flex flex-col gap-2 md:gap-4 items-center">
-            <LineChart
-              data={{ datasets: datasets, labels: labels }}
-              title="title"
-              isEditable={true}
-            />
-            <VerticalBarChart
-              data={{ datasets: datasets, labels: labels }}
-              title="title"
-            />
-            <HorizontalBarChart
-              data={{ datasets: datasets, labels: labels }}
-              title="title"
-            />
-            <PieChart data={datasets2} title="tile" />
-            <ScatterChart data={datasets3} title="title" />
+            <div className="w-fit">
+              <BlockMenu />
+            </div>
             <span className="w-full h-[4rem]"></span>
           </div>
         </div>

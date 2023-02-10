@@ -59,7 +59,8 @@
       "pagetrackers",
       "explorer",
       "userdelete",
-      "chartconfig"
+      "chartconfig",
+      "blockmenu"
     ]
   }
 }

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { IBlock } from "../../types/Block.types"
 import { IInteractionData } from "../../types/Interaction.type"
-import { BlockMenu } from "../BlockMenu/BlockMenu"
+import BlockMenu from "../BlockMenu/BlockMenu"
+
 import { TextEntry } from "./TextEntry"
 
 type ITextEntry = {
