@@ -9,7 +9,7 @@ import { BlockProps } from "../../../types/Block.types"
 import { IPage } from "../../../types/Page.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 import { VariablesPanelDialog } from "../../BlocksConfig/VariablesPanel/VariablesPanelDialog"
-import PublishTemplate from "../PublishTemplate/PublishTemplate"
+import { PublishNewTemplate } from "./PublishNewTemplate"
 import { RenderBlockConfig } from "./RenderBlockConfig"
 
 type CreateTemplateContentProps = {
@@ -92,6 +92,16 @@ export function CreateTemplateContent({
     ]
   }
 
+  if (isOpenPublishTemplate) {
+    return (
+      <PublishNewTemplate
+        blocks={blocks}
+        pageData={pageData}
+        onClose={() => setIsOpenPublishTemplate(false)}
+      />
+    )
+  }
+
   return (
     <>
       <div className="w-full h-screen bg-slate-100">
@@ -135,13 +145,6 @@ export function CreateTemplateContent({
           </div>
         </div>
       </div>
-
-      <PublishTemplate
-        isOpen={isOpenPublishTemplate}
-        onClose={() => setIsOpenPublishTemplate(false)}
-        initialPageData={pageData}
-        blocks={blocks}
-      />
 
       <TabBar isHidden={false} tags={handleTabBar()} />
     </>

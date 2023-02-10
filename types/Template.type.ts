@@ -12,7 +12,7 @@ export type ITemplate = {
   url: string
   shortcut_image: string
   shortcut_size: "small" | "large"
-  current_publication_id: string
+  current_publication_id?: string
   number_of_new_interactions: number
   facebook_pixel_id?: string
   google_analytics_id?: string
