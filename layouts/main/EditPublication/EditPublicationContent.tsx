@@ -28,6 +28,7 @@ export const EditPublicationContent = ({
   const router = useRouter()
 
   const [isOpen, setIsOpen] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
   const [blockSelected, setBlockSelected] = useState<string | undefined>()
   const [blocks, setBlocks] = useState<BlockProps[]>([])
   const [isOpenPublishTemplate, setIsOpenPublishTemplate] = useState(false)
@@ -75,6 +76,7 @@ export const EditPublicationContent = ({
       return removeIndex !== index
     })
     setBlocks(newBlocks)
+    setIsUpdating(true)
   }
 
   function handleTabBar() {
@@ -87,7 +89,7 @@ export const EditPublicationContent = ({
           router.push(pageUrls.pageSettings({ pageSlug: pageData?.url }))
         }
       />,
-      blocks.length > 0 && (
+      isUpdating && blocks.length > 0 && (
         <Tag
           key={2}
           variant="txt"

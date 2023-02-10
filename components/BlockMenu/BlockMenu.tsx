@@ -33,7 +33,10 @@ export default function BlockMenu({
         <MenuList className="rounded-xl text-[1rem] lg:text-[1rem] px-0 py-0">
           <MenuItem className="flex justify-start w-full">
             <p
-              onClick={onEdit}
+              onClick={() => {
+                setSelected(false)
+                onEdit && onEdit()
+              }}
               className="flex flex-row gap-2 justify-center items-center py-1 px-2 mt-2 rounded-xl hover:bg-slate-100"
             >
               {text("blockmenu:edit")}
@@ -41,7 +44,10 @@ export default function BlockMenu({
           </MenuItem>
           <MenuItem className="flex justify-start w-full">
             <p
-              onClick={onDrag}
+              onClick={() => {
+                setSelected(false)
+                onDrag && onDrag()
+              }}
               className="flex flex-row gap-2 justify-center items-center py-1 px-2 rounded-xl hover:bg-slate-100"
             >
               {text("blockmenu:drag")}
@@ -49,7 +55,10 @@ export default function BlockMenu({
           </MenuItem>
           <MenuItem className="flex justify-start w-full">
             <p
-              onClick={onDelete}
+              onClick={() => {
+                setSelected(false)
+                onDelete && onDelete()
+              }}
               className="flex flex-row gap-2 justify-center items-center py-1 px-2 rounded-xl hover:bg-slate-100"
             >
               {text("blockmenu:delete")}

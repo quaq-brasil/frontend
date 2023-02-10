@@ -63,7 +63,7 @@ export const TextBlock = ({
 
   return (
     <div className="flex relative min-w-[100%]">
-      {isEditable && <BlockMenu />}
+      {isEditable && <BlockMenu onDelete={onDelete} />}
       <div
         className="min-w-[100%] px-3 py-3 bg-white lg:px-[1rem] lg:py-[1rem]
         rounded-[20px] lg:rounded-[30px] text-black lg:text-[1.1rem]"

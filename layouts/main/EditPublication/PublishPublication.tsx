@@ -15,8 +15,12 @@ import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { useDebounce } from "../../../hooks/useDebouce"
 import { useCreatePublication } from "../../../services/hooks/usePublication/useCreatePublication"
+import { usePublication } from "../../../services/hooks/usePublication/usePublication"
+import { useUpdatePublication } from "../../../services/hooks/usePublication/useUpdatePublication"
 import { useGenerateTemplateUniqueUrl } from "../../../services/hooks/useTemplate/useGenerateTemplateUniqueUrl"
+import { useUpdateTemplate } from "../../../services/hooks/useTemplate/useUpdateTemplate"
 import { IPage } from "../../../types/Page.type"
+import { IPublication } from "../../../types/Publication.type"
 import {
   getTemplateByUrlAndPageUrlProps,
   IUpdateTemplate,
@@ -44,6 +48,7 @@ export const PublishPublication = ({
   const text = useTranslation().t
 
   const [publicationTitle, setPublicationTitle] = useState("")
+  const [currentPublication, setCurrentPublication] = useState<IPublication>()
   const [isUpdating, setIsUpdating] = useState(false)
   const router = useRouter()
   const [templateData, setTemplateData] =
@@ -52,6 +57,18 @@ export const PublishPublication = ({
   useEffect(() => {
     setTemplateData(template)
   }, [template])
+
+  const getCurrentPulication = usePublication({
+    id: templateData?.current_publication_id as string,
+  })
+
+  useEffect(() => {
+    if (getCurrentPulication) {
+      setPublicationTitle(getCurrentPulication.data.title)
+      setCurrentPublication(getCurrentPulication.data as IPublication)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getCurrentPulication])
 
   const generateTemplateUniqueUrl = useGenerateTemplateUniqueUrl()
 
@@ -94,23 +111,81 @@ export const PublishPublication = ({
 
   const createPublication = useCreatePublication()
 
+  const updateCurrentPublication = useUpdatePublication()
+
+  const updateTemplate = useUpdateTemplate()
+
   function handleCreatePublication() {
-    if (templateData?.id) {
-      createPublication.mutate(
-        {
-          data: {
-            title: publicationTitle,
-            blocks,
-            template_id: templateData.id,
-            page_id: pageData?.id as string,
+    if (currentPublication?.title !== publicationTitle) {
+      if (templateData?.id) {
+        createPublication.mutate(
+          {
+            data: {
+              title: publicationTitle,
+              blocks,
+              template_id: templateData.id,
+              page_id: pageData?.id as string,
+            },
           },
-        },
-        {
-          onSuccess: () => {
-            router.push(`/adm/${pageData?.url}`)
-          },
+          {
+            onSuccess: (data) => {
+              updateTemplate.mutate(
+                {
+                  id: templateData.id as string,
+                  data: {
+                    current_publication_id: data.id,
+                    name: templateData.name,
+                    url: templateData.url,
+                    shortcut_image: templateData.shortcut_image,
+                    shortcut_size: templateData.shortcut_size,
+                  },
+                },
+                {
+                  onSuccess: () => {
+                    router.push(`/adm/${pageData?.url}`)
+                  },
+                }
+              )
+            },
+          }
+        )
+      }
+    } else {
+      if (templateData?.id) {
+        if (currentPublication.id) {
+          updateCurrentPublication.mutate(
+            {
+              id: currentPublication.id,
+              data: {
+                title: publicationTitle,
+                blocks,
+                template_id: templateData.id,
+                page_id: pageData?.id as string,
+              },
+            },
+            {
+              onSuccess: () => {
+                updateTemplate.mutate(
+                  {
+                    id: templateData.id as string,
+                    data: {
+                      name: templateData.name,
+                      url: templateData.url,
+                      shortcut_image: templateData.shortcut_image,
+                      shortcut_size: templateData.shortcut_size,
+                    },
+                  },
+                  {
+                    onSuccess: () => {
+                      router.push(`/adm/${pageData?.url}`)
+                    },
+                  }
+                )
+              },
+            }
+          )
         }
-      )
+      }
     }
   }
 
@@ -193,22 +268,22 @@ export const PublishPublication = ({
                 label={text("publish:small")}
                 indicator={{
                   icon: Check,
-                  // onClick: () =>
-                  //   handleUpdateTemplateData({ shortcut_size: "small" }),
-                  isVisible:
-                    templateData?.shortcut_size == "small" ? false : true,
+                  isVisible: templateData?.shortcut_size != "small",
                 }}
+                onClick={() =>
+                  handleUpdateTemplateData({ shortcut_size: "small" })
+                }
               />
               <CardLine />
               <CardText
                 label={text("publish:large")}
                 indicator={{
                   icon: Check,
-                  // onClick: () =>
-                  //   handleUpdateTemplateData({ shortcut_size: "large" }),
-                  isVisible:
-                    templateData?.shortcut_size == "large" ? false : true,
+                  isVisible: templateData?.shortcut_size != "large",
                 }}
+                onClick={() =>
+                  handleUpdateTemplateData({ shortcut_size: "large" })
+                }
               />
               <CardLine />
             </Card>
@@ -229,7 +304,7 @@ export const PublishPublication = ({
                   data: {
                     color: "bg-black",
                     text: text("publish:publish"),
-                    onClick: () => handleCreatePublication,
+                    onClick: handleCreatePublication,
                   },
                 }}
                 isEditable={false}
