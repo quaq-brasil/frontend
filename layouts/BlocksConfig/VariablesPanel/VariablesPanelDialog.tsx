@@ -1,11 +1,27 @@
 import useTranslation from "next-translate/useTranslation"
-import { ArrowRight } from "phosphor-react"
+import { ArrowLeft, ArrowRight } from "phosphor-react"
 import { useEffect, useState } from "react"
+import { Card } from "../../../components/Card/Card"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+import { useUserAuth } from "../../../contexts/userAuth"
+import { useMutateVariables } from "../../../services/hooks/useVariables/useMutateVariables"
 import { IBlock } from "../../../types/Block.types"
+import { ITemplate } from "../../../types/Template.type"
+import { IVariableResponse } from "../../../types/Variables.types"
 import VariablesPanelSources from "./VariablesPanelSources"
+
+export type ConnectedTemplatesProps = {
+  workspaceId?: string
+  workspaceName?: string
+  pageId?: string
+  pageName?: string
+  templateId?: string
+  templateName?: string
+}
 
 type VariablesPanelDialogProps = {
   isOpen: boolean
@@ -14,25 +30,8 @@ type VariablesPanelDialogProps = {
   handleInsertVariable?: (variable: any) => void
   isAbleToAddExternalVariables?: boolean
   isAbleToAddDefaultValue?: boolean
+  initialTemplateData?: ITemplate
 }
-
-type VariableProps = {
-  name: string
-  path: string
-  from: string
-  type?: string
-  value?: any
-  data?: any
-  selectedVariable: SelectedVariableProps | null
-  setSelectedVariable: (data: SelectedVariableProps | null) => void
-}
-
-type SelectedVariableProps = {
-  path: string
-  value?: any
-}
-
-const BLOCKS_TYPES_HAS_VARIABLES = ["textentry", "pool"]
 
 export const VariablesPanelDialog = ({
   isOpen,
@@ -41,145 +40,242 @@ export const VariablesPanelDialog = ({
   handleInsertVariable,
   isAbleToAddExternalVariables = true,
   isAbleToAddDefaultValue = true,
+  initialTemplateData,
 }: VariablesPanelDialogProps) => {
   const text = useTranslation().t
+  const { user } = useUserAuth()
 
-  const [variablesBlocks, setVariablesBlocks] = useState<IBlock[]>([])
-  const [variablesPath, setVariablesPath] = useState<string[]>([])
-  const [selectedVariable, setSelectedVariable] =
-    useState<SelectedVariableProps | null>(null)
-  const [page, setPage] = useState("available_variables")
-
-  function resetSelection() {
-    setSelectedVariable(null)
-  }
+  const [templateData, setTemplateData] = useState<ITemplate>()
 
   useEffect(() => {
-    setVariablesBlocks(
-      blocks.filter((block) =>
-        BLOCKS_TYPES_HAS_VARIABLES.includes(block.type || "")
-      )
-    )
-  }, [blocks])
-
-  const variableFormat = (variablePath: string) => `{{${variablePath}}}`
-
-  const onAddVariable = ({
-    variable,
-    mode,
-    defaultValue,
-  }: {
-    variable: SelectedVariableProps
-    mode: "path" | "path_with_default_value" | "value"
-    defaultValue?: any
-  }) => {
-    if (handleInsertVariable) {
-      switch (mode) {
-        case "path":
-          const path = `${variablesPath
-            .map((variablePath) => variablePath)
-            .join(".")}${variable.path}`
-
-          handleInsertVariable(variableFormat(path))
-          break
-        case "path_with_default_value":
-          const pathWithDefaultValue = `${variablesPath
-            .map((variablePath) => variablePath)
-            .join(".")}${variable.path} || ${defaultValue}`
-
-          handleInsertVariable(variableFormat(pathWithDefaultValue))
-          break
-        case "value":
-          handleInsertVariable(variable?.value || "")
-          break
-      }
+    if (initialTemplateData) {
+      setTemplateData(initialTemplateData)
     }
-    onClose()
-    resetSelection()
+  }, [initialTemplateData])
+
+  const [connectedTemplates, setConnectedTemplates] =
+    useState<ConnectedTemplatesProps[]>()
+
+  function handleAddConnectedTemplate(
+    newConnectedTemplate: ConnectedTemplatesProps
+  ) {
+    if (connectedTemplates && connectedTemplates.length > 0) {
+      setConnectedTemplates([...connectedTemplates, newConnectedTemplate])
+    } else {
+      setConnectedTemplates([newConnectedTemplate])
+    }
   }
 
-  const handleBack = () => {
-    const newVariablesPath = [...variablesPath]
-    newVariablesPath.pop()
-    setVariablesPath(newVariablesPath)
+  function handleDisconnectSource(disconnectTemplate: ConnectedTemplatesProps) {
+    if (connectedTemplates) {
+      const newSources = connectedTemplates.filter(
+        (source) => disconnectTemplate.templateId !== source.templateId
+      )
+      setConnectedTemplates([...newSources])
+    }
   }
 
-  const tabbarPages = [
-    <Tag
-      key={1}
-      variant="txt"
-      text={
-        variablesPath.length > 0
-          ? text("variablespanel:back")
-          : text("variablespanel:cancel")
+  const [variables, setVariables] = useState<IVariableResponse>()
+
+  const getVariables = useMutateVariables()
+
+  useEffect(() => {
+    if (user) {
+      getVariables.mutate(
+        {
+          data: {
+            blocks: blocks,
+            creator_id: user?.id as string,
+            template_id: templateData ? templateData.id : "",
+            connected_templates: connectedTemplates
+              ? (connectedTemplates.map((template) => {
+                  return template.templateId
+                }) as string[])
+              : [],
+          },
+        },
+        {
+          onSuccess: (data) => {
+            setVariables(data)
+          },
+        }
+      )
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connectedTemplates, user, templateData?.id, blocks])
+
+  const [currentData, setCurrentData] = useState<any>()
+  const [variablesPath, setVariablesPath] = useState<string[]>([])
+
+  useEffect(() => {
+    if (variables) {
+      setCurrentData(variables)
+    }
+  }, [variables])
+
+  useEffect(() => {
+    handleSetCurrentData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [variablesPath])
+
+  function handleSetCurrentData() {
+    let newCurrentData = { ...variables }
+    let tempPath = [...variablesPath]
+    while (tempPath && tempPath.length > 0 && newCurrentData) {
+      newCurrentData =
+        newCurrentData[tempPath[0] as keyof typeof newCurrentData]
+      tempPath.shift()
+    }
+    setCurrentData(newCurrentData)
+  }
+
+  function handleAddPath(key: string) {
+    setVariablesPath([...variablesPath, key])
+  }
+
+  const [selectedVariablePath, setSelectedVariablePath] = useState<
+    string[] | null
+  >()
+
+  const [changeTabBar, setChangeTabBar] = useState(false)
+  const [option, setOption] = useState("available_variables")
+
+  function handleUpdateOption(newOption: string) {
+    setOption(newOption)
+  }
+
+  function handleRemovePath() {
+    const newPath = [...variablesPath]
+    newPath.pop()
+    setVariablesPath(newPath)
+    setSelectedVariablePath(null)
+  }
+
+  function handleSelectVariable(key: string) {
+    if (selectedVariablePath) {
+      if (selectedVariablePath[selectedVariablePath.length - 1] == key) {
+        const newSelectedVariablePath = null
+        setSelectedVariablePath(newSelectedVariablePath)
+        setChangeTabBar(false)
+      } else {
+        const newSelectedVariablePath = [...variablesPath, key]
+        setSelectedVariablePath([...newSelectedVariablePath])
+        setChangeTabBar(true)
       }
-      onClick={variablesPath.length > 0 ? handleBack : onClose}
+    } else {
+      const newSelectedVariablePath = [...variablesPath, key]
+      setSelectedVariablePath([...newSelectedVariablePath])
+      setChangeTabBar(true)
+    }
+  }
+
+  function handleRenderOptions() {
+    const dataType = typeof currentData
+    switch (dataType) {
+      case "object":
+        return Object.keys(currentData).map((key) => {
+          return (
+            <>
+              {typeof currentData[key] == "object" ? (
+                <CardText
+                  key={key}
+                  label={key.replace("_", " ")}
+                  onClick={() => {
+                    handleAddPath(key)
+                  }}
+                  indicator={{
+                    icon: ArrowRight,
+                  }}
+                />
+              ) : (
+                <div
+                  className={`h-fit ${
+                    selectedVariablePath &&
+                    selectedVariablePath[selectedVariablePath.length - 1] ===
+                      key
+                      ? "bg-slate-50"
+                      : ""
+                  }`}
+                >
+                  <CardText
+                    key={key}
+                    label={key.replace("_", " ")}
+                    onClick={() => handleSelectVariable(key)}
+                    indicator={{ text: currentData[key] }}
+                  />
+                </div>
+              )}
+              <CardLine />
+            </>
+          )
+        })
+      case "string":
+        return (
+          <p className="flex flex-row justify-between items-center px-3">
+            {currentData}
+          </p>
+        )
+    }
+  }
+
+  function handleAddVariable() {
+    if (selectedVariablePath) {
+      let formattedVariable = selectedVariablePath.join(".")
+      formattedVariable = `{{${formattedVariable}}}`
+      handleInsertVariable && handleInsertVariable(formattedVariable)
+      onClose()
+      setSelectedVariablePath(null)
+      setVariablesPath([])
+      setChangeTabBar(false)
+    }
+  }
+
+  const tags = [
+    <Tag variant="txt" text="cancel" key={1} onClick={onClose} />,
+    <Tag
+      variant="txt"
+      text="available"
+      key={2}
+      isSelected={option === "available_variables"}
+      onClick={() => handleUpdateOption("available_variables")}
     />,
-    isAbleToAddExternalVariables ? (
-      <Tag
-        key={2}
-        variant="txt"
-        text={text("variablespanel:available")}
-        onClick={() => setPage("available_variables")}
-        isSelected={page === "available_variables" ? true : false}
-      />
-    ) : null,
-    isAbleToAddExternalVariables ? (
-      <Tag
-        key={3}
-        variant="txt"
-        text={text("variablespanel:sources")}
-        onClick={() => setPage("sources_variables")}
-        isSelected={page === "sources_variables" ? true : false}
-      />
-    ) : null,
+    <Tag
+      variant="txt"
+      text="sources"
+      key={3}
+      isSelected={option === "sources"}
+      onClick={() => handleUpdateOption("sources")}
+    />,
   ]
 
-  const tabbarAddOptions = [
+  const tagsForSelection = [
     <Tag
+      variant="txt"
+      text="deselect"
       key={1}
-      variant="txt"
-      text={text("variablespanel:cancel")}
-      onClick={() => setSelectedVariable(null)}
+      onClick={() => {
+        setChangeTabBar(false)
+        setSelectedVariablePath(null)
+      }}
     />,
-
-    selectedVariable?.value ? (
-      <Tag
-        key={2}
-        variant="txt"
-        text={text("variablespanel:value")}
-        onClick={() =>
-          onAddVariable({
-            mode: "value",
-            variable: selectedVariable as SelectedVariableProps,
-          })
-        }
-      />
-    ) : null,
     <Tag
-      key={3}
       variant="txt"
-      text={text("variablespanel:path")}
-      onClick={() =>
-        onAddVariable({
-          mode: "path",
-          variable: selectedVariable as SelectedVariableProps,
-        })
-      }
-    />,
-    isAbleToAddDefaultValue ? (
-      <Tag
-        key={4}
-        variant="txt"
-        text={text("variablespanel:path_and_fallback")}
-        onClick={() =>
-          onAddVariable({
-            mode: "path_with_default_value",
-            variable: selectedVariable as SelectedVariableProps,
-          })
+      text="value"
+      key={2}
+      onClick={() => {
+        if (selectedVariablePath && handleInsertVariable) {
+          handleInsertVariable(
+            currentData[selectedVariablePath[selectedVariablePath.length - 1]]
+          )
+          onClose()
+          setSelectedVariablePath(null)
+          setVariablesPath([])
+          setChangeTabBar(false)
         }
-      />
-    ) : null,
+      }}
+    />,
+    <Tag variant="txt" text="path" key={3} onClick={handleAddVariable} />,
   ]
 
   return (
@@ -188,75 +284,46 @@ export const VariablesPanelDialog = ({
       title={text("variablespanel:variables")}
       onClose={onClose}
     >
-      {page === "available_variables" ? (
-        <>
-          {variablesBlocks.length > 0 ? (
-            <div
-              className="flex flex-col justify-center gap-[0.375rem] h-fit py-2
-          bg-white min-w-[100%] rounded-[20px] lg:rounded-[30px] lg:gap-[0.75rem] lg:py-3"
-            >
-              {variablesBlocks.map((block, index) => {
-                return (
-                  <VariableOption
-                    key={block.id || index}
-                    name={block?.saveAs || ""}
-                    path={block?.saveAs || ""}
-                    from="this template"
-                    selectedVariable={selectedVariable}
-                    setSelectedVariable={setSelectedVariable}
-                  />
-                )
-              })}
+      {option === "available_variables" ? (
+        variables ? (
+          <Card>
+            <CardText label="variables" />
+            {variablesPath.length > 0 && (
+              <>
+                <CardLine />
+                <button
+                  onClick={handleRemovePath}
+                  className="flex flex-row gap-3 px-3 items-center lg:text-[1.1rem] text-left"
+                >
+                  <ArrowLeft className="w-[1.375rem] h-[1.375rem] m-[0.3125rem] lg:w-[1.5625rem] lg:h-[1.5625rem]" />
+                  {variablesPath[variablesPath.length - 1].replace("_", " ")}
+                </button>
+                <CardLine />
+              </>
+            )}
+            {variables && handleRenderOptions()}
+          </Card>
+        ) : (
+          <Card>
+            <CardText label="variables" />
+            <div className="w-full h-fit text-slate-300">
+              <CardText label="no variables" />
             </div>
-          ) : null}
-        </>
+            <CardLine />
+          </Card>
+        )
       ) : (
-        <VariablesPanelSources />
+        <VariablesPanelSources
+          connectedTemplates={connectedTemplates as ConnectedTemplatesProps[]}
+          handleAddConnectedTemplate={handleAddConnectedTemplate}
+          handleDisconnectSource={handleDisconnectSource}
+        />
       )}
 
       <TabBar
         shiftLayoutOnXl={false}
-        tags={selectedVariable ? tabbarAddOptions : tabbarPages}
+        tags={changeTabBar ? tagsForSelection : tags}
       />
     </Dialog>
-  )
-}
-
-const VariableOption = ({
-  name,
-  from,
-  path,
-  type,
-  value,
-  data,
-  selectedVariable,
-  setSelectedVariable,
-}: VariableProps) => {
-  return (
-    <div className="border-b-[1px]  border-slate-100 flex items-center justify-between">
-      <div
-        className={`px-5 py-3 w-full cursor-pointer ${
-          selectedVariable?.path === path && selectedVariable.value === value
-            ? "bg-slate-100"
-            : ""
-        }`}
-        onClick={() => setSelectedVariable({ path, value })}
-      >
-        <h4>{name}</h4>
-        <p>{from}</p>
-
-        <div className="flex items-center gap-4">
-          {value || type ? (
-            <p onClick={() => setSelectedVariable({ path, value })}>
-              {value || type}
-            </p>
-          ) : null}
-
-          {data ? (
-            <ArrowRight className="cursor-pointer" weight="bold" size={20} />
-          ) : null}
-        </div>
-      </div>
-    </div>
   )
 }

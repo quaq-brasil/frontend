@@ -1,3 +1,4 @@
+import { IPage } from "./Page.type"
 export type IWorkspace = {
   id?: string
   name: string
@@ -17,6 +18,7 @@ export type IWorkspace = {
       description: string
     }
   ]
+  Page?: IPage[]
 }
 
 export type IUpdateWorkspace = {

@@ -3,45 +3,25 @@ import { Plus, X } from "phosphor-react"
 import { useState } from "react"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { ConnectedTemplatesProps } from "./VariablesPanelDialog"
 import { VariablesPanelPages } from "./VariablesPanelPages"
 
-type VariablesPanelSourcesProps = {}
-
-export type ConnectTemplatesProps = {
-  workspaceId?: string
-  workspaceName?: string
-  pageId?: string
-  pageName?: string
-  templateId?: string
-  templateName?: string
-  publicationId?: string
-  publicationName?: string
+type VariablesPanelSourcesProps = {
+  handleAddConnectedTemplate: (
+    newConnectedTemplate: ConnectedTemplatesProps
+  ) => void
+  handleDisconnectSource: (disconnectTemplate: ConnectedTemplatesProps) => void
+  connectedTemplates: ConnectedTemplatesProps[]
 }
 
-const VariablesPanelSources = ({}: VariablesPanelSourcesProps) => {
+const VariablesPanelSources = ({
+  handleAddConnectedTemplate,
+  handleDisconnectSource,
+  connectedTemplates,
+}: VariablesPanelSourcesProps) => {
   const text = useTranslation().t
 
   const [pagePanelIsOpen, setPagePanelIsOpen] = useState(false)
-
-  const [connectedTemplates, setConnectedTemplates] = useState<
-    ConnectTemplatesProps[]
-  >([])
-
-  function handleUpdateConnectedTemplates(data: ConnectTemplatesProps) {
-    setConnectedTemplates([
-      ...(connectedTemplates as ConnectTemplatesProps[]),
-      data,
-    ])
-  }
-
-  function handleDisconnectSource(data: ConnectTemplatesProps) {
-    if (connectedTemplates) {
-      const newSources = connectedTemplates.filter(
-        (source) => data.publicationId !== source.publicationId
-      )
-      setConnectedTemplates([...newSources])
-    }
-  }
 
   return (
     <>
@@ -60,12 +40,12 @@ const VariablesPanelSources = ({}: VariablesPanelSourcesProps) => {
                 {template && (
                   <>
                     <button
-                      key={index}
+                      key={template.templateId}
                       className="flex justify-between items-center my-2"
                       onClick={() => handleDisconnectSource(template)}
                     >
-                      <p className="w-fit text-left max-w-[70%] my-2 lg:my-4 lg:text-[1.1rem]">
-                        {`${template.workspaceName} - ${template.pageName} - ${template.templateName} - ${template.publicationName}`}
+                      <p className="w-fit text-left max-w-[70%] my-2 lg:my-3 lg:text-[1.1rem]">
+                        {`${template.workspaceName} - ${template.pageName} - ${template.templateName}`}
                       </p>
                       <X className="w-6 h-6 shrink-0" weight="bold" />
                     </button>
@@ -91,8 +71,8 @@ const VariablesPanelSources = ({}: VariablesPanelSourcesProps) => {
         <VariablesPanelPages
           isOpen={pagePanelIsOpen}
           onClose={() => setPagePanelIsOpen(false)}
-          handleUpdateConnectedTemplates={handleUpdateConnectedTemplates}
-          connectedTemplates={connectedTemplates as ConnectTemplatesProps[]}
+          handleAddConnectedTemplate={handleAddConnectedTemplate}
+          connectedTemplates={connectedTemplates}
         />
       )}
     </>

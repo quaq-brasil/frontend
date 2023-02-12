@@ -1,25 +1,195 @@
-import useTranslation from "next-translate/useTranslation"
-import dynamic from "next/dynamic"
+import { ArrowLeft, ArrowRight } from "phosphor-react"
+import { useEffect, useState } from "react"
+import { Card } from "../components/Card/Card"
+import { CardLine } from "../components/Card/CardContentVariants/CardLine"
+import { CardText } from "../components/Card/CardContentVariants/CardText"
 import { Header } from "../components/Header/Header"
-import { TabBar } from "../components/TabBar/TabBar"
 import { Tag } from "../components/Tag/Tag"
-const BlockMenu = dynamic(
-  () => import("../components/BlockMenu/BlockMenu").then((mod) => mod.default),
-  { ssr: false }
-)
+import { useUserAuth } from "../contexts/userAuth"
+import { useMutateVariables } from "../services/hooks/useVariables/useMutateVariables"
+import { IBlock } from "../types/Block.types"
+import { IVariableResponse } from "../types/Variables.types"
 
-export default function TestPage() {
-  const text = useTranslation().t
+const mockData = {
+  creator_id: "63d7195b8efd06bc4047296b",
+  blocks: [
+    {
+      id: "1",
+      type: "textentry",
+      saveAs: "blocoteste",
+      data: {
+        type: "email",
+      },
+    },
+  ],
+  template_id: "63e7cf8388e2141604e1f88f",
+  connected_templates: ["63e7cf8388e2141604e1f88f", "63ae050ffbbce66bbc152486"],
+}
 
-  function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("profile:back")}
-        onClick={() => console.log("tab1")}
-      />,
-    ]
+export type ConnectedTemplatesProps = {
+  workspaceId?: string
+  workspaceName?: string
+  pageId?: string
+  pageName?: string
+  templateId?: string
+  templateName?: string
+}
+
+type TestProps = {
+  blocks: IBlock[]
+}
+
+export default function Test({ blocks }: TestProps) {
+  const { user } = useUserAuth()
+
+  const [connectedTemplates, setConnectedTemplates] =
+    useState<ConnectedTemplatesProps[]>()
+
+  function handleAddConnectedTemplate(
+    newConnectedTemplate: ConnectedTemplatesProps
+  ) {
+    if (connectedTemplates && connectedTemplates.length > 0) {
+      setConnectedTemplates([...connectedTemplates, newConnectedTemplate])
+    } else {
+      setConnectedTemplates([newConnectedTemplate])
+    }
+  }
+
+  function handleDisconnectSource(disconnectTemplate: ConnectedTemplatesProps) {
+    if (connectedTemplates) {
+      const newSources = connectedTemplates.filter(
+        (source) => disconnectTemplate.templateId !== source.templateId
+      )
+      setConnectedTemplates([...newSources])
+    }
+  }
+
+  const [variables, setVariables] = useState<IVariableResponse>()
+
+  const getVariables = useMutateVariables()
+
+  useEffect(() => {
+    getVariables.mutate(
+      {
+        data: {
+          blocks: mockData.blocks,
+          creator_id: mockData.creator_id,
+          template_id: mockData.template_id,
+          connected_templates: mockData.connected_templates,
+        },
+      },
+      {
+        onSuccess: (data) => {
+          setVariables(data)
+        },
+      }
+    )
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connectedTemplates])
+
+  const [currentData, setCurrentData] = useState<any>()
+  const [variablesPath, setVariablesPath] = useState<string[]>([])
+
+  useEffect(() => {
+    if (variables) {
+      setCurrentData(variables)
+    }
+  }, [variables])
+
+  useEffect(() => {
+    handleSetCurrentData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [variablesPath])
+
+  function handleSetCurrentData() {
+    let newCurrentData = { ...variables }
+    let tempPath = [...variablesPath]
+    while (tempPath && tempPath.length > 0 && newCurrentData) {
+      newCurrentData =
+        newCurrentData[tempPath[0] as keyof typeof newCurrentData]
+      tempPath.shift()
+    }
+    setCurrentData(newCurrentData)
+  }
+
+  function handleAddPath(key: string) {
+    setVariablesPath([...variablesPath, key])
+  }
+
+  function handleRemovePath() {
+    const newPath = [...variablesPath]
+    newPath.pop()
+    setVariablesPath(newPath)
+  }
+
+  const [selectedVariablePath, setSelectedVariablePath] = useState<
+    string[] | null
+  >()
+
+  function handleSelectVariable(key: string) {
+    if (selectedVariablePath) {
+      if (selectedVariablePath[selectedVariablePath.length - 1] == key) {
+        const newSelectedVariablePath = null
+        setSelectedVariablePath(newSelectedVariablePath)
+      } else {
+        const newSelectedVariablePath = [...variablesPath, key]
+        setSelectedVariablePath([...newSelectedVariablePath])
+      }
+    } else {
+      const newSelectedVariablePath = [...variablesPath, key]
+      setSelectedVariablePath([...newSelectedVariablePath])
+    }
+  }
+
+  function handleRenderOptions() {
+    const dataType = typeof currentData
+
+    switch (dataType) {
+      case "object":
+        return Object.keys(currentData).map((key) => {
+          return (
+            <>
+              {typeof currentData[key] == "object" ? (
+                <CardText
+                  key={key}
+                  label={key.replace("_", " ")}
+                  indicator={{
+                    icon: ArrowRight,
+                    onClick: () => {
+                      handleAddPath(key)
+                    },
+                  }}
+                />
+              ) : (
+                <div
+                  className={`h-fit ${
+                    selectedVariablePath &&
+                    selectedVariablePath[selectedVariablePath.length - 1] ===
+                      key
+                      ? "bg-slate-50"
+                      : ""
+                  }`}
+                >
+                  <CardText
+                    key={key}
+                    label={key.replace("_", " ")}
+                    onClick={() => handleSelectVariable(key)}
+                    indicator={{ text: currentData[key] }}
+                  />
+                </div>
+              )}
+              <CardLine />
+            </>
+          )
+        })
+      case "string":
+        return (
+          <p className="flex flex-row justify-between items-center px-3">
+            {currentData}
+          </p>
+        )
+    }
   }
 
   function loadHeader() {
@@ -29,77 +199,9 @@ export default function TestPage() {
           "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
         }
       >
-        <Tag variant="txt" text={"testing"} />
+        <Tag variant="txt" text="text" />
       </Header>
     )
-  }
-
-  const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ]
-
-  const datasets = [
-    {
-      label: "Dataset 1",
-      data: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-    },
-    {
-      label: "Dataset 2",
-      data: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-      borderColor: "rgb(53, 162, 235)",
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
-    },
-  ]
-
-  const datasets2 = {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-    datasets: [
-      {
-        label: "# of Votes",
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
-        ],
-        borderWidth: 1,
-      },
-    ],
-  }
-
-  const datasets3 = {
-    datasets: [
-      {
-        label: "A dataset",
-        data: [
-          [1, 2],
-          [4, 6],
-          [2, 3],
-          [0, 1],
-          [6, 9],
-        ],
-        backgroundColor: "rgba(255, 99, 132, 1)",
-      },
-    ],
   }
 
   return (
@@ -112,14 +214,26 @@ export default function TestPage() {
       md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:p-[2rem]"
         >
           <div className="flex flex-col gap-2 md:gap-4 items-center">
-            <div className="w-fit">
-              <BlockMenu />
-            </div>
-            <span className="w-full h-[4rem]"></span>
+            <Card>
+              <CardText label="variables" />
+              {variablesPath.length > 0 ? (
+                <>
+                  <CardLine />
+                  <button
+                    onClick={handleRemovePath}
+                    className="flex flex-row gap-3 px-3 items-center lg:text-[1.1rem] text-left"
+                  >
+                    <ArrowLeft className="w-[1.375rem] h-[1.375rem] m-[0.3125rem] lg:w-[1.5625rem] lg:h-[1.5625rem]" />
+                    {variablesPath[variablesPath.length - 1].replace("_", " ")}
+                  </button>
+                  <CardLine />
+                </>
+              ) : null}
+              {variables && handleRenderOptions()}
+            </Card>
           </div>
         </div>
       </div>
-      <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   )
 }

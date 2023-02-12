@@ -8,23 +8,22 @@ import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { useUserAuth } from "../../../contexts/userAuth"
-import { useMutatePagesByWorkspaceId } from "../../../services/hooks/usePage/useMutatePagesByWorkspaceId"
 import { useMutateGetAllWorkspacesByUserId } from "../../../services/hooks/useWorkspace/useMutateGetAllWorkspacesByUserId"
 import { IPage } from "../../../types/Page.type"
-import { ConnectTemplatesProps } from "./VariablesPanelSources"
+import { ConnectedTemplatesProps } from "./VariablesPanelDialog"
 import { VariablesPanelTemplates } from "./VariablesPanelTemplates"
 
 type VariablesPanelPagesProps = {
   isOpen: boolean
   onClose: () => void
-  handleUpdateConnectedTemplates: (data: ConnectTemplatesProps) => void
-  connectedTemplates: ConnectTemplatesProps[]
+  handleAddConnectedTemplate: (data: ConnectedTemplatesProps) => void
+  connectedTemplates: ConnectedTemplatesProps[]
 }
 
 export const VariablesPanelPages = ({
   isOpen,
   onClose,
-  handleUpdateConnectedTemplates,
+  handleAddConnectedTemplate,
   connectedTemplates,
 }: VariablesPanelPagesProps) => {
   const text = useTranslation().t
@@ -33,15 +32,13 @@ export const VariablesPanelPages = ({
 
   const getAllWorkspaces = useMutateGetAllWorkspacesByUserId()
 
-  const getPagesByWorkspaces = useMutatePagesByWorkspaceId()
-
   type IData = {
-    pages: IPage[]
-    workspaceName: string
-    workspaceId: string
+    pages?: IPage[]
+    workspaceName?: string
+    workspaceId?: string
   }
 
-  const [content, setContent] = useState<IData[]>()
+  const [options, setOptions] = useState<IData[]>()
 
   useEffect(() => {
     if (user) {
@@ -51,35 +48,16 @@ export const VariablesPanelPages = ({
         },
         {
           onSuccess: (data) => {
-            data.map((workspaceData) => {
-              getPagesByWorkspaces.mutate(
-                {
-                  id: workspaceData.id as string,
-                },
-                {
-                  onSuccess: (data) => {
-                    if (content) {
-                      setContent([
-                        ...content,
-                        {
-                          pages: data as IPage[],
-                          workspaceId: workspaceData.id as string,
-                          workspaceName: workspaceData.name as string,
-                        },
-                      ])
-                    } else {
-                      setContent([
-                        {
-                          pages: data as IPage[],
-                          workspaceId: workspaceData.id as string,
-                          workspaceName: workspaceData.name as string,
-                        },
-                      ])
-                    }
-                  },
-                }
-              )
+            const newOptions = data.map((workspace) => {
+              return {
+                pages: workspace.Page,
+                workspaceName: workspace.name,
+                workspaceId: workspace.id,
+              }
             })
+            if (newOptions && newOptions.length > 0) {
+              setOptions([...newOptions])
+            }
           },
         }
       )
@@ -126,22 +104,22 @@ export const VariablesPanelPages = ({
     >
       <Card>
         <>
-          {content &&
-            content.map((data, index) => {
+          {options &&
+            options.map((data) => {
               if (data) {
                 return (
                   <>
                     <p className="w-full text-center lg:text-[1.1rem]">
                       {data.workspaceName}
                     </p>
-                    <div className="w-full h-fit" key={index}>
+                    <div className="w-full h-fit" key={data.workspaceId}>
                       <>
                         {data.pages &&
-                          data.pages.map((page, index) => {
+                          data.pages.map((page) => {
                             return (
                               <>
                                 <CardLog
-                                  key={index}
+                                  key={page.id}
                                   img_url={page.avatar_url}
                                   name={page.name}
                                   date={`quaq.me/${page.url}`}
@@ -150,11 +128,12 @@ export const VariablesPanelPages = ({
                                     handleUpdateOpenTemplate({
                                       pageData: {
                                         pageId: page.id as string,
-                                        pageName: page.name as string,
+                                        pageName: page.name,
                                       },
                                       workspaceData: {
-                                        workspaceId: data.workspaceId,
-                                        workspaceName: data.workspaceName,
+                                        workspaceId: data.workspaceId as string,
+                                        workspaceName:
+                                          data.workspaceName as string,
                                       },
                                     })
                                   }
@@ -175,7 +154,7 @@ export const VariablesPanelPages = ({
         <VariablesPanelTemplates
           isOpen={openTemplates}
           initialData={selectedSource as ISelectedSource}
-          handleUpdateConnectedTemplates={handleUpdateConnectedTemplates}
+          handleAddConnectedTemplate={handleAddConnectedTemplate}
           onClose={() => {
             setOpenTemplates(false)
             onClose()

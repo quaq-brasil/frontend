@@ -6,9 +6,7 @@ import { ShortcutGrid } from "../../../components/ShortcutGrid/ShortcutGrid"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { useMutateTemplatesByPageId } from "../../../services/hooks/useTemplate/useMutateTemplatesByPageId"
-import { ITemplate } from "../../../types/Template.type"
-import { VariablesPanelPublications } from "./VariablesPanelPublications"
-import { ConnectTemplatesProps } from "./VariablesPanelSources"
+import { ConnectedTemplatesProps } from "./VariablesPanelDialog"
 
 type VariablesPanelTemplatesProps = {
   isOpen: boolean
@@ -23,24 +21,22 @@ type VariablesPanelTemplatesProps = {
       pageName: string
     }
   }
-  handleUpdateConnectedTemplates: (data: ConnectTemplatesProps) => void
+  handleAddConnectedTemplate: (data: ConnectedTemplatesProps) => void
   onBack: () => void
-  connectedTemplates: ConnectTemplatesProps[]
+  connectedTemplates: ConnectedTemplatesProps[]
 }
 
 export const VariablesPanelTemplates = ({
   isOpen,
   onClose,
   initialData,
-  handleUpdateConnectedTemplates,
+  handleAddConnectedTemplate,
   onBack,
   connectedTemplates,
 }: VariablesPanelTemplatesProps) => {
   const text = useTranslation().t
 
   const [shortcuts, setShortcuts] = useState<JSX.Element[]>([])
-  const [template, setTemplate] = useState<ITemplate>()
-  const [openPublications, setOpenPublications] = useState(false)
 
   const getTemplates = useMutateTemplatesByPageId()
 
@@ -55,7 +51,7 @@ export const VariablesPanelTemplates = ({
             const tempShortcuts = data.map((template, index) => {
               return (
                 <Shortcut
-                  key={index}
+                  key={template.id}
                   id={template.id || ""}
                   img_url={template.shortcut_image || ""}
                   index={index || 0}
@@ -65,8 +61,15 @@ export const VariablesPanelTemplates = ({
                   templateData={template}
                   pageData={undefined}
                   onClick={() => {
-                    setTemplate(template)
-                    setOpenPublications(true)
+                    handleAddConnectedTemplate({
+                      workspaceId: initialData.workspaceData.workspaceId,
+                      workspaceName: initialData.workspaceData.workspaceName,
+                      pageId: initialData.pageData.pageId,
+                      pageName: initialData.pageData.pageName,
+                      templateId: template.id,
+                      templateName: template.name,
+                    })
+                    onClose()
                   }}
                 />
               )
@@ -96,26 +99,6 @@ export const VariablesPanelTemplates = ({
     >
       <ShortcutGrid onDrag={(e) => console.log(e)}>{shortcuts}</ShortcutGrid>
       <TabBar shiftLayoutOnXl={false} tags={tabbarPages} />
-      {openPublications && (
-        <VariablesPanelPublications
-          handleUpdateConnectedTemplates={handleUpdateConnectedTemplates}
-          initialData={{
-            pageData: initialData.pageData,
-            workspaceData: initialData.workspaceData,
-            templateData: {
-              templateId: template?.id as string,
-              templateName: template?.name as string,
-            },
-          }}
-          isOpen={isOpen}
-          onClose={() => {
-            setOpenPublications(false)
-            onClose()
-          }}
-          onBack={() => setOpenPublications(false)}
-          connectedTemplates={connectedTemplates}
-        />
-      )}
     </Dialog>
   )
 }

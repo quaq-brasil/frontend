@@ -25,7 +25,7 @@ export function ReviewConfig({
   }
 
   const [content, setContent] = useState<IReview>()
-  const [saveas, setSaveas] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -36,8 +36,8 @@ export function ReviewConfig({
     handleUpdateIsUpdating(true)
   }
 
-  function handleUpdateSaveas(value: string) {
-    setSaveas(value)
+  function handleUpdateSaveAs(value: string) {
+    setSaveAs(value)
     handleUpdateIsUpdating(true)
   }
 
@@ -51,7 +51,7 @@ export function ReviewConfig({
 
   function handleClosing() {
     handleUpdateContent({})
-    setSaveas(undefined)
+    setSaveAs(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
     onClose()
@@ -60,14 +60,14 @@ export function ReviewConfig({
   function onAddBlock() {
     handleAddBlock({
       type: "review",
-      saveAs: saveas,
+      save_as: saveAs,
       data: content,
     })
     handleClosing()
   }
 
   useEffect(() => {
-    if (content && saveas) {
+    if (content && saveAs) {
       onAddBlock()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -113,7 +113,7 @@ export function ReviewConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveas(variable)
+        handleUpdateSaveAs(`${saveAs}${variable}`)
       })
     handleOpenVariablePanel()
   }
@@ -147,8 +147,8 @@ export function ReviewConfig({
             <CardTextInput
               input={{
                 label: text("reviewconfig:label2"),
-                inputValue: saveas,
-                onChange: (value) => handleUpdateSaveas(value),
+                inputValue: saveAs,
+                onChange: (value) => handleUpdateSaveAs(value),
               }}
               indicator={{
                 icon: BracketsCurly,
