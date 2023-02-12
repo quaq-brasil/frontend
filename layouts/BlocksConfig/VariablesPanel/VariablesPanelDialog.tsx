@@ -235,14 +235,14 @@ export const VariablesPanelDialog = ({
     <Tag variant="txt" text="cancel" key={1} onClick={onClose} />,
     <Tag
       variant="txt"
-      text="available"
+      text={text("variablespanel:available")}
       key={2}
       isSelected={option === "available_variables"}
       onClick={() => handleUpdateOption("available_variables")}
     />,
     <Tag
       variant="txt"
-      text="sources"
+      text={text("variablespanel:sources")}
       key={3}
       isSelected={option === "sources"}
       onClick={() => handleUpdateOption("sources")}
@@ -252,7 +252,7 @@ export const VariablesPanelDialog = ({
   const tagsForSelection = [
     <Tag
       variant="txt"
-      text="deselect"
+      text={text("variablespanel:cancel")}
       key={1}
       onClick={() => {
         setChangeTabBar(false)
@@ -261,7 +261,7 @@ export const VariablesPanelDialog = ({
     />,
     <Tag
       variant="txt"
-      text="value"
+      text={text("variablespanel:value")}
       key={2}
       onClick={() => {
         if (selectedVariablePath && handleInsertVariable) {
@@ -275,8 +275,41 @@ export const VariablesPanelDialog = ({
         }
       }}
     />,
-    <Tag variant="txt" text="path" key={3} onClick={handleAddVariable} />,
+    <Tag
+      variant="txt"
+      text={text("variablespanel:path")}
+      key={3}
+      onClick={handleAddVariable}
+    />,
   ]
+
+  function handleRenderPageContent() {
+    return variables ? (
+      <Card>
+        {variablesPath.length > 0 && (
+          <>
+            <CardLine />
+            <button
+              onClick={handleRemovePath}
+              className="flex flex-row gap-3 px-3 items-center lg:text-[1.1rem] text-left"
+            >
+              <ArrowLeft className="w-[1.375rem] h-[1.375rem] m-[0.3125rem] lg:w-[1.5625rem] lg:h-[1.5625rem]" />
+              {variablesPath[variablesPath.length - 1].replace("_", " ")}
+            </button>
+            <CardLine />
+          </>
+        )}
+        {variables && handleRenderOptions()}
+      </Card>
+    ) : (
+      <Card>
+        <div className="w-full h-fit text-slate-300">
+          <CardText label="no variables" />
+        </div>
+        <CardLine />
+      </Card>
+    )
+  }
 
   return (
     <Dialog
@@ -285,33 +318,7 @@ export const VariablesPanelDialog = ({
       onClose={onClose}
     >
       {option === "available_variables" ? (
-        variables ? (
-          <Card>
-            <CardText label="variables" />
-            {variablesPath.length > 0 && (
-              <>
-                <CardLine />
-                <button
-                  onClick={handleRemovePath}
-                  className="flex flex-row gap-3 px-3 items-center lg:text-[1.1rem] text-left"
-                >
-                  <ArrowLeft className="w-[1.375rem] h-[1.375rem] m-[0.3125rem] lg:w-[1.5625rem] lg:h-[1.5625rem]" />
-                  {variablesPath[variablesPath.length - 1].replace("_", " ")}
-                </button>
-                <CardLine />
-              </>
-            )}
-            {variables && handleRenderOptions()}
-          </Card>
-        ) : (
-          <Card>
-            <CardText label="variables" />
-            <div className="w-full h-fit text-slate-300">
-              <CardText label="no variables" />
-            </div>
-            <CardLine />
-          </Card>
-        )
+        handleRenderPageContent()
       ) : (
         <VariablesPanelSources
           connectedTemplates={connectedTemplates as ConnectedTemplatesProps[]}
