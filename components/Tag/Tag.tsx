@@ -134,20 +134,14 @@ export const Tag = (props: TagProps) => {
                 </>
               )}
               <>
-                <props.icon
-                  weight="bold"
-                  className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]"
-                />
+                <props.icon className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]" />
               </>
             </div>
           )}
           {props.variant === "icn-txt" && (
             <div className="flex row shrink-0 gap-[0.625rem] content-center justify-center items-center h-[2.5rem] px-[0.625rem] lg:text-[1.1rem] lg:px-3 lg:h-[3.25rem]">
               <>
-                <props.icon
-                  weight="bold"
-                  className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]"
-                />
+                <props.icon className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]" />
               </>
               {props.text ? (
                 <p className="lg:text-[1.1rem]">{props.text}</p>
@@ -161,10 +155,7 @@ export const Tag = (props: TagProps) => {
           {props.variant === "icn-txt-xl" && (
             <div className="flex row shrink-0 gap-[0.625rem] content-center justify-start items-center h-[2.5rem] px-[0.625rem] lg:text-[1.1rem] lg:px-3 lg:h-[3.25rem]">
               <>
-                <props.icon
-                  weight="bold"
-                  className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]"
-                />
+                <props.icon className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]" />
               </>
               {props.text ? (
                 <p className="lg:text-[1.1rem]">{props.text}</p>
@@ -179,10 +170,7 @@ export const Tag = (props: TagProps) => {
             <div className="h-[2.5rem] w-[2.5rem] flex shrink-0 justify-center items-center lg:h-[3.25rem] lg:w-[3.25rem]">
               {
                 <div className="">
-                  <props.icon
-                    weight="bold"
-                    className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]"
-                  />
+                  <props.icon className="w-[1.25rem] h-[1.25rem] lg:w-[1.5625rem] lg:h-[1.5625rem]" />
                 </div>
               }
             </div>

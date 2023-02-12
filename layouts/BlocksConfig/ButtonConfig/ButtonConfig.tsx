@@ -26,7 +26,7 @@ export function ButtonConfig({
   }
 
   const [content, setContent] = useState<IButton>()
-  const [saveas, setSaveas] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -40,8 +40,8 @@ export function ButtonConfig({
     setIsUpdating(true)
   }
 
-  function handleUpdateSaveas(value: string) {
-    setSaveas(value)
+  function handleUpdateSaveAs(value: string) {
+    setSaveAs(value)
     handleUpdateIsUpdating(true)
   }
 
@@ -55,7 +55,7 @@ export function ButtonConfig({
 
   function handleClosing() {
     handleUpdateContent({})
-    setSaveas(undefined)
+    setSaveAs(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
     onClose()
@@ -64,14 +64,14 @@ export function ButtonConfig({
   function onAddBlock() {
     handleAddBlock({
       type: "button",
-      saveAs: saveas,
+      save_as: saveAs,
       data: content,
     })
     handleClosing()
   }
 
   useEffect(() => {
-    if (content && saveas) {
+    if (content && saveAs) {
       onAddBlock()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,7 +109,7 @@ export function ButtonConfig({
   const handleOpenVariablePanelForText = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ text: variable })
+        handleUpdateContent({ text: `${content?.text}${variable}` })
       })
     handleOpenVariablePanel()
   }
@@ -117,7 +117,7 @@ export function ButtonConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveas(variable)
+        handleUpdateSaveAs(`${saveAs}${variable}`)
       })
     handleOpenVariablePanel()
   }
@@ -155,8 +155,8 @@ export function ButtonConfig({
             <CardTextInput
               input={{
                 label: text("buttonconfig:saveaslabel"),
-                onChange: (e) => handleUpdateSaveas(e),
-                inputValue: saveas,
+                onChange: (e) => handleUpdateSaveAs(e),
+                inputValue: saveAs,
               }}
               indicator={{
                 icon: BracketsCurly,

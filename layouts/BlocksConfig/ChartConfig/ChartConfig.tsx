@@ -39,7 +39,7 @@ export default function ChartConfig({
   }
 
   const [content, setContent] = useState<IChart>()
-  const [saveas, setSaveas] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
   const [datasets, setDatasets] = useState<IDatasets[]>([
@@ -111,8 +111,8 @@ export default function ChartConfig({
     }
   }
 
-  function handleUpdateSaveas(value: string) {
-    setSaveas(value)
+  function handleUpdateSaveAs(value: string) {
+    setSaveAs(value)
     handleUpdateIsUpdating(true)
   }
 
@@ -126,7 +126,7 @@ export default function ChartConfig({
 
   function handleClosing() {
     handleUpdateContent({})
-    setSaveas(undefined)
+    setSaveAs(undefined)
     setDatasets([
       {
         backgroundColor: "",
@@ -144,14 +144,14 @@ export default function ChartConfig({
   function onAddBlock() {
     handleAddBlock({
       type: "chart",
-      saveAs: saveas,
+      save_as: saveAs,
       data: content,
     })
     handleClosing()
   }
 
   useEffect(() => {
-    if (content && saveas) {
+    if (content && saveAs) {
       onAddBlock()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -189,7 +189,7 @@ export default function ChartConfig({
   const handleOpenVariablePanelForTitle = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ title: variable })
+        handleUpdateContent({ title: `${content?.title}${variable}` })
       })
     handleOpenVariablePanel()
   }
@@ -255,7 +255,9 @@ export default function ChartConfig({
   const handleOpenVariablePanelForLabels = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ data: { labels: variable } })
+        handleUpdateContent({
+          data: { labels: `${content?.data?.labels}${variable}` },
+        })
       })
     handleOpenVariablePanel()
   }
@@ -263,7 +265,7 @@ export default function ChartConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveas(variable)
+        handleUpdateSaveAs(`${saveAs}${variable}`)
       })
     handleOpenVariablePanel()
   }
@@ -497,8 +499,8 @@ export default function ChartConfig({
             <CardTextInput
               input={{
                 label: text("chartconfig:saveaslabel"),
-                onChange: (value) => handleUpdateSaveas(value),
-                inputValue: saveas,
+                onChange: (value) => handleUpdateSaveAs(value),
+                inputValue: saveAs,
               }}
               indicator={{
                 icon: BracketsCurly,

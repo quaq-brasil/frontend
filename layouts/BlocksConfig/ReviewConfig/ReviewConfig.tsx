@@ -105,7 +105,9 @@ export function ReviewConfig({
   const handleOpenVariablePanelForDescription = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ description: variable })
+        handleUpdateContent({
+          description: `${content?.description}${variable}`,
+        })
       })
     handleOpenVariablePanel()
   }

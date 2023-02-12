@@ -22,7 +22,7 @@ export function TextConfig({
   const text = useTranslation().t
 
   const [content, setContent] = useState("")
-  const [saveas, setSaveas] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -31,8 +31,8 @@ export function TextConfig({
     handleUpdateIsUpdating(true)
   }
 
-  function handleUpdateSaveas(value: string) {
-    setSaveas(value)
+  function handleUpdateSaveAs(value: string) {
+    setSaveAs(value)
     handleUpdateIsUpdating(true)
   }
 
@@ -48,7 +48,7 @@ export function TextConfig({
     handleUpdateContent("")
     handleUpdateIsUpdating(false)
     handleUpdateRunUpdate(false)
-    handleUpdateSaveas("")
+    handleUpdateSaveAs("")
     onClose()
   }
 
@@ -56,7 +56,7 @@ export function TextConfig({
     handleAddBlock({
       type: "text",
       data: content,
-      saveAs: saveas,
+      save_as: saveAs,
     })
   }
 
@@ -100,7 +100,7 @@ export function TextConfig({
   const handleOpenVariablePanelForText = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent(`${content} ${variable}`)
+        handleUpdateContent(`${content}${variable}`)
       })
     handleOpenVariablePanel()
   }
@@ -108,7 +108,7 @@ export function TextConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveas(variable)
+        handleUpdateSaveAs(`${saveAs}${variable}`)
       })
     handleOpenVariablePanel()
   }
@@ -137,8 +137,8 @@ export function TextConfig({
             <CardTextInput
               input={{
                 label: text("poolconfig:saveaslabel"),
-                onChange: (e) => handleUpdateSaveas(e),
-                inputValue: saveas,
+                onChange: (e) => handleUpdateSaveAs(e),
+                inputValue: saveAs,
               }}
               indicator={{
                 icon: BracketsCurly,

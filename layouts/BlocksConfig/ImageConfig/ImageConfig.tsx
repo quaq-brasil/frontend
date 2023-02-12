@@ -26,7 +26,7 @@ export function ImageConfig({
   }
 
   const [content, setContent] = useState<IImage>()
-  const [saveas, setSaveas] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -37,8 +37,8 @@ export function ImageConfig({
     handleUpdateIsUpdating(true)
   }
 
-  function handleUpdateSaveas(value: string) {
-    setSaveas(value)
+  function handleUpdateSaveAs(value: string) {
+    setSaveAs(value)
     handleUpdateIsUpdating(true)
   }
 
@@ -52,7 +52,7 @@ export function ImageConfig({
 
   function handleClosing() {
     handleUpdateConent({})
-    setSaveas(undefined)
+    setSaveAs(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
     onClose()
@@ -61,14 +61,14 @@ export function ImageConfig({
   function onAddBlock() {
     handleAddBlock({
       type: "image",
-      saveAs: saveas,
+      save_as: saveAs,
       data: content,
     })
     handleClosing()
   }
 
   useEffect(() => {
-    if (content && saveas) {
+    if (content && saveAs) {
       onAddBlock()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,7 +106,7 @@ export function ImageConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveas(variable)
+        handleUpdateSaveAs(`${saveAs}${variable}`)
       })
     handleOpenVariablePanel()
   }
@@ -136,8 +136,8 @@ export function ImageConfig({
             <CardTextInput
               input={{
                 label: text("imageconfig:saveaslabel"),
-                inputValue: saveas,
-                onChange: (value) => handleUpdateSaveas(value),
+                inputValue: saveAs,
+                onChange: (value) => handleUpdateSaveAs(value),
               }}
               indicator={{
                 icon: BracketsCurly,

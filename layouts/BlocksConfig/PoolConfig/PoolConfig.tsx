@@ -35,7 +35,7 @@ export function PoolConfig({
   const [content, setContent] = useState<IContent>({
     options: [{ id: 0, value: "" }],
   })
-  const [saveas, setSaveas] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -49,8 +49,8 @@ export function PoolConfig({
     setIsUpdating(true)
   }
 
-  function handleUpdateSaveas(value: string) {
-    setSaveas(value)
+  function handleUpdateSaveAs(value: string) {
+    setSaveAs(value)
     handleUpdateIsUpdating(true)
   }
 
@@ -64,7 +64,7 @@ export function PoolConfig({
 
   function handleClosing() {
     setContent({})
-    setSaveas(undefined)
+    setSaveAs(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
     onClose()
@@ -73,14 +73,14 @@ export function PoolConfig({
   function onAddBlock() {
     handleAddBlock({
       type: "pool",
-      saveAs: saveas,
+      save_as: saveAs,
       data: content,
     })
     handleClosing()
   }
 
   useEffect(() => {
-    if (content?.options && saveas) {
+    if (content?.options && saveAs) {
       onAddBlock()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -133,6 +133,7 @@ export function PoolConfig({
           options.push({ id: content.options.length, value: "" })
           handleUpdateContent({ options: options })
         }
+        break
       case "remove":
         if (content.options) {
           const options = content.options.map((option) => {
@@ -142,6 +143,7 @@ export function PoolConfig({
           })
           handleUpdateContent({ options: options as options[] })
         }
+        break
       case "update":
         if (content.options) {
           const options = content.options.map((option) => {
@@ -154,6 +156,7 @@ export function PoolConfig({
           })
           handleUpdateContent({ options: options as options[] })
         }
+        break
     }
   }
 
@@ -171,7 +174,7 @@ export function PoolConfig({
   const handleOpenVariablePanelForTitle = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ title: variable })
+        handleUpdateContent({ title: `${content.title}${variable}` })
       })
     handleOpenVariablePanel()
   }
@@ -179,7 +182,7 @@ export function PoolConfig({
   const handleOpenVariablePanelForMax = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ max: variable })
+        handleUpdateContent({ max: `${content.max}${variable}` })
       })
     handleOpenVariablePanel()
   }
@@ -187,7 +190,7 @@ export function PoolConfig({
   const handleOpenVariablePanelForMin = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ min: variable })
+        handleUpdateContent({ min: `${content.min}${variable}` })
       })
     handleOpenVariablePanel()
   }
@@ -195,7 +198,7 @@ export function PoolConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveas(variable)
+        handleUpdateSaveAs(`${saveAs}${variable}`)
       })
     handleOpenVariablePanel()
   }
@@ -297,8 +300,8 @@ export function PoolConfig({
             <CardTextInput
               input={{
                 label: text("poolconfig:saveaslabel"),
-                onChange: (e) => handleUpdateSaveas(e),
-                inputValue: saveas,
+                onChange: (e) => handleUpdateSaveAs(e),
+                inputValue: saveAs,
               }}
               indicator={{
                 icon: BracketsCurly,

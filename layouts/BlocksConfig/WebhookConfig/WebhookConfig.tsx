@@ -33,7 +33,7 @@ export function WebhookConfig({
   }
 
   const [content, setContent] = useState<IWebhook>()
-  const [saveas, setSaveas] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -55,8 +55,8 @@ export function WebhookConfig({
     setIsUpdating(true)
   }
 
-  function handleUpdateSaveas(value: string) {
-    setSaveas(value)
+  function handleUpdateSaveAs(value: string) {
+    setSaveAs(value)
     handleUpdateIsUpdating(true)
   }
 
@@ -70,7 +70,7 @@ export function WebhookConfig({
 
   function handleClosing() {
     handleUpdateContent({})
-    setSaveas(undefined)
+    setSaveAs(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
     onClose()
@@ -79,14 +79,14 @@ export function WebhookConfig({
   function onAddBlock() {
     handleAddBlock({
       type: "webhook",
-      saveAs: saveas,
+      save_as: saveAs,
       data: content,
     })
     handleClosing()
   }
 
   useEffect(() => {
-    if (content && saveas) {
+    if (content && saveAs) {
       onAddBlock()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -124,7 +124,9 @@ export function WebhookConfig({
   const handleOpenVariablePanelForDescription = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ description: variable })
+        handleUpdateContent({
+          description: `${content?.description}${variable}`,
+        })
       })
     handleOpenVariablePanel()
   }
@@ -132,7 +134,9 @@ export function WebhookConfig({
   const handleOpenVariablePanelForParameters = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ description: variable })
+        handleUpdateContent({
+          description: `${content?.description}${variable}`,
+        })
       })
     handleOpenVariablePanel()
   }
@@ -140,7 +144,7 @@ export function WebhookConfig({
   const handleOpenVariablePanelForLink = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ link: variable })
+        handleUpdateContent({ link: `${content?.link}${variable}` })
       })
     handleOpenVariablePanel()
   }
@@ -148,7 +152,7 @@ export function WebhookConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveas(variable)
+        handleUpdateSaveAs(`${saveAs}${variable}`)
       })
     handleOpenVariablePanel()
   }
@@ -158,7 +162,7 @@ export function WebhookConfig({
       <Dialog
         isOpen={isOpen}
         title={text("webhookconfig:toptitle")}
-        onClose={() => console.log("closed")}
+        onClose={() => {}}
       >
         <div className="flex flex-col items-center gap-3 scrollbar-hide">
           <Card>
@@ -279,8 +283,8 @@ export function WebhookConfig({
             <CardTextInput
               input={{
                 label: text("webhookconfig:saveasinput"),
-                onChange: (e) => handleUpdateSaveas(e),
-                inputValue: saveas,
+                onChange: (e) => handleUpdateSaveAs(e),
+                inputValue: saveAs,
               }}
               indicator={{
                 icon: BracketsCurly,

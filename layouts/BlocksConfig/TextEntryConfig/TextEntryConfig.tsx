@@ -28,7 +28,7 @@ export function TextEntryConfig({
     type: "email",
     placeholder: "",
   })
-  const [saveas, setSaveas] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string>()
   const [runUpdate, setRunUpdate] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
 
@@ -42,8 +42,8 @@ export function TextEntryConfig({
     setIsUpdating(true)
   }
 
-  function handleUpdateSaveas(value: string) {
-    setSaveas(value)
+  function handleUpdateSaveAs(value: string) {
+    setSaveAs(value)
   }
 
   function handleUpdateRunUpdate(stat: boolean) {
@@ -56,7 +56,7 @@ export function TextEntryConfig({
 
   function handleClosing() {
     handleUpdateContent({})
-    setSaveas(undefined)
+    setSaveAs(undefined)
     handleUpdateRunUpdate(false)
     onClose()
     setContent({ type: "email" })
@@ -65,14 +65,14 @@ export function TextEntryConfig({
   function onAddBlock() {
     handleAddBlock({
       type: "textentry",
-      saveAs: saveas,
+      save_as: saveAs,
       data: content,
     })
     handleClosing()
   }
 
   useEffect(() => {
-    if (content && saveas) {
+    if (content && saveAs) {
       onAddBlock()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -110,7 +110,17 @@ export function TextEntryConfig({
   const handleOpenVariablePanelForPlaceholder = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ placeholder: variable })
+        handleUpdateContent({
+          placeholder: `${content.placeholder}${variable}`,
+        })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForSaveAs = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateSaveAs(`${saveAs}${variable}`)
       })
     handleOpenVariablePanel()
   }
@@ -173,11 +183,12 @@ export function TextEntryConfig({
             <CardTextInput
               input={{
                 label: text("textentryconfig:saveaslabel"),
-                onChange: (value) => handleUpdateSaveas(value),
+                onChange: (value) => handleUpdateSaveAs(value),
+                inputValue: saveAs,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: handleOpenVariablePanel,
+                onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
           </Card>
