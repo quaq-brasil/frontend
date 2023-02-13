@@ -1,7 +1,11 @@
+import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 import { IBlock } from "../../types/Block.types"
 import { IInteractionData } from "../../types/Interaction.type"
-import { BlockMenu } from "../BlockMenu/BlockMenu"
+const BlockMenu = dynamic(
+  () => import("../BlockMenu/BlockMenu").then((mod) => mod.default),
+  { ssr: false }
+)
 
 type options = {
   id: number
@@ -112,7 +116,7 @@ export const PoolBlock = ({
       handleUpdateInteractions({
         config: {
           id: block.id as string,
-          saveAs: block.saveAs as string,
+          save_as: block.save_as as string,
           type: block.type as string,
           data: {
             title: block.data.title,

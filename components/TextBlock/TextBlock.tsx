@@ -46,7 +46,7 @@ export const TextBlock = ({
       handleUpdateInteractions({
         config: {
           id: block.id as string,
-          saveAs: block.saveAs as string,
+          save_as: block.save_as as string,
           type: block.type as string,
           data: block.data,
         },

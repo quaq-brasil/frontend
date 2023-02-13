@@ -5,7 +5,6 @@ import { Card } from "../../../components/Card/Card"
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-import VariablesPanelSources from "./VariablesPanelSources"
 
 export type Variable = {
   name: string
@@ -240,9 +239,7 @@ export const VariablesPanel = ({
               </div>
             ))}
           </div>
-        ) : (
-          <VariablesPanelSources />
-        )}
+        ) : null}
       </Card>
     </Dialog>
   )

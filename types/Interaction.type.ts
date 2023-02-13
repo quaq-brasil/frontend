@@ -17,7 +17,7 @@ export type IInteractionData = {
   config: {
     id: string
     type: string
-    saveAs: string
+    save_as: string
     data: any
   }
   output: {

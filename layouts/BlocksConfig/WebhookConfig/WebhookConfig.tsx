@@ -80,7 +80,11 @@ export function WebhookConfig({
     handleAddBlock({
       type: "webhook",
       save_as: saveAs,
-      data: content,
+      data: {
+        ...content,
+        body: `{${content?.body}}`,
+        header: `{${content?.header}}`,
+      },
     })
     handleClosing()
   }

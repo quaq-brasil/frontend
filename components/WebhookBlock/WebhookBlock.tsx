@@ -1,7 +1,11 @@
 import useTranslation from "next-translate/useTranslation"
+import dynamic from "next/dynamic"
 import { EyeSlash } from "phosphor-react"
 import { IBlock } from "../../types/Block.types"
-import { BlockMenu } from "../BlockMenu/BlockMenu"
+const BlockMenu = dynamic(
+  () => import("../BlockMenu/BlockMenu").then((mod) => mod.default),
+  { ssr: false }
+)
 
 type IData = {
   description?: string
@@ -66,7 +70,7 @@ export const WebhookBlock = ({
         <p className="font-semibold">{text("webhookconfig:parameters")}</p>
         <p className="pl-3 mb-2">{block.data.parameters}</p>
         <p className="font-semibold">{text("webhookconfig:saveas")}</p>
-        <p className="pl-3 mb-2">{block.saveAs}</p>
+        <p className="pl-3 mb-2">{block.save_as}</p>
       </div>
     </div>
   )

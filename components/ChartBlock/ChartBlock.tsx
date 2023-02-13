@@ -1,12 +1,16 @@
+import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 import { IBlock } from "../../types/Block.types"
 import { IInteractionData } from "../../types/Interaction.type"
-import { BlockMenu } from "../BlockMenu/BlockMenu"
 import { HorizontalBarChart } from "./HorizontalBarChart"
 import { LineChart } from "./LineChart"
 import { PieChart } from "./PieChart"
 import { ScatterChart } from "./ScatterChart"
 import { VerticalBarChart } from "./VerticalBarChart"
+const BlockMenu = dynamic(
+  () => import("../BlockMenu/BlockMenu").then((mod) => mod.default),
+  { ssr: false }
+)
 
 type IDataSet = {
   label: string
@@ -73,7 +77,7 @@ export const ChartBlock = ({
       handleUpdateInteractions({
         config: {
           id: block.id as string,
-          saveAs: block.saveAs as string,
+          save_as: block.save_as as string,
           type: block.type as string,
           data: block.data,
         },

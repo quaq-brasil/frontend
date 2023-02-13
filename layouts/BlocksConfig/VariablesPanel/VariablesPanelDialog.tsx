@@ -1,6 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { ArrowLeft, ArrowRight } from "phosphor-react"
-import { useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
@@ -31,6 +31,10 @@ type VariablesPanelDialogProps = {
   isAbleToAddExternalVariables?: boolean
   isAbleToAddDefaultValue?: boolean
   initialTemplateData?: ITemplate
+  connectedTemplates?: ConnectedTemplatesProps[]
+  setConnectedTemplates: Dispatch<
+    SetStateAction<ConnectedTemplatesProps[] | undefined>
+  >
 }
 
 export const VariablesPanelDialog = ({
@@ -41,6 +45,8 @@ export const VariablesPanelDialog = ({
   isAbleToAddExternalVariables = true,
   isAbleToAddDefaultValue = true,
   initialTemplateData,
+  setConnectedTemplates,
+  connectedTemplates,
 }: VariablesPanelDialogProps) => {
   const text = useTranslation().t
   const { user } = useUserAuth()
@@ -52,9 +58,6 @@ export const VariablesPanelDialog = ({
       setTemplateData(initialTemplateData)
     }
   }, [initialTemplateData])
-
-  const [connectedTemplates, setConnectedTemplates] =
-    useState<ConnectedTemplatesProps[]>()
 
   function handleAddConnectedTemplate(
     newConnectedTemplate: ConnectedTemplatesProps

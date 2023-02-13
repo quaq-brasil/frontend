@@ -8,7 +8,10 @@ import { Tag } from "../../../components/Tag/Tag"
 import { BlockProps } from "../../../types/Block.types"
 import { IPage } from "../../../types/Page.type"
 import { pageUrls } from "../../../utils/pagesUrl"
-import { VariablesPanelDialog } from "../../BlocksConfig/VariablesPanel/VariablesPanelDialog"
+import {
+  ConnectedTemplatesProps,
+  VariablesPanelDialog,
+} from "../../BlocksConfig/VariablesPanel/VariablesPanelDialog"
 import { PublishNewTemplate } from "./PublishNewTemplate"
 import { RenderBlockConfig } from "./RenderBlockConfig"
 
@@ -38,6 +41,9 @@ export function CreateTemplateContent({
       console.log(variable)
     }
   )
+
+  const [connectedTemplates, setConnectedTemplates] =
+    useState<ConnectedTemplatesProps[]>()
 
   const handleOpenVariablePanel = () => {
     setIsVariablesPanelOpen(true)
@@ -96,6 +102,7 @@ export function CreateTemplateContent({
     return (
       <PublishNewTemplate
         blocks={blocks}
+        connectedTemplates={connectedTemplates}
         pageData={pageData}
         onClose={() => setIsOpenPublishTemplate(false)}
       />
@@ -140,6 +147,8 @@ export function CreateTemplateContent({
               isOpen={isVariablesPanelOpen}
               onClose={handleCloseVariablePanel}
               blocks={blocks}
+              connectedTemplates={connectedTemplates}
+              setConnectedTemplates={setConnectedTemplates}
             />
             <span className="w-full h-[4rem]"></span>
           </div>
