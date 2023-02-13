@@ -1,0 +1,190 @@
+<header>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+
+body{
+  font-family: 'Roboto', sans-serif;
+}
+
+header {
+  background-image: url('https://images.unsplash.com/photo-1537432376769-00f5c2f4c8d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=625&q=80');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+
+
+
+}
+
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+}
+
+.navbar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 50px;
+  background: #0c02085e;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+
+}
+
+.brand-name{
+  width: 20%;
+}
+.menu{
+  width: 80%;
+  text-align: right;
+}
+.menu li{
+  display: inline-block;
+  font-weight: bolder;
+   padding: 0 20px;
+}
+
+.nav-item a{
+  color: #fff;
+}
+.brand-name a{
+  color: #fff;
+}
+
+.clr,.active{
+  color:#ED553D !important; 
+}
+
+
+.header-content{
+  text-align: center;
+  padding: 145px 0;
+  align-items:center;
+  width: 100%;
+ background: #0c020894;
+ 
+}
+
+
+.header-main-content p{
+  color: #f2f2f2;
+}
+
+.header-main-content h1{
+   font-size: 75px;
+   color: #FFF;
+}
+
+a.header-btn{
+  display: block;
+  margin: auto;
+  margin-top: 40px;
+   height: 60px;
+   width: 220px;
+   font-size: 18px;
+   color: #fff;
+   padding: 0 12px;
+   background: #ED553D;
+   line-height: 60px;
+   border-radius: 30px;
+}
+
+
+        .container {
+          width: 360px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: fixed;
+          bottom: 54px;
+          right: 54px;
+          z-index: 10;
+        }
+        #toggle {
+          -webkit-appearance: none;
+        }
+        .button {
+          position: absolute;
+          z-index: 999;
+          width: 54px;
+          height: 54px;
+          background: rgb(15 23 42);
+          border-radius: 100%;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          top: 560px;
+          left: 330px;
+        }
+        .nav {
+          opacity: 0;
+          transition: all 0.4s ease-in-out;
+          background: #fff;
+          width: 100%;
+          height: 580px;
+          border-radius: 0px;
+          box-shadow: 2px 3px 10px 0 rgba(81, 81, 81, 0.1);
+          padding: 0px;
+          overflow: hidden;
+          border-radius: 20px;
+          transform: translateZ(0px);
+        }
+        #toggle:checked ~ .nav {
+          opacity: 1;
+          transform: translateY(0%);
+        }
+      </style>
+    <div class="container">
+        <input type="checkbox" id="toggle" checked/>
+        <label class="button" for="toggle">
+          <svg width="22" height="22" viewBox="0 0 150 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M61.7647 96.9821C81.2571 96.9821 97.0588 81.1928 97.0588 61.7159C97.0588 42.2389 81.2571 26.4497 61.7647 26.4497C42.2723 26.4497 26.4706 42.2389 26.4706 61.7159C26.4706 81.1928 42.2723 96.9821 61.7647 96.9821ZM61.7647 123.432C95.8764 123.432 123.529 95.8006 123.529 61.7159C123.529 27.6311 95.8764 0 61.7647 0C27.653 0 0 27.6311 0 61.7159C0 95.8006 27.653 123.432 61.7647 123.432Z" fill="white"/>
+            <path d="M150 110.207C150 117.511 144.074 123.432 136.765 123.432C129.455 123.432 123.529 117.511 123.529 110.207C123.529 102.903 129.455 96.9821 136.765 96.9821C144.074 96.9821 150 102.903 150 110.207Z" fill="white"/>
+          </svg>
+        </label>
+        <div class="nav">
+          <iframe src="https://frontend-quaq-three.vercel.app/pt" frameborder="0" border="0" cellspacing="0" style="border-style: none;width: 100%; height: 100%;"></iframe>
+        </div>
+      </div>
+      <!-- HTML NAVAR -->
+       <nav class="navbar">
+         <!-- logo brand name -->
+           <div class="brand-name">
+              <h2>
+                <a href="#">Creative <span class="clr">Babar</span> </a></h2>
+           </div>
+        <ul class="menu">
+          <li class="nav-item"><a href="#" class="navlink active">Home</a></li>
+          <li class="nav-item"><a href="#" class="navlink">About</a></li>
+          <li class="nav-item"><a href="#" class="navlink">Contact</a></li>
+          <li class="nav-item"><a href="#" class="navlink">Privacy</a></li>
+          <li class="nav-item"><a href="#" class="navlink">Singup</a></li>
+       </ul>
+  
+       </nav>
+       <!-- end nav -->
+  
+  
+       <!-- Header Content -->
+   <div class="header-content">
+      <div class="header-main-content">
+         <p>We Offer Free Course.</p>
+         <h1>Learn For Free 
+          <span class="clr">Complete</span>
+           Web Deveolpment
+        </h1>
+          <a href="#" class="header-btn">Learn More</a>
+      </div>
+   </div>
+  
+  
+  </header>
