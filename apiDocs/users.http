@@ -17,11 +17,11 @@ Content-Type: application/json
 
 # update one
 
-PUT https://bff.quaq.me/api/v1/users/63ea90f6d2cb853f3cb0f740
+PUT https://bff.quaq.me/api/v1/users/63ea980fa852c6a2dc94a608
 Content-Type: application/json
 
 {
-    "email": "filip2i@gmail.com",
+    "email": "filipsi@gmail.com",
     "password": "qweasmdidonn#1235*$FIIN",
     "type": "registered",
     "email_verified": true,

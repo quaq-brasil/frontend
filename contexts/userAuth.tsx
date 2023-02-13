@@ -26,12 +26,12 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     if (!user) {
       setUser({
-        id: "63ea90f6d2cb853f3cb0f740",
+        id: "63ea980fa852c6a2dc94a608",
         email: "filip2i@gmail.com",
         type: "registered",
         email_verified: true,
         name: "positivo demo",
-        workspace_id: "63ea91a8d2cb853f3cb0f741",
+        workspace_id: "63ea983fa852c6a2dc94a609",
         avatar_url: "https://source.unsplash.com/featured/",
       })
     }

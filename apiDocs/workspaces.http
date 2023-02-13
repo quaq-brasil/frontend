@@ -12,8 +12,8 @@ Content-Type: application/json
 {
   "name": "positivo demo",
   "avatar_url": "https://source.unsplash.com/featured/",
-  "user_id": "63ea90f6d2cb853f3cb0f740",
-  "slug": "positivodemo",
+  "user_id": "63ea980fa852c6a2dc94a608",
+  "slug": "demopositivo",
   "services": [
     {
       "name": "My Service",
