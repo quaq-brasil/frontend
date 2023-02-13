@@ -22,7 +22,7 @@ export function TextConfig({
   const text = useTranslation().t
 
   const [content, setContent] = useState("")
-  const [saveAs, setSaveAs] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string>("")
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 

@@ -5,6 +5,7 @@ import { EditorContent, useEditor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
+import { useEffect } from "react"
 
 type TextEditorProps = {
   content?: string
@@ -42,6 +43,11 @@ function TextEditor({
       },
     },
   })
+
+  useEffect(() => {
+    if ((content && editor) || (content === "" && editor))
+      editor?.chain()?.focus()?.setContent(content)?.run()
+  }, [content])
 
   return (
     <div className="flex relative min-w-[100%] justify-end content-center">
