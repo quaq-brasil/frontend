@@ -157,6 +157,22 @@ export function WebhookConfig({
     handleOpenVariablePanel()
   }
 
+  const handleOpenVariablePanelForHeaders = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({ header: `${content?.link}${variable}` })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForBody = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({ body: `${content?.link}${variable}` })
+      })
+    handleOpenVariablePanel()
+  }
+
   return (
     <>
       <Dialog
@@ -208,18 +224,20 @@ export function WebhookConfig({
           <Card>
             <CardText label={text("webhookconfig:header")} />
             <CodeEditor
-              initialCodedata={`"header": {}`}
+              code={content?.header || ``}
               language="json"
               onChange={handleUpdateHeader}
+              handleOpenVariablePanel={handleOpenVariablePanelForHeaders}
             />
           </Card>
 
           <Card>
             <CardText label={text("webhookconfig:body")} />
             <CodeEditor
-              initialCodedata={`"body": {}`}
+              code={content?.body || ``}
               language="json"
               onChange={handleUpdateBody}
+              handleOpenVariablePanel={handleOpenVariablePanelForBody}
             />
           </Card>
 
