@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, Check } from "phosphor-react"
 import { useEffect, useState } from "react"
+import { v4 } from "uuid"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
@@ -78,6 +79,7 @@ export function WebhookConfig({
 
   function onAddBlock() {
     handleAddBlock({
+      id: v4(),
       type: "webhook",
       save_as: saveAs,
       data: {

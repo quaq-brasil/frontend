@@ -68,6 +68,7 @@ export function Button({
   const onInteraction = () => {
     handleUpdateInteractions &&
       handleUpdateInteractions({
+        id: block.id as string,
         config: {
           id: block.id as string,
           save_as: block.save_as as string,

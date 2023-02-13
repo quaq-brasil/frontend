@@ -35,6 +35,7 @@ export function TemplateExecutionContent({
   function handleUpdateInteractions(interaction: any) {
     setInteractions((state) => {
       const ints = state.filter((int) => {
+        console.log("int", int)
         if (int?.config.id !== interaction.id) {
           return int
         }

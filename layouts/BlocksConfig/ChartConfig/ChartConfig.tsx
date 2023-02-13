@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, Check, X } from "phosphor-react"
 import { useEffect, useState } from "react"
+import { v4 } from "uuid"
 import { Button } from "../../../components/Button/Button"
 
 import { Card } from "../../../components/Card/Card"
@@ -143,6 +144,7 @@ export default function ChartConfig({
 
   function onAddBlock() {
     handleAddBlock({
+      id: v4(),
       type: "chart",
       save_as: saveAs,
       data: content,

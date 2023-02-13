@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
+import { v4 } from "uuid"
 import { Button } from "../../../components/Button/Button"
 
 import { Card } from "../../../components/Card/Card"
@@ -59,6 +60,7 @@ export function ReviewConfig({
 
   function onAddBlock() {
     handleAddBlock({
+      id: v4(),
       type: "review",
       save_as: saveAs,
       data: content,

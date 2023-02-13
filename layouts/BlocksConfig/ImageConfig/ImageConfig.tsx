@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
+import { v4 } from "uuid"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -60,6 +61,7 @@ export function ImageConfig({
 
   function onAddBlock() {
     handleAddBlock({
+      id: v4(),
       type: "image",
       save_as: saveAs,
       data: content,

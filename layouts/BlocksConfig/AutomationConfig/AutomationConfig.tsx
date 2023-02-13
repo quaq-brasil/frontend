@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, X } from "phosphor-react"
 import { useEffect, useState } from "react"
+import { v4 } from "uuid"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
@@ -167,6 +168,7 @@ export function AutomationConfig({
 
   function onAddBlock() {
     handleAddBlock({
+      id: v4(),
       type: "automation",
       save_as: saveAs,
       data: content,

@@ -23,6 +23,7 @@
     "@tiptap/extension-typography": "2.0.0-beta.209",
     "@tiptap/react": "2.0.0-beta.209",
     "@tiptap/starter-kit": "2.0.0-beta.209",
+    "@types/uuid": "^9.0.0",
     "@uiw/react-textarea-code-editor": "1.4.14",
     "axios": "^1.2.4",
     "chart.js": "^4.2.0",
@@ -58,6 +59,7 @@
     "react-query": "^3.39.2",
     "react-toastify": "^9.1.1",
     "react-vis": "^1.11.12",
+    "uuid": "^9.0.0",
     "zod": "^3.20.2"
   },
   "devDependencies": {
