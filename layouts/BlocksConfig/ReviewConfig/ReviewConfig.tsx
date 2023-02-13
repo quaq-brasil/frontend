@@ -106,7 +106,9 @@ export function ReviewConfig({
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
         handleUpdateContent({
-          description: `${content?.description}${variable}`,
+          description: content?.description
+            ? `${content?.description}${variable}`
+            : variable,
         })
       })
     handleOpenVariablePanel()
@@ -115,7 +117,7 @@ export function ReviewConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(`${saveAs}${variable}`)
+        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
       })
     handleOpenVariablePanel()
   }

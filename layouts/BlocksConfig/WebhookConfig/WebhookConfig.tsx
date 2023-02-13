@@ -125,7 +125,9 @@ export function WebhookConfig({
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
         handleUpdateContent({
-          description: `${content?.description}${variable}`,
+          description: content?.description
+            ? `${content?.description}${variable}`
+            : variable,
         })
       })
     handleOpenVariablePanel()
@@ -135,7 +137,9 @@ export function WebhookConfig({
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
         handleUpdateContent({
-          description: `${content?.description}${variable}`,
+          parameters: content?.parameters
+            ? `${content?.parameters}${variable}`
+            : variable,
         })
       })
     handleOpenVariablePanel()
@@ -144,7 +148,9 @@ export function WebhookConfig({
   const handleOpenVariablePanelForLink = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ link: `${content?.link}${variable}` })
+        handleUpdateContent({
+          link: content?.link ? `${content?.link}${variable}` : variable,
+        })
       })
     handleOpenVariablePanel()
   }
@@ -152,7 +158,7 @@ export function WebhookConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(`${saveAs}${variable}`)
+        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
       })
     handleOpenVariablePanel()
   }
