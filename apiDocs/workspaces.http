@@ -10,10 +10,10 @@ POST https://bff.quaq.me/api/v1/workspaces
 Content-Type: application/json
 
 {
-  "name": "felp's world",
-  "avatar_url": "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1222&q=80",
-  "user_id": "63d26f06ea1e68c873e97ab2",
-  "slug": "teste",
+  "name": "positivo demo",
+  "avatar_url": "https://source.unsplash.com/featured/",
+  "user_id": "63ea90f6d2cb853f3cb0f740",
+  "slug": "positivodemo",
   "services": [
     {
       "name": "My Service",

@@ -26,14 +26,13 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     if (!user) {
       setUser({
-        id: "63d26f06ea1e68c873e97ab2",
-        email: "filipi@gmail.com",
+        id: "63ea90f6d2cb853f3cb0f740",
+        email: "filip2i@gmail.com",
         type: "registered",
         email_verified: true,
-        name: "felps",
-        workspace_id: "63dd14cdc3a3b5901c1675ff",
-        avatar_url:
-          "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80",
+        name: "positivo demo",
+        workspace_id: "63ea91a8d2cb853f3cb0f741",
+        avatar_url: "https://source.unsplash.com/featured/",
       })
     }
   }, [user])
