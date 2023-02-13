@@ -12,6 +12,7 @@ import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IBlock } from "../../../types/Block.types"
 import { BlocksConfigProps } from "../../../types/BlockConfig.types"
+import { AutomationBlocksConfig } from "./AutomationBlocksConfig"
 
 export function AutomationConfig({
   handleAddBlock,
@@ -209,6 +210,8 @@ export function AutomationConfig({
     }
   }
 
+  const [changePage, setChangePage] = useState(false)
+
   return (
     <>
       <Dialog
@@ -333,7 +336,13 @@ export function AutomationConfig({
           />
 
           <Button
-            block={{ data: { text: "blocks", color: "bg-black" } }}
+            block={{
+              data: {
+                text: "blocks",
+                color: "bg-black",
+                onClick: () => setChangePage(true),
+              },
+            }}
             isEditable={false}
           />
 
@@ -379,6 +388,12 @@ export function AutomationConfig({
           <TabBar isHidden={true} tags={handleTabBar()} />
         </div>
       </Dialog>
+      {changePage && (
+        <AutomationBlocksConfig
+          isThisOpen={changePage}
+          onClose={() => setChangePage(false)}
+        />
+      )}
     </>
   )
 }
