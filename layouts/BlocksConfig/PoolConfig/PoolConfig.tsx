@@ -165,7 +165,7 @@ export function PoolConfig({
     id,
   }: HandleUpdateOptionsProps) => {
     setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
+      setFunctionHandleAddVariable(() => (variable: string) => {
         handleUpdateOptions({ option, id, value: variable })
       })
     handleOpenVariablePanel()
@@ -174,7 +174,9 @@ export function PoolConfig({
   const handleOpenVariablePanelForTitle = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ title: `${content.title}${variable}` })
+        handleUpdateContent({
+          title: content.title ? `${content.title}${variable}` : variable,
+        })
       })
     handleOpenVariablePanel()
   }
@@ -182,7 +184,9 @@ export function PoolConfig({
   const handleOpenVariablePanelForMax = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ max: `${content.max}${variable}` })
+        handleUpdateContent({
+          max: content.max ? `${content.max}${variable}` : variable,
+        })
       })
     handleOpenVariablePanel()
   }
@@ -190,7 +194,9 @@ export function PoolConfig({
   const handleOpenVariablePanelForMin = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ min: `${content.min}${variable}` })
+        handleUpdateContent({
+          min: content.min ? `${content.min}${variable}` : variable,
+        })
       })
     handleOpenVariablePanel()
   }
@@ -198,7 +204,7 @@ export function PoolConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(`${saveAs}${variable}`)
+        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
       })
     handleOpenVariablePanel()
   }

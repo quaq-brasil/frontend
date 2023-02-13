@@ -100,7 +100,7 @@ export function TextConfig({
   const handleOpenVariablePanelForText = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent(`${content}${variable}`)
+        handleUpdateContent(content ? `${content}${variable}` : variable)
       })
     handleOpenVariablePanel()
   }
@@ -108,7 +108,7 @@ export function TextConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(`${saveAs}${variable}`)
+        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
       })
     handleOpenVariablePanel()
   }

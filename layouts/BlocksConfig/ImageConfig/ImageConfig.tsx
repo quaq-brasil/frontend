@@ -106,7 +106,7 @@ export function ImageConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(`${saveAs}${variable}`)
+        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
       })
     handleOpenVariablePanel()
   }

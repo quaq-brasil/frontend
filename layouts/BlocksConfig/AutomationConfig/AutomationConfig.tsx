@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
-import { BracketsCurly, Check } from "phosphor-react"
-import { useState } from "react"
+import { BracketsCurly, X } from "phosphor-react"
+import { useEffect, useState } from "react"
+import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardSwitch } from "../../../components/Card/CardContentVariants/CardSwitch"
@@ -9,47 +10,188 @@ import { CardTextInput } from "../../../components/Card/CardContentVariants/Card
 import { Dialog } from "../../../components/Dialog/Dialog"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+import { IBlock } from "../../../types/Block.types"
 import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 
-type AutomationConfigProps = {
-  size?: "sm" | "md" | "full"
-} & BlocksConfigProps
-
-export function AutomationConfig(props: AutomationConfigProps) {
+export function AutomationConfig({
+  handleAddBlock,
+  handleOpenVariablePanel,
+  isOpen,
+  onClose,
+  setFunctionHandleAddVariable,
+}: BlocksConfigProps) {
   const text = useTranslation().t
 
-  const [type, setType] = useState<string>("")
-
-  function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("automationconfig:back")}
-        onClick={() => props.onClose()}
-      />,
-    ]
+  type IConditional = {
+    first_variable?: string
+    comparison?: string
+    second_variable?: string
   }
 
-  function handleChangeType(newType: string) {
-    setType(newType)
+  type IConditionals = {
+    conditionals: IConditional[]
+  }
+
+  type IAutomation = {
+    description?: string
+    visibility?: boolean
+    triggers?: IConditionals[]
+    blocks?: IBlock[]
+  }
+
+  const [content, setContent] = useState<IAutomation | null>({
+    triggers: [
+      {
+        conditionals: [
+          {
+            first_variable: "",
+            comparison: "",
+            second_variable: "",
+          },
+        ],
+      },
+    ],
+  })
+  const [saveAs, setSaveAs] = useState<string>()
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
+
+  function handleUpdateContent(newData: IAutomation) {
+    setContent((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IAutomation
+    })
+  }
+
+  function handleAddNewTrigger() {
+    const newTrigger: IConditional[] = [
+      {
+        first_variable: "",
+        comparison: "",
+        second_variable: "",
+      },
+    ]
+    if (content?.triggers) {
+      const currentTriggers = [...content.triggers]
+      currentTriggers[currentTriggers.length - 1].conditionals = newTrigger
+      handleUpdateContent({
+        triggers: [...currentTriggers],
+      })
+    } else {
+      const currentTriggers = [newTrigger]
+      handleUpdateContent({
+        triggers: [{ conditionals: newTrigger }],
+      })
+    }
+    console.log(content?.triggers)
+  }
+
+  function handleUpdateConditional(
+    index1: number,
+    index2: number,
+    newConditional: IConditional
+  ) {
+    if (content?.triggers) {
+      const triggers = [...content.triggers]
+      triggers[index1].conditionals[index2] = {
+        comparison:
+          newConditional.comparison ||
+          triggers[index1].conditionals[index2].comparison,
+        first_variable:
+          newConditional.first_variable ||
+          triggers[index1].conditionals[index2].first_variable,
+        second_variable:
+          newConditional.second_variable ||
+          triggers[index1].conditionals[index2].second_variable,
+      }
+      handleUpdateContent({ triggers: triggers })
+      console.log(triggers)
+    }
+  }
+
+  function handleUpdateSaveAs(value: string) {
+    setSaveAs(value)
+    handleUpdateIsUpdating(true)
+  }
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
+
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
+  }
+
+  function handleClosing() {
+    setContent(null)
+    setSaveAs(undefined)
+    handleUpdateRunUpdate(false)
+    handleUpdateIsUpdating(false)
+    onClose()
+  }
+
+  function onAddBlock() {
+    handleAddBlock({
+      type: "automation",
+      save_as: saveAs,
+      data: content,
+    })
+    handleClosing()
+  }
+
+  useEffect(() => {
+    if (content && saveAs) {
+      onAddBlock()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
+  function handleTabBar() {
+    if (isUpdating) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("automationconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+        <div key={2} className="w-fit h-fit xl:hidden">
+          <Tag
+            variant="txt"
+            text={text("automationconfig:add")}
+            onClick={() => handleUpdateRunUpdate(true)}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("automationconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+      ]
+    }
   }
 
   return (
     <>
       <Dialog
-        height={props.size}
-        isOpen={props.isOpen}
+        isOpen={isOpen}
         title={text("automationconfig:toptitle")}
-        onClose={() => console.log("closed")}
+        onClose={() => {}}
       >
-        <div className="flex flex-col items-center gap-3 lg:gap-6">
+        <div className="flex flex-col items-center gap-3">
           <Card>
             <CardText label={text("automationconfig:description")} />
             <CardTextInput
               input={{
                 label: text("automationconfig:descriptionlabel"),
-                onChange: (e) => console.log(e),
+                onChange: (description) =>
+                  handleUpdateContent({ description: description }),
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -57,84 +199,109 @@ export function AutomationConfig(props: AutomationConfigProps) {
               }}
             />
           </Card>
-
           <Card>
             <CardSwitch
-              onChange={() => console.log()}
+              onChange={(stat) => handleUpdateContent({ visibility: stat })}
               text={text("automationconfig:visibility")}
             />
           </Card>
 
-          <Card>
-            <CardText label={text("automationconfig:executeafter")} />
-            <CardTextInput
-              input={{
-                label: text("automationconfig:numberof"),
-                onChange: (e) => console.log(e),
-              }}
-              indicator={{
-                icon: BracketsCurly,
-                onClick: () => console.log("click"),
-              }}
-            />
-            <CardText
-              label={text("automationconfig:weeks")}
-              indicator={{
-                icon: Check,
-                // onClick: () => handleChangeType("weeks"),
-                isVisible: type === "weeks" ? false : true,
-              }}
-            />
-            <CardLine />
-            <CardText
-              label={text("automationconfig:days")}
-              indicator={{
-                icon: Check,
-                // onClick: () => handleChangeType("days"),
-                isVisible: type == "days" ? false : true,
-              }}
-            />
-            <CardLine />
-            <CardText
-              label={text("automationconfig:hours")}
-              indicator={{
-                icon: Check,
-                // onClick: () => handleChangeType("hours"),
-                isVisible: type === "hours" ? false : true,
-              }}
-            />
-            <CardLine />
-            <CardText
-              label={text("automationconfig:minutes")}
-              indicator={{
-                icon: Check,
-                // onClick: () => handleChangeType("minutes"),
-                isVisible: type === "minutes" ? false : true,
-              }}
-            />
-            <CardLine />
-          </Card>
-
-          <Card>
-            <CardText label={text("automationconfig:executions")} />
-            <CardTextInput
-              input={{
-                label: text("automationconfig:executionslabel"),
-                onChange: (e) => console.log(e),
-              }}
-              indicator={{
-                icon: BracketsCurly,
-                onClick: () => console.log("click"),
-              }}
-            />
-          </Card>
+          {content?.triggers &&
+            content.triggers.map((trigger, index1) => {
+              return (
+                <>
+                  {trigger.conditionals &&
+                    trigger.conditionals.map((conditional, index2) => {
+                      return (
+                        <>
+                          <Card key={index2}>
+                            <CardText
+                              label={`${text("automationconfig:trigger")} ${
+                                index1 + 1
+                              }/${index2 + 1}`}
+                              indicator={{ icon: X }}
+                            />
+                            <CardLine />
+                            <CardText
+                              label={text("automationconfig:firstvariable")}
+                            />
+                            <CardTextInput
+                              input={{
+                                label: text("automationconfig:triggerlabel"),
+                                onChange: (text) => {
+                                  handleUpdateConditional(index1, index2, {
+                                    first_variable: text,
+                                  })
+                                },
+                              }}
+                            />
+                            <CardText
+                              label={text("automationconfig:comparison")}
+                            />
+                            <CardTextInput
+                              dropdown={{
+                                onChange: (option) => {
+                                  handleUpdateConditional(index1, index2, {
+                                    comparison: option,
+                                  })
+                                },
+                                options: [
+                                  {
+                                    title: text("automationconfig:equalto"),
+                                    value: "equal to",
+                                  },
+                                  {
+                                    title: text("automationconfig:notequalto"),
+                                    value: "not equal to",
+                                  },
+                                  {
+                                    title: text("automationconfig:dontcontain"),
+                                    value: "don't contain",
+                                  },
+                                  {
+                                    title: text("automationconfig:contain"),
+                                    value: "contain",
+                                  },
+                                ],
+                              }}
+                            />
+                            <CardText
+                              label={text("automationconfig:secondvariables")}
+                            />
+                            <CardTextInput
+                              input={{
+                                label: text("automationconfig:triggerlabel"),
+                                onChange: (text) => {
+                                  handleUpdateConditional(index1, index2, {
+                                    second_variable: text,
+                                  })
+                                },
+                              }}
+                            />
+                          </Card>
+                        </>
+                      )
+                    })}
+                  <Tag
+                    variant="txt"
+                    text={text("automationconfig:addtrigger")}
+                    onClick={() => handleAddNewTrigger()}
+                  />
+                </>
+              )
+            })}
+          <Tag
+            variant="txt"
+            text={text("automationconfig:newtrigger")}
+            onClick={() => handleAddNewTrigger()}
+          />
 
           <Card>
             <CardText label={text("automationconfig:saveas")} />
             <CardTextInput
               input={{
                 label: text("automationconfig:saveaslabel"),
-                onChange: (e) => console.log(e),
+                onChange: (text) => handleUpdateSaveAs(text),
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -142,21 +309,33 @@ export function AutomationConfig(props: AutomationConfigProps) {
               }}
             />
           </Card>
-
-          {props.size === "sm" && (
-            <button
-              className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white 
-            rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px]"
-            >
-              <p className="w-full p-3 lg:text-[1.1rem] lg:p-[1.125rem]">
-                {text("automationconfig:savebutton")}
-              </p>
-            </button>
+          <div className="w-full h-fit hidden xl:block">
+            <Button
+              block={{
+                data: {
+                  color: "bg-white",
+                  text: text("automationconfig:cancel"),
+                  onClick: () => handleClosing(),
+                },
+              }}
+              isEditable={false}
+            />
+          </div>
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                block={{
+                  data: {
+                    color: "bg-white",
+                    text: text("automationconfig:addblock"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
+              />
+            </div>
           )}
-          <TabBar
-            isHidden={props.size === "sm" ? true : false}
-            tags={handleTabBar()}
-          />
+          <TabBar isHidden={true} tags={handleTabBar()} />
         </div>
       </Dialog>
     </>

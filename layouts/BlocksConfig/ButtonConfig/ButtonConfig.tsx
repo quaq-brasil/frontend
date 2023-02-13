@@ -109,7 +109,9 @@ export function ButtonConfig({
   const handleOpenVariablePanelForText = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ text: `${content?.text}${variable}` })
+        handleUpdateContent({
+          text: content?.text ? `${content?.text}${variable}` : variable,
+        })
       })
     handleOpenVariablePanel()
   }
@@ -117,7 +119,7 @@ export function ButtonConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(`${saveAs}${variable}`)
+        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
       })
     handleOpenVariablePanel()
   }

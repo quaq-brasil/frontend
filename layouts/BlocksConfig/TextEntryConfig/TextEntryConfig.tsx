@@ -111,7 +111,9 @@ export function TextEntryConfig({
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
         handleUpdateContent({
-          placeholder: `${content.placeholder}${variable}`,
+          placeholder: content.placeholder
+            ? `${content.placeholder}${variable}`
+            : variable,
         })
       })
     handleOpenVariablePanel()
@@ -120,7 +122,7 @@ export function TextEntryConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(`${saveAs}${variable}`)
+        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
       })
     handleOpenVariablePanel()
   }
