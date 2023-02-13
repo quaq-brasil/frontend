@@ -12,6 +12,7 @@ import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IBlock } from "../../../types/Block.types"
 import { BlocksConfigProps } from "../../../types/BlockConfig.types"
+import { AutomationBlocksConfig } from "./AutomationBlocksConfig"
 
 export function AutomationConfig({
   handleAddBlock,
@@ -29,7 +30,7 @@ export function AutomationConfig({
   }
 
   type IConditionals = {
-    conditionals: IConditional[]
+    conditionals?: IConditional[]
   }
 
   type IAutomation = {
@@ -66,26 +67,39 @@ export function AutomationConfig({
   }
 
   function handleAddNewTrigger() {
-    const newTrigger: IConditional[] = [
+    const newTrigger = [
       {
-        first_variable: "",
-        comparison: "",
-        second_variable: "",
+        conditionals: [
+          {
+            first_variable: "",
+            comparison: "",
+            second_variable: "",
+          },
+        ],
       },
     ]
     if (content?.triggers) {
-      const currentTriggers = [...content.triggers]
-      currentTriggers[currentTriggers.length - 1].conditionals = newTrigger
+      const currentTriggers = [...content.triggers, newTrigger[0]]
       handleUpdateContent({
         triggers: [...currentTriggers],
       })
     } else {
-      const currentTriggers = [newTrigger]
       handleUpdateContent({
-        triggers: [{ conditionals: newTrigger }],
+        triggers: newTrigger,
       })
     }
-    console.log(content?.triggers)
+  }
+
+  function handleAddNewConditional(index1: number) {
+    if (content?.triggers) {
+      const newTriggers = [...content.triggers]
+      // @ts-ignore
+      newTriggers[index1].conditionals.push({
+        first_variable: "",
+        comparison: "",
+        second_variable: "",
+      })
+    }
   }
 
   function handleUpdateConditional(
@@ -95,19 +109,38 @@ export function AutomationConfig({
   ) {
     if (content?.triggers) {
       const triggers = [...content.triggers]
+      //@ts-ignore
       triggers[index1].conditionals[index2] = {
         comparison:
           newConditional.comparison ||
+          //@ts-ignore
           triggers[index1].conditionals[index2].comparison,
         first_variable:
           newConditional.first_variable ||
+          //@ts-ignore
           triggers[index1].conditionals[index2].first_variable,
         second_variable:
           newConditional.second_variable ||
+          //@ts-ignore
           triggers[index1].conditionals[index2].second_variable,
       }
       handleUpdateContent({ triggers: triggers })
       console.log(triggers)
+    }
+  }
+
+  function handleRemoveConditional(index1: number, index2: number) {
+    if (content?.triggers) {
+      const newTriggers = content.triggers.map((trigger, index) => {
+        if (index !== index1 && trigger.conditionals) {
+          return trigger.conditionals.map((conditional, index) => {
+            if (index !== index2) {
+              return conditional
+            }
+          })
+        }
+      })
+      setContent({ triggers: newTriggers as IConditionals[] })
     }
   }
 
@@ -177,6 +210,8 @@ export function AutomationConfig({
     }
   }
 
+  const [changePage, setChangePage] = useState(false)
+
   return (
     <>
       <Dialog
@@ -218,8 +253,12 @@ export function AutomationConfig({
                             <CardText
                               label={`${text("automationconfig:trigger")} ${
                                 index1 + 1
-                              }/${index2 + 1}`}
-                              indicator={{ icon: X }}
+                              }|${index2 + 1}`}
+                              indicator={{
+                                icon: X,
+                                onClick: () =>
+                                  handleRemoveConditional(index1, index2),
+                              }}
                             />
                             <CardLine />
                             <CardText
@@ -285,7 +324,7 @@ export function AutomationConfig({
                   <Tag
                     variant="txt"
                     text={text("automationconfig:addtrigger")}
-                    onClick={() => handleAddNewTrigger()}
+                    onClick={() => handleAddNewConditional(index1)}
                   />
                 </>
               )
@@ -294,6 +333,17 @@ export function AutomationConfig({
             variant="txt"
             text={text("automationconfig:newtrigger")}
             onClick={() => handleAddNewTrigger()}
+          />
+
+          <Button
+            block={{
+              data: {
+                text: "blocks",
+                color: "bg-black",
+                onClick: () => setChangePage(true),
+              },
+            }}
+            isEditable={false}
           />
 
           <Card>
@@ -338,6 +388,12 @@ export function AutomationConfig({
           <TabBar isHidden={true} tags={handleTabBar()} />
         </div>
       </Dialog>
+      {changePage && (
+        <AutomationBlocksConfig
+          isThisOpen={changePage}
+          onClose={() => setChangePage(false)}
+        />
+      )}
     </>
   )
 }
