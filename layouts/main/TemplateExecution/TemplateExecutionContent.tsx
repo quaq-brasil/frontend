@@ -13,10 +13,12 @@ import { pageUrls } from "../../../utils/pagesUrl"
 
 type TemplateExecutionContentProps = {
   initialData: getTemplateByUrlAndPageUrlProps | undefined
+  setTemplateData: (data: any) => void
 }
 
 export function TemplateExecutionContent({
   initialData,
+  setTemplateData,
 }: TemplateExecutionContentProps) {
   const text = useTranslation().t
   const { isCookiesAccepted } = useTerms()
@@ -35,7 +37,6 @@ export function TemplateExecutionContent({
   function handleUpdateInteractions(interaction: any) {
     setInteractions((state) => {
       const ints = state.filter((int) => {
-        console.log("int", int)
         if (int?.config.id !== interaction.id) {
           return int
         }
@@ -48,18 +49,25 @@ export function TemplateExecutionContent({
   useEffect(() => {
     if (user?.id && interactions.length > 0) {
       if (interactionId) {
-        updateInteraction.mutate({
-          id: interactionId,
-          data: {
-            blocks: Object.keys(blocks).map((key) => blocks[key]),
-            data: interactions,
-            events: [],
-            template_id: initialData?.id as string,
-            publication_id: initialData?.publication.id as string,
-            page_id: initialData?.Page.id as string,
-            user_id: user.id,
+        updateInteraction.mutate(
+          {
+            id: interactionId,
+            data: {
+              blocks: Object.keys(blocks).map((key) => blocks[key]),
+              data: interactions,
+              events: [],
+              template_id: initialData?.id as string,
+              publication_id: initialData?.publication.id as string,
+              page_id: initialData?.Page.id as string,
+              user_id: user.id,
+            },
           },
-        })
+          {
+            onSuccess: (data) => {
+              setTemplateData(data)
+            },
+          }
+        )
       } else {
         createInteraction.mutate(
           {
@@ -73,7 +81,8 @@ export function TemplateExecutionContent({
           },
           {
             onSuccess: (data) => {
-              setInteractionId(data?.id || null)
+              setInteractionId(data?.interaction_id || null)
+              setTemplateData(data)
             },
           }
         )
