@@ -39,20 +39,12 @@ export default function CreateWorkspace({
   }
 
   function handleUpdateWorkspaceData(newData: IUpdateWorkspace) {
-    switch (newData) {
-      case newData.name:
-        setWorkspaceData({
-          name: newData.name,
-        })
-        break
-      case newData.avatar_url:
-        setWorkspaceData({
-          avatar_url: newData.avatar_url,
-        })
-        break
-      default:
-        break
-    }
+    setWorkspaceData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IUpdateWorkspace
+    })
     handleUpdateIsUpdating(true)
   }
 
@@ -129,8 +121,6 @@ export default function CreateWorkspace({
       {loadHeader()}
       <CreateWorkspaceContent
         isUpdating={isUpdating}
-        workspaceData={workspaceData}
-        handleCreateWorkspace={handleCreateWorkspace}
         handleUpdateWorkspaceData={handleUpdateWorkspaceData}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
       />
