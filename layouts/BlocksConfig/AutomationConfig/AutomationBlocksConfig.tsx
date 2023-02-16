@@ -7,7 +7,10 @@ import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { BlockProps } from "../../../types/Block.types"
 import { RenderBlockConfig } from "../../main/CreateTemplate/RenderBlockConfig"
-import { VariablesPanelDialog } from "../VariablesPanel/VariablesPanelDialog"
+import {
+  ConnectedTemplatesProps,
+  VariablesPanelDialog,
+} from "../VariablesPanel/VariablesPanelDialog"
 
 type AutomationBlocksConfigProps = {
   isThisOpen: boolean
@@ -29,6 +32,8 @@ export function AutomationBlocksConfig({
       console.log(variable)
     }
   )
+  const [connectedTemplates, setConnectedTemplates] =
+    useState<ConnectedTemplatesProps[]>()
 
   const handleOpenVariablePanel = () => {
     setIsVariablesPanelOpen(true)
@@ -113,6 +118,8 @@ export function AutomationBlocksConfig({
             isOpen={isVariablesPanelOpen}
             onClose={handleCloseVariablePanel}
             blocks={blocks}
+            connectedTemplates={connectedTemplates}
+            setConnectedTemplates={setConnectedTemplates}
           />
           <span className="w-full h-[4rem]"></span>
         </div>

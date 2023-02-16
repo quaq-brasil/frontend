@@ -29,7 +29,10 @@ export default function TemplateExecution({
   }, [initialData?.Page])
 
   useEffect(() => {
-    setTemplateData(initialData)
+    if (!templateData && initialData) {
+      setTemplateData(initialData)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData])
 
   const router = useRouter()
@@ -72,7 +75,10 @@ export default function TemplateExecution({
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <TemplateExecutionContent initialData={initialData} />
+      <TemplateExecutionContent
+        initialData={initialData}
+        setTemplateData={setTemplateData}
+      />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   )

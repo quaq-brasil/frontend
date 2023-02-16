@@ -9,7 +9,7 @@ export const useCreateInteraction = () => {
       data
     )
 
-    return response.data as IInteraction
+    return response.data as any
   }
 
   return useMutation({

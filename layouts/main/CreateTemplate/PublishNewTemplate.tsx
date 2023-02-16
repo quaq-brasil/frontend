@@ -21,10 +21,12 @@ import { useGenerateTemplateUniqueUrl } from "../../../services/hooks/useTemplat
 import { IPage } from "../../../types/Page.type"
 import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
 import { pageUrls } from "../../../utils/pagesUrl"
+import { ConnectedTemplatesProps } from "../../BlocksConfig/VariablesPanel/VariablesPanelDialog"
 
 type PublishNewTemplateProps = {
   blocks: any[]
   onClose: () => void
+  connectedTemplates?: ConnectedTemplatesProps[]
   pageData: IPage | undefined
 }
 
@@ -38,6 +40,7 @@ export const PublishNewTemplate = ({
   blocks,
   onClose,
   pageData,
+  connectedTemplates,
 }: PublishNewTemplateProps) => {
   const text = useTranslation().t
 
@@ -97,6 +100,12 @@ export const PublishNewTemplate = ({
         {
           data: {
             blocks: blocks,
+            dependencies: {
+              connected_templates:
+                (connectedTemplates?.map((template) => {
+                  return template.templateId
+                }) as string[]) || [],
+            },
             page_id: pageData?.id as string,
             title: publicationTitle,
             published_at: new Date().toISOString(),

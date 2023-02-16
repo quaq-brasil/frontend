@@ -16,7 +16,7 @@ const mockData = {
     {
       id: "1",
       type: "textentry",
-      saveAs: "blocoteste",
+      save_as: "blocoteste",
       data: {
         type: "email",
       },

@@ -11,7 +11,10 @@ import { BlockProps } from "../../../types/Block.types"
 import { IPage } from "../../../types/Page.type"
 import { getTemplateByUrlAndPageUrlProps } from "../../../types/Template.type"
 import { pageUrls } from "../../../utils/pagesUrl"
-import { VariablesPanelDialog } from "../../BlocksConfig/VariablesPanel/VariablesPanelDialog"
+import {
+  ConnectedTemplatesProps,
+  VariablesPanelDialog,
+} from "../../BlocksConfig/VariablesPanel/VariablesPanelDialog"
 import { RenderBlockConfig } from "../CreateTemplate/RenderBlockConfig"
 import { PublishPublication } from "./PublishPublication"
 
@@ -38,6 +41,8 @@ export const EditPublicationContent = ({
       console.log(variable)
     }
   )
+  const [connectedTemplates, setConnectedTemplates] =
+    useState<ConnectedTemplatesProps[]>()
 
   useEffect(() => {
     if (templateData?.publication.blocks) {
@@ -155,6 +160,8 @@ export const EditPublicationContent = ({
               isOpen={isVariablesPanelOpen}
               onClose={handleCloseVariablePanel}
               blocks={blocks}
+              connectedTemplates={connectedTemplates}
+              setConnectedTemplates={setConnectedTemplates}
             />
             <span className="w-full h-[4rem]"></span>
           </div>

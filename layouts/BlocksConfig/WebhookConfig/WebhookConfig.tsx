@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, Check } from "phosphor-react"
 import { useEffect, useState } from "react"
+import { v4 } from "uuid"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
@@ -78,9 +79,14 @@ export function WebhookConfig({
 
   function onAddBlock() {
     handleAddBlock({
+      id: v4(),
       type: "webhook",
       save_as: saveAs,
-      data: content,
+      data: {
+        ...content,
+        body: `{${content?.body}}`,
+        header: `{${content?.header}}`,
+      },
     })
     handleClosing()
   }
@@ -163,6 +169,22 @@ export function WebhookConfig({
     handleOpenVariablePanel()
   }
 
+  const handleOpenVariablePanelForHeaders = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({ header: `${content?.link}${variable}` })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForBody = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({ body: `${content?.link}${variable}` })
+      })
+    handleOpenVariablePanel()
+  }
+
   return (
     <>
       <Dialog
@@ -214,18 +236,20 @@ export function WebhookConfig({
           <Card>
             <CardText label={text("webhookconfig:header")} />
             <CodeEditor
-              initialCodedata={`"header": {}`}
+              code={content?.header || ``}
               language="json"
               onChange={handleUpdateHeader}
+              handleOpenVariablePanel={handleOpenVariablePanelForHeaders}
             />
           </Card>
 
           <Card>
             <CardText label={text("webhookconfig:body")} />
             <CodeEditor
-              initialCodedata={`"body": {}`}
+              code={content?.body || ``}
               language="json"
               onChange={handleUpdateBody}
+              handleOpenVariablePanel={handleOpenVariablePanelForBody}
             />
           </Card>
 

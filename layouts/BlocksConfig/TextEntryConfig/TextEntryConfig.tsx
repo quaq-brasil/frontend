@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
+import { v4 } from "uuid"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
@@ -64,6 +65,7 @@ export function TextEntryConfig({
 
   function onAddBlock() {
     handleAddBlock({
+      id: v4(),
       type: "textentry",
       save_as: saveAs,
       data: content,

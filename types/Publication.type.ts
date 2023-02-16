@@ -5,6 +5,7 @@ export type IPublication = {
   template_id?: string
   page_id: string
   published_at?: string
+  dependencies?: any
 }
 
 export type IUpdatePublication = {
@@ -14,4 +15,5 @@ export type IUpdatePublication = {
   template_id?: string
   page_id?: string
   published_at?: string
+  dependencies?: any
 }

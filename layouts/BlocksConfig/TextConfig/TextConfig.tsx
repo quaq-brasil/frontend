@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
+import { v4 } from "uuid"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
@@ -22,7 +23,7 @@ export function TextConfig({
   const text = useTranslation().t
 
   const [content, setContent] = useState("")
-  const [saveAs, setSaveAs] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string>("")
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -54,6 +55,7 @@ export function TextConfig({
 
   function onAddBlock() {
     handleAddBlock({
+      id: v4(),
       type: "text",
       data: content,
       save_as: saveAs,

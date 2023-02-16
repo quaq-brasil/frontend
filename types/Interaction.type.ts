@@ -14,10 +14,11 @@ export type IInteraction = {
 }
 
 export type IInteractionData = {
+  id: string
   config: {
     id: string
     type: string
-    saveAs: string
+    save_as: string
     data: any
   }
   output: {

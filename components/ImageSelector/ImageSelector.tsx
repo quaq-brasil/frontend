@@ -55,7 +55,7 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
         const jpegImage = await convertHeicToJpeg(file)
 
         if (typeof jpegImage !== "string") {
-          imageUrl = URL.createObjectURL(jpegImage as any)
+          imageUrl = "https://source.unsplash.com/featured/"
         } else {
           setError(jpegImage)
         }

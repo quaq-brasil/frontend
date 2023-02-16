@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, X } from "phosphor-react"
 import { useEffect, useState } from "react"
+import { v4 } from "uuid"
 
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
@@ -72,6 +73,7 @@ export function PoolConfig({
 
   function onAddBlock() {
     handleAddBlock({
+      id: v4(),
       type: "pool",
       save_as: saveAs,
       data: content,

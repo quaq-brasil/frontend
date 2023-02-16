@@ -1,6 +1,6 @@
 # find one
 
-GET http://localhost:5000/api/v1/interactions/1
+GET http://bff.quaq.me/api/v1/interactions/63ea3d2fd8d22196c5a0a1a5
 
 ###
 
