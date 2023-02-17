@@ -20,7 +20,6 @@ export function CreatorPageContent({
       setSelectedId(-1)
     } else {
       setSelectedId(id)
-      console.log(id)
     }
   }
 
@@ -31,7 +30,7 @@ export function CreatorPageContent({
       const data = templatesData.map((template, index) => {
         return (
           <Shortcut
-            key={index}
+            key={template.id}
             id={template.id || ""}
             img_url={template.shortcut_image}
             index={index}
@@ -61,7 +60,7 @@ export function CreatorPageContent({
         rounded-t-[25px] overflow-y-scroll scrollbar-hide pt-2 px-2 bg-slate-100
         lg:rounded-none lg:top-[156px]"
       >
-        <ShortcutGrid onDrag={(e) => console.log(e)}>{shortcuts}</ShortcutGrid>
+        <ShortcutGrid onDrag={(e) => {}}>{shortcuts}</ShortcutGrid>
       </div>
     </div>
   )
