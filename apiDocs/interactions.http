@@ -57,14 +57,70 @@ GET http://localhost:5000/api/v1/interactions/publication/63b75045a43fc9f320321e
 
 ###
 
-PUT http://localhost:5000/api/v1/interactions/63b758b9aca8210f48db934b
+PUT http://localhost:5000/api/v1/interactions/63eeb984f5c834d3a9154bba
 Content-Type: application/json
 
 {
-    "blocks": [
-        {
-            "type": "text2",
-            "text": "Hello world2"
+    
+  "blocks": [
+    {
+      "id": "a285673e-5e39-4c67-b1e5-33fac390eb94",
+      "type": "textentry",
+      "save_as": "test2",
+      "data": {
+        "type": "number",
+        "placeholder": "test"
+      }
+    },
+    {
+      "id": "5c7009cb-1686-495d-b78f-bcf628e6263a",
+      "type": "text",
+      "data": "<p>string</p>",
+      "save_as": ""
+    }
+  ],
+  "data": [
+    {
+      "id": "5c7009cb-1686-495d-b78f-bcf628e6263a",
+      "config": {
+        "id": "5c7009cb-1686-495d-b78f-bcf628e6263a",
+        "save_as": "",
+        "type": "text",
+        "data": "<p>string</p>"
+      },
+      "output": {
+        "events": {
+          "displayedAt": "Thu Feb 16 2023 20:17:21 GMT-0300 (Horário Padrão de Brasília)"
         }
-    ]
+      }
+    },
+    {
+      "id": "a285673e-5e39-4c67-b1e5-33fac390eb94",
+      "config": {
+        "id": "a285673e-5e39-4c67-b1e5-33fac390eb94",
+        "save_as": "test2",
+        "type": "textentry",
+        "data": {
+          "placeholder": "test",
+          "type": "number"
+        }
+      },
+      "output": {
+        "events": {
+          "displayedAt": "Thu Feb 16 2023 20:17:21 GMT-0300 (Horário Padrão de Brasília)",
+          "firstInteractionAt": "Thu Feb 16 2023 20:17:30 GMT-0300 (Horário Padrão de Brasília)",
+          "lastInteractionAt": "Thu Feb 16 2023 20:17:32 GMT-0300 (Horário Padrão de Brasília)"
+        },
+        "data": {
+          "value": "2322"
+        }
+      }
+    }
+  ],
+  "events": [],
+  "template_id": "63ee9aa429576d089a4a2c95",
+  "publication_id": "63ee9aa429576d089a4a2c94",
+  "page_id": "63ea9944a852c6a2dc94a60a",
+  "user_id": "63ea980fa852c6a2dc94a608"
+
 }

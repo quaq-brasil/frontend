@@ -24,7 +24,14 @@ export function TemplateExecutionContent({
   const { isCookiesAccepted } = useTerms()
   const router = useRouter()
 
-  const blocks: any = initialData?.publication?.blocks || {}
+  const [blocks, setBlocks] = useState<any>(
+    initialData?.publication?.blocks || {}
+  )
+
+  useEffect(() => {
+    console.log("blocks", blocks)
+    setBlocks(initialData?.publication?.blocks)
+  }, [initialData?.publication?.blocks])
 
   const [interactions, setInteractions] = useState<IInteractionData[]>([])
   const [interactionId, setInteractionId] = useState<string | null>(null)

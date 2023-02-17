@@ -5,10 +5,7 @@ import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage } from "../../../types/Page.type"
-import {
-  getTemplateByUrlAndPageUrlProps,
-  ITemplate,
-} from "../../../types/Template.type"
+import { getTemplateByUrlAndPageUrlProps } from "../../../types/Template.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 import { TemplateExecutionContent } from "./TemplateExecutionContent"
 
@@ -22,7 +19,8 @@ export default function TemplateExecution({
   const text = useTranslation().t
 
   const [pageData, setPageData] = useState<IPage>()
-  const [templateData, setTemplateData] = useState<ITemplate>()
+  const [templateData, setTemplateData] =
+    useState<getTemplateByUrlAndPageUrlProps>()
 
   useEffect(() => {
     setPageData(initialData?.Page)
@@ -76,7 +74,7 @@ export default function TemplateExecution({
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
       <TemplateExecutionContent
-        initialData={initialData}
+        initialData={templateData}
         setTemplateData={setTemplateData}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
