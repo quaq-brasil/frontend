@@ -30,7 +30,7 @@ export function CreatorPageContent({
       const data = templatesData.map((template, index) => {
         return (
           <Shortcut
-            key={index}
+            key={template.id}
             id={template.id || ""}
             img_url={template.shortcut_image}
             index={index}
