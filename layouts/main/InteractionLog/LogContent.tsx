@@ -195,7 +195,7 @@ export default function LogContent({ initialLogData }: LogContentProps) {
       <Tag
         key={1}
         variant="txt"
-        text={text("logcontent:back")}
+        text={text("centraloptions:back")}
         onClick={() =>
           router.push(
             pageUrls.templateCentral({
