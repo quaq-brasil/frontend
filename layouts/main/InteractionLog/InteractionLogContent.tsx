@@ -1,7 +1,47 @@
-import useTranslation from "next-translate/useTranslation";
+import moment from "moment"
+import { useRouter } from "next/router"
+import { ArrowRight } from "phosphor-react"
+import { useEffect, useState } from "react"
+import { Card } from "../../../components/Card/Card"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardLog } from "../../../components/Card/CardContentVariants/CardLog"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { useMutateTemplate } from "../../../services/hooks/useTemplate/useMutateTemplate"
+import { IUpdatePage } from "../../../types/Page.type"
+import { ITemplateLogs, IUpdateTemplate } from "../../../types/Template.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 
-export function InteractionLogContent() {
-  const text = useTranslation().t;
+type InteractionLogContentProps = {
+  templateData: IUpdateTemplate | undefined
+  pageData: IUpdatePage | undefined
+}
+
+export function InteractionLogContent({
+  templateData,
+  pageData,
+}: InteractionLogContentProps) {
+  const [options, setOptions] = useState<ITemplateLogs>()
+
+  const router = useRouter()
+
+  const getLogs = useMutateTemplate()
+
+  useEffect(() => {
+    if (templateData?.id) {
+      getLogs.mutate(
+        {
+          id: templateData.id,
+        },
+        {
+          onSuccess: (data) => {
+            setOptions(data)
+          },
+        }
+      )
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templateData])
+
   return (
     <div className="w-full h-screen bg-slate-100">
       <div
@@ -10,9 +50,52 @@ export function InteractionLogContent() {
       md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:p-[2rem]"
       >
         <div className="flex flex-col gap-2 md:gap-4 items-center">
+          <Card>
+            {options?.Publications ? (
+              options.Publications.map((publication) => {
+                return (
+                  <>
+                    <CardText
+                      key={publication.id}
+                      label={publication.title}
+                      indicator={{
+                        text: publication.Interaction?.length.toString(),
+                      }}
+                    />
+                    {publication.Interaction &&
+                      publication.Interaction.map((interaction) => {
+                        return (
+                          <>
+                            <CardLog
+                              key={interaction.id}
+                              name={interaction.User.name}
+                              date={moment(interaction.updated_at).fromNow()}
+                              img_url={interaction.User.avatar_url}
+                              icon={ArrowRight}
+                              onClick={() => {
+                                router.push(
+                                  pageUrls.templateCentral({
+                                    pageSlug: pageData?.url as string,
+                                    templateSlug: templateData?.url as string,
+                                    settings: `logs/${interaction.id}`,
+                                  })
+                                )
+                              }}
+                            />
+                            <CardLine key={interaction.id} />
+                          </>
+                        )
+                      })}
+                  </>
+                )
+              })
+            ) : (
+              <></>
+            )}
+          </Card>
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>
     </div>
-  );
+  )
 }

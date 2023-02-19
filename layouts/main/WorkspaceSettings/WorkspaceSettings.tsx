@@ -28,10 +28,11 @@ export default function WorkspaceSettings({
   }, [initialWorkspaceData])
 
   function handleUpdateWorkspaceData(newData: IUpdateWorkspace) {
-    setWorkspaceData({
-      ...workspaceData,
-      name: newData.name || "",
-      avatar_url: newData.avatar_url || workspaceData?.avatar_url,
+    setWorkspaceData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IUpdateWorkspace
     })
     handleUpdateIsUpdating(true)
   }
