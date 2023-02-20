@@ -108,11 +108,17 @@ export const Shortcut = (props: ShortcutProps) => {
           props.size === "large"
             ? "col-span-2  max-w-[100%]"
             : "col-span-1  md:max-w-[100%]"
-        }`}
+        }
+        ${
+          props.isCreator && props.isSelected
+            ? "outline outline-[6px] outline-white"
+            : ""
+        }
+        `}
       >
         <div
-          className="z-10 absolute flex row justify-center bg-white ml-auto mr-auto left-[0.375rem]
-      right-[0.375rem] rounded-[15px] bottom-[6px] px-[6px] lg:rounded-[25px]"
+          className={`z-10 absolute flex row justify-center bg-white ml-auto mr-auto left-[0.375rem]
+          right-[0.375rem] rounded-[15px] bottom-[6px] px-[6px] lg:rounded-[25px] `}
         >
           <p className="inline-block py-[0.625rem] text-center lg:text-[1.1rem]">
             {props.title}
@@ -120,7 +126,7 @@ export const Shortcut = (props: ShortcutProps) => {
         </div>
         {props.img_url ? (
           <Image
-            className="rounded-[20px] lg:rounded-[30px]"
+            className={`rounded-[20px] lg:rounded-[30px]`}
             src={props.img_url}
             fill
             style={{ objectFit: "cover" }}
@@ -135,6 +141,7 @@ export const Shortcut = (props: ShortcutProps) => {
             <ShortcutMenu
               templateData={props.templateData}
               pageData={props.pageData}
+              onClick={props.onClick}
             />
           </div>
         ) : null}

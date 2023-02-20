@@ -114,10 +114,10 @@ export function GeneralSettingsContent({
                 bgColor: "green-500",
               }}
             />
-            <CardText
+            {/* <CardText
               label={text("generalsettings:sharelink")}
               indicator={{ icon: ArrowRight }}
-            />
+            /> */}
           </Card>
           <Card>
             <CardText label={text("generalsettings:description")} />

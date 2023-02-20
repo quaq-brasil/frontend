@@ -37,19 +37,12 @@ export default function CentralOptions({
   }
 
   function handleUpdateTemplateData(newData: IUpdateTemplate) {
-    const newTamplateData = { ...templateData }
-
-    if (newData.name || newData.name === "") {
-      newTamplateData.name = newData.name
-    } else if (newData.url || newData.url === "") {
-      newTamplateData.url = newData.url
-    } else if (newData.shortcut_image || newData.shortcut_image === "") {
-      newTamplateData.shortcut_image = newData.shortcut_image
-    } else if (newData.shortcut_size || newData.shortcut_size === "") {
-      newTamplateData.shortcut_size = newData.shortcut_size
-    }
-
-    setTemplateData(newTamplateData)
+    setTemplateData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IUpdateTemplate
+    })
 
     handleUpdateIsUpdating(true)
   }
@@ -132,20 +125,36 @@ export default function CentralOptions({
             )
           }
         />,
-        // <Tag
-        //   key={2}
-        //   variant="txt"
-        //   text={text("centraloptions:options")}
-        //   onClick={() => console.log()}
-        //   isSelected
-        //   isSeparated
-        // />,
-        // <Tag
-        //   key={3}
-        //   variant="txt"
-        //   text={text("centraloptions:logs")}
-        //   onClick={() => console.log()}
-        // />,
+        <Tag
+          key={2}
+          variant="txt"
+          text={text("centraloptions:options")}
+          onClick={() =>
+            router.push(
+              pageUrls.templateCentral({
+                pageSlug: pageData?.url as string,
+                settings: "central",
+                templateSlug: templateData?.url as string,
+              })
+            )
+          }
+          isSelected
+          isSeparated
+        />,
+        <Tag
+          key={3}
+          variant="txt"
+          text={text("centraloptions:logs")}
+          onClick={() =>
+            router.push(
+              pageUrls.templateCentral({
+                pageSlug: pageData?.url as string,
+                settings: "logs",
+                templateSlug: templateData?.url as string,
+              })
+            )
+          }
+        />,
         // <Tag
         //   key={4}
         //   variant="txt"

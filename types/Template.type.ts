@@ -39,3 +39,20 @@ export type getTemplateByUrlAndPageUrlProps = {
   publication: IPublication
   Publications: IPublication[]
 } & ITemplate
+
+export type ITemplateLogs = {
+  id: string
+  name: string
+  url: string
+  shortcut_image: string
+  shortcut_size: string
+  trackers: any
+  number_of_new_interactions: number
+  created_at: string
+  updated_at: string
+  page_id: string
+  current_publication_id: string
+  Publications: IPublication[]
+  Page: IPage
+  publication: IPublication
+}

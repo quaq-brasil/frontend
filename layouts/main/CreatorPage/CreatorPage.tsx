@@ -219,7 +219,7 @@ export default function CreatorPage({
         <div className="w-fit">
           <Tag variant="txt" text={text("creatorpage:pages")} />
         </div>
-        <div>{loadPages()}</div>
+        <div className="flex flex-col gap-2">{loadPages()}</div>
         <div className="w-fit">
           <Tag
             variant="icn-txt"
