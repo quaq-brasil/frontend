@@ -47,12 +47,34 @@ export function TemplateExecutionContent({
   }
 
   useEffect(() => {
-    if (user?.id && interactions.length > 0) {
-      if (interactionId) {
-        updateInteraction.mutate(
-          {
-            id: interactionId,
-            data: {
+    const handleSaveInteractions = async () => {
+      if (user?.id && interactions.length > 0 && interactionId !== "loading") {
+        console.log("interactionId", interactionId)
+        if (interactionId) {
+          updateInteraction.mutate(
+            {
+              id: interactionId,
+              data: {
+                blocks: Object.keys(blocks).map((key) => blocks[key]),
+                data: interactions,
+                events: [],
+                template_id: initialData?.id as string,
+                publication_id: initialData?.publication.id as string,
+                page_id: initialData?.Page.id as string,
+                user_id: user.id,
+              },
+            },
+            {
+              onSuccess: (data) => {
+                setTemplateData(data)
+              },
+            }
+          )
+        } else if (interactionId !== "loading") {
+          setInteractionId("loading")
+
+          createInteraction.mutate(
+            {
               blocks: Object.keys(blocks).map((key) => blocks[key]),
               data: interactions,
               events: [],
@@ -61,33 +83,18 @@ export function TemplateExecutionContent({
               page_id: initialData?.Page.id as string,
               user_id: user.id,
             },
-          },
-          {
-            onSuccess: (data) => {
-              setTemplateData(data)
-            },
-          }
-        )
-      } else {
-        createInteraction.mutate(
-          {
-            blocks: Object.keys(blocks).map((key) => blocks[key]),
-            data: interactions,
-            events: [],
-            template_id: initialData?.id as string,
-            publication_id: initialData?.publication.id as string,
-            page_id: initialData?.Page.id as string,
-            user_id: user.id,
-          },
-          {
-            onSuccess: (data) => {
-              setInteractionId(data?.interaction_id || null)
-              setTemplateData(data)
-            },
-          }
-        )
+            {
+              onSuccess: (data) => {
+                setInteractionId(data?.interaction_id)
+                setTemplateData(data)
+              },
+            }
+          )
+        }
       }
     }
+
+    handleSaveInteractions()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [interactions])

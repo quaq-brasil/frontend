@@ -7,29 +7,29 @@ export type IInteraction = {
   last_block_id?: string
   depth?: number
   locations?: any[]
-  created_at: string
-  updated_at: string
+  created_at?: string
+  updated_at?: string
   template_id: string
   publication_id: string
   page_id: string
   user_id: string
-  Publication: {
+  Publication?: {
     dependencies?: {
       connected_templates: any
     }
   }
-  Template: {
+  Template?: {
     id: string
     name: string
     url: string
     shortcut_image: string
   }
-  User: {
+  User?: {
     id: string
     avatar_url: string
     name: string
   }
-  Page: {
+  Page?: {
     id: string
     url: string
     name: string
