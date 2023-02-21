@@ -66,7 +66,7 @@ export default function CreatorPage({
           }
         )
       }
-    } else if (workspaces) {
+    } else if (workspaces && workspaces.length > 0) {
       setCurrentWorkspace(workspaces[0])
       getPages.mutate(
         { id: workspaces[0].id as string },

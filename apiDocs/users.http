@@ -6,7 +6,7 @@ GET http://localhost:5000/api/v1/users/63d91dfba01035ef4040fe55
 
 # create one
 
-POST http://localhost:5000/api/v1/users
+POST https://bff.quaq.me/api/v1/users
 Content-Type: application/json
 
 {
@@ -17,16 +17,16 @@ Content-Type: application/json
 
 # update one
 
-PUT http://localhost:5000/api/v1/users/63d9875f9056e9bad8b1753c
+PUT https://bff.quaq.me/api/v1/users/63f3f2c6f21186fda011522a
 Content-Type: application/json
 
 {
-    "email": "filipi@gmail.com",
-    "password": "qweasmdidonn#1235*$FIIN",
+    "email": "quaq@quaq.me",
+    "password": "12345678Aa@",
     "type": "registered",
     "email_verified": true,
     "password_reset_token_attempts": 0,
-    "name": "felps",
+    "name": "quaq",
     "avatar_url": "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
 }
 
