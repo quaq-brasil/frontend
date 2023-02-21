@@ -10,7 +10,7 @@ import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { useDebounce } from "../../../hooks/useDebouce"
-import { useGetPageUrl } from "../../../services/hooks/usePage/useGetPageUrl"
+import { useGetPageUrl } from "../../../services/hooks/usePage/useGetPageSlug"
 import { IUpdatePage } from "../../../types/Page.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 

@@ -1,22 +1,22 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { api } from "../../apiClient"
 
-type useGetPageUrlProps = {
+type useGetPageSlugProps = {
   id?: string
   name: string
 }
 
-export const useGetPageUrl = () => {
-  const getPageUrl = async ({ name, id }: useGetPageUrlProps) => {
+export const useGetPageSlug = () => {
+  const getPageSlug = async ({ name, id }: useGetPageSlugProps) => {
     const response: UseMutationResult<string> = await api.post(
-      `/pages/generate_unique_url`,
+      `/pages/generate_unique_slug`,
       { name, id }
     )
     return response.data as string
   }
 
   return useMutation({
-    mutationKey: ["getPageUrl"],
-    mutationFn: getPageUrl,
+    mutationKey: ["getPageSlug"],
+    mutationFn: getPageSlug,
   })
 }

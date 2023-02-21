@@ -3,7 +3,7 @@ import { ParsedUrlQuery } from "querystring"
 import { useEffect, useState } from "react"
 import { useUserAuth } from "../../../contexts/userAuth"
 import CreatorPage from "../../../layouts/main/CreatorPage/CreatorPage"
-import { usePageByUrl } from "../../../services/hooks/usePage/usePageByUrl"
+import { usePageBySlug } from "../../../services/hooks/usePage/usePageBySlug"
 import { useMutateGetAllWorkspacesByUserId } from "../../../services/hooks/useWorkspace/useMutateGetAllWorkspacesByUserId"
 import { IPage } from "../../../types/Page.type"
 import { IWorkspace } from "../../../types/Workspace.type"
@@ -17,7 +17,7 @@ export default function AdmSelectedPage({ page }: AdmSelectedPageProps) {
 
   const getAllWorkspaces = useMutateGetAllWorkspacesByUserId()
 
-  const getCurrentPage = usePageByUrl({ url: page })
+  const getCurrentPage = usePageBySlug({ slug: page })
 
   const [workspaces, setWorkspaces] = useState<IWorkspace[]>()
   const [curentPage, setCurrentPage] = useState<IPage>()

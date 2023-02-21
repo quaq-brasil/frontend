@@ -1,8 +1,8 @@
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import CentralTrackers from "../../../../layouts/main/CentralTrackers/CentralTrackers"
-import { usePageByUrl } from "../../../../services/hooks/usePage/usePageByUrl"
-import { useTemplateByUrl } from "../../../../services/hooks/useTemplate/useTemplateByUrl"
+import { usePageByUrl } from "../../../../services/hooks/usePage/usePageBySlug"
+import { useTemplateByUrl } from "../../../../services/hooks/useTemplate/useTemplateBySlug"
 import { useUpdateTemplate } from "../../../../services/hooks/useTemplate/useUpdateTemplate"
 import { IUpdateTemplate } from "../../../../types/Template.type"
 

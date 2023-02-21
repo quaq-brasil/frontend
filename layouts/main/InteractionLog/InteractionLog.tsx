@@ -144,19 +144,19 @@ export default function InteractionLog({
       <Header background_url={pageData?.background_url || ""}>
         <Tag
           variant="img-txt"
-          text={pageData?.name || ""}
+          text={pageData?.title || ""}
           img_url={pageData?.avatar_url || ""}
           onClick={() =>
             router.push(
               pageUrls.pageSettings({
-                pageSlug: pageData?.url || pageUrls.home(),
+                pageSlug: pageData?.slug || pageUrls.home(),
               })
             )
           }
         />
         <Tag
           variant="img-txt"
-          text={templateData?.name || ""}
+          text={templateData?.title || ""}
           img_url={templateData?.shortcut_image || ""}
         />
       </Header>

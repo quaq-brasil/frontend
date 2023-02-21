@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 import PageDelete from "../../../../layouts/main/PageDelete/PageDelete"
 import { useDeletePage } from "../../../../services/hooks/usePage/useDeletePage"
-import { usePageByUrl } from "../../../../services/hooks/usePage/usePageByUrl"
+import { usePageBySlug } from "../../../../services/hooks/usePage/usePageBySlug"
 import { useUser } from "../../../../services/hooks/useUser/useUser"
 import { IPage } from "../../../../types/Page.type"
 import { IUser } from "../../../../types/User.type"
@@ -16,8 +16,8 @@ type PageDeletePageProps = {
 export default function PageDeletePage({ page }: PageDeletePageProps) {
   const getUser = useUser({ id: "63d7c5dd4b1d81503bf6beb8" })
 
-  const getPage = usePageByUrl({
-    url: page,
+  const getPage = usePageBySlug({
+    slug: page,
   })
 
   const deletePage = useDeletePage()

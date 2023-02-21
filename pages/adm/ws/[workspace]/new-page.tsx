@@ -22,21 +22,20 @@ export default function CreatePagePage({ workspace }: CreatePagePagePros) {
     createPage.mutate(
       {
         data: {
-          name: data.name || "",
-          url: data.url || "",
+          title: data.title || "",
+          slug: data.slug || "",
           description: data.description || "",
           workspace_id: getWorkspace?.data.id || "",
           avatar_url: data.avatar_url || "",
           background_url: data.background_url || "",
-          is_stripe_active: false,
-          stripe_id: "",
+          services: [],
           trackers: {},
         },
       },
       {
         onSuccess: (pageData) => {
-          const { url } = pageData
-          router.push(pageUrls.pageSettings({ pageSlug: url }))
+          const { slug } = pageData
+          router.push(pageUrls.pageSettings({ pageSlug: slug }))
         },
       }
     )

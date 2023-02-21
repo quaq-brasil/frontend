@@ -7,27 +7,25 @@ export type ITrackers = {
 
 export type IPage = {
   id?: string
-  name: string
-  url: string
+  title: string
+  slug: string
   description: string
   workspace_id: string
   avatar_url: string
   background_url: string
-  is_stripe_active: boolean
-  stripe_id: string
+  services?: any[]
   trackers: ITrackers
   templates?: ITemplate[]
 }
 
 export type IUpdatePage = {
   id?: string
-  name?: string
-  url?: string
+  title?: string
+  slug?: string
   description?: string
   workspace_id?: string
   avatar_url?: string
   background_url?: string
-  is_stripe_active?: boolean
-  stripe_id?: string
+  services?: any[]
   trackers?: ITrackers
 }

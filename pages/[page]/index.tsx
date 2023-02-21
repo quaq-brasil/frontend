@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import { useEffect, useState } from "react"
 import ConsumerPage from "../../layouts/main/ConsumerPage/ConsumerPage"
-import { usePageByUrl } from "../../services/hooks/usePage/usePageByUrl"
+import { usePageByUrl } from "../../services/hooks/usePage/usePageBySlug"
 import { IPage } from "../../types/Page.type"
 
 type ConsumerPagePageProps = {
