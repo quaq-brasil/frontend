@@ -55,7 +55,7 @@ export default function PageDelete({
           onClick={() =>
             router.push(
               pageUrls.pageSettings({
-                pageSlug: pageData?.url || "",
+                pageSlug: pageData?.title || "",
                 pageSettings: "general",
               })
             )
@@ -78,7 +78,7 @@ export default function PageDelete({
           onClick={() =>
             router.push(
               pageUrls.pageSettings({
-                pageSlug: pageData?.url || "",
+                pageSlug: pageData?.title || "",
                 pageSettings: "general",
               })
             )
@@ -93,11 +93,11 @@ export default function PageDelete({
       <Header background_url={pageData?.background_url || ""}>
         <Tag
           variant="img-txt"
-          text={pageData?.name || ""}
+          text={pageData?.title || ""}
           img_url={pageData?.avatar_url || ""}
           onClick={() =>
             router.push(
-              pageUrls.pageSettings({ pageSlug: pageData?.url || "" })
+              pageUrls.pageSettings({ pageSlug: pageData?.title || "" })
             )
           }
         />
@@ -107,7 +107,7 @@ export default function PageDelete({
           onClick={() =>
             router.push(
               pageUrls.pageSettings({
-                pageSlug: pageData?.url || "",
+                pageSlug: pageData?.title || "",
                 pageSettings: "general",
               })
             )

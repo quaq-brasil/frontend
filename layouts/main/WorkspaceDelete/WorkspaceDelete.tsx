@@ -97,7 +97,7 @@ export default function WorkspaceDelete({
       >
         <Tag
           variant="img-txt"
-          text={workspaceData?.name || ""}
+          text={workspaceData?.title || ""}
           img_url={workspaceData?.avatar_url || ""}
           onClick={() =>
             router.push(

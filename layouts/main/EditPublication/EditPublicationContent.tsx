@@ -91,7 +91,7 @@ export const EditPublicationContent = ({
         variant="txt"
         text={text("createtemplate:back")}
         onClick={() =>
-          router.push(pageUrls.pageSettings({ pageSlug: pageData?.url }))
+          router.push(pageUrls.pageSettings({ pageSlug: pageData?.slug }))
         }
       />,
       isUpdating && blocks.length > 0 && (
@@ -187,25 +187,18 @@ const EditPublicationHeader = ({
   router,
 }: EditPublicationHeaderProps) => {
   return (
-    <Header
-      background_url={
-        pageData?.background_url ||
-        "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
-      }
-    >
+    <Header background_url={pageData?.background_url || ""}>
       <Tag
         variant="img-txt"
-        text={pageData?.name || ""}
-        img_url={
-          pageData?.avatar_url || "https://source.unsplash.com/featured/"
-        }
+        text={pageData?.title || ""}
+        img_url={pageData?.avatar_url || ""}
         onClick={() =>
-          router.push(pageUrls.pageSettings({ pageSlug: pageData?.url }))
+          router.push(pageUrls.pageSettings({ pageSlug: pageData?.slug }))
         }
       />
       <Tag
         variant="img-txt"
-        text={templateData?.name || ""}
+        text={templateData?.title || ""}
         img_url={templateData?.shortcut_image || ""}
       />
     </Header>

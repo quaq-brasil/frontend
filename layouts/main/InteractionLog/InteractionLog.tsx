@@ -52,7 +52,7 @@ export default function InteractionLog({
           onClick={() =>
             router.push(
               pageUrls.pageSettings({
-                pageSlug: pageData?.url || pageUrls.home(),
+                pageSlug: pageData?.slug || pageUrls.home(),
               })
             )
           }
@@ -94,7 +94,7 @@ export default function InteractionLog({
           onClick={() =>
             router.push(
               pageUrls.pageSettings({
-                pageSlug: pageData?.url || pageUrls.home(),
+                pageSlug: pageData?.slug || pageUrls.home(),
               })
             )
           }
@@ -106,9 +106,9 @@ export default function InteractionLog({
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData?.url as string,
+                pageSlug: pageData?.slug as string,
                 settings: "central",
-                templateSlug: templateData?.url as string,
+                templateSlug: templateData?.slug as string,
               })
             )
           }
@@ -121,9 +121,9 @@ export default function InteractionLog({
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData?.url as string,
+                pageSlug: pageData?.slug as string,
                 settings: "logs",
-                templateSlug: templateData?.url as string,
+                templateSlug: templateData?.slug as string,
               })
             )
           }

@@ -10,7 +10,7 @@ import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { useDebounce } from "../../../hooks/useDebouce"
-import { useGenerateTemplateUniqueUrl } from "../../../services/hooks/useTemplate/useGenerateTemplateUniqueSlug"
+import { useGenerateTemplateUniqueSlug } from "../../../services/hooks/useTemplate/useGenerateTemplateUniqueSlug"
 import { IUpdatePage } from "../../../types/Page.type"
 import { IUpdateTemplate } from "../../../types/Template.type"
 import { pageUrls } from "../../../utils/pagesUrl"
@@ -33,7 +33,7 @@ export function CentralOptionsContent({
   const text = useTranslation().t
   const router = useRouter()
 
-  const generateTemplateUniqueUrl = useGenerateTemplateUniqueUrl()
+  const generateTemplateUniqueUrl = useGenerateTemplateUniqueSlug()
 
   type handleGetTemplateUrlProps = {
     title: string
@@ -44,20 +44,20 @@ export function CentralOptionsContent({
     generateTemplateUniqueUrl.mutate(
       { data },
       {
-        onSuccess: (url) => {
-          handleUpdateTemplateData({ url })
+        onSuccess: (slug) => {
+          handleUpdateTemplateData({ slug })
         },
       }
     )
   }
 
   const debouncedTemplateName = useDebounce({
-    value: templateData?.name,
+    value: templateData?.title,
     delay: 1000 * 1,
   })
 
   useEffect(() => {
-    if (isUpdating && debouncedTemplateName && templateData?.name) {
+    if (isUpdating && debouncedTemplateName && templateData?.title) {
       handleGetTemplateUrl({
         title: debouncedTemplateName,
         page_id: pageData?.id as string,
@@ -78,8 +78,8 @@ export function CentralOptionsContent({
             <CardText label={text("centraloptions:title")} />
             <CardTextInput
               input={{
-                onChange: (title) => handleUpdateTemplateData({ name: title }),
-                inputValue: templateData?.name,
+                onChange: (title) => handleUpdateTemplateData({ title: title }),
+                inputValue: templateData?.title,
                 type: "text",
               }}
             />
@@ -89,9 +89,9 @@ export function CentralOptionsContent({
             <CardText label={text("centraloptions:link")} />
             <CardTextInput
               input={{
-                onChange: (url) => handleUpdateTemplateData({ url: url }),
-                value: templateData?.url,
-                fixedText: `quaq.me/${pageData?.url}/`,
+                onChange: (slug) => handleUpdateTemplateData({ slug: slug }),
+                value: templateData?.slug,
+                fixedText: `quaq.me/${pageData?.slug}/`,
               }}
               indicator={{
                 icon: Check,
@@ -164,8 +164,8 @@ export function CentralOptionsContent({
               onClick={() =>
                 router.push(
                   pageUrls.templateCentral({
-                    pageSlug: pageData?.url || "",
-                    templateSlug: templateData?.url || "",
+                    pageSlug: pageData?.slug || "",
+                    templateSlug: templateData?.slug || "",
                     settings: "trackers",
                   })
                 )
@@ -178,8 +178,8 @@ export function CentralOptionsContent({
               onClick={() =>
                 router.push(
                   pageUrls.templateCentral({
-                    pageSlug: pageData?.url || "",
-                    templateSlug: templateData?.url || "",
+                    pageSlug: pageData?.slug || "",
+                    templateSlug: templateData?.slug || "",
                     settings: "edit",
                   })
                 )

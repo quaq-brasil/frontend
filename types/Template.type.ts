@@ -15,7 +15,6 @@ export type ITemplate = {
   current_publication_id?: string
   number_of_new_interactions: number
   access_config: any
-
   trackers: ITrackers
   page_id: string
 }
@@ -28,7 +27,7 @@ export type IUpdateTemplate = {
   shortcut_size?: "small" | "large"
   current_publication_id?: string
   number_of_new_interactions?: number
-  access_config: any
+  access_config?: any
 
   trackers?: ITrackers
   page_id?: string

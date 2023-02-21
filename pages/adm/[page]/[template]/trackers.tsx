@@ -1,8 +1,8 @@
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import CentralTrackers from "../../../../layouts/main/CentralTrackers/CentralTrackers"
-import { usePageByUrl } from "../../../../services/hooks/usePage/usePageBySlug"
-import { useTemplateByUrl } from "../../../../services/hooks/useTemplate/useTemplateBySlug"
+import { usePageBySlug } from "../../../../services/hooks/usePage/usePageBySlug"
+import { useTemplateBySlug } from "../../../../services/hooks/useTemplate/useTemplateBySlug"
 import { useUpdateTemplate } from "../../../../services/hooks/useTemplate/useUpdateTemplate"
 import { IUpdateTemplate } from "../../../../types/Template.type"
 
@@ -15,10 +15,10 @@ export default function CentralTrackersPage({
   page,
   template,
 }: CentralTrackersPageProps) {
-  const pageResponse = usePageByUrl({ url: page })
+  const pageResponse = usePageBySlug({ slug: page })
 
-  const getTemplate = useTemplateByUrl({
-    url: template,
+  const getTemplate = useTemplateBySlug({
+    slug: template,
   })
 
   const templateUpdate = useUpdateTemplate()

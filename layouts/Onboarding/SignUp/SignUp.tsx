@@ -5,7 +5,7 @@ import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUpdateUser } from "../../../types/User.type"
 import { pageUrls } from "../../../utils/pagesUrl"
-import { SignupContent } from "./SignUpContent"
+import { SignupContent } from "./SignupContent"
 
 type SignUpProps = {
   handleCreateUser: (data: IUpdateUser) => void
@@ -27,12 +27,11 @@ export default function SignUp({ handleCreateUser }: SignUpProps) {
   }
 
   function handleUpdateUserData(newData: IUpdateUser) {
-    setUserData({
-      ...userData,
-      name: newData.name || userData?.name,
-      email: newData.email || userData?.email,
-      password: newData.password || userData?.password,
-      avatar_url: newData.avatar_url || userData?.avatar_url,
+    setUserData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IUpdateUser
     })
     handleUpdateIsUpdating(true)
   }

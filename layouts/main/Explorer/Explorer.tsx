@@ -122,7 +122,7 @@ export default function Explorer({
     return (
       <Tag
         variant="img-txt"
-        text={pageData?.name || ""}
+        text={pageData?.title || ""}
         img_url={pageData?.avatar_url || ""}
       />
     )

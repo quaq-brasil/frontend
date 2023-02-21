@@ -94,7 +94,7 @@ export default function WorkspaceSettings({
       >
         <Tag
           variant="img-txt"
-          text={workspaceData?.name || ""}
+          text={workspaceData?.title || ""}
           img_url={workspaceData?.avatar_url || ""}
         />
         <Tag variant="txt" text={text("wssettings:settings")} />

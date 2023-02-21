@@ -41,9 +41,10 @@ export function WorkspaceSettingsContent({
             <CardTextInput
               input={{
                 label: text("wssettings:titlelabel"),
-                onChange: (title) => handleUpdateWorkspaceData({ name: title }),
+                onChange: (title) =>
+                  handleUpdateWorkspaceData({ title: title }),
                 type: "text",
-                defaultValue: workspaceData?.name || "",
+                defaultValue: workspaceData?.title || "",
               }}
             />
           </Card>

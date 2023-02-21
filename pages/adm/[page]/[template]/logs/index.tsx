@@ -2,8 +2,8 @@ import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 import InteractionLog from "../../../../../layouts/main/InteractionLog/InteractionLog"
-import { usePageByUrl } from "../../../../../services/hooks/usePage/usePageBySlug"
-import { useTemplateByUrl } from "../../../../../services/hooks/useTemplate/useTemplateBySlug"
+import { usePageBySlug } from "../../../../../services/hooks/usePage/usePageBySlug"
+import { useTemplateBySlug } from "../../../../../services/hooks/useTemplate/useTemplateBySlug"
 
 type TemplateLogsProps = {
   page: string
@@ -13,12 +13,12 @@ type TemplateLogsProps = {
 export default function TemplateLogs({ page, template }: TemplateLogsProps) {
   const router = useRouter()
 
-  const getPage = usePageByUrl({
-    url: page,
+  const getPage = usePageBySlug({
+    slug: page,
   })
 
-  const getTemplate = useTemplateByUrl({
-    url: template,
+  const getTemplate = useTemplateBySlug({
+    slug: template,
   })
 
   return (

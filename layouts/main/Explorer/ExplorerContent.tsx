@@ -20,7 +20,7 @@ export function ExplorerContent({ templatesData }: ExplorerContentProps) {
             img_url={template.shortcut_image || ""}
             index={index || 0}
             size={template.shortcut_size || "small"}
-            title={template.name}
+            title={template.title}
             isCreator={false}
             templateData={template}
             pageData={undefined}

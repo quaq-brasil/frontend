@@ -96,19 +96,19 @@ export default function CreateWorkspace({
           text={userData?.name || ""}
           img_url={userData?.avatar_url || ""}
         />
-        {!workspaceData?.name && !workspaceData?.avatar_url && (
+        {!workspaceData?.title && !workspaceData?.avatar_url && (
           <Tag variant="txt" text={text("createwspace:titletag")} />
         )}
-        {workspaceData?.name && !workspaceData?.avatar_url && (
-          <Tag variant="txt" text={workspaceData.name} />
+        {workspaceData?.title && !workspaceData?.avatar_url && (
+          <Tag variant="txt" text={workspaceData.title} />
         )}
-        {!workspaceData?.name && workspaceData?.avatar_url && (
+        {!workspaceData?.title && workspaceData?.avatar_url && (
           <Tag variant="img" img_url={workspaceData.avatar_url} />
         )}
-        {workspaceData?.name && workspaceData?.avatar_url && (
+        {workspaceData?.title && workspaceData?.avatar_url && (
           <Tag
             variant="img-txt"
-            text={workspaceData.name}
+            text={workspaceData.title}
             img_url={workspaceData.avatar_url}
           />
         )}

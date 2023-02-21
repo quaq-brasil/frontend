@@ -35,7 +35,7 @@ export function CreatorPageContent({
             img_url={template.shortcut_image}
             index={index}
             size={template.shortcut_size}
-            title={template.name}
+            title={template.title}
             isCreator={true}
             isSelected={selectedId == index}
             onClick={() => handleSelection(index)}

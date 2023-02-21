@@ -31,22 +31,12 @@ export function CreatePage({
   }, [initialWorkspaceData])
 
   function handleUpdatePageData(newData: IUpdatePage) {
-    const newPageData = { ...pageData }
-
-    if (newData.name || newData.name === "") {
-      newPageData.name = newData.name
-    } else if (newData.url || newData.url === "") {
-      newPageData.url = newData.url
-    } else if (newData.avatar_url || newData.avatar_url === "") {
-      newPageData.avatar_url = newData.avatar_url
-    } else if (newData.background_url || newData.background_url === "") {
-      newPageData.background_url = newData.background_url
-    } else if (newData.description || newData.description === "") {
-      newPageData.description = newData.description
-    }
-
-    setPageData(newPageData)
-
+    setPageData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IUpdatePage
+    })
     handleUpdateIsUpdating(true)
   }
 
@@ -104,23 +94,23 @@ export function CreatePage({
       >
         <Tag
           variant="img-txt"
-          text={workspaceData?.name || ""}
+          text={workspaceData?.title || ""}
           img_url={workspaceData?.avatar_url || ""}
         />
-        {!pageData?.name && !pageData?.avatar_url && (
+        {!pageData?.title && !pageData?.avatar_url && (
           <Tag variant="txt" text={text("createpage:titletag")} />
         )}
-        {pageData?.name && !pageData?.avatar_url && (
-          <Tag variant="txt" text={pageData?.name} />
+        {pageData?.title && !pageData?.avatar_url && (
+          <Tag variant="txt" text={pageData?.title} />
         )}
-        {pageData?.name && pageData?.avatar_url && (
+        {pageData?.title && pageData?.avatar_url && (
           <Tag
             variant="img-txt"
-            text={pageData?.name}
+            text={pageData?.title}
             img_url={pageData.avatar_url}
           />
         )}
-        {!pageData?.name && pageData?.avatar_url && (
+        {!pageData?.title && pageData?.avatar_url && (
           <Tag variant="img" img_url={pageData.avatar_url} />
         )}
       </Header>

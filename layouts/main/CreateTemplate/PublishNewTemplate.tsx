@@ -17,7 +17,7 @@ import { useDebounce } from "../../../hooks/useDebouce"
 import { useCreatePublication } from "../../../services/hooks/usePublication/useCreatePublication"
 import { useUpdatePublication } from "../../../services/hooks/usePublication/useUpdatePublication"
 import { useCreateTemplate } from "../../../services/hooks/useTemplate/useCreateTemplate"
-import { useGenerateTemplateUniqueUrl } from "../../../services/hooks/useTemplate/useGenerateTemplateUniqueSlug"
+import { useGenerateTemplateUniqueSlug } from "../../../services/hooks/useTemplate/useGenerateTemplateUniqueSlug"
 import { IPage } from "../../../types/Page.type"
 import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
 import { pageUrls } from "../../../utils/pagesUrl"
@@ -49,26 +49,26 @@ export const PublishNewTemplate = ({
   const [isUpdating, setIsUpdating] = useState(false)
   const router = useRouter()
 
-  const generateTemplateUniqueUrl = useGenerateTemplateUniqueUrl()
+  const generateTemplateUniqueUrl = useGenerateTemplateUniqueSlug()
 
   function handleGetTemplateUrl(data: handleGetTemplateUrlProps) {
     generateTemplateUniqueUrl.mutate(
       { data },
       {
-        onSuccess: (url) => {
-          handleUpdateTemplateData({ url })
+        onSuccess: (slug) => {
+          handleUpdateTemplateData({ slug })
         },
       }
     )
   }
 
   const debouncedTemplateName = useDebounce({
-    value: templateData?.name,
+    value: templateData?.title,
     delay: 1000 * 1,
   })
 
   useEffect(() => {
-    if (isUpdating && debouncedTemplateName && templateData?.name !== "") {
+    if (isUpdating && debouncedTemplateName && templateData?.title !== "") {
       handleGetTemplateUrl({
         id: templateData?.id,
         title: debouncedTemplateName,
@@ -116,14 +116,15 @@ export const PublishNewTemplate = ({
             createTemplate.mutate(
               {
                 data: {
-                  name: templateData.name,
+                  title: templateData.title,
                   number_of_new_interactions: 0,
                   page_id: pageData?.id as string,
                   shortcut_image: templateData.shortcut_image,
                   shortcut_size: templateData.shortcut_size,
-                  url: templateData.url,
+                  slug: templateData.slug,
                   current_publication_id: data.id,
                   trackers: {},
+                  access_config: {},
                 },
               },
               {
@@ -138,7 +139,7 @@ export const PublishNewTemplate = ({
                     {
                       onSuccess: () => {
                         router.push(
-                          pageUrls.pageSettings({ pageSlug: pageData?.url })
+                          pageUrls.pageSettings({ pageSlug: pageData?.slug })
                         )
                       },
                     }
@@ -189,9 +190,9 @@ export const PublishNewTemplate = ({
               <CardTextInput
                 input={{
                   label: text("publish:titlelabel"),
-                  defaultValue: templateData?.name,
+                  defaultValue: templateData?.title,
                   onChange: (title) =>
-                    handleUpdateTemplateData({ name: title }),
+                    handleUpdateTemplateData({ title: title }),
                 }}
               />
             </Card>
@@ -200,9 +201,9 @@ export const PublishNewTemplate = ({
               <CardTextInput
                 input={{
                   label: "",
-                  onChange: (link) => handleUpdateTemplateData({ url: link }),
-                  fixedText: `quaq.me/${pageData?.url}/`,
-                  value: templateData?.url,
+                  onChange: (link) => handleUpdateTemplateData({ slug: link }),
+                  fixedText: `quaq.me/${pageData?.slug}/`,
+                  value: templateData?.slug,
                 }}
                 indicator={{
                   icon: Check,
@@ -297,19 +298,19 @@ const PublishNewTemplateHeader = ({
     <Header background_url={pageData?.background_url || ""}>
       <Tag
         variant="img-txt"
-        text={pageData?.name || ""}
+        text={pageData?.title || ""}
         img_url={pageData?.avatar_url || ""}
       />
-      {!templateData?.name && !templateData?.shortcut_image && (
+      {!templateData?.title && !templateData?.shortcut_image && (
         <Tag variant="txt" text={text("publish:titletag")} />
       )}
-      {templateData?.name && !templateData?.shortcut_image && (
-        <Tag variant="txt" text={templateData.name} />
+      {templateData?.title && !templateData?.shortcut_image && (
+        <Tag variant="txt" text={templateData.title} />
       )}
-      {templateData?.name && templateData?.shortcut_image && (
+      {templateData?.title && templateData?.shortcut_image && (
         <Tag
           variant="img-txt"
-          text={templateData.name}
+          text={templateData.title}
           img_url={templateData.shortcut_image}
         />
       )}

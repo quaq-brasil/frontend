@@ -39,9 +39,9 @@ export default function LogContent({ initialLogData }: LogContentProps) {
         {
           data: {
             blocks: logData.blocks,
-            template_id: logData.Template.id,
+            template_id: logData?.Template?.id,
             creator_id: "",
-            connected_templates: logData.Publication.dependencies
+            connected_templates: logData?.Publication?.dependencies
               ?.connected_templates
               ? logData.Publication.dependencies?.connected_templates
               : [],
@@ -199,8 +199,8 @@ export default function LogContent({ initialLogData }: LogContentProps) {
         onClick={() =>
           router.push(
             pageUrls.templateCentral({
-              pageSlug: logData?.Page.url as string,
-              templateSlug: logData?.Template.url as string,
+              pageSlug: logData?.Page?.url as string,
+              templateSlug: logData?.Template?.url as string,
               settings: "logs",
             })
           )
@@ -231,8 +231,8 @@ export default function LogContent({ initialLogData }: LogContentProps) {
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: logData?.Page.url as string,
-                templateSlug: logData?.Template.url as string,
+                pageSlug: logData?.Page?.url as string,
+                templateSlug: logData?.Template?.url as string,
                 settings: "logs",
               })
             )
@@ -240,8 +240,8 @@ export default function LogContent({ initialLogData }: LogContentProps) {
         />
         <Tag
           variant="img-txt"
-          img_url={logData?.User.avatar_url || ""}
-          text={logData?.User.name as ""}
+          img_url={logData?.User?.avatar_url || ""}
+          text={logData?.User?.name as ""}
         />
       </Header>
     )
