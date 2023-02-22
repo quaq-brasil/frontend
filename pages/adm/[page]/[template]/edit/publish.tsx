@@ -1,8 +1,8 @@
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import EditTemplate from "../../../../../layouts/main/EditTemplate/EditTemplate"
-import { usePageByUrl } from "../../../../../services/hooks/usePage/usePageByUrl"
-import { useTemplateByUrl } from "../../../../../services/hooks/useTemplate/useTemplateByUrl"
+import { usePageBySlug } from "../../../../../services/hooks/usePage/usePageBySlug"
+import { useTemplateBySlug } from "../../../../../services/hooks/useTemplate/useTemplateBySlug"
 import { useUpdateTemplate } from "../../../../../services/hooks/useTemplate/useUpdateTemplate"
 import { IPage } from "../../../../../types/Page.type"
 import { ITemplate, IUpdateTemplate } from "../../../../../types/Template.type"
@@ -16,12 +16,12 @@ export default function EditTemplatePage({
   page,
   template,
 }: EditTemplatePageProps) {
-  const getPage = usePageByUrl({
-    url: page,
+  const getPage = usePageBySlug({
+    slug: page,
   })
 
-  const getTemplate = useTemplateByUrl({
-    url: template,
+  const getTemplate = useTemplateBySlug({
+    slug: template,
   })
 
   const updateTemplate = useUpdateTemplate()
@@ -30,8 +30,8 @@ export default function EditTemplatePage({
     updateTemplate.mutate({
       id: getTemplate?.data.id as string,
       data: {
-        name: data.name,
-        url: data.url,
+        title: data.title,
+        slug: data.slug,
         shortcut_image: data.shortcut_image,
         shortcut_size: data.shortcut_size,
         current_publication_id: data.current_publication_id,

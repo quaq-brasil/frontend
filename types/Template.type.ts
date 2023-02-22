@@ -8,28 +8,27 @@ export type ITrackers = {
 
 export type ITemplate = {
   id?: string
-  name: string
-  url: string
+  title: string
+  slug: string
   shortcut_image: string
   shortcut_size: "small" | "large"
   current_publication_id?: string
   number_of_new_interactions: number
-  facebook_pixel_id?: string
-  google_analytics_id?: string
+  access_config: any
   trackers: ITrackers
   page_id: string
 }
 
 export type IUpdateTemplate = {
   id?: string
-  name?: string
-  url?: string
+  title?: string
+  slug?: string
   shortcut_image?: string
   shortcut_size?: "small" | "large"
   current_publication_id?: string
   number_of_new_interactions?: number
-  facebook_pixel_id?: string
-  google_analytics_id?: string
+  access_config?: any
+
   trackers?: ITrackers
   page_id?: string
 }
@@ -42,8 +41,8 @@ export type getTemplateByUrlAndPageUrlProps = {
 
 export type ITemplateLogs = {
   id: string
-  name: string
-  url: string
+  title: string
+  slug: string
   shortcut_image: string
   shortcut_size: string
   trackers: any

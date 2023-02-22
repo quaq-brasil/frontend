@@ -24,11 +24,11 @@ export default function CreateWorkspacePage({
     createWorkspace.mutate(
       {
         data: {
-          name: data.name || "",
-          slug: data.name || "",
+          title: data.title || "",
+          slug: data.title || "",
           avatar_url: data.avatar_url || "",
           user_id: user?.id,
-          services: [{ name: "", description: "" }],
+          services: [{ type: "", description: "" }],
         },
       },
       {

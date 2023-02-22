@@ -75,8 +75,8 @@ export function InteractionLogContent({
                               onClick={() => {
                                 router.push(
                                   pageUrls.templateCentral({
-                                    pageSlug: pageData?.url as string,
-                                    templateSlug: templateData?.url as string,
+                                    pageSlug: pageData?.slug as string,
+                                    templateSlug: templateData?.slug as string,
                                     settings: `logs/${interaction.id}`,
                                   })
                                 )

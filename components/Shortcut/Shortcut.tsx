@@ -34,7 +34,7 @@ export const Shortcut = (props: ShortcutProps) => {
     props.onClick
       ? props.onClick()
       : !props.isCreator &&
-        router.push(`/${props.pageData?.url}/${props.templateData.url}`)
+        router.push(`/${props.pageData?.slug}/${props.templateData.slug}`)
   }
 
   const ref = useRef<HTMLDivElement>(null)

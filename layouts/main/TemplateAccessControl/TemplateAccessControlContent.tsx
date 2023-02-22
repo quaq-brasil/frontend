@@ -37,8 +37,8 @@ export function TemplateAccessControlContent({
               input={{
                 label: text("accesscontrol:linklabel"),
                 onChange: () => console.log(),
-                value: templateData?.url,
-                fixedText: `quaq.me/${pageData?.url}/`,
+                value: templateData?.slug,
+                fixedText: `quaq.me/${pageData?.slug}/`,
               }}
               indicator={{
                 icon: Check,
@@ -60,8 +60,8 @@ export function TemplateAccessControlContent({
               onClick={() =>
                 router.push(
                   pageUrls.templateCentral({
-                    pageSlug: pageData?.url || "",
-                    templateSlug: templateData?.url || "",
+                    pageSlug: pageData?.slug || "",
+                    templateSlug: templateData?.slug || "",
                     settings: "trackers",
                   })
                 )
@@ -77,7 +77,7 @@ export function TemplateAccessControlContent({
                   text: text("accesscontrol:confirm"),
                   onClick: () =>
                     router.push(
-                      pageUrls.pageSettings({ pageSlug: pageData?.url || "" })
+                      pageUrls.pageSettings({ pageSlug: pageData?.slug || "" })
                     ),
                 },
               }}

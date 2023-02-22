@@ -17,7 +17,8 @@ import { useDebounce } from "../../../hooks/useDebouce"
 import { useCreatePublication } from "../../../services/hooks/usePublication/useCreatePublication"
 import { usePublication } from "../../../services/hooks/usePublication/usePublication"
 import { useUpdatePublication } from "../../../services/hooks/usePublication/useUpdatePublication"
-import { useGenerateTemplateUniqueUrl } from "../../../services/hooks/useTemplate/useGenerateTemplateUniqueUrl"
+import { useGenerateTemplateUniqueSlug } from "../../../services/hooks/useTemplate/useGenerateTemplateUniqueSlug"
+
 import { useUpdateTemplate } from "../../../services/hooks/useTemplate/useUpdateTemplate"
 import { IPage } from "../../../types/Page.type"
 import { IPublication } from "../../../types/Publication.type"
@@ -70,21 +71,21 @@ export const PublishPublication = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getCurrentPulication])
 
-  const generateTemplateUniqueUrl = useGenerateTemplateUniqueUrl()
+  const generateTemplateUniqueSlug = useGenerateTemplateUniqueSlug()
 
   function handleGetTemplateUrl(data: handleGetTemplateUrlProps) {
-    generateTemplateUniqueUrl.mutate(
+    generateTemplateUniqueSlug.mutate(
       { data },
       {
-        onSuccess: (url) => {
-          handleUpdateTemplateData({ url })
+        onSuccess: (slug) => {
+          handleUpdateTemplateData({ slug })
         },
       }
     )
   }
 
   const debouncedTemplateName = useDebounce({
-    value: templateData?.name,
+    value: templateData?.title,
     delay: 1000 * 1,
   })
 
@@ -134,15 +135,15 @@ export const PublishPublication = ({
                   id: templateData.id as string,
                   data: {
                     current_publication_id: data.id,
-                    name: templateData.name,
-                    url: templateData.url,
+                    title: templateData.title,
+                    slug: templateData.slug,
                     shortcut_image: templateData.shortcut_image,
                     shortcut_size: templateData.shortcut_size,
                   },
                 },
                 {
                   onSuccess: () => {
-                    router.push(`/adm/${pageData?.url}`)
+                    router.push(`/adm/${pageData?.slug}`)
                   },
                 }
               )
@@ -169,15 +170,15 @@ export const PublishPublication = ({
                   {
                     id: templateData.id as string,
                     data: {
-                      name: templateData.name,
-                      url: templateData.url,
+                      title: templateData.title,
+                      slug: templateData.slug,
                       shortcut_image: templateData.shortcut_image,
                       shortcut_size: templateData.shortcut_size,
                     },
                   },
                   {
                     onSuccess: () => {
-                      router.push(`/adm/${pageData?.url}`)
+                      router.push(`/adm/${pageData?.slug}`)
                     },
                   }
                 )
@@ -226,9 +227,9 @@ export const PublishPublication = ({
               <CardTextInput
                 input={{
                   label: text("publish:titlelabel"),
-                  defaultValue: templateData?.name,
+                  defaultValue: templateData?.title,
                   onChange: (title) =>
-                    handleUpdateTemplateData({ name: title }),
+                    handleUpdateTemplateData({ title: title }),
                 }}
               />
             </Card>
@@ -237,9 +238,9 @@ export const PublishPublication = ({
               <CardTextInput
                 input={{
                   label: "",
-                  onChange: (link) => handleUpdateTemplateData({ url: link }),
-                  fixedText: `quaq.me/${pageData?.url}/`,
-                  value: templateData?.url,
+                  onChange: (link) => handleUpdateTemplateData({ slug: link }),
+                  fixedText: `quaq.me/${pageData?.slug}/`,
+                  value: templateData?.slug,
                 }}
                 indicator={{
                   icon: Check,
@@ -334,19 +335,19 @@ const PublishPublicationHeader = ({
     <Header background_url={pageData?.background_url || ""}>
       <Tag
         variant="img-txt"
-        text={pageData?.name || ""}
+        text={pageData?.title || ""}
         img_url={pageData?.avatar_url || ""}
       />
-      {!templateData?.name && !templateData?.shortcut_image && (
+      {!templateData?.title && !templateData?.shortcut_image && (
         <Tag variant="txt" text={text("publish:titletag")} />
       )}
-      {templateData?.name && !templateData?.shortcut_image && (
-        <Tag variant="txt" text={templateData.name} />
+      {templateData?.title && !templateData?.shortcut_image && (
+        <Tag variant="txt" text={templateData.title} />
       )}
-      {templateData?.name && templateData?.shortcut_image && (
+      {templateData?.title && templateData?.shortcut_image && (
         <Tag
           variant="img-txt"
-          text={templateData.name}
+          text={templateData.title}
           img_url={templateData.shortcut_image}
         />
       )}

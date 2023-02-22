@@ -8,7 +8,7 @@ import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { useDebounce } from "../../../hooks/useDebouce"
-import { useGetPageUrl } from "../../../services/hooks/usePage/useGetPageUrl"
+import { useGetPageSlug } from "../../../services/hooks/usePage/useGetPageSlug"
 import { IUpdatePage } from "../../../types/Page.type"
 
 type CreatePageContentProps = {
@@ -26,20 +26,20 @@ export function CreatePageContent({
 }: CreatePageContentProps) {
   const text = useTranslation().t
 
-  const getPageUrl = useGetPageUrl()
+  const getPageSlug = useGetPageSlug()
 
-  type IGetPageUrl = {
+  type IGetPageSlug = {
     name: string
     id: string
   }
 
-  function handleGetPageUrl({ id, name }: IGetPageUrl) {
-    getPageUrl.mutate(
+  function handleGetPageSlug({ id, name }: IGetPageSlug) {
+    getPageSlug.mutate(
       { name, id },
       {
-        onSuccess: (url) => {
+        onSuccess: (slug) => {
           handleUpdatePageData({
-            url,
+            slug,
           })
         },
       }
@@ -47,13 +47,13 @@ export function CreatePageContent({
   }
 
   const debouncedPageName = useDebounce({
-    value: pageData?.name,
+    value: pageData?.title,
     delay: 1000 * 1,
   })
 
   useEffect(() => {
-    if (isUpdating && debouncedPageName && pageData?.name) {
-      handleGetPageUrl({ id: pageData.id as string, name: pageData.name })
+    if (isUpdating && debouncedPageName && pageData?.title) {
+      handleGetPageSlug({ id: pageData.id as string, name: pageData.title })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedPageName])
@@ -71,7 +71,7 @@ export function CreatePageContent({
             <CardTextInput
               input={{
                 label: text("createpage:inputpagetitle"),
-                onChange: (title) => handleUpdatePageData({ name: title }),
+                onChange: (title) => handleUpdatePageData({ title: title }),
                 type: "text",
               }}
             />
@@ -81,10 +81,10 @@ export function CreatePageContent({
             <CardTextInput
               input={{
                 label: text("createpage:inputpagelink"),
-                onChange: (link) => handleUpdatePageData({ url: link }),
+                onChange: (link) => handleUpdatePageData({ slug: link }),
                 type: "text",
                 fixedText: "quaq.me/",
-                value: pageData?.url,
+                value: pageData?.slug,
               }}
               indicator={{
                 icon: Check,

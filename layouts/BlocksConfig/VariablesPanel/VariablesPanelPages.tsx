@@ -51,7 +51,7 @@ export const VariablesPanelPages = ({
             const newOptions = data.map((workspace) => {
               return {
                 pages: workspace.Page,
-                workspaceName: workspace.name,
+                workspaceName: workspace.title,
                 workspaceId: workspace.id,
               }
             })
@@ -121,14 +121,14 @@ export const VariablesPanelPages = ({
                                 <CardLog
                                   key={page.id}
                                   img_url={page.avatar_url}
-                                  name={page.name}
-                                  date={`quaq.me/${page.url}`}
+                                  name={page.title}
+                                  date={`quaq.me/${page.slug}`}
                                   icon={ArrowRight}
                                   onClick={() =>
                                     handleUpdateOpenTemplate({
                                       pageData: {
                                         pageId: page.id as string,
-                                        pageName: page.name,
+                                        pageName: page.title,
                                       },
                                       workspaceData: {
                                         workspaceId: data.workspaceId as string,

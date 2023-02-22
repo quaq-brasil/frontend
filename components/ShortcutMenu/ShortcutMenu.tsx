@@ -43,7 +43,7 @@ export default function ShortcutMenu({
       {
         onSuccess: () => {
           router.push(
-            pageUrls.pageSettings({ pageSlug: pageData?.url as string })
+            pageUrls.pageSettings({ pageSlug: pageData?.slug as string })
           )
         },
       }
@@ -61,8 +61,8 @@ export default function ShortcutMenu({
             onClick={() =>
               router.push(
                 pageUrls.templateCentral({
-                  pageSlug: pageData?.url as string,
-                  templateSlug: templateData?.url as string,
+                  pageSlug: pageData?.slug as string,
+                  templateSlug: templateData?.slug as string,
                   settings: "edit",
                 })
               )
@@ -74,7 +74,10 @@ export default function ShortcutMenu({
           <button
             onClick={() =>
               router.push(
-                pageUrls.template(pageData?.url || "", templateData?.url || "")
+                pageUrls.template(
+                  pageData?.slug || "",
+                  templateData?.slug || ""
+                )
               )
             }
             className="min-w-[40px] h-10 rounded-full bg-white p-1 flex items-center justify-center"
@@ -85,8 +88,8 @@ export default function ShortcutMenu({
             onClick={() =>
               router.push(
                 pageUrls.templateCentral({
-                  pageSlug: pageData?.url || "",
-                  templateSlug: templateData?.url || "",
+                  pageSlug: pageData?.slug || "",
+                  templateSlug: templateData?.slug || "",
                   settings: "central",
                 })
               )

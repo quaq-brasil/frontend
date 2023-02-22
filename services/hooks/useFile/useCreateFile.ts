@@ -3,8 +3,21 @@ import { IFile } from "../../../types/File.types"
 import { api } from "../../apiClient"
 
 export const useCreateFile = () => {
-  const createFile = async (data: IFile) => {
-    await api.post(`/files`, data)
+  const createFile = async (file: File) => {
+    const data = new FormData()
+    data.append("file", file, file.name)
+
+    const response = await api.post("/fileUpload", data, {
+      headers: {
+        accept: "application/json",
+        //@ts-ignore
+        "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+      },
+    })
+
+    console.log(response.data)
+
+    return response.data as IFile
   }
 
   return useMutation({

@@ -5,12 +5,11 @@ import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage, IUpdatePage } from "../../../types/Page.type"
-import { IUpdateTemplate } from "../../../types/Template.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 import { PageTrackersContent } from "./PageTrackersContent"
 
 type PageTrackersProps = {
-  handleUpdateTrackers: (data: IUpdateTemplate) => void
+  handleUpdateTrackers: (data: IUpdatePage) => void
   initialPageData?: IPage
 }
 
@@ -58,7 +57,7 @@ export default function PageTrackers({
           onClick={() =>
             router.push(
               pageUrls.pageSettings({
-                pageSlug: pageData?.url || "",
+                pageSlug: pageData?.slug || "",
                 pageSettings: "general",
               })
             )
@@ -81,7 +80,7 @@ export default function PageTrackers({
           onClick={() =>
             router.push(
               pageUrls.pageSettings({
-                pageSlug: pageData?.url || "",
+                pageSlug: pageData?.slug || "",
                 pageSettings: "general",
               })
             )
@@ -96,11 +95,11 @@ export default function PageTrackers({
       <Header background_url={pageData?.background_url || ""}>
         <Tag
           variant="img-txt"
-          text={pageData?.name || ""}
+          text={pageData?.title || ""}
           img_url={pageData?.avatar_url || ""}
           onClick={() =>
             router.push(
-              pageUrls.pageSettings({ pageSlug: pageData?.url || "" })
+              pageUrls.pageSettings({ pageSlug: pageData?.slug || "" })
             )
           }
         />
@@ -110,7 +109,7 @@ export default function PageTrackers({
           onClick={() =>
             router.push(
               pageUrls.pageSettings({
-                pageSlug: pageData?.url || "",
+                pageSlug: pageData?.slug || "",
                 pageSettings: "general",
               })
             )

@@ -46,8 +46,8 @@ export default function TemplateExecution({
       <Tag
         key={2}
         variant="txt"
-        text={pageData?.name as string}
-        onClick={() => router.push(pageUrls.page(pageData?.url || ""))}
+        text={pageData?.title as string}
+        onClick={() => router.push(pageUrls.page(pageData?.slug || ""))}
       />,
     ]
   }
@@ -57,13 +57,13 @@ export default function TemplateExecution({
       <Header background_url={pageData?.background_url || ""}>
         <Tag
           variant="img-txt"
-          text={pageData?.name || ""}
+          text={pageData?.title || ""}
           img_url={pageData?.avatar_url || ""}
-          onClick={() => router.push(pageUrls.page(pageData?.url || ""))}
+          onClick={() => router.push(pageUrls.page(pageData?.slug || ""))}
         />
         <Tag
           variant="img-txt"
-          text={templateData?.name || ""}
+          text={templateData?.title || ""}
           img_url={templateData?.shortcut_image || ""}
         />
       </Header>

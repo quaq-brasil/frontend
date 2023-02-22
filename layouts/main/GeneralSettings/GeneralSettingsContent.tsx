@@ -10,7 +10,7 @@ import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { useDebounce } from "../../../hooks/useDebouce"
-import { useGetPageUrl } from "../../../services/hooks/usePage/useGetPageUrl"
+import { useGetPageSlug } from "../../../services/hooks/usePage/useGetPageSlug"
 import { IUpdatePage } from "../../../types/Page.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 
@@ -35,7 +35,7 @@ export function GeneralSettingsContent({
 }: GeneralSettingsContent) {
   const text = useTranslation().t
 
-  const getPageUrl = useGetPageUrl()
+  const getPageUrl = useGetPageSlug()
 
   type IGetPageUrl = {
     name: string
@@ -46,9 +46,9 @@ export function GeneralSettingsContent({
     getPageUrl.mutate(
       { name, id },
       {
-        onSuccess: (url) => {
+        onSuccess: (slug) => {
           handleUpdatePageData({
-            url,
+            slug,
           })
         },
       }
@@ -56,13 +56,13 @@ export function GeneralSettingsContent({
   }
 
   const debouncedPageName = useDebounce({
-    value: pageData?.name,
+    value: pageData?.title,
     delay: 1000 * 1,
   })
 
   useEffect(() => {
-    if (isUpdating && debouncedPageName && pageData?.name) {
-      handleGetPageUrl({ id: pageData.id as string, name: pageData.name })
+    if (isUpdating && debouncedPageName && pageData?.title) {
+      handleGetPageUrl({ id: pageData.id as string, name: pageData.title })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedPageName])
@@ -94,8 +94,8 @@ export function GeneralSettingsContent({
             <CardTextInput
               input={{
                 label: text("generalsettings:titlelabel"),
-                onChange: (title) => handleUpdatePageData({ name: title }),
-                defaultValue: pageData?.name,
+                onChange: (title) => handleUpdatePageData({ title: title }),
+                defaultValue: pageData?.title,
               }}
             />
           </Card>
@@ -104,9 +104,9 @@ export function GeneralSettingsContent({
             <CardTextInput
               input={{
                 label: text("generalsettings:linklabel"),
-                onChange: (link) => handleUpdatePageData({ url: link }),
+                onChange: (link) => handleUpdatePageData({ slug: link }),
                 fixedText: "quaq.me/",
-                value: pageData?.url,
+                value: pageData?.slug,
               }}
               indicator={{
                 icon: Check,
@@ -181,7 +181,7 @@ export function GeneralSettingsContent({
                 onClick={() =>
                   router.push(
                     pageUrls.pageSettings({
-                      pageSlug: pageData?.url || "",
+                      pageSlug: pageData?.slug || "",
                       pageSettings: "delete",
                     })
                   )
@@ -202,7 +202,7 @@ export function GeneralSettingsContent({
                 onClick={() =>
                   router.push(
                     pageUrls.pageSettings({
-                      pageSlug: pageData?.url || "",
+                      pageSlug: pageData?.slug || "",
                       pageSettings: "trackers",
                     })
                   )

@@ -128,8 +128,8 @@ export function EditTemplateContent({
             <CardText label={text("edittemplate:title")} />
             <CardTextInput
               input={{
-                onChange: (title) => handleUpdateTemplateData({ name: title }),
-                defaultValue: templateData?.name,
+                onChange: (title) => handleUpdateTemplateData({ title: title }),
+                defaultValue: templateData?.title,
                 label: text("edittemplate:titlelabel"),
               }}
             />
@@ -138,9 +138,9 @@ export function EditTemplateContent({
             <CardText label={text("edittemplate:link")} />
             <CardTextInput
               input={{
-                onChange: (link) => handleUpdateTemplateData({ url: link }),
+                onChange: (link) => handleUpdateTemplateData({ slug: link }),
                 fixedText: "quaq.me/",
-                value: templateData?.url,
+                value: templateData?.slug,
                 label: text("edittemplate:linklabel"),
               }}
               indicator={{

@@ -6,7 +6,7 @@ import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUserLogin } from "../../../types/User.type"
 import { pageUrls } from "../../../utils/pagesUrl"
-import { LoginContent } from "./LogInContent"
+import { LoginContent } from "./LoginContent"
 
 type LoginProps = {
   handleUserLogin: (data: IUserLogin) => void
@@ -29,10 +29,11 @@ export default function Login({ handleUserLogin }: LoginProps) {
   }
 
   function handleUpdateUserData(newData: IUserLogin) {
-    setUserdata({
-      ...userData,
-      email: newData.email || userData?.email,
-      password: newData.password || userData?.password,
+    setUserdata((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IUserLogin
     })
     handleUpdateIsUpdating(true)
   }

@@ -78,7 +78,7 @@ export default function CentralOptions({
           onClick={() =>
             router.push(
               pageUrls.pageSettings({
-                pageSlug: pageData?.url || pageUrls.home(),
+                pageSlug: pageData?.slug || pageUrls.home(),
               })
             )
           }
@@ -120,7 +120,7 @@ export default function CentralOptions({
           onClick={() =>
             router.push(
               pageUrls.pageSettings({
-                pageSlug: pageData?.url || pageUrls.home(),
+                pageSlug: pageData?.slug || pageUrls.home(),
               })
             )
           }
@@ -132,9 +132,9 @@ export default function CentralOptions({
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData?.url as string,
+                pageSlug: pageData?.slug as string,
                 settings: "central",
-                templateSlug: templateData?.url as string,
+                templateSlug: templateData?.slug as string,
               })
             )
           }
@@ -148,9 +148,9 @@ export default function CentralOptions({
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData?.url as string,
+                pageSlug: pageData?.slug as string,
                 settings: "logs",
-                templateSlug: templateData?.url as string,
+                templateSlug: templateData?.slug as string,
               })
             )
           }
@@ -170,19 +170,19 @@ export default function CentralOptions({
       <Header background_url={pageData?.background_url || ""}>
         <Tag
           variant="img-txt"
-          text={pageData?.name || ""}
+          text={pageData?.title || ""}
           img_url={pageData?.avatar_url || ""}
           onClick={() =>
             router.push(
               pageUrls.pageSettings({
-                pageSlug: pageData?.url || pageUrls.home(),
+                pageSlug: pageData?.slug || pageUrls.home(),
               })
             )
           }
         />
         <Tag
           variant="img-txt"
-          text={templateData?.name || ""}
+          text={templateData?.title || ""}
           img_url={templateData?.shortcut_image || ""}
         />
       </Header>

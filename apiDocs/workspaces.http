@@ -10,23 +10,17 @@ POST https://bff.quaq.me/api/v1/workspaces
 Content-Type: application/json
 
 {
-  "name": "positivo demo",
-  "avatar_url": "https://source.unsplash.com/featured/",
-  "user_id": "63ea980fa852c6a2dc94a608",
-  "slug": "demopositivo",
-  "services": [
-    {
-      "name": "My Service",
-      "description": "My Service Description"
-    }
-  ]
+  "name": "qaaq",
+  "avatar_url": "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1222&q=80",
+  "user_id": "63f3f2c6f21186fda011522a",
+  "slug": "quaq"
 }
 
 ###
 
 # update one
 
-PUT  https://bff.quaq.me/api/v1/workspaces/63dd14cdc3a3b5901c1675ff
+PUT  https://bff.quaq.me/api/v1/workspaces/63f3f323f21186fda011522b
 Content-Type: application/json
 
 {

@@ -60,7 +60,8 @@
       "explorer",
       "userdelete",
       "chartconfig",
-      "blockmenu"
+      "blockmenu",
+      "validation"
     ]
   }
 }

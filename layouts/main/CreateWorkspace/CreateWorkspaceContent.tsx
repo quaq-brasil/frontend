@@ -33,7 +33,8 @@ export function CreateWorkspaceContent({
             <CardTextInput
               input={{
                 label: text("createwspace:inputwsname"),
-                onChange: (title) => handleUpdateWorkspaceData({ name: title }),
+                onChange: (title) =>
+                  handleUpdateWorkspaceData({ title: title }),
                 type: "text",
               }}
             />

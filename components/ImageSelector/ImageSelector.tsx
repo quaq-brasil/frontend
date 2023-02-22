@@ -3,6 +3,7 @@ import Image from "next/image"
 import { ImageSquare, Plus } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
+import { useCreateFile } from "../../services/hooks/useFile/useCreateFile"
 import { checkForFileSize } from "../../utils/checkForFileSize"
 import { LoadingImage } from "./LoadingImage"
 
@@ -30,6 +31,7 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
   const [error, setError] = useState("")
   const text = useTranslation().t
   const [isLoading, setIsLoading] = useState(false)
+  const createFile = useCreateFile()
 
   useEffect(() => {
     setImageUrl(url || "")
@@ -55,20 +57,23 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
         const jpegImage = await convertHeicToJpeg(file)
 
         if (typeof jpegImage !== "string") {
-          imageUrl = "https://source.unsplash.com/featured/"
+          createFile.mutate(jpegImage, {
+            onSuccess: (data) => {
+              setImageUrl(data.url)
+              onImageChange(data.url)
+            },
+          })
         } else {
           setError(jpegImage)
         }
       } else {
-        imageUrl = URL.createObjectURL(file)
+        createFile.mutate(file, {
+          onSuccess: (data) => {
+            setImageUrl(data.url)
+            onImageChange(data.url)
+          },
+        })
       }
-
-      if (!imageUrl) {
-        throw new Error("Failed to create image URL")
-      }
-
-      setImageUrl(imageUrl)
-      onImageChange(imageUrl)
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -83,45 +88,48 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop })
 
-  return (
-    <div className="relative">
-      {isLoading ? (
-        <div className="w-fit">
-          <div className="relative" {...getRootProps()}>
-            <input {...getInputProps()} accept="image/" />
-            <LoadingImage />
-          </div>
-        </div>
-      ) : error ? (
-        <ErrorMessage message={error} />
-      ) : (
-        <div className="relative w-fit" {...getRootProps()}>
+  let content = null
+  if (isLoading) {
+    content = (
+      <div className="w-fit">
+        <div className="relative" {...getRootProps()}>
           <input {...getInputProps()} accept="image/" />
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
-              className="h-16 w-16  lg:h-20 lg:w-20 rounded-full object-cover border-[1px] border-black lg:border-[2px]"
-              width={85}
-              height={85}
-              alt="Selected Image"
-            />
-          ) : (
-            <button
-              type="button"
-              className="flex items-center bg-white border-[1px] border-slate-100 rounded-full px-3 py-2 gap-2 lg:h-[3.25rem] lg:px-3 lg:text-[1.1rem]"
-            >
-              <Plus className="h-5 w-5" weight="bold" />
-              <span>{text("imageselector:add")}</span>
-            </button>
-          )}
-
-          {imageUrl ? (
-            <div className="absolute bottom-0 right-0 bg-black flex justify-center items-center rounded-full h-5 w-5 lg:h-6 lg:w-6">
-              <ImageSquare className="text-white w-3 h-3 lg:h-4 lg:w-4" />
-            </div>
-          ) : null}
+          <LoadingImage />
         </div>
-      )}
-    </div>
-  )
+      </div>
+    )
+  } else if (error) {
+    content = <ErrorMessage message={error} />
+  } else {
+    content = (
+      <div className="relative w-fit" {...getRootProps()}>
+        <input {...getInputProps()} accept="image/" />
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            className="h-16 w-16  lg:h-20 lg:w-20 rounded-full object-cover border-[1px] border-black lg:border-[2px]"
+            width={85}
+            height={85}
+            alt="Selected Image"
+          />
+        ) : (
+          <button
+            type="button"
+            className="flex items-center bg-white border-[1px] border-slate-100 rounded-full px-3 py-2 gap-2 lg:h-[3.25rem] lg:px-3 lg:text-[1.1rem]"
+          >
+            <Plus className="h-5 w-5" weight="bold" />
+            <span>{text("imageselector:add")}</span>
+          </button>
+        )}
+
+        {imageUrl ? (
+          <div className="absolute bottom-0 right-0 bg-black flex justify-center items-center rounded-full h-5 w-5 lg:h-6 lg:w-6">
+            <ImageSquare className="text-white w-3 h-3 lg:h-4 lg:w-4" />
+          </div>
+        ) : null}
+      </div>
+    )
+  }
+
+  return <div className="relative">{content}</div>
 }

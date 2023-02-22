@@ -84,7 +84,7 @@ export function CreateTemplateContent({
         variant="txt"
         text={text("createtemplate:back")}
         onClick={() =>
-          router.push(pageUrls.pageSettings({ pageSlug: pageData?.url }))
+          router.push(pageUrls.pageSettings({ pageSlug: pageData?.slug }))
         }
       />,
       blocks.length > 0 && (

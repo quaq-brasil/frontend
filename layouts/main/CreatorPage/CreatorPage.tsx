@@ -66,7 +66,7 @@ export default function CreatorPage({
           }
         )
       }
-    } else if (workspaces) {
+    } else if (workspaces && workspaces.length > 0) {
       setCurrentWorkspace(workspaces[0])
       getPages.mutate(
         { id: workspaces[0].id as string },
@@ -89,7 +89,7 @@ export default function CreatorPage({
         onSuccess: (data) => {
           setPages(data)
           setCurrentPage(data[0])
-          router.push(pageUrls.pageSettings({ pageSlug: data[0].url }))
+          router.push(pageUrls.pageSettings({ pageSlug: data[0].slug }))
         },
       }
     )
@@ -116,7 +116,7 @@ export default function CreatorPage({
               <Tag
                 variant="img-txt"
                 img_url={workspace.avatar_url || ""}
-                text={workspace.name || ""}
+                text={workspace.title || ""}
                 isSelected={workspace.id == currentWorkspace?.id}
                 onClick={() => handleCurrentWorkspaceUpdate(workspace)}
               />
@@ -198,12 +198,12 @@ export default function CreatorPage({
           <div key={index} className="w-fit">
             <Tag
               variant="img-txt"
-              text={page?.name || ""}
+              text={page?.title || ""}
               img_url={page?.avatar_url || ""}
               isSelected={page.id == currentPage?.id}
               onClick={() => {
                 setCurrentPage(page)
-                router.push(pageUrls.pageSettings({ pageSlug: page.url }))
+                router.push(pageUrls.pageSettings({ pageSlug: page.slug }))
               }}
             />
           </div>
@@ -322,7 +322,7 @@ export default function CreatorPage({
         onClick={() =>
           router.push(
             pageUrls.pageSettings({
-              pageSlug: currentPage?.url || "",
+              pageSlug: currentPage?.slug || "",
               pageSettings: "general",
             })
           )
@@ -333,7 +333,7 @@ export default function CreatorPage({
         variant="txt"
         text={text("creatorpage:new")}
         onClick={() =>
-          router.push(pageUrls.createTemplate(currentPage?.url as string))
+          router.push(pageUrls.createTemplate(currentPage?.slug as string))
         }
       />,
       <div key={3} className="xl:hidden w-fit">
@@ -364,7 +364,7 @@ export default function CreatorPage({
               onClick={() =>
                 router.push(
                   pageUrls.pageSettings({
-                    pageSlug: currentPage?.url || "",
+                    pageSlug: currentPage?.slug || "",
                     pageSettings: "general",
                   })
                 )
@@ -377,7 +377,9 @@ export default function CreatorPage({
               variant="txt"
               text={text("creatorpage:new")}
               onClick={() =>
-                router.push(pageUrls.createTemplate(currentPage?.url as string))
+                router.push(
+                  pageUrls.createTemplate(currentPage?.slug as string)
+                )
               }
             />
           </div>
@@ -425,12 +427,12 @@ export default function CreatorPage({
     return (
       <Tag
         variant="img-txt"
-        text={currentPage?.name || ""}
+        text={currentPage?.title || ""}
         img_url={currentPage?.avatar_url || ""}
         onClick={() =>
           router.push(
             pageUrls.pageSettings({
-              pageSlug: currentPage?.url || "",
+              pageSlug: currentPage?.slug || "",
               pageSettings: "general",
             })
           )

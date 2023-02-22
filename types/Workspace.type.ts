@@ -1,7 +1,7 @@
 import { IPage } from "./Page.type"
 export type IWorkspace = {
   id?: string
-  name: string
+  title: string
   avatar_url: string
   slug: string
   members?: {
@@ -14,7 +14,7 @@ export type IWorkspace = {
   user_id?: string
   services: [
     {
-      name: string
+      type: string
       description: string
     }
   ]
@@ -23,7 +23,7 @@ export type IWorkspace = {
 
 export type IUpdateWorkspace = {
   id?: string
-  name?: string
+  title?: string
   slug?: string
   avatar_url?: string
   user_id?: string
@@ -36,7 +36,7 @@ export type IUpdateWorkspace = {
   }
   services?: [
     {
-      name?: string
+      type?: string
       description?: string
     }
   ]

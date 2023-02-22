@@ -41,10 +41,10 @@ export default function CreateTemplate({ page }: CreateTemplateProps) {
       >
         <Tag
           variant="img-txt"
-          text={page?.name || ""}
+          text={page?.title || ""}
           img_url={page?.avatar_url || "https://source.unsplash.com/featured/"}
           onClick={() =>
-            router.push(pageUrls.pageSettings({ pageSlug: pageData?.url }))
+            router.push(pageUrls.pageSettings({ pageSlug: pageData?.slug }))
           }
         />
         <Tag variant="txt" text={text("createtemplate:newtemplate")} />

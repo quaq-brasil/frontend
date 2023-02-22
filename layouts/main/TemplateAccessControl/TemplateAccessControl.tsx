@@ -43,7 +43,7 @@ export default function TemplateAccessControl({
           text={text("accesscontrol:confirm")}
           onClick={() =>
             router.push(
-              pageUrls.pageSettings({ pageSlug: pageData?.url || "" })
+              pageUrls.pageSettings({ pageSlug: pageData?.slug || "" })
             )
           }
         />
@@ -56,17 +56,17 @@ export default function TemplateAccessControl({
       <Header background_url={pageData?.background_url || ""}>
         <Tag
           variant="img-txt"
-          text={pageData?.name || ""}
+          text={pageData?.title || ""}
           img_url={pageData?.avatar_url || ""}
           onClick={() =>
             router.push(
-              pageUrls.pageSettings({ pageSlug: pageData?.url || "" })
+              pageUrls.pageSettings({ pageSlug: pageData?.slug || "" })
             )
           }
         />
         <Tag
           variant="img-txt"
-          text={templateData?.name || ""}
+          text={templateData?.title || ""}
           img_url={templateData?.shortcut_image || ""}
         />
       </Header>

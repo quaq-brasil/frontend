@@ -8,14 +8,14 @@ type dataProps = {
   page_id: string
 }
 
-type useGenerateTemplateUniqueUrlProps = {
+type useGenerateTemplateUniqueSlugProps = {
   data: dataProps
 } & useMutationProps
 
-export const useGenerateTemplateUniqueUrl = () => {
-  const generateTemplateUniqueUrl = async ({
+export const useGenerateTemplateUniqueSlug = () => {
+  const generateTemplateUniqueSlug = async ({
     data,
-  }: useGenerateTemplateUniqueUrlProps) => {
+  }: useGenerateTemplateUniqueSlugProps) => {
     const response: UseMutationResult<string> = await api.post(
       `/templates/generate_unique_url`,
       data
@@ -25,7 +25,7 @@ export const useGenerateTemplateUniqueUrl = () => {
   }
 
   return useMutation({
-    mutationKey: ["generateTemplateUniqueUrl"],
-    mutationFn: generateTemplateUniqueUrl,
+    mutationKey: ["generateTemplateUniqueSlug"],
+    mutationFn: generateTemplateUniqueSlug,
   })
 }

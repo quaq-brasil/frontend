@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import PageTrackers from "../../../../layouts/main/PageTrackers/PageTrackers"
-import { usePageByUrl } from "../../../../services/hooks/usePage/usePageByUrl"
+import { usePageBySlug } from "../../../../services/hooks/usePage/usePageBySlug"
 import { useUpdatePage } from "../../../../services/hooks/usePage/useUpdatePage"
 import { IUpdatePage } from "../../../../types/Page.type"
 
@@ -10,7 +10,7 @@ type PageTrackersPageProps = {
 }
 
 export default function PageTrackersPage({ page }: PageTrackersPageProps) {
-  const getPage = usePageByUrl({ url: page })
+  const getPage = usePageBySlug({ slug: page })
 
   const pageUpdate = useUpdatePage()
 

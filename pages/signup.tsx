@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
 import { useState } from "react"
-import SignUp from "../layouts/Onboarding/SignUp/SignUp"
+import SignUp from "../layouts/Onboarding/Signup/SignUp"
 
 import { useCreateUser } from "../services/hooks/useUser/useCreateUser"
 import { useUpdateUser } from "../services/hooks/useUser/useUpdateUser"

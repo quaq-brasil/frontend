@@ -1,14 +1,14 @@
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import CreateTemplate from "../../../../layouts/main/CreateTemplate/CreateTemplate"
-import { usePageByUrl } from "../../../../services/hooks/usePage/usePageByUrl"
+import { usePageBySlug } from "../../../../services/hooks/usePage/usePageBySlug"
 
 type CreateTemplatePageProps = {
   page: string
 }
 
 export default function CreateTemplatePage({ page }: CreateTemplatePageProps) {
-  const pageResponse = usePageByUrl({ url: page })
+  const pageResponse = usePageBySlug({ slug: page })
 
   return <CreateTemplate page={pageResponse?.data} />
 }

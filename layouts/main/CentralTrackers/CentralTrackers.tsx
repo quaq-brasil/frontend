@@ -32,9 +32,11 @@ export default function CentralTrackers({
   }
 
   function handleUpdateTemplateData(newData: IUpdateTemplate) {
-    setTemplateData({
-      ...templateData,
-      trackers: newData.trackers || templateData?.trackers,
+    setTemplateData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IUpdateTemplate
     })
     handleUpdateIsUpdating(true)
   }
@@ -65,8 +67,8 @@ export default function CentralTrackers({
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData?.url as string,
-                templateSlug: templateData?.url as string,
+                pageSlug: pageData?.slug as string,
+                templateSlug: templateData?.slug as string,
                 settings: "central",
               })
             )
@@ -89,8 +91,8 @@ export default function CentralTrackers({
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData?.url as string,
-                templateSlug: templateData?.url as string,
+                pageSlug: pageData?.slug as string,
+                templateSlug: templateData?.slug as string,
                 settings: "central",
               })
             )
@@ -105,19 +107,19 @@ export default function CentralTrackers({
       <Header background_url={pageData?.background_url || ""}>
         <Tag
           variant="img-txt"
-          text={pageData?.name || ""}
+          text={pageData?.title || ""}
           img_url={pageData?.avatar_url || ""}
           onClick={() => router.push(pageUrls.pageSettings({}))}
         />
         <Tag
           variant="img-txt"
-          text={templateData?.name || ""}
+          text={templateData?.title || ""}
           img_url={templateData?.shortcut_image || ""}
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData?.url as string,
-                templateSlug: templateData?.url as string,
+                pageSlug: pageData?.slug as string,
+                templateSlug: templateData?.slug as string,
                 settings: "central",
               })
             )

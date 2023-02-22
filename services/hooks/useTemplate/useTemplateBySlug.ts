@@ -3,18 +3,21 @@ import { ITemplate } from "../../../types/Template.type"
 import { useQueryProps } from "../../../types/useQueryProps"
 import { api } from "../../apiClient"
 
-type useTemplateByUrlProps = {
-  url: string
+type useTemplateBySlugProps = {
+  slug: string
 } & useQueryProps
 
-export const useTemplateByUrl = ({ url, options }: useTemplateByUrlProps) => {
-  const getTemplateByUrl = async () => {
-    return api.get(`/templates/url/${url}`)
+export const useTemplateBySlug = ({
+  slug,
+  options,
+}: useTemplateBySlugProps) => {
+  const getTemplateBySlug = async () => {
+    return api.get(`/templates/slug/${slug}`)
   }
 
   const response = useQuery({
-    queryKey: ["getTemplateByUrl", url],
-    queryFn: getTemplateByUrl,
+    queryKey: ["getTemplateBySlug", slug],
+    queryFn: getTemplateBySlug,
     ...options,
   }) as UseQueryResult<{ data: ITemplate }>
 

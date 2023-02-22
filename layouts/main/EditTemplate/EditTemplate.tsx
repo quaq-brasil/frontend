@@ -34,14 +34,11 @@ export default function EditTemplate({
   }
 
   function handleUpdateTemplateData(newData: IUpdateTemplate) {
-    setTemplateData({
-      ...templateData,
-      name: newData.name || templateData?.name,
-      shortcut_image: newData.shortcut_image || templateData?.shortcut_image,
-      shortcut_size: newData.shortcut_size || templateData?.shortcut_size,
-      current_publication_id:
-        newData.current_publication_id || templateData?.current_publication_id,
-      url: newData.url || templateData?.url,
+    setTemplateData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IUpdateTemplate
     })
     handleUpdateIsUpdating(true)
   }
@@ -85,12 +82,12 @@ export default function EditTemplate({
       <Header background_url={pageData?.background_url || ""}>
         <Tag
           variant="img-txt"
-          text={pageData?.name || ""}
+          text={pageData?.title || ""}
           img_url={pageData?.avatar_url || ""}
         />
         <Tag
           variant="img-txt"
-          text={templateData?.name || ""}
+          text={templateData?.title || ""}
           img_url={templateData?.shortcut_image || ""}
         />
       </Header>

@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 import GeneralSettings from "../../../../layouts/main/GeneralSettings/GeneralSettings"
-import { usePageByUrl } from "../../../../services/hooks/usePage/usePageByUrl"
+import { usePageBySlug } from "../../../../services/hooks/usePage/usePageBySlug"
 import { useUpdatePage } from "../../../../services/hooks/usePage/useUpdatePage"
 import { IUpdatePage } from "../../../../types/Page.type"
 import { pageUrls } from "../../../../utils/pagesUrl"
@@ -16,8 +16,8 @@ export default function GeneralSettingsPage({
 }: GeneralSettingsPageProps) {
   const router = useRouter()
 
-  const getPage = usePageByUrl({
-    url: page,
+  const getPage = usePageBySlug({
+    slug: page,
   })
 
   const updatePage = useUpdatePage()
@@ -29,8 +29,8 @@ export default function GeneralSettingsPage({
         data: {
           avatar_url: data.avatar_url,
           background_url: data.background_url,
-          name: data.name,
-          url: data.url,
+          title: data.title,
+          slug: data.slug,
           description: data.description,
         },
       },
@@ -38,7 +38,7 @@ export default function GeneralSettingsPage({
         onSuccess: (data) => {
           router.push(
             pageUrls.pageSettings({
-              pageSlug: data.url,
+              pageSlug: data.slug,
               pageSettings: "general",
             })
           )
