@@ -1,8 +1,10 @@
 import useTranslation from "next-translate/useTranslation"
-import { toast, ToastContainer } from "react-toastify"
+import { useState } from "react"
+import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { Card } from "../../../components/Card/Card"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { IUpdateUser } from "../../../types/User.type"
 
@@ -12,6 +14,7 @@ type SignupContentProps = {
   handleUpdateRunUpdate: (stat: boolean) => void
   isUpdating: boolean
   runUpdate: boolean
+  userData: IUpdateUser | undefined
 }
 
 export function SignupContent({
@@ -20,10 +23,67 @@ export function SignupContent({
   handleUpdateUserData,
   isUpdating,
   runUpdate,
+  userData,
 }: SignupContentProps) {
   const text = useTranslation().t
 
-  const notify = () => toast("test")
+  type FormDataProps = {
+    name?: {
+      valid?: boolean
+    }
+    profilePicture?: {
+      valid?: boolean
+    }
+    email?: {
+      valid?: boolean
+    }
+    password?: {
+      value?: string
+      valid?: boolean
+    }
+    passwordConfirm?: {
+      value?: string
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    name: {
+      valid: false,
+    },
+    profilePicture: {
+      valid: false,
+    },
+    email: {
+      valid: false,
+    },
+    password: {
+      value: "",
+      valid: false,
+    },
+    passwordConfirm: {
+      value: "",
+      valid: false,
+    },
+  })
+
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+    if (
+      formData.email?.valid &&
+      formData.name?.valid &&
+      formData.password?.valid &&
+      formData.passwordConfirm?.valid &&
+      formData.profilePicture?.valid
+    ) {
+      handleUpdateIsUpdating(true)
+    }
+  }
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -38,19 +98,16 @@ export function SignupContent({
           </Card>
           <Card>
             <CardText label={text("signup:name")} />
-            <div className="w-full flex flex-row justify-between items-center bg-slate-50 my-2">
-              <input
-                className="bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem] placeholder:text-slate-300
-                   lg:text-[1.1rem] hover:outline-none focus:outline-none px-3 lg:px-[1.125rem]"
-                type="text"
-                placeholder={text("signup:namelabel")}
-                maxLength={12}
-                minLength={2}
-                onChange={(name) =>
-                  handleUpdateUserData({ name: name.target.value })
-                }
-              />
-            </div>
+            <CardTextInput
+              input={{
+                onChange: (name) => {
+                  handleUpdateUserData({ name: name })
+                },
+                label: text("signup:namelabel"),
+                type: "name",
+                setValid: () => handleUpdateFormData({ name: { valid: true } }),
+              }}
+            />
           </Card>
           <Card>
             <CardText label={text("signup:picture")} />
@@ -59,6 +116,7 @@ export function SignupContent({
                 onImageChange={(image) => {
                   {
                     handleUpdateUserData({ avatar_url: image })
+                    handleUpdateFormData({ profilePicture: { valid: true } })
                   }
                 }}
               />
@@ -66,47 +124,62 @@ export function SignupContent({
           </Card>
           <Card>
             <CardText label={text("signup:email")} />
-            <div className="w-full flex flex-row justify-between items-center bg-slate-50 my-2">
-              <input
-                className="bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem] placeholder:text-slate-300
-                   lg:text-[1.1rem] hover:outline-none focus:outline-none px-3 lg:px-[1.125rem]"
-                type="email"
-                placeholder={text("signup:emaillabel")}
-                minLength={5}
-                onChange={(email) =>
-                  handleUpdateUserData({ email: email.target.value })
-                }
-              />
-            </div>
+            <CardTextInput
+              input={{
+                onChange: (email) => handleUpdateUserData({ email: email }),
+                type: "email",
+                label: text("signup:emaillabel"),
+                setValid: () =>
+                  handleUpdateFormData({ email: { valid: true } }),
+              }}
+            />
           </Card>
           <Card>
             <CardText label={text("signup:password")} />
-            <div className="w-full flex flex-row justify-between items-center bg-slate-50 my-2">
-              <input
-                className="bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem] placeholder:text-slate-300
-                   lg:text-[1.1rem] hover:outline-none focus:outline-none px-3 lg:px-[1.125rem]"
-                type="password"
-                placeholder={text("signup:passwordlabel")}
-                maxLength={32}
-                minLength={8}
-                onChange={(password) =>
-                  handleUpdateUserData({ password: password.target.value })
-                }
-              />
-            </div>
+            <CardTextInput
+              input={{
+                onChange: (password) => {
+                  handleUpdateUserData({ password: password })
+                  handleUpdateFormData({ password: { value: password } })
+                },
+                type: "password",
+                label: text("signup:passwordlabel"),
+                setValid: () => {
+                  if (
+                    formData.password?.value === formData.passwordConfirm?.value
+                  ) {
+                    handleUpdateFormData({
+                      password: { valid: true },
+                      passwordConfirm: { valid: true },
+                    })
+                  }
+                },
+              }}
+            />
           </Card>
           <Card>
             <CardText label={text("signup:confirmation")} />
-            <div className="w-full flex flex-row justify-between items-center bg-slate-50 my-2">
-              <input
-                className="bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem] placeholder:text-slate-300
-                   lg:text-[1.1rem] hover:outline-none focus:outline-none px-3 lg:px-[1.125rem]"
-                type="password"
-                placeholder={text("signup:confirmationlabel")}
-                maxLength={32}
-                minLength={8}
-              />
-            </div>
+            <CardTextInput
+              input={{
+                onChange: (confirmation) => {
+                  handleUpdateFormData({
+                    passwordConfirm: { value: confirmation },
+                  })
+                },
+                type: "password",
+                label: text("signup:confirmationlabel"),
+                setValid: () => {
+                  if (
+                    formData.password?.value === formData.passwordConfirm?.value
+                  ) {
+                    handleUpdateFormData({
+                      password: { valid: true },
+                      passwordConfirm: { valid: true },
+                    })
+                  }
+                },
+              }}
+            />
           </Card>
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">

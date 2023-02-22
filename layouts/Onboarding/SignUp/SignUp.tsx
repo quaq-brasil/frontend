@@ -1,10 +1,10 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUpdateUser } from "../../../types/User.type"
-import { pageUrls } from "../../../utils/pagesUrl"
 import { SignupContent } from "./SignupContent"
 
 type SignUpProps = {
@@ -13,6 +13,7 @@ type SignUpProps = {
 
 export default function SignUp({ handleCreateUser }: SignUpProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [userData, setUserData] = useState<IUpdateUser>()
   const [isUpdating, setIsUpdating] = useState(false)
@@ -33,7 +34,6 @@ export default function SignUp({ handleCreateUser }: SignUpProps) {
         ...newData,
       } as IUpdateUser
     })
-    handleUpdateIsUpdating(true)
   }
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function SignUp({ handleCreateUser }: SignUpProps) {
           key={1}
           variant="txt"
           text={text("signup:back")}
-          onClick={() => pageUrls.Back()}
+          onClick={() => router.back()}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -66,7 +66,7 @@ export default function SignUp({ handleCreateUser }: SignUpProps) {
           key={1}
           variant="txt"
           text={text("signup:back")}
-          onClick={() => pageUrls.Back()}
+          onClick={() => router.back()}
         />,
       ]
     }
@@ -87,6 +87,7 @@ export default function SignUp({ handleCreateUser }: SignUpProps) {
         handleUpdateRunUpdate={handleUpdateRunUpdate}
         isUpdating={isUpdating}
         runUpdate={runUpdate}
+        userData={userData}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

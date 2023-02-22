@@ -1,0 +1,6 @@
+{
+  "required": "Este campo é obrigatório.",
+  "validemail": "Por favor insira um endereço de e-mail válido.",
+  "validpassword": "A senha deve ter pelo menos 8 caracteres e conter pelo menos uma letra maiúscula, uma letra minúscula e um número.",
+  "validname": "O nome deve conter pelo menos 2 letras."
+}
