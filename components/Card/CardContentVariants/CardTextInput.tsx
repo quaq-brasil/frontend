@@ -5,7 +5,7 @@ import { useValidation } from "../../../hooks/useValidation"
 type CardTextInputProps = {
   input?: {
     onChange: (value: string) => void
-    type?: "name" | "email" | "password"
+    type?: "name" | "email" | "password" | "text"
     label?: string
     fixedText?: string
     defaultValue?: string
