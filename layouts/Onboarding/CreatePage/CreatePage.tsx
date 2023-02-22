@@ -37,7 +37,6 @@ export function CreatePage({
         ...newData,
       } as IUpdatePage
     })
-    handleUpdateIsUpdating(true)
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -125,6 +124,7 @@ export function CreatePage({
         isUpdating={isUpdating}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
         pageData={pageData}
+        handleUpdateIsUpdating={handleUpdateIsUpdating}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

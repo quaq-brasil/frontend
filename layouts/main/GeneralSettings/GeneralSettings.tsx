@@ -30,8 +30,7 @@ export default function GeneralSettings({
         ...newData,
       } as IUpdatePage
     })
-
-    setIsUpdating(true)
+    handleUpdateIsUpdating(true)
   }
 
   function handleUpdateIsUpdating(stat: boolean) {

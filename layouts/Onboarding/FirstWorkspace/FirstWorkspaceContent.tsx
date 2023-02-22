@@ -1,15 +1,57 @@
 import useTranslation from "next-translate/useTranslation"
+import { useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
+import { IUpdateWorkspace } from "../../../types/Workspace.type"
 
-export function FirsWorkspaceContent() {
+type FirstWorkspaceContentProps = {
+  isUpdating: boolean
+  handleUpdateWorkspaceData: (data: IUpdateWorkspace) => void
+  handleUpdateRunUpdate: (stat: boolean) => void
+  handleUpdateIsUpdating: (stat: boolean) => void
+}
+
+export function FirstWorkspaceContent({
+  handleUpdateIsUpdating,
+  handleUpdateRunUpdate,
+  handleUpdateWorkspaceData,
+  isUpdating,
+}: FirstWorkspaceContentProps) {
   const text = useTranslation().t
 
-  function handleFinishSignUp() {}
+  type FormDataProps = {
+    title?: {
+      valid?: boolean
+    }
+    avatar?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    title: {
+      valid: false,
+    },
+    avatar: {
+      valid: false,
+    },
+  })
+
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+    if (formData.avatar?.valid && formData.title?.valid) {
+      handleUpdateIsUpdating(true)
+    }
+  }
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -27,8 +69,11 @@ export function FirsWorkspaceContent() {
             <CardTextInput
               input={{
                 label: text("wssetup:inputwsname"),
-                onChange: (e) => console.log(e),
-                type: "text",
+                onChange: (title) =>
+                  handleUpdateWorkspaceData({ title: title }),
+                type: "title",
+                setValid: () =>
+                  handleUpdateFormData({ title: { valid: true } }),
               }}
             />
           </Card>
@@ -36,20 +81,29 @@ export function FirsWorkspaceContent() {
             <CardText label={text("wssetup:uploadimg")} />
             <CardImageInput
               imageSelector={
-                <ImageSelector onImageChange={(e) => console.log(e)} />
+                <ImageSelector
+                  onImageChange={(image) => {
+                    handleUpdateWorkspaceData({ avatar_url: image })
+                    handleUpdateFormData({ avatar: { valid: true } })
+                  }}
+                />
               }
             />
           </Card>
-          <Button
-            block={{
-              data: {
-                color: "bg-black",
-                text: text("wssetup:confirm"),
-                onClick: () => handleFinishSignUp(),
-              },
-            }}
-            isEditable={false}
-          />
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                block={{
+                  data: {
+                    color: "bg-slate-900",
+                    text: text("createwspace:confirm"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
+              />
+            </div>
+          )}
           <span className="w-full h-[4rem]"></span>
         </div>
       </div>

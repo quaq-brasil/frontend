@@ -1,6 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { Check } from "phosphor-react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -16,6 +16,7 @@ type CreatePageContentProps = {
   isUpdating: boolean
   handleUpdateRunUpdate: (stat: boolean) => void
   pageData: IUpdatePage | undefined
+  handleUpdateIsUpdating: (stat: boolean) => void
 }
 
 export function CreatePageContent({
@@ -23,8 +24,63 @@ export function CreatePageContent({
   handleUpdateRunUpdate,
   isUpdating,
   pageData,
+  handleUpdateIsUpdating,
 }: CreatePageContentProps) {
   const text = useTranslation().t
+
+  type FormDataProps = {
+    title?: {
+      valid?: boolean
+    }
+    slug?: {
+      valid?: boolean
+    }
+    description?: {
+      valid?: boolean
+    }
+    avatar?: {
+      valid?: boolean
+    }
+    cover?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    title: {
+      valid: false,
+    },
+    slug: {
+      valid: false,
+    },
+    description: {
+      valid: false,
+    },
+    avatar: {
+      valid: false,
+    },
+    cover: {
+      valid: false,
+    },
+  })
+
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+    if (
+      formData.avatar?.valid &&
+      formData.cover?.valid &&
+      formData.description?.valid &&
+      formData.slug?.valid &&
+      formData.title?.valid
+    ) {
+      handleUpdateIsUpdating(true)
+    }
+  }
 
   const getPageSlug = useGetPageSlug()
 
@@ -52,8 +108,9 @@ export function CreatePageContent({
   })
 
   useEffect(() => {
-    if (isUpdating && debouncedPageName && pageData?.title) {
+    if (debouncedPageName && pageData?.title) {
       handleGetPageSlug({ id: pageData.id as string, name: pageData.title })
+      handleUpdateFormData({ slug: { valid: true } })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedPageName])
@@ -72,7 +129,9 @@ export function CreatePageContent({
               input={{
                 label: text("createpage:inputpagetitle"),
                 onChange: (title) => handleUpdatePageData({ title: title }),
-                type: "text",
+                type: "title",
+                setValid: () =>
+                  handleUpdateFormData({ title: { valid: true } }),
               }}
             />
           </Card>
@@ -101,6 +160,8 @@ export function CreatePageContent({
                 onChange: (description) =>
                   handleUpdatePageData({ description: description }),
                 type: "text",
+                setValid: () =>
+                  handleUpdateFormData({ description: { valid: true } }),
               }}
             />
           </Card>
@@ -109,9 +170,10 @@ export function CreatePageContent({
             <CardImageInput
               imageSelector={
                 <ImageSelector
-                  onImageChange={(picture) =>
+                  onImageChange={(picture) => {
                     handleUpdatePageData({ avatar_url: picture })
-                  }
+                    handleUpdateFormData({ avatar: { valid: true } })
+                  }}
                 />
               }
             />
@@ -121,9 +183,10 @@ export function CreatePageContent({
             <CardImageInput
               imageSelector={
                 <ImageSelector
-                  onImageChange={(cover) =>
+                  onImageChange={(cover) => {
                     handleUpdatePageData({ background_url: cover })
-                  }
+                    handleUpdateFormData({ cover: { valid: true } })
+                  }}
                 />
               }
             />

@@ -45,7 +45,6 @@ export default function CreateWorkspace({
         ...newData,
       } as IUpdateWorkspace
     })
-    handleUpdateIsUpdating(true)
   }
 
   useEffect(() => {
@@ -120,6 +119,7 @@ export default function CreateWorkspace({
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
       <CreateWorkspaceContent
+        handleUpdateIsUpdating={handleUpdateIsUpdating}
         isUpdating={isUpdating}
         handleUpdateWorkspaceData={handleUpdateWorkspaceData}
         handleUpdateRunUpdate={handleUpdateRunUpdate}

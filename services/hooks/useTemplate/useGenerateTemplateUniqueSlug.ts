@@ -17,7 +17,7 @@ export const useGenerateTemplateUniqueSlug = () => {
     data,
   }: useGenerateTemplateUniqueSlugProps) => {
     const response: UseMutationResult<string> = await api.post(
-      `/templates/generate_unique_url`,
+      `/templates/generate_unique_slug`,
       data
     )
 

@@ -5,7 +5,7 @@ import { useValidation } from "../../../hooks/useValidation"
 type CardTextInputProps = {
   input?: {
     onChange: (value: string) => void
-    type?: "name" | "email" | "password" | "text"
+    type?: "name" | "email" | "password" | "text" | "title"
     label?: string
     fixedText?: string
     defaultValue?: string
@@ -41,6 +41,8 @@ export function CardTextInput(props: CardTextInputProps) {
       requiredValidators.push(validators.email)
     } else if (props.input?.type == "password") {
       requiredValidators.push(validators.password)
+    } else if (props.input?.type == "title") {
+      requiredValidators.push(validators.title)
     }
 
     validateField(value, [validators.required, ...requiredValidators])

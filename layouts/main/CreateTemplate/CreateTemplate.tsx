@@ -33,16 +33,11 @@ export default function CreateTemplate({ page }: CreateTemplateProps) {
 
   function loadHeader() {
     return (
-      <Header
-        background_url={
-          page?.background_url ||
-          "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
-        }
-      >
+      <Header background_url={page?.background_url || ""}>
         <Tag
           variant="img-txt"
           text={page?.title || ""}
-          img_url={page?.avatar_url || "https://source.unsplash.com/featured/"}
+          img_url={page?.avatar_url || ""}
           onClick={() =>
             router.push(pageUrls.pageSettings({ pageSlug: pageData?.slug }))
           }

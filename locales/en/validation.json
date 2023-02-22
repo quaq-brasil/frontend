@@ -2,5 +2,6 @@
   "required": "This field is required.",
   "validemail": "Please enter a valid email address.",
   "validpassword": "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.",
-  "validname": "Name must contain at least 2 letters."
+  "validname": "Name must contain at least 2 letters.",
+  "validtitle": "Title must contain at least 2 letters."
 }
