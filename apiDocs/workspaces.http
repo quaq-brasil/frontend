@@ -10,10 +10,10 @@ POST https://bff.quaq.me/api/v1/workspaces
 Content-Type: application/json
 
 {
-  "name": "qaaq",
+  "title": "quaq",
   "avatar_url": "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1222&q=80",
-  "user_id": "63f3f2c6f21186fda011522a",
-  "slug": "quaq"
+  "user_id": "63f63b85f86b3ef0072d567a",
+  "slug": "quaq1"
 }
 
 ###

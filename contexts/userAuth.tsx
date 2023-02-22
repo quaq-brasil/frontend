@@ -26,12 +26,12 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     if (!user) {
       setUser({
-        id: "63f3f2c6f21186fda011522a",
+        id: "63f63b85f86b3ef0072d567a",
         email: "quaq@quaq.me",
         type: "registered",
         email_verified: true,
         name: "quaq",
-        workspace_id: "63f3f323f21186fda011522b",
+        workspace_id: "63f63ba6f86b3ef0072d567b",
         avatar_url:
           "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80",
       })
