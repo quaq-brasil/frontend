@@ -1,7 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { ArrowRight, Check } from "phosphor-react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -22,6 +22,7 @@ type GeneralSettingsContent = {
   isUpdating: boolean
   runUpdate: boolean
   handleUpdateRunUpdate: (stat: boolean) => void
+  initialPageData: IUpdatePage | undefined
 }
 
 export function GeneralSettingsContent({
@@ -32,18 +33,47 @@ export function GeneralSettingsContent({
   isUpdating,
   runUpdate,
   handleUpdateRunUpdate,
+  initialPageData,
 }: GeneralSettingsContent) {
   const text = useTranslation().t
+  const router = useRouter()
 
-  const getPageUrl = useGetPageSlug()
+  type FormDataProps = {
+    title?: {
+      valid?: boolean
+    }
+    description?: {
+      valid?: boolean
+    }
+  }
 
-  type IGetPageUrl = {
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    description: {
+      valid: false,
+    },
+    title: {
+      valid: false,
+    },
+  })
+
+  const getPageSlug = useGetPageSlug()
+
+  type IGetPageSlug = {
     name: string
     id: string
   }
 
-  function handleGetPageUrl({ id, name }: IGetPageUrl) {
-    getPageUrl.mutate(
+  function handleGetPageSlug({ id, name }: IGetPageSlug) {
+    getPageSlug.mutate(
       { name, id },
       {
         onSuccess: (slug) => {
@@ -61,8 +91,14 @@ export function GeneralSettingsContent({
   })
 
   useEffect(() => {
-    if (isUpdating && debouncedPageName && pageData?.title) {
-      handleGetPageUrl({ id: pageData.id as string, name: pageData.title })
+    if (
+      debouncedPageName !== initialPageData?.title &&
+      pageData?.title !== initialPageData?.title
+    ) {
+      handleGetPageSlug({
+        id: pageData?.id as string,
+        name: pageData?.title as string,
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedPageName])
@@ -75,11 +111,19 @@ export function GeneralSettingsContent({
   useEffect(() => {
     if (runUpdate) {
       onPageUpdate()
+      handleUpdateRunUpdate(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
-  const router = useRouter()
+  useEffect(() => {
+    if (formData.title?.valid && formData.description?.valid) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -94,7 +138,17 @@ export function GeneralSettingsContent({
             <CardTextInput
               input={{
                 label: text("generalsettings:titlelabel"),
-                onChange: (title) => handleUpdatePageData({ title: title }),
+                onChange: (title) => {
+                  handleUpdatePageData({ title: title })
+                  if (title.length > 0) {
+                    handleUpdateFormData({
+                      title: { valid: true },
+                      description: { valid: true },
+                    })
+                  } else {
+                    handleUpdateFormData({ title: { valid: false } })
+                  }
+                },
                 defaultValue: pageData?.title,
                 type: "title",
               }}
@@ -105,7 +159,7 @@ export function GeneralSettingsContent({
             <CardTextInput
               input={{
                 label: text("generalsettings:linklabel"),
-                onChange: (link) => handleUpdatePageData({ slug: link }),
+                onChange: () => {},
                 fixedText: "quaq.me/",
                 value: pageData?.slug,
               }}
@@ -125,8 +179,17 @@ export function GeneralSettingsContent({
             <CardTextInput
               input={{
                 label: text("generalsettings:descriptionlabel"),
-                onChange: (description) =>
-                  handleUpdatePageData({ description: description }),
+                onChange: (description) => {
+                  handleUpdatePageData({ description: description })
+                  if (description.length > 0) {
+                    handleUpdateFormData({
+                      description: { valid: true },
+                      title: { valid: true },
+                    })
+                  } else {
+                    handleUpdateFormData({ description: { valid: false } })
+                  }
+                },
                 defaultValue: pageData?.description,
               }}
             />
@@ -136,9 +199,10 @@ export function GeneralSettingsContent({
             <CardImageInput
               imageSelector={
                 <ImageSelector
-                  onImageChange={(avatar) =>
+                  onImageChange={(avatar) => {
                     handleUpdatePageData({ avatar_url: avatar })
-                  }
+                    handleUpdateIsUpdating(true)
+                  }}
                   url={pageData?.avatar_url}
                 />
               }
@@ -149,9 +213,10 @@ export function GeneralSettingsContent({
             <CardImageInput
               imageSelector={
                 <ImageSelector
-                  onImageChange={(cover) =>
+                  onImageChange={(cover) => {
                     handleUpdatePageData({ background_url: cover })
-                  }
+                    handleUpdateIsUpdating(true)
+                  }}
                   url={pageData?.background_url}
                 />
               }
@@ -173,45 +238,43 @@ export function GeneralSettingsContent({
             </div>
           )}
 
-          {!isUpdating && (
-            <Card>
-              <CardText label={text("generalsettings:options")} />
-              <CardText
-                label={text("generalsettings:delete")}
-                indicator={{ icon: ArrowRight }}
-                onClick={() =>
-                  router.push(
-                    pageUrls.pageSettings({
-                      pageSlug: pageData?.slug || "",
-                      pageSettings: "delete",
-                    })
-                  )
-                }
-              />
-              <CardLine />
-              <CardText
-                label={text("generalsettings:terms")}
-                indicator={{
-                  icon: ArrowRight,
-                }}
-                onClick={() => router.push(pageUrls.terms())}
-              />
-              <CardLine />
-              <CardText
-                label={text("generalsettings:trackers")}
-                indicator={{ icon: ArrowRight }}
-                onClick={() =>
-                  router.push(
-                    pageUrls.pageSettings({
-                      pageSlug: pageData?.slug || "",
-                      pageSettings: "trackers",
-                    })
-                  )
-                }
-              />
-              <CardLine />
-            </Card>
-          )}
+          <Card>
+            <CardText label={text("generalsettings:options")} />
+            <CardText
+              label={text("generalsettings:delete")}
+              indicator={{ icon: ArrowRight }}
+              onClick={() =>
+                router.push(
+                  pageUrls.pageSettings({
+                    pageSlug: pageData?.slug || "",
+                    pageSettings: "delete",
+                  })
+                )
+              }
+            />
+            <CardLine />
+            <CardText
+              label={text("generalsettings:terms")}
+              indicator={{
+                icon: ArrowRight,
+              }}
+              onClick={() => router.push(pageUrls.terms())}
+            />
+            <CardLine />
+            <CardText
+              label={text("generalsettings:trackers")}
+              indicator={{ icon: ArrowRight }}
+              onClick={() =>
+                router.push(
+                  pageUrls.pageSettings({
+                    pageSlug: pageData?.slug || "",
+                    pageSettings: "trackers",
+                  })
+                )
+              }
+            />
+            <CardLine />
+          </Card>
 
           <span className="w-full h-[4rem]"></span>
         </div>

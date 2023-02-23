@@ -18,6 +18,7 @@ export default function GeneralSettings({
   handleUpdatePage,
 }: GeneralSettingsProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [pageData, setPageData] = useState<IUpdatePage>()
   const [isUpdating, setIsUpdating] = useState(false)
@@ -30,7 +31,6 @@ export default function GeneralSettings({
         ...newData,
       } as IUpdatePage
     })
-    handleUpdateIsUpdating(true)
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -42,10 +42,10 @@ export default function GeneralSettings({
   }
 
   useEffect(() => {
-    setPageData(initialPageData)
+    if (initialPageData) {
+      setPageData(initialPageData)
+    }
   }, [initialPageData])
-
-  const router = useRouter()
 
   function handleTabBar() {
     if (isUpdating) {
@@ -102,6 +102,7 @@ export default function GeneralSettings({
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
       <GeneralSettingsContent
+        initialPageData={initialPageData}
         pageData={pageData}
         handleUpdatePageData={handleUpdatePageData}
         handleUpdatePage={handleUpdatePage}
