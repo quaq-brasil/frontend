@@ -78,6 +78,19 @@ export function WorkspaceSettingsContent({
           <Card>
             <CardText label={text("wssettings:options")} />
             <CardText
+              label={text("wssettings:members")}
+              indicator={{ icon: ArrowRight }}
+              onClick={() =>
+                router.push(
+                  pageUrls.workspaceSettings({
+                    settings: "members",
+                    workspaceSlug: workspaceData?.slug,
+                  })
+                )
+              }
+            />
+            <CardLine />
+            <CardText
               label={text("wssettings:terms")}
               indicator={{ icon: ArrowRight }}
               onClick={() => router.push(pageUrls.terms())}
