@@ -14,12 +14,11 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: [
-      'upload-quaq.s3.sa-east-1.amazonaws.com',
-      'upload-quaq.s3.amazonaws.com',
       'images.unsplash.com',
       'upload.wikimedia.org',
       'source.unsplash.com',
-      'img-19.commentcamarche.net'
+      'img-19.commentcamarche.net',
+      "quaq-files.s3.sa-east-1.amazonaws.com"
     ]
   },
   webpack: (config) => {

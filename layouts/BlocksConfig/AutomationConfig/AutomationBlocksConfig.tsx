@@ -28,9 +28,7 @@ export function AutomationBlocksConfig({
   const [isOpen, setIsOpen] = useState(false)
   const [isVariablesPanelOpen, setIsVariablesPanelOpen] = useState(false)
   const [functionHandleAddVariable, setFunctionHandleAddVariable] = useState(
-    () => (variable: any) => {
-      console.log(variable)
-    }
+    () => (variable: any) => {}
   )
   const [connectedTemplates, setConnectedTemplates] =
     useState<ConnectedTemplatesProps[]>()

@@ -37,6 +37,10 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
     setImageUrl(url || "")
   }, [url])
 
+  useEffect(() => {
+    console.log(imageUrl)
+  }, [imageUrl])
+
   const onDrop = async (acceptedFiles: File[]) => {
     setIsLoading(true)
     setError("")
@@ -45,7 +49,8 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
       if (!checkForCorrectFileType(file)) {
         setError(text("imageselector:invalid_file_type"))
       }
-      if (!checkForFileSize(file)) {
+
+      if (file.size && !checkForFileSize(file)) {
         setError(text("imageselector:invalid_file_size"))
       }
 
@@ -59,8 +64,8 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
         if (typeof jpegImage !== "string") {
           createFile.mutate(jpegImage, {
             onSuccess: (data) => {
-              setImageUrl(data.url)
-              onImageChange(data.url)
+              setImageUrl(data.fileUrl)
+              onImageChange(data.fileUrl)
             },
           })
         } else {
@@ -69,8 +74,9 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
       } else {
         createFile.mutate(file, {
           onSuccess: (data) => {
-            setImageUrl(data.url)
-            onImageChange(data.url)
+            console.log("data", data)
+            setImageUrl(data.fileUrl)
+            onImageChange(data.fileUrl)
           },
         })
       }

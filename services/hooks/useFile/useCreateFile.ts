@@ -15,8 +15,6 @@ export const useCreateFile = () => {
       },
     })
 
-    console.log(response.data)
-
     return response.data as IFile
   }
 
