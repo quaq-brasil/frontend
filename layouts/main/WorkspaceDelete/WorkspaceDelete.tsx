@@ -56,7 +56,7 @@ export default function WorkspaceDelete({
             router.push(
               pageUrls.workspaceSettings({
                 settings: "advanced",
-                woskpaceSlug: workspaceData?.slug,
+                workspaceSlug: workspaceData?.slug,
               })
             )
           }
@@ -79,7 +79,7 @@ export default function WorkspaceDelete({
             router.push(
               pageUrls.workspaceSettings({
                 settings: "advanced",
-                woskpaceSlug: workspaceData?.slug,
+                workspaceSlug: workspaceData?.slug,
               })
             )
           }
@@ -101,7 +101,7 @@ export default function WorkspaceDelete({
           img_url={workspaceData?.avatar_url || ""}
           onClick={() =>
             router.push(
-              pageUrls.workspaceSettings({ woskpaceSlug: workspaceData?.slug })
+              pageUrls.workspaceSettings({ workspaceSlug: workspaceData?.slug })
             )
           }
         />
@@ -110,7 +110,7 @@ export default function WorkspaceDelete({
           text={text("wsdelete:settings")}
           onClick={() =>
             router.push(
-              pageUrls.workspaceSettings({ woskpaceSlug: workspaceData?.slug })
+              pageUrls.workspaceSettings({ workspaceSlug: workspaceData?.slug })
             )
           }
         />
@@ -120,7 +120,7 @@ export default function WorkspaceDelete({
           onClick={() =>
             router.push(
               pageUrls.workspaceSettings({
-                woskpaceSlug: workspaceData?.slug,
+                workspaceSlug: workspaceData?.slug,
                 settings: "advanced",
               })
             )

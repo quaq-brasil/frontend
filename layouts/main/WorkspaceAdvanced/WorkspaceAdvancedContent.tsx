@@ -35,7 +35,7 @@ export function WorkspaceAdvancedContent({
                 router.push(
                   pageUrls.workspaceSettings({
                     settings: "delete",
-                    woskpaceSlug: workspaceData?.slug,
+                    workspaceSlug: workspaceData?.slug,
                   })
                 )
               }

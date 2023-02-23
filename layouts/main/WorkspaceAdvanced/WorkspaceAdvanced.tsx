@@ -33,7 +33,7 @@ export default function WorkspaceAdvanced({
         text={text("wsadvanced:tab1")}
         onClick={() =>
           router.push(
-            pageUrls.workspaceSettings({ woskpaceSlug: workspaceData?.slug })
+            pageUrls.workspaceSettings({ workspaceSlug: workspaceData?.slug })
           )
         }
       />,
@@ -53,7 +53,7 @@ export default function WorkspaceAdvanced({
           img_url={workspaceData?.avatar_url || ""}
           onClick={() =>
             router.push(
-              pageUrls.workspaceSettings({ woskpaceSlug: workspaceData?.slug })
+              pageUrls.workspaceSettings({ workspaceSlug: workspaceData?.slug })
             )
           }
         />
@@ -62,7 +62,7 @@ export default function WorkspaceAdvanced({
           text={text("wsadvanced:titletag")}
           onClick={() =>
             router.push(
-              pageUrls.workspaceSettings({ woskpaceSlug: workspaceData?.slug })
+              pageUrls.workspaceSettings({ workspaceSlug: workspaceData?.slug })
             )
           }
         />

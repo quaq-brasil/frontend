@@ -47,20 +47,20 @@ const meSettings = (settings?: string) => {
 }
 
 type workspaceSettingsProps = {
-  woskpaceSlug?: string
+  workspaceSlug?: string
   settings?: string
 }
 
 const workspaceSettings = ({
-  woskpaceSlug,
+  workspaceSlug,
   settings,
 }: workspaceSettingsProps) => {
-  if (settings && woskpaceSlug) {
-    return `/adm/ws/${woskpaceSlug}/${settings}`
-  } else if (settings && !woskpaceSlug) {
+  if (settings && workspaceSlug) {
+    return `/adm/ws/${workspaceSlug}/${settings}`
+  } else if (settings && !workspaceSlug) {
     return `/adm/ws/${settings}`
-  } else if (!settings && woskpaceSlug) {
-    return `/adm/ws/${woskpaceSlug}`
+  } else if (!settings && workspaceSlug) {
+    return `/adm/ws/${workspaceSlug}`
   } else {
     return `/adm/ws`
   }

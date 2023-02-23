@@ -90,7 +90,7 @@ export function WorkspaceSettingsContent({
                 router.push(
                   pageUrls.workspaceSettings({
                     settings: "advanced",
-                    woskpaceSlug: workspaceData?.slug,
+                    workspaceSlug: workspaceData?.slug,
                   })
                 )
               }

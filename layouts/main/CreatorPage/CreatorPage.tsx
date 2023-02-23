@@ -165,7 +165,7 @@ export default function CreatorPage({
                 handleCloseContextMenu()
                 router.push(
                   pageUrls.workspaceSettings({
-                    woskpaceSlug: currentWorkspace?.slug,
+                    workspaceSlug: currentWorkspace?.slug,
                   })
                 )
               }}
@@ -240,7 +240,7 @@ export default function CreatorPage({
               handleCloseContextMenu()
               router.push(
                 pageUrls.workspaceSettings({
-                  woskpaceSlug: currentWorkspace?.slug,
+                  workspaceSlug: currentWorkspace?.slug,
                   settings: "new-page",
                 })
               )
@@ -295,7 +295,7 @@ export default function CreatorPage({
             onClick={() =>
               router.push(
                 pageUrls.workspaceSettings({
-                  woskpaceSlug: currentWorkspace?.slug,
+                  workspaceSlug: currentWorkspace?.slug,
                   settings: "new-page",
                 })
               )
@@ -429,7 +429,7 @@ export default function CreatorPage({
               onClick={() =>
                 router.push(
                   pageUrls.workspaceSettings({
-                    woskpaceSlug: currentWorkspace?.slug,
+                    workspaceSlug: currentWorkspace?.slug,
                     settings: "new-page",
                   })
                 )
