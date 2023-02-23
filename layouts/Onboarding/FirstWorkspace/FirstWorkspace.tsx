@@ -1,21 +1,86 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-import { FirsWorkspaceContent } from "./FirstWorkspaceContent"
+import { IUser } from "../../../types/User.type"
+import { IUpdateWorkspace } from "../../../types/Workspace.type"
+import { pageUrls } from "../../../utils/pagesUrl"
+import { FirstWorkspaceContent } from "./FirstWorkspaceContent"
 
-export default function FirstWorkspace() {
+type FirstWorkspaceProps = {
+  initialUserData: IUser | null
+  handleCreateWorkspace: (data: IUpdateWorkspace) => void
+}
+
+export default function FirstWorkspace({
+  handleCreateWorkspace,
+  initialUserData,
+}: FirstWorkspaceProps) {
   const text = useTranslation().t
+  const router = useRouter()
+
+  const [userData, setUserData] = useState<IUser | null>()
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
+  const [workspaceData, setWorkspaceData] = useState<IUpdateWorkspace>()
+
+  useEffect(() => {
+    setUserData(initialUserData)
+  }, [initialUserData])
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
+
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
+  }
+
+  function handleUpdateWorkspaceData(newData: IUpdateWorkspace) {
+    setWorkspaceData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IUpdateWorkspace
+    })
+  }
+
+  useEffect(() => {
+    if (workspaceData) {
+      handleCreateWorkspace(workspaceData)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("wssettup:tab1")}
-        onClick={() => console.log("tab1")}
-      />,
-    ]
+    if (isUpdating) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("createwspace:back")}
+          onClick={() => router.push(pageUrls.adm())}
+        />,
+        <div key={2} className="w-fit h-fit xl:hidden">
+          <Tag
+            variant="txt"
+            text={text("createwspace:create")}
+            onClick={() => handleUpdateRunUpdate(true)}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("createwspace:back")}
+          onClick={() => router.push(pageUrls.adm())}
+        />,
+      ]
+    }
   }
 
   return (
@@ -27,11 +92,32 @@ export default function FirstWorkspace() {
       >
         <Tag
           variant="img-txt"
-          text={text("firstws:titletag")}
-          img_url="https://source.unsplash.com/featured/"
+          text={userData?.name || ""}
+          img_url={userData?.avatar_url || ""}
         />
+        {!workspaceData?.title && !workspaceData?.avatar_url && (
+          <Tag variant="txt" text={text("createwspace:titletag")} />
+        )}
+        {workspaceData?.title && !workspaceData?.avatar_url && (
+          <Tag variant="txt" text={workspaceData.title} />
+        )}
+        {!workspaceData?.title && workspaceData?.avatar_url && (
+          <Tag variant="img" img_url={workspaceData.avatar_url} />
+        )}
+        {workspaceData?.title && workspaceData?.avatar_url && (
+          <Tag
+            variant="img-txt"
+            text={workspaceData.title}
+            img_url={workspaceData.avatar_url}
+          />
+        )}
       </Header>
-      <FirsWorkspaceContent />
+      <FirstWorkspaceContent
+        handleUpdateIsUpdating={handleUpdateIsUpdating}
+        handleUpdateRunUpdate={handleUpdateRunUpdate}
+        handleUpdateWorkspaceData={handleUpdateWorkspaceData}
+        isUpdating={isUpdating}
+      />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   )

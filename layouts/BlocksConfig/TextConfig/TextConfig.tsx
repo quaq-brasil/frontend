@@ -19,22 +19,54 @@ export function TextConfig({
   onClose,
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
+  handleCheckSaveAs,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
-  const [content, setContent] = useState("")
-  const [saveAs, setSaveAs] = useState<string>("")
+  type FormDataProps = {
+    content?: {
+      valid?: boolean
+    }
+    saveAs?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    content: {
+      valid: false,
+    },
+    saveAs: {
+      valid: false,
+    },
+  })
+  const [content, setContent] = useState<string | null>()
+  const [saveAs, setSaveAs] = useState<string | null>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
-  function handleUpdateContent(content: string) {
-    setContent(content)
-    handleUpdateIsUpdating(true)
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
   }
 
-  function handleUpdateSaveAs(value: string) {
+  function handleUpdateContent(value: typeof content) {
+    setContent(value)
+    if (value) {
+      handleUpdateFormData({ content: { valid: true } })
+    } else {
+      handleUpdateFormData({ content: { valid: false } })
+    }
+  }
+
+  function handleUpdateSaveAs(value: typeof saveAs) {
     setSaveAs(value)
-    handleUpdateIsUpdating(true)
+    const isValid = handleCheckSaveAs(value)
+    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -46,10 +78,14 @@ export function TextConfig({
   }
 
   function handleClosing() {
-    handleUpdateContent("")
+    handleUpdateContent(null)
     handleUpdateIsUpdating(false)
     handleUpdateRunUpdate(false)
-    handleUpdateSaveAs("")
+    handleUpdateSaveAs(null)
+    handleUpdateFormData({
+      content: { valid: false },
+      saveAs: { valid: false },
+    })
     onClose()
   }
 
@@ -58,17 +94,25 @@ export function TextConfig({
       id: v4(),
       type: "text",
       data: content,
-      save_as: saveAs,
+      save_as: saveAs as string,
     })
+    handleClosing()
   }
 
   useEffect(() => {
-    if (content.length > 1) {
+    if (content && content.length > 0) {
       onAddBlock()
-      handleClosing()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
+
+  useEffect(() => {
+    if (formData.content?.valid && formData.saveAs?.valid) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+  }, [formData])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -120,7 +164,7 @@ export function TextConfig({
       <Dialog
         isOpen={isOpen}
         title={text("textconfig:toptitle")}
-        onClose={() => console.log("closed")}
+        onClose={() => {}}
       >
         <div className="flex flex-col items-center gap-3">
           <div
@@ -128,7 +172,7 @@ export function TextConfig({
     bg-white min-w-[100%] rounded-[20px] lg:rounded-[30px] lg:gap-[0.75rem]"
           >
             <TextEditor
-              content={content}
+              content={content || ""}
               onChange={handleUpdateContent}
               handleOpenVariablePanelForText={handleOpenVariablePanelForText}
             />
@@ -140,13 +184,18 @@ export function TextConfig({
               input={{
                 label: text("poolconfig:saveaslabel"),
                 onChange: (e) => handleUpdateSaveAs(e),
-                inputValue: saveAs,
+                inputValue: saveAs || "",
               }}
               indicator={{
                 icon: BracketsCurly,
                 onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
+            {!formData.saveAs?.valid && (
+              <p className="w-full lg:text-[1.1rem] text-center">
+                {text("createtemplate:saveas")}
+              </p>
+            )}
           </Card>
           {isUpdating && (
             <>

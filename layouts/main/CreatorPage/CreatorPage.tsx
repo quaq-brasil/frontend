@@ -182,7 +182,9 @@ export default function CreatorPage({
               text={text("creatorpage:newworkspace")}
               icon={Plus}
               onClick={() =>
-                router.push(pageUrls.workspaceSettings({ settings: "new" }))
+                router.push(
+                  pageUrls.workspaceSettings({ settings: "new-workspace" })
+                )
               }
             />
           )}

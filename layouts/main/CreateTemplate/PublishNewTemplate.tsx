@@ -28,6 +28,10 @@ type PublishNewTemplateProps = {
   onClose: () => void
   connectedTemplates?: ConnectedTemplatesProps[]
   pageData: IPage | undefined
+  isUpdating: boolean
+  handleUpdateIsUpdating: (stat: boolean) => void
+  handleUpdateRunUpdate: (stat: boolean) => void
+  runUpdate: boolean
 }
 
 type handleGetTemplateUrlProps = {
@@ -41,18 +45,75 @@ export const PublishNewTemplate = ({
   onClose,
   pageData,
   connectedTemplates,
+  handleUpdateRunUpdate,
+  handleUpdateIsUpdating,
+  isUpdating,
+  runUpdate,
 }: PublishNewTemplateProps) => {
   const text = useTranslation().t
+  const router = useRouter()
+
+  type FormDataProps = {
+    title?: {
+      valid?: boolean
+    }
+    slug?: {
+      valid?: boolean
+    }
+    cover?: {
+      valid?: boolean
+    }
+    shortcutSize?: {
+      valid?: boolean
+    }
+    publicationTitle?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    title: {
+      valid: false,
+    },
+    slug: {
+      valid: false,
+    },
+    cover: {
+      valid: false,
+    },
+    shortcutSize: {
+      valid: false,
+    },
+    publicationTitle: {
+      valid: false,
+    },
+  })
+
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+    if (
+      formData.title?.valid &&
+      formData.slug?.valid &&
+      formData.cover?.valid &&
+      formData.shortcutSize?.valid &&
+      formData.publicationTitle?.valid
+    ) {
+      handleUpdateIsUpdating(true)
+    }
+  }
 
   const [templateData, setTemplateData] = useState<ITemplate>()
   const [publicationTitle, setPublicationTitle] = useState("")
-  const [isUpdating, setIsUpdating] = useState(false)
-  const router = useRouter()
 
-  const generateTemplateUniqueUrl = useGenerateTemplateUniqueSlug()
+  const generateTemplateUniqueSlug = useGenerateTemplateUniqueSlug()
 
   function handleGetTemplateUrl(data: handleGetTemplateUrlProps) {
-    generateTemplateUniqueUrl.mutate(
+    generateTemplateUniqueSlug.mutate(
       { data },
       {
         onSuccess: (slug) => {
@@ -60,6 +121,7 @@ export const PublishNewTemplate = ({
         },
       }
     )
+    handleUpdateFormData({ slug: { valid: true } })
   }
 
   const debouncedTemplateName = useDebounce({
@@ -68,7 +130,7 @@ export const PublishNewTemplate = ({
   })
 
   useEffect(() => {
-    if (isUpdating && debouncedTemplateName && templateData?.title !== "") {
+    if (debouncedTemplateName && templateData?.title !== "") {
       handleGetTemplateUrl({
         id: templateData?.id,
         title: debouncedTemplateName,
@@ -85,7 +147,6 @@ export const PublishNewTemplate = ({
         ...newData,
       } as ITemplate
     })
-    setIsUpdating(true)
   }
 
   const createPublication = useCreatePublication()
@@ -171,6 +232,13 @@ export const PublishNewTemplate = ({
     ]
   }
 
+  useEffect(() => {
+    if (templateData) {
+      handlePublishTemplate()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
   return (
     <>
       <PublishNewTemplateHeader
@@ -193,6 +261,9 @@ export const PublishNewTemplate = ({
                   defaultValue: templateData?.title,
                   onChange: (title) =>
                     handleUpdateTemplateData({ title: title }),
+                  type: "title",
+                  setValid: () =>
+                    handleUpdateFormData({ title: { valid: true } }),
                 }}
               />
             </Card>
@@ -201,7 +272,9 @@ export const PublishNewTemplate = ({
               <CardTextInput
                 input={{
                   label: "",
-                  onChange: (link) => handleUpdateTemplateData({ slug: link }),
+                  onChange: (slug) => {
+                    handleUpdateTemplateData({ slug: slug })
+                  },
                   fixedText: `quaq.me/${pageData?.slug}/`,
                   value: templateData?.slug,
                 }}
@@ -218,9 +291,10 @@ export const PublishNewTemplate = ({
                 imageSelector={
                   <ImageSelector
                     url={templateData?.shortcut_image}
-                    onImageChange={(cover) =>
+                    onImageChange={(cover) => {
                       handleUpdateTemplateData({ shortcut_image: cover })
-                    }
+                      handleUpdateFormData({ cover: { valid: true } })
+                    }}
                   />
                 }
               />
@@ -234,9 +308,10 @@ export const PublishNewTemplate = ({
                   icon: Check,
                   isVisible: templateData?.shortcut_size != "small",
                 }}
-                onClick={() =>
+                onClick={() => {
                   handleUpdateTemplateData({ shortcut_size: "small" })
-                }
+                  handleUpdateFormData({ shortcutSize: { valid: true } })
+                }}
               />
               <CardLine />
               <CardText
@@ -245,9 +320,10 @@ export const PublishNewTemplate = ({
                   icon: Check,
                   isVisible: templateData?.shortcut_size != "large",
                 }}
-                onClick={() =>
+                onClick={() => {
                   handleUpdateTemplateData({ shortcut_size: "large" })
-                }
+                  handleUpdateFormData({ shortcutSize: { valid: true } })
+                }}
               />
               <CardLine />
             </Card>
@@ -259,21 +335,25 @@ export const PublishNewTemplate = ({
                   defaultValue: publicationTitle,
                   onChange: (publicationTitle) =>
                     setPublicationTitle(publicationTitle),
+                  setValid: () =>
+                    handleUpdateFormData({ publicationTitle: { valid: true } }),
                 }}
               />
             </Card>
-            <div className="w-full h-fit hidden xl:block">
-              <Button
-                block={{
-                  data: {
-                    color: "bg-black",
-                    text: text("publish:publish"),
-                    onClick: handlePublishTemplate,
-                  },
-                }}
-                isEditable={false}
-              />
-            </div>
+            {isUpdating && (
+              <div className="w-full h-fit hidden xl:block">
+                <Button
+                  block={{
+                    data: {
+                      color: "bg-black",
+                      text: text("publish:publish"),
+                      onClick: () => handleUpdateRunUpdate(true),
+                    },
+                  }}
+                  isEditable={false}
+                />
+              </div>
+            )}
             <span className="w-full h-[4rem]"></span>
           </div>
         </div>

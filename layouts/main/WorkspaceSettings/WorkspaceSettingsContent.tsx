@@ -43,7 +43,7 @@ export function WorkspaceSettingsContent({
                 label: text("wssettings:titlelabel"),
                 onChange: (title) =>
                   handleUpdateWorkspaceData({ title: title }),
-                type: "text",
+                type: "title",
                 defaultValue: workspaceData?.title || "",
               }}
             />

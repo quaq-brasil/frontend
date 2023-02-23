@@ -49,6 +49,16 @@ export function useValidation() {
     return null
   }
 
+  const validateTitleField: ValidationFunction = (value) => {
+    if (!value) {
+      return text("validation:required")
+    }
+    if (value.length < 2) {
+      return text("validation:validtitle")
+    }
+    return null
+  }
+
   const validateField = (value: string, validators: ValidationFunction[]) => {
     const errorMessages = validators
       .map((validator) => validator(value))
@@ -64,6 +74,7 @@ export function useValidation() {
       email: validateEmailField,
       password: validatePasswordField,
       name: validateNameField,
+      title: validateTitleField,
     },
   }
 }

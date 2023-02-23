@@ -17,6 +17,7 @@ export function TextEntryConfig({
   onClose,
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
+  handleCheckSaveAs,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -25,13 +26,40 @@ export function TextEntryConfig({
     type?: string
   }
 
+  type FormDataProps = {
+    placeholder?: {
+      valid?: boolean
+    }
+    saveAs?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    placeholder: {
+      valid: false,
+    },
+    saveAs: {
+      valid: false,
+    },
+  })
   const [content, setContent] = useState<ITextEntry>({
     type: "email",
     placeholder: "",
   })
-  const [saveAs, setSaveAs] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string | null>()
   const [runUpdate, setRunUpdate] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
+
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+    console.log(formData)
+  }
 
   function handleUpdateContent(newData: ITextEntry) {
     setContent((state) => {
@@ -40,11 +68,12 @@ export function TextEntryConfig({
         ...newData,
       } as ITextEntry
     })
-    setIsUpdating(true)
   }
 
-  function handleUpdateSaveAs(value: string) {
+  function handleUpdateSaveAs(value: typeof saveAs) {
     setSaveAs(value)
+    const isValid = handleCheckSaveAs(value)
+    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateRunUpdate(stat: boolean) {
@@ -59,6 +88,14 @@ export function TextEntryConfig({
     handleUpdateContent({})
     setSaveAs(undefined)
     handleUpdateRunUpdate(false)
+    handleUpdateFormData({
+      placeholder: {
+        valid: false,
+      },
+      saveAs: {
+        valid: false,
+      },
+    })
     onClose()
     setContent({ type: "email" })
   }
@@ -67,7 +104,7 @@ export function TextEntryConfig({
     handleAddBlock({
       id: v4(),
       type: "textentry",
-      save_as: saveAs,
+      save_as: saveAs as string,
       data: content,
     })
     handleClosing()
@@ -129,12 +166,20 @@ export function TextEntryConfig({
     handleOpenVariablePanel()
   }
 
+  useEffect(() => {
+    if (formData.placeholder?.valid && formData.saveAs?.valid) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+  }, [formData])
+
   return (
     <>
       <Dialog
         isOpen={isOpen}
         title={text("textentryconfig:toptitle")}
-        onClose={() => console.log("closed")}
+        onClose={() => {}}
       >
         <div className="flex flex-col items-center gap-3">
           <Card>
@@ -143,8 +188,14 @@ export function TextEntryConfig({
               input={{
                 label: text("textentryconfig:placeholderlabel"),
                 inputValue: content.placeholder,
-                onChange: (placeholder) =>
-                  handleUpdateContent({ placeholder: placeholder }),
+                onChange: (placeholder) => {
+                  handleUpdateContent({ placeholder: placeholder })
+                  if (placeholder.length > 0) {
+                    handleUpdateFormData({ placeholder: { valid: true } })
+                  } else {
+                    handleUpdateFormData({ placeholder: { valid: false } })
+                  }
+                },
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -188,13 +239,18 @@ export function TextEntryConfig({
               input={{
                 label: text("textentryconfig:saveaslabel"),
                 onChange: (value) => handleUpdateSaveAs(value),
-                inputValue: saveAs,
+                inputValue: saveAs || "",
               }}
               indicator={{
                 icon: BracketsCurly,
                 onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
+            {!formData.saveAs?.valid && (
+              <p className="w-full lg:text-[1.1rem] text-center">
+                {text("createtemplate:saveas")}
+              </p>
+            )}
           </Card>
           <div className="w-full h-fit hidden xl:block">
             <Button

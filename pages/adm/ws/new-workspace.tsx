@@ -5,15 +5,7 @@ import { useCreateWorkspace } from "../../../services/hooks/useWorkspace/useCrea
 import { IUpdateWorkspace } from "../../../types/Workspace.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 
-type CreateWorkspacePageProps = {
-  workspaceId: string
-  userId: string
-}
-
-export default function CreateWorkspacePage({
-  workspaceId,
-  userId,
-}: CreateWorkspacePageProps) {
+export default function CreateWorkspacePage() {
   const router = useRouter()
 
   const { user } = useUserAuth()

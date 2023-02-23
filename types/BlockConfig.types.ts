@@ -6,4 +6,5 @@ export type BlocksConfigProps = {
   handleOpenVariablePanel: () => void
   onClose: () => void
   setFunctionHandleAddVariable?: (variable: any) => void
+  handleCheckSaveAs: (value: string | undefined | null) => boolean
 }

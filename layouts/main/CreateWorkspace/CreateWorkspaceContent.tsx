@@ -1,4 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
+import { useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -11,14 +12,46 @@ type CreateWorkspaceContentProps = {
   isUpdating: boolean
   handleUpdateWorkspaceData: (data: IUpdateWorkspace) => void
   handleUpdateRunUpdate: (stat: boolean) => void
+  handleUpdateIsUpdating: (stat: boolean) => void
 }
 
 export function CreateWorkspaceContent({
   isUpdating,
   handleUpdateWorkspaceData,
   handleUpdateRunUpdate,
+  handleUpdateIsUpdating,
 }: CreateWorkspaceContentProps) {
   const text = useTranslation().t
+
+  type FormDataProps = {
+    title?: {
+      valid?: boolean
+    }
+    avatar?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    title: {
+      valid: false,
+    },
+    avatar: {
+      valid: false,
+    },
+  })
+
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+    if (formData.avatar?.valid && formData.title?.valid) {
+      handleUpdateIsUpdating(true)
+    }
+  }
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -35,7 +68,9 @@ export function CreateWorkspaceContent({
                 label: text("createwspace:inputwsname"),
                 onChange: (title) =>
                   handleUpdateWorkspaceData({ title: title }),
-                type: "text",
+                type: "title",
+                setValid: () =>
+                  handleUpdateFormData({ title: { valid: true } }),
               }}
             />
           </Card>
@@ -44,9 +79,10 @@ export function CreateWorkspaceContent({
             <CardImageInput
               imageSelector={
                 <ImageSelector
-                  onImageChange={(image) =>
+                  onImageChange={(image) => {
                     handleUpdateWorkspaceData({ avatar_url: image })
-                  }
+                    handleUpdateFormData({ avatar: { valid: true } })
+                  }}
                 />
               }
             />

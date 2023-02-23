@@ -19,6 +19,7 @@ export default function ChartConfig({
   onClose,
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
+  handleCheckSaveAs,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -39,8 +40,37 @@ export default function ChartConfig({
     title?: string
   }
 
-  const [content, setContent] = useState<IChart>()
-  const [saveAs, setSaveAs] = useState<string>()
+  type FormDataProps = {
+    title?: {
+      valid?: boolean
+    }
+    type?: {
+      valid?: boolean
+    }
+    data?: {
+      valid?: boolean
+    }
+    saveAs?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    title: {
+      valid: false,
+    },
+    type: {
+      valid: false,
+    },
+    data: {
+      valid: false,
+    },
+    saveAs: {
+      valid: false,
+    },
+  })
+  const [content, setContent] = useState<IChart | null>()
+  const [saveAs, setSaveAs] = useState<string | null>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
   const [datasets, setDatasets] = useState<IDatasets[]>([
@@ -53,14 +83,22 @@ export default function ChartConfig({
     },
   ])
 
-  function handleUpdateContent(newData: IChart) {
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+  }
+
+  function handleUpdateContent(newData: IChart | null | undefined) {
     setContent((state) => {
       return {
         ...state,
         ...newData,
       } as IChart
     })
-    setIsUpdating(true)
   }
 
   type IUpdateDatasets = {
@@ -100,21 +138,24 @@ export default function ChartConfig({
           }
           setDatasets([...updateDatasets])
           handleUpdateContent({ data: { datasets: updateDatasets } })
+          handleUpdateFormData({ data: { valid: true } })
         }
         break
       case "delete":
-        const keptDatasets = [...datasets]
-        keptDatasets.splice(id as number, 1)
-        if (keptDatasets) {
-          setDatasets([...keptDatasets])
-          handleUpdateContent({ data: { datasets: keptDatasets } })
+        const newDatasets = [...(datasets as IDatasets[])]
+        newDatasets.splice(id as number, 1)
+        if (newDatasets) {
+          handleUpdateContent({ data: { datasets: newDatasets } })
+        } else {
+          handleUpdateFormData({ data: { valid: false } })
         }
     }
   }
 
-  function handleUpdateSaveAs(value: string) {
+  function handleUpdateSaveAs(value: string | null) {
     setSaveAs(value)
-    handleUpdateIsUpdating(true)
+    const isValid = handleCheckSaveAs(value)
+    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -126,8 +167,8 @@ export default function ChartConfig({
   }
 
   function handleClosing() {
-    handleUpdateContent({})
-    setSaveAs(undefined)
+    setContent(null)
+    setSaveAs(null)
     setDatasets([
       {
         backgroundColor: "",
@@ -137,6 +178,20 @@ export default function ChartConfig({
         label: "",
       },
     ])
+    handleUpdateFormData({
+      title: {
+        valid: false,
+      },
+      type: {
+        valid: false,
+      },
+      data: {
+        valid: false,
+      },
+      saveAs: {
+        valid: false,
+      },
+    })
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
     onClose()
@@ -146,7 +201,7 @@ export default function ChartConfig({
     handleAddBlock({
       id: v4(),
       type: "chart",
-      save_as: saveAs,
+      save_as: saveAs as string,
       data: content,
     })
     handleClosing()
@@ -272,6 +327,20 @@ export default function ChartConfig({
     handleOpenVariablePanel()
   }
 
+  useEffect(() => {
+    if (
+      formData.data?.valid &&
+      formData.title?.valid &&
+      formData.type?.valid &&
+      formData.saveAs?.valid
+    ) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+    console.log(formData)
+  }, [formData])
+
   return (
     <>
       <Dialog
@@ -285,8 +354,15 @@ export default function ChartConfig({
             <CardTextInput
               input={{
                 label: text("chartconfig:titlelabel"),
-                onChange: (title) => handleUpdateContent({ title: title }),
+                onChange: (title) => {
+                  handleUpdateContent({ title: title })
+                },
                 inputValue: content?.title,
+                type: "title",
+                setValid: () =>
+                  handleUpdateFormData({ title: { valid: true } }),
+                setInvalid: () =>
+                  handleUpdateFormData({ title: { valid: false } }),
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -303,7 +379,10 @@ export default function ChartConfig({
                 icon: Check,
                 isVisible: content?.chartType !== "line",
               }}
-              onClick={() => handleUpdateContent({ chartType: "line" })}
+              onClick={() => {
+                handleUpdateContent({ chartType: "line" })
+                handleUpdateFormData({ type: { valid: true } })
+              }}
             />
             <CardLine />
             <CardText
@@ -312,7 +391,10 @@ export default function ChartConfig({
                 icon: Check,
                 isVisible: content?.chartType !== "verticalbar",
               }}
-              onClick={() => handleUpdateContent({ chartType: "verticalbar" })}
+              onClick={() => {
+                handleUpdateContent({ chartType: "verticalbar" })
+                handleUpdateFormData({ type: { valid: true } })
+              }}
             />
             <CardLine />
             <CardText
@@ -321,9 +403,10 @@ export default function ChartConfig({
                 icon: Check,
                 isVisible: content?.chartType !== "horizontalbar",
               }}
-              onClick={() =>
+              onClick={() => {
                 handleUpdateContent({ chartType: "horizontalbar" })
-              }
+                handleUpdateFormData({ type: { valid: true } })
+              }}
             />
             <CardLine />
             <CardText
@@ -332,7 +415,10 @@ export default function ChartConfig({
                 icon: Check,
                 isVisible: content?.chartType !== "scatter",
               }}
-              onClick={() => handleUpdateContent({ chartType: "scatter" })}
+              onClick={() => {
+                handleUpdateContent({ chartType: "scatter" })
+                handleUpdateFormData({ type: { valid: true } })
+              }}
             />
             <CardLine />
             <CardText
@@ -341,7 +427,10 @@ export default function ChartConfig({
                 icon: Check,
                 isVisible: content?.chartType !== "pie",
               }}
-              onClick={() => handleUpdateContent({ chartType: "pie" })}
+              onClick={() => {
+                handleUpdateContent({ chartType: "pie" })
+                handleUpdateFormData({ type: { valid: true } })
+              }}
             />
           </Card>
 
@@ -502,13 +591,18 @@ export default function ChartConfig({
               input={{
                 label: text("chartconfig:saveaslabel"),
                 onChange: (value) => handleUpdateSaveAs(value),
-                inputValue: saveAs,
+                inputValue: saveAs || "",
               }}
               indicator={{
                 icon: BracketsCurly,
                 onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
+            {!formData.saveAs?.valid && (
+              <p className="w-full lg:text-[1.1rem] text-center">
+                {text("createtemplate:saveas")}
+              </p>
+            )}
           </Card>
 
           <div className="w-full h-fit hidden xl:block">

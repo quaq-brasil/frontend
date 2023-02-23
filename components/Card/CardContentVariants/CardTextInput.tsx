@@ -5,13 +5,14 @@ import { useValidation } from "../../../hooks/useValidation"
 type CardTextInputProps = {
   input?: {
     onChange: (value: string) => void
-    type?: "name" | "email" | "password" | "text"
+    type?: "name" | "email" | "password" | "text" | "title"
     label?: string
     fixedText?: string
     defaultValue?: string
     value?: string
     inputValue?: string
     setValid?: () => void
+    setInvalid?: () => void
   }
   indicator?: {
     icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
@@ -41,11 +42,15 @@ export function CardTextInput(props: CardTextInputProps) {
       requiredValidators.push(validators.email)
     } else if (props.input?.type == "password") {
       requiredValidators.push(validators.password)
+    } else if (props.input?.type == "title") {
+      requiredValidators.push(validators.title)
     }
 
-    validateField(value, [validators.required, ...requiredValidators])
+    validateField(value, [...requiredValidators])
     props.input?.onChange && props.input.onChange(value)
-    if (!errors) {
+    if (errors && errors.length > 0) {
+      props.input?.setInvalid && props.input.setInvalid()
+    } else {
       props.input?.setValid && props.input.setValid()
     }
   }

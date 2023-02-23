@@ -96,6 +96,7 @@ export function GeneralSettingsContent({
                 label: text("generalsettings:titlelabel"),
                 onChange: (title) => handleUpdatePageData({ title: title }),
                 defaultValue: pageData?.title,
+                type: "title",
               }}
             />
           </Card>

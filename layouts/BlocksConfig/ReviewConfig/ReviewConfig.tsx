@@ -18,6 +18,7 @@ export function ReviewConfig({
   onClose,
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
+  handleCheckSaveAs,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -25,21 +26,47 @@ export function ReviewConfig({
     description?: string
   }
 
+  type FormDataProps = {
+    description?: {
+      valid?: boolean
+    }
+    saveAs?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    description: {
+      valid: false,
+    },
+    saveAs: {
+      valid: false,
+    },
+  })
   const [content, setContent] = useState<IReview>()
   const [saveAs, setSaveAs] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+  }
+
   function handleUpdateContent(newData: IReview) {
     setContent({
       description: newData.description,
     })
-    handleUpdateIsUpdating(true)
   }
 
   function handleUpdateSaveAs(value: string) {
     setSaveAs(value)
-    handleUpdateIsUpdating(true)
+    const isValid = handleCheckSaveAs(value)
+    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -124,6 +151,14 @@ export function ReviewConfig({
     handleOpenVariablePanel()
   }
 
+  useEffect(() => {
+    if (formData.description?.valid && formData.saveAs?.valid) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+  }, [formData])
+
   return (
     <>
       <Dialog
@@ -138,8 +173,14 @@ export function ReviewConfig({
               input={{
                 label: text("reviewconfig:label1"),
                 inputValue: content?.description,
-                onChange: (description) =>
-                  handleUpdateContent({ description: description }),
+                onChange: (description) => {
+                  handleUpdateContent({ description: description })
+                  if (description.length > 0) {
+                    handleUpdateFormData({ description: { valid: true } })
+                  } else {
+                    handleUpdateFormData({ description: { valid: false } })
+                  }
+                },
               }}
               indicator={{
                 icon: BracketsCurly,

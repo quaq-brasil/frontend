@@ -17,7 +17,7 @@ import { RenderBlockConfig } from "./RenderBlockConfig"
 
 type CreateTemplateContentProps = {
   isUpdating: boolean
-  runUpdating: boolean
+  runUpdate: boolean
   handleUpdateIsUpdating: (stat: boolean) => void
   handleUpdateRunUpdate: (stat: boolean) => void
   pageData: IPage | undefined
@@ -27,10 +27,11 @@ export function CreateTemplateContent({
   handleUpdateIsUpdating,
   handleUpdateRunUpdate,
   isUpdating,
-  runUpdating,
+  runUpdate,
   pageData,
 }: CreateTemplateContentProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [blockSelected, setBlockSelected] = useState<string | undefined>()
   const [blocks, setBlocks] = useState<BlockProps[]>([])
@@ -75,7 +76,19 @@ export function CreateTemplateContent({
     setBlocks(newBlocks)
   }
 
-  const router = useRouter()
+  const handleCheckSaveAs = (value: string | undefined | null) => {
+    let uniqueSaveAs = true
+    if (!value) {
+      uniqueSaveAs = false
+    } else {
+      blocks.forEach((block) => {
+        if (block.save_as == value) {
+          uniqueSaveAs = false
+        }
+      })
+    }
+    return uniqueSaveAs
+  }
 
   function handleTabBar() {
     return [
@@ -101,10 +114,14 @@ export function CreateTemplateContent({
   if (isOpenPublishTemplate) {
     return (
       <PublishNewTemplate
+        isUpdating={isUpdating}
+        handleUpdateIsUpdating={handleUpdateIsUpdating}
         blocks={blocks}
         connectedTemplates={connectedTemplates}
         pageData={pageData}
         onClose={() => setIsOpenPublishTemplate(false)}
+        handleUpdateRunUpdate={handleUpdateRunUpdate}
+        runUpdate={runUpdate}
       />
     )
   }
@@ -141,6 +158,7 @@ export function CreateTemplateContent({
               handleAddBlock={handleAddBlock}
               handleOpenVariablePanel={handleOpenVariablePanel}
               setFunctionHandleAddVariable={setFunctionHandleAddVariable}
+              handleCheckSaveAs={handleCheckSaveAs}
             />
             <VariablesPanelDialog
               handleInsertVariable={functionHandleAddVariable}

@@ -18,6 +18,7 @@ export function PoolConfig({
   onClose,
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
+  handleCheckSaveAs,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -33,12 +34,44 @@ export function PoolConfig({
     min?: string
   }
 
+  type FormDataProps = {
+    description?: {
+      valid?: boolean
+    }
+    options?: {
+      valid?: boolean
+    }
+    saveAs?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    description: {
+      valid: false,
+    },
+    options: {
+      valid: false,
+    },
+    saveAs: {
+      valid: false,
+    },
+  })
   const [content, setContent] = useState<IContent>({
     options: [{ id: 0, value: "" }],
   })
-  const [saveAs, setSaveAs] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string | null>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+  }
 
   function handleUpdateContent(newData: IContent) {
     setContent((state) => {
@@ -47,12 +80,12 @@ export function PoolConfig({
         ...newData,
       } as IContent
     })
-    setIsUpdating(true)
   }
 
-  function handleUpdateSaveAs(value: string) {
+  function handleUpdateSaveAs(value: typeof saveAs) {
     setSaveAs(value)
-    handleUpdateIsUpdating(true)
+    const isValid = handleCheckSaveAs(value)
+    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -66,6 +99,17 @@ export function PoolConfig({
   function handleClosing() {
     setContent({})
     setSaveAs(undefined)
+    handleUpdateFormData({
+      description: {
+        valid: false,
+      },
+      options: {
+        valid: false,
+      },
+      saveAs: {
+        valid: false,
+      },
+    })
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
     onClose()
@@ -75,7 +119,7 @@ export function PoolConfig({
     handleAddBlock({
       id: v4(),
       type: "pool",
-      save_as: saveAs,
+      save_as: saveAs as string,
       data: content,
     })
     handleClosing()
@@ -128,8 +172,39 @@ export function PoolConfig({
     option,
     value,
   }: HandleUpdateOptionsProps) {
-    if (!content.options) {
-      return
+    switch (option) {
+      case "add":
+        if (content.options) {
+          const options = content.options
+          options.push({ id: content.options.length, value: "" })
+          handleUpdateContent({ options: options })
+        }
+        break
+      case "remove":
+        if (content.options) {
+          const newOptions = [...content.options]
+          newOptions.slice(id, 1)
+          if (newOptions) {
+            handleUpdateContent({ options: newOptions })
+          } else {
+            handleUpdateFormData({ options: { valid: false } })
+          }
+        }
+        break
+      case "update":
+        if (content.options) {
+          const options = content.options.map((option) => {
+            if (option.id == id) {
+              option.value = value
+              return option
+            } else {
+              return option
+            }
+          })
+          handleUpdateContent({ options: options as options[] })
+          handleUpdateFormData({ options: { valid: true } })
+        }
+        break
     }
 
     const options = [...content.options]
@@ -200,6 +275,18 @@ export function PoolConfig({
     handleOpenVariablePanel()
   }
 
+  useEffect(() => {
+    if (
+      formData.description?.valid &&
+      formData.options?.valid &&
+      formData.saveAs?.valid
+    ) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+  }, [formData])
+
   return (
     <>
       <Dialog
@@ -213,7 +300,14 @@ export function PoolConfig({
             <CardTextInput
               input={{
                 label: text("poolconfig:titlelabel"),
-                onChange: (title) => handleUpdateContent({ title: title }),
+                onChange: (title) => {
+                  handleUpdateContent({ title: title })
+                  if (title.length > 0) {
+                    handleUpdateFormData({ description: { valid: true } })
+                  } else {
+                    handleUpdateFormData({ description: { valid: false } })
+                  }
+                },
                 inputValue: content.title,
               }}
               indicator={{
@@ -298,13 +392,18 @@ export function PoolConfig({
               input={{
                 label: text("poolconfig:saveaslabel"),
                 onChange: (e) => handleUpdateSaveAs(e),
-                inputValue: saveAs,
+                inputValue: saveAs as string,
               }}
               indicator={{
                 icon: BracketsCurly,
                 onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
+            {!formData.saveAs?.valid && (
+              <p className="w-full lg:text-[1.1rem] text-center">
+                {text("createtemplate:saveas")}
+              </p>
+            )}
           </Card>
           {isUpdating && (
             <>
