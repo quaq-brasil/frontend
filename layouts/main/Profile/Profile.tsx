@@ -8,7 +8,7 @@ import { IUpdateUser, IUser } from "../../../types/User.type"
 import { ProfileContent } from "./ProfileContent"
 
 type ProfileProps = {
-  initialUserData: IUser | undefined
+  initialUserData: IUser | null
   handleUserUpdate: (userData: IUpdateUser) => void
 }
 
@@ -37,11 +37,12 @@ export default function Profile({
     setRunUpdate(stat)
   }
 
-  function handleUpdateUserdata(newData: IUpdateUser) {
-    setUserData({
-      ...userData,
-      name: newData.name || userData?.name,
-      avatar_url: newData.avatar_url || userData?.avatar_url,
+  function handleUpdateUserData(newData: IUpdateUser) {
+    setUserData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IUpdateUser
     })
     handleUpdateIsUpdating(true)
   }
@@ -49,6 +50,7 @@ export default function Profile({
   useEffect(() => {
     if (userData) {
       handleUserUpdate(userData)
+      handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
@@ -102,7 +104,7 @@ export default function Profile({
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
       <ProfileContent
-        handleUpdateUserdata={handleUpdateUserdata}
+        handleUpdateUserData={handleUpdateUserData}
         userData={userData}
         isUpdating={isUpdating}
         handleUpdateRunUpdate={handleUpdateRunUpdate}

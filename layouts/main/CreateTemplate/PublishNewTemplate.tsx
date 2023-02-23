@@ -28,6 +28,10 @@ type PublishNewTemplateProps = {
   onClose: () => void
   connectedTemplates?: ConnectedTemplatesProps[]
   pageData: IPage | undefined
+  isUpdating: boolean
+  handleUpdateIsUpdating: (stat: boolean) => void
+  handleUpdateRunUpdate: (stat: boolean) => void
+  runUpdate: boolean
 }
 
 type handleGetTemplateUrlProps = {
@@ -41,6 +45,10 @@ export const PublishNewTemplate = ({
   onClose,
   pageData,
   connectedTemplates,
+  handleUpdateRunUpdate,
+  handleUpdateIsUpdating,
+  isUpdating,
+  runUpdate,
 }: PublishNewTemplateProps) => {
   const text = useTranslation().t
   const router = useRouter()
@@ -95,13 +103,12 @@ export const PublishNewTemplate = ({
       formData.shortcutSize?.valid &&
       formData.publicationTitle?.valid
     ) {
-      setIsUpdating(true)
+      handleUpdateIsUpdating(true)
     }
   }
 
   const [templateData, setTemplateData] = useState<ITemplate>()
   const [publicationTitle, setPublicationTitle] = useState("")
-  const [isUpdating, setIsUpdating] = useState(false)
 
   const generateTemplateUniqueSlug = useGenerateTemplateUniqueSlug()
 
@@ -225,6 +232,13 @@ export const PublishNewTemplate = ({
     ]
   }
 
+  useEffect(() => {
+    if (templateData) {
+      handlePublishTemplate()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
   return (
     <>
       <PublishNewTemplateHeader
@@ -333,7 +347,7 @@ export const PublishNewTemplate = ({
                     data: {
                       color: "bg-black",
                       text: text("publish:publish"),
-                      onClick: handlePublishTemplate,
+                      onClick: () => handleUpdateRunUpdate(true),
                     },
                   }}
                   isEditable={false}

@@ -18,6 +18,7 @@ export function ButtonConfig({
   handleAddBlock,
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
+  handleCheckSaveAs,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -26,10 +27,36 @@ export function ButtonConfig({
     color?: string
   }
 
+  type FormDataProps = {
+    text?: {
+      valid?: boolean
+    }
+    saveAs?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    text: {
+      valid: false,
+    },
+    saveAs: {
+      valid: false,
+    },
+  })
   const [content, setContent] = useState<IButton>()
-  const [saveAs, setSaveAs] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string | null>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+  }
 
   function handleUpdateContent(newData: IButton) {
     setContent((state) => {
@@ -38,12 +65,12 @@ export function ButtonConfig({
         ...newData,
       } as IButton
     })
-    setIsUpdating(true)
   }
 
-  function handleUpdateSaveAs(value: string) {
+  function handleUpdateSaveAs(value: typeof saveAs) {
     setSaveAs(value)
-    handleUpdateIsUpdating(true)
+    const isValid = handleCheckSaveAs(value)
+    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -56,9 +83,17 @@ export function ButtonConfig({
 
   function handleClosing() {
     handleUpdateContent({})
-    setSaveAs(undefined)
+    setSaveAs(null)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
+    handleUpdateFormData({
+      text: {
+        valid: false,
+      },
+      saveAs: {
+        valid: false,
+      },
+    })
     onClose()
   }
 
@@ -66,7 +101,7 @@ export function ButtonConfig({
     handleAddBlock({
       id: v4(),
       type: "button",
-      save_as: saveAs,
+      save_as: saveAs as string,
       data: content,
     })
     handleClosing()
@@ -78,6 +113,14 @@ export function ButtonConfig({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
+
+  useEffect(() => {
+    if (formData.text?.valid && formData.saveAs?.valid) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+  }, [formData])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -139,7 +182,14 @@ export function ButtonConfig({
             <CardTextInput
               input={{
                 label: text("buttonconfig:textlabel"),
-                onChange: (text) => handleUpdateContent({ text: text }),
+                onChange: (text) => {
+                  handleUpdateContent({ text: text })
+                  if (text.length > 0) {
+                    handleUpdateFormData({ text: { valid: true } })
+                  } else {
+                    handleUpdateFormData({ text: { valid: false } })
+                  }
+                },
                 inputValue: content?.text,
               }}
               indicator={{
@@ -160,13 +210,18 @@ export function ButtonConfig({
               input={{
                 label: text("buttonconfig:saveaslabel"),
                 onChange: (e) => handleUpdateSaveAs(e),
-                inputValue: saveAs,
+                inputValue: saveAs || "",
               }}
               indicator={{
                 icon: BracketsCurly,
                 onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
+            {!formData.saveAs?.valid && (
+              <p className="w-full lg:text-[1.1rem] text-center">
+                {text("createtemplate:saveas")}
+              </p>
+            )}
           </Card>
           <div className="w-full h-fit hidden xl:block">
             <Button

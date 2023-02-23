@@ -14,7 +14,7 @@ import { IUpdateUser } from "../../../types/User.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 
 type ProfileContentProps = {
-  handleUpdateUserdata: (data: IUpdateUser) => void
+  handleUpdateUserData: (data: IUpdateUser) => void
   userData: IUpdateUser | undefined
   handleUpdateRunUpdate: (stat: boolean) => void
   isUpdating: boolean
@@ -22,7 +22,7 @@ type ProfileContentProps = {
 
 export function ProfileContent({
   handleUpdateRunUpdate,
-  handleUpdateUserdata,
+  handleUpdateUserData,
   isUpdating,
   userData,
 }: ProfileContentProps) {
@@ -56,7 +56,7 @@ export function ProfileContent({
               imageSelector={
                 <ImageSelector
                   onImageChange={(image) =>
-                    handleUpdateUserdata({ avatar_url: image })
+                    handleUpdateUserData({ avatar_url: image })
                   }
                   url={userData?.avatar_url || ""}
                 />
@@ -68,8 +68,8 @@ export function ProfileContent({
             <CardTextInput
               input={{
                 label: text("profile:inputname"),
-                onChange: (name) => handleUpdateUserdata({ name: name }),
-                type: "text",
+                onChange: (name) => handleUpdateUserData({ name: name }),
+                type: "name",
                 defaultValue: userData?.name || "",
               }}
             />

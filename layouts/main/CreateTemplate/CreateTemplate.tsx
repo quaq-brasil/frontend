@@ -52,7 +52,7 @@ export default function CreateTemplate({ page }: CreateTemplateProps) {
       {loadHeader()}
       <CreateTemplateContent
         isUpdating={isUpdating}
-        runUpdating={runUpdate}
+        runUpdate={runUpdate}
         handleUpdateIsUpdating={handleUpdateIsUpdating}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
         pageData={pageData}

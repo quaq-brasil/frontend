@@ -23,6 +23,7 @@ type RenderBlockConfig = {
   handleAddBlock: (block: BlockProps) => void
   handleOpenVariablePanel: () => void
   setFunctionHandleAddVariable: (variable: any) => void
+  handleCheckSaveAs: (value: string | undefined | null) => boolean
 }
 
 export function RenderBlockConfig(props: RenderBlockConfig) {
@@ -39,6 +40,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "text":
@@ -49,6 +51,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "embed":
@@ -59,6 +62,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "file":
@@ -69,6 +73,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "textentry":
@@ -79,6 +84,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "fileentry":
@@ -89,6 +95,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "pool":
@@ -99,6 +106,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           onClose={props.onClose}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "button":
@@ -109,6 +117,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "toggle":
@@ -119,6 +128,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "review":
@@ -129,6 +139,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "json":
@@ -139,6 +150,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "counter":
@@ -149,6 +161,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "automation":
@@ -159,6 +172,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "redirect":
@@ -169,6 +183,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "webhook":
@@ -179,6 +194,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           handleAddBlock={props.handleAddBlock}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     case "chart":
@@ -189,6 +205,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
           onClose={props.onClose}
           handleOpenVariablePanel={props.handleOpenVariablePanel}
           setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
+          handleCheckSaveAs={props.handleCheckSaveAs}
         />
       )
     default:

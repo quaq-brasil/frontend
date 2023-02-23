@@ -19,6 +19,7 @@ export function ImageConfig({
   handleAddBlock,
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
+  handleCheckSaveAs,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -26,21 +27,48 @@ export function ImageConfig({
     imageUrl?: string
   }
 
+  type FormDataProps = {
+    imageUrl?: {
+      valid?: boolean
+    }
+    saveAs?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    imageUrl: {
+      valid: false,
+    },
+    saveAs: {
+      valid: false,
+    },
+  })
   const [content, setContent] = useState<IImage>()
-  const [saveAs, setSaveAs] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string | null>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
-  function handleUpdateConent(newData: IImage) {
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+  }
+
+  function handleUpdateContent(newData: IImage) {
     setContent({
       imageUrl: newData.imageUrl,
     })
-    handleUpdateIsUpdating(true)
+    handleUpdateFormData({ imageUrl: { valid: true } })
   }
 
-  function handleUpdateSaveAs(value: string) {
+  function handleUpdateSaveAs(value: string | null) {
     setSaveAs(value)
-    handleUpdateIsUpdating(true)
+    const isValid = handleCheckSaveAs(value)
+    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -52,10 +80,14 @@ export function ImageConfig({
   }
 
   function handleClosing() {
-    handleUpdateConent({})
+    handleUpdateContent({})
     setSaveAs(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
+    handleUpdateFormData({
+      imageUrl: { valid: false },
+      saveAs: { valid: false },
+    })
     onClose()
   }
 
@@ -63,7 +95,7 @@ export function ImageConfig({
     handleAddBlock({
       id: v4(),
       type: "image",
-      save_as: saveAs,
+      save_as: saveAs as string,
       data: content,
     })
     handleClosing()
@@ -127,7 +159,7 @@ export function ImageConfig({
               imageSelector={
                 <ImageSelector
                   onImageChange={(image) =>
-                    handleUpdateConent({ imageUrl: image })
+                    handleUpdateContent({ imageUrl: image })
                   }
                 />
               }
@@ -138,7 +170,7 @@ export function ImageConfig({
             <CardTextInput
               input={{
                 label: text("imageconfig:saveaslabel"),
-                inputValue: saveAs,
+                inputValue: saveAs || "",
                 onChange: (value) => handleUpdateSaveAs(value),
               }}
               indicator={{
@@ -146,6 +178,11 @@ export function ImageConfig({
                 onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
+            {!formData.saveAs?.valid && (
+              <p className="w-full lg:text-[1.1rem] text-center">
+                {text("createtemplate:saveas")}
+              </p>
+            )}
           </Card>
           <div className="w-full h-fit hidden xl:block">
             <Button

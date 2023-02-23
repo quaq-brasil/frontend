@@ -20,6 +20,7 @@ export function WebhookConfig({
   handleAddBlock,
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
+  handleCheckSaveAs,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -33,10 +34,54 @@ export function WebhookConfig({
     link?: string
   }
 
+  type FormDataProps = {
+    description?: {
+      valid?: boolean
+    }
+    parameters?: {
+      valid?: boolean
+    }
+    type?: {
+      valid?: boolean
+    }
+    link?: {
+      valid?: boolean
+    }
+    saveAs?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    description: {
+      valid: false,
+    },
+    parameters: {
+      valid: false,
+    },
+    type: {
+      valid: false,
+    },
+    link: {
+      valid: false,
+    },
+    saveAs: {
+      valid: false,
+    },
+  })
   const [content, setContent] = useState<IWebhook>()
-  const [saveAs, setSaveAs] = useState<string>()
+  const [saveAs, setSaveAs] = useState<string | null>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+  }
 
   function handleUpdateHeader(data: string) {
     handleUpdateContent({ header: data })
@@ -53,12 +98,12 @@ export function WebhookConfig({
         ...newData,
       } as IWebhook
     })
-    setIsUpdating(true)
   }
 
-  function handleUpdateSaveAs(value: string) {
+  function handleUpdateSaveAs(value: typeof saveAs) {
     setSaveAs(value)
-    handleUpdateIsUpdating(true)
+    const isValid = handleCheckSaveAs(value)
+    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -74,6 +119,23 @@ export function WebhookConfig({
     setSaveAs(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
+    handleUpdateFormData({
+      description: {
+        valid: false,
+      },
+      parameters: {
+        valid: false,
+      },
+      type: {
+        valid: false,
+      },
+      link: {
+        valid: false,
+      },
+      saveAs: {
+        valid: false,
+      },
+    })
     onClose()
   }
 
@@ -81,7 +143,7 @@ export function WebhookConfig({
     handleAddBlock({
       id: v4(),
       type: "webhook",
-      save_as: saveAs,
+      save_as: saveAs as string,
       data: {
         ...content,
         body: `{${content?.body}}`,
@@ -97,6 +159,20 @@ export function WebhookConfig({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
+
+  useEffect(() => {
+    if (
+      formData.description?.valid &&
+      formData.link?.valid &&
+      formData.parameters?.valid &&
+      formData.type?.valid &&
+      formData.saveAs?.valid
+    ) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+  }, [formData])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -198,8 +274,14 @@ export function WebhookConfig({
             <CardTextInput
               input={{
                 label: text("webhookconfig:descriptioninput"),
-                onChange: (description) =>
-                  handleUpdateContent({ description: description }),
+                onChange: (description) => {
+                  handleUpdateContent({ description: description })
+                  if (description.length > 0) {
+                    handleUpdateFormData({ description: { valid: true } })
+                  } else {
+                    handleUpdateFormData({ description: { valid: false } })
+                  }
+                },
                 inputValue: content?.description,
               }}
               indicator={{
@@ -222,8 +304,14 @@ export function WebhookConfig({
             <CardTextInput
               input={{
                 label: text("webhookconfig:parametersinput"),
-                onChange: (parameters) =>
-                  handleUpdateContent({ parameters: parameters }),
+                onChange: (parameters) => {
+                  handleUpdateContent({ parameters: parameters })
+                  if (parameters.length > 0) {
+                    handleUpdateFormData({ description: { valid: true } })
+                  } else {
+                    handleUpdateFormData({ description: { valid: false } })
+                  }
+                },
                 inputValue: content?.parameters,
               }}
               indicator={{
@@ -261,7 +349,10 @@ export function WebhookConfig({
                 icon: Check,
                 isVisible: content?.type == "GET" ? false : true,
               }}
-              onClick={() => handleUpdateContent({ type: "GET" })}
+              onClick={() => {
+                handleUpdateContent({ type: "GET" })
+                handleUpdateFormData({ type: { valid: true } })
+              }}
             />
             <CardLine />
             <CardText
@@ -270,7 +361,10 @@ export function WebhookConfig({
                 icon: Check,
                 isVisible: content?.type == "POST" ? false : true,
               }}
-              onClick={() => handleUpdateContent({ type: "POST" })}
+              onClick={() => {
+                handleUpdateContent({ type: "POST" })
+                handleUpdateFormData({ type: { valid: true } })
+              }}
             />
             <CardLine />
             <CardText
@@ -279,7 +373,10 @@ export function WebhookConfig({
                 icon: Check,
                 isVisible: content?.type == "PATCH" ? false : true,
               }}
-              onClick={() => handleUpdateContent({ type: "PATCH" })}
+              onClick={() => {
+                handleUpdateContent({ type: "PATCH" })
+                handleUpdateFormData({ type: { valid: true } })
+              }}
             />
             <CardLine />
             <CardText
@@ -288,7 +385,10 @@ export function WebhookConfig({
                 icon: Check,
                 isVisible: content?.type == "DELETE" ? false : true,
               }}
-              onClick={() => handleUpdateContent({ type: "DELETE" })}
+              onClick={() => {
+                handleUpdateContent({ type: "DELETE" })
+                handleUpdateFormData({ type: { valid: true } })
+              }}
             />
             <CardLine />
           </Card>
@@ -298,7 +398,14 @@ export function WebhookConfig({
             <CardTextInput
               input={{
                 label: text("webhookconfig:linkinput"),
-                onChange: (link) => handleUpdateContent({ link: link }),
+                onChange: (link) => {
+                  handleUpdateContent({ link: link })
+                  if (link.length > 0) {
+                    handleUpdateFormData({ link: { valid: true } })
+                  } else {
+                    handleUpdateFormData({ type: { valid: false } })
+                  }
+                },
                 inputValue: content?.link,
               }}
               indicator={{
@@ -314,13 +421,18 @@ export function WebhookConfig({
               input={{
                 label: text("webhookconfig:saveasinput"),
                 onChange: (e) => handleUpdateSaveAs(e),
-                inputValue: saveAs,
+                inputValue: saveAs || "",
               }}
               indicator={{
                 icon: BracketsCurly,
                 onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
+            {!formData.saveAs?.valid && (
+              <p className="w-full lg:text-[1.1rem] text-center">
+                {text("createtemplate:saveas")}
+              </p>
+            )}
           </Card>
 
           <div className="w-full h-fit hidden xl:block">

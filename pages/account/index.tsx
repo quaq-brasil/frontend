@@ -1,13 +1,10 @@
 import { useUserAuth } from "../../contexts/userAuth"
 import Profile from "../../layouts/main/Profile/Profile"
 import { useUpdateUser } from "../../services/hooks/useUser/useUpdateUser"
-import { useUser } from "../../services/hooks/useUser/useUser"
 import { IUpdateUser } from "../../types/User.type"
 
 export default function ProfilePage() {
   const { user } = useUserAuth()
-
-  const getUser = useUser({ id: user?.id as string })
 
   const updateUser = useUpdateUser()
 
@@ -21,10 +18,5 @@ export default function ProfilePage() {
     })
   }
 
-  return (
-    <Profile
-      initialUserData={getUser?.data}
-      handleUserUpdate={handleUserUpdate}
-    />
-  )
+  return <Profile initialUserData={user} handleUserUpdate={handleUserUpdate} />
 }
