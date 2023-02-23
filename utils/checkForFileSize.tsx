@@ -1,3 +1,7 @@
 export function checkForFileSize(file: File): boolean {
-  return file.size <= Number(process.env.MAX_FILE_SIZE);
+  if (file?.size) {
+    return file.size <= Number(process.env.NEXT_PUBLIC_MAX_FILE_SIZE)
+  }
+
+  return true
 }

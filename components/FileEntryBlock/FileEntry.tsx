@@ -29,9 +29,7 @@ export default function FileEntry({ onFileChange }: FileEntryProps) {
     try {
       const file = files[0]
 
-      console.log(file)
-
-      if (!checkForFileSize(file)) {
+      if (file.size && !checkForFileSize(file)) {
         setError(text("imageselector:invalid_file_size"))
       }
 
