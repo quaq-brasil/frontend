@@ -118,7 +118,10 @@ export default function CreatorPage({
                 img_url={workspace.avatar_url || ""}
                 text={workspace.title || ""}
                 isSelected={workspace.id == currentWorkspace?.id}
-                onClick={() => handleCurrentWorkspaceUpdate(workspace)}
+                onClick={() => {
+                  handleCloseContextMenu()
+                  handleCurrentWorkspaceUpdate(workspace)
+                }}
               />
             </div>
           )
@@ -158,13 +161,14 @@ export default function CreatorPage({
               variant="icn-txt"
               text={text("creatorpage:settings")}
               icon={GearSix}
-              onClick={() =>
+              onClick={() => {
+                handleCloseContextMenu()
                 router.push(
                   pageUrls.workspaceSettings({
                     woskpaceSlug: currentWorkspace?.slug,
                   })
                 )
-              }
+              }}
             />
           </div>
           <div className={`w-fit ${isSwitchSelected ? "hidden" : ""}`}>
@@ -172,7 +176,10 @@ export default function CreatorPage({
               variant="icn-txt"
               text={text("creatorpage:profile")}
               icon={UserCircle}
-              onClick={() => router.push(pageUrls.meSettings())}
+              onClick={() => {
+                handleCloseContextMenu()
+                router.push(pageUrls.meSettings())
+              }}
             />
           </div>
           {isSwitchSelected && <>{loadWorkspaces()}</>}
@@ -181,11 +188,12 @@ export default function CreatorPage({
               variant="icn-txt"
               text={text("creatorpage:newworkspace")}
               icon={Plus}
-              onClick={() =>
+              onClick={() => {
+                handleCloseContextMenu()
                 router.push(
                   pageUrls.workspaceSettings({ settings: "new-workspace" })
                 )
-              }
+              }}
             />
           )}
         </div>
@@ -204,6 +212,7 @@ export default function CreatorPage({
               img_url={page?.avatar_url || ""}
               isSelected={page.id == currentPage?.id}
               onClick={() => {
+                handleCloseContextMenu()
                 setCurrentPage(page)
                 router.push(pageUrls.pageSettings({ pageSlug: page.slug }))
               }}
@@ -227,14 +236,15 @@ export default function CreatorPage({
             variant="icn-txt"
             text={text("creatorpage:newpage")}
             icon={Plus}
-            onClick={() =>
+            onClick={() => {
+              handleCloseContextMenu()
               router.push(
                 pageUrls.workspaceSettings({
                   woskpaceSlug: currentWorkspace?.slug,
                   settings: "new-page",
                 })
               )
-            }
+            }}
           />
         </div>
       </div>
@@ -244,6 +254,10 @@ export default function CreatorPage({
             variant="icn-txt"
             text={text("creatorpage:explore")}
             icon={MagnifyingGlass}
+            onClick={() => {
+              handleCloseContextMenu()
+              router.push(pageUrls.home())
+            }}
           />
         </div>
         <div className="w-fit">
@@ -321,22 +335,24 @@ export default function CreatorPage({
         key={1}
         variant="txt"
         text={text("creatorpage:general")}
-        onClick={() =>
+        onClick={() => {
+          handleCloseContextMenu()
           router.push(
             pageUrls.pageSettings({
               pageSlug: currentPage?.slug || "",
               pageSettings: "general",
             })
           )
-        }
+        }}
       />,
       <Tag
         key={2}
         variant="txt"
         text={text("creatorpage:new")}
-        onClick={() =>
+        onClick={() => {
+          handleCloseContextMenu()
           router.push(pageUrls.createTemplate(currentPage?.slug as string))
-        }
+        }}
       />,
       <div key={3} className="xl:hidden w-fit">
         <Tag
