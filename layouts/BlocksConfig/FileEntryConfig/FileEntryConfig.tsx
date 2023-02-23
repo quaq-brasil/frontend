@@ -17,7 +17,7 @@ type FileEntryConfigProps = {
 export function FileEntryConfig(props: FileEntryConfigProps) {
   const text = useTranslation().t
 
-  const [types, setTypes] = useState<String[]>([])
+  const [types, setTypes] = useState<string[]>([])
 
   function handleChangeType(newType: string) {
     if (types.includes(newType)) {

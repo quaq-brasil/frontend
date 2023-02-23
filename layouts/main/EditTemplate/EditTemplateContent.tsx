@@ -91,7 +91,7 @@ export function EditTemplateContent({
       },
       {
         onSuccess: (data: IPublication) => {
-          setCurrentPublicationTitle(data.title as string)
+          setCurrentPublicationTitle(data.title)
         },
       }
     )

@@ -1,12 +1,9 @@
-import useTranslation from "next-translate/useTranslation";
-import { Card } from "../../../components/Card/Card";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { CardLog } from "../../../components/Card/CardContentVariants/CardLog";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
+import { Card } from "../../../components/Card/Card"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
+import { CardLog } from "../../../components/Card/CardContentVariants/CardLog"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 
 export function CentralLogsContent() {
-  const text = useTranslation().t;
-
   function handleLogs() {
     return (
       <>
@@ -69,7 +66,7 @@ export function CentralLogsContent() {
         />
         <CardLine />
       </>
-    );
+    )
   }
 
   return (
@@ -86,5 +83,5 @@ export function CentralLogsContent() {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,5 +1,4 @@
 import { GetServerSideProps } from "next"
-import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 import InteractionLog from "../../../../../layouts/main/InteractionLog/InteractionLog"
 import { usePageBySlug } from "../../../../../services/hooks/usePage/usePageBySlug"
@@ -11,8 +10,6 @@ type TemplateLogsProps = {
 }
 
 export default function TemplateLogs({ page, template }: TemplateLogsProps) {
-  const router = useRouter()
-
   const getPage = usePageBySlug({
     slug: page,
   })

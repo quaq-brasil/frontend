@@ -9,8 +9,6 @@ import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 export function FirsWorkspaceContent() {
   const text = useTranslation().t
 
-  function handleFinishSignUp() {}
-
   return (
     <div className="w-full h-screen bg-slate-100">
       <div
@@ -45,7 +43,7 @@ export function FirsWorkspaceContent() {
               data: {
                 color: "bg-black",
                 text: text("wssetup:confirm"),
-                onClick: () => handleFinishSignUp(),
+                // onClick: () => handleFinishSignUp(),
               },
             }}
             isEditable={false}

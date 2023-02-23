@@ -23,8 +23,6 @@ export function LoginContent({
 }: LoginContentProps) {
   const text = useTranslation().t
 
-  function handleFinishSignUp() {}
-
   return (
     <div className="w-full h-screen bg-slate-100">
       <div

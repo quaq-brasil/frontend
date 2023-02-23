@@ -1,5 +1,3 @@
-// import { VariablesProvider } from './VariablesContext/variablesContext';
-
 import { ReactNode } from "react"
 import { AuthProvider } from "./userAuth"
 import { TermsProvider } from "./useTerms"

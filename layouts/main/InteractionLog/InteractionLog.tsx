@@ -23,8 +23,8 @@ export default function InteractionLog({
 
   const [pageData, setPageData] = useState<IUpdatePage>()
   const [templateData, setTemplateData] = useState<IUpdateTemplate>()
-  const [isUpdating, setIsUpdating] = useState(false)
-  const [runUpdate, setRunUpdate] = useState(false)
+  const [isUpdating, _setIsUpdating] = useState(false)
+  const [_runUpdate, setRunUpdate] = useState(false)
 
   useEffect(() => {
     setPageData(initialPageData)
@@ -33,10 +33,6 @@ export default function InteractionLog({
   useEffect(() => {
     setTemplateData(initialTemplateData)
   }, [initialTemplateData])
-
-  function handleUpdateIsUpdating(stat: boolean) {
-    setIsUpdating(stat)
-  }
 
   function handleUpdateRunUpdate(stat: boolean) {
     setRunUpdate(stat)
@@ -57,26 +53,7 @@ export default function InteractionLog({
             )
           }
         />,
-        // <Tag
-        //   key={2}
-        //   variant="txt"
-        //   text={text("centraloptions:options")}
-        //   onClick={() => console.log()}
-        //   isSelected
-        //   isSeparated
-        // />,
-        // <Tag
-        //   key={3}
-        //   variant="txt"
-        //   text={text("centraloptions:logs")}
-        //   onClick={() => console.log()}
-        // />,
-        // <Tag
-        //   key={4}
-        //   variant="txt"
-        //   text={text("centraloptions:stats")}
-        //   onClick={() => console.log()}
-        // />,
+
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
@@ -129,12 +106,6 @@ export default function InteractionLog({
           }
           isSelected
         />,
-        // <Tag
-        //   key={4}
-        //   variant="txt"
-        //   text={text("centraloptions:stats")}
-        //   onClick={() => console.log()}
-        // />,
       ]
     }
   }

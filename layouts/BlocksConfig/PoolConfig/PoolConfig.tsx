@@ -128,38 +128,27 @@ export function PoolConfig({
     option,
     value,
   }: HandleUpdateOptionsProps) {
-    switch (option) {
-      case "add":
-        if (content.options) {
-          const options = content.options
-          options.push({ id: content.options.length, value: "" })
-          handleUpdateContent({ options: options })
-        }
-        break
-      case "remove":
-        if (content.options) {
-          const options = content.options.map((option) => {
-            if (option.id != id) {
-              return option
-            }
-          })
-          handleUpdateContent({ options: options as options[] })
-        }
-        break
-      case "update":
-        if (content.options) {
-          const options = content.options.map((option) => {
-            if (option.id == id) {
-              option.value = value
-              return option
-            } else {
-              return option
-            }
-          })
-          handleUpdateContent({ options: options as options[] })
-        }
-        break
+    if (!content.options) {
+      return
     }
+
+    const options = [...content.options]
+
+    if (option === "add") {
+      options.push({ id: options.length, value: "" })
+    } else if (option === "remove") {
+      const index = options.findIndex((option) => option.id === id)
+      if (index !== -1) {
+        options.splice(index, 1)
+      }
+    } else if (option === "update") {
+      const index = options.findIndex((option) => option.id === id)
+      if (index !== -1) {
+        options[index].value = value
+      }
+    }
+
+    handleUpdateContent({ options })
   }
 
   const handleOpenVariablePanelForOption = ({

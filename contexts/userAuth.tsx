@@ -4,6 +4,7 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react"
 import { queryClient } from "../services/queryClient"
@@ -38,6 +39,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, [user])
 
+  const contextValue = useMemo(() => {
+    return { user, signOut }
+  }, [user])
+
   function signOut() {
     destroyCookie(undefined, "quaq.token")
     destroyCookie(undefined, "quaq.refresh_token")
@@ -55,9 +60,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, signOut }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   )
 }
 

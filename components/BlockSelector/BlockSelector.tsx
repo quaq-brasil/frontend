@@ -203,7 +203,7 @@ export function BlockSelector(props: BlockSelectorProps) {
                 text={text("blockselector:content")}
                 isSelected={options == "content"}
                 onClick={() => setOptions("content")}
-                hasOutline={!(options == "content")}
+                hasOutline={options == "content"}
               />
               <Tag
                 variant="icn-txt"
@@ -211,7 +211,7 @@ export function BlockSelector(props: BlockSelectorProps) {
                 text={text("blockselector:entry")}
                 isSelected={options == "entry"}
                 onClick={() => setOptions("entry")}
-                hasOutline={!(options == "entry")}
+                hasOutline={options == "entry"}
               />
               <Tag
                 variant="icn-txt"
@@ -219,7 +219,7 @@ export function BlockSelector(props: BlockSelectorProps) {
                 text={text("blockselector:action")}
                 isSelected={options == "action"}
                 onClick={() => setOptions("action")}
-                hasOutline={!(options == "action")}
+                hasOutline={options == "action"}
               />
             </div>
             <span className="w-full p-[0.5px] bg-slate-50 mt-2"></span>

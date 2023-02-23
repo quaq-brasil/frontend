@@ -4,6 +4,7 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react"
 
@@ -32,12 +33,13 @@ const TermsProvider = ({ children }: TermsProviderProps) => {
     }
   }, [])
 
+  const contextValue = useMemo(
+    () => ({ isCookiesAccepted }),
+    [isCookiesAccepted]
+  )
+
   return (
-    <TermsContext.Provider
-      value={{
-        isCookiesAccepted,
-      }}
-    >
+    <TermsContext.Provider value={contextValue}>
       {children}
     </TermsContext.Provider>
   )

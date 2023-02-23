@@ -86,7 +86,7 @@ export default function ChartConfig({
         break
       case "update":
         if (newData) {
-          const updateDatasets = [...(datasets as IDatasets[])]
+          const updateDatasets = [...datasets]
           updateDatasets[id as number] = {
             backgroundColor:
               newData.backgroundColor ||
@@ -103,7 +103,7 @@ export default function ChartConfig({
         }
         break
       case "delete":
-        const keptDatasets = [...(datasets as IDatasets[])]
+        const keptDatasets = [...datasets]
         keptDatasets.splice(id as number, 1)
         if (keptDatasets) {
           setDatasets([...keptDatasets])

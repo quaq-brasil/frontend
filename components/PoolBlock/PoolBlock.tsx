@@ -64,7 +64,7 @@ export const PoolBlock = ({
         value: option.value,
       }
     })
-    setAnswers(tempAnswers as IAnswer[])
+    setAnswers(tempAnswers)
   }, [block])
 
   function handleUpdateEvents(newEvent: IEvent) {

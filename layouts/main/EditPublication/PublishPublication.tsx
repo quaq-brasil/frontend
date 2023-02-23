@@ -66,7 +66,7 @@ export const PublishPublication = ({
   useEffect(() => {
     if (getCurrentPulication) {
       setPublicationTitle(getCurrentPulication.data.title)
-      setCurrentPublication(getCurrentPulication.data as IPublication)
+      setCurrentPublication(getCurrentPulication.data)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getCurrentPulication])

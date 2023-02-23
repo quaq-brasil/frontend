@@ -1,51 +1,65 @@
-import { Dialog as HeadlessDialog, Transition } from "@headlessui/react";
-import React, { createContext, Fragment, useContext, useState } from "react";
+import { Dialog as HeadlessDialog, Transition } from "@headlessui/react"
+import React, {
+  createContext,
+  Fragment,
+  useContext,
+  useMemo,
+  useState,
+} from "react"
 
 type ContextMenuHookProps = {
-  handleOpenContextMenu: (content: React.ReactNode) => void;
-  handleCloseContextMenu: () => void;
-  handleToggleContextMenu: (content: React.ReactNode) => void;
-  handleUpdateContextMenu: (content: React.ReactNode) => void;
-};
+  handleOpenContextMenu: (content: React.ReactNode) => void
+  handleCloseContextMenu: () => void
+  handleToggleContextMenu: (content: React.ReactNode) => void
+  handleUpdateContextMenu: (content: React.ReactNode) => void
+}
 
-const ContextMenuHook = createContext({} as ContextMenuHookProps);
+const ContextMenuHook = createContext({} as ContextMenuHookProps)
 
 export type ContextMenuProviderProps = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 function ContextMenuProvider({ children }: ContextMenuProviderProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [content, setContent] = useState<React.ReactNode>(null);
+  const [isOpen, setIsOpen] = useState(false)
+  const [content, setContent] = useState<React.ReactNode>(null)
 
-  const handleOpenContextMenu = (content: React.ReactNode) => {
-    setContent(content);
-    setIsOpen(true);
-  };
+  const contextValue = useMemo(
+    () => ({
+      handleOpenContextMenu,
+      handleCloseContextMenu,
+      handleToggleContextMenu,
+      handleUpdateContextMenu,
+    }),
+    [
+      handleOpenContextMenu,
+      handleCloseContextMenu,
+      handleToggleContextMenu,
+      handleUpdateContextMenu,
+    ]
+  )
 
-  const handleCloseContextMenu = () => {
-    setContent(null);
-    setIsOpen(false);
-  };
+  function handleOpenContextMenu(content: React.ReactNode) {
+    setContent(content)
+    setIsOpen(true)
+  }
 
-  const handleToggleContextMenu = (content: React.ReactNode) => {
-    setIsOpen(!isOpen);
-    setContent(!isOpen ? content : null);
-  };
+  function handleCloseContextMenu() {
+    setContent(null)
+    setIsOpen(false)
+  }
 
-  const handleUpdateContextMenu = (content: React.ReactNode) => {
-    setContent(content);
-  };
+  function handleToggleContextMenu(content: React.ReactNode) {
+    setIsOpen(!isOpen)
+    setContent(!isOpen ? content : null)
+  }
+
+  function handleUpdateContextMenu(content: React.ReactNode) {
+    setContent(content)
+  }
 
   return (
-    <ContextMenuHook.Provider
-      value={{
-        handleOpenContextMenu,
-        handleCloseContextMenu,
-        handleToggleContextMenu,
-        handleUpdateContextMenu,
-      }}
-    >
+    <ContextMenuHook.Provider value={contextValue}>
       <>
         <Transition.Root show={isOpen} as={Fragment}>
           <HeadlessDialog
@@ -76,9 +90,9 @@ function ContextMenuProvider({ children }: ContextMenuProviderProps) {
         {children}
       </>
     </ContextMenuHook.Provider>
-  );
+  )
 }
 
-const useContextMenu = () => useContext(ContextMenuHook);
+const useContextMenu = () => useContext(ContextMenuHook)
 
-export { ContextMenuProvider, useContextMenu };
+export { ContextMenuProvider, useContextMenu }

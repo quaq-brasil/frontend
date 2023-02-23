@@ -19,7 +19,7 @@ export function useValidation() {
     if (!value) {
       return text("validation:required")
     }
-    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+    const isValid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)
     if (!isValid) {
       return text("validation:validemail")
     }

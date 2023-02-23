@@ -26,34 +26,6 @@ export function CreationsConfigBlocks(props: CreationsConfigBlocksProps) {
     ]
   }
 
-  // const blocks = [
-  //   <ImageBlock
-  //     key={1}
-  //     img_url="https://source.unsplash.com/featured/"
-  //     isEditable={false}
-  //   />,
-  //   <ImageBlock
-  //     key={2}
-  //     img_url="https://source.unsplash.com/featured/"
-  //     isEditable={false}
-  //   />,
-  //   <ImageBlock
-  //     key={3}
-  //     img_url="https://source.unsplash.com/featured/"
-  //     isEditable={false}
-  //   />,
-  //   <ImageBlock
-  //     key={4}
-  //     img_url="https://source.unsplash.com/featured/"
-  //     isEditable={false}
-  //   />,
-  //   <ImageBlock
-  //     key={5}
-  //     img_url="https://source.unsplash.com/featured/"
-  //     isEditable={false}
-  //   />,
-  // ]
-
   function handleSelection(index: number) {
     if (selected.includes(index)) {
       setSelected(selected.filter((item) => item !== index))
@@ -73,21 +45,6 @@ export function CreationsConfigBlocks(props: CreationsConfigBlocksProps) {
         onClose={() => console.log("closed")}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
-          {/* {blocks.map((block, index) => {
-            return (
-              <button
-                className={`w-full rounded-[20px] lg:rounded-[30px] ${
-                  selected.includes(index)
-                    ? "outline outline-2 outline-sky-600"
-                    : "outline-none"
-                }`}
-                onClick={() => handleSelection(index)}
-                key={block.key}
-              >
-                {block}
-              </button>
-            )
-          })} */}
           {props.size === "sm" && (
             <button
               className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white

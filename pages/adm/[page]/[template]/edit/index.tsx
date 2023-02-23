@@ -32,7 +32,6 @@ type Params = {
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { page, template } = params as Params
-
   return {
     props: {
       page,

@@ -7,8 +7,6 @@ import { CardTextInput } from "../../../components/Card/CardContentVariants/Card
 export function PasswordRecoveryContent() {
   const text = useTranslation().t
 
-  function handleFinishSignUp() {}
-
   return (
     <div className="w-full h-screen bg-slate-100">
       <div
@@ -42,7 +40,7 @@ export function PasswordRecoveryContent() {
               data: {
                 color: "bg-black",
                 text: text("pwrecovery:confirm"),
-                onClick: () => handleFinishSignUp(),
+                // onClick: () => handleFinishSignUp(),
               },
             }}
             isEditable={false}

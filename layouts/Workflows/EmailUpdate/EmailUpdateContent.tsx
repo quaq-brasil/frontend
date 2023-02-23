@@ -26,7 +26,7 @@ export function EmailUpdateContent({
   const text = useTranslation().t
 
   const [password, setPassword] = useState<string>("")
-  const [failed, setFailed] = useState(false)
+  const [_failed, setFailed] = useState(false)
 
   const userLogin = useLogin()
 
