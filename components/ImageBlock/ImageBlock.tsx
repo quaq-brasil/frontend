@@ -51,7 +51,7 @@ export const ImageBlock = ({
           id: block.id as string,
           save_as: block.save_as as string,
           type: block.type as string,
-          data: block.data,
+          data: block.data.img_url,
         },
         output: {
           events: events,
@@ -73,16 +73,13 @@ export const ImageBlock = ({
       {block.data.img_url ? (
         <Image
           className="rounded-[20px] lg:rounded-[30px]"
-          // mock link
-          src={
-            "https://images.unsplash.com/photo-1675671233507-c8b670d27525?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
-          }
+          src={block.data.img_url}
           fill
           style={{ objectFit: "cover" }}
           alt={""}
         />
       ) : (
-        <div className="min-w-full min-h-full bg-slate-300 animate-pulse"></div>
+        <div className="min-w-full min-h-full bg-slate-300 animate-pulse rounded-[20px] lg:rounded-[30px]"></div>
       )}
     </div>
   )

@@ -24,11 +24,11 @@ export function ImageConfig({
   const text = useTranslation().t
 
   type IImage = {
-    imageUrl?: string
+    img_url?: string
   }
 
   type FormDataProps = {
-    imageUrl?: {
+    img_url?: {
       valid?: boolean
     }
     saveAs?: {
@@ -37,7 +37,7 @@ export function ImageConfig({
   }
 
   const [formData, setFormData] = useState<FormDataProps>({
-    imageUrl: {
+    img_url: {
       valid: false,
     },
     saveAs: {
@@ -60,9 +60,9 @@ export function ImageConfig({
 
   function handleUpdateContent(newData: IImage) {
     setContent({
-      imageUrl: newData.imageUrl,
+      img_url: newData.img_url,
     })
-    handleUpdateFormData({ imageUrl: { valid: true } })
+    handleUpdateFormData({ img_url: { valid: true } })
   }
 
   function handleUpdateSaveAs(value: string | null) {
@@ -85,7 +85,7 @@ export function ImageConfig({
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
     handleUpdateFormData({
-      imageUrl: { valid: false },
+      img_url: { valid: false },
       saveAs: { valid: false },
     })
     onClose()
@@ -107,6 +107,12 @@ export function ImageConfig({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
+
+  useEffect(() => {
+    if (formData.img_url?.valid && formData.saveAs?.valid) {
+      setIsUpdating(true)
+    }
+  }, [formData])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -158,9 +164,10 @@ export function ImageConfig({
             <CardImageInput
               imageSelector={
                 <ImageSelector
-                  onImageChange={(image) =>
-                    handleUpdateContent({ imageUrl: image })
-                  }
+                  onImageChange={(image) => {
+                    handleUpdateContent({ img_url: image })
+                    handleUpdateFormData({ img_url: { valid: true } })
+                  }}
                 />
               }
             />
