@@ -24,6 +24,7 @@ type RenderBlockConfig = {
   handleOpenVariablePanel: () => void
   setFunctionHandleAddVariable: (variable: any) => void
   handleCheckSaveAs: (value: string | undefined | null) => boolean
+  blockData?: BlockProps | null
 }
 
 type BlockConfigurations = {
@@ -98,6 +99,7 @@ export function RenderBlockConfig(props: RenderBlockConfig) {
         handleOpenVariablePanel={props.handleOpenVariablePanel}
         setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
         handleCheckSaveAs={props.handleCheckSaveAs}
+        blockData={props.blockData || null}
       />
     )
   } else {

@@ -1,7 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
-import { v4 } from "uuid"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
@@ -20,8 +19,11 @@ export function TextConfig({
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
   handleCheckSaveAs,
+  editBlockData,
 }: BlocksConfigProps) {
   const text = useTranslation().t
+
+  console.log(editBlockData)
 
   type FormDataProps = {
     content?: {
@@ -32,16 +34,31 @@ export function TextConfig({
     }
   }
 
-  const [formData, setFormData] = useState<FormDataProps>({
-    content: {
-      valid: false,
-    },
-    saveAs: {
-      valid: false,
-    },
-  })
-  const [content, setContent] = useState<string | null>()
-  const [saveAs, setSaveAs] = useState<string | null>()
+  const [formData, setFormData] = useState<FormDataProps>(
+    editBlockData
+      ? {
+          content: {
+            valid: true,
+          },
+          saveAs: {
+            valid: true,
+          },
+        }
+      : {
+          content: {
+            valid: false,
+          },
+          saveAs: {
+            valid: false,
+          },
+        }
+  )
+  const [content, setContent] = useState<string | null>(
+    editBlockData ? editBlockData.data.data : null
+  )
+  const [saveAs, setSaveAs] = useState<string | null>(
+    editBlockData ? (editBlockData.data.save_as as string) : null
+  )
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -91,7 +108,7 @@ export function TextConfig({
 
   function onAddBlock() {
     handleAddBlock({
-      id: v4(),
+      id: editBlockData?.data.id || undefined,
       type: "text",
       data: content,
       save_as: saveAs as string,

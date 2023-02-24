@@ -2,6 +2,7 @@ import { Translate } from "next-translate"
 import useTranslation from "next-translate/useTranslation"
 import { NextRouter, useRouter } from "next/router"
 import { useEffect, useState } from "react"
+import { v4 } from "uuid"
 import { BlockReader } from "../../../components/BlockReader/BlockReader"
 import { BlockSelector } from "../../../components/BlockSelector/BlockSelector"
 import { Header } from "../../../components/Header/Header"
@@ -43,6 +44,7 @@ export const EditPublicationContent = ({
   )
   const [connectedTemplates, setConnectedTemplates] =
     useState<ConnectedTemplatesProps[]>()
+  const [editBlockData, setEditBlockData] = useState<BlockProps | null>()
 
   useEffect(() => {
     if (templateData?.publication.blocks) {
@@ -64,16 +66,37 @@ export const EditPublicationContent = ({
   }
 
   function handleBlockSelection(block: string | undefined) {
+    console.log("editBlockData: ", editBlockData)
     setBlockSelected(block)
     setIsOpen(true)
   }
 
   function handleBlockConfigClosing() {
     setIsOpen(false)
+    if (editBlockData) {
+      setEditBlockData(null)
+    }
   }
 
   const handleAddBlock = (newBlock: BlockProps) => {
-    setBlocks((state) => [...state, newBlock])
+    if (newBlock.id) {
+      const tempBlocks = blocks.map((block) => {
+        if (block.id == newBlock.id) {
+          return newBlock
+        } else {
+          return block
+        }
+      })
+      setBlocks([...tempBlocks])
+    } else {
+      const tempBlock = {
+        data: newBlock.data,
+        id: v4(),
+        save_as: newBlock.save_as,
+        type: newBlock.type,
+      } as BlockProps
+      setBlocks((state) => [...state, tempBlock])
+    }
   }
 
   const handleRemoveBlock = (removeIndex: number) => {
@@ -119,6 +142,17 @@ export const EditPublicationContent = ({
     ]
   }
 
+  const handleOnEdit = (blockData: BlockProps) => {
+    setEditBlockData((prevEditBlockData) => {
+      if (prevEditBlockData && prevEditBlockData.id === blockData.id) {
+        return blockData
+      } else {
+        return { ...blockData }
+      }
+    })
+    handleBlockSelection(blockData.type)
+  }
+
   if (isOpenPublishTemplate) {
     return (
       <PublishPublication
@@ -149,10 +183,11 @@ export const EditPublicationContent = ({
               {blocks.map((block, index) => {
                 return (
                   <BlockReader
-                    key={index}
+                    key={block.id}
                     block={block}
                     isEditable={true}
                     onDelete={() => handleRemoveBlock(index)}
+                    onEdit={() => handleOnEdit(block)}
                   />
                 )
               })}
@@ -169,6 +204,7 @@ export const EditPublicationContent = ({
               handleOpenVariablePanel={handleOpenVariablePanel}
               setFunctionHandleAddVariable={setFunctionHandleAddVariable}
               handleCheckSaveAs={handleCheckSaveAs}
+              blockData={editBlockData}
             />
             <VariablesPanelDialog
               handleInsertVariable={functionHandleAddVariable}

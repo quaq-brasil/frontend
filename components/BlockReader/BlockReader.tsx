@@ -14,6 +14,7 @@ type BlockReaderProps = {
   isEditable?: boolean
   onDelete?: () => void
   handleUpdateInteractions?: (interaction: IInteractionData) => void
+  onEdit?: () => void
 }
 
 export const BlockReader = ({
@@ -21,6 +22,7 @@ export const BlockReader = ({
   isEditable = false,
   onDelete,
   handleUpdateInteractions,
+  onEdit,
 }: BlockReaderProps) => {
   switch (block.type) {
     case "text":
@@ -29,6 +31,7 @@ export const BlockReader = ({
           block={block}
           isEditable={isEditable}
           onDelete={onDelete}
+          onEdit={onEdit}
           handleUpdateInteractions={handleUpdateInteractions}
         />
       )

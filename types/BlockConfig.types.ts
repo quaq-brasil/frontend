@@ -7,4 +7,5 @@ export type BlocksConfigProps = {
   onClose: () => void
   setFunctionHandleAddVariable?: (variable: any) => void
   handleCheckSaveAs: (value: string | undefined | null) => boolean
+  editBlockData?: BlockProps | null
 }
