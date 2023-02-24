@@ -19,21 +19,23 @@ export default function CreatePagePage({ workspace }: CreatePagePagePros) {
   const router = useRouter()
 
   const handleCreatePage = (data: IUpdatePage) => {
+    console.log("handleCreatePage")
     createPage.mutate(
       {
         data: {
-          title: data.title || "",
-          slug: data.slug || "",
-          description: data.description || "",
-          workspace_id: getWorkspace?.data.id || "",
-          avatar_url: data.avatar_url || "",
-          background_url: data.background_url || "",
+          title: data.title as string,
+          slug: data.slug as string,
+          description: data.description as string,
+          workspace_id: getWorkspace?.data.id as string,
+          avatar_url: data.avatar_url as string,
+          background_url: data.background_url as string,
           services: [],
           trackers: {},
         },
       },
       {
         onSuccess: (pageData) => {
+          console.log("pageData: ", pageData)
           const { slug } = pageData
           router.push(pageUrls.pageSettings({ pageSlug: slug }))
         },

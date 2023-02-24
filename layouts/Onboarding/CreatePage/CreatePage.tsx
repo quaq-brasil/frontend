@@ -44,10 +44,12 @@ export function CreatePage({
   }
 
   function handleUpdateRunUpdate(stat: boolean) {
+    console.log(runUpdate)
     setRunUpdate(stat)
   }
 
   useEffect(() => {
+    console.log("useEffect")
     if (pageData) {
       handleCreatePage(pageData)
     }

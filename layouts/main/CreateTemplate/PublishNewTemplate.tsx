@@ -28,10 +28,6 @@ type PublishNewTemplateProps = {
   onClose: () => void
   connectedTemplates?: ConnectedTemplatesProps[]
   pageData: IPage | undefined
-  isUpdating: boolean
-  handleUpdateIsUpdating: (stat: boolean) => void
-  handleUpdateRunUpdate: (stat: boolean) => void
-  runUpdate: boolean
 }
 
 type handleGetTemplateUrlProps = {
@@ -45,10 +41,6 @@ export const PublishNewTemplate = ({
   onClose,
   pageData,
   connectedTemplates,
-  handleUpdateRunUpdate,
-  handleUpdateIsUpdating,
-  isUpdating,
-  runUpdate,
 }: PublishNewTemplateProps) => {
   const text = useTranslation().t
   const router = useRouter()
@@ -96,23 +88,24 @@ export const PublishNewTemplate = ({
         ...newData,
       } as FormDataProps
     })
-    if (
-      formData.title?.valid &&
-      formData.slug?.valid &&
-      formData.cover?.valid &&
-      formData.shortcutSize?.valid &&
-      formData.publicationTitle?.valid
-    ) {
-      handleUpdateIsUpdating(true)
-    }
   }
 
   const [templateData, setTemplateData] = useState<ITemplate>()
   const [publicationTitle, setPublicationTitle] = useState("")
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
+
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
+  }
 
   const generateTemplateUniqueSlug = useGenerateTemplateUniqueSlug()
 
-  function handleGetTemplateUrl(data: handleGetTemplateUrlProps) {
+  function handleGetTemplateSlug(data: handleGetTemplateUrlProps) {
     generateTemplateUniqueSlug.mutate(
       { data },
       {
@@ -131,7 +124,7 @@ export const PublishNewTemplate = ({
 
   useEffect(() => {
     if (debouncedTemplateName && templateData?.title !== "") {
-      handleGetTemplateUrl({
+      handleGetTemplateSlug({
         id: templateData?.id,
         title: debouncedTemplateName,
         page_id: pageData?.id as string,
@@ -215,21 +208,32 @@ export const PublishNewTemplate = ({
   }
 
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("publish:back")}
-        onClick={onClose}
-      />,
-      <div key={2} className={`w-fit h-fit xl:hidden`}>
+    if (isUpdating) {
+      return [
         <Tag
+          key={1}
           variant="txt"
-          text={text("publish:publish")}
-          onClick={handlePublishTemplate}
-        />
-      </div>,
-    ]
+          text={text("publish:back")}
+          onClick={onClose}
+        />,
+        <div key={2} className={`w-fit h-fit xl:hidden`}>
+          <Tag
+            variant="txt"
+            text={text("publish:publish")}
+            onClick={handlePublishTemplate}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("publish:back")}
+          onClick={onClose}
+        />,
+      ]
+    }
   }
 
   useEffect(() => {
@@ -238,6 +242,20 @@ export const PublishNewTemplate = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
+
+  useEffect(() => {
+    console.log(formData)
+    if (
+      formData.title?.valid &&
+      formData.slug?.valid &&
+      formData.cover?.valid &&
+      formData.shortcutSize?.valid &&
+      formData.publicationTitle?.valid
+    ) {
+      handleUpdateIsUpdating(true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData])
 
   return (
     <>
@@ -264,6 +282,8 @@ export const PublishNewTemplate = ({
                   type: "title",
                   setValid: () =>
                     handleUpdateFormData({ title: { valid: true } }),
+                  setInvalid: () =>
+                    handleUpdateFormData({ title: { valid: false } }),
                 }}
               />
             </Card>
@@ -299,7 +319,6 @@ export const PublishNewTemplate = ({
                 }
               />
             </Card>
-
             <Card>
               <CardText label={text("publish:size")} />
               <CardText
@@ -333,10 +352,18 @@ export const PublishNewTemplate = ({
                 input={{
                   label: text("publish:publishaslabel"),
                   defaultValue: publicationTitle,
-                  onChange: (publicationTitle) =>
-                    setPublicationTitle(publicationTitle),
-                  setValid: () =>
-                    handleUpdateFormData({ publicationTitle: { valid: true } }),
+                  onChange: (publicationTitle) => {
+                    setPublicationTitle(publicationTitle)
+                    if (publicationTitle.length > 0) {
+                      handleUpdateFormData({
+                        publicationTitle: { valid: true },
+                      })
+                    } else {
+                      handleUpdateFormData({
+                        publicationTitle: { valid: false },
+                      })
+                    }
+                  },
                 }}
               />
             </Card>

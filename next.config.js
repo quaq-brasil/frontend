@@ -18,7 +18,7 @@ const nextConfig = {
       'upload.wikimedia.org',
       'source.unsplash.com',
       'img-19.commentcamarche.net',
-      "quaq-files.s3.sa-east-1.amazonaws.com"
+      'quaq-files.s3.sa-east-1.amazonaws.com'
     ]
   },
   webpack: (config) => {

@@ -16,18 +16,10 @@ import { PublishNewTemplate } from "./PublishNewTemplate"
 import { RenderBlockConfig } from "./RenderBlockConfig"
 
 type CreateTemplateContentProps = {
-  isUpdating: boolean
-  runUpdate: boolean
-  handleUpdateIsUpdating: (stat: boolean) => void
-  handleUpdateRunUpdate: (stat: boolean) => void
   pageData: IPage | undefined
 }
 
 export function CreateTemplateContent({
-  handleUpdateIsUpdating,
-  handleUpdateRunUpdate,
-  isUpdating,
-  runUpdate,
   pageData,
 }: CreateTemplateContentProps) {
   const text = useTranslation().t
@@ -114,14 +106,10 @@ export function CreateTemplateContent({
   if (isOpenPublishTemplate) {
     return (
       <PublishNewTemplate
-        isUpdating={isUpdating}
-        handleUpdateIsUpdating={handleUpdateIsUpdating}
         blocks={blocks}
         connectedTemplates={connectedTemplates}
         pageData={pageData}
         onClose={() => setIsOpenPublishTemplate(false)}
-        handleUpdateRunUpdate={handleUpdateRunUpdate}
-        runUpdate={runUpdate}
       />
     )
   }
@@ -152,7 +140,7 @@ export function CreateTemplateContent({
           <div className="flex flex-col gap-2 md:gap-4 items-center">
             <BlockSelector onBlockSelect={handleBlockSelection} />
             <RenderBlockConfig
-              block={blockSelected}
+              block={blockSelected as string}
               isOpen={isOpen}
               onClose={handleBlockConfigClosing}
               handleAddBlock={handleAddBlock}

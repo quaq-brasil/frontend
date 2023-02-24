@@ -8,6 +8,7 @@ type useCreatePageProps = {
 
 export const useCreatePage = () => {
   const createPage = async ({ data }: useCreatePageProps) => {
+    console.log("mutate: ", data)
     const response: UseMutationResult<IPage> = await api.post(`/pages`, data)
     return response.data as IPage
   }

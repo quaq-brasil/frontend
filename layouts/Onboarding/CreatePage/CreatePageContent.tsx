@@ -71,15 +71,6 @@ export function CreatePageContent({
         ...newData,
       } as FormDataProps
     })
-    if (
-      formData.avatar?.valid &&
-      formData.cover?.valid &&
-      formData.description?.valid &&
-      formData.slug?.valid &&
-      formData.title?.valid
-    ) {
-      handleUpdateIsUpdating(true)
-    }
   }
 
   const getPageSlug = useGetPageSlug()
@@ -114,6 +105,19 @@ export function CreatePageContent({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedPageName])
+
+  useEffect(() => {
+    if (
+      formData.avatar?.valid &&
+      formData.cover?.valid &&
+      formData.description?.valid &&
+      formData.slug?.valid &&
+      formData.title?.valid
+    ) {
+      handleUpdateIsUpdating(true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData])
 
   return (
     <div className="w-full h-screen bg-slate-100">

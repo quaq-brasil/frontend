@@ -15,21 +15,11 @@ export default function CreateTemplate({ page }: CreateTemplateProps) {
   const text = useTranslation().t
   const router = useRouter()
 
-  const [isUpdating, setIsUpdating] = useState(false)
-  const [runUpdate, setRunUpdate] = useState(false)
   const [pageData, setPageData] = useState<IPage>()
 
   useEffect(() => {
     setPageData(page)
   }, [page])
-
-  function handleUpdateIsUpdating(stat: boolean) {
-    setIsUpdating(stat)
-  }
-
-  function handleUpdateRunUpdate(stat: boolean) {
-    setRunUpdate(stat)
-  }
 
   function loadHeader() {
     return (
@@ -50,13 +40,7 @@ export default function CreateTemplate({ page }: CreateTemplateProps) {
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <CreateTemplateContent
-        isUpdating={isUpdating}
-        runUpdate={runUpdate}
-        handleUpdateIsUpdating={handleUpdateIsUpdating}
-        handleUpdateRunUpdate={handleUpdateRunUpdate}
-        pageData={pageData}
-      />
+      <CreateTemplateContent pageData={pageData} />
     </div>
   )
 }
