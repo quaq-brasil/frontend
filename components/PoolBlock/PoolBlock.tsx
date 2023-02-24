@@ -68,14 +68,11 @@ export const PoolBlock = ({
   }, [block])
 
   function handleUpdateEvents(newEvent: IEvent) {
-    setEvents({
-      displayedAt: newEvent.displayedAt || events?.displayedAt,
-      firstInteractionAt:
-        newEvent.firstInteractionAt || events?.firstInteractionAt,
-      lastInteractionAt:
-        newEvent.lastInteractionAt || events?.lastInteractionAt,
-      maxAchievedAt: newEvent.maxAchievedAt || events?.maxAchievedAt,
-      minAchievedAt: newEvent.minAchievedAt || events?.minAchievedAt,
+    setEvents((state) => {
+      return {
+        ...state,
+        ...newEvent,
+      } as IEvent
     })
   }
 
@@ -158,7 +155,7 @@ export const PoolBlock = ({
 
   return (
     <div className="flex relative justify-end min-w-[100%]">
-      {isEditable === true && <BlockMenu />}
+      {isEditable === true && <BlockMenu onDelete={onDelete} />}
       <div
         className="flex flex-col px-2 pt-3 gap-[0.3125rem] justify-center
             min-w-[100%] bg-white 

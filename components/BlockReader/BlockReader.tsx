@@ -37,6 +37,7 @@ export const BlockReader = ({
         <PoolBlock
           block={block}
           isEditable={isEditable}
+          onDelete={onDelete}
           handleUpdateInteractions={handleUpdateInteractions}
         />
       )
@@ -45,6 +46,7 @@ export const BlockReader = ({
         <ImageBlock
           block={block}
           isEditable={isEditable}
+          onDelete={onDelete}
           handleUpdateInteractions={handleUpdateInteractions}
         />
       )
@@ -53,6 +55,7 @@ export const BlockReader = ({
         <ReviewBlock
           block={block}
           isEditable={isEditable}
+          onDelete={onDelete}
           handleUpdateInteractions={handleUpdateInteractions}
         />
       )
@@ -61,6 +64,7 @@ export const BlockReader = ({
         <TextEntryBlock
           block={block}
           isEditable={isEditable}
+          onDelete={onDelete}
           handleUpdateInteractions={handleUpdateInteractions}
         />
       )
@@ -69,11 +73,18 @@ export const BlockReader = ({
         <Button
           block={block}
           isEditable={isEditable}
+          onDelete={onDelete}
           handleUpdateInteractions={handleUpdateInteractions}
         />
       )
     case "webhook":
-      return <WebhookBlock block={block} isEditable={isEditable} />
+      return (
+        <WebhookBlock
+          block={block}
+          isEditable={isEditable}
+          onDelete={onDelete}
+        />
+      )
     case "chart":
       return (
         <ChartBlock block={block} isEditable={isEditable} onDelete={onDelete} />

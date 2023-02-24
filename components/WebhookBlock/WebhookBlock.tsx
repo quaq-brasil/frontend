@@ -46,7 +46,7 @@ export const WebhookBlock = ({
             }
             `}
     >
-      {isEditable && <BlockMenu />}
+      {isEditable && <BlockMenu onDelete={onDelete} />}
       <div className="flex flex-row gap-3 items-center  mb-[0.5rem]">
         {!block.data.visibility && (
           <div className="w-[1.25rem] h-[1.25rem] lg:w-[1.75rem] lg:h-[1.75rem]">

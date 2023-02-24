@@ -53,12 +53,11 @@ export const TextEntryBlock = ({
   }
 
   function handleUpdateEvents(newEvent: IEvent) {
-    setEvents({
-      displayedAt: newEvent.displayedAt || events?.displayedAt,
-      firstInteractionAt:
-        newEvent.firstInteractionAt || events?.firstInteractionAt,
-      lastInteractionAt:
-        newEvent.lastInteractionAt || events?.lastInteractionAt,
+    setEvents((state) => {
+      return {
+        ...state,
+        ...newEvent,
+      } as IEvent
     })
   }
 
@@ -99,7 +98,7 @@ export const TextEntryBlock = ({
 
   return (
     <div className="flex relative min-w-[100%] justify-end content-center">
-      {isEditable && <BlockMenu />}
+      {isEditable && <BlockMenu onDelete={onDelete} />}
       <div
         className="flex justify-between items-center
             min-w-[100%] bg-white py-[1.125rem] rounded-[20px] lg:rounded-[30px] lg:py-[1.275rem]"

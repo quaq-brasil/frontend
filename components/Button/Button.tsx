@@ -40,12 +40,11 @@ export function Button({
   const [events, setEvents] = useState<IEvent>()
 
   function handleUpdateEvents(newEvent: IEvent) {
-    setEvents({
-      displayedAt: newEvent.displayedAt || events?.displayedAt,
-      firstInteractionAt:
-        newEvent.firstInteractionAt || events?.firstInteractionAt,
-      lastInteractionAt:
-        newEvent.lastInteractionAt || events?.lastInteractionAt,
+    setEvents((state) => {
+      return {
+        ...state,
+        ...newEvent,
+      } as IEvent
     })
   }
 
@@ -102,7 +101,7 @@ export function Button({
 
   return (
     <div className="w-full h-fit relative">
-      {isEditable === true && <BlockMenu />}
+      {isEditable === true && <BlockMenu onDelete={onDelete} />}
       <button
         onClick={() => {
           block.data.onClick && block.data.onClick()
