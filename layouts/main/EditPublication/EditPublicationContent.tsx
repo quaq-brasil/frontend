@@ -84,6 +84,20 @@ export const EditPublicationContent = ({
     setIsUpdating(true)
   }
 
+  const handleCheckSaveAs = (value: string | undefined | null) => {
+    let uniqueSaveAs = true
+    if (!value) {
+      uniqueSaveAs = false
+    } else {
+      blocks.forEach((block) => {
+        if (block.save_as == value) {
+          uniqueSaveAs = false
+        }
+      })
+    }
+    return uniqueSaveAs
+  }
+
   function handleTabBar() {
     return [
       <Tag
@@ -148,12 +162,13 @@ export const EditPublicationContent = ({
           <div className="flex flex-col gap-2 md:gap-4 items-center">
             <BlockSelector onBlockSelect={handleBlockSelection} />
             <RenderBlockConfig
-              block={blockSelected}
+              block={blockSelected as string}
               isOpen={isOpen}
               onClose={handleBlockConfigClosing}
               handleAddBlock={handleAddBlock}
               handleOpenVariablePanel={handleOpenVariablePanel}
               setFunctionHandleAddVariable={setFunctionHandleAddVariable}
+              handleCheckSaveAs={handleCheckSaveAs}
             />
             <VariablesPanelDialog
               handleInsertVariable={functionHandleAddVariable}
