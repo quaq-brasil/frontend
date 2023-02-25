@@ -82,6 +82,7 @@ export const BlockReader = ({
           isEditable={isEditable}
           onDelete={onDelete}
           handleUpdateInteractions={handleUpdateInteractions}
+          onEdit={onEdit}
         />
       )
     case "webhook":

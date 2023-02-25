@@ -1,7 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
-import { v4 } from "uuid"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardColorSelector } from "../../../components/Card/CardContentVariants/CardColorSelector"
@@ -19,6 +18,7 @@ export function ButtonConfig({
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
   handleCheckSaveAs,
+  blockData,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -99,13 +99,22 @@ export function ButtonConfig({
 
   function onAddBlock() {
     handleAddBlock({
-      id: v4(),
+      id: blockData?.id || undefined,
       type: "button",
       save_as: saveAs as string,
       data: content,
     })
     handleClosing()
   }
+
+  useEffect(() => {
+    if (blockData) {
+      setContent(blockData.data)
+      setSaveAs(blockData.save_as as string)
+      handleUpdateFormData({ saveAs: { valid: true }, text: { valid: true } })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
 
   useEffect(() => {
     if (content && saveAs) {

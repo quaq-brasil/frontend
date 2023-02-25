@@ -22,6 +22,7 @@ type ButtonProps = {
   isEditable: boolean
   onDelete?: () => void
   handleUpdateInteractions?: (interaction: IInteractionData) => void
+  onEdit?: () => void
 }
 
 export function Button({
@@ -29,6 +30,7 @@ export function Button({
   isEditable,
   onDelete,
   handleUpdateInteractions,
+  onEdit,
 }: ButtonProps) {
   type IEvent = {
     displayedAt?: string
@@ -101,7 +103,7 @@ export function Button({
 
   return (
     <div className="w-full h-fit relative">
-      {isEditable === true && <BlockMenu onDelete={onDelete} />}
+      {isEditable === true && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       <button
         onClick={() => {
           block.data.onClick && block.data.onClick()
