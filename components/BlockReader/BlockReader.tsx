@@ -70,6 +70,7 @@ export const BlockReader = ({
           isEditable={isEditable}
           onDelete={onDelete}
           handleUpdateInteractions={handleUpdateInteractions}
+          onEdit={onEdit}
         />
       )
     case "button":
@@ -91,7 +92,12 @@ export const BlockReader = ({
       )
     case "chart":
       return (
-        <ChartBlock block={block} isEditable={isEditable} onDelete={onDelete} />
+        <ChartBlock
+          block={block}
+          isEditable={isEditable}
+          onDelete={onDelete}
+          onEdit={onEdit}
+        />
       )
     default:
       return (

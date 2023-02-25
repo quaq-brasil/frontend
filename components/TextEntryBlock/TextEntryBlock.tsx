@@ -20,6 +20,7 @@ type TextEntryBlockProps = {
   isEditable?: boolean
   onDelete?: () => void
   handleUpdateInteractions?: (interaction: IInteractionData) => void
+  onEdit?: () => void
 }
 
 export const TextEntryBlock = ({
@@ -27,6 +28,7 @@ export const TextEntryBlock = ({
   isEditable,
   onDelete,
   handleUpdateInteractions,
+  onEdit,
 }: TextEntryBlockProps) => {
   type IEvent = {
     displayedAt?: string
@@ -98,7 +100,7 @@ export const TextEntryBlock = ({
 
   return (
     <div className="flex relative min-w-[100%] justify-end content-center">
-      {isEditable && <BlockMenu onDelete={onDelete} />}
+      {isEditable && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       <div
         className="flex justify-between items-center
             min-w-[100%] bg-white py-[1.125rem] rounded-[20px] lg:rounded-[30px] lg:py-[1.275rem]"
