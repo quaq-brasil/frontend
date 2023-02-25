@@ -47,6 +47,10 @@ export const EditPublicationContent = ({
   const [editBlockData, setEditBlockData] = useState<BlockProps | null>()
 
   useEffect(() => {
+    console.log("useEffect", editBlockData)
+  }, [editBlockData])
+
+  useEffect(() => {
     if (templateData?.publication.blocks) {
       const toFormartBlock = templateData?.publication.blocks as any
 
@@ -66,7 +70,6 @@ export const EditPublicationContent = ({
   }
 
   function handleBlockSelection(block: string | undefined) {
-    console.log("editBlockData: ", editBlockData)
     setBlockSelected(block)
     setIsOpen(true)
   }

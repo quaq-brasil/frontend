@@ -19,11 +19,11 @@ export function TextConfig({
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
   handleCheckSaveAs,
-  editBlockData,
+  blockData,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
-  console.log(editBlockData)
+  console.log("config", blockData)
 
   type FormDataProps = {
     content?: {
@@ -35,7 +35,7 @@ export function TextConfig({
   }
 
   const [formData, setFormData] = useState<FormDataProps>(
-    editBlockData
+    blockData
       ? {
           content: {
             valid: true,
@@ -53,12 +53,8 @@ export function TextConfig({
           },
         }
   )
-  const [content, setContent] = useState<string | null>(
-    editBlockData ? editBlockData.data.data : null
-  )
-  const [saveAs, setSaveAs] = useState<string | null>(
-    editBlockData ? (editBlockData.data.save_as as string) : null
-  )
+  const [content, setContent] = useState<string | null>(null)
+  const [saveAs, setSaveAs] = useState<string | null>(null)
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -108,13 +104,25 @@ export function TextConfig({
 
   function onAddBlock() {
     handleAddBlock({
-      id: editBlockData?.data.id || undefined,
+      id: blockData?.id || undefined,
       type: "text",
       data: content,
       save_as: saveAs as string,
     })
     handleClosing()
   }
+
+  useEffect(() => {
+    if (blockData) {
+      setContent(blockData.data)
+      setSaveAs(blockData.save_as as string)
+      handleUpdateFormData({
+        content: { valid: true },
+        saveAs: { valid: true },
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
 
   useEffect(() => {
     if (content && content.length > 0) {

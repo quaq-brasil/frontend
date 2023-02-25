@@ -47,6 +47,7 @@ function TextEditor({
   useEffect(() => {
     if ((content && editor) || (content === "" && editor))
       editor?.chain()?.focus()?.setContent(content)?.run()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [content])
 
   return (

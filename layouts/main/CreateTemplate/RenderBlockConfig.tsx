@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { BlockProps } from "../../../types/Block.types"
 import { AutomationConfig } from "../../BlocksConfig/AutomationConfig/AutomationConfig"
 import { ButtonConfig } from "../../BlocksConfig/ButtonConfig/ButtonConfig"
@@ -88,18 +89,24 @@ const blockConfigurations: BlockConfigurations = {
 }
 
 export function RenderBlockConfig(props: RenderBlockConfig) {
+  const [data, setData] = useState(props)
+
+  useEffect(() => {
+    setData(props)
+  }, [props])
+
   const BlockComponent = blockConfigurations[props.block]?.component
 
   if (BlockComponent) {
     return (
       <BlockComponent
-        isOpen={props.isOpen}
-        onClose={props.onClose}
-        handleAddBlock={props.handleAddBlock}
-        handleOpenVariablePanel={props.handleOpenVariablePanel}
-        setFunctionHandleAddVariable={props.setFunctionHandleAddVariable}
-        handleCheckSaveAs={props.handleCheckSaveAs}
-        blockData={props.blockData || null}
+        isOpen={data.isOpen}
+        onClose={data.onClose}
+        handleAddBlock={data.handleAddBlock}
+        handleOpenVariablePanel={data.handleOpenVariablePanel}
+        setFunctionHandleAddVariable={data.setFunctionHandleAddVariable}
+        handleCheckSaveAs={data.handleCheckSaveAs}
+        blockData={data.blockData || null}
       />
     )
   } else {
