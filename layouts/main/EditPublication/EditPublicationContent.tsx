@@ -94,6 +94,7 @@ export const EditPublicationContent = ({
       } as BlockProps
       setBlocks((state) => [...state, tempBlock])
     }
+    setIsUpdating(true)
   }
 
   const handleRemoveBlock = (removeIndex: number) => {
