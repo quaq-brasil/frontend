@@ -23,8 +23,6 @@ export function TextConfig({
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
-  console.log("config", blockData)
-
   type FormDataProps = {
     content?: {
       valid?: boolean

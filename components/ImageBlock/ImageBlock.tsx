@@ -19,6 +19,7 @@ type ImageBlockProps = {
   isEditable: boolean
   onDelete?: () => void
   handleUpdateInteractions?: (interaction: IInteractionData) => void
+  onEdit?: () => void
 }
 
 export const ImageBlock = ({
@@ -26,6 +27,7 @@ export const ImageBlock = ({
   isEditable,
   onDelete,
   handleUpdateInteractions,
+  onEdit,
 }: ImageBlockProps) => {
   type IEvent = {
     displayedAt: string
@@ -69,7 +71,7 @@ export const ImageBlock = ({
       className="flex relative justify-center content-center
             min-w-[100%] h-[13.0625rem]  lg:h-[19rem]"
     >
-      {isEditable && <BlockMenu onDelete={onDelete} />}
+      {isEditable && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       {block.data.img_url ? (
         <Image
           className="rounded-[20px] lg:rounded-[30px]"

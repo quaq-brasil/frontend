@@ -38,17 +38,11 @@ export const EditPublicationContent = ({
   const [isOpenPublishTemplate, setIsOpenPublishTemplate] = useState(false)
   const [isVariablesPanelOpen, setIsVariablesPanelOpen] = useState(false)
   const [functionHandleAddVariable, setFunctionHandleAddVariable] = useState(
-    () => (variable: any) => {
-      console.log(variable)
-    }
+    () => (variable: any) => {}
   )
   const [connectedTemplates, setConnectedTemplates] =
     useState<ConnectedTemplatesProps[]>()
   const [editBlockData, setEditBlockData] = useState<BlockProps | null>()
-
-  useEffect(() => {
-    console.log("useEffect", editBlockData)
-  }, [editBlockData])
 
   useEffect(() => {
     if (templateData?.publication.blocks) {
