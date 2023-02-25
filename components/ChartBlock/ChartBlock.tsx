@@ -48,6 +48,7 @@ type ChartBlockProps = {
   isEditable: boolean
   onDelete?: () => void
   handleUpdateInteractions?: (interaction: IInteractionData) => void
+  onEdit?: () => void
 }
 
 export const ChartBlock = ({
@@ -55,6 +56,7 @@ export const ChartBlock = ({
   isEditable,
   onDelete,
   handleUpdateInteractions,
+  onEdit,
 }: ChartBlockProps) => {
   type IEvent = {
     displayedAt: string
@@ -157,7 +159,7 @@ export const ChartBlock = ({
 
   return (
     <div className="flex relative justify-end">
-      {isEditable && <BlockMenu onDelete={onDelete} />}
+      {isEditable && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       <div
         className="flex flex-col w-full justify-center items-center bg-white 
           p-[0.75rem] rounded-[20px] lg:rounded-[30px]"

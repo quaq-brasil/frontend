@@ -20,6 +20,7 @@ export default function ChartConfig({
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
   handleCheckSaveAs,
+  blockData,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -206,6 +207,20 @@ export default function ChartConfig({
     })
     handleClosing()
   }
+
+  useEffect(() => {
+    if (blockData) {
+      setContent(blockData.data)
+      setSaveAs(blockData.save_as as string)
+      handleUpdateFormData({
+        data: { valid: true },
+        saveAs: { valid: true },
+        title: { valid: true },
+        type: { valid: true },
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
 
   useEffect(() => {
     if (content && saveAs) {
