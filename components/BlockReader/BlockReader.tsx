@@ -42,6 +42,7 @@ export const BlockReader = ({
           isEditable={isEditable}
           onDelete={onDelete}
           handleUpdateInteractions={handleUpdateInteractions}
+          onEdit={onEdit}
         />
       )
     case "image":
@@ -61,6 +62,7 @@ export const BlockReader = ({
           isEditable={isEditable}
           onDelete={onDelete}
           handleUpdateInteractions={handleUpdateInteractions}
+          onEdit={onEdit}
         />
       )
     case "textentry":

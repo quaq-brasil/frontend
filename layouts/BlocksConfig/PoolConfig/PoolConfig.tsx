@@ -1,7 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, X } from "phosphor-react"
 import { useEffect, useState } from "react"
-import { v4 } from "uuid"
 
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
@@ -19,6 +18,7 @@ export function PoolConfig({
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
   handleCheckSaveAs,
+  blockData,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -117,13 +117,26 @@ export function PoolConfig({
 
   function onAddBlock() {
     handleAddBlock({
-      id: v4(),
+      id: blockData?.id || undefined,
       type: "pool",
       save_as: saveAs as string,
       data: content,
     })
     handleClosing()
   }
+
+  useEffect(() => {
+    if (blockData) {
+      setContent(blockData.data)
+      setSaveAs(blockData.save_as as string)
+      handleUpdateFormData({
+        description: { valid: true },
+        options: { valid: true },
+        saveAs: { valid: true },
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
 
   useEffect(() => {
     if (content?.options && saveAs) {
@@ -207,7 +220,7 @@ export function PoolConfig({
         break
     }
 
-    const options = [...content.options]
+    const options = [...(content.options as options[])]
 
     if (option === "add") {
       options.push({ id: options.length, value: "" })

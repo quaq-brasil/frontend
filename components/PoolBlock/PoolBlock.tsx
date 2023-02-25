@@ -28,6 +28,7 @@ type PoolBlockProps = {
   isEditable: boolean
   onDelete?: () => void
   handleUpdateInteractions?: (interaction: IInteractionData) => void
+  onEdit?: () => void
 }
 
 export const PoolBlock = ({
@@ -35,6 +36,7 @@ export const PoolBlock = ({
   isEditable,
   onDelete,
   handleUpdateInteractions,
+  onEdit,
 }: PoolBlockProps) => {
   type IEvent = {
     displayedAt?: string
@@ -155,7 +157,7 @@ export const PoolBlock = ({
 
   return (
     <div className="flex relative justify-end min-w-[100%]">
-      {isEditable === true && <BlockMenu onDelete={onDelete} />}
+      {isEditable === true && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       <div
         className="flex flex-col px-2 pt-3 gap-[0.3125rem] justify-center
             min-w-[100%] bg-white 

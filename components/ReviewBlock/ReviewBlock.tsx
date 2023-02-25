@@ -22,6 +22,7 @@ type ReviewBlockProps = {
   isEditable: boolean
   onDelete?: () => void
   handleUpdateInteractions?: (interaction: IInteractionData) => void
+  onEdit?: () => void
 }
 
 export const ReviewBlock = ({
@@ -29,6 +30,7 @@ export const ReviewBlock = ({
   isEditable,
   onDelete,
   handleUpdateInteractions,
+  onEdit,
 }: ReviewBlockProps) => {
   type IEvent = {
     displayedAt?: string
@@ -98,7 +100,7 @@ export const ReviewBlock = ({
 
   return (
     <div className="flex relative justify-end">
-      {isEditable === true && <BlockMenu onDelete={onDelete} />}
+      {isEditable === true && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       <div
         className="flex flex-col w-full justify-center items-center bg-white 
           p-[0.75rem] rounded-[20px] lg:rounded-[30px]"
