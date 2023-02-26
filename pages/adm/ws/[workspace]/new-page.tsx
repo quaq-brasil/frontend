@@ -19,7 +19,7 @@ export default function CreatePagePage({ workspace }: CreatePagePagePros) {
   const router = useRouter()
 
   const handleCreatePage = (data: IUpdatePage) => {
-    console.log("handleCreatePage")
+    console.log("mutate")
     createPage.mutate(
       {
         data: {
