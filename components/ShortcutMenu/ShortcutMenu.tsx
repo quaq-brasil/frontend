@@ -8,7 +8,7 @@ import {
   GearSix,
   PencilSimple,
   Play,
-  Trash,
+  Trash
 } from "phosphor-react"
 import { useState } from "react"
 import { useDeleteTemplate } from "../../services/hooks/useTemplate/useDeleteTemplate"

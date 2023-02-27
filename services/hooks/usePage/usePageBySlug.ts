@@ -15,6 +15,7 @@ export const usePageBySlug = ({ slug, options }: usePageBySlugProps) => {
   const response = useQuery({
     queryKey: ["getPageBySlug", slug],
     queryFn: getPageBySlug,
+    staleTime: 1000 * 60, // 1 minute
     ...options,
   }) as UseQueryResult<{ data: IPage }>
 
