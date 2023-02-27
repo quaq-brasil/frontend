@@ -1,5 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -48,10 +48,14 @@ export function CreateWorkspaceContent({
         ...newData,
       } as FormDataProps
     })
+  }
+
+  useEffect(() => {
     if (formData.avatar?.valid && formData.title?.valid) {
       handleUpdateIsUpdating(true)
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -66,11 +70,19 @@ export function CreateWorkspaceContent({
             <CardTextInput
               input={{
                 label: text("createwspace:inputwsname"),
-                onChange: (title) =>
-                  handleUpdateWorkspaceData({ title: title }),
+                onChange: (title) => {
+                  handleUpdateWorkspaceData({ title: title })
+                  if (title.length > 2) {
+                    handleUpdateFormData({ title: { valid: true } })
+                  } else {
+                    handleUpdateFormData({ title: { valid: false } })
+                  }
+                },
                 type: "title",
                 setValid: () =>
                   handleUpdateFormData({ title: { valid: true } }),
+                setInvalid: () =>
+                  handleUpdateFormData({ title: { valid: false } }),
               }}
             />
           </Card>
@@ -80,8 +92,8 @@ export function CreateWorkspaceContent({
               imageSelector={
                 <ImageSelector
                   onImageChange={(image) => {
-                    handleUpdateWorkspaceData({ avatar_url: image })
                     handleUpdateFormData({ avatar: { valid: true } })
+                    handleUpdateWorkspaceData({ avatar_url: image })
                   }}
                 />
               }

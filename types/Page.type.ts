@@ -13,7 +13,7 @@ export type IPage = {
   workspace_id: string
   avatar_url: string
   background_url: string
-  services?: any[]
+  services?: any
   trackers: ITrackers
   templates?: ITemplate[]
 }
@@ -26,6 +26,6 @@ export type IUpdatePage = {
   workspace_id?: string
   avatar_url?: string
   background_url?: string
-  services?: any[]
+  services?: any
   trackers?: ITrackers
 }

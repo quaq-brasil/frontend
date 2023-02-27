@@ -1,7 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { ArrowRight, Check } from "phosphor-react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -21,6 +21,7 @@ type CentralOptionsContentProps = {
   handleUpdateTemplateData: (data: IUpdateTemplate) => void
   pageData: IUpdatePage | undefined
   handleUpdateRunUpdate: (stat: boolean) => void
+  handleUpdateIsUpdating: (stat: boolean) => void
 }
 
 export function CentralOptionsContent({
@@ -29,13 +30,54 @@ export function CentralOptionsContent({
   templateData,
   pageData,
   handleUpdateRunUpdate,
+  handleUpdateIsUpdating,
 }: CentralOptionsContentProps) {
   const text = useTranslation().t
   const router = useRouter()
 
+  type FormDataProps = {
+    title?: {
+      valid?: boolean
+    }
+    link?: {
+      valid?: boolean
+    }
+    cover?: {
+      valid?: boolean
+    }
+    size?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    title: {
+      valid: false,
+    },
+    link: {
+      valid: false,
+    },
+    cover: {
+      valid: false,
+    },
+    size: {
+      valid: false,
+    },
+  })
+
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+  }
+
   const generateTemplateUniqueUrl = useGenerateTemplateUniqueSlug()
 
   type handleGetTemplateUrlProps = {
+    id: string
     title: string
     page_id: string
   }
@@ -59,12 +101,27 @@ export function CentralOptionsContent({
   useEffect(() => {
     if (isUpdating && debouncedTemplateName && templateData?.title) {
       handleGetTemplateUrl({
+        id: templateData.id as string,
         title: debouncedTemplateName,
         page_id: pageData?.id as string,
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedTemplateName])
+
+  useEffect(() => {
+    if (
+      formData.cover?.valid &&
+      formData.link?.valid &&
+      formData.size?.valid &&
+      formData.title?.valid
+    ) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -78,9 +135,26 @@ export function CentralOptionsContent({
             <CardText label={text("centraloptions:title")} />
             <CardTextInput
               input={{
-                onChange: (title) => handleUpdateTemplateData({ title: title }),
+                onChange: (title) => {
+                  handleUpdateTemplateData({ title: title })
+                  if (title.length > 2) {
+                    handleUpdateFormData({
+                      title: { valid: true },
+                      cover: { valid: true },
+                      link: { valid: true },
+                      size: { valid: true },
+                    })
+                  } else {
+                    handleUpdateFormData({
+                      title: { valid: false },
+                      cover: { valid: true },
+                      link: { valid: true },
+                      size: { valid: true },
+                    })
+                  }
+                },
                 inputValue: templateData?.title,
-                type: "text",
+                type: "title",
               }}
             />
           </Card>
@@ -106,9 +180,15 @@ export function CentralOptionsContent({
             <CardImageInput
               imageSelector={
                 <ImageSelector
-                  onImageChange={(image) =>
+                  onImageChange={(image) => {
                     handleUpdateTemplateData({ shortcut_image: image })
-                  }
+                    handleUpdateFormData({
+                      title: { valid: true },
+                      cover: { valid: true },
+                      link: { valid: true },
+                      size: { valid: true },
+                    })
+                  }}
                   url={templateData?.shortcut_image}
                 />
               }
@@ -123,9 +203,15 @@ export function CentralOptionsContent({
                 icon: Check,
                 isVisible: templateData?.shortcut_size !== "small",
               }}
-              onClick={() =>
+              onClick={() => {
                 handleUpdateTemplateData({ shortcut_size: "small" })
-              }
+                handleUpdateFormData({
+                  title: { valid: true },
+                  cover: { valid: true },
+                  link: { valid: true },
+                  size: { valid: true },
+                })
+              }}
             />
             <CardLine />
             <CardText
@@ -134,9 +220,15 @@ export function CentralOptionsContent({
                 icon: Check,
                 isVisible: templateData?.shortcut_size !== "large",
               }}
-              onClick={() =>
+              onClick={() => {
                 handleUpdateTemplateData({ shortcut_size: "large" })
-              }
+                handleUpdateFormData({
+                  title: { valid: true },
+                  cover: { valid: true },
+                  link: { valid: true },
+                  size: { valid: true },
+                })
+              }}
             />
             <CardLine />
           </Card>

@@ -14,7 +14,7 @@ import { useGetPageSlug } from "../../../services/hooks/usePage/useGetPageSlug"
 import { IUpdatePage } from "../../../types/Page.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 
-type GeneralSettingsContent = {
+type GeneralSettingsContentProps = {
   pageData: IUpdatePage | undefined
   handleUpdatePage: (data: IUpdatePage) => void
   handleUpdatePageData: (newData: IUpdatePage) => void
@@ -34,7 +34,7 @@ export function GeneralSettingsContent({
   runUpdate,
   handleUpdateRunUpdate,
   initialPageData,
-}: GeneralSettingsContent) {
+}: GeneralSettingsContentProps) {
   const text = useTranslation().t
   const router = useRouter()
 
@@ -85,15 +85,16 @@ export function GeneralSettingsContent({
     )
   }
 
-  const debouncedPageName = useDebounce({
+  const debouncedPageTitle = useDebounce({
     value: pageData?.title,
     delay: 1000 * 1,
   })
 
   useEffect(() => {
     if (
-      debouncedPageName !== initialPageData?.title &&
-      pageData?.title !== initialPageData?.title
+      debouncedPageTitle !== initialPageData?.title &&
+      pageData?.title !== initialPageData?.title &&
+      pageData?.id
     ) {
       handleGetPageSlug({
         id: pageData?.id as string,
@@ -101,7 +102,7 @@ export function GeneralSettingsContent({
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedPageName])
+  }, [debouncedPageTitle])
 
   function onPageUpdate() {
     handleUpdatePage(pageData as IUpdatePage)

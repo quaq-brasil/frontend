@@ -43,8 +43,6 @@ export default function CentralOptions({
         ...newData,
       } as IUpdateTemplate
     })
-
-    handleUpdateIsUpdating(true)
   }
 
   useEffect(() => {
@@ -198,6 +196,7 @@ export default function CentralOptions({
         handleUpdateTemplateData={handleUpdateTemplateData}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
         pageData={pageData}
+        handleUpdateIsUpdating={handleUpdateIsUpdating}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

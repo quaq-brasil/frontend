@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import { v4 } from "uuid"
 import { BlockReader } from "../../../components/BlockReader/BlockReader"
 import { BlockSelector } from "../../../components/BlockSelector/BlockSelector"
 import { TabBar } from "../../../components/TabBar/TabBar"
@@ -30,13 +31,11 @@ export function CreateTemplateContent({
   const [isOpenPublishTemplate, setIsOpenPublishTemplate] = useState(false)
   const [isVariablesPanelOpen, setIsVariablesPanelOpen] = useState(false)
   const [functionHandleAddVariable, setFunctionHandleAddVariable] = useState(
-    () => (variable: any) => {
-      console.log(variable)
-    }
+    () => (variable: any) => {}
   )
-
   const [connectedTemplates, setConnectedTemplates] =
     useState<ConnectedTemplatesProps[]>()
+  const [editBlockData, setEditBlockData] = useState<BlockProps | null>()
 
   const handleOpenVariablePanel = () => {
     setIsVariablesPanelOpen(true)
@@ -58,7 +57,24 @@ export function CreateTemplateContent({
   }
 
   const handleAddBlock = (newBlock: BlockProps) => {
-    setBlocks((state) => [...state, newBlock])
+    if (newBlock.id) {
+      const tempBlocks = blocks.map((block) => {
+        if (block.id == newBlock.id) {
+          return newBlock
+        } else {
+          return block
+        }
+      })
+      setBlocks([...tempBlocks])
+    } else {
+      const tempBlock = {
+        data: newBlock.data,
+        id: v4(),
+        save_as: newBlock.save_as,
+        type: newBlock.type,
+      } as BlockProps
+      setBlocks((state) => [...state, tempBlock])
+    }
   }
 
   const handleRemoveBlock = (removeIndex: number) => {
@@ -103,6 +119,17 @@ export function CreateTemplateContent({
     ]
   }
 
+  const handleOnEdit = (blockData: BlockProps) => {
+    setEditBlockData((prevEditBlockData) => {
+      if (prevEditBlockData && prevEditBlockData.id === blockData.id) {
+        return blockData
+      } else {
+        return { ...blockData }
+      }
+    })
+    handleBlockSelection(blockData.type)
+  }
+
   if (isOpenPublishTemplate) {
     return (
       <PublishNewTemplate
@@ -131,6 +158,7 @@ export function CreateTemplateContent({
                     block={block}
                     isEditable={true}
                     onDelete={() => handleRemoveBlock(index)}
+                    onEdit={() => handleOnEdit(block)}
                   />
                 )
               })}
@@ -147,6 +175,7 @@ export function CreateTemplateContent({
               handleOpenVariablePanel={handleOpenVariablePanel}
               setFunctionHandleAddVariable={setFunctionHandleAddVariable}
               handleCheckSaveAs={handleCheckSaveAs}
+              blockData={editBlockData}
             />
             <VariablesPanelDialog
               handleInsertVariable={functionHandleAddVariable}

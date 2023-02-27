@@ -19,7 +19,6 @@ export default function CreatePagePage({ workspace }: CreatePagePagePros) {
   const router = useRouter()
 
   const handleCreatePage = (data: IUpdatePage) => {
-    console.log("mutate")
     createPage.mutate(
       {
         data: {
@@ -29,13 +28,12 @@ export default function CreatePagePage({ workspace }: CreatePagePagePros) {
           workspace_id: getWorkspace?.data.id as string,
           avatar_url: data.avatar_url as string,
           background_url: data.background_url as string,
-          services: [],
+          services: {},
           trackers: {},
         },
       },
       {
         onSuccess: (pageData) => {
-          console.log("pageData: ", pageData)
           const { slug } = pageData
           router.push(pageUrls.pageSettings({ pageSlug: slug }))
         },

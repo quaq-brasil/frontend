@@ -35,6 +35,7 @@ export default function ShortcutMenu({
   const deleteTemplate = useDeleteTemplate()
 
   function handleDeleteTemplate() {
+    console.log("deleting: ", templateData?.id)
     setIsOpen(false)
     deleteTemplate.mutate(
       {
