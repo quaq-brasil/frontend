@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { IPage } from "../../../types/Page.type"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 
 type useMutatePagesByWorkspaceIdPros = {
   id: string

@@ -103,6 +103,7 @@ export function AutomationBlocksConfig({
         ) : null}
         <div className="flex flex-col gap-2 md:gap-4 items-center">
           <BlockSelector onBlockSelect={handleBlockSelection} />
+          {/* @ts-ignore */}
           <RenderBlockConfig
             block={blockSelected}
             isOpen={isOpen}

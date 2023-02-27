@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import { useMutationProps } from "../../../types/useQueryProps"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 
 type useDeletePageProps = {
   id: string

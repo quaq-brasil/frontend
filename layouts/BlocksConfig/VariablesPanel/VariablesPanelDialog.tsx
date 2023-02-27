@@ -158,7 +158,7 @@ export const VariablesPanelDialog = ({
   function handleSelectVariable(key: string) {
     if (selectedVariablePath) {
       if (selectedVariablePath[selectedVariablePath.length - 1] == key) {
-        const newSelectedVariablePath = null
+        const newSelectedVariablePath: SetStateAction<string[]> = null
         setSelectedVariablePath(newSelectedVariablePath)
         setChangeTabBar(false)
       } else {

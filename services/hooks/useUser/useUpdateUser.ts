@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 import { IUpdateUser } from "./../../../types/User.type"
 
 type useUpdateUserProps = {

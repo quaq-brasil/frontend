@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { IInteraction } from "../../../types/Interaction.type"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 
 export const useCreateInteraction = () => {
   const useCreateInteraction = async (data: IInteraction) => {

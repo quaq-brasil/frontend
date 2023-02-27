@@ -1,5 +1,3 @@
-import { useRouter } from "next/router"
-
 const page = (pageSlug: string) => `/${pageSlug}`
 
 type pageSettingsProps = {
@@ -66,14 +64,12 @@ const workspaceSettings = ({
   }
 }
 
-const login = () => {
-  return `/account/login`
+const pageNotFound = () => {
+  return "/404"
 }
 
-const Back = () => {
-  const router = useRouter()
-
-  return router.back()
+const login = () => {
+  return `/login`
 }
 
 const createTemplate = (pageSlug: string) => {
@@ -82,6 +78,10 @@ const createTemplate = (pageSlug: string) => {
 
 const adm = () => {
   return `/adm`
+}
+
+const pageInternalServerError = () => {
+  return "500"
 }
 
 export const pageUrls = {
@@ -95,7 +95,8 @@ export const pageUrls = {
   meSettings,
   workspaceSettings,
   login,
-  Back,
   createTemplate,
   adm,
+  pageNotFound,
+  pageInternalServerError,
 }

@@ -13,6 +13,7 @@ type CardTextInputProps = {
     inputValue?: string
     setValid?: () => void
     setInvalid?: () => void
+    validate?: boolean
   }
   indicator?: {
     icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
@@ -46,8 +47,11 @@ export function CardTextInput(props: CardTextInputProps) {
       requiredValidators.push(validators.title)
     }
 
-    validateField(value, [...requiredValidators])
+    if (props.input.validate !== false) {
+      validateField(value, [...requiredValidators])
+    }
     props.input?.onChange && props.input.onChange(value)
+
     if (errors && errors.length > 0) {
       props.input?.setInvalid && props.input.setInvalid()
     } else {

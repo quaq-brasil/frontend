@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { IInteractionAndUser } from "../../../types/Interaction.type"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 
 type useMutateInteractionsByPublicationIdPros = {
   id: string

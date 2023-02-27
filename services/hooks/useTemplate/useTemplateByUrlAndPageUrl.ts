@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
 import { getTemplateByUrlAndPageUrlProps } from "../../../types/Template.type"
 import { useQueryProps } from "../../../types/useQueryProps"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 
 type useTemplateByUrlProps = {
   url: string

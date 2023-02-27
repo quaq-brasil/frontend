@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import { IFile } from "../../../types/File.types"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 
 export const useCreateFile = () => {
   const createFile = async (file: File) => {

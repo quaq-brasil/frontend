@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
 import { IPage } from "../../../types/Page.type"
 import { useQueryProps } from "../../../types/useQueryProps"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 
 type usePageBySlugProps = {
   slug: string

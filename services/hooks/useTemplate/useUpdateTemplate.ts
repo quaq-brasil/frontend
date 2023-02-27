@@ -1,7 +1,7 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { IUpdateTemplate } from "../../../types/Template.type"
 import { useMutationProps } from "../../../types/useQueryProps"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 import { ITemplate } from "./../../../types/Template.type"
 
 type useUpdateTemplateProps = {

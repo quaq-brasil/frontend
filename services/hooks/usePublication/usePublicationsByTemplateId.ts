@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
 import { useQueryProps } from "../../../types/useQueryProps"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 import { IPublication } from "./../../../types/Publication.type"
 
 type usePublicationByTemplateIdProps = {

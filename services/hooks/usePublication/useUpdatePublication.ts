@@ -1,5 +1,5 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 import {
   IPublication,
   IUpdatePublication,
