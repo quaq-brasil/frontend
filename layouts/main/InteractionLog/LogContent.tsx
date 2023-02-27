@@ -1,7 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { ArrowLeft, ArrowRight } from "phosphor-react"
-import { useEffect, useState } from "react"
+import { SetStateAction, useEffect, useState } from "react"
 import { Card } from "../../../components/Card/Card"
 import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
@@ -101,7 +101,7 @@ export default function LogContent({ initialLogData }: LogContentProps) {
   function handleSelectVariable(key: string) {
     if (selectedVariablePath) {
       if (selectedVariablePath[selectedVariablePath.length - 1] == key) {
-        const newSelectedVariablePath = null
+        const newSelectedVariablePath: SetStateAction<string[]> = null
         setSelectedVariablePath(newSelectedVariablePath)
       } else {
         const newSelectedVariablePath = [...variablesPath, key]

@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { IWorkspace } from "../../../types/Workspace.type"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 
 type useMutateGetAllWorkspacesByUserIdPros = {
   id: string

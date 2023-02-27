@@ -47,6 +47,7 @@ export function LoginContent({
             <CardTextInput
               input={{
                 label: text("login:inputpassword"),
+                validate: false,
                 onChange: (password) =>
                   handleUpdateUserData({ password: password }),
                 type: "password",

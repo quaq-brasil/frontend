@@ -17,7 +17,7 @@ export default function LoginPage() {
       },
       {
         onSuccess: () => {
-          router.push(pageUrls.pageSettings({ pageSlug: "page" }))
+          router.push(pageUrls.adm())
         },
       }
     )

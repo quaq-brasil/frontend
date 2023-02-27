@@ -4,7 +4,7 @@ import {
   IVariableRequest,
   IVariableResponse,
 } from "../../../types/Variables.types"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 
 type useMutateVariablesProps = {
   data: IVariableRequest

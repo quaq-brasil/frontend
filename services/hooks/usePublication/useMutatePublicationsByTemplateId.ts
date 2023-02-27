@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { IPublication } from "../../../types/Publication.type"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 
 type useMutatePublicationsByTemplateIdPros = {
   id: string

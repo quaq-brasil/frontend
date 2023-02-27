@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
 import { useMutationProps } from "../../../types/useQueryProps"
 import { IUpdateWorkspace } from "../../../types/Workspace.type"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 
 type useUpdateWorkspaceProps = {
   id: string

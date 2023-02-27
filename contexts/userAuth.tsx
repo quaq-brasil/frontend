@@ -1,3 +1,4 @@
+import Router from "next/router"
 import { destroyCookie } from "nookies"
 import {
   createContext,
@@ -7,8 +8,12 @@ import {
   useMemo,
   useState,
 } from "react"
+import { useLogin } from "../services/hooks/useUser/useLogin"
 import { queryClient } from "../services/queryClient"
 import { IUser } from "../types/User.type"
+import { getPayload } from "../utils/auth"
+import { appGetCookie } from "../utils/cookies"
+import { pageUrls } from "../utils/pagesUrl"
 
 type AuthProviderProps = {
   children: ReactNode
@@ -16,36 +21,32 @@ type AuthProviderProps = {
 
 type AuthContextData = {
   user: IUser | null
-  signOut: () => boolean
+  signOut: () => void
 }
 
 export const AuthContext = createContext({} as AuthContextData)
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<IUser | null>(null)
+  const login = useLogin()
 
   useEffect(() => {
-    if (!user) {
-      setUser({
-        id: "63f63b85f86b3ef0072d567a",
-        email: "quaq@quaq.me",
-        type: "registered",
-        email_verified: true,
-        name: "quaq",
-        workspace_id: "63f63ba6f86b3ef0072d567b",
-        avatar_url:
-          "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80",
-      })
+    const token = appGetCookie("token")
+
+    if (token) {
+      const userPayload = getPayload(token)
+
+      setUser({ ...userPayload, id: userPayload.sub })
     }
-  }, [user])
+  }, [])
 
   const contextValue = useMemo(() => {
     return { user, signOut }
   }, [user])
 
   function signOut() {
-    destroyCookie(undefined, "quaq.token")
-    destroyCookie(undefined, "quaq.refresh_token")
+    destroyCookie(null, "token")
+    destroyCookie(null, "refresh_token")
 
     caches.keys().then((names) => {
       // Delete all the cache files
@@ -56,7 +57,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
     queryClient.invalidateQueries(["user"])
 
-    return true
+    Router.push(pageUrls.login())
   }
 
   return (

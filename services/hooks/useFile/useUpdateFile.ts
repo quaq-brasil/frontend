@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
 import { IFile } from "../../../types/File.types"
 import { useMutationProps } from "../../../types/useQueryProps"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 
 type useUpdateFileProps = {
   id: string

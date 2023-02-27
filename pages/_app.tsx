@@ -1,18 +1,17 @@
 import { ThemeProvider } from "@material-tailwind/react"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { SessionProvider } from "next-auth/react"
 import type { AppProps } from "next/app"
 import dynamic from "next/dynamic"
 import { AppContexts } from "../contexts"
 import { AppHooks } from "../hooks"
+import { queryClient } from "../services/queryClient"
 import "../styles/global.css"
 const NextNProgress = dynamic(
   () => import("nextjs-progressbar").then((mod) => mod.default),
   { ssr: false }
 )
-
-const queryClient = new QueryClient()
 
 export default function App({
   Component,

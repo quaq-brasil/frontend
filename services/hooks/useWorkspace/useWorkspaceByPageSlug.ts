@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
 import { useQueryProps } from "../../../types/useQueryProps"
 import { IWorkspace } from "../../../types/Workspace.type"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 
 type useWorkspaceByPageSlugProps = {
   slug: string

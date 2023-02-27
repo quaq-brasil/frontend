@@ -14,7 +14,7 @@ type PageDeletePageProps = {
 }
 
 export default function PageDeletePage({ page }: PageDeletePageProps) {
-  const getUser = useUser({ id: "63d7c5dd4b1d81503bf6beb8" })
+  const getUser = useUser({})
 
   const getPage = usePageBySlug({
     slug: page,

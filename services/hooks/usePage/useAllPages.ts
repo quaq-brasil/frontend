@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
 import { useQueryProps } from "../../../types/useQueryProps"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 import { IPage } from "./../../../types/Page.type"
 
 export const useAllPages = ({ options }: useQueryProps) => {

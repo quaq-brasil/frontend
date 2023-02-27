@@ -1,7 +1,7 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { IPage, IUpdatePage } from "../../../types/Page.type"
 import { useMutationProps } from "../../../types/useQueryProps"
-import { api } from "../../apiClient"
+import { api } from "../../api"
 
 type useUpdatePageProps = {
   id: string
