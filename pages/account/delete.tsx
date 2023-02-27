@@ -37,7 +37,7 @@ export default function UserDeletePage({ data }: UserDeletePageProps) {
 
 export const getServerSideProps: GetServerSideProps = withAuth(
   async (ctx: any, cookies: any, payload: any) => {
-    async function test({ cookies }: redirectNotFoundVerifyProps) {
+    async function getUser({ cookies }: redirectNotFoundVerifyProps) {
       const { data } = await api.get("users", {
         headers: {
           Authorization: `Bearer ${cookies.token}`,
@@ -47,6 +47,6 @@ export const getServerSideProps: GetServerSideProps = withAuth(
       return data
     }
 
-    return await RedirectNotFoundVerify(test, ctx, cookies, payload)
+    return await RedirectNotFoundVerify(getUser, ctx, cookies, payload)
   }
 )
