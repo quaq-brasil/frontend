@@ -7,11 +7,13 @@ import { ITemplate } from "../../../types/Template.type"
 type CreatorPageContentProps = {
   templatesData: ITemplate[] | undefined
   pageData: IPage | undefined
+  handleUpdateTemplates: (newTemplates: ITemplate[]) => void
 }
 
 export function CreatorPageContent({
   templatesData,
   pageData,
+  handleUpdateTemplates,
 }: CreatorPageContentProps) {
   const [selectedId, setSelectedId] = useState<number>()
 
@@ -24,6 +26,20 @@ export function CreatorPageContent({
   }
 
   const [shortcuts, setShortcuts] = useState<JSX.Element[]>([])
+
+  function handleChangeInShortcutPosition(
+    dragIndex: number,
+    hoverIndex: number
+  ) {
+    const newTemplates = [...(templatesData as ITemplate[])]
+
+    const draggedTemplate = newTemplates[dragIndex]
+
+    newTemplates.splice(dragIndex, 1)
+    newTemplates.splice(hoverIndex, 0, draggedTemplate)
+
+    handleUpdateTemplates([...newTemplates])
+  }
 
   function loadShortcuts() {
     if (templatesData) {
@@ -41,6 +57,7 @@ export function CreatorPageContent({
             onClick={() => handleSelection(index)}
             templateData={template}
             pageData={pageData}
+            onMove={handleChangeInShortcutPosition}
           />
         )
       })

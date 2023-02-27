@@ -28,7 +28,6 @@ export type IUpdateTemplate = {
   current_publication_id?: string
   number_of_new_interactions?: number
   access_config?: any
-
   trackers?: ITrackers
   page_id?: string
 }

@@ -109,24 +109,22 @@ export default function CreatorPage({
 
   function loadWorkspaces() {
     if (workspaces) {
-      const workspacesTags: JSX.Element[] = workspaces.map(
-        (workspace, index) => {
-          return (
-            <div key={index} className="w-fit">
-              <Tag
-                variant="img-txt"
-                img_url={workspace.avatar_url || ""}
-                text={workspace.title || ""}
-                isSelected={workspace.id == currentWorkspace?.id}
-                onClick={() => {
-                  handleCloseContextMenu()
-                  handleCurrentWorkspaceUpdate(workspace)
-                }}
-              />
-            </div>
-          )
-        }
-      )
+      const workspacesTags: JSX.Element[] = workspaces.map((workspace) => {
+        return (
+          <div key={workspace.id} className="w-fit">
+            <Tag
+              variant="img-txt"
+              img_url={workspace.avatar_url || ""}
+              text={workspace.title || ""}
+              isSelected={workspace.id == currentWorkspace?.id}
+              onClick={() => {
+                handleCloseContextMenu()
+                handleCurrentWorkspaceUpdate(workspace)
+              }}
+            />
+          </div>
+        )
+      })
       return workspacesTags
     }
   }
@@ -203,9 +201,9 @@ export default function CreatorPage({
 
   function loadPages() {
     if (pages) {
-      const pagesTags: JSX.Element[] = pages.map((page, index) => {
+      const pagesTags: JSX.Element[] = pages.map((page) => {
         return (
-          <div key={index} className="w-fit">
+          <div key={page.id} className="w-fit">
             <Tag
               variant="img-txt"
               text={page?.title || ""}
@@ -496,10 +494,18 @@ export default function CreatorPage({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage])
 
+  function handleUpdateTemplates(newTemplates: ITemplate[]) {
+    setTemplates([...newTemplates])
+  }
+
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <CreatorPageContent templatesData={templates} pageData={currentPage} />
+      <CreatorPageContent
+        templatesData={templates}
+        pageData={currentPage}
+        handleUpdateTemplates={handleUpdateTemplates}
+      />
       <TabBar isHidden={true} tags={handleTabBar()} />
       {loadTabBar()}
     </div>
