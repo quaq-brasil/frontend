@@ -6,3 +6,10 @@ export type loginProps = {
 export type loginResponseProps = {
   token: string
 }
+
+export type IUserPayload = {
+  sub: string
+  email: string
+  name: string
+  avatar_url: string
+}

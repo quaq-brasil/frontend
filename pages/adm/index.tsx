@@ -1,31 +1,44 @@
-import { useEffect, useState } from "react"
-import { useUserAuth } from "../../contexts/userAuth"
+import { GetServerSideProps } from "next"
 import CreatorPage from "../../layouts/main/CreatorPage/CreatorPage"
-import { useMutateGetAllWorkspacesByUserId } from "../../services/hooks/useWorkspace/useMutateGetAllWorkspacesByUserId"
+import { api } from "../../services/api"
+import { useWorkspacesByUserId } from "../../services/hooks/useWorkspace/useWorkspacesByUserId"
+import { IUserPayload } from "../../types/Auth.types"
 import { IWorkspace } from "../../types/Workspace.type"
+import {
+  RedirectNotFoundVerify,
+  redirectNotFoundVerifyProps,
+} from "../../utils/404Redirect"
+import { withAuth } from "../../utils/withAuth"
 
-export default function AdmPage() {
-  const { user } = useUserAuth()
-
-  const getAllWorkspaces = useMutateGetAllWorkspacesByUserId()
-
-  const [workspaces, setWorkspaces] = useState<IWorkspace[]>()
-
-  useEffect(() => {
-    if (user) {
-      getAllWorkspaces.mutate(
-        {
-          id: user.id as string,
-        },
-        {
-          onSuccess: (data) => {
-            setWorkspaces(data)
-          },
-        }
-      )
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
-
-  return <CreatorPage initialWorkspacesData={workspaces as IWorkspace[]} />
+type AdmPageProps = {
+  workspaces: IWorkspace[]
+  payload: IUserPayload
 }
+
+export default function AdmPage({ workspaces, payload }: AdmPageProps) {
+  const getWorkspaces = useWorkspacesByUserId({
+    id: payload.sub,
+    options: {
+      initialData: workspaces,
+    },
+  })
+
+  return <CreatorPage initialWorkspacesData={getWorkspaces.data} />
+}
+
+export const getServerSideProps: GetServerSideProps = withAuth(
+  async (ctx: any, cookies: any, payload: any) => {
+    async function getWorkspaces({ cookies }: redirectNotFoundVerifyProps) {
+      const { data: workspaces } = await api.get(
+        `/workspaces/user/${payload.sub}`
+      )
+
+      return {
+        workspaces,
+        payload,
+      }
+    }
+
+    return await RedirectNotFoundVerify(getWorkspaces, ctx, cookies, payload)
+  }
+)
