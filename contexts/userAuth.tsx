@@ -27,7 +27,7 @@ type AuthContextData = {
 export const AuthContext = createContext({} as AuthContextData)
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<IUser | null>(null)
+  const [user, setUser] = useState<IUser | null>({ type: "registered" })
   const login = useLogin()
 
   useEffect(() => {

@@ -1,5 +1,7 @@
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
+import { useEffect, useState } from "react"
+import { useUserAuth } from "../../../contexts/userAuth"
 import TemplateExecution from "../../../layouts/main/TemplateExecution/TemplateExecution"
 import { api } from "../../../services/api"
 import { useTemplateBySlugAndPageSlug } from "../../../services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
@@ -17,6 +19,16 @@ export default function TemplateExecutionPage({
   templateSlug,
   pageAndTemplateData,
 }: TemplateExecutionPageProps) {
+  const { user } = useUserAuth()
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    if (user && user.type == "registered") {
+      setIsLoggedIn(true)
+    }
+  }, [user])
+
   const getTemplateAndPage = useTemplateBySlugAndPageSlug({
     slug: templateSlug,
     page_slug: pageSlug,
@@ -25,7 +37,12 @@ export default function TemplateExecutionPage({
     },
   })
 
-  return <TemplateExecution initialData={getTemplateAndPage.data} />
+  return (
+    <TemplateExecution
+      isLoggedIn={isLoggedIn}
+      initialData={getTemplateAndPage.data}
+    />
+  )
 }
 
 type Params = {

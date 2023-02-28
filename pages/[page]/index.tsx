@@ -1,5 +1,7 @@
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
+import { useEffect, useState } from "react"
+import { useUserAuth } from "../../contexts/userAuth"
 import ConsumerPage from "../../layouts/main/ConsumerPage/ConsumerPage"
 import { api } from "../../services/api"
 import { usePageBySlug } from "../../services/hooks/usePage/usePageBySlug"
@@ -15,6 +17,16 @@ export default function ConsumerPagePage({
   pageSlug,
   pageData,
 }: ConsumerPagePageProps) {
+  const { user } = useUserAuth()
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    if (user && user.type === "registered") {
+      setIsLoggedIn(true)
+    }
+  }, [user])
+
   const getPage = usePageBySlug({
     slug: pageSlug,
     options: {
@@ -24,6 +36,7 @@ export default function ConsumerPagePage({
 
   return (
     <ConsumerPage
+      isLoggedIn={isLoggedIn}
       initialPageData={getPage.data}
       initialTemplatesData={getPage?.data?.templates || []}
     />

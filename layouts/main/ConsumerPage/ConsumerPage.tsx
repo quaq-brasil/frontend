@@ -14,11 +14,13 @@ import { ConsumerPageContent } from "./ConsumerPageContent"
 type ConsumerPageProps = {
   initialPageData: IPage
   initialTemplatesData: ITemplate[]
+  isLoggedIn: boolean
 }
 
 export default function ConsumerPage({
   initialPageData,
   initialTemplatesData,
+  isLoggedIn,
 }: ConsumerPageProps) {
   const text = useTranslation().t
   const router = useRouter()
@@ -37,11 +39,9 @@ export default function ConsumerPage({
 
   const { handleToggleContextMenu, handleCloseContextMenu } = useContextMenu()
 
-  const isSignedIn = false
-
   const handleHeaderTagContextMenu = () => {
     const handleContent = () => {
-      if (!isSignedIn) {
+      if (!isLoggedIn) {
         return (
           <div
             className={`flex fixed z-10 top-0 left-0 right-0 bg-image
@@ -83,20 +83,37 @@ export default function ConsumerPage({
   }
 
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("consumerpage:explore")}
-        onClick={() => router.push(pageUrls.home())}
-      />,
-      <Tag
-        key={2}
-        variant="txt"
-        text={text("consumerpage:usequaq")}
-        onClick={handleHeaderTagContextMenu}
-      />,
-    ]
+    if (!isLoggedIn) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("consumerpage:explore")}
+          onClick={() => router.push(pageUrls.home())}
+        />,
+        <Tag
+          key={2}
+          variant="txt"
+          text={text("consumerpage:usequaq")}
+          onClick={handleHeaderTagContextMenu}
+        />,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("consumerpage:explore")}
+          onClick={() => router.push(pageUrls.home())}
+        />,
+        <Tag
+          key={2}
+          variant="txt"
+          text={text("consumerpage:creation")}
+          onClick={() => router.push(pageUrls.adm())}
+        />,
+      ]
+    }
   }
 
   function handleMainTag() {
@@ -110,7 +127,7 @@ export default function ConsumerPage({
   }
 
   function loadHeader() {
-    if (isSignedIn) {
+    if (isLoggedIn) {
       return (
         <Header background_url={pageData?.background_url || ""}>
           {handleMainTag()}
