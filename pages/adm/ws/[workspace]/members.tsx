@@ -31,8 +31,7 @@ export default function WorkspaceMembersPage({
     updateWorkspace.mutate({
       id: getWorkspace.data.id,
       data: {
-        title: data?.title,
-        avatar_url: data.avatar_url,
+        ...data,
       },
     })
   }

@@ -1,65 +1,81 @@
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import EditTemplate from "../../../../../layouts/main/EditTemplate/EditTemplate"
-import { usePageBySlug } from "../../../../../services/hooks/usePage/usePageBySlug"
-import { useTemplateBySlug } from "../../../../../services/hooks/useTemplate/useTemplateBySlug"
+import { api } from "../../../../../services/api"
+import { useTemplateBySlugAndPageSlug } from "../../../../../services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
 import { useUpdateTemplate } from "../../../../../services/hooks/useTemplate/useUpdateTemplate"
-import { IPage } from "../../../../../types/Page.type"
-import { ITemplate, IUpdateTemplate } from "../../../../../types/Template.type"
+import {
+  getTemplateBySlugAndPageSlugProps,
+  IUpdateTemplate,
+} from "../../../../../types/Template.type"
+import {
+  RedirectNotFoundVerify,
+  redirectNotFoundVerifyProps,
+} from "../../../../../utils/404Redirect"
+import { withAuth } from "../../../../../utils/withAuth"
 
 type EditTemplatePageProps = {
-  page: string
-  template: string
+  data: getTemplateBySlugAndPageSlugProps
+  pageSlug: string
+  templateSlug: string
 }
 
 export default function EditTemplatePage({
-  page,
-  template,
+  data,
+  pageSlug,
+  templateSlug,
 }: EditTemplatePageProps) {
-  const getPage = usePageBySlug({
-    slug: page,
-  })
-
-  const getTemplate = useTemplateBySlug({
-    slug: template,
+  const getPageAndTemplate = useTemplateBySlugAndPageSlug({
+    slug: templateSlug,
+    page_slug: pageSlug,
+    options: {
+      initialData: data,
+    },
   })
 
   const updateTemplate = useUpdateTemplate()
 
   const handleUpdateTemplate = (data: IUpdateTemplate) => {
     updateTemplate.mutate({
-      id: getTemplate?.data.id as string,
+      id: getPageAndTemplate.data.id as string,
       data: {
-        title: data.title,
-        slug: data.slug,
-        shortcut_image: data.shortcut_image,
-        shortcut_size: data.shortcut_size,
-        current_publication_id: data.current_publication_id,
+        ...data,
       },
     })
   }
 
   return (
     <EditTemplate
-      initialTemplateData={getTemplate?.data as ITemplate}
-      initialPageData={getPage?.data as IPage}
+      initialTemplateData={getPageAndTemplate.data}
+      initialPageData={getPageAndTemplate.data.Page}
       handleUpdateTemplate={handleUpdateTemplate}
     />
   )
 }
 
 type Params = {
-  page: string
-  template: string
+  pageSlug: string
+  templateSlug: string
 } & ParsedUrlQuery
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { page, template } = params as Params
+export const getServerSideProps: GetServerSideProps = withAuth(
+  async (ctx: any, cookies: any, payload: any) => {
+    const { pageSlug, templateSlug } = ctx.params as Params
 
-  return {
-    props: {
-      page,
-      template,
-    },
+    async function getTemplate({ cookies }: redirectNotFoundVerifyProps) {
+      const { data } = await api.get(`/templates/${pageSlug}/${templateSlug}`, {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      })
+
+      return {
+        pageSlug: pageSlug,
+        templateSlug: templateSlug,
+        data,
+      }
+    }
+
+    return await RedirectNotFoundVerify(getTemplate, ctx, cookies, payload)
   }
-}
+)

@@ -19,12 +19,12 @@ export default function CreateTemplatePage({
   pageData,
   pageSlug,
 }: CreateTemplatePageProps) {
-  const pageResponse = usePageBySlug({
+  const getPage = usePageBySlug({
     slug: pageSlug,
     options: { initialData: pageData },
   })
 
-  return <CreateTemplate page={pageResponse?.data} />
+  return <CreateTemplate page={getPage.data} />
 }
 
 type Params = {

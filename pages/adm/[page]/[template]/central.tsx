@@ -3,11 +3,13 @@ import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 import CentralOptions from "../../../../layouts/main/CentralOptions/CentralOptions"
 import { api } from "../../../../services/api"
-import { usePageBySlug } from "../../../../services/hooks/usePage/usePageBySlug"
-import { useTemplateBySlug } from "../../../../services/hooks/useTemplate/useTemplateBySlug"
+import { useTemplateBySlugAndPageSlug } from "../../../../services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
 import { useUpdateTemplate } from "../../../../services/hooks/useTemplate/useUpdateTemplate"
-import { IPage } from "../../../../types/Page.type"
-import { ITemplate, IUpdateTemplate } from "../../../../types/Template.type"
+import { IUserPayload } from "../../../../types/Auth.types"
+import {
+  getTemplateBySlugAndPageSlugProps,
+  IUpdateTemplate,
+} from "../../../../types/Template.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
@@ -18,29 +20,23 @@ import { withAuth } from "../../../../utils/withAuth"
 type TemplateAccessControlPageProps = {
   pageSlug: string
   templateSlug: string
-  pageData: IPage
-  templateData: ITemplate
+  pageAndTemplateData: getTemplateBySlugAndPageSlugProps
+  payload: IUserPayload
 }
 
 export default function TemplateAccessControlPage({
-  pageData,
   pageSlug,
-  templateData,
   templateSlug,
+  payload,
+  pageAndTemplateData,
 }: TemplateAccessControlPageProps) {
   const router = useRouter()
 
-  const getPage = usePageBySlug({
-    slug: pageSlug,
-    options: {
-      initialData: pageData,
-    },
-  })
-
-  const getTemplate = useTemplateBySlug({
-    pageSlug: pageSlug,
-    templateSlug: templateSlug,
-    options: { initialData: templateData },
+  const getPageAndTemplate = useTemplateBySlugAndPageSlug({
+    page_slug: pageSlug,
+    slug: templateSlug,
+    consumer_id: payload.sub,
+    options: { initialData: pageAndTemplateData },
   })
 
   const updateTemplate = useUpdateTemplate()
@@ -48,19 +44,16 @@ export default function TemplateAccessControlPage({
   function handleUpdateTemplate(data: IUpdateTemplate) {
     updateTemplate.mutate(
       {
-        id: getTemplate?.data.id as string,
+        id: getPageAndTemplate?.data.id as string,
         data: {
-          title: data.title,
-          slug: data.slug,
-          shortcut_image: data.shortcut_image,
-          shortcut_size: data.shortcut_size,
+          ...data,
         },
       },
       {
         onSuccess: (data) => {
           router.push(
             pageUrls.templateCentral({
-              pageSlug: getPage?.data.slug as string,
+              pageSlug: getPageAndTemplate.data.Page.slug as string,
               templateSlug: data.slug,
               settings: "central",
             })
@@ -72,8 +65,8 @@ export default function TemplateAccessControlPage({
 
   return (
     <CentralOptions
-      initialPageData={getPage?.data}
-      initialTemplateData={getTemplate?.data}
+      initialPageData={getPageAndTemplate.data.Page}
+      initialTemplateData={getPageAndTemplate.data}
       handleUpdateTemplate={handleUpdateTemplate}
     />
   )
@@ -91,13 +84,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
     async function getPageAndTemplate({
       cookies,
     }: redirectNotFoundVerifyProps) {
-      const { data: pageData } = await api.get(`/pages/slug/${pageSlug}`, {
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-      })
-
-      const { data: templateData } = await api.get(
+      const { data: pageAndTemplateData } = await api.get(
         `/templates/${pageSlug}/${templateSlug}`,
         {
           headers: {
@@ -109,8 +96,8 @@ export const getServerSideProps: GetServerSideProps = withAuth(
       return {
         pageSlug: pageSlug,
         templateSlug: templateSlug,
-        pageData,
-        templateData,
+        pageAndTemplateData,
+        payload,
       }
     }
 

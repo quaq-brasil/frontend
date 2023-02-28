@@ -2,8 +2,9 @@ import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import { EditPublication } from "../../../../../layouts/main/EditPublication/EditPublication"
 import { api } from "../../../../../services/api"
-import { useTemplateByUrlAndPageUrl } from "../../../../../services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
-import { getTemplateByUrlAndPageUrlProps } from "../../../../../types/Template.type"
+import { useTemplateBySlugAndPageSlug } from "../../../../../services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
+import { getTemplateBySlugAndPageSlugProps } from "../../../../../types/Template.type"
+
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
@@ -11,7 +12,7 @@ import {
 import { withAuth } from "../../../../../utils/withAuth"
 
 type EditTemplatePageProps = {
-  data: getTemplateByUrlAndPageUrlProps
+  data: getTemplateBySlugAndPageSlugProps
   pageSlug: string
   templateSlug: string
 }
@@ -21,9 +22,9 @@ export default function EditTemplatePage({
   pageSlug,
   templateSlug,
 }: EditTemplatePageProps) {
-  const getTemplateAndPage = useTemplateByUrlAndPageUrl({
-    url: templateSlug,
-    page_url: pageSlug,
+  const getPageAndTemplate = useTemplateBySlugAndPageSlug({
+    slug: templateSlug,
+    page_slug: pageSlug,
     options: {
       initialData: data,
     },
@@ -31,8 +32,8 @@ export default function EditTemplatePage({
 
   return (
     <EditPublication
-      page={getTemplateAndPage?.data.Page}
-      template={getTemplateAndPage?.data}
+      page={getPageAndTemplate.data.Page}
+      template={getPageAndTemplate.data}
     />
   )
 }

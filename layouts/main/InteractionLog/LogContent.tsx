@@ -10,24 +10,46 @@ import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { useMutateVariables } from "../../../services/hooks/useVariables/useMutateVariables"
 import { IInteraction } from "../../../types/Interaction.type"
+import { IPage } from "../../../types/Page.type"
+import { ITemplate } from "../../../types/Template.type"
 import { IVariableResponse } from "../../../types/Variables.types"
 import { pageUrls } from "../../../utils/pagesUrl"
 
 type LogContentProps = {
   initialLogData: IInteraction | undefined
+  initialPageData: IPage | undefined
+  initialTemplateData: ITemplate | undefined
 }
 
-export default function LogContent({ initialLogData }: LogContentProps) {
+export default function LogContent({
+  initialLogData,
+  initialPageData,
+  initialTemplateData,
+}: LogContentProps) {
   const text = useTranslation().t
   const router = useRouter()
 
   const [logData, setLogData] = useState<IInteraction>()
+  const [pageData, setPageData] = useState<IPage>()
+  const [templateData, setTemplateData] = useState<ITemplate>()
 
   useEffect(() => {
     if (initialLogData) {
       setLogData(initialLogData)
     }
   }, [initialLogData])
+
+  useEffect(() => {
+    if (initialPageData) {
+      setPageData(initialPageData)
+    }
+  }, [initialPageData])
+
+  useEffect(() => {
+    if (initialTemplateData) {
+      setTemplateData(initialTemplateData)
+    }
+  }, [initialTemplateData])
 
   const [variables, setVariables] = useState<IVariableResponse>()
 
@@ -211,28 +233,28 @@ export default function LogContent({ initialLogData }: LogContentProps) {
 
   function loadHeader() {
     return (
-      <Header background_url={logData?.Page?.background_url || ""}>
+      <Header background_url={pageData.background_url || ""}>
         <Tag
           variant="img-txt"
-          text={logData?.Page?.name || ""}
-          img_url={logData?.Page?.avatar_url || ""}
+          text={pageData.title || ""}
+          img_url={pageData.avatar_url || ""}
           onClick={() =>
             router.push(
               pageUrls.pageSettings({
-                pageSlug: logData?.Page?.url || pageUrls.home(),
+                pageSlug: pageData.slug || pageUrls.home(),
               })
             )
           }
         />
         <Tag
           variant="img-txt"
-          text={logData?.Template?.name || ""}
-          img_url={logData?.Template?.shortcut_image || ""}
+          text={templateData.title || ""}
+          img_url={templateData.shortcut_image || ""}
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: logData?.Page?.url as string,
-                templateSlug: logData?.Template?.url as string,
+                pageSlug: pageData.slug,
+                templateSlug: templateData.slug,
                 settings: "logs",
               })
             )
@@ -240,8 +262,8 @@ export default function LogContent({ initialLogData }: LogContentProps) {
         />
         <Tag
           variant="img-txt"
-          img_url={logData?.User?.avatar_url || ""}
-          text={logData?.User?.name as ""}
+          img_url={logData.User.avatar_url || ""}
+          text={logData.User.name as ""}
         />
       </Header>
     )

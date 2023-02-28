@@ -32,7 +32,7 @@ export type IUpdateTemplate = {
   page_id?: string
 }
 
-export type getTemplateByUrlAndPageUrlProps = {
+export type getTemplateBySlugAndPageSlugProps = {
   Page: IPage
   publication: IPublication
   Publications: IPublication[]

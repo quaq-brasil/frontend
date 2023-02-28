@@ -32,9 +32,9 @@ export default function FirstWorkspacePage({ data }: FirstWorkspacePageProps) {
     createWorkspace.mutate(
       {
         data: {
-          title: data.title || "",
-          slug: data.title || "",
-          avatar_url: data.avatar_url || "",
+          title: data.title,
+          slug: data.title,
+          avatar_url: data.avatar_url,
           user_id: getUser.data.id,
           services: [{ type: "", description: "" }],
         },

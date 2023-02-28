@@ -2,6 +2,7 @@ import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import WorkspaceDelete from "../../../../layouts/main/WorkspaceDelete/WorkspaceDelete"
 import { api } from "../../../../services/api"
+import { useUser } from "../../../../services/hooks/useUser/useUser"
 import { useDeleteWorkspace } from "../../../../services/hooks/useWorkspace/useDeleteWorkspace"
 import { useWorkspaceBySlug } from "../../../../services/hooks/useWorkspace/useWorkspaceBySlug"
 import { IUser } from "../../../../types/User.type"
@@ -23,6 +24,12 @@ export default function WorkspaceDeletePage({
   workspaceSlug,
   userData,
 }: WorkspaceDeletePageProps) {
+  const getUser = useUser({
+    options: {
+      initialData: userData,
+    },
+  })
+
   const getWorkspace = useWorkspaceBySlug({
     slug: workspaceSlug,
     options: { initialData: workspaceData },
@@ -37,7 +44,7 @@ export default function WorkspaceDeletePage({
   return (
     <WorkspaceDelete
       initialWorkspaceData={getWorkspace?.data as IWorkspace}
-      initialUserData={userData}
+      initialUserData={getUser.data}
       handleDeleteWorkspace={handleDeleteWorkspace}
     />
   )
