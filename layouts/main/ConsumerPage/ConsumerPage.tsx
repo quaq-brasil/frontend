@@ -63,6 +63,7 @@ export default function ConsumerPage({
                     variant="icn-txt"
                     text={text("consumerpage:login")}
                     icon={UserCircle}
+                    onClick={() => router.push(pageUrls.login())}
                   />
                 </div>
                 <div className="w-fit">
@@ -70,6 +71,7 @@ export default function ConsumerPage({
                     variant="icn-txt"
                     text={text("consumerpage:signup")}
                     icon={UserPlus}
+                    onClick={() => router.push(pageUrls.signup())}
                   />
                 </div>
               </div>
