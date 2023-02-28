@@ -20,6 +20,8 @@ type FirstWorkspacePageProps = {
 export default function FirstWorkspacePage({ data }: FirstWorkspacePageProps) {
   const router = useRouter()
 
+  console.log("data", data)
+
   const getUser = useUser({
     options: {
       initialData: data,
@@ -64,7 +66,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
         },
       })
 
-      return data
+      return { data }
     }
 
     return await RedirectNotFoundVerify(getUser, ctx, cookies, payload)

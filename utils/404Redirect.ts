@@ -10,16 +10,14 @@ export type redirectNotFoundVerifyProps = {
 export async function RedirectNotFoundVerify(
   func: any,
   ctx: any,
-  cookies: any,
-  payload: any
+  cookies?: any,
+  payload?: any
 ) {
   try {
     const data = await func({ ctx, cookies, payload })
 
-    return { props: data }
+    return { props: { ...data } }
   } catch (err: any) {
-    console.log("err.response", err.response)
-
     if (
       axios.isAxiosError(err) &&
       (err.response?.status === 401 ||

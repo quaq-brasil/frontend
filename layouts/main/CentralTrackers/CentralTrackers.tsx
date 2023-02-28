@@ -24,8 +24,9 @@ export default function CentralTrackers({
   const router = useRouter()
 
   const [isUpdating, setIsUpdating] = useState<boolean>(false)
-  const [pageData, setPageData] = useState<IUpdatePage>()
-  const [templateData, setTemplateData] = useState<IUpdateTemplate>()
+  const [pageData, setPageData] = useState<IUpdatePage>(initialPageData)
+  const [templateData, setTemplateData] =
+    useState<IUpdateTemplate>(initialTemplateData)
 
   function handleUpdateIsUpdating(stat: boolean) {
     setIsUpdating(stat)

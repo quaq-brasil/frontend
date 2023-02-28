@@ -23,8 +23,9 @@ export default function CentralOptions({
   const text = useTranslation().t
   const router = useRouter()
 
-  const [pageData, setPageData] = useState<IUpdatePage>()
-  const [templateData, setTemplateData] = useState<IUpdateTemplate>()
+  const [pageData, setPageData] = useState<IUpdatePage>(initialPageData)
+  const [templateData, setTemplateData] =
+    useState<IUpdateTemplate>(initialTemplateData)
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 

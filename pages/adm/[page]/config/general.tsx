@@ -56,31 +56,31 @@ export default function GeneralSettingsPage({
 
   return (
     <GeneralSettings
-      initialPageData={getPage?.data as IUpdatePage}
+      initialPageData={getPage.data}
       handleUpdatePage={handleUpdatePage}
     />
   )
 }
 
 type Params = {
-  pageSlug: string
+  page: string
 } & ParsedUrlQuery
 
 export const getServerSideProps: GetServerSideProps = withAuth(
   async (ctx: any, cookies: any, payload: any) => {
-    const { pageSlug } = ctx.params as Params
+    const { page } = ctx.params as Params
 
     async function getPage({ cookies }: redirectNotFoundVerifyProps) {
-      const { data: pageData } = await api.get(`/pages/slug/${pageSlug}`, {
+      const { data } = await api.get(`/pages/slug/${page}`, {
         headers: {
           Authorization: `Bearer ${cookies.token}`,
         },
       })
 
       return {
-        pageData,
+        pageData: { data },
         payload,
-        pageSlug,
+        pageSlug: page,
       }
     }
 

@@ -24,26 +24,27 @@ export default function CreateTemplatePage({
     options: { initialData: pageData },
   })
 
-  return <CreateTemplate page={getPage.data} />
+  return <CreateTemplate initialPageData={getPage.data} />
 }
 
 type Params = {
-  pageSlug: string
+  page: string
 } & ParsedUrlQuery
 
 export const getServerSideProps: GetServerSideProps = withAuth(
   async (ctx: any, cookies: any, payload: any) => {
-    const { pageSlug } = ctx.params as Params
+    const { page } = ctx.params as Params
 
     async function getPage({ cookies }: redirectNotFoundVerifyProps) {
-      const { data: pageData } = await api.get(`/pages/slug/${pageSlug}`, {
+      const { data } = await api.get(`/pages/slug/${page}`, {
         headers: {
           Authorization: `Bearer ${cookies.token}`,
         },
       })
 
       return {
-        pageData,
+        pageSlug: page,
+        pageData: { data },
         payload,
       }
     }

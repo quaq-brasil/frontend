@@ -47,12 +47,12 @@ export default function AdmSelectedPage({
 }
 
 type Params = {
-  pageSlug: string
+  page: string
 } & ParsedUrlQuery
 
 export const getServerSideProps: GetServerSideProps = withAuth(
   async (ctx: any, cookies: any, payload: any) => {
-    const { pageSlug } = ctx.params as Params
+    const { page } = ctx.params as Params
 
     async function getWorkspacesAndCurrentPage({
       cookies,
@@ -65,17 +65,17 @@ export const getServerSideProps: GetServerSideProps = withAuth(
           },
         }
       )
-      const { data: pageData } = await api.get(`/pages/slug/${pageSlug}`, {
+      const { data: pageData } = await api.get(`/pages/slug/${page}`, {
         headers: {
           Authorization: `Bearer ${cookies.token}`,
         },
       })
 
       return {
-        workspacesData,
-        pageData,
+        workspacesData: [...workspacesData],
+        pageData: { pageData },
         payload,
-        pageSlug,
+        pageSlug: page,
       }
     }
 

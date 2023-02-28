@@ -12,13 +12,13 @@ import {
 import { withAuth } from "../../../../../utils/withAuth"
 
 type EditTemplatePageProps = {
-  data: getTemplateBySlugAndPageSlugProps
+  pageAndTemplateData: getTemplateBySlugAndPageSlugProps
   pageSlug: string
   templateSlug: string
 }
 
 export default function EditTemplatePage({
-  data,
+  pageAndTemplateData,
   pageSlug,
   templateSlug,
 }: EditTemplatePageProps) {
@@ -26,41 +26,48 @@ export default function EditTemplatePage({
     slug: templateSlug,
     page_slug: pageSlug,
     options: {
-      initialData: data,
+      initialData: pageAndTemplateData,
     },
   })
 
   return (
     <EditPublication
-      page={getPageAndTemplate.data.Page}
-      template={getPageAndTemplate.data}
+      initialPageData={getPageAndTemplate.data.Page}
+      initialTemplateData={getPageAndTemplate.data}
     />
   )
 }
 
 type Params = {
-  pageSlug: string
-  templateSlug: string
+  page: string
+  template: string
 } & ParsedUrlQuery
 
 export const getServerSideProps: GetServerSideProps = withAuth(
   async (ctx: any, cookies: any, payload: any) => {
-    const { pageSlug, templateSlug } = ctx.params as Params
+    const { page, template } = ctx.params as Params
 
-    async function getTemplate({ cookies }: redirectNotFoundVerifyProps) {
-      const { data } = await api.get(`/templates/${pageSlug}/${templateSlug}`, {
+    async function getPageAndTemplate({
+      cookies,
+    }: redirectNotFoundVerifyProps) {
+      const { data } = await api.get(`/templates/${page}/${template}`, {
         headers: {
           Authorization: `Bearer ${cookies.token}`,
         },
       })
 
       return {
-        pageSlug: pageSlug,
-        templateSlug: templateSlug,
-        data,
+        pageSlug: page,
+        templateSlug: template,
+        pageAndTemplateData: { data },
       }
     }
 
-    return await RedirectNotFoundVerify(getTemplate, ctx, cookies, payload)
+    return await RedirectNotFoundVerify(
+      getPageAndTemplate,
+      ctx,
+      cookies,
+      payload
+    )
   }
 )

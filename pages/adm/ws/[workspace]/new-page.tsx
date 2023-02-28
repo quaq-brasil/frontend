@@ -64,16 +64,16 @@ export default function CreatePagePage({
 }
 
 type Params = {
-  workspaceSlug: string
+  workspace: string
 } & ParsedUrlQuery
 
 export const getServerSideProps: GetServerSideProps = withAuth(
   async (ctx: any, cookies: any, payload: any) => {
-    const { workspaceSlug } = ctx.params as Params
+    const { workspace } = ctx.params as Params
 
     async function getWorkspace({ cookies }: redirectNotFoundVerifyProps) {
       const { data: workspacesData } = await api.get(
-        `/workspaces/slug/${workspaceSlug}`,
+        `/workspaces/slug/${workspace}`,
         {
           headers: {
             Authorization: `Bearer ${cookies.token}`,
@@ -83,7 +83,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
 
       return {
         workspacesData,
-        workspaceSlug,
+        workspaceSlug: workspace,
       }
     }
 

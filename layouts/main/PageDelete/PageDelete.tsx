@@ -22,8 +22,8 @@ export default function PageDelete({
 }: PageDeleteProps) {
   const text = useTranslation().t
 
-  const [userData, setUserData] = useState<IUserPayload>()
-  const [pageData, setPageData] = useState<IPage>()
+  const [userData, setUserData] = useState<IUserPayload>(initialUserData)
+  const [pageData, setPageData] = useState<IPage>(initialPageData)
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 

@@ -1,5 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -48,10 +48,14 @@ export function FirstWorkspaceContent({
         ...newData,
       } as FormDataProps
     })
+  }
+
+  useEffect(() => {
     if (formData.avatar?.valid && formData.title?.valid) {
       handleUpdateIsUpdating(true)
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData])
 
   return (
     <div className="w-full h-screen bg-slate-100">

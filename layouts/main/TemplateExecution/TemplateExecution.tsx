@@ -5,12 +5,16 @@ import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage } from "../../../types/Page.type"
-import { getTemplateByUrlAndPageUrlProps } from "../../../types/Template.type"
+import {
+  getTemplateBySlugAndPageSlugProps,
+  ITemplate,
+} from "../../../types/Template.type"
+
 import { pageUrls } from "../../../utils/pagesUrl"
 import { TemplateExecutionContent } from "./TemplateExecutionContent"
 
 type TemplateExecutionContent = {
-  initialData: getTemplateByUrlAndPageUrlProps | undefined
+  initialData: getTemplateBySlugAndPageSlugProps | undefined
 }
 
 export default function TemplateExecution({
@@ -18,18 +22,15 @@ export default function TemplateExecution({
 }: TemplateExecutionContent) {
   const text = useTranslation().t
 
-  const [pageData, setPageData] = useState<IPage>()
-  const [templateData, setTemplateData] =
-    useState<getTemplateByUrlAndPageUrlProps>()
+  const [pageData, setPageData] = useState<IPage>(initialData.Page)
+  const [templateData, setTemplateData] = useState<ITemplate>(initialData)
 
   useEffect(() => {
-    setPageData(initialData?.Page)
-  }, [initialData?.Page])
+    setPageData(initialData.Page)
+  }, [initialData])
 
   useEffect(() => {
-    if (!templateData && initialData) {
-      setTemplateData(initialData)
-    }
+    setTemplateData(initialData)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData])
 

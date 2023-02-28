@@ -20,7 +20,7 @@ export default function GeneralSettings({
   const text = useTranslation().t
   const router = useRouter()
 
-  const [pageData, setPageData] = useState<IUpdatePage>()
+  const [pageData, setPageData] = useState<IUpdatePage>(initialPageData)
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 

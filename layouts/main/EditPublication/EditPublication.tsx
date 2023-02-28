@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react"
 import { IPage } from "../../../types/Page.type"
-import { getTemplateByUrlAndPageUrlProps } from "../../../types/Template.type"
+import { getTemplateBySlugAndPageSlugProps } from "../../../types/Template.type"
+
 import { EditPublicationContent } from "./EditPublicationContent"
 
 type EditPublicationProps = {
-  page: IPage | undefined
-  template: getTemplateByUrlAndPageUrlProps | undefined
+  initialPageData: IPage | undefined
+  initialTemplateData: getTemplateBySlugAndPageSlugProps | undefined
 }
 
-export function EditPublication({ page, template }: EditPublicationProps) {
-  const [pageData, setPageData] = useState(page)
-  const [templateData, setTemplateData] = useState(template)
+export function EditPublication({
+  initialPageData,
+  initialTemplateData,
+}: EditPublicationProps) {
+  const [pageData, setPageData] = useState(initialPageData)
+  const [templateData, setTemplateData] = useState(initialTemplateData)
 
   useEffect(() => {
-    setPageData(page)
-    setTemplateData(template)
-  }, [page, template])
+    setPageData(initialPageData)
+    setTemplateData(initialTemplateData)
+  }, [initialPageData, initialTemplateData])
 
   return (
     <div className="bg-slate-100 fixed inset-0">

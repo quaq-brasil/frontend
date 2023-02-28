@@ -56,30 +56,27 @@ export default function CentralTrackersPage({
 }
 
 type Params = {
-  pageSlug: string
-  templateSlug: string
+  page: string
+  template: string
 } & ParsedUrlQuery
 
 export const getServerSideProps: GetServerSideProps = withAuth(
   async (ctx: any, cookies: any, payload: any) => {
-    const { pageSlug, templateSlug } = ctx.params as Params
+    const { page, template } = ctx.params as Params
 
     async function getPageAndTemplate({
       cookies,
     }: redirectNotFoundVerifyProps) {
-      const { data: pageAndTemplateData } = await api.get(
-        `/templates/${pageSlug}/${templateSlug}`,
-        {
-          headers: {
-            Authorization: `Bearer ${cookies.token}`,
-          },
-        }
-      )
+      const { data } = await api.get(`/templates/${page}/${template}`, {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      })
 
       return {
-        pageSlug: pageSlug,
-        templateSlug: templateSlug,
-        pageAndTemplateData,
+        pageSlug: page,
+        templateSlug: template,
+        pageAndTemplateData: { data },
         payload,
       }
     }

@@ -22,8 +22,8 @@ import { pageUrls } from "../../../utils/pagesUrl"
 import { CreatorPageContent } from "./CreatorPageContent"
 
 type CreatorPageProps = {
-  initialWorkspacesData?: IWorkspace[]
-  initialCurrentPageData?: IPage
+  initialWorkspacesData: IWorkspace[] | undefined
+  initialCurrentPageData?: IPage | undefined
 }
 
 export default function CreatorPage({
@@ -37,7 +37,9 @@ export default function CreatorPage({
 
   const [pages, setPages] = useState<IPage[]>()
   const [currentPage, setCurrentPage] = useState<IPage>()
-  const [workspaces, setWorkspaces] = useState<IWorkspace[]>()
+  const [workspaces, setWorkspaces] = useState<IWorkspace[]>(
+    initialWorkspacesData
+  )
   const [currentWorkspace, setCurrentWorkspace] = useState<IWorkspace>()
 
   useEffect(() => {

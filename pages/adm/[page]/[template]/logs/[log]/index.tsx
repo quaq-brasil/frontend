@@ -50,18 +50,18 @@ export default function TemplateLogs({
 }
 
 type Params = {
-  pageSlug: string
-  templateSlug: string
-  logId: string
+  page: string
+  template: string
+  log: string
 } & ParsedUrlQuery
 
 export const getServerSideProps: GetServerSideProps = withAuth(
   async (ctx: any, cookies: any, payload: any) => {
-    const { pageSlug, templateSlug, logId } = ctx.params as Params
+    const { page, template, log } = ctx.params as Params
 
     async function getTemplate({ cookies }: redirectNotFoundVerifyProps) {
       const { data: pageAndTemplateData } = await api.get(
-        `/templates/${pageSlug}/${templateSlug}`,
+        `/templates/${page}/${template}`,
         {
           headers: {
             Authorization: `Bearer ${cookies.token}`,
@@ -69,18 +69,18 @@ export const getServerSideProps: GetServerSideProps = withAuth(
         }
       )
 
-      const { data: logData } = await api.get(`/interactions/${logId}`, {
+      const { data: logData } = await api.get(`/interactions/${log}`, {
         headers: {
           Authorization: `Bearer ${cookies.token}`,
         },
       })
 
       return {
-        pageSlug: pageSlug,
-        templateSlug: templateSlug,
-        logId: logId,
-        pageAndTemplateData,
-        logData,
+        pageSlug: page,
+        templateSlug: template,
+        logId: log,
+        pageAndTemplateData: { pageAndTemplateData },
+        logData: { logData },
       }
     }
 

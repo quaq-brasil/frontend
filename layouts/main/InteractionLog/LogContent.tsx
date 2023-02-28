@@ -29,9 +29,10 @@ export default function LogContent({
   const text = useTranslation().t
   const router = useRouter()
 
-  const [logData, setLogData] = useState<IInteraction>()
-  const [pageData, setPageData] = useState<IPage>()
-  const [templateData, setTemplateData] = useState<ITemplate>()
+  const [logData, setLogData] = useState<IInteraction>(initialLogData)
+  const [pageData, setPageData] = useState<IPage>(initialPageData)
+  const [templateData, setTemplateData] =
+    useState<ITemplate>(initialTemplateData)
 
   useEffect(() => {
     if (initialLogData) {

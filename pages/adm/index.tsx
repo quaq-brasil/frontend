@@ -29,17 +29,14 @@ export default function AdmPage({ workspaces, payload }: AdmPageProps) {
 export const getServerSideProps: GetServerSideProps = withAuth(
   async (ctx: any, cookies: any, payload: any) => {
     async function getWorkspaces({ cookies }: redirectNotFoundVerifyProps) {
-      const { data: workspaces } = await api.get(
-        `/workspaces/user/${payload.sub}`,
-        {
-          headers: {
-            Authorization: `Bearer ${cookies.token}`,
-          },
-        }
-      )
+      const { data } = await api.get(`/workspaces/user/${payload.sub}`, {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      })
 
       return {
-        workspaces,
+        workspaces: [...data],
         payload,
       }
     }

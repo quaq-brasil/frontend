@@ -21,8 +21,9 @@ export default function InteractionLog({
   const text = useTranslation().t
   const router = useRouter()
 
-  const [pageData, setPageData] = useState<IUpdatePage>()
-  const [templateData, setTemplateData] = useState<IUpdateTemplate>()
+  const [pageData, setPageData] = useState<IUpdatePage>(initialPageData)
+  const [templateData, setTemplateData] =
+    useState<IUpdateTemplate>(initialTemplateData)
   const [isUpdating, _setIsUpdating] = useState(false)
   const [_runUpdate, setRunUpdate] = useState(false)
 

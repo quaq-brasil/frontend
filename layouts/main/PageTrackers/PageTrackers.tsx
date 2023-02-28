@@ -20,7 +20,7 @@ export default function PageTrackers({
   const text = useTranslation().t
 
   const [isUpdating, setIsUpdating] = useState<boolean>(false)
-  const [pageData, setPageData] = useState<IUpdatePage>()
+  const [pageData, setPageData] = useState<IUpdatePage>(initialPageData)
 
   function handleUpdateIsUpdating(stat: boolean) {
     setIsUpdating(stat)

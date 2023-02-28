@@ -8,28 +8,30 @@ import { pageUrls } from "../../../utils/pagesUrl"
 import { CreateTemplateContent } from "./CreateTemplateContent"
 
 type CreateTemplateProps = {
-  page: IPage | undefined
+  initialPageData: IPage | undefined
 }
 
-export default function CreateTemplate({ page }: CreateTemplateProps) {
+export default function CreateTemplate({
+  initialPageData,
+}: CreateTemplateProps) {
   const text = useTranslation().t
   const router = useRouter()
 
-  const [pageData, setPageData] = useState<IPage>()
+  const [pageData, setPageData] = useState<IPage>(initialPageData)
 
   useEffect(() => {
-    setPageData(page)
-  }, [page])
+    setPageData(initialPageData)
+  }, [initialPageData])
 
   function loadHeader() {
     return (
-      <Header background_url={page?.background_url || ""}>
+      <Header background_url={pageData.background_url || ""}>
         <Tag
           variant="img-txt"
-          text={page?.title || ""}
-          img_url={page?.avatar_url || ""}
+          text={pageData.title || ""}
+          img_url={pageData.avatar_url || ""}
           onClick={() =>
-            router.push(pageUrls.pageSettings({ pageSlug: pageData?.slug }))
+            router.push(pageUrls.pageSettings({ pageSlug: pageData.slug }))
           }
         />
         <Tag variant="txt" text={text("createtemplate:newtemplate")} />

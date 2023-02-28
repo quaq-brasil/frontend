@@ -23,8 +23,9 @@ export default function ConsumerPage({
   const text = useTranslation().t
   const router = useRouter()
 
-  const [pageData, setPageData] = useState<IPage>()
-  const [templatesData, setTemplatesData] = useState<ITemplate[]>()
+  const [pageData, setPageData] = useState<IPage>(initialPageData)
+  const [templatesData, setTemplatesData] =
+    useState<ITemplate[]>(initialTemplatesData)
 
   useEffect(() => {
     setPageData(initialPageData)
