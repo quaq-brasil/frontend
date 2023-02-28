@@ -20,8 +20,6 @@ type FirstWorkspacePageProps = {
 export default function FirstWorkspacePage({ data }: FirstWorkspacePageProps) {
   const router = useRouter()
 
-  console.log("data", data)
-
   const getUser = useUser({
     options: {
       initialData: data,
