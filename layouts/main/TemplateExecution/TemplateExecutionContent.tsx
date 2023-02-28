@@ -8,11 +8,11 @@ import { useTerms } from "../../../contexts/useTerms"
 import { useCreateInteraction } from "../../../services/hooks/useInteraction/useCreateInteraction"
 import { useUpdateInteraction } from "../../../services/hooks/useInteraction/useUpdateInteraction"
 import { IInteractionData } from "../../../types/Interaction.type"
-import { getTemplateByUrlAndPageUrlProps } from "../../../types/Template.type"
+import { getTemplateBySlugAndPageSlugProps } from "../../../types/Template.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 
 type TemplateExecutionContentProps = {
-  initialData: getTemplateByUrlAndPageUrlProps | undefined
+  initialData: getTemplateBySlugAndPageSlugProps | undefined
   setTemplateData: (data: any) => void
 }
 

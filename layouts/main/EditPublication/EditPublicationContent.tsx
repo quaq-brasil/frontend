@@ -10,7 +10,7 @@ import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { BlockProps } from "../../../types/Block.types"
 import { IPage } from "../../../types/Page.type"
-import { getTemplateByUrlAndPageUrlProps } from "../../../types/Template.type"
+import { getTemplateBySlugAndPageSlugProps } from "../../../types/Template.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 import {
   ConnectedTemplatesProps,
@@ -21,7 +21,7 @@ import { PublishPublication } from "./PublishPublication"
 
 type EditPublicationContentProps = {
   pageData: IPage | undefined
-  templateData: getTemplateByUrlAndPageUrlProps | undefined
+  templateData: getTemplateBySlugAndPageSlugProps | undefined
 }
 
 export const EditPublicationContent = ({
@@ -224,7 +224,7 @@ export const EditPublicationContent = ({
 
 type EditPublicationHeaderProps = {
   pageData: IPage | undefined
-  templateData: getTemplateByUrlAndPageUrlProps | undefined
+  templateData: getTemplateBySlugAndPageSlugProps | undefined
   text: Translate
   router: NextRouter
 }

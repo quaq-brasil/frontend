@@ -5,10 +5,7 @@ import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage } from "../../../types/Page.type"
-import {
-  getTemplateBySlugAndPageSlugProps,
-  ITemplate,
-} from "../../../types/Template.type"
+import { getTemplateBySlugAndPageSlugProps } from "../../../types/Template.type"
 
 import { pageUrls } from "../../../utils/pagesUrl"
 import { TemplateExecutionContent } from "./TemplateExecutionContent"
@@ -23,7 +20,8 @@ export default function TemplateExecution({
   const text = useTranslation().t
 
   const [pageData, setPageData] = useState<IPage>(initialData.Page)
-  const [templateData, setTemplateData] = useState<ITemplate>(initialData)
+  const [templateData, setTemplateData] =
+    useState<getTemplateBySlugAndPageSlugProps>(initialData)
 
   useEffect(() => {
     setPageData(initialData.Page)

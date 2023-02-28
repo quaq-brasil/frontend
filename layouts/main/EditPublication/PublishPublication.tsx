@@ -23,7 +23,7 @@ import { useUpdateTemplate } from "../../../services/hooks/useTemplate/useUpdate
 import { IPage } from "../../../types/Page.type"
 import { IPublication } from "../../../types/Publication.type"
 import {
-  getTemplateByUrlAndPageUrlProps,
+  getTemplateBySlugAndPageSlugProps,
   IUpdateTemplate,
 } from "../../../types/Template.type"
 
@@ -31,7 +31,7 @@ type PublishPublicationProps = {
   blocks: any[]
   onClose: () => void
   pageData: IPage | undefined
-  template: getTemplateByUrlAndPageUrlProps | undefined
+  template: getTemplateBySlugAndPageSlugProps | undefined
 }
 
 type handleGetTemplateUrlProps = {
@@ -53,7 +53,7 @@ export const PublishPublication = ({
   const [isUpdating, setIsUpdating] = useState(false)
   const router = useRouter()
   const [templateData, setTemplateData] =
-    useState<getTemplateByUrlAndPageUrlProps>()
+    useState<getTemplateBySlugAndPageSlugProps>()
 
   useEffect(() => {
     setTemplateData(template)
@@ -105,7 +105,7 @@ export const PublishPublication = ({
       return {
         ...state,
         ...newData,
-      } as getTemplateByUrlAndPageUrlProps
+      } as getTemplateBySlugAndPageSlugProps
     })
     setIsUpdating(true)
   }
@@ -322,7 +322,7 @@ export const PublishPublication = ({
 
 type PublishPublicationHeaderProps = {
   pageData: IPage | undefined
-  templateData: getTemplateByUrlAndPageUrlProps | undefined
+  templateData: getTemplateBySlugAndPageSlugProps | undefined
   text: Translate
 }
 
