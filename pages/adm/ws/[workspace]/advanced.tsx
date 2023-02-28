@@ -1,35 +1,56 @@
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import WorkspaceAdvanced from "../../../../layouts/main/WorkspaceAdvanced/WorkspaceAdvanced"
+import { api } from "../../../../services/api"
 import { useWorkspaceBySlug } from "../../../../services/hooks/useWorkspace/useWorkspaceBySlug"
 import { IWorkspace } from "../../../../types/Workspace.type"
+import {
+  RedirectNotFoundVerify,
+  redirectNotFoundVerifyProps,
+} from "../../../../utils/404Redirect"
+import { withAuth } from "../../../../utils/withAuth"
 
 type WorkspaceAdvancedPageProps = {
-  workspace: string
+  workspaceData: IWorkspace
+  workspaceSlug: string
 }
 
 export default function WorkspaceAdvancedPage({
-  workspace,
+  workspaceData,
+  workspaceSlug,
 }: WorkspaceAdvancedPageProps) {
-  const getWorkspace = useWorkspaceBySlug({ slug: workspace })
+  const getWorkspace = useWorkspaceBySlug({
+    slug: workspaceSlug,
+    options: { initialData: workspaceData },
+  })
 
-  return (
-    <WorkspaceAdvanced
-      initialWorkspaceData={getWorkspace?.data as IWorkspace}
-    />
-  )
+  return <WorkspaceAdvanced initialWorkspaceData={getWorkspace.data} />
 }
 
 type Params = {
-  workspace: string
+  workspaceSlug: string
 } & ParsedUrlQuery
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { workspace } = params as Params
+export const getServerSideProps: GetServerSideProps = withAuth(
+  async (ctx: any, cookies: any, payload: any) => {
+    const { workspaceSlug } = ctx.params as Params
 
-  return {
-    props: {
-      workspace,
-    },
+    async function getWorkspace({ cookies }: redirectNotFoundVerifyProps) {
+      const { data: workspacesData } = await api.get(
+        `/workspaces/slug/${workspaceSlug}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
+        }
+      )
+
+      return {
+        workspacesData,
+        workspaceSlug,
+      }
+    }
+
+    return await RedirectNotFoundVerify(getWorkspace, ctx, cookies, payload)
   }
-}
+)

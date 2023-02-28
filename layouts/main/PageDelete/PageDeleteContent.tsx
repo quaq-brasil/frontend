@@ -6,11 +6,11 @@ import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { useLogin } from "../../../services/hooks/useUser/useLogin"
-import { IUser } from "../../../types/User.type"
+import { IUserPayload } from "../../../types/Auth.types"
 
 type PageDeleteContentProps = {
   handleDeletePage: () => void
-  userData: IUser | undefined
+  userData: IUserPayload | undefined
   isUpdating: boolean
   runUpdate: boolean
   handleUpdateIsUpdating: (stat: boolean) => void

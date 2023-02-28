@@ -4,14 +4,14 @@ import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+import { IUserPayload } from "../../../types/Auth.types"
 import { IPage } from "../../../types/Page.type"
-import { IUser } from "../../../types/User.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 import { PageDeleteContent } from "./PageDeleteContent"
 
 type PageDeleteProps = {
   initialPageData: IPage | undefined
-  initialUserData: IUser | undefined
+  initialUserData: IUserPayload | undefined
   handleDeletePage: () => void
 }
 
@@ -22,7 +22,7 @@ export default function PageDelete({
 }: PageDeleteProps) {
   const text = useTranslation().t
 
-  const [userData, setUserData] = useState<IUser>()
+  const [userData, setUserData] = useState<IUserPayload>()
   const [pageData, setPageData] = useState<IPage>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)

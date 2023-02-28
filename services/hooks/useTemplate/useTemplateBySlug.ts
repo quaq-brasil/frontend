@@ -4,19 +4,21 @@ import { useQueryProps } from "../../../types/useQueryProps"
 import { api } from "../../api"
 
 type useTemplateBySlugProps = {
-  slug: string
+  templateSlug: string
+  pageSlug: string
 } & useQueryProps
 
 export const useTemplateBySlug = ({
-  slug,
+  templateSlug,
+  pageSlug,
   options,
 }: useTemplateBySlugProps) => {
   const getTemplateBySlug = async () => {
-    return api.get(`/templates/slug/${slug}`)
+    return api.get(`/templates/${pageSlug}/${templateSlug}`)
   }
 
   const response = useQuery({
-    queryKey: ["getTemplateBySlug", slug],
+    queryKey: ["getTemplateBySlug", templateSlug],
     queryFn: getTemplateBySlug,
     ...options,
   }) as UseQueryResult<{ data: ITemplate }>

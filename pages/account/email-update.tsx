@@ -1,23 +1,57 @@
-import { useUserAuth } from "../../contexts/userAuth"
+import { GetServerSideProps } from "next"
 import { EmailUpdate } from "../../layouts/Workflows/EmailUpdate/EmailUpdate"
+import { api } from "../../services/api"
 import { useUpdateUser } from "../../services/hooks/useUser/useUpdateUser"
-import { IUpdateUser } from "../../types/User.type"
+import { useUser } from "../../services/hooks/useUser/useUser"
+import { IUpdateUser, IUser } from "../../types/User.type"
+import {
+  RedirectNotFoundVerify,
+  redirectNotFoundVerifyProps,
+} from "../../utils/404Redirect"
+import { withAuth } from "../../utils/withAuth"
 
-export default function EmailUpdatePage() {
-  const { user } = useUserAuth()
+type EmailUpdatePageProps = {
+  data: IUser
+}
+
+export default function EmailUpdatePage({ data }: EmailUpdatePageProps) {
+  const getUser = useUser({
+    options: {
+      initialData: data,
+    },
+  })
 
   const updateUser = useUpdateUser()
 
   const handleChangeEmail = (data: IUpdateUser) => {
     updateUser.mutate({
-      id: "63d44488cbb9780ad98047bb",
+      id: getUser.data.id,
       data: {
-        email: data.email || "",
+        email: data.email,
       },
     })
   }
 
   return (
-    <EmailUpdate handleChangeEmail={handleChangeEmail} initialUserData={user} />
+    <EmailUpdate
+      handleChangeEmail={handleChangeEmail}
+      initialUserData={getUser.data}
+    />
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withAuth(
+  async (ctx: any, cookies: any, payload: any) => {
+    async function getUser({ cookies }: redirectNotFoundVerifyProps) {
+      const { data } = await api.get("users", {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      })
+
+      return data
+    }
+
+    return await RedirectNotFoundVerify(getUser, ctx, cookies, payload)
+  }
+)

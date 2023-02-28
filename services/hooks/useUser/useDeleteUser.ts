@@ -6,13 +6,13 @@ type useDeleteUserProps = {
   id: string
 } & useMutationProps
 
-export const useDeleteUser = ({ id }: useDeleteUserProps) => {
-  const deleteUser = async () => {
+export const useDeleteUser = () => {
+  const deleteUser = async ({ id }: useDeleteUserProps) => {
     await api.delete(`/users/${id}`)
   }
 
   return useMutation({
-    mutationKey: ["deleteUser", id],
+    mutationKey: ["deleteUser"],
     mutationFn: deleteUser,
   })
 }

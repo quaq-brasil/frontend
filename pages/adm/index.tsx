@@ -30,7 +30,12 @@ export const getServerSideProps: GetServerSideProps = withAuth(
   async (ctx: any, cookies: any, payload: any) => {
     async function getWorkspaces({ cookies }: redirectNotFoundVerifyProps) {
       const { data: workspaces } = await api.get(
-        `/workspaces/user/${payload.sub}`
+        `/workspaces/user/${payload.sub}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
+        }
       )
 
       return {

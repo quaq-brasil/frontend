@@ -2,22 +2,34 @@ import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 import PageDelete from "../../../../layouts/main/PageDelete/PageDelete"
+import { api } from "../../../../services/api"
 import { useDeletePage } from "../../../../services/hooks/usePage/useDeletePage"
 import { usePageBySlug } from "../../../../services/hooks/usePage/usePageBySlug"
-import { useUser } from "../../../../services/hooks/useUser/useUser"
+import { IUserPayload } from "../../../../types/Auth.types"
 import { IPage } from "../../../../types/Page.type"
-import { IUser } from "../../../../types/User.type"
+import {
+  RedirectNotFoundVerify,
+  redirectNotFoundVerifyProps,
+} from "../../../../utils/404Redirect"
 import { pageUrls } from "../../../../utils/pagesUrl"
+import { withAuth } from "../../../../utils/withAuth"
 
 type PageDeletePageProps = {
-  page: string
+  payload: IUserPayload
+  pageSlug: string
+  pageData: IPage
 }
 
-export default function PageDeletePage({ page }: PageDeletePageProps) {
-  const getUser = useUser({})
-
+export default function PageDeletePage({
+  payload,
+  pageData,
+  pageSlug,
+}: PageDeletePageProps) {
   const getPage = usePageBySlug({
-    slug: page,
+    slug: pageSlug,
+    options: {
+      initialData: pageData,
+    },
   })
 
   const deletePage = useDeletePage()
@@ -26,7 +38,7 @@ export default function PageDeletePage({ page }: PageDeletePageProps) {
 
   function handleDeletePage() {
     deletePage.mutate(
-      { id: getPage?.data.id as string },
+      { id: getPage.data.id },
       {
         onSuccess: () => {
           router.push(pageUrls.home())
@@ -37,23 +49,35 @@ export default function PageDeletePage({ page }: PageDeletePageProps) {
 
   return (
     <PageDelete
-      initialPageData={getPage?.data as IPage}
-      initialUserData={getUser?.data as IUser}
+      initialPageData={getPage.data}
+      initialUserData={payload}
       handleDeletePage={handleDeletePage}
     />
   )
 }
 
 type Params = {
-  page: string
+  pageSlug: string
 } & ParsedUrlQuery
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { page } = params as Params
+export const getServerSideProps: GetServerSideProps = withAuth(
+  async (ctx: any, cookies: any, payload: any) => {
+    const { pageSlug } = ctx.params as Params
 
-  return {
-    props: {
-      page,
-    },
+    async function getPage({ cookies }: redirectNotFoundVerifyProps) {
+      const { data: pageData } = await api.get(`/pages/slug/${pageSlug}`, {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      })
+
+      return {
+        pageData,
+        payload,
+        pageSlug,
+      }
+    }
+
+    return await RedirectNotFoundVerify(getPage, ctx, cookies, payload)
   }
-}
+)

@@ -1,65 +1,89 @@
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
-import { useEffect, useState } from "react"
-import { useUserAuth } from "../../../contexts/userAuth"
 import CreatorPage from "../../../layouts/main/CreatorPage/CreatorPage"
+import { api } from "../../../services/api"
 import { usePageBySlug } from "../../../services/hooks/usePage/usePageBySlug"
-import { useMutateGetAllWorkspacesByUserId } from "../../../services/hooks/useWorkspace/useMutateGetAllWorkspacesByUserId"
+import { useWorkspacesByUserId } from "../../../services/hooks/useWorkspace/useWorkspacesByUserId"
+import { IUserPayload } from "../../../types/Auth.types"
 import { IPage } from "../../../types/Page.type"
 import { IWorkspace } from "../../../types/Workspace.type"
+import {
+  RedirectNotFoundVerify,
+  redirectNotFoundVerifyProps,
+} from "../../../utils/404Redirect"
+import { withAuth } from "../../../utils/withAuth"
 
 type AdmSelectedPageProps = {
-  page: string
+  workspacesData: IWorkspace[]
+  payload: IUserPayload
+  pageSlug: string
+  pageData: IPage
 }
 
-export default function AdmSelectedPage({ page }: AdmSelectedPageProps) {
-  const { user } = useUserAuth()
+export default function AdmSelectedPage({
+  workspacesData,
+  payload,
+  pageSlug,
+  pageData,
+}: AdmSelectedPageProps) {
+  const getWorkspaces = useWorkspacesByUserId({
+    id: payload.sub,
+    options: {
+      initialData: workspacesData,
+    },
+  })
 
-  const getAllWorkspaces = useMutateGetAllWorkspacesByUserId()
-
-  const getCurrentPage = usePageBySlug({ slug: page })
-
-  const [workspaces, setWorkspaces] = useState<IWorkspace[]>()
-  const [curentPage, setCurrentPage] = useState<IPage>()
-
-  useEffect(() => {
-    if (user) {
-      getAllWorkspaces.mutate(
-        { id: user.id as string },
-        {
-          onSuccess: (data) => {
-            setWorkspaces(data)
-          },
-        }
-      )
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
-
-  useEffect(() => {
-    if (getCurrentPage?.data) {
-      setCurrentPage(getCurrentPage.data)
-    }
-  }, [getCurrentPage])
+  const getCurrentPage = usePageBySlug({
+    slug: pageSlug,
+    options: { initialData: pageData },
+  })
 
   return (
     <CreatorPage
-      initialWorkspacesData={workspaces as IWorkspace[]}
-      initialCurrentPageData={curentPage as IPage}
+      initialWorkspacesData={getWorkspaces.data}
+      initialCurrentPageData={getCurrentPage.data}
     />
   )
 }
 
 type Params = {
-  page: string
+  pageSlug: string
 } & ParsedUrlQuery
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { page } = params as Params
+export const getServerSideProps: GetServerSideProps = withAuth(
+  async (ctx: any, cookies: any, payload: any) => {
+    const { pageSlug } = ctx.params as Params
 
-  return {
-    props: {
-      page,
-    },
+    async function getWorkspacesAndCurrentPage({
+      cookies,
+    }: redirectNotFoundVerifyProps) {
+      const { data: workspacesData } = await api.get(
+        `/workspaces/user/${payload.sub}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
+        }
+      )
+      const { data: pageData } = await api.get(`/pages/slug/${pageSlug}`, {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      })
+
+      return {
+        workspacesData,
+        pageData,
+        payload,
+        pageSlug,
+      }
+    }
+
+    return await RedirectNotFoundVerify(
+      getWorkspacesAndCurrentPage,
+      ctx,
+      cookies,
+      payload
+    )
   }
-}
+)

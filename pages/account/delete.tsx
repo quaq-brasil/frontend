@@ -21,15 +21,15 @@ export default function UserDeletePage({ data }: UserDeletePageProps) {
     },
   })
 
-  const deleteUser = useDeleteUser({ id: "63d26f06ea1e68c873e97ab0" })
+  const deleteUser = useDeleteUser()
 
   function handleDeleteUser() {
-    deleteUser.mutate()
+    deleteUser.mutate({ id: getUser.data.id })
   }
 
   return (
     <UserDelete
-      initialUserData={getUser?.data}
+      initialUserData={getUser.data}
       handleDeleteUser={handleDeleteUser}
     />
   )

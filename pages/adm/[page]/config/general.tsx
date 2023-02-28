@@ -2,22 +2,33 @@ import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 import GeneralSettings from "../../../../layouts/main/GeneralSettings/GeneralSettings"
+import { api } from "../../../../services/api"
 import { usePageBySlug } from "../../../../services/hooks/usePage/usePageBySlug"
 import { useUpdatePage } from "../../../../services/hooks/usePage/useUpdatePage"
-import { IUpdatePage } from "../../../../types/Page.type"
+import { IPage, IUpdatePage } from "../../../../types/Page.type"
+import {
+  RedirectNotFoundVerify,
+  redirectNotFoundVerifyProps,
+} from "../../../../utils/404Redirect"
 import { pageUrls } from "../../../../utils/pagesUrl"
+import { withAuth } from "../../../../utils/withAuth"
 
 type GeneralSettingsPageProps = {
-  page: string
+  pageSlug: string
+  pageData: IPage
 }
 
 export default function GeneralSettingsPage({
-  page,
+  pageData,
+  pageSlug,
 }: GeneralSettingsPageProps) {
   const router = useRouter()
 
   const getPage = usePageBySlug({
-    slug: page,
+    slug: pageSlug,
+    options: {
+      initialData: pageData,
+    },
   })
 
   const updatePage = useUpdatePage()
@@ -25,7 +36,7 @@ export default function GeneralSettingsPage({
   function handleUpdatePage(data: IUpdatePage) {
     updatePage.mutate(
       {
-        id: getPage?.data.id as string,
+        id: getPage.data.id,
         data: {
           avatar_url: data.avatar_url,
           background_url: data.background_url,
@@ -56,15 +67,27 @@ export default function GeneralSettingsPage({
 }
 
 type Params = {
-  page: string
+  pageSlug: string
 } & ParsedUrlQuery
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { page } = params as Params
+export const getServerSideProps: GetServerSideProps = withAuth(
+  async (ctx: any, cookies: any, payload: any) => {
+    const { pageSlug } = ctx.params as Params
 
-  return {
-    props: {
-      page,
-    },
+    async function getPage({ cookies }: redirectNotFoundVerifyProps) {
+      const { data: pageData } = await api.get(`/pages/slug/${pageSlug}`, {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      })
+
+      return {
+        pageData,
+        payload,
+        pageSlug,
+      }
+    }
+
+    return await RedirectNotFoundVerify(getPage, ctx, cookies, payload)
   }
-}
+)

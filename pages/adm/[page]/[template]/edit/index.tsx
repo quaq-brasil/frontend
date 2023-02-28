@@ -12,18 +12,18 @@ import { withAuth } from "../../../../../utils/withAuth"
 
 type EditTemplatePageProps = {
   data: getTemplateByUrlAndPageUrlProps
-  page: string
-  template: string
+  pageSlug: string
+  templateSlug: string
 }
 
 export default function EditTemplatePage({
   data,
-  page,
-  template,
+  pageSlug,
+  templateSlug,
 }: EditTemplatePageProps) {
   const getTemplateAndPage = useTemplateByUrlAndPageUrl({
-    url: template,
-    page_url: page,
+    url: templateSlug,
+    page_url: pageSlug,
     options: {
       initialData: data,
     },
@@ -38,24 +38,24 @@ export default function EditTemplatePage({
 }
 
 type Params = {
-  page: string
-  template: string
+  pageSlug: string
+  templateSlug: string
 } & ParsedUrlQuery
 
 export const getServerSideProps: GetServerSideProps = withAuth(
   async (ctx: any, cookies: any, payload: any) => {
-    const { page, template } = ctx.params as Params
+    const { pageSlug, templateSlug } = ctx.params as Params
 
     async function getTemplate({ cookies }: redirectNotFoundVerifyProps) {
-      const { data } = await api.get(`/templates/${page}/${template}`, {
+      const { data } = await api.get(`/templates/${pageSlug}/${templateSlug}`, {
         headers: {
           Authorization: `Bearer ${cookies.token}`,
         },
       })
 
       return {
-        page: page,
-        template: template,
+        pageSlug: pageSlug,
+        templateSlug: templateSlug,
         data,
       }
     }

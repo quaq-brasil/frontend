@@ -11,8 +11,8 @@ import { CentralTrackersContent } from "./CentralTrackersContent"
 
 type CentralTrackersProps = {
   handleUpdateTrackers: (data: IUpdateTemplate) => void
-  initialPageData: IPage | undefined
-  initialTemplateData: ITemplate | undefined
+  initialPageData: IPage
+  initialTemplateData: ITemplate
 }
 
 export default function CentralTrackers({
@@ -42,12 +42,16 @@ export default function CentralTrackers({
   }
 
   useEffect(() => {
-    setPageData(initialPageData)
+    if (initialPageData) {
+      setPageData(initialPageData)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPageData])
 
   useEffect(() => {
-    setTemplateData(initialTemplateData)
+    if (initialTemplateData) {
+      setTemplateData(initialTemplateData)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialTemplateData])
 
