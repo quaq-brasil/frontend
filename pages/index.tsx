@@ -9,12 +9,12 @@ import { RedirectNotFoundVerify } from "../utils/404Redirect"
 
 type ConsumerPagePageProps = {
   pageData: IPage
-  templateData: ITemplate
+  templatesData: ITemplate[]
 }
 
 export default function Home({
   pageData,
-  templateData,
+  templatesData,
 }: ConsumerPagePageProps) {
   const getPage = usePage({
     id: "63b754987d02f98b8692255e",
@@ -23,7 +23,7 @@ export default function Home({
 
   const getTemplates = useTemplatesByPageId({
     id: "63b754987d02f98b8692255e",
-    options: { initialData: templateData },
+    options: { initialData: templatesData },
   })
 
   return (
@@ -38,13 +38,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   async function getPage() {
     const { data: pageData } = await api.get(`/pages/63b754987d02f98b8692255e`)
 
-    const { data: templateData } = await api.get(
+    const { data: templatesData } = await api.get(
       `/templates/page/63b754987d02f98b8692255e`
     )
 
     return {
       pageData: { pageData },
-      templateData: { templateData },
+      templatesData: [...templatesData],
     }
   }
 
