@@ -100,7 +100,7 @@ export function CreatePageContent({
 
   useEffect(() => {
     if (debouncedPageName && pageData?.title) {
-      handleGetPageSlug({ id: pageData.id as string, name: pageData.title })
+      handleGetPageSlug({ id: pageData.id, name: pageData.title })
       handleUpdateFormData({ slug: { valid: true } })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -8,7 +8,7 @@ import {
   GearSix,
   PencilSimple,
   Play,
-  Trash
+  Trash,
 } from "phosphor-react"
 import { useState } from "react"
 import { useDeleteTemplate } from "../../services/hooks/useTemplate/useDeleteTemplate"
@@ -42,13 +42,11 @@ export default function ShortcutMenu({
     setIsOpen(false)
     deleteTemplate.mutate(
       {
-        id: templateData?.id as string,
+        id: templateData?.id,
       },
       {
         onSuccess: () => {
-          router.push(
-            pageUrls.pageSettings({ pageSlug: pageData?.slug as string })
-          )
+          router.push(pageUrls.pageSettings({ pageSlug: pageData?.slug }))
         },
       }
     )
@@ -67,8 +65,8 @@ export default function ShortcutMenu({
                 handleClose()
                 router.push(
                   pageUrls.templateCentral({
-                    pageSlug: pageData?.slug as string,
-                    templateSlug: templateData?.slug as string,
+                    pageSlug: pageData?.slug,
+                    templateSlug: templateData?.slug,
                     settings: "edit",
                   })
                 )

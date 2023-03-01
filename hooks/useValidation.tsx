@@ -62,7 +62,7 @@ export function useValidation() {
   const validateField = (value: string, validators: ValidationFunction[]) => {
     const errorMessages = validators
       .map((validator) => validator(value))
-      .filter((errorMessage) => errorMessage !== null) as string[]
+      .filter((errorMessage) => errorMessage !== null)
     setErrors(errorMessages)
   }
 

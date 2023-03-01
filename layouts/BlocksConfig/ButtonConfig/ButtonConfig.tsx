@@ -104,7 +104,7 @@ export function ButtonConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "button",
-      save_as: saveAs as string,
+      save_as: saveAs,
       data: content,
     })
     handleClosing()
@@ -113,7 +113,7 @@ export function ButtonConfig({
   useEffect(() => {
     if (blockData) {
       setContent(blockData.data)
-      setSaveAs(blockData.save_as as string)
+      setSaveAs(blockData.save_as)
       handleUpdateFormData({ saveAs: { valid: true }, text: { valid: true } })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

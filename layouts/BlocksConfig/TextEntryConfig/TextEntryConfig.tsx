@@ -103,7 +103,7 @@ export function TextEntryConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "textentry",
-      save_as: saveAs as string,
+      save_as: saveAs,
       data: content,
     })
     handleClosing()
@@ -112,7 +112,7 @@ export function TextEntryConfig({
   useEffect(() => {
     if (blockData) {
       setContent(blockData.data)
-      setSaveAs(blockData.save_as as string)
+      setSaveAs(blockData.save_as)
       handleUpdateFormData({
         placeholder: { valid: true },
         saveAs: { valid: true },

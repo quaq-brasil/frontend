@@ -21,7 +21,7 @@ export default function LoginPage() {
       {},
       {
         onSuccess: (data) => {
-          setUserId(data.id as string)
+          setUserId(data.id)
         },
       }
     )

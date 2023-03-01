@@ -77,11 +77,11 @@ export const ChartBlock = ({
   const onInteraction = () => {
     handleUpdateInteractions &&
       handleUpdateInteractions({
-        id: block.id as string,
+        id: block.id,
         config: {
-          id: block.id as string,
-          save_as: block.save_as as string,
-          type: block.type as string,
+          id: block.id,
+          save_as: block.save_as,
+          type: block.type,
           data: block.data,
         },
         output: {
@@ -102,9 +102,9 @@ export const ChartBlock = ({
           <LineChart
             data={{
               datasets: block.data.dataset as IDataSet[],
-              labels: block.data.labels as string[],
+              labels: block.data.labels,
             }}
-            title={block.title as string}
+            title={block.title}
             onDelete={onDelete}
             isEditable={isEditable}
           />
@@ -114,9 +114,9 @@ export const ChartBlock = ({
           <HorizontalBarChart
             data={{
               datasets: block.data.dataset as IDataSet[],
-              labels: block.data.labels as string[],
+              labels: block.data.labels,
             }}
-            title={block.title as string}
+            title={block.title}
             onDelete={onDelete}
             isEditable={isEditable}
           />
@@ -126,9 +126,9 @@ export const ChartBlock = ({
           <VerticalBarChart
             data={{
               datasets: block.data.dataset as IDataSet[],
-              labels: block.data.labels as string[],
+              labels: block.data.labels,
             }}
-            title={block.title as string}
+            title={block.title}
             onDelete={onDelete}
             isEditable={isEditable}
           />
@@ -138,9 +138,9 @@ export const ChartBlock = ({
           <PieChart
             data={{
               datasets: block.data as IDataSet2[],
-              labels: block.data.labels as string[],
+              labels: block.data.labels,
             }}
-            title={block.title as string}
+            title={block.title}
             onDelete={onDelete}
             isEditable={isEditable}
           />
@@ -149,7 +149,7 @@ export const ChartBlock = ({
         return (
           <ScatterChart
             data={{ datasets: block.data as IDataSet3[] }}
-            title={block.title as string}
+            title={block.title}
             onDelete={onDelete}
             isEditable={isEditable}
           />

@@ -21,7 +21,7 @@ export const useGenerateTemplateUniqueSlug = () => {
       data
     )
 
-    return response.data as string
+    return response.data
   }
 
   return useMutation({

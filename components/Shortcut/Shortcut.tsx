@@ -37,7 +37,7 @@ export const Shortcut = (props: ShortcutProps) => {
   function handleUpdateContentData(newData: IUpdateTemplate) {
     updateTemplate.mutate(
       {
-        id: contentData?.id as string,
+        id: contentData?.id,
         data: {
           ...newData,
         },

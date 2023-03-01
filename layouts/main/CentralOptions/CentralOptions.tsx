@@ -128,9 +128,9 @@ export default function CentralOptions({
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData?.slug as string,
+                pageSlug: pageData?.slug,
                 settings: "central",
-                templateSlug: templateData?.slug as string,
+                templateSlug: templateData?.slug,
               })
             )
           }
@@ -144,9 +144,9 @@ export default function CentralOptions({
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData?.slug as string,
+                pageSlug: pageData?.slug,
                 settings: "logs",
-                templateSlug: templateData?.slug as string,
+                templateSlug: templateData?.slug,
               })
             )
           }

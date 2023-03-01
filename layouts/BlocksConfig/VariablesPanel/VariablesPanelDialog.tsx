@@ -88,12 +88,12 @@ export const VariablesPanelDialog = ({
         {
           data: {
             blocks: blocks,
-            creator_id: user?.id as string,
+            creator_id: user?.id,
             template_id: templateData ? templateData.id : "",
             connected_templates: connectedTemplates
-              ? (connectedTemplates.map((template) => {
+              ? connectedTemplates.map((template) => {
                   return template.templateId
-                }) as string[])
+                })
               : [],
           },
         },

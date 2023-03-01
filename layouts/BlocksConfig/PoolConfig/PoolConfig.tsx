@@ -119,7 +119,7 @@ export function PoolConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "pool",
-      save_as: saveAs as string,
+      save_as: saveAs,
       data: content,
     })
     handleClosing()
@@ -128,7 +128,7 @@ export function PoolConfig({
   useEffect(() => {
     if (blockData) {
       setContent(blockData.data)
-      setSaveAs(blockData.save_as as string)
+      setSaveAs(blockData.save_as)
       handleUpdateFormData({
         description: { valid: true },
         options: { valid: true },
@@ -374,7 +374,7 @@ export function PoolConfig({
               input={{
                 label: text("poolconfig:saveaslabel"),
                 onChange: (e) => handleUpdateSaveAs(e),
-                inputValue: saveAs as string,
+                inputValue: saveAs,
               }}
               indicator={{
                 icon: BracketsCurly,

@@ -60,7 +60,7 @@ export const PublishPublication = ({
   }, [template])
 
   const getCurrentPulication = usePublication({
-    id: templateData?.current_publication_id as string,
+    id: templateData?.current_publication_id,
   })
 
   useEffect(() => {
@@ -94,7 +94,7 @@ export const PublishPublication = ({
       handleGetTemplateUrl({
         id: templateData?.id,
         title: debouncedTemplateName,
-        page_id: pageData?.id as string,
+        page_id: pageData?.id,
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -125,14 +125,14 @@ export const PublishPublication = ({
               title: publicationTitle,
               blocks,
               template_id: templateData.id,
-              page_id: pageData?.id as string,
+              page_id: pageData?.id,
             },
           },
           {
             onSuccess: (data) => {
               updateTemplate.mutate(
                 {
-                  id: templateData.id as string,
+                  id: templateData.id,
                   data: {
                     current_publication_id: data.id,
                     title: templateData.title,
@@ -161,14 +161,14 @@ export const PublishPublication = ({
                 title: publicationTitle,
                 blocks,
                 template_id: templateData.id,
-                page_id: pageData?.id as string,
+                page_id: pageData?.id,
               },
             },
             {
               onSuccess: () => {
                 updateTemplate.mutate(
                   {
-                    id: templateData.id as string,
+                    id: templateData.id,
                     data: {
                       title: templateData.title,
                       slug: templateData.slug,

@@ -222,8 +222,8 @@ export default function LogContent({
         onClick={() =>
           router.push(
             pageUrls.templateCentral({
-              pageSlug: logData?.Page?.url as string,
-              templateSlug: logData?.Template?.url as string,
+              pageSlug: logData?.Page?.url,
+              templateSlug: logData?.Template?.url,
               settings: "logs",
             })
           )

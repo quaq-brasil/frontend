@@ -127,7 +127,7 @@ export const PublishNewTemplate = ({
       handleGetTemplateSlug({
         id: templateData?.id,
         title: debouncedTemplateName,
-        page_id: pageData?.id as string,
+        page_id: pageData?.id,
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -156,11 +156,11 @@ export const PublishNewTemplate = ({
             blocks: blocks,
             dependencies: {
               connected_templates:
-                (connectedTemplates?.map((template) => {
+                connectedTemplates?.map((template) => {
                   return template.templateId
-                }) as string[]) || [],
+                }) || [],
             },
-            page_id: pageData?.id as string,
+            page_id: pageData?.id,
             title: publicationTitle,
             published_at: new Date().toISOString(),
           },
@@ -172,7 +172,7 @@ export const PublishNewTemplate = ({
                 data: {
                   title: templateData.title,
                   number_of_new_interactions: 0,
-                  page_id: pageData?.id as string,
+                  page_id: pageData?.id,
                   shortcut_image: templateData.shortcut_image,
                   shortcut_size: templateData.shortcut_size,
                   slug: templateData.slug,
@@ -185,9 +185,9 @@ export const PublishNewTemplate = ({
                 onSuccess: (data) => {
                   updatePublication.mutate(
                     {
-                      id: data.current_publication_id as string,
+                      id: data.current_publication_id,
                       data: {
-                        template_id: data.id as string,
+                        template_id: data.id,
                       },
                     },
                     {

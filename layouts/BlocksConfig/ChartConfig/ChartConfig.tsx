@@ -201,7 +201,7 @@ export default function ChartConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "chart",
-      save_as: saveAs as string,
+      save_as: saveAs,
       data: content,
     })
     handleClosing()
@@ -210,7 +210,7 @@ export default function ChartConfig({
   useEffect(() => {
     if (blockData) {
       setContent(blockData.data)
-      setSaveAs(blockData.save_as as string)
+      setSaveAs(blockData.save_as)
       handleUpdateFormData({
         data: { valid: true },
         saveAs: { valid: true },

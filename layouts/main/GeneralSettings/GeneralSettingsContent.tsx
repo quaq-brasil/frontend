@@ -97,8 +97,8 @@ export function GeneralSettingsContent({
       pageData?.id
     ) {
       handleGetPageSlug({
-        id: pageData?.id as string,
-        name: pageData?.title as string,
+        id: pageData?.id,
+        name: pageData?.title,
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

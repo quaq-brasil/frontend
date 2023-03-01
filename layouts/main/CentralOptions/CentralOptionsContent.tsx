@@ -101,9 +101,9 @@ export function CentralOptionsContent({
   useEffect(() => {
     if (isUpdating && debouncedTemplateName && templateData?.title) {
       handleGetTemplateUrl({
-        id: templateData.id as string,
+        id: templateData.id,
         title: debouncedTemplateName,
-        page_id: pageData?.id as string,
+        page_id: pageData?.id,
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
