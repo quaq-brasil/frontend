@@ -84,6 +84,10 @@ const pageInternalServerError = () => {
   return "500"
 }
 
+const signup = () => {
+  return "signup"
+}
+
 export const pageUrls = {
   page,
   pageSettings,
@@ -99,4 +103,5 @@ export const pageUrls = {
   adm,
   pageNotFound,
   pageInternalServerError,
+  signup,
 }

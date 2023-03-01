@@ -165,7 +165,7 @@ export const Shortcut = (props: ShortcutProps) => {
             onClick={handleClick}
           />
         ) : (
-          <div className="min-w-full min-h-full bg-slate-300 animate-pulse"></div>
+          <div className="min-w-full min-h-full bg-slate-300 animate-pulse rounded-[20px] lg:rounded-[30px]"></div>
         )}
 
         {props.isCreator && props.isSelected ? (

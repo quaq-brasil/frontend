@@ -16,7 +16,7 @@ export default function Login({ handleUserLogin }: LoginProps) {
   const text = useTranslation().t
   const router = useRouter()
 
-  const [userData, setUserdata] = useState<IUserLogin>()
+  const [userData, setUserData] = useState<IUserLogin>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -29,7 +29,7 @@ export default function Login({ handleUserLogin }: LoginProps) {
   }
 
   function handleUpdateUserData(newData: IUserLogin) {
-    setUserdata((state) => {
+    setUserData((state) => {
       return {
         ...state,
         ...newData,
@@ -59,7 +59,7 @@ export default function Login({ handleUserLogin }: LoginProps) {
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("login:udate")}
+            text={text("login:update")}
             onClick={() => handleUpdateRunUpdate(true)}
           />
         </div>,

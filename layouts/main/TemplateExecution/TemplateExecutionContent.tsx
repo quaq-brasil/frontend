@@ -12,12 +12,12 @@ import { getTemplateBySlugAndPageSlugProps } from "../../../types/Template.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 
 type TemplateExecutionContentProps = {
-  initialData: getTemplateBySlugAndPageSlugProps | undefined
+  pageAndTemplateData: getTemplateBySlugAndPageSlugProps | undefined
   setTemplateData: (data: any) => void
 }
 
 export function TemplateExecutionContent({
-  initialData,
+  pageAndTemplateData,
   setTemplateData,
 }: TemplateExecutionContentProps) {
   const text = useTranslation().t
@@ -25,13 +25,13 @@ export function TemplateExecutionContent({
   const router = useRouter()
 
   const [blocks, setBlocks] = useState<any>(
-    initialData?.publication?.blocks || {}
+    pageAndTemplateData?.publication?.blocks || {}
   )
 
   useEffect(() => {
-    console.log("blocks", blocks)
-    setBlocks(initialData?.publication?.blocks)
-  }, [initialData?.publication?.blocks])
+    setBlocks(pageAndTemplateData?.publication?.blocks)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageAndTemplateData?.publication?.blocks])
 
   const [interactions, setInteractions] = useState<IInteractionData[]>([])
   const [interactionId, setInteractionId] = useState<string | null>(null)
@@ -56,7 +56,6 @@ export function TemplateExecutionContent({
   useEffect(() => {
     const handleSaveInteractions = async () => {
       if (user?.id && interactions.length > 0 && interactionId !== "loading") {
-        console.log("interactionId", interactionId)
         if (interactionId) {
           updateInteraction.mutate(
             {
@@ -65,9 +64,9 @@ export function TemplateExecutionContent({
                 blocks: Object.keys(blocks).map((key) => blocks[key]),
                 data: interactions,
                 events: [],
-                template_id: initialData?.id as string,
-                publication_id: initialData?.publication.id as string,
-                page_id: initialData?.Page.id as string,
+                template_id: pageAndTemplateData?.id as string,
+                publication_id: pageAndTemplateData?.publication.id as string,
+                page_id: pageAndTemplateData?.Page.id as string,
                 user_id: user.id,
               },
             },
@@ -85,9 +84,9 @@ export function TemplateExecutionContent({
               blocks: Object.keys(blocks).map((key) => blocks[key]),
               data: interactions,
               events: [],
-              template_id: initialData?.id as string,
-              publication_id: initialData?.publication.id as string,
-              page_id: initialData?.Page.id as string,
+              template_id: pageAndTemplateData?.id as string,
+              publication_id: pageAndTemplateData?.publication.id as string,
+              page_id: pageAndTemplateData?.Page.id as string,
               user_id: user.id,
             },
             {

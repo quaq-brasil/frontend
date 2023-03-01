@@ -44,7 +44,10 @@ export function ButtonConfig({
       valid: false,
     },
   })
-  const [content, setContent] = useState<IButton>()
+  const [content, setContent] = useState<IButton>({
+    color: "bg-black",
+    text: "",
+  })
   const [saveAs, setSaveAs] = useState<string | null>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
@@ -211,6 +214,7 @@ export function ButtonConfig({
               onColorSelection={(color) =>
                 handleUpdateContent({ color: color })
               }
+              currentColor={content.color}
             />
           </Card>
           <Card>

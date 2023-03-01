@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-import { IPage } from "../../../types/Page.type"
 import { getTemplateBySlugAndPageSlugProps } from "../../../types/Template.type"
 
 import { pageUrls } from "../../../utils/pagesUrl"
@@ -12,24 +11,20 @@ import { TemplateExecutionContent } from "./TemplateExecutionContent"
 
 type TemplateExecutionContent = {
   initialData: getTemplateBySlugAndPageSlugProps | undefined
+  isLoggedIn: boolean
 }
 
 export default function TemplateExecution({
   initialData,
+  isLoggedIn,
 }: TemplateExecutionContent) {
   const text = useTranslation().t
 
-  const [pageData, setPageData] = useState<IPage>(initialData.Page)
-  const [templateData, setTemplateData] =
+  const [pageAndTemplateData, setPageAndTemplateData] =
     useState<getTemplateBySlugAndPageSlugProps>(initialData)
 
   useEffect(() => {
-    setPageData(initialData.Page)
-  }, [initialData])
-
-  useEffect(() => {
-    setTemplateData(initialData)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setPageAndTemplateData(initialData)
   }, [initialData])
 
   const router = useRouter()
@@ -45,25 +40,29 @@ export default function TemplateExecution({
       <Tag
         key={2}
         variant="txt"
-        text={pageData?.title as string}
-        onClick={() => router.push(pageUrls.page(pageData?.slug || ""))}
+        text={pageAndTemplateData.Page.title as string}
+        onClick={() =>
+          router.push(pageUrls.page(pageAndTemplateData.Page.slug || ""))
+        }
       />,
     ]
   }
 
   function loadHeader() {
     return (
-      <Header background_url={pageData?.background_url || ""}>
+      <Header background_url={pageAndTemplateData.Page.background_url || ""}>
         <Tag
           variant="img-txt"
-          text={pageData?.title || ""}
-          img_url={pageData?.avatar_url || ""}
-          onClick={() => router.push(pageUrls.page(pageData?.slug || ""))}
+          text={pageAndTemplateData.Page.title || ""}
+          img_url={pageAndTemplateData.Page.avatar_url || ""}
+          onClick={() =>
+            router.push(pageUrls.page(pageAndTemplateData.Page.slug || ""))
+          }
         />
         <Tag
           variant="img-txt"
-          text={templateData?.title || ""}
-          img_url={templateData?.shortcut_image || ""}
+          text={pageAndTemplateData.title || ""}
+          img_url={pageAndTemplateData.shortcut_image || ""}
         />
       </Header>
     )
@@ -73,8 +72,8 @@ export default function TemplateExecution({
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
       <TemplateExecutionContent
-        initialData={templateData}
-        setTemplateData={setTemplateData}
+        setTemplateData={setPageAndTemplateData}
+        pageAndTemplateData={pageAndTemplateData}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

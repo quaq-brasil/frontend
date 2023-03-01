@@ -20,11 +20,13 @@ import { ExplorerContent } from "./ExplorerContent"
 type ExplorerProps = {
   initialPageData: IPage
   initialTemplatesData: ITemplate[]
+  isLoggedIn?: boolean
 }
 
 export default function Explorer({
   initialPageData,
   initialTemplatesData,
+  isLoggedIn,
 }: ExplorerProps) {
   const text = useTranslation().t
   const router = useRouter()
@@ -45,8 +47,6 @@ export default function Explorer({
 
   const { handleToggleContextMenu, handleCloseContextMenu } = useContextMenu()
 
-  const isSignedIn = user ? true : false
-
   function handleRedirectToLogin() {
     handleCloseContextMenu()
     router.push(pageUrls.login())
@@ -54,7 +54,7 @@ export default function Explorer({
 
   const handleHeaderTagContextMenu = () => {
     const handleContent = () => {
-      if (!isSignedIn) {
+      if (!isLoggedIn) {
         return (
           <div
             className={`flex fixed z-10 top-0 left-0 right-0 bg-image
@@ -97,7 +97,7 @@ export default function Explorer({
   }
 
   function handleTabBar() {
-    if (isSignedIn) {
+    if (isLoggedIn) {
       return [
         <Tag
           key={1}
@@ -130,7 +130,7 @@ export default function Explorer({
   }
 
   function loadHeader() {
-    if (isSignedIn) {
+    if (isLoggedIn) {
       return (
         <Header background_url={pageData?.background_url || ""}>
           {handleMainTag()}
