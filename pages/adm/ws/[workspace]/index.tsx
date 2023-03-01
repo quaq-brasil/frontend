@@ -45,12 +45,12 @@ export default function WorkspaceSettingsPage({
 }
 
 type Params = {
-  workspaceSlug: string
+  workspace: string
 } & ParsedUrlQuery
 
 export const getServerSideProps: GetServerSideProps = withAuth(
-  async (ctx: any, cookies: any, payload: any) => {
-    const { workspaceSlug } = ctx.params as Params
+  async (ctx: { params: Params }, cookies: any, payload: any) => {
+    const { workspaceSlug } = ctx.params
 
     async function getWorkspace({ cookies }: redirectNotFoundVerifyProps) {
       const { data: workspacesData } = await api.get(

@@ -105,7 +105,7 @@ export function GeneralSettingsContent({
   }, [debouncedPageTitle])
 
   function onPageUpdate() {
-    handleUpdatePage(pageData as IUpdatePage)
+    handleUpdatePage(pageData)
     handleUpdateIsUpdating(false)
   }
 

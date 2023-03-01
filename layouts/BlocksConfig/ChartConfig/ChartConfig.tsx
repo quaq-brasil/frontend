@@ -125,16 +125,13 @@ export default function ChartConfig({
       case "update":
         if (newData) {
           const updateDatasets = [...datasets]
-          updateDatasets[id as number] = {
+          updateDatasets[id] = {
             backgroundColor:
-              newData.backgroundColor ||
-              updateDatasets[id as number].backgroundColor,
-            data: newData.data || updateDatasets[id as number].data,
-            label: newData.label || updateDatasets[id as number].label,
-            borderColor:
-              newData.borderColor || updateDatasets[id as number].borderColor,
-            borderWidth:
-              newData.borderWidth || updateDatasets[id as number].borderWidth,
+              newData.backgroundColor || updateDatasets[id].backgroundColor,
+            data: newData.data || updateDatasets[id].data,
+            label: newData.label || updateDatasets[id].label,
+            borderColor: newData.borderColor || updateDatasets[id].borderColor,
+            borderWidth: newData.borderWidth || updateDatasets[id].borderWidth,
           }
           setDatasets([...updateDatasets])
           handleUpdateContent({ data: { datasets: updateDatasets } })
@@ -143,7 +140,7 @@ export default function ChartConfig({
         break
       case "delete":
         const newDatasets = [...(datasets as IDatasets[])]
-        newDatasets.splice(id as number, 1)
+        newDatasets.splice(id, 1)
         if (newDatasets) {
           handleUpdateContent({ data: { datasets: newDatasets } })
         } else {

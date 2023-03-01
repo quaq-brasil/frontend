@@ -51,8 +51,8 @@ type Params = {
 } & ParsedUrlQuery
 
 export const getServerSideProps: GetServerSideProps = withAuth(
-  async (ctx: any, cookies: any, payload: any) => {
-    const { page } = ctx.params as Params
+  async (ctx: { params: Params }, cookies: any, payload: any) => {
+    const { page } = ctx.params
 
     async function getWorkspacesAndCurrentPage({
       cookies,

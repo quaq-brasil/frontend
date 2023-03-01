@@ -51,12 +51,12 @@ export default function WorkspaceDeletePage({
 }
 
 type Params = {
-  workspaceSlug: string
+  workspace: string
 } & ParsedUrlQuery
 
 export const getServerSideProps: GetServerSideProps = withAuth(
-  async (ctx: any, cookies: any, payload: any) => {
-    const { workspaceSlug } = ctx.params as Params
+  async (ctx: { params: Params }, cookies: any, payload: any) => {
+    const { workspace: workspaceSlug } = ctx.params
 
     async function getWorkspace({ cookies }: redirectNotFoundVerifyProps) {
       const { data: userData } = await api.get("users", {

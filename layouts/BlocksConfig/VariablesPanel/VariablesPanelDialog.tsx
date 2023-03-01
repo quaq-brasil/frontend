@@ -324,7 +324,7 @@ export const VariablesPanelDialog = ({
         handleRenderPageContent()
       ) : (
         <VariablesPanelSources
-          connectedTemplates={connectedTemplates as ConnectedTemplatesProps[]}
+          connectedTemplates={connectedTemplates}
           handleAddConnectedTemplate={handleAddConnectedTemplate}
           handleDisconnectSource={handleDisconnectSource}
         />

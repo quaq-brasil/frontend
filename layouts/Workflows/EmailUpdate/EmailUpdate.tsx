@@ -24,7 +24,7 @@ export function EmailUpdate({
   const [runUpdate, setRunUpdate] = useState(false)
 
   useEffect(() => {
-    setUserData(initialUserData as IUser | null)
+    setUserData(initialUserData as IUser)
   }, [initialUserData])
 
   function handleUpdateIsUpdating(stat: boolean) {
