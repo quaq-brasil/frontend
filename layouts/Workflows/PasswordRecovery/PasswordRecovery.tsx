@@ -8,14 +8,7 @@ export function PasswordRecovery() {
   const text = useTranslation().t
 
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("pwrecovery:tab1")}
-        onClick={() => console.log("tab1")}
-      />,
-    ]
+    return [<Tag key={1} variant="txt" text={text("pwrecovery:tab1")} />]
   }
 
   return (

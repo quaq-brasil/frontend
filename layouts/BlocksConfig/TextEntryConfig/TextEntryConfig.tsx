@@ -58,7 +58,6 @@ export function TextEntryConfig({
         ...newData,
       } as FormDataProps
     })
-    console.log(formData)
   }
 
   function handleUpdateContent(newData: ITextEntry) {

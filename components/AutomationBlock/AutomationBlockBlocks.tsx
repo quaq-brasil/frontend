@@ -30,10 +30,9 @@ export function AutomationBlockBlocks(props: AutomationBlockBlocksProps) {
         height={props.size}
         isOpen={props.isOpen}
         title={text("automationblock:toptitle")}
-        onClose={() => console.log("closed")}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
-          <BlockSelector onBlockSelect={() => console.log()} />
+          <BlockSelector />
           <TabBar
             isHidden={props.size === "sm" ? true : false}
             tags={handleTabBar()}

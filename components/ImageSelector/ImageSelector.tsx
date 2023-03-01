@@ -37,10 +37,6 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
     setImageUrl(url || "")
   }, [url])
 
-  useEffect(() => {
-    console.log(imageUrl)
-  }, [imageUrl])
-
   const onDrop = async (acceptedFiles: File[]) => {
     setIsLoading(true)
     setError("")
@@ -74,7 +70,6 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
       } else {
         createFile.mutate(file, {
           onSuccess: (data) => {
-            console.log("data", data)
             setImageUrl(data.fileUrl)
             onImageChange(data.fileUrl)
           },

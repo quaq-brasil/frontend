@@ -185,42 +185,7 @@ export function PoolConfig({
     option,
     value,
   }: HandleUpdateOptionsProps) {
-    switch (option) {
-      case "add":
-        if (content.options) {
-          const options = content.options
-          options.push({ id: content.options.length, value: "" })
-          handleUpdateContent({ options: options })
-        }
-        break
-      case "remove":
-        if (content.options) {
-          const newOptions = [...content.options]
-          newOptions.slice(id, 1)
-          if (newOptions) {
-            handleUpdateContent({ options: newOptions })
-          } else {
-            handleUpdateFormData({ options: { valid: false } })
-          }
-        }
-        break
-      case "update":
-        if (content.options) {
-          const options = content.options.map((option) => {
-            if (option.id == id) {
-              option.value = value
-              return option
-            } else {
-              return option
-            }
-          })
-          handleUpdateContent({ options: options as options[] })
-          handleUpdateFormData({ options: { valid: true } })
-        }
-        break
-    }
-
-    const options = [...(content.options as options[])]
+    const options = [...(content.options || [])]
 
     if (option === "add") {
       options.push({ id: options.length, value: "" })
@@ -237,6 +202,10 @@ export function PoolConfig({
     }
 
     handleUpdateContent({ options })
+
+    const valid =
+      options.length > 0 && options.every((option) => option.value !== "")
+    handleUpdateFormData({ options: { valid } })
   }
 
   const handleOpenVariablePanelForOption = ({

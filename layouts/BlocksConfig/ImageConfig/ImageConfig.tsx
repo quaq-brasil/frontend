@@ -165,11 +165,7 @@ export function ImageConfig({
 
   return (
     <>
-      <Dialog
-        isOpen={isOpen}
-        title={text("imageconfig:toptitle")}
-        onClose={() => console.log("closed")}
-      >
+      <Dialog isOpen={isOpen} title={text("imageconfig:toptitle")}>
         <div className="flex flex-col items-center gap-3">
           <Card>
             <CardText label={text("imageconfig:image")} />

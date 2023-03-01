@@ -23,7 +23,7 @@ import { CreatorPageContent } from "./CreatorPageContent"
 
 type CreatorPageProps = {
   initialWorkspacesData: IWorkspace[] | undefined
-  initialCurrentPageData?: IPage | undefined
+  initialCurrentPageData?: IPage
 }
 
 export default function CreatorPage({

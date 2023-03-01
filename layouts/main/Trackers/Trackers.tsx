@@ -1,29 +1,22 @@
-import useTranslation from "next-translate/useTranslation";
-import { Card } from "../../../components/Card/Card";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput";
-import { Dialog } from "../../../components/Dialog/Dialog";
-import { TabBar } from "../../../components/TabBar/TabBar";
-import { Tag } from "../../../components/Tag/Tag";
+import useTranslation from "next-translate/useTranslation"
+import { Card } from "../../../components/Card/Card"
+import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
+import { Dialog } from "../../../components/Dialog/Dialog"
+import { TabBar } from "../../../components/TabBar/TabBar"
+import { Tag } from "../../../components/Tag/Tag"
 
 type TrackersProps = {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  size?: "sm" | "md" | "full";
-};
+  isOpen: boolean
+  setIsOpen: (isOpen: boolean) => void
+  size?: "sm" | "md" | "full"
+}
 
 export function Trackers(props: TrackersProps) {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("trackers:tab1")}
-        onClick={() => console.log("tab1")}
-      />,
-    ];
+    return [<Tag key={1} variant="txt" text={text("trackers:tab1")} />]
   }
 
   return (
@@ -32,7 +25,6 @@ export function Trackers(props: TrackersProps) {
         height={props.size}
         isOpen={props.isOpen}
         title={text("trackers:toptitle")}
-        onClose={() => console.log("closed")}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
           <Card>
@@ -40,7 +32,6 @@ export function Trackers(props: TrackersProps) {
             <CardTextInput
               input={{
                 label: text("trackers:label1"),
-                onChange: (e) => console.log(e),
               }}
             />
           </Card>
@@ -49,7 +40,6 @@ export function Trackers(props: TrackersProps) {
             <CardTextInput
               input={{
                 label: text("trackers:label2"),
-                onChange: (e) => console.log(e),
               }}
             />
           </Card>
@@ -70,5 +60,5 @@ export function Trackers(props: TrackersProps) {
         />
       </Dialog>
     </>
-  );
+  )
 }

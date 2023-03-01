@@ -146,7 +146,6 @@ export function EditTemplateContent({
               indicator={{
                 icon: Check,
                 bgColor: "green-500",
-                onClick: () => console.log(),
               }}
             />
           </Card>

@@ -92,17 +92,10 @@ export function CreationsConfigTemplates(props: CreationsConfigTemplatesProps) {
 
   return (
     <>
-      <Dialog
-        height={props.size}
-        isOpen={props.isOpen}
-        title={"Page Title"}
-        onClose={() => console.log("closed")}
-      >
+      <Dialog height={props.size} isOpen={props.isOpen} title={"Page Title"}>
         <div className="flex flex-col items-center gap-3 lg:gap-6">
           <div className="fixed w-full h-min-[100%] px-2">
-            <ShortcutGrid onDrag={(e) => console.log(e)}>
-              {loadTemplates()}
-            </ShortcutGrid>
+            <ShortcutGrid>{loadTemplates()}</ShortcutGrid>
           </div>
         </div>
         <TabBar

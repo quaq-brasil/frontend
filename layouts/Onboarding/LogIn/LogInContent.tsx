@@ -31,7 +31,6 @@ export function LoginContent({
         md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:p-[2rem]"
       >
         <div className="flex flex-col gap-2 md:gap-4 items-center">
-          {/* <QuickIn currentUrl={(e) => console.log(e)} /> */}
           <Card>
             <CardText label={text("login:getemail")} />
             <CardTextInput

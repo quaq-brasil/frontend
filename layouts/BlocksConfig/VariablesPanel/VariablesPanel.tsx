@@ -195,7 +195,6 @@ export const VariablesPanel = ({
       height={size}
       isOpen={isOpen}
       title={text("variablespanel:variables")}
-      onClose={() => console.log("closed")}
     >
       <TabBar
         isHidden={false}

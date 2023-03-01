@@ -126,7 +126,6 @@ export function AutomationConfig({
           triggers[index1].conditionals[index2].second_variable,
       }
       handleUpdateContent({ triggers: triggers })
-      console.log(triggers)
     }
   }
 
@@ -232,7 +231,6 @@ export function AutomationConfig({
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
               }}
             />
           </Card>
@@ -357,7 +355,6 @@ export function AutomationConfig({
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
               }}
             />
           </Card>
