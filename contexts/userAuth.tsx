@@ -10,7 +10,7 @@ import {
 } from "react"
 import { useLogin } from "../services/hooks/useUser/useLogin"
 import { queryClient } from "../services/queryClient"
-import { IUser } from "../types/User.type"
+import { IUpdateUser } from "../types/User.type"
 import { getPayload } from "../utils/auth"
 import { appGetCookie } from "../utils/cookies"
 import { pageUrls } from "../utils/pagesUrl"
@@ -20,14 +20,14 @@ type AuthProviderProps = {
 }
 
 type AuthContextData = {
-  user: IUser | null
+  user: IUpdateUser | null
   signOut: () => void
 }
 
 export const AuthContext = createContext({} as AuthContextData)
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<IUser | null>({ type: "registered" })
+  const [user, setUser] = useState<IUpdateUser | null>({ type: "registered" })
   const login = useLogin()
 
   useEffect(() => {

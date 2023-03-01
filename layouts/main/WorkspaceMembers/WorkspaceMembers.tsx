@@ -10,16 +10,24 @@ import { WorkspaceMembersContent } from "./WorkspaceMembersContent"
 
 type WorkspaceMembersProps = {
   initialWorkspaceData: IUpdateWorkspace | undefined
-  handleUpdateWorkspace: (data: IUpdateWorkspace) => void
 }
 
 export default function WorkspaceMembers({
-  handleUpdateWorkspace,
   initialWorkspaceData,
 }: WorkspaceMembersProps) {
   const text = useTranslation().t
 
-  const [workspaceData, setWorkspaceData] = useState<IUpdateWorkspace>()
+  const [workspaceData, setWorkspaceData] =
+    useState<IUpdateWorkspace>(initialWorkspaceData)
+
+  function handleUpdateWorkspaceData(newData: IUpdateWorkspace) {
+    setWorkspaceData((state) => {
+      return {
+        ...state,
+        ...newData,
+      }
+    })
+  }
 
   useEffect(() => {
     setWorkspaceData(initialWorkspaceData)
@@ -70,8 +78,8 @@ export default function WorkspaceMembers({
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
       <WorkspaceMembersContent
-        handleUpdateWorkspaceData={handleUpdateWorkspace}
         workspaceData={workspaceData}
+        handleUpdateWorkspaceData={handleUpdateWorkspaceData}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

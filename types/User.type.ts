@@ -1,4 +1,20 @@
 export type IUser = {
+  id: string
+  email: string
+  password: string
+  type: string
+  email_verified: boolean
+  password_reset_token_attempts: number
+  name: string
+  avatar_url: string
+  services: any[]
+  confirmation_token: string
+  last_login: string
+  created_at: string
+  updated_at: string
+}
+
+export type IUpdateUser = {
   id?: string
   email?: string
   password?: string
@@ -7,30 +23,11 @@ export type IUser = {
   password_reset_token_attempts?: number
   name?: string
   avatar_url?: string
-  stripe_customer_id?: string
-  email_activation_token?: string
-  password_reset_token?: string
-  email_activation_token_expires?: Date
-  password_reset_token_expires?: Date
-  last_login?: Date
-  workspace_id?: string
-}
-
-export type IUpdateUser = {
-  email?: string
-  password?: string
-  type?: string
-  email_verified?: boolean
-  password_reset_token_attempts?: number
-  name?: string
-  avatar_url?: string
-  stripe_customer_id?: string
-  email_activation_token?: string
-  password_reset_token?: string
-  email_activation_token_expires?: Date
-  password_reset_token_expires?: Date
-  last_login?: Date
-  workspace_id?: string
+  services?: any[]
+  confirmation_token?: string
+  last_login?: string
+  created_at?: string
+  updated_at?: string
 }
 
 export type IUserLogin = {

@@ -9,5 +9,10 @@
   "terms": "terms and policies",
   "advanced": "advanced",
   "options": "options",
-  "members": "members"
+  "members": "members",
+  "addmember": "new member",
+  "memberexample": "email@example.com",
+  "newmember": "new member email",
+  "add": "add new member",
+  "emailunique": "the email must be unique"
 }

@@ -35,7 +35,6 @@ export default function FirstWorkspacePage({ data }: FirstWorkspacePageProps) {
           title: data.title,
           slug: data.title,
           avatar_url: data.avatar_url,
-          user_id: getUser.data.id,
           services: [{ type: "", description: "" }],
         },
       },
