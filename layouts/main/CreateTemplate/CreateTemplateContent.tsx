@@ -168,7 +168,7 @@ export function CreateTemplateContent({
           <div className="flex flex-col gap-2 md:gap-4 items-center">
             <BlockSelector onBlockSelect={handleBlockSelection} />
             <RenderBlockConfig
-              block={blockSelected as string}
+              block={blockSelected}
               isOpen={isOpen}
               onClose={handleBlockConfigClosing}
               handleAddBlock={handleAddBlock}

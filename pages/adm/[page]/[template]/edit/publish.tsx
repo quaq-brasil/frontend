@@ -37,7 +37,7 @@ export default function EditTemplatePage({
 
   const handleUpdateTemplate = (data: IUpdateTemplate) => {
     updateTemplate.mutate({
-      id: getPageAndTemplate.data.id as string,
+      id: getPageAndTemplate.data.id,
       data: {
         ...data,
       },

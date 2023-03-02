@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
 import { useState } from "react"
-import SignUp from "../layouts/Onboarding/Signup/SignUp"
+import SignUp from "../layouts/Onboarding/SignUp/SignUp"
 
 import { useCreateUser } from "../services/hooks/useUser/useCreateUser"
 import { useUpdateUser } from "../services/hooks/useUser/useUpdateUser"
@@ -21,7 +21,7 @@ export default function LoginPage() {
       { data: {} },
       {
         onSuccess: (data) => {
-          setUserId(data.id as string)
+          setUserId(data.id)
         },
       }
     )

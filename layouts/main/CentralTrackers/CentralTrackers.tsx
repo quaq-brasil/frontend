@@ -72,8 +72,8 @@ export default function CentralTrackers({
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData?.slug as string,
-                templateSlug: templateData?.slug as string,
+                pageSlug: pageData?.slug,
+                templateSlug: templateData?.slug,
                 settings: "central",
               })
             )
@@ -96,8 +96,8 @@ export default function CentralTrackers({
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData?.slug as string,
-                templateSlug: templateData?.slug as string,
+                pageSlug: pageData?.slug,
+                templateSlug: templateData?.slug,
                 settings: "central",
               })
             )
@@ -123,8 +123,8 @@ export default function CentralTrackers({
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData?.slug as string,
-                templateSlug: templateData?.slug as string,
+                pageSlug: pageData?.slug,
+                templateSlug: templateData?.slug,
                 settings: "central",
               })
             )

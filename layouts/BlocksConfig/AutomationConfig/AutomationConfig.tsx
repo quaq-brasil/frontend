@@ -231,7 +231,6 @@ export function AutomationConfig({
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => {},
               }}
             />
           </Card>
@@ -356,7 +355,6 @@ export function AutomationConfig({
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => {},
               }}
             />
           </Card>

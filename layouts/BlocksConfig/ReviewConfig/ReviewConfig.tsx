@@ -98,7 +98,7 @@ export function ReviewConfig({
   useEffect(() => {
     if (blockData) {
       setContent(blockData.data)
-      setSaveAs(blockData.save_as as string)
+      setSaveAs(blockData.save_as)
       handleUpdateFormData({
         description: { valid: true },
         saveAs: { valid: true },

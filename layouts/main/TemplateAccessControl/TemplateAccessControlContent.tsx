@@ -36,13 +36,11 @@ export function TemplateAccessControlContent({
             <CardTextInput
               input={{
                 label: text("accesscontrol:linklabel"),
-                onChange: () => {},
                 value: templateData?.slug,
                 fixedText: `quaq.me/${pageData?.slug}/`,
               }}
               indicator={{
                 icon: Check,
-                onClick: () => {},
                 bgColor: "green-500",
               }}
             />

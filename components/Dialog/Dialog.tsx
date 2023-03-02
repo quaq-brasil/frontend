@@ -3,7 +3,7 @@ import { Fragment } from "react"
 
 type DialogProps = {
   isOpen: boolean
-  onClose: () => void
+  onClose?: () => void
   children: React.ReactNode
   title?: string
   height?: "full" | "md" | "sm"

@@ -32,7 +32,6 @@ export function ToggleConfig(props: ToggleConfigProps) {
         height={props.size}
         isOpen={props.isOpen}
         title={text("toggleconfig:toptitle")}
-        onClose={() => "closed"}
       >
         <div className="flex flex-col gap-3 lg:gap-6 items-center">
           <Card>
@@ -40,11 +39,9 @@ export function ToggleConfig(props: ToggleConfigProps) {
             <CardTextInput
               input={{
                 label: text("toggleconfig:label1"),
-                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => "click",
               }}
             />
           </Card>
@@ -53,11 +50,9 @@ export function ToggleConfig(props: ToggleConfigProps) {
             <CardTextInput
               input={{
                 label: text("toggleconfig:label2"),
-                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => "click",
               }}
             />
           </Card>

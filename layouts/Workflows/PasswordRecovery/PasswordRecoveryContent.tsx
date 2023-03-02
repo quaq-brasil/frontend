@@ -20,7 +20,6 @@ export function PasswordRecoveryContent() {
             <CardTextInput
               input={{
                 label: text("pwrecovery:inputpassword"),
-                onChange: (e) => e,
                 type: "password",
               }}
             />
@@ -30,7 +29,6 @@ export function PasswordRecoveryContent() {
             <CardTextInput
               input={{
                 label: text("pwrecovery:inputconfirmation"),
-                onChange: (e) => e,
                 type: "password",
               }}
             />

@@ -44,7 +44,7 @@ export default function TemplateAccessControlPage({
   function handleUpdateTemplate(data: IUpdateTemplate) {
     updateTemplate.mutate(
       {
-        id: getPageAndTemplate?.data.id as string,
+        id: getPageAndTemplate?.data.id,
         data: {
           ...data,
         },
@@ -53,7 +53,7 @@ export default function TemplateAccessControlPage({
         onSuccess: (data) => {
           router.push(
             pageUrls.templateCentral({
-              pageSlug: getPageAndTemplate.data.Page.slug as string,
+              pageSlug: getPageAndTemplate.data.Page.slug,
               templateSlug: data.slug,
               settings: "central",
             })
@@ -78,8 +78,8 @@ type Params = {
 } & ParsedUrlQuery
 
 export const getServerSideProps: GetServerSideProps = withAuth(
-  async (ctx: any, cookies: any, payload: any) => {
-    const { page, template } = ctx.params as Params
+  async (ctx: { params: Params }, cookies: any, payload: any) => {
+    const { page, template } = ctx.params
 
     async function getPageAndTemplate({
       cookies,

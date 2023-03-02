@@ -55,8 +55,8 @@ type Params = {
 } & ParsedUrlQuery
 
 export const getServerSideProps: GetServerSideProps = withAuth(
-  async (ctx: any, cookies: any, payload: any) => {
-    const { workspace } = ctx.params as Params
+  async (ctx: { params: Params }, cookies: any, payload: any) => {
+    const { workspace } = ctx.params
 
     async function getWorkspace({ cookies }: redirectNotFoundVerifyProps) {
       const { data: userData } = await api.get("users", {

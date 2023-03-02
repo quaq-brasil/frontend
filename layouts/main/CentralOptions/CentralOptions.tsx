@@ -86,7 +86,6 @@ export default function CentralOptions({
         //   key={2}
         //   variant="txt"
         //   text={text("centraloptions:options")}
-        //   onClick={() => console.log()}
         //   isSelected
         //   isSeparated
         // />,
@@ -94,13 +93,11 @@ export default function CentralOptions({
         //   key={3}
         //   variant="txt"
         //   text={text("centraloptions:logs")}
-        //   onClick={() => console.log()}
         // />,
         // <Tag
         //   key={4}
         //   variant="txt"
         //   text={text("centraloptions:stats")}
-        //   onClick={() => console.log()}
         // />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -131,9 +128,9 @@ export default function CentralOptions({
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData?.slug as string,
+                pageSlug: pageData?.slug,
                 settings: "central",
-                templateSlug: templateData?.slug as string,
+                templateSlug: templateData?.slug,
               })
             )
           }
@@ -147,9 +144,9 @@ export default function CentralOptions({
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData?.slug as string,
+                pageSlug: pageData?.slug,
                 settings: "logs",
-                templateSlug: templateData?.slug as string,
+                templateSlug: templateData?.slug,
               })
             )
           }
@@ -158,7 +155,6 @@ export default function CentralOptions({
         //   key={4}
         //   variant="txt"
         //   text={text("centraloptions:stats")}
-        //   onClick={() => console.log()}
         // />,
       ]
     }

@@ -12,7 +12,7 @@ export const useGetPageSlug = () => {
       `/pages/generate_unique_slug`,
       { name, id }
     )
-    return response.data as string
+    return response.data
   }
 
   return useMutation({

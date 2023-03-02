@@ -23,7 +23,7 @@ import { CreatorPageContent } from "./CreatorPageContent"
 
 type CreatorPageProps = {
   initialWorkspacesData: IWorkspace[] | undefined
-  initialCurrentPageData?: IPage | undefined
+  initialCurrentPageData?: IPage
 }
 
 export default function CreatorPage({
@@ -60,7 +60,7 @@ export default function CreatorPage({
       if (newCurrentWorkspace[0]) {
         setCurrentWorkspace(newCurrentWorkspace[0])
         getPages.mutate(
-          { id: newCurrentWorkspace[0].id as string },
+          { id: newCurrentWorkspace[0].id },
           {
             onSuccess: (data) => {
               setPages(data)
@@ -71,7 +71,7 @@ export default function CreatorPage({
     } else if (workspaces && workspaces.length > 0) {
       setCurrentWorkspace(workspaces[0])
       getPages.mutate(
-        { id: workspaces[0].id as string },
+        { id: workspaces[0].id },
         {
           onSuccess: (data) => {
             setPages(data)
@@ -86,7 +86,7 @@ export default function CreatorPage({
   function handleCurrentWorkspaceUpdate(newWorkspace: IWorkspace) {
     setCurrentWorkspace(newWorkspace)
     getPages.mutate(
-      { id: newWorkspace.id as string },
+      { id: newWorkspace.id },
       {
         onSuccess: (data) => {
           setPages(data)
@@ -351,7 +351,7 @@ export default function CreatorPage({
         text={text("creatorpage:new")}
         onClick={() => {
           handleCloseContextMenu()
-          router.push(pageUrls.createTemplate(currentPage?.slug as string))
+          router.push(pageUrls.createTemplate(currentPage?.slug))
         }}
       />,
       <div key={3} className="xl:hidden w-fit">
@@ -395,9 +395,7 @@ export default function CreatorPage({
               variant="txt"
               text={text("creatorpage:new")}
               onClick={() =>
-                router.push(
-                  pageUrls.createTemplate(currentPage?.slug as string)
-                )
+                router.push(pageUrls.createTemplate(currentPage?.slug))
               }
             />
           </div>
@@ -484,7 +482,7 @@ export default function CreatorPage({
     if (currentPage) {
       getTemplates.mutate(
         {
-          id: currentPage.id as string,
+          id: currentPage.id,
         },
         {
           onSuccess: (data) => {

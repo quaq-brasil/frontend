@@ -143,7 +143,7 @@ export function WebhookConfig({
     handleAddBlock({
       id: v4(),
       type: "webhook",
-      save_as: saveAs as string,
+      save_as: saveAs,
       data: {
         ...content,
         body: `{${content?.body}}`,

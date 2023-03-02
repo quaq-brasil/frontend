@@ -44,7 +44,6 @@ export function FileEntryConfig(props: FileEntryConfigProps) {
         height={props.size}
         isOpen={props.isOpen}
         title={text("fileentryconfig:toptitle")}
-        onClose={() => "closed"}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
           <Card>
@@ -52,9 +51,8 @@ export function FileEntryConfig(props: FileEntryConfigProps) {
             <CardTextInput
               input={{
                 label: text("fileentryconfig:label"),
-                onChange: () => {},
               }}
-              indicator={{ icon: BracketsCurly, onClick: () => {} }}
+              indicator={{ icon: BracketsCurly }}
             />
           </Card>
           <Card>
@@ -62,9 +60,8 @@ export function FileEntryConfig(props: FileEntryConfigProps) {
             <CardTextInput
               input={{
                 label: text("fileentryconfig:label2"),
-                onChange: () => {},
               }}
-              indicator={{ icon: BracketsCurly, onClick: () => {} }}
+              indicator={{ icon: BracketsCurly }}
             />
           </Card>
 
@@ -109,9 +106,8 @@ export function FileEntryConfig(props: FileEntryConfigProps) {
             <CardTextInput
               input={{
                 label: text("fileentryconfig:labelsave"),
-                onChange: () => {},
               }}
-              indicator={{ icon: BracketsCurly, onClick: () => {} }}
+              indicator={{ icon: BracketsCurly }}
             />
           </Card>
           {props.size === "sm" && (

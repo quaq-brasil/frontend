@@ -4,7 +4,7 @@ import { HTML5Backend } from "react-dnd-html5-backend"
 
 type ShortcutGridProps = {
   children: ReactNode[]
-  onDrag: (event: any) => void
+  onDrag?: (event: any) => void
 }
 
 export const ShortcutGrid = ({ children, onDrag }: ShortcutGridProps) => {

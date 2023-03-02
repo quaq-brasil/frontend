@@ -41,7 +41,6 @@ export function RedirectConfig(props: RedirectConfigProps) {
       <Dialog
         height={props.size}
         isOpen={props.isOpen}
-        onClose={() => {}}
         title={text("redirectconfig:toptitle")}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6 scrollbar-hide">
@@ -50,11 +49,9 @@ export function RedirectConfig(props: RedirectConfigProps) {
             <CardTextInput
               input={{
                 label: text("redirectconfig:descriptionlabel"),
-                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => "click",
               }}
             />
           </Card>
@@ -63,11 +60,9 @@ export function RedirectConfig(props: RedirectConfigProps) {
             <CardTextInput
               input={{
                 label: text("redirectconfig:linklabel"),
-                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => "click",
               }}
             />
           </Card>
@@ -97,9 +92,7 @@ export function RedirectConfig(props: RedirectConfigProps) {
           {redirectType === "manual" && (
             <Card>
               <CardText label={text("redirectconfig:coverimage")} />
-              <CardImageInput
-                imageSelector={<ImageSelector onImageChange={() => {}} />}
-              />
+              <CardImageInput imageSelector={<ImageSelector />} />
             </Card>
           )}
 
@@ -108,11 +101,9 @@ export function RedirectConfig(props: RedirectConfigProps) {
             <CardTextInput
               input={{
                 label: text("redirectconfig:saveaslabel"),
-                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => "click",
               }}
             />
           </Card>

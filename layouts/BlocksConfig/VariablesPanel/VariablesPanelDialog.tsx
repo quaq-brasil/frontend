@@ -88,12 +88,12 @@ export const VariablesPanelDialog = ({
         {
           data: {
             blocks: blocks,
-            creator_id: user?.id as string,
+            creator_id: user?.id,
             template_id: templateData ? templateData.id : "",
             connected_templates: connectedTemplates
-              ? (connectedTemplates.map((template) => {
+              ? connectedTemplates.map((template) => {
                   return template.templateId
-                }) as string[])
+                })
               : [],
           },
         },
@@ -324,7 +324,7 @@ export const VariablesPanelDialog = ({
         handleRenderPageContent()
       ) : (
         <VariablesPanelSources
-          connectedTemplates={connectedTemplates as ConnectedTemplatesProps[]}
+          connectedTemplates={connectedTemplates}
           handleAddConnectedTemplate={handleAddConnectedTemplate}
           handleDisconnectSource={handleDisconnectSource}
         />

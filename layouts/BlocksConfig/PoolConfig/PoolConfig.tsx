@@ -119,7 +119,7 @@ export function PoolConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "pool",
-      save_as: saveAs as string,
+      save_as: saveAs,
       data: content,
     })
     handleClosing()
@@ -128,7 +128,7 @@ export function PoolConfig({
   useEffect(() => {
     if (blockData) {
       setContent(blockData.data)
-      setSaveAs(blockData.save_as as string)
+      setSaveAs(blockData.save_as)
       handleUpdateFormData({
         description: { valid: true },
         options: { valid: true },
@@ -185,42 +185,7 @@ export function PoolConfig({
     option,
     value,
   }: HandleUpdateOptionsProps) {
-    switch (option) {
-      case "add":
-        if (content.options) {
-          const options = content.options
-          options.push({ id: content.options.length, value: "" })
-          handleUpdateContent({ options: options })
-        }
-        break
-      case "remove":
-        if (content.options) {
-          const newOptions = [...content.options]
-          newOptions.slice(id, 1)
-          if (newOptions) {
-            handleUpdateContent({ options: newOptions })
-          } else {
-            handleUpdateFormData({ options: { valid: false } })
-          }
-        }
-        break
-      case "update":
-        if (content.options) {
-          const options = content.options.map((option) => {
-            if (option.id == id) {
-              option.value = value
-              return option
-            } else {
-              return option
-            }
-          })
-          handleUpdateContent({ options: options as options[] })
-          handleUpdateFormData({ options: { valid: true } })
-        }
-        break
-    }
-
-    const options = [...(content.options as options[])]
+    const options = [...(content.options || [])]
 
     if (option === "add") {
       options.push({ id: options.length, value: "" })
@@ -237,6 +202,10 @@ export function PoolConfig({
     }
 
     handleUpdateContent({ options })
+
+    const valid =
+      options.length > 0 && options.every((option) => option.value !== "")
+    handleUpdateFormData({ options: { valid } })
   }
 
   const handleOpenVariablePanelForOption = ({
@@ -405,7 +374,7 @@ export function PoolConfig({
               input={{
                 label: text("poolconfig:saveaslabel"),
                 onChange: (e) => handleUpdateSaveAs(e),
-                inputValue: saveAs as string,
+                inputValue: saveAs,
               }}
               indicator={{
                 icon: BracketsCurly,

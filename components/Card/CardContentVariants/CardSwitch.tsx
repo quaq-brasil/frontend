@@ -1,18 +1,18 @@
-import { Switch } from "@headlessui/react";
-import { useState } from "react";
+import { Switch } from "@headlessui/react"
+import { useState } from "react"
 
 type CardSwitchProps = {
-  text: string;
-  onChange: (state: boolean) => void;
-  showStatus?: boolean;
-};
+  text: string
+  onChange?: (state: boolean) => void
+  showStatus?: boolean
+}
 
 export function CardSwitch(props: CardSwitchProps) {
-  const [enabled, setEnabled] = useState(false);
+  const [enabled, setEnabled] = useState(false)
 
   function handleSwitch() {
-    setEnabled(!enabled);
-    props.onChange(!enabled);
+    setEnabled(!enabled)
+    props.onChange(!enabled)
   }
 
   return (
@@ -35,5 +35,5 @@ export function CardSwitch(props: CardSwitchProps) {
         />
       </Switch>
     </div>
-  );
+  )
 }

@@ -19,7 +19,7 @@ import { useState } from "react"
 import { Tag } from "../Tag/Tag"
 
 type BlockSelectorProps = {
-  onBlockSelect: (type: string | undefined) => void
+  onBlockSelect?: (type: string | undefined) => void
 }
 
 export function BlockSelector(props: BlockSelectorProps) {

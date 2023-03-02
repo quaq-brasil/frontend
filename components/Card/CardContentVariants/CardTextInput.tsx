@@ -4,7 +4,7 @@ import { useValidation } from "../../../hooks/useValidation"
 
 type CardTextInputProps = {
   input?: {
-    onChange: (value: string) => void
+    onChange?: (value: string) => void
     type?: "name" | "email" | "password" | "text" | "title"
     label?: string
     fixedText?: string
@@ -18,7 +18,7 @@ type CardTextInputProps = {
   indicator?: {
     icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
     bgColor?: string
-    onClick: () => void
+    onClick?: () => void
   }
   dropdown?: {
     options: DropdownOptions[]

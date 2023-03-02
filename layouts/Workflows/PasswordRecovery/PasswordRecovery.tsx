@@ -3,7 +3,6 @@ import { useRouter } from "next/router"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-import { pageUrls } from "../../../utils/pagesUrl"
 import { PasswordRecoveryContent } from "./PasswordRecoveryContent"
 
 export function PasswordRecovery() {
@@ -11,14 +10,7 @@ export function PasswordRecovery() {
   const router = useRouter()
 
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("pwrecovery:tab1")}
-        onClick={() => router.push(pageUrls.home())}
-      />,
-    ]
+    return [<Tag key={1} variant="txt" text={text("pwrecovery:tab1")} />]
   }
 
   return (

@@ -32,7 +32,6 @@ export function CounterConfig(props: CounterConfigProps) {
         height={props.size}
         isOpen={props.isOpen}
         title={text("counterconfig:toptitle")}
-        onClose={() => "closed"}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
           <Card>
@@ -40,11 +39,9 @@ export function CounterConfig(props: CounterConfigProps) {
             <CardTextInput
               input={{
                 label: text("counterconfig:label1"),
-                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => "click",
               }}
             />
           </Card>
@@ -53,11 +50,9 @@ export function CounterConfig(props: CounterConfigProps) {
             <CardTextInput
               input={{
                 label: text("counterconfig:label2"),
-                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => "click",
               }}
             />
           </Card>
@@ -66,11 +61,9 @@ export function CounterConfig(props: CounterConfigProps) {
             <CardTextInput
               input={{
                 label: text("counterconfig:label3"),
-                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => "click",
               }}
             />
           </Card>

@@ -31,7 +31,7 @@ export function CreatorPageContent({
     dragIndex: number,
     hoverIndex: number
   ) {
-    const newTemplates = [...(templatesData as ITemplate[])]
+    const newTemplates = [...templatesData]
 
     const draggedTemplate = newTemplates[dragIndex]
 

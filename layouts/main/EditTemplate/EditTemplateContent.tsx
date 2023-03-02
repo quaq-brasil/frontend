@@ -74,7 +74,7 @@ export function EditTemplateContent({
       },
       {
         onSuccess: (data: IPublication) => {
-          setPublicationId(data.id as string)
+          setPublicationId(data.id)
         },
       }
     )
@@ -86,7 +86,7 @@ export function EditTemplateContent({
   function getCurrentPublication() {
     getPublication.mutate(
       {
-        id: templateData?.current_publication_id as string,
+        id: templateData?.current_publication_id,
         data: {},
       },
       {
@@ -146,7 +146,6 @@ export function EditTemplateContent({
               indicator={{
                 icon: Check,
                 bgColor: "green-500",
-                onClick: () => {},
               }}
             />
           </Card>

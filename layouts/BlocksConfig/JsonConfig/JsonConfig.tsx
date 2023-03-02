@@ -33,7 +33,6 @@ export function JsonConfig(props: JsonConfigProps) {
         height={props.size}
         isOpen={props.isOpen}
         title={text("jsonconfig:toptitle")}
-        onClose={() => "closed"}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
           <Card>
@@ -41,11 +40,9 @@ export function JsonConfig(props: JsonConfigProps) {
             <CardTextInput
               input={{
                 label: text("jsonconfig:label1"),
-                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => "click",
               }}
             />
           </Card>
@@ -54,27 +51,23 @@ export function JsonConfig(props: JsonConfigProps) {
             <CardTextInput
               input={{
                 label: text("jsonconfig:label2"),
-                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => "click",
               }}
             />
           </Card>
           <Card>
-            <CardSwitch text={text("jsonconfig:switch1")} onChange={() => {}} />
+            <CardSwitch text={text("jsonconfig:switch1")} />
           </Card>
           <Card>
             <CardText label={text("jsonconfig:title3")} />
             <CardTextInput
               input={{
                 label: text("jsonconfig:label3"),
-                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => "click",
               }}
             />
           </Card>

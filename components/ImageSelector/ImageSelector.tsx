@@ -9,7 +9,7 @@ import { LoadingImage } from "./LoadingImage"
 
 type ImageSelectorProps = {
   url?: string
-  onImageChange: (url: string) => void
+  onImageChange?: (url: string) => void
 }
 
 function checkForCorrectFileType(file: File): boolean {
@@ -36,8 +36,6 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
   useEffect(() => {
     setImageUrl(url || "")
   }, [url])
-
-  useEffect(() => {}, [imageUrl])
 
   const onDrop = async (acceptedFiles: File[]) => {
     setIsLoading(true)

@@ -9,29 +9,13 @@ export default function CentralStats() {
 
   function handleTabBar() {
     return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("centralstats:back")}
-        onClick={() => {}}
-      />,
-      <Tag
-        key={2}
-        variant="txt"
-        text={text("centralstats:options")}
-        onClick={() => {}}
-      />,
-      <Tag
-        key={3}
-        variant="txt"
-        text={text("centralstats:logs")}
-        onClick={() => {}}
-      />,
+      <Tag key={1} variant="txt" text={text("centralstats:back")} />,
+      <Tag key={2} variant="txt" text={text("centralstats:options")} />,
+      <Tag key={3} variant="txt" text={text("centralstats:logs")} />,
       <Tag
         key={4}
         variant="txt"
         text={text("centralstats:stats")}
-        onClick={() => {}}
         isSelected
       />,
     ]

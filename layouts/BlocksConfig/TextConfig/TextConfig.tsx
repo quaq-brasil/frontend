@@ -105,7 +105,7 @@ export function TextConfig({
       id: blockData?.id || undefined,
       type: "text",
       data: content,
-      save_as: saveAs as string,
+      save_as: saveAs,
     })
     handleClosing()
   }
@@ -113,7 +113,7 @@ export function TextConfig({
   useEffect(() => {
     if (blockData) {
       setContent(blockData.data)
-      setSaveAs(blockData.save_as as string)
+      setSaveAs(blockData.save_as)
       handleUpdateFormData({
         content: { valid: true },
         saveAs: { valid: true },

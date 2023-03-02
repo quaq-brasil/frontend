@@ -72,7 +72,7 @@ export function ConsumerPageContent({
             </Card>
           </div>
         )}
-        <ShortcutGrid onDrag={(e) => {}}>{shortcuts}</ShortcutGrid>
+        <ShortcutGrid>{shortcuts}</ShortcutGrid>
       </div>
     </div>
   )

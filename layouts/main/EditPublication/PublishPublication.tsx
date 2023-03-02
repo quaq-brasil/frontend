@@ -23,7 +23,7 @@ import { useUpdateTemplate } from "../../../services/hooks/useTemplate/useUpdate
 import { IPage } from "../../../types/Page.type"
 import { IPublication } from "../../../types/Publication.type"
 import {
-  getTemplateByUrlAndPageUrlProps,
+  getTemplateBySlugAndPageSlugProps,
   IUpdateTemplate,
 } from "../../../types/Template.type"
 
@@ -31,7 +31,7 @@ type PublishPublicationProps = {
   blocks: any[]
   onClose: () => void
   pageData: IPage | undefined
-  template: getTemplateByUrlAndPageUrlProps | undefined
+  template: getTemplateBySlugAndPageSlugProps | undefined
 }
 
 type handleGetTemplateUrlProps = {
@@ -53,14 +53,14 @@ export const PublishPublication = ({
   const [isUpdating, setIsUpdating] = useState(false)
   const router = useRouter()
   const [templateData, setTemplateData] =
-    useState<getTemplateByUrlAndPageUrlProps>()
+    useState<getTemplateBySlugAndPageSlugProps>()
 
   useEffect(() => {
     setTemplateData(template)
   }, [template])
 
   const getCurrentPulication = usePublication({
-    id: templateData?.current_publication_id as string,
+    id: templateData?.current_publication_id,
   })
 
   useEffect(() => {
@@ -94,7 +94,7 @@ export const PublishPublication = ({
       handleGetTemplateUrl({
         id: templateData?.id,
         title: debouncedTemplateName,
-        page_id: pageData?.id as string,
+        page_id: pageData?.id,
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -105,7 +105,7 @@ export const PublishPublication = ({
       return {
         ...state,
         ...newData,
-      } as getTemplateByUrlAndPageUrlProps
+      } as getTemplateBySlugAndPageSlugProps
     })
     setIsUpdating(true)
   }
@@ -125,14 +125,14 @@ export const PublishPublication = ({
               title: publicationTitle,
               blocks,
               template_id: templateData.id,
-              page_id: pageData?.id as string,
+              page_id: pageData?.id,
             },
           },
           {
             onSuccess: (data) => {
               updateTemplate.mutate(
                 {
-                  id: templateData.id as string,
+                  id: templateData.id,
                   data: {
                     current_publication_id: data.id,
                     title: templateData.title,
@@ -161,14 +161,14 @@ export const PublishPublication = ({
                 title: publicationTitle,
                 blocks,
                 template_id: templateData.id,
-                page_id: pageData?.id as string,
+                page_id: pageData?.id,
               },
             },
             {
               onSuccess: () => {
                 updateTemplate.mutate(
                   {
-                    id: templateData.id as string,
+                    id: templateData.id,
                     data: {
                       title: templateData.title,
                       slug: templateData.slug,
@@ -322,7 +322,7 @@ export const PublishPublication = ({
 
 type PublishPublicationHeaderProps = {
   pageData: IPage | undefined
-  templateData: getTemplateByUrlAndPageUrlProps | undefined
+  templateData: getTemplateBySlugAndPageSlugProps | undefined
   text: Translate
 }
 

@@ -9,31 +9,10 @@ export default function CentralLogs() {
 
   function handleTabBar() {
     return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("centrallogs:back")}
-        onClick={() => {}}
-      />,
-      <Tag
-        key={2}
-        variant="txt"
-        text={text("centrallogs:options")}
-        onClick={() => {}}
-      />,
-      <Tag
-        key={3}
-        variant="txt"
-        text={text("centrallogs:logs")}
-        onClick={() => {}}
-        isSelected
-      />,
-      <Tag
-        key={4}
-        variant="txt"
-        text={text("centrallogs:stats")}
-        onClick={() => {}}
-      />,
+      <Tag key={1} variant="txt" text={text("centrallogs:back")} />,
+      <Tag key={2} variant="txt" text={text("centrallogs:options")} />,
+      <Tag key={3} variant="txt" text={text("centrallogs:logs")} isSelected />,
+      <Tag key={4} variant="txt" text={text("centrallogs:stats")} />,
     ]
   }
 

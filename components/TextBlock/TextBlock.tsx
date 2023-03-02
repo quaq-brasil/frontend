@@ -46,11 +46,11 @@ export const TextBlock = ({
   const onInteraction = () => {
     handleUpdateInteractions &&
       handleUpdateInteractions({
-        id: block.id as string,
+        id: block.id,
         config: {
-          id: block.id as string,
-          save_as: block.save_as as string,
-          type: block.type as string,
+          id: block.id,
+          save_as: block.save_as,
+          type: block.type,
           data: block.data,
         },
         output: {

@@ -95,7 +95,7 @@ export function ImageConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "image",
-      save_as: saveAs as string,
+      save_as: saveAs,
       data: content,
     })
     handleClosing()
@@ -104,7 +104,7 @@ export function ImageConfig({
   useEffect(() => {
     if (blockData) {
       setContent(blockData.data)
-      setSaveAs(blockData.save_as as string)
+      setSaveAs(blockData.save_as)
       handleUpdateFormData({
         img_url: { valid: true },
         saveAs: { valid: true },
@@ -165,11 +165,7 @@ export function ImageConfig({
 
   return (
     <>
-      <Dialog
-        isOpen={isOpen}
-        title={text("imageconfig:toptitle")}
-        onClose={() => "closed"}
-      >
+      <Dialog isOpen={isOpen} title={text("imageconfig:toptitle")}>
         <div className="flex flex-col items-center gap-3">
           <Card>
             <CardText label={text("imageconfig:image")} />

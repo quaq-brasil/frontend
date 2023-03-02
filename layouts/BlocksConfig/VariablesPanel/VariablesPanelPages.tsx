@@ -44,7 +44,7 @@ export const VariablesPanelPages = ({
     if (user) {
       getAllWorkspaces.mutate(
         {
-          id: user.id as string,
+          id: user.id,
         },
         {
           onSuccess: (data) => {
@@ -127,13 +127,12 @@ export const VariablesPanelPages = ({
                                   onClick={() =>
                                     handleUpdateOpenTemplate({
                                       pageData: {
-                                        pageId: page.id as string,
+                                        pageId: page.id,
                                         pageName: page.title,
                                       },
                                       workspaceData: {
-                                        workspaceId: data.workspaceId as string,
-                                        workspaceName:
-                                          data.workspaceName as string,
+                                        workspaceId: data.workspaceId,
+                                        workspaceName: data.workspaceName,
                                       },
                                     })
                                   }

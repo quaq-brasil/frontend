@@ -16,14 +16,7 @@ export function Trackers(props: TrackersProps) {
   const text = useTranslation().t
 
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("trackers:tab1")}
-        onClick={() => "tab1"}
-      />,
-    ]
+    return [<Tag key={1} variant="txt" text={text("trackers:tab1")} />]
   }
 
   return (
@@ -32,7 +25,6 @@ export function Trackers(props: TrackersProps) {
         height={props.size}
         isOpen={props.isOpen}
         title={text("trackers:toptitle")}
-        onClose={() => "closed"}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
           <Card>
@@ -40,7 +32,6 @@ export function Trackers(props: TrackersProps) {
             <CardTextInput
               input={{
                 label: text("trackers:label1"),
-                onChange: (e) => e,
               }}
             />
           </Card>
@@ -49,7 +40,6 @@ export function Trackers(props: TrackersProps) {
             <CardTextInput
               input={{
                 label: text("trackers:label2"),
-                onChange: (e) => e,
               }}
             />
           </Card>

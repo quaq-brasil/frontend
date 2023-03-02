@@ -6,7 +6,6 @@ import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage, IUpdatePage } from "../../../types/Page.type"
 import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
-import { pageUrls } from "../../../utils/pagesUrl"
 import { EditTemplateContent } from "./EditTemplateContent"
 
 type EditTemplateProps = {
@@ -55,14 +54,7 @@ export default function EditTemplate({
   function handleTabBar() {
     if (isUpdating) {
       return [
-        <Tag
-          key={1}
-          variant="txt"
-          text={text("edittemplate:back")}
-          onClick={() =>
-            router.push(pageUrls.pageSettings({ pageSlug: pageData.slug }))
-          }
-        />,
+        <Tag key={1} variant="txt" text={text("edittemplate:back")} />,
         <div key={2} className={`w-fit h-fit xl:hidden`}>
           <Tag
             variant="txt"
@@ -72,16 +64,7 @@ export default function EditTemplate({
         </div>,
       ]
     } else {
-      return [
-        <Tag
-          key={1}
-          variant="txt"
-          text={text("edittemplate:back")}
-          onClick={() =>
-            router.push(pageUrls.pageSettings({ pageSlug: pageData.slug }))
-          }
-        />,
-      ]
+      return [<Tag key={1} variant="txt" text={text("edittemplate:back")} />]
     }
   }
 

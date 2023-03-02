@@ -46,7 +46,7 @@ export function Button({
       return {
         ...state,
         ...newEvent,
-      } as IEvent
+      }
     })
   }
 
@@ -69,11 +69,11 @@ export function Button({
   const onInteraction = () => {
     handleUpdateInteractions &&
       handleUpdateInteractions({
-        id: block.id as string,
+        id: block.id,
         config: {
-          id: block.id as string,
-          save_as: block.save_as as string,
-          type: block.type as string,
+          id: block.id,
+          save_as: block.save_as,
+          type: block.type,
           data: {
             text: block.data.text,
             color: block.data.color,

@@ -40,7 +40,7 @@ export default function TemplateExecution({
       <Tag
         key={2}
         variant="txt"
-        text={pageAndTemplateData.Page.title as string}
+        text={pageAndTemplateData.Page.title}
         onClick={() =>
           router.push(pageUrls.page(pageAndTemplateData.Page.slug || ""))
         }
