@@ -18,5 +18,9 @@
   "passwordlabel": "type it here",
   "confirmation": "password confirmation",
   "confirmationlabel": "type it here",
-  "confirm": "create account"
+  "confirm": "create account",
+  "acceptterms1": "do you accept our ",
+  "acceptterms2": "terms and policies",
+  "accept": "accept",
+  "decline": "decline"
 }

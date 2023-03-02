@@ -1,12 +1,16 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
+import { Check } from "phosphor-react"
 import { useState } from "react"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { Card } from "../../../components/Card/Card"
+import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { IUpdateUser } from "../../../types/User.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 
 type SignupContentProps = {
   handleUpdateUserData: (data: IUpdateUser) => void
@@ -26,6 +30,7 @@ export function SignupContent({
   userData,
 }: SignupContentProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   type FormDataProps = {
     name?: {
@@ -43,6 +48,9 @@ export function SignupContent({
     }
     passwordConfirm?: {
       value?: string
+      valid?: boolean
+    }
+    acceptTermsAndConditions?: {
       valid?: boolean
     }
   }
@@ -64,6 +72,9 @@ export function SignupContent({
     passwordConfirm: {
       value: "",
       valid: false,
+    },
+    acceptTermsAndConditions: {
+      valid: true,
     },
   })
 
@@ -180,6 +191,43 @@ export function SignupContent({
                 },
               }}
             />
+          </Card>
+          <Card>
+            <p className="w-full text-left lg:text-[1.1rem] px-3 lg:px-[1.125rem]">
+              {text("signup:acceptterms1")}
+              <button
+                type="button"
+                className="text-blue-500"
+                onClick={() => router.push(pageUrls.terms())}
+              >
+                {text("signup:acceptterms2")}
+              </button>
+              ?
+            </p>
+            <CardText
+              label={text("signup:accept")}
+              indicator={{
+                icon: Check,
+                isVisible: formData.acceptTermsAndConditions.valid,
+                onClick: () =>
+                  handleUpdateFormData({
+                    acceptTermsAndConditions: { valid: true },
+                  }),
+              }}
+            />
+            <CardLine />
+            <CardText
+              label={text("signup:decline")}
+              indicator={{
+                icon: Check,
+                isVisible: formData.acceptTermsAndConditions.valid,
+                onClick: () =>
+                  handleUpdateFormData({
+                    acceptTermsAndConditions: { valid: false },
+                  }),
+              }}
+            />
+            <CardLine />
           </Card>
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
