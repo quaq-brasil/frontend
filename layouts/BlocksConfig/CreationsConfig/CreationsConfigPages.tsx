@@ -99,7 +99,7 @@ export function CreationsConfigPages(props: CreationsConfigPagesProps) {
         height={props.size}
         isOpen={props.isOpen}
         title={text("creationsconfig:toptitle")}
-        onClose={() => console.log("closed")}
+        onClose={() => {}}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
           <Card>{loadContent()}</Card>

@@ -32,8 +32,6 @@ export function CreationsConfigBlocks(props: CreationsConfigBlocksProps) {
     } else {
       setSelected([...selected, index])
     }
-
-    console.log(selected)
   }
 
   return (
@@ -42,7 +40,7 @@ export function CreationsConfigBlocks(props: CreationsConfigBlocksProps) {
         height={props.size}
         isOpen={props.isOpen}
         title={"Template Title"}
-        onClose={() => console.log("closed")}
+        onClose={() => {}}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
           {props.size === "sm" && (

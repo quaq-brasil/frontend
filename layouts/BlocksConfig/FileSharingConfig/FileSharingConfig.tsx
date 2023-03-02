@@ -48,7 +48,7 @@ export function FileSharingConfig(props: FileSharingConfigProps) {
         height={props.size}
         isOpen={props.isOpen}
         title={text("filesharingconfig:toptitle")}
-        onClose={() => console.log("closed")}
+        onClose={() => "closed"}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
           <Card>
@@ -56,9 +56,9 @@ export function FileSharingConfig(props: FileSharingConfigProps) {
             <CardTextInput
               input={{
                 label: text("filesharingconfig:label"),
-                onChange: () => console.log(),
+                onChange: () => {},
               }}
-              indicator={{ icon: BracketsCurly, onClick: () => console.log() }}
+              indicator={{ icon: BracketsCurly, onClick: () => {} }}
             />
           </Card>
           <Card>
@@ -72,9 +72,9 @@ export function FileSharingConfig(props: FileSharingConfigProps) {
             <CardTextInput
               input={{
                 label: text("filesharingconfig:label2"),
-                onChange: () => console.log(),
+                onChange: () => {},
               }}
-              indicator={{ icon: BracketsCurly, onClick: () => console.log() }}
+              indicator={{ icon: BracketsCurly, onClick: () => {} }}
             />
           </Card>
           {props.size === "sm" && (

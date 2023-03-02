@@ -96,13 +96,11 @@ export function CreationsConfigTemplates(props: CreationsConfigTemplatesProps) {
         height={props.size}
         isOpen={props.isOpen}
         title={"Page Title"}
-        onClose={() => console.log("closed")}
+        onClose={() => "closed"}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
           <div className="fixed w-full h-min-[100%] px-2">
-            <ShortcutGrid onDrag={(e) => console.log(e)}>
-              {loadTemplates()}
-            </ShortcutGrid>
+            <ShortcutGrid onDrag={(e) => e}>{loadTemplates()}</ShortcutGrid>
           </div>
         </div>
         <TabBar

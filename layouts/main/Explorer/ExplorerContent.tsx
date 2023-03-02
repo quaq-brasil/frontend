@@ -43,7 +43,7 @@ export function ExplorerContent({ templatesData }: ExplorerContentProps) {
       rounded-t-[25px] overflow-y-scroll scrollbar-hide pt-2 px-2 bg-slate-100
       lg:rounded-none lg:top-[156px]"
       >
-        <ShortcutGrid onDrag={(e) => console.log(e)}>{shortcuts}</ShortcutGrid>
+        <ShortcutGrid onDrag={(e) => {}}>{shortcuts}</ShortcutGrid>
       </div>
     </div>
   )

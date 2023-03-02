@@ -244,7 +244,6 @@ export const PublishNewTemplate = ({
   }, [runUpdate])
 
   useEffect(() => {
-    console.log(formData)
     if (
       formData.title?.valid &&
       formData.slug?.valid &&

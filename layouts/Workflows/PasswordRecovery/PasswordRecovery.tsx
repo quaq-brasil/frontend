@@ -1,11 +1,14 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { PasswordRecoveryContent } from "./PasswordRecoveryContent"
 
 export function PasswordRecovery() {
   const text = useTranslation().t
+  const router = useRouter()
 
   function handleTabBar() {
     return [
@@ -13,7 +16,7 @@ export function PasswordRecovery() {
         key={1}
         variant="txt"
         text={text("pwrecovery:tab1")}
-        onClick={() => console.log("tab1")}
+        onClick={() => router.push(pageUrls.home())}
       />,
     ]
   }

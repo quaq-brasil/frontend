@@ -35,8 +35,6 @@ export default function CreatorPage({
 
   const getPages = useMutatePagesByWorkspaceId()
 
-  console.log("workspaces: ", initialWorkspacesData)
-
   const [pages, setPages] = useState<IPage[]>()
   const [currentPage, setCurrentPage] = useState<IPage>()
   const [workspaces, setWorkspaces] = useState<IWorkspace[]>(

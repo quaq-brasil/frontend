@@ -33,12 +33,10 @@ export function ProfileContent({
 
   function handleUpdateLogout(stat: boolean) {
     setLogout(stat)
-    console.log(stat)
   }
 
   function handleLogout() {
     setLogout(false)
-    console.log("logout", logout)
     router.push(pageUrls.home())
   }
 

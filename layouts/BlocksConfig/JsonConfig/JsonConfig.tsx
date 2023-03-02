@@ -33,7 +33,7 @@ export function JsonConfig(props: JsonConfigProps) {
         height={props.size}
         isOpen={props.isOpen}
         title={text("jsonconfig:toptitle")}
-        onClose={() => console.log("closed")}
+        onClose={() => "closed"}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6">
           <Card>
@@ -41,11 +41,11 @@ export function JsonConfig(props: JsonConfigProps) {
             <CardTextInput
               input={{
                 label: text("jsonconfig:label1"),
-                onChange: (e) => console.log(e),
+                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => "click",
               }}
             />
           </Card>
@@ -54,30 +54,27 @@ export function JsonConfig(props: JsonConfigProps) {
             <CardTextInput
               input={{
                 label: text("jsonconfig:label2"),
-                onChange: (e) => console.log(e),
+                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => "click",
               }}
             />
           </Card>
           <Card>
-            <CardSwitch
-              text={text("jsonconfig:switch1")}
-              onChange={() => console.log()}
-            />
+            <CardSwitch text={text("jsonconfig:switch1")} onChange={() => {}} />
           </Card>
           <Card>
             <CardText label={text("jsonconfig:title3")} />
             <CardTextInput
               input={{
                 label: text("jsonconfig:label3"),
-                onChange: (e) => console.log(e),
+                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => "click",
               }}
             />
           </Card>

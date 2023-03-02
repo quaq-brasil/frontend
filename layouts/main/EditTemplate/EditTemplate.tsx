@@ -1,10 +1,12 @@
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage, IUpdatePage } from "../../../types/Page.type"
 import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { EditTemplateContent } from "./EditTemplateContent"
 
 type EditTemplateProps = {
@@ -19,6 +21,7 @@ export default function EditTemplate({
   handleUpdateTemplate,
 }: EditTemplateProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [pageData, setPageData] = useState<IUpdatePage>(initialPageData)
   const [templateData, setTemplateData] =
@@ -56,7 +59,9 @@ export default function EditTemplate({
           key={1}
           variant="txt"
           text={text("edittemplate:back")}
-          onClick={() => console.log("tab1")}
+          onClick={() =>
+            router.push(pageUrls.pageSettings({ pageSlug: pageData.slug }))
+          }
         />,
         <div key={2} className={`w-fit h-fit xl:hidden`}>
           <Tag
@@ -72,7 +77,9 @@ export default function EditTemplate({
           key={1}
           variant="txt"
           text={text("edittemplate:back")}
-          onClick={() => console.log("tab1")}
+          onClick={() =>
+            router.push(pageUrls.pageSettings({ pageSlug: pageData.slug }))
+          }
         />,
       ]
     }

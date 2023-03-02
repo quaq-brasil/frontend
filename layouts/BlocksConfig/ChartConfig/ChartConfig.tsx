@@ -352,7 +352,6 @@ export default function ChartConfig({
     } else {
       handleUpdateIsUpdating(false)
     }
-    console.log(formData)
   }, [formData])
 
   return (

@@ -97,7 +97,7 @@ export const VariablesPanelTemplates = ({
       title={initialData.pageData.pageName}
       onClose={onClose}
     >
-      <ShortcutGrid onDrag={(e) => console.log(e)}>{shortcuts}</ShortcutGrid>
+      <ShortcutGrid onDrag={(e) => {}}>{shortcuts}</ShortcutGrid>
       <TabBar shiftLayoutOnXl={false} tags={tabbarPages} />
     </Dialog>
   )

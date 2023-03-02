@@ -23,7 +23,6 @@ export function RedirectConfig(props: RedirectConfigProps) {
 
   function handleChangeRedirectType(type: string) {
     setRedirectType(type)
-    console.log(type)
   }
 
   function handleTabBar() {
@@ -42,7 +41,7 @@ export function RedirectConfig(props: RedirectConfigProps) {
       <Dialog
         height={props.size}
         isOpen={props.isOpen}
-        onClose={() => console.log()}
+        onClose={() => {}}
         title={text("redirectconfig:toptitle")}
       >
         <div className="flex flex-col items-center gap-3 lg:gap-6 scrollbar-hide">
@@ -51,11 +50,11 @@ export function RedirectConfig(props: RedirectConfigProps) {
             <CardTextInput
               input={{
                 label: text("redirectconfig:descriptionlabel"),
-                onChange: (e) => console.log(e),
+                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => "click",
               }}
             />
           </Card>
@@ -64,11 +63,11 @@ export function RedirectConfig(props: RedirectConfigProps) {
             <CardTextInput
               input={{
                 label: text("redirectconfig:linklabel"),
-                onChange: (e) => console.log(e),
+                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => "click",
               }}
             />
           </Card>
@@ -99,9 +98,7 @@ export function RedirectConfig(props: RedirectConfigProps) {
             <Card>
               <CardText label={text("redirectconfig:coverimage")} />
               <CardImageInput
-                imageSelector={
-                  <ImageSelector onImageChange={() => console.log()} />
-                }
+                imageSelector={<ImageSelector onImageChange={() => {}} />}
               />
             </Card>
           )}
@@ -111,11 +108,11 @@ export function RedirectConfig(props: RedirectConfigProps) {
             <CardTextInput
               input={{
                 label: text("redirectconfig:saveaslabel"),
-                onChange: (e) => console.log(e),
+                onChange: (e) => e,
               }}
               indicator={{
                 icon: BracketsCurly,
-                onClick: () => console.log("click"),
+                onClick: () => "click",
               }}
             />
           </Card>
