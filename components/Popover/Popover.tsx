@@ -54,21 +54,22 @@ export const Popover = ({
                   >
                     <HeadlessDialog.Title
                       as="h3"
-                      className="text-lg font-medium leading-6 text-gray-900"
+                      className="lg:text-[1.1rem] font-medium leading-6 text-gray-900"
                     >
                       {title}
                     </HeadlessDialog.Title>
                     <div className="mt-2">
-                      <p className="text-sm text-gray-500">{description}</p>
+                      <p className=" text-gray-500 lg:text-[1.1rem]">
+                        {description}
+                      </p>
                     </div>
 
                     <div className="mt-4 flex justify-between">
                       {declineButton && (
                         <button
                           type="button"
-                          className="inline-flex justify-center rounded-md border border-transparent py-2 text-sm font-medium
-                      text-rose-600 hover:bg-blue-200 focus:outline-none focus-visible:ring-0 focus-visible:ring-blue-500
-                      focus-visible:ring-offset-2"
+                          className="inline-flex justify-center rounded-md border border-transparent py-2 font-medium
+                      text-rose-500 hover:bg-slate-100 focus:outline-none focus-visible:ring-0 px-1 lg:text-[1.1rem] lg:px-2"
                           onClick={declineFunc}
                         >
                           {declineButton}
@@ -77,9 +78,8 @@ export const Popover = ({
                       {acceptButton && (
                         <button
                           type="button"
-                          className="inline-flex justify-center rounded-md border border-transparent py-2 text-sm font-medium
-                      text-blue-600 hover:bg-blue-200 focus:outline-none focus-visible:ring-0 focus-visible:ring-blue-500
-                      focus-visible:ring-offset-2"
+                          className="inline-flex justify-center rounded-md border border-transparent py-2 font-medium
+                      text-blue-500 hover:bg-slate-100 focus:outline-none focus-visible:ring-0 px-1 lg:text-[1.1rem] lg:px-2"
                           onClick={acceptFunc}
                         >
                           {acceptButton}

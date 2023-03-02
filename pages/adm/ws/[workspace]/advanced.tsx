@@ -6,7 +6,7 @@ import { useWorkspaceBySlug } from "../../../../services/hooks/useWorkspace/useW
 import { IWorkspace } from "../../../../types/Workspace.type"
 import {
   RedirectNotFoundVerify,
-  redirectNotFoundVerifyProps,
+  redirectNotFoundVerifyProps
 } from "../../../../utils/404Redirect"
 import { withAuth } from "../../../../utils/withAuth"
 
@@ -33,21 +33,18 @@ type Params = {
 
 export const getServerSideProps: GetServerSideProps = withAuth(
   async (ctx: { params: Params }, cookies: any, payload: any) => {
-    const { workspace: workspaceSlug } = ctx.params
+    const { workspace } = ctx.params
 
     async function getWorkspace({ cookies }: redirectNotFoundVerifyProps) {
-      const { data: workspacesData } = await api.get(
-        `/workspaces/slug/${workspaceSlug}`,
-        {
-          headers: {
-            Authorization: `Bearer ${cookies.token}`,
-          },
-        }
-      )
+      const { data } = await api.get(`/workspaces/slug/${workspace}`, {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      })
 
       return {
-        workspacesData,
-        workspaceSlug,
+        workspacesData: { data },
+        workspaceSlug: workspace,
       }
     }
 

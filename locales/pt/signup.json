@@ -18,5 +18,9 @@
   "passwordlabel": "digite aqui",
   "confirmation": "confirmação da senha",
   "confirmationlabel": "digite aqui",
-  "confirm": "criar conta"
+  "confirm": "criar conta",
+  "acceptterms1": "você aceita os nossos ",
+  "acceptterms2": "termos e políticas",
+  "accept": "aceitar",
+  "decline": "declinar"
 }

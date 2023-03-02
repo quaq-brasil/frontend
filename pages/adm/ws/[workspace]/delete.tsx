@@ -56,7 +56,7 @@ type Params = {
 
 export const getServerSideProps: GetServerSideProps = withAuth(
   async (ctx: { params: Params }, cookies: any, payload: any) => {
-    const { workspace: workspaceSlug } = ctx.params
+    const { workspace } = ctx.params
 
     async function getWorkspace({ cookies }: redirectNotFoundVerifyProps) {
       const { data: userData } = await api.get("users", {
@@ -66,7 +66,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
       })
 
       const { data: workspacesData } = await api.get(
-        `/workspaces/slug/${workspaceSlug}`,
+        `/workspaces/slug/${workspace}`,
         {
           headers: {
             Authorization: `Bearer ${cookies.token}`,
@@ -75,9 +75,9 @@ export const getServerSideProps: GetServerSideProps = withAuth(
       )
 
       return {
-        workspacesData,
-        workspaceSlug,
-        userData,
+        workspaceData: { workspacesData },
+        workspaceSlug: workspace,
+        userData: { userData },
       }
     }
 

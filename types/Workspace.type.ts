@@ -1,27 +1,24 @@
-import { IPage } from "./Page.type"
-
 type IMember = {
+  id: string
   user_id: string
-  email: string
-  name: string
-  avatar_url: string
-  roles: string[]
+  workspace_id: string
+  user: {
+    id: string
+    name: string
+    email: string
+    avatar_url: string
+  }
 }
 
 export type IWorkspace = {
   id?: string
   title: string
-  avatar_url: string
   slug: string
+  avatar_url: string
+  services: any[]
+  created_at?: string
+  updated_at?: string
   members?: IMember[]
-  user_id?: string
-  services: [
-    {
-      type: string
-      description: string
-    }
-  ]
-  Page?: IPage[]
 }
 
 export type IUpdateWorkspace = {
@@ -29,12 +26,8 @@ export type IUpdateWorkspace = {
   title?: string
   slug?: string
   avatar_url?: string
-  user_id?: string
+  services?: any[]
+  created_at?: string
+  updated_at?: string
   members?: IMember[]
-  services?: [
-    {
-      type?: string
-      description?: string
-    }
-  ]
 }
