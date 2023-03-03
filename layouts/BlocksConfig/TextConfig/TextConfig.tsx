@@ -66,11 +66,6 @@ export function TextConfig({
   }
 
   function handleValidation() {
-    if (content.length > 0) {
-      handleUpdateFormData({ content: { valid: true } })
-    } else {
-      handleUpdateFormData({ content: { valid: false } })
-    }
     if (saveAs) {
       handleUpdateFormData({ saveAs: { valid: true } })
     } else {
@@ -80,7 +75,11 @@ export function TextConfig({
 
   function handleUpdateContent(value: typeof content) {
     setContent(value)
-    handleValidation()
+    if (value && value.length > 0) {
+      handleUpdateFormData({ content: { valid: true } })
+    } else {
+      handleUpdateFormData({ content: { valid: false } })
+    }
   }
 
   function handleUpdateSaveAs(value: typeof saveAs) {
@@ -144,6 +143,7 @@ export function TextConfig({
     } else {
       handleUpdateIsUpdating(false)
     }
+    console.log(formData)
   }, [formData])
 
   function handleTabBar() {
@@ -179,6 +179,7 @@ export function TextConfig({
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
         handleUpdateContent(content ? `${content}${variable}` : variable)
+        handleValidation()
       })
     handleOpenVariablePanel()
   }
@@ -187,6 +188,7 @@ export function TextConfig({
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
         handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
+        handleValidation()
       })
     handleOpenVariablePanel()
   }
@@ -205,7 +207,10 @@ export function TextConfig({
           >
             <TextEditor
               content={content || ""}
-              onChange={handleUpdateContent}
+              onChange={(text) => {
+                handleUpdateContent(text)
+                handleValidation()
+              }}
               handleOpenVariablePanelForText={handleOpenVariablePanelForText}
             />
             <CardLine />
