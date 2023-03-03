@@ -58,6 +58,19 @@ export function ImageConfig({
     })
   }
 
+  function handleValidation() {
+    if (content.img_url) {
+      handleUpdateFormData({ img_url: { valid: true } })
+    } else {
+      handleUpdateFormData({ img_url: { valid: false } })
+    }
+    if (saveAs) {
+      handleUpdateFormData({ saveAs: { valid: true } })
+    } else {
+      handleUpdateFormData({ saveAs: { valid: false } })
+    }
+  }
+
   function handleUpdateContent(newData: IImage) {
     setContent({
       img_url: newData.img_url,
@@ -68,7 +81,7 @@ export function ImageConfig({
   function handleUpdateSaveAs(value: string | null) {
     setSaveAs(value)
     const isValid = handleCheckSaveAs(value)
-    handleUpdateFormData({ saveAs: { valid: isValid } })
+    handleValidation()
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -174,7 +187,7 @@ export function ImageConfig({
                 <ImageSelector
                   onImageChange={(image) => {
                     handleUpdateContent({ img_url: image })
-                    handleUpdateFormData({ img_url: { valid: true } })
+                    handleValidation()
                   }}
                   url={content?.img_url}
                 />

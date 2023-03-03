@@ -18,5 +18,9 @@
   "saveas": "salvar como",
   "saveasinput": "digite aqui",
   "addblock": "adicionar bloco",
-  "add": "adicionar"
+  "add": "adicionar",
+  "hooktype": "tipo de hook",
+  "send": "enviar",
+  "receive": "receber",
+  "keytitle": "chave secreta (opcional)"
 }

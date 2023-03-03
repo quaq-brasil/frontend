@@ -18,5 +18,9 @@
   "saveas": "save as",
   "saveasinput": "type it here",
   "addblock": "add block",
-  "add": "add"
+  "add": "add",
+  "hooktype": "hook type",
+  "send": "send",
+  "receive": "receive",
+  "keytitle": "secret key (optional)"
 }

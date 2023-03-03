@@ -65,13 +65,22 @@ export function TextConfig({
     })
   }
 
-  function handleUpdateContent(value: typeof content) {
-    setContent(value)
-    if (value) {
+  function handleValidation() {
+    if (content.length > 0) {
       handleUpdateFormData({ content: { valid: true } })
     } else {
       handleUpdateFormData({ content: { valid: false } })
     }
+    if (saveAs) {
+      handleUpdateFormData({ saveAs: { valid: true } })
+    } else {
+      handleUpdateFormData({ saveAs: { valid: false } })
+    }
+  }
+
+  function handleUpdateContent(value: typeof content) {
+    setContent(value)
+    handleValidation()
   }
 
   function handleUpdateSaveAs(value: typeof saveAs) {
