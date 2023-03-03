@@ -143,7 +143,6 @@ export function TextConfig({
     } else {
       handleUpdateIsUpdating(false)
     }
-    console.log(formData)
   }, [formData])
 
   function handleTabBar() {
