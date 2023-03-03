@@ -1,7 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { ArrowRight } from "phosphor-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -17,19 +17,43 @@ type ProfileContentProps = {
   handleUpdateUserData: (data: IUpdateUser) => void
   userData: IUpdateUser | undefined
   handleUpdateRunUpdate: (stat: boolean) => void
+  handleUpdateIsUpdating: (stat: boolean) => void
   isUpdating: boolean
 }
 
 export function ProfileContent({
   handleUpdateRunUpdate,
   handleUpdateUserData,
+  handleUpdateIsUpdating,
   isUpdating,
   userData,
 }: ProfileContentProps) {
   const text = useTranslation().t
   const router = useRouter()
 
+  type FormDataProps = {
+    image?: {
+      valid?: boolean
+    }
+    name?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    image: { valid: false },
+    name: { valid: false },
+  })
   const [logout, setLogout] = useState(false)
+
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+  }
 
   function handleUpdateLogout(stat: boolean) {
     setLogout(stat)
@@ -39,6 +63,28 @@ export function ProfileContent({
     setLogout(false)
     router.push(pageUrls.home())
   }
+
+  function handleValidation() {
+    if (userData.name.length > 1) {
+      handleUpdateFormData({ name: { valid: true } })
+    } else {
+      handleUpdateFormData({ name: { valid: false } })
+    }
+    if (userData.avatar_url) {
+      handleUpdateFormData({ image: { valid: true } })
+    } else {
+      handleUpdateFormData({ image: { valid: false } })
+    }
+  }
+
+  useEffect(() => {
+    if ((formData.image.valid, formData.name.valid)) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -53,9 +99,10 @@ export function ProfileContent({
             <CardImageInput
               imageSelector={
                 <ImageSelector
-                  onImageChange={(image) =>
+                  onImageChange={(image) => {
                     handleUpdateUserData({ avatar_url: image })
-                  }
+                    handleValidation()
+                  }}
                   url={userData?.avatar_url || ""}
                 />
               }
@@ -66,7 +113,10 @@ export function ProfileContent({
             <CardTextInput
               input={{
                 label: text("profile:inputname"),
-                onChange: (name) => handleUpdateUserData({ name: name }),
+                onChange: (name) => {
+                  handleUpdateUserData({ name: name })
+                  handleValidation()
+                },
                 type: "name",
                 defaultValue: userData?.name || "",
               }}

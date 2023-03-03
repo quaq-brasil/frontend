@@ -1,6 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { ArrowRight } from "phosphor-react"
+import { useEffect, useState } from "react"
 import { Button } from "../../../components/Button/Button"
 import { Card } from "../../../components/Card/Card"
 import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
@@ -14,6 +15,7 @@ import { pageUrls } from "../../../utils/pagesUrl"
 type WorkspaceSettingsContentProps = {
   handleUpdateWorkspaceData: (data: IUpdateWorkspace) => void
   handleUpdateRunUpdate: (stat: boolean) => void
+  handleUpdateIsUpdating: (stat: boolean) => void
   workspaceData: IUpdateWorkspace | undefined
   isUpdating: boolean
 }
@@ -21,12 +23,57 @@ type WorkspaceSettingsContentProps = {
 export function WorkspaceSettingsContent({
   handleUpdateWorkspaceData,
   handleUpdateRunUpdate,
+  handleUpdateIsUpdating,
   isUpdating,
   workspaceData,
 }: WorkspaceSettingsContentProps) {
   const text = useTranslation().t
-
   const router = useRouter()
+
+  type FormDataProps = {
+    title?: {
+      valid?: boolean
+    }
+    image?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    image: { valid: false },
+    title: { valid: false },
+  })
+
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+  }
+
+  function handleValidation() {
+    if ((workspaceData.title, length > 1)) {
+      handleUpdateFormData({ title: { valid: true } })
+    } else {
+      handleUpdateFormData({ title: { valid: false } })
+    }
+    if (workspaceData.avatar_url) {
+      handleUpdateFormData({ image: { valid: true } })
+    } else {
+      handleUpdateFormData({ image: { valid: false } })
+    }
+  }
+
+  useEffect(() => {
+    if (formData.image.valid && formData.title.valid) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -41,8 +88,10 @@ export function WorkspaceSettingsContent({
             <CardTextInput
               input={{
                 label: text("wssettings:titlelabel"),
-                onChange: (title) =>
-                  handleUpdateWorkspaceData({ title: title }),
+                onChange: (title) => {
+                  handleUpdateWorkspaceData({ title: title })
+                  handleValidation()
+                },
                 type: "title",
                 defaultValue: workspaceData?.title || "",
               }}
@@ -53,9 +102,10 @@ export function WorkspaceSettingsContent({
             <CardImageInput
               imageSelector={
                 <ImageSelector
-                  onImageChange={(image) =>
+                  onImageChange={(image) => {
                     handleUpdateWorkspaceData({ avatar_url: image })
-                  }
+                    handleValidation()
+                  }}
                   url={workspaceData?.avatar_url || ""}
                 />
               }

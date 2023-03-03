@@ -38,7 +38,11 @@ export default function GeneralSettingsPage({
       {
         id: getPage.data.id,
         data: {
-          ...data,
+          avatar_url: data.avatar_url,
+          title: data.title,
+          slug: data.slug,
+          description: data.description,
+          background_url: data.background_url,
         },
       },
       {

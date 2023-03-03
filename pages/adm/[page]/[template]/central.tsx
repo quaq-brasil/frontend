@@ -35,7 +35,6 @@ export default function TemplateAccessControlPage({
   const getPageAndTemplate = useTemplateBySlugAndPageSlug({
     page_slug: pageSlug,
     slug: templateSlug,
-    consumer_id: payload.sub,
     options: { initialData: pageAndTemplateData },
   })
 
@@ -46,7 +45,10 @@ export default function TemplateAccessControlPage({
       {
         id: getPageAndTemplate?.data.id,
         data: {
-          ...data,
+          title: data.title,
+          slug: data.slug,
+          shortcut_image: data.shortcut_image,
+          shortcut_size: data.shortcut_size,
         },
       },
       {

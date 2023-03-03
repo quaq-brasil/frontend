@@ -24,7 +24,11 @@ export function Dialog({
 }: DialogProps) {
   return (
     <Transition.Root show={isOpen} as={Fragment}>
-      <HeadlessDialog as="div" className="relative z-50" onClose={onClose}>
+      <HeadlessDialog
+        as="div"
+        className="relative z-50"
+        onClose={onClose ? onClose : () => {}}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

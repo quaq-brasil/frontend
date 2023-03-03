@@ -35,7 +35,7 @@ export default function ProfilePage({ data }: ProfilePageProps) {
 
   return (
     <Profile
-      initialUserData={getUser.data}
+      initialUserData={getUser?.data}
       handleUserUpdate={handleUserUpdate}
     />
   )
@@ -50,7 +50,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
         },
       })
 
-      return data
+      return { data }
     }
 
     return await RedirectNotFoundVerify(getUser, ctx, cookies, payload)

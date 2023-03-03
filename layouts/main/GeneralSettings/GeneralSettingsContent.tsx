@@ -42,10 +42,37 @@ export function GeneralSettingsContent({
     title?: {
       valid?: boolean
     }
+    slug?: {
+      valid?: boolean
+    }
     description?: {
       valid?: boolean
     }
+    profile?: {
+      valid?: boolean
+    }
+    cover?: {
+      valid?: boolean
+    }
   }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    title: {
+      valid: false,
+    },
+    slug: {
+      valid: false,
+    },
+    description: {
+      valid: false,
+    },
+    profile: {
+      valid: false,
+    },
+    cover: {
+      valid: false,
+    },
+  })
 
   function handleUpdateFormData(newData: FormDataProps) {
     setFormData((state) => {
@@ -55,15 +82,6 @@ export function GeneralSettingsContent({
       } as FormDataProps
     })
   }
-
-  const [formData, setFormData] = useState<FormDataProps>({
-    description: {
-      valid: false,
-    },
-    title: {
-      valid: false,
-    },
-  })
 
   const getPageSlug = useGetPageSlug()
 
@@ -83,6 +101,7 @@ export function GeneralSettingsContent({
         },
       }
     )
+    handleValidation()
   }
 
   const debouncedPageTitle = useDebounce({
@@ -91,11 +110,7 @@ export function GeneralSettingsContent({
   })
 
   useEffect(() => {
-    if (
-      debouncedPageTitle !== initialPageData?.title &&
-      pageData?.title !== initialPageData?.title &&
-      pageData?.id
-    ) {
+    if (debouncedPageTitle && formData.title.valid) {
       handleGetPageSlug({
         id: pageData?.id,
         name: pageData?.title,
@@ -110,12 +125,40 @@ export function GeneralSettingsContent({
   }
 
   useEffect(() => {
-    if (runUpdate) {
+    if (runUpdate && isUpdating) {
       onPageUpdate()
       handleUpdateRunUpdate(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
+
+  function handleValidation() {
+    if (pageData.title.length > 1) {
+      handleUpdateFormData({ title: { valid: true } })
+    } else {
+      handleUpdateFormData({ title: { valid: false } })
+    }
+    if (pageData.slug) {
+      handleUpdateFormData({ slug: { valid: true } })
+    } else {
+      handleUpdateFormData({ slug: { valid: false } })
+    }
+    if (pageData.description.length > 0) {
+      handleUpdateFormData({ description: { valid: true } })
+    } else {
+      handleUpdateFormData({ description: { valid: false } })
+    }
+    if (pageData.avatar_url) {
+      handleUpdateFormData({ profile: { valid: true } })
+    } else {
+      handleUpdateFormData({ profile: { valid: false } })
+    }
+    if (pageData.background_url) {
+      handleUpdateFormData({ cover: { valid: true } })
+    } else {
+      handleUpdateFormData({ cover: { valid: false } })
+    }
+  }
 
   useEffect(() => {
     if (formData.title?.valid && formData.description?.valid) {
@@ -141,14 +184,7 @@ export function GeneralSettingsContent({
                 label: text("generalsettings:titlelabel"),
                 onChange: (title) => {
                   handleUpdatePageData({ title: title })
-                  if (title.length > 0) {
-                    handleUpdateFormData({
-                      title: { valid: true },
-                      description: { valid: true },
-                    })
-                  } else {
-                    handleUpdateFormData({ title: { valid: false } })
-                  }
+                  handleValidation()
                 },
                 defaultValue: pageData?.title,
                 type: "title",
@@ -160,13 +196,11 @@ export function GeneralSettingsContent({
             <CardTextInput
               input={{
                 label: text("generalsettings:linklabel"),
-                onChange: () => {},
                 fixedText: "quaq.me/",
                 value: pageData?.slug,
               }}
               indicator={{
                 icon: Check,
-                onClick: () => {},
                 bgColor: "green-500",
               }}
             />
@@ -182,14 +216,7 @@ export function GeneralSettingsContent({
                 label: text("generalsettings:descriptionlabel"),
                 onChange: (description) => {
                   handleUpdatePageData({ description: description })
-                  if (description.length > 0) {
-                    handleUpdateFormData({
-                      description: { valid: true },
-                      title: { valid: true },
-                    })
-                  } else {
-                    handleUpdateFormData({ description: { valid: false } })
-                  }
+                  handleValidation()
                 },
                 defaultValue: pageData?.description,
               }}
@@ -202,7 +229,7 @@ export function GeneralSettingsContent({
                 <ImageSelector
                   onImageChange={(avatar) => {
                     handleUpdatePageData({ avatar_url: avatar })
-                    handleUpdateIsUpdating(true)
+                    handleValidation()
                   }}
                   url={pageData?.avatar_url}
                 />
@@ -216,7 +243,7 @@ export function GeneralSettingsContent({
                 <ImageSelector
                   onImageChange={(cover) => {
                     handleUpdatePageData({ background_url: cover })
-                    handleUpdateIsUpdating(true)
+                    handleValidation()
                   }}
                   url={pageData?.background_url}
                 />
@@ -247,7 +274,10 @@ export function GeneralSettingsContent({
               onClick={() =>
                 router.push(
                   pageUrls.pageSettings({
-                    pageSlug: pageData?.slug || "",
+                    pageSlug:
+                      pageData?.slug != initialPageData.slug
+                        ? initialPageData.slug
+                        : pageData?.slug,
                     pageSettings: "delete",
                   })
                 )
@@ -268,7 +298,10 @@ export function GeneralSettingsContent({
               onClick={() =>
                 router.push(
                   pageUrls.pageSettings({
-                    pageSlug: pageData?.slug || "",
+                    pageSlug:
+                      pageData?.slug != initialPageData.slug
+                        ? initialPageData.slug
+                        : pageData?.slug,
                     pageSettings: "trackers",
                   })
                 )

@@ -66,7 +66,7 @@ export default function LogContent({
             creator_id: "",
             connected_templates: logData?.Publication?.dependencies
               ?.connected_templates
-              ? logData.Publication.dependencies?.connected_templates
+              ? logData?.Publication?.dependencies?.connected_templates
               : [],
           },
         },
@@ -222,8 +222,8 @@ export default function LogContent({
         onClick={() =>
           router.push(
             pageUrls.templateCentral({
-              pageSlug: logData?.Page?.url,
-              templateSlug: logData?.Template?.url,
+              pageSlug: pageData?.slug,
+              templateSlug: templateData?.slug,
               settings: "logs",
             })
           )
@@ -234,28 +234,28 @@ export default function LogContent({
 
   function loadHeader() {
     return (
-      <Header background_url={pageData.background_url || ""}>
+      <Header background_url={pageData?.background_url || ""}>
         <Tag
           variant="img-txt"
-          text={pageData.title || ""}
-          img_url={pageData.avatar_url || ""}
+          text={pageData?.title || ""}
+          img_url={pageData?.avatar_url || ""}
           onClick={() =>
             router.push(
               pageUrls.pageSettings({
-                pageSlug: pageData.slug || pageUrls.home(),
+                pageSlug: pageData?.slug || pageUrls.home(),
               })
             )
           }
         />
         <Tag
           variant="img-txt"
-          text={templateData.title || ""}
-          img_url={templateData.shortcut_image || ""}
+          text={templateData?.title || ""}
+          img_url={templateData?.shortcut_image || ""}
           onClick={() =>
             router.push(
               pageUrls.templateCentral({
-                pageSlug: pageData.slug,
-                templateSlug: templateData.slug,
+                pageSlug: pageData?.slug,
+                templateSlug: templateData?.slug,
                 settings: "logs",
               })
             )
@@ -263,8 +263,8 @@ export default function LogContent({
         />
         <Tag
           variant="img-txt"
-          img_url={logData.User.avatar_url || ""}
-          text={logData.User.name as ""}
+          img_url={logData?.User?.avatar_url || ""}
+          text={logData?.User?.name as ""}
         />
       </Header>
     )

@@ -42,9 +42,9 @@ export default function TemplateLogs({
 
   return (
     <LogContent
-      initialLogData={getInteractionLog.data}
-      initialPageData={getPageAndTemplate.data.Page}
-      initialTemplateData={getPageAndTemplate.data}
+      initialLogData={getInteractionLog?.data}
+      initialPageData={getPageAndTemplate?.data?.Page}
+      initialTemplateData={getPageAndTemplate?.data}
     />
   )
 }

@@ -48,6 +48,41 @@ export const PublishPublication = ({
 }: PublishPublicationProps) => {
   const text = useTranslation().t
 
+  type FormDataProps = {
+    title?: {
+      valid?: boolean
+    }
+    slug?: {
+      valid?: boolean
+    }
+    cover?: {
+      valid?: boolean
+    }
+    size?: {
+      valid?: boolean
+    }
+    publication?: {
+      valid?: boolean
+    }
+  }
+
+  const [formData, setFormData] = useState<FormDataProps>({
+    title: {
+      valid: true,
+    },
+    slug: {
+      valid: true,
+    },
+    cover: {
+      valid: true,
+    },
+    size: {
+      valid: true,
+    },
+    publication: {
+      valid: true,
+    },
+  })
   const [publicationTitle, setPublicationTitle] = useState("")
   const [currentPublication, setCurrentPublication] = useState<IPublication>()
   const [isUpdating, setIsUpdating] = useState(false)
@@ -55,21 +90,50 @@ export const PublishPublication = ({
   const [templateData, setTemplateData] =
     useState<getTemplateBySlugAndPageSlugProps>()
 
-  useEffect(() => {
-    setTemplateData(template)
-  }, [template])
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+  }
 
-  const getCurrentPulication = usePublication({
+  function handleValidation() {
+    if (templateData.title.length > 1) {
+      handleUpdateFormData({ title: { valid: true } })
+    } else {
+      handleUpdateFormData({ title: { valid: false } })
+    }
+    if (templateData.slug) {
+      handleUpdateFormData({ slug: { valid: true } })
+    } else {
+      handleUpdateFormData({ title: { valid: false } })
+    }
+    if (templateData.shortcut_image) {
+      handleUpdateFormData({ cover: { valid: true } })
+    } else {
+      handleUpdateFormData({ cover: { valid: false } })
+    }
+    if (templateData.shortcut_size) {
+      handleUpdateFormData({ size: { valid: true } })
+    } else {
+      handleUpdateFormData({ size: { valid: false } })
+    }
+    if (publicationTitle.length > 1) {
+      handleUpdateFormData({ publication: { valid: true } })
+    } else {
+      handleUpdateFormData({ publication: { valid: false } })
+    }
+  }
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
+
+  const getCurrentPublication = usePublication({
     id: templateData?.current_publication_id,
   })
-
-  useEffect(() => {
-    if (getCurrentPulication) {
-      setPublicationTitle(getCurrentPulication.data.title)
-      setCurrentPublication(getCurrentPulication.data)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getCurrentPulication])
 
   const generateTemplateUniqueSlug = useGenerateTemplateUniqueSlug()
 
@@ -89,17 +153,6 @@ export const PublishPublication = ({
     delay: 1000 * 1,
   })
 
-  useEffect(() => {
-    if (isUpdating && debouncedTemplateName) {
-      handleGetTemplateUrl({
-        id: templateData?.id,
-        title: debouncedTemplateName,
-        page_id: pageData?.id,
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedTemplateName])
-
   const handleUpdateTemplateData = (newData: IUpdateTemplate) => {
     setTemplateData((state) => {
       return {
@@ -107,7 +160,6 @@ export const PublishPublication = ({
         ...newData,
       } as getTemplateBySlugAndPageSlugProps
     })
-    setIsUpdating(true)
   }
 
   const createPublication = useCreatePublication()
@@ -191,22 +243,70 @@ export const PublishPublication = ({
   }
 
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("publish:back")}
-        onClick={onClose}
-      />,
-      <div key={2} className={`w-fit h-fit xl:hidden`}>
+    if (isUpdating) {
+      return [
         <Tag
+          key={1}
           variant="txt"
-          text={text("publish:publish")}
-          onClick={handleCreatePublication}
-        />
-      </div>,
-    ]
+          text={text("publish:back")}
+          onClick={onClose}
+        />,
+        <div key={2} className={`w-fit h-fit xl:hidden`}>
+          <Tag
+            variant="txt"
+            text={text("publish:publish")}
+            onClick={handleCreatePublication}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("publish:back")}
+          onClick={onClose}
+        />,
+      ]
+    }
   }
+
+  useEffect(() => {
+    if (getCurrentPublication) {
+      setPublicationTitle(getCurrentPublication.data.title)
+      setCurrentPublication(getCurrentPublication.data)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getCurrentPublication])
+
+  useEffect(() => {
+    setTemplateData(template)
+  }, [template])
+
+  useEffect(() => {
+    if (debouncedTemplateName && formData.title.valid) {
+      handleGetTemplateUrl({
+        id: templateData?.id,
+        title: debouncedTemplateName,
+        page_id: pageData?.id,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedTemplateName])
+
+  useEffect(() => {
+    if (
+      (formData.cover.valid,
+      formData.publication.valid,
+      formData.size.valid,
+      formData.slug.valid,
+      formData.title.valid)
+    ) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+  }, [formData])
 
   return (
     <>
@@ -228,8 +328,10 @@ export const PublishPublication = ({
                 input={{
                   label: text("publish:titlelabel"),
                   defaultValue: templateData?.title,
-                  onChange: (title) =>
-                    handleUpdateTemplateData({ title: title }),
+                  onChange: (title) => {
+                    handleValidation()
+                    handleUpdateTemplateData({ title: title })
+                  },
                 }}
               />
             </Card>
@@ -238,7 +340,10 @@ export const PublishPublication = ({
               <CardTextInput
                 input={{
                   label: "",
-                  onChange: (link) => handleUpdateTemplateData({ slug: link }),
+                  onChange: (link) => {
+                    handleValidation()
+                    handleUpdateTemplateData({ slug: link })
+                  },
                   fixedText: `quaq.me/${pageData?.slug}/`,
                   value: templateData?.slug,
                 }}
@@ -255,9 +360,10 @@ export const PublishPublication = ({
                 imageSelector={
                   <ImageSelector
                     url={templateData?.shortcut_image}
-                    onImageChange={(cover) =>
+                    onImageChange={(cover) => {
+                      handleValidation()
                       handleUpdateTemplateData({ shortcut_image: cover })
-                    }
+                    }}
                   />
                 }
               />
@@ -271,9 +377,10 @@ export const PublishPublication = ({
                   icon: Check,
                   isVisible: templateData?.shortcut_size != "small",
                 }}
-                onClick={() =>
+                onClick={() => {
+                  handleValidation()
                   handleUpdateTemplateData({ shortcut_size: "small" })
-                }
+                }}
               />
               <CardLine />
               <CardText
@@ -282,9 +389,10 @@ export const PublishPublication = ({
                   icon: Check,
                   isVisible: templateData?.shortcut_size != "large",
                 }}
-                onClick={() =>
+                onClick={() => {
+                  handleValidation()
                   handleUpdateTemplateData({ shortcut_size: "large" })
-                }
+                }}
               />
               <CardLine />
             </Card>
@@ -294,23 +402,27 @@ export const PublishPublication = ({
                 input={{
                   label: text("publish:publishaslabel"),
                   defaultValue: publicationTitle,
-                  onChange: (publicationTitle) =>
-                    setPublicationTitle(publicationTitle),
+                  onChange: (publicationTitle) => {
+                    handleValidation()
+                    setPublicationTitle(publicationTitle)
+                  },
                 }}
               />
             </Card>
-            <div className="w-full h-fit hidden xl:block">
-              <Button
-                block={{
-                  data: {
-                    color: "bg-black",
-                    text: text("publish:publish"),
-                    onClick: handleCreatePublication,
-                  },
-                }}
-                isEditable={false}
-              />
-            </div>
+            {isUpdating && (
+              <div className="w-full h-fit hidden xl:block">
+                <Button
+                  block={{
+                    data: {
+                      color: "bg-black",
+                      text: text("publish:publish"),
+                      onClick: handleCreatePublication,
+                    },
+                  }}
+                  isEditable={false}
+                />
+              </div>
+            )}
             <span className="w-full h-[4rem]"></span>
           </div>
         </div>

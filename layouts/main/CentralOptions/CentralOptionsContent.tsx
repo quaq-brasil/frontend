@@ -17,6 +17,7 @@ import { pageUrls } from "../../../utils/pagesUrl"
 
 type CentralOptionsContentProps = {
   templateData: IUpdateTemplate | undefined
+  initialTemplateData: IUpdateTemplate | undefined
   isUpdating: boolean
   handleUpdateTemplateData: (data: IUpdateTemplate) => void
   pageData: IUpdatePage | undefined
@@ -28,6 +29,7 @@ export function CentralOptionsContent({
   handleUpdateTemplateData,
   isUpdating,
   templateData,
+  initialTemplateData,
   pageData,
   handleUpdateRunUpdate,
   handleUpdateIsUpdating,
@@ -39,7 +41,7 @@ export function CentralOptionsContent({
     title?: {
       valid?: boolean
     }
-    link?: {
+    slug?: {
       valid?: boolean
     }
     cover?: {
@@ -54,7 +56,7 @@ export function CentralOptionsContent({
     title: {
       valid: false,
     },
-    link: {
+    slug: {
       valid: false,
     },
     cover: {
@@ -74,6 +76,29 @@ export function CentralOptionsContent({
     })
   }
 
+  function handleValidation() {
+    if (templateData.title.length > 1) {
+      handleUpdateFormData({ title: { valid: true } })
+    } else {
+      handleUpdateFormData({ title: { valid: false } })
+    }
+    if (templateData.slug) {
+      handleUpdateFormData({ slug: { valid: true } })
+    } else {
+      handleUpdateFormData({ title: { valid: false } })
+    }
+    if (templateData.shortcut_image) {
+      handleUpdateFormData({ cover: { valid: true } })
+    } else {
+      handleUpdateFormData({ cover: { valid: false } })
+    }
+    if (templateData.shortcut_size) {
+      handleUpdateFormData({ size: { valid: true } })
+    } else {
+      handleUpdateFormData({ size: { valid: false } })
+    }
+  }
+
   const generateTemplateUniqueUrl = useGenerateTemplateUniqueSlug()
 
   type handleGetTemplateUrlProps = {
@@ -91,6 +116,7 @@ export function CentralOptionsContent({
         },
       }
     )
+    handleValidation()
   }
 
   const debouncedTemplateName = useDebounce({
@@ -99,7 +125,7 @@ export function CentralOptionsContent({
   })
 
   useEffect(() => {
-    if (isUpdating && debouncedTemplateName && templateData?.title) {
+    if (debouncedTemplateName && formData.title.valid) {
       handleGetTemplateUrl({
         id: templateData.id,
         title: debouncedTemplateName,
@@ -112,7 +138,7 @@ export function CentralOptionsContent({
   useEffect(() => {
     if (
       formData.cover?.valid &&
-      formData.link?.valid &&
+      formData.slug?.valid &&
       formData.size?.valid &&
       formData.title?.valid
     ) {
@@ -137,21 +163,7 @@ export function CentralOptionsContent({
               input={{
                 onChange: (title) => {
                   handleUpdateTemplateData({ title: title })
-                  if (title.length > 2) {
-                    handleUpdateFormData({
-                      title: { valid: true },
-                      cover: { valid: true },
-                      link: { valid: true },
-                      size: { valid: true },
-                    })
-                  } else {
-                    handleUpdateFormData({
-                      title: { valid: false },
-                      cover: { valid: true },
-                      link: { valid: true },
-                      size: { valid: true },
-                    })
-                  }
+                  handleValidation()
                 },
                 inputValue: templateData?.title,
                 type: "title",
@@ -170,7 +182,6 @@ export function CentralOptionsContent({
               indicator={{
                 icon: Check,
                 bgColor: "green-500",
-                onClick: () => {},
               }}
             />
           </Card>
@@ -182,12 +193,7 @@ export function CentralOptionsContent({
                 <ImageSelector
                   onImageChange={(image) => {
                     handleUpdateTemplateData({ shortcut_image: image })
-                    handleUpdateFormData({
-                      title: { valid: true },
-                      cover: { valid: true },
-                      link: { valid: true },
-                      size: { valid: true },
-                    })
+                    handleValidation()
                   }}
                   url={templateData?.shortcut_image}
                 />
@@ -205,12 +211,7 @@ export function CentralOptionsContent({
               }}
               onClick={() => {
                 handleUpdateTemplateData({ shortcut_size: "small" })
-                handleUpdateFormData({
-                  title: { valid: true },
-                  cover: { valid: true },
-                  link: { valid: true },
-                  size: { valid: true },
-                })
+                handleValidation()
               }}
             />
             <CardLine />
@@ -222,12 +223,7 @@ export function CentralOptionsContent({
               }}
               onClick={() => {
                 handleUpdateTemplateData({ shortcut_size: "large" })
-                handleUpdateFormData({
-                  title: { valid: true },
-                  cover: { valid: true },
-                  link: { valid: true },
-                  size: { valid: true },
-                })
+                handleValidation()
               }}
             />
             <CardLine />
@@ -257,7 +253,10 @@ export function CentralOptionsContent({
                 router.push(
                   pageUrls.templateCentral({
                     pageSlug: pageData?.slug || "",
-                    templateSlug: templateData?.slug || "",
+                    templateSlug:
+                      templateData?.slug != initialTemplateData.slug
+                        ? initialTemplateData.slug
+                        : templateData?.slug,
                     settings: "trackers",
                   })
                 )
@@ -271,7 +270,10 @@ export function CentralOptionsContent({
                 router.push(
                   pageUrls.templateCentral({
                     pageSlug: pageData?.slug || "",
-                    templateSlug: templateData?.slug || "",
+                    templateSlug:
+                      templateData?.slug != initialTemplateData.slug
+                        ? initialTemplateData.slug
+                        : templateData?.slug,
                     settings: "edit",
                   })
                 )

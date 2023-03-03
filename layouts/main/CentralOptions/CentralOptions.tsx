@@ -74,13 +74,15 @@ export default function CentralOptions({
           key={1}
           variant="txt"
           text={text("centraloptions:back")}
-          onClick={() =>
+          onClick={() => {
+            handleUpdateIsUpdating(false)
+            handleUpdateRunUpdate(false)
             router.push(
               pageUrls.pageSettings({
                 pageSlug: pageData?.slug || pageUrls.home(),
               })
             )
-          }
+          }}
         />,
         // <Tag
         //   key={2}
@@ -113,13 +115,15 @@ export default function CentralOptions({
           key={1}
           variant="txt"
           text={text("centraloptions:back")}
-          onClick={() =>
+          onClick={() => {
+            handleUpdateIsUpdating(false)
+            handleUpdateRunUpdate(false)
             router.push(
               pageUrls.pageSettings({
                 pageSlug: pageData?.slug || pageUrls.home(),
               })
             )
-          }
+          }}
         />,
         <Tag
           key={2}
@@ -130,7 +134,10 @@ export default function CentralOptions({
               pageUrls.templateCentral({
                 pageSlug: pageData?.slug,
                 settings: "central",
-                templateSlug: templateData?.slug,
+                templateSlug:
+                  templateData?.slug != initialTemplateData.slug
+                    ? initialTemplateData.slug
+                    : templateData?.slug,
               })
             )
           }
@@ -146,7 +153,10 @@ export default function CentralOptions({
               pageUrls.templateCentral({
                 pageSlug: pageData?.slug,
                 settings: "logs",
-                templateSlug: templateData?.slug,
+                templateSlug:
+                  templateData?.slug != initialTemplateData.slug
+                    ? initialTemplateData.slug
+                    : templateData?.slug,
               })
             )
           }
@@ -189,6 +199,7 @@ export default function CentralOptions({
       {loadHeader()}
       <CentralOptionsContent
         templateData={templateData}
+        initialTemplateData={initialTemplateData}
         isUpdating={isUpdating}
         handleUpdateTemplateData={handleUpdateTemplateData}
         handleUpdateRunUpdate={handleUpdateRunUpdate}

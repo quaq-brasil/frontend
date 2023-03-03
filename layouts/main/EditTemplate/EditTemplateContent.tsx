@@ -8,8 +8,10 @@ import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
+import { useDebounce } from "../../../hooks/useDebouce"
 import { useCreatePublication } from "../../../services/hooks/usePublication/useCreatePublication"
 import { useUpdatePublication } from "../../../services/hooks/usePublication/useUpdatePublication"
+import { useGenerateTemplateUniqueSlug } from "../../../services/hooks/useTemplate/useGenerateTemplateUniqueSlug"
 import { IUpdatePage } from "../../../types/Page.type"
 import { IPublication } from "../../../types/Publication.type"
 import { IUpdateTemplate } from "../../../types/Template.type"
@@ -37,6 +39,24 @@ export function EditTemplateContent({
 }: EditTemplateContentProps) {
   const text = useTranslation().t
 
+  type FormDataProps = {
+    title?: {
+      valid?: boolean
+    }
+    slug?: {
+      valid?: boolean
+    }
+    cover?: {
+      valid?: boolean
+    }
+    size?: {
+      valid?: boolean
+    }
+    publication?: {
+      valid?: boolean
+    }
+  }
+
   async function onTemplateUpdate() {
     handleCreatePublication()
   }
@@ -55,10 +75,64 @@ export function EditTemplateContent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
+  const [formData, setFormData] = useState<FormDataProps>({
+    cover: {
+      valid: false,
+    },
+    publication: {
+      valid: false,
+    },
+    size: {
+      valid: false,
+    },
+    slug: {
+      valid: false,
+    },
+    title: {
+      valid: false,
+    },
+  })
   const [createNewPublication, setCreateNewPublication] = useState(false)
   const [newPublicationTitle, setNewPublicationTitle] = useState("")
   const [publicationId, setPublicationId] = useState<string>()
   const [currentPublicationTitle, setCurrentPublicationTitle] = useState("")
+
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+  }
+
+  function handleValidation() {
+    if (templateData.title.length > 1) {
+      handleUpdateFormData({ title: { valid: true } })
+    } else {
+      handleUpdateFormData({ title: { valid: false } })
+    }
+    if (templateData.slug) {
+      handleUpdateFormData({ slug: { valid: true } })
+    } else {
+      handleUpdateFormData({ title: { valid: false } })
+    }
+    if (templateData.shortcut_image) {
+      handleUpdateFormData({ cover: { valid: true } })
+    } else {
+      handleUpdateFormData({ cover: { valid: false } })
+    }
+    if (templateData.shortcut_size) {
+      handleUpdateFormData({ size: { valid: true } })
+    } else {
+      handleUpdateFormData({ size: { valid: false } })
+    }
+    if (currentPublicationTitle.length > 1) {
+      handleUpdateFormData({ publication: { valid: true } })
+    } else {
+      handleUpdateFormData({ publication: { valid: false } })
+    }
+  }
 
   const createPublication = useCreatePublication()
 
@@ -105,16 +179,66 @@ export function EditTemplateContent({
     }
   }
 
+  const generateTemplateUniqueUrl = useGenerateTemplateUniqueSlug()
+
+  type handleGetTemplateUrlProps = {
+    id: string
+    title: string
+    page_id: string
+  }
+
+  function handleGetTemplateUrl(data: handleGetTemplateUrlProps) {
+    generateTemplateUniqueUrl.mutate(
+      { data },
+      {
+        onSuccess: (slug) => {
+          handleUpdateTemplateData({ slug })
+        },
+      }
+    )
+    handleValidation()
+  }
+
+  const debouncedTemplateName = useDebounce({
+    value: templateData?.title,
+    delay: 1000 * 1,
+  })
+
+  useEffect(() => {
+    if (debouncedTemplateName && formData.title.valid) {
+      handleGetTemplateUrl({
+        id: templateData.id,
+        title: debouncedTemplateName,
+        page_id: pageData?.id,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedTemplateName])
+
   useEffect(() => {
     if (publicationId) {
       handleUpdateTemplate({
         ...templateData,
         current_publication_id: publicationId,
       })
-      handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [publicationId])
+
+  useEffect(() => {
+    if (
+      (formData.cover.valid,
+      formData.publication.valid,
+      formData.size.valid,
+      formData.slug.valid,
+      formData.title.valid)
+    ) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -128,7 +252,10 @@ export function EditTemplateContent({
             <CardText label={text("edittemplate:title")} />
             <CardTextInput
               input={{
-                onChange: (title) => handleUpdateTemplateData({ title: title }),
+                onChange: (title) => {
+                  handleUpdateTemplateData({ title: title })
+                  handleValidation()
+                },
                 defaultValue: templateData?.title,
                 label: text("edittemplate:titlelabel"),
               }}

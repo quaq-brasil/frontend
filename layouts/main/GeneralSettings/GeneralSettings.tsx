@@ -54,9 +54,18 @@ export default function GeneralSettings({
           key={1}
           variant="txt"
           text={text("generalsettings:back")}
-          onClick={() =>
-            router.push(pageUrls.pageSettings({ pageSlug: pageData?.slug }))
-          }
+          onClick={() => {
+            handleUpdateIsUpdating(false)
+            handleUpdateRunUpdate(false)
+            router.push(
+              pageUrls.pageSettings({
+                pageSlug:
+                  pageData?.slug != initialPageData.slug
+                    ? initialPageData.slug
+                    : pageData?.slug,
+              })
+            )
+          }}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -72,9 +81,18 @@ export default function GeneralSettings({
           key={1}
           variant="txt"
           text={text("generalsettings:back")}
-          onClick={() =>
-            router.push(pageUrls.pageSettings({ pageSlug: pageData?.slug }))
-          }
+          onClick={() => {
+            handleUpdateIsUpdating(false)
+            handleUpdateRunUpdate(false)
+            router.push(
+              pageUrls.pageSettings({
+                pageSlug:
+                  pageData?.slug != initialPageData.slug
+                    ? initialPageData.slug
+                    : pageData?.slug,
+              })
+            )
+          }}
         />,
       ]
     }

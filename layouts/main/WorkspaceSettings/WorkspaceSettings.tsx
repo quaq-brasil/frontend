@@ -19,7 +19,8 @@ export default function WorkspaceSettings({
 }: WorkspaceSettingsProps) {
   const text = useTranslation().t
 
-  const [workspaceData, setWorkspaceData] = useState<IUpdateWorkspace>()
+  const [workspaceData, setWorkspaceData] =
+    useState<IUpdateWorkspace>(initialWorkspaceData)
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -34,7 +35,6 @@ export default function WorkspaceSettings({
         ...newData,
       } as IUpdateWorkspace
     })
-    handleUpdateIsUpdating(true)
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -63,7 +63,11 @@ export default function WorkspaceSettings({
           key={1}
           variant="txt"
           text={text("wssettings:back")}
-          onClick={() => router.push(pageUrls.adm())}
+          onClick={() => {
+            handleUpdateIsUpdating(false)
+            handleUpdateRunUpdate(false)
+            router.push(pageUrls.adm())
+          }}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
@@ -79,7 +83,11 @@ export default function WorkspaceSettings({
           key={1}
           variant="txt"
           text={text("wssettings:back")}
-          onClick={() => router.push(pageUrls.adm())}
+          onClick={() => {
+            handleUpdateIsUpdating(false)
+            handleUpdateRunUpdate(false)
+            router.push(pageUrls.adm())
+          }}
         />,
       ]
     }
@@ -108,6 +116,7 @@ export default function WorkspaceSettings({
       <WorkspaceSettingsContent
         handleUpdateWorkspaceData={handleUpdateWorkspaceData}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
+        handleUpdateIsUpdating={handleUpdateIsUpdating}
         workspaceData={workspaceData}
         isUpdating={isUpdating}
       />

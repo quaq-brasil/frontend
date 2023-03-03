@@ -39,7 +39,11 @@ export default function EditTemplatePage({
     updateTemplate.mutate({
       id: getPageAndTemplate.data.id,
       data: {
-        ...data,
+        shortcut_image: data.shortcut_image,
+        shortcut_size: data.shortcut_size,
+        slug: data.slug,
+        title: data.title,
+        current_publication_id: data.current_publication_id,
       },
     })
   }

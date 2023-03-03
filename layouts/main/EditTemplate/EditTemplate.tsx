@@ -1,8 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
-import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
-import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IPage, IUpdatePage } from "../../../types/Page.type"
 import { ITemplate, IUpdateTemplate } from "../../../types/Template.type"
@@ -20,7 +18,6 @@ export default function EditTemplate({
   handleUpdateTemplate,
 }: EditTemplateProps) {
   const text = useTranslation().t
-  const router = useRouter()
 
   const [pageData, setPageData] = useState<IUpdatePage>(initialPageData)
   const [templateData, setTemplateData] =
@@ -43,7 +40,6 @@ export default function EditTemplate({
         ...newData,
       } as IUpdateTemplate
     })
-    handleUpdateIsUpdating(true)
   }
 
   useEffect(() => {
@@ -98,7 +94,7 @@ export default function EditTemplate({
         runUpdate={runUpdate}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
       />
-      <TabBar isHidden={false} tags={handleTabBar()} />
+      {/* <TabBar isHidden={false} tags={handleTabBar()} /> */}
     </div>
   )
 }

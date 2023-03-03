@@ -5,6 +5,7 @@ import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUpdateUser, IUser } from "../../../types/User.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 import { ProfileContent } from "./ProfileContent"
 
 type ProfileProps = {
@@ -44,7 +45,6 @@ export default function Profile({
         ...newData,
       } as IUpdateUser
     })
-    handleUpdateIsUpdating(true)
   }
 
   useEffect(() => {
@@ -62,7 +62,11 @@ export default function Profile({
           key={1}
           variant="txt"
           text={text("edittemplate:back")}
-          onClick={() => router.back()}
+          onClick={() => {
+            handleUpdateIsUpdating(false)
+            handleUpdateRunUpdate(false)
+            router.push(pageUrls.adm())
+          }}
         />,
         <div key={2} className={`w-fit h-fit xl:hidden`}>
           <Tag
@@ -78,7 +82,11 @@ export default function Profile({
           key={1}
           variant="txt"
           text={text("profile:back")}
-          onClick={() => router.back()}
+          onClick={() => {
+            handleUpdateIsUpdating(false)
+            handleUpdateRunUpdate(false)
+            router.push(pageUrls.adm())
+          }}
         />,
       ]
     }
@@ -108,6 +116,7 @@ export default function Profile({
         userData={userData}
         isUpdating={isUpdating}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
+        handleUpdateIsUpdating={handleUpdateIsUpdating}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
