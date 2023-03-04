@@ -19,6 +19,7 @@ export type IWorkspace = {
   created_at?: string
   updated_at?: string
   members?: IMember[]
+  user_id?: string
 }
 
 export type IUpdateWorkspace = {

@@ -29,9 +29,14 @@ export function WorkspaceMembersContent({
 
   type IMember = {
     id: string
-    email: string
-    name: string
-    profilePicture: string
+    user_id: string
+    workspace_id: string
+    user: {
+      id: string
+      name: string
+      email: string
+      avatar_url: string
+    }
   }
 
   const [runUpdate, setRunUpdate] = useState(false)
@@ -50,9 +55,9 @@ export function WorkspaceMembersContent({
       const newMembers = workspaceData.members.map((member) => {
         return {
           id: member.id,
-          email: member.user.email,
-          name: member.user.name,
-          profilePicture: member.user.avatar_url,
+          user: member.user,
+          user_id: member.user_id,
+          workspace_id: member.workspace_id,
         } as IMember
       })
       setMembers([...newMembers])
@@ -74,7 +79,7 @@ export function WorkspaceMembersContent({
       let isEmailUnique = true
 
       members.forEach((member) => {
-        if (member.email === email) {
+        if (member.user.email === email) {
           isEmailUnique = false
         }
       })
@@ -123,7 +128,7 @@ export function WorkspaceMembersContent({
   useEffect(() => {
     if (memberToBeRemoved && runRemoveMember) {
       removeMember.mutate(
-        { memberId: memberToBeRemoved.id, workspaceId: workspaceData.id },
+        { memberId: memberToBeRemoved.user_id, workspaceId: workspaceData.id },
         {
           onSuccess: (data) => {
             handleUpdateWorkspaceData(data)
@@ -151,11 +156,11 @@ export function WorkspaceMembersContent({
                 return (
                   <>
                     <CardLog
-                      key={member.email}
-                      name={member.name}
-                      date={member.email}
+                      key={member.id}
+                      name={member.user.name}
+                      date={member.user.email}
                       icon={X}
-                      img_url={member.profilePicture}
+                      img_url={member.user.avatar_url}
                       onClick={() => {
                         setMemberToBeRemoved(member)
                         setIsPopOverOpen(true)

@@ -82,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = withAuth(
       })
 
       return {
-        pageData: { data },
+        pageData: data,
         payload,
         pageSlug: page,
       }

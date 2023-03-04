@@ -1,10 +1,8 @@
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import CreateWorkspace from "../../../layouts/main/CreateWorkspace/CreateWorkspace"
-import { api } from "../../../services/api"
-import { useUser } from "../../../services/hooks/useUser/useUser"
 import { useCreateWorkspace } from "../../../services/hooks/useWorkspace/useCreateWorkspace"
-import { IUser } from "../../../types/User.type"
+import { IUserPayload } from "../../../types/Auth.types"
 import { IUpdateWorkspace } from "../../../types/Workspace.type"
 import {
   RedirectNotFoundVerify,
@@ -14,7 +12,7 @@ import { pageUrls } from "../../../utils/pagesUrl"
 import { withAuth } from "../../../utils/withAuth"
 
 type CreateWorkspacePageProps = {
-  data: IUser
+  data: IUserPayload
 }
 
 export default function CreateWorkspacePage({
@@ -22,22 +20,23 @@ export default function CreateWorkspacePage({
 }: CreateWorkspacePageProps) {
   const router = useRouter()
 
-  const getUser = useUser({
-    options: {
-      initialData: data,
-    },
-  })
+  // const getUser = useUser({
+  //   options: {
+  //     initialData: data,
+  //   },
+  // })
 
   const createWorkspace = useCreateWorkspace()
 
-  function handleCreateWorkspace(data: IUpdateWorkspace) {
+  function handleCreateWorkspace(newData: IUpdateWorkspace) {
     createWorkspace.mutate(
       {
         data: {
-          title: data.title,
-          slug: data.title,
-          avatar_url: data.avatar_url,
+          title: newData.title,
+          slug: newData.title,
+          avatar_url: newData.avatar_url,
           services: [{ type: "", description: "" }],
+          user_id: data.sub,
         },
       },
       {
@@ -50,7 +49,7 @@ export default function CreateWorkspacePage({
 
   return (
     <CreateWorkspace
-      initialUserData={getUser.data}
+      initialUserData={data}
       handleCreateWorkspace={handleCreateWorkspace}
     />
   )
@@ -59,13 +58,7 @@ export default function CreateWorkspacePage({
 export const getServerSideProps: GetServerSideProps = withAuth(
   async (ctx: any, cookies: any, payload: any) => {
     async function getUser({ cookies }: redirectNotFoundVerifyProps) {
-      const { data } = await api.get("users", {
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-      })
-
-      return { data }
+      return { data: payload }
     }
 
     return await RedirectNotFoundVerify(getUser, ctx, cookies, payload)

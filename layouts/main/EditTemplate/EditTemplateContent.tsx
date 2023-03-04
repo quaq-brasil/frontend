@@ -296,8 +296,8 @@ export function EditTemplateContent({
               label={text("edittemplate:small")}
               indicator={{
                 icon: Check,
-                // onClick: () =>
-                //   handleUpdateTemplateData({ shortcut_size: "small" }),
+                onClick: () =>
+                  handleUpdateTemplateData({ shortcut_size: "small" }),
                 isVisible:
                   templateData?.shortcut_size == "small" ? false : true,
               }}
@@ -307,8 +307,8 @@ export function EditTemplateContent({
               label={text("edittemplate:large")}
               indicator={{
                 icon: Check,
-                // onClick: () =>
-                //   handleUpdateTemplateData({ shortcut_size: "large" }),
+                onClick: () =>
+                  handleUpdateTemplateData({ shortcut_size: "large" }),
                 isVisible:
                   templateData?.shortcut_size == "large" ? false : true,
               }}
