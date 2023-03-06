@@ -4,13 +4,13 @@ import { useEffect, useState } from "react"
 import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
-import { IUser } from "../../../types/User.type"
+import { IUserPayload } from "../../../types/Auth.types"
 import { IUpdateWorkspace } from "../../../types/Workspace.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 import { FirstWorkspaceContent } from "./FirstWorkspaceContent"
 
 type FirstWorkspaceProps = {
-  initialUserData: IUser | null
+  initialUserData: IUserPayload | null
   handleCreateWorkspace: (data: IUpdateWorkspace) => void
 }
 
@@ -21,7 +21,7 @@ export default function FirstWorkspace({
   const text = useTranslation().t
   const router = useRouter()
 
-  const [userData, setUserData] = useState<IUser | null>()
+  const [userData, setUserData] = useState<IUserPayload | null>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
   const [workspaceData, setWorkspaceData] = useState<IUpdateWorkspace>()

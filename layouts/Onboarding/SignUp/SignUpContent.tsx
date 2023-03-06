@@ -1,7 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { Check } from "phosphor-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { Card } from "../../../components/Card/Card"
@@ -32,25 +32,40 @@ export function SignupContent({
   const text = useTranslation().t
   const router = useRouter()
 
+  type TemporaryDataProps = {
+    name?: string
+    picture?: string
+    email?: string
+    password?: string
+    passwordConfirmation?: string
+    accept?: boolean
+  }
+
+  const [temporaryData, setTemporaryData] = useState<TemporaryDataProps>()
+
+  function handleUpdateTemporaryData(newData: TemporaryDataProps) {
+    setTemporaryData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as TemporaryDataProps
+    })
+  }
+
   type FormDataProps = {
     name?: {
       valid?: boolean
     }
-    profilePicture?: {
+    picture?: {
       valid?: boolean
     }
     email?: {
       valid?: boolean
     }
     password?: {
-      value?: string
       valid?: boolean
     }
-    passwordConfirm?: {
-      value?: string
-      valid?: boolean
-    }
-    acceptTermsAndConditions?: {
+    accept?: {
       valid?: boolean
     }
   }
@@ -59,22 +74,17 @@ export function SignupContent({
     name: {
       valid: false,
     },
-    profilePicture: {
+    picture: {
       valid: false,
     },
     email: {
       valid: false,
     },
     password: {
-      value: "",
       valid: false,
     },
-    passwordConfirm: {
-      value: "",
+    accept: {
       valid: false,
-    },
-    acceptTermsAndConditions: {
-      valid: true,
     },
   })
 
@@ -85,16 +95,28 @@ export function SignupContent({
         ...newData,
       } as FormDataProps
     })
+  }
+
+  useEffect(() => {
     if (
-      formData.email?.valid &&
-      formData.name?.valid &&
-      formData.password?.valid &&
-      formData.passwordConfirm?.valid &&
-      formData.profilePicture?.valid
+      formData.accept.valid &&
+      formData.email.valid &&
+      formData.name.valid &&
+      formData.password.valid &&
+      formData.picture.valid
     ) {
       handleUpdateIsUpdating(true)
+      handleUpdateUserData({
+        avatar_url: temporaryData.picture,
+        email: temporaryData.email,
+        name: temporaryData.name,
+        password: temporaryData.password,
+      })
+    } else {
+      handleUpdateIsUpdating(false)
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -103,7 +125,7 @@ export function SignupContent({
       bg-slate-100 rounded-t-[25px] overflow-y-scroll scrollbar-hide pt-2 px-2
       md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:p-[2rem]"
       >
-        <form className="flex flex-col gap-2 md:gap-4 items-center" action="">
+        <div className="flex flex-col gap-2 md:gap-4 items-center">
           <Card>
             <CardText label={text("signup:intro")} />
           </Card>
@@ -112,11 +134,15 @@ export function SignupContent({
             <CardTextInput
               input={{
                 onChange: (name) => {
-                  handleUpdateUserData({ name: name })
+                  handleUpdateTemporaryData({ name: name })
+                  if (name && name.length > 1) {
+                    handleUpdateFormData({ name: { valid: true } })
+                  } else {
+                    handleUpdateFormData({ name: { valid: false } })
+                  }
                 },
                 label: text("signup:namelabel"),
                 type: "name",
-                setValid: () => handleUpdateFormData({ name: { valid: true } }),
               }}
             />
           </Card>
@@ -125,9 +151,11 @@ export function SignupContent({
             <div className="w-full flex flex-row justify-between items-center bg-slate-50 my-2 py-3 px-3 lg:px-[1.125rem]">
               <ImageSelector
                 onImageChange={(image) => {
-                  {
-                    handleUpdateUserData({ avatar_url: image })
-                    handleUpdateFormData({ profilePicture: { valid: true } })
+                  handleUpdateTemporaryData({ picture: image })
+                  if (image) {
+                    handleUpdateFormData({ picture: { valid: true } })
+                  } else {
+                    handleUpdateFormData({ picture: { valid: false } })
                   }
                 }}
               />
@@ -137,11 +165,16 @@ export function SignupContent({
             <CardText label={text("signup:email")} />
             <CardTextInput
               input={{
-                onChange: (email) => handleUpdateUserData({ email: email }),
+                onChange: (email) => {
+                  handleUpdateTemporaryData({ email: email })
+                  if (email && email.length > 4) {
+                    handleUpdateFormData({ email: { valid: true } })
+                  } else {
+                    handleUpdateFormData({ email: { valid: false } })
+                  }
+                },
                 type: "email",
                 label: text("signup:emaillabel"),
-                setValid: () =>
-                  handleUpdateFormData({ email: { valid: true } }),
               }}
             />
           </Card>
@@ -150,21 +183,19 @@ export function SignupContent({
             <CardTextInput
               input={{
                 onChange: (password) => {
-                  handleUpdateUserData({ password: password })
-                  handleUpdateFormData({ password: { value: password } })
+                  handleUpdateTemporaryData({ password: password })
+                  if (
+                    password &&
+                    password.length > 8 &&
+                    password === temporaryData.passwordConfirmation
+                  ) {
+                    handleUpdateFormData({ password: { valid: true } })
+                  } else {
+                    handleUpdateFormData({ password: { valid: false } })
+                  }
                 },
                 type: "password",
                 label: text("signup:passwordlabel"),
-                setValid: () => {
-                  if (
-                    formData.password?.value === formData.passwordConfirm?.value
-                  ) {
-                    handleUpdateFormData({
-                      password: { valid: true },
-                      passwordConfirm: { valid: true },
-                    })
-                  }
-                },
               }}
             />
           </Card>
@@ -173,22 +204,21 @@ export function SignupContent({
             <CardTextInput
               input={{
                 onChange: (confirmation) => {
-                  handleUpdateFormData({
-                    passwordConfirm: { value: confirmation },
+                  handleUpdateTemporaryData({
+                    passwordConfirmation: confirmation,
                   })
+                  if (
+                    confirmation &&
+                    confirmation.length > 8 &&
+                    confirmation === temporaryData.password
+                  ) {
+                    handleUpdateFormData({ password: { valid: true } })
+                  } else {
+                    handleUpdateFormData({ password: { valid: false } })
+                  }
                 },
                 type: "password",
                 label: text("signup:confirmationlabel"),
-                setValid: () => {
-                  if (
-                    formData.password?.value === formData.passwordConfirm?.value
-                  ) {
-                    handleUpdateFormData({
-                      password: { valid: true },
-                      passwordConfirm: { valid: true },
-                    })
-                  }
-                },
               }}
             />
           </Card>
@@ -208,11 +238,11 @@ export function SignupContent({
               label={text("signup:accept")}
               indicator={{
                 icon: Check,
-                isVisible: formData.acceptTermsAndConditions.valid,
-                onClick: () =>
-                  handleUpdateFormData({
-                    acceptTermsAndConditions: { valid: true },
-                  }),
+                isVisible: !temporaryData?.accept,
+              }}
+              onClick={() => {
+                handleUpdateTemporaryData({ accept: true })
+                handleUpdateFormData({ accept: { valid: true } })
               }}
             />
             <CardLine />
@@ -220,11 +250,11 @@ export function SignupContent({
               label={text("signup:decline")}
               indicator={{
                 icon: Check,
-                isVisible: formData.acceptTermsAndConditions.valid,
-                onClick: () =>
-                  handleUpdateFormData({
-                    acceptTermsAndConditions: { valid: false },
-                  }),
+                isVisible: temporaryData?.accept,
+              }}
+              onClick={() => {
+                handleUpdateTemporaryData({ accept: false })
+                handleUpdateFormData({ accept: { valid: false } })
               }}
             />
             <CardLine />
@@ -248,7 +278,7 @@ export function SignupContent({
           <div className="absolute z-30">
             <ToastContainer />
           </div>
-        </form>
+        </div>
       </div>
     </div>
   )

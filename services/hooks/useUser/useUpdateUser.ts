@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, UseMutationResult } from "@tanstack/react-query"
 import { api } from "../../api"
 import { IUpdateUser } from "./../../../types/User.type"
 
@@ -9,7 +9,11 @@ type useUpdateUserProps = {
 
 export const useUpdateUser = () => {
   const updateUser = async ({ id, data }: useUpdateUserProps) => {
-    await api.put(`/users/${id}`, data)
+    const response: UseMutationResult<IUpdateUser> = await api.put(
+      `/users/${id}`,
+      data
+    )
+    return response.data as IUpdateUser
   }
 
   return useMutation({

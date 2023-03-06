@@ -20,12 +20,6 @@ export default function CreateWorkspacePage({
 }: CreateWorkspacePageProps) {
   const router = useRouter()
 
-  // const getUser = useUser({
-  //   options: {
-  //     initialData: data,
-  //   },
-  // })
-
   const createWorkspace = useCreateWorkspace()
 
   function handleCreateWorkspace(newData: IUpdateWorkspace) {

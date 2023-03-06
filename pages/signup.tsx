@@ -1,8 +1,8 @@
 import { useRouter } from "next/router"
-import { useState } from "react"
-import SignUp from "../layouts/Onboarding/SignUp/SignUp"
+import SignUp from "../layouts/Onboarding/Signup/SignUp"
 
 import { useCreateUser } from "../services/hooks/useUser/useCreateUser"
+import { useLogin } from "../services/hooks/useUser/useLogin"
 import { useUpdateUser } from "../services/hooks/useUser/useUpdateUser"
 import { IUpdateUser } from "../types/User.type"
 import { pageUrls } from "../utils/pagesUrl"
@@ -14,31 +14,40 @@ export default function LoginPage() {
 
   const updateUser = useUpdateUser()
 
-  const [userId, setUserId] = useState<string>("")
+  const loginUser = useLogin()
 
-  function handleCreateUser(data: IUpdateUser) {
+  function handleCreateUser(newData: IUpdateUser) {
     createUser.mutate(
       { data: {} },
       {
         onSuccess: (data) => {
-          setUserId(data.id)
-        },
-      }
-    )
-    updateUser.mutate(
-      {
-        id: userId,
-        data: {
-          avatar_url: data.avatar_url,
-          email: data.email,
-          name: data.name,
-          password: data.password,
-        },
-      },
-      {
-        onSuccess: () => {
-          router.push(
-            pageUrls.workspaceSettings({ settings: "first-workspace" })
+          updateUser.mutate(
+            {
+              id: data.id,
+              data: {
+                avatar_url: newData.avatar_url,
+                email: newData.email,
+                name: newData.name,
+                password: newData.password,
+              },
+            },
+            {
+              onSuccess: (data) => {
+                loginUser.mutate(
+                  {
+                    email: data.email,
+                    password: newData.password,
+                  },
+                  {
+                    onSuccess: () => {
+                      router.push(
+                        pageUrls.workspaceSettings({ settings: "setup" })
+                      )
+                    },
+                  }
+                )
+              },
+            }
           )
         },
       }
