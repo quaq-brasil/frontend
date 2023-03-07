@@ -26,6 +26,7 @@ import {
   getTemplateBySlugAndPageSlugProps,
   IUpdateTemplate,
 } from "../../../types/Template.type"
+import { pageUrls } from "../../../utils/pagesUrl"
 
 type PublishPublicationProps = {
   blocks: any[]
@@ -393,6 +394,23 @@ export const PublishPublication = ({
                   handleValidation()
                   handleUpdateTemplateData({ shortcut_size: "large" })
                 }}
+              />
+              <CardLine />
+            </Card>
+            <Card>
+              <CardText label={text("centraloptions:visibility")} />
+              <CardText
+                label={text("centraloptions:public")}
+                indicator={{ icon: Check }}
+                onClick={() => {}}
+              />
+              <CardLine />
+              <CardText
+                label={text("centraloptions:wsmembers")}
+                indicator={{
+                  icon: Check,
+                }}
+                onClick={() => router.push(pageUrls.terms())}
               />
               <CardLine />
             </Card>

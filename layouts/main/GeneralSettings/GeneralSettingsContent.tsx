@@ -251,6 +251,34 @@ export function GeneralSettingsContent({
             />
           </Card>
 
+          <Card>
+            <CardText label={text("generalsettings:visibility")} />
+            <CardText
+              label={text("generalsettings:public")}
+              indicator={{ icon: Check }}
+              onClick={() =>
+                router.push(
+                  pageUrls.pageSettings({
+                    pageSlug:
+                      pageData?.slug != initialPageData.slug
+                        ? initialPageData.slug
+                        : pageData?.slug,
+                    pageSettings: "delete",
+                  })
+                )
+              }
+            />
+            <CardLine />
+            <CardText
+              label={text("generalsettings:wsmembers")}
+              indicator={{
+                icon: Check,
+              }}
+              onClick={() => router.push(pageUrls.terms())}
+            />
+            <CardLine />
+          </Card>
+
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button

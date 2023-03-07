@@ -15,5 +15,8 @@
   "delete": "delete page",
   "terms": "terms and policies",
   "trackers": "trackers",
-  "confirm": "update page"
+  "confirm": "update page",
+  "visibility": "page visibility",
+  "public": "anyone",
+  "wsmembers": "workspace members only"
 }

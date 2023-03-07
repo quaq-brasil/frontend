@@ -13,5 +13,8 @@
   "small": "pequeno",
   "large": "grande",
   "confirm": "confirmar",
-  "update": "update"
+  "update": "update",
+  "visibility": "visibilidade do template",
+  "public": "qualquer um",
+  "wsmembers": "membros do workspace apenas"
 }

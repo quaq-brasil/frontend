@@ -154,7 +154,7 @@ export function CreateTemplateContent({
               {blocks.map((block, index) => {
                 return (
                   <BlockReader
-                    key={index}
+                    key={block.id}
                     block={block}
                     isEditable={true}
                     onDelete={() => handleRemoveBlock(index)}

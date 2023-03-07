@@ -15,5 +15,8 @@
   "delete": "deletar página",
   "terms": "termos e políticas",
   "trackers": "rastreadores",
-  "confirm": "atualizar página"
+  "confirm": "atualizar página",
+  "visibility": "visibilidade da página",
+  "public": "qualquer um",
+  "wsmembers": "apenas membros do workspace"
 }

@@ -229,6 +229,24 @@ export function CentralOptionsContent({
             <CardLine />
           </Card>
 
+          <Card>
+            <CardText label={text("centraloptions:visibility")} />
+            <CardText
+              label={text("centraloptions:public")}
+              indicator={{ icon: Check }}
+              onClick={() => {}}
+            />
+            <CardLine />
+            <CardText
+              label={text("centraloptions:wsmembers")}
+              indicator={{
+                icon: Check,
+              }}
+              onClick={() => router.push(pageUrls.terms())}
+            />
+            <CardLine />
+          </Card>
+
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
