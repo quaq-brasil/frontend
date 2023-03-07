@@ -13,8 +13,9 @@ api.interceptors.request.use((request) => {
     return request
   }
 
+  
   const token = appGetCookie("token")
-
+  
   if (token) {
     request.headers["Authorization"] = `Bearer ${token}`
   }

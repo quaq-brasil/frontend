@@ -157,7 +157,7 @@ export default function Explorer({
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
-      <ExplorerContent templatesData={templatesData} />
+      <ExplorerContent templatesData={templatesData} pageData={pageData} />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
   )

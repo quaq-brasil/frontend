@@ -4,7 +4,7 @@ import Explorer from "../layouts/main/Explorer/Explorer"
 import { usePageBySlug } from "../services/hooks/usePage/usePageBySlug"
 import { IPage } from "../types/Page.type"
 
-export default function Custom404() {
+export default function Custom500() {
   const { user } = useUserAuth()
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)

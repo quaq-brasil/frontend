@@ -10,6 +10,7 @@ import { CardText } from "../../../components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { Popover } from "../../../components/Popover/Popover"
+import { useUserAuth } from "../../../contexts/userAuth"
 import { IUpdateUser } from "../../../types/User.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 
@@ -30,6 +31,8 @@ export function ProfileContent({
 }: ProfileContentProps) {
   const text = useTranslation().t
   const router = useRouter()
+
+  const { signOut } = useUserAuth()
 
   type FormDataProps = {
     image?: {
@@ -61,6 +64,7 @@ export function ProfileContent({
 
   function handleLogout() {
     setLogout(false)
+    signOut()
     router.push(pageUrls.home())
   }
 

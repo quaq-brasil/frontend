@@ -26,6 +26,8 @@ export default function TemplateExecutionPage({
   useEffect(() => {
     if (user && user.type == "registered") {
       setIsLoggedIn(true)
+    } else {
+      setIsLoggedIn(false)
     }
   }, [user])
 

@@ -1,4 +1,3 @@
-import Router from "next/router"
 import { destroyCookie } from "nookies"
 import {
   createContext,
@@ -8,12 +7,10 @@ import {
   useMemo,
   useState,
 } from "react"
-import { useLogin } from "../services/hooks/useUser/useLogin"
 import { queryClient } from "../services/queryClient"
 import { IUpdateUser } from "../types/User.type"
 import { getPayload } from "../utils/auth"
 import { appGetCookie } from "../utils/cookies"
-import { pageUrls } from "../utils/pagesUrl"
 
 type AuthProviderProps = {
   children: ReactNode
@@ -28,7 +25,6 @@ export const AuthContext = createContext({} as AuthContextData)
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<IUpdateUser | null>({ type: "registered" })
-  const login = useLogin()
 
   useEffect(() => {
     const token = appGetCookie("token")
@@ -56,8 +52,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     })
 
     queryClient.invalidateQueries(["user"])
-
-    Router.push(pageUrls.login())
   }
 
   return (

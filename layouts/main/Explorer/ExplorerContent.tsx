@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react"
 import { Shortcut } from "../../../components/Shortcut/Shortcut"
 import { ShortcutGrid } from "../../../components/ShortcutGrid/ShortcutGrid"
+import { IPage } from "../../../types/Page.type"
 import { ITemplate } from "../../../types/Template.type"
 
 type ExplorerContentProps = {
   templatesData: ITemplate[] | undefined
+  pageData: IPage | undefined
 }
 
-export function ExplorerContent({ templatesData }: ExplorerContentProps) {
+export function ExplorerContent({
+  templatesData,
+  pageData,
+}: ExplorerContentProps) {
   const [shortcuts, setShortcuts] = useState<JSX.Element[]>([])
 
   function loadShortcuts() {
@@ -23,7 +28,7 @@ export function ExplorerContent({ templatesData }: ExplorerContentProps) {
             title={template.title}
             isCreator={false}
             templateData={template}
-            pageData={undefined}
+            pageData={pageData}
           />
         )
       })

@@ -22,8 +22,10 @@ export default function ConsumerPagePage({
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    if (user && user.type === "registered") {
+    if (user && user.id) {
       setIsLoggedIn(true)
+    } else {
+      setIsLoggedIn(false)
     }
   }, [user])
 
@@ -37,7 +39,7 @@ export default function ConsumerPagePage({
   return (
     <ConsumerPage
       isLoggedIn={isLoggedIn}
-      initialPageData={getPage.data}
+      initialPageData={getPage?.data}
       initialTemplatesData={getPage?.data?.templates || []}
     />
   )
