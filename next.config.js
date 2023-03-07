@@ -1,4 +1,4 @@
-const nextTranslate = require('next-translate');
+const nextTranslate = require('next-translate-plugin');
 const removeImports = require("next-remove-imports")();
 
 const securityHeaders = [
