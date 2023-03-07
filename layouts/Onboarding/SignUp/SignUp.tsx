@@ -5,7 +5,7 @@ import { Header } from "../../../components/Header/Header"
 import { TabBar } from "../../../components/TabBar/TabBar"
 import { Tag } from "../../../components/Tag/Tag"
 import { IUpdateUser } from "../../../types/User.type"
-import { SignupContent } from "./SignupContent"
+import { SignUpContent } from "./SignUpContent"
 
 type SignUpProps = {
   handleCreateUser: (data: IUpdateUser) => void
@@ -81,7 +81,7 @@ export default function SignUp({ handleCreateUser }: SignUpProps) {
       >
         <Tag variant="txt" text={text("signup:titletag")} />
       </Header>
-      <SignupContent
+      <SignUpContent
         handleUpdateUserData={handleUpdateUserData}
         handleUpdateIsUpdating={handleUpdateIsUpdating}
         handleUpdateRunUpdate={handleUpdateRunUpdate}

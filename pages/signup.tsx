@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import SignUp from "../layouts/Onboarding/Signup/SignUp"
+import SignUp from "../layouts/Onboarding/SignUp/SignUp"
 
 import { useCreateUser } from "../services/hooks/useUser/useCreateUser"
 import { useLogin } from "../services/hooks/useUser/useLogin"

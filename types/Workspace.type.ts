@@ -1,3 +1,4 @@
+import { IPage } from './Page.type'
 type IMember = {
   id: string
   user_id: string
@@ -19,6 +20,7 @@ export type IWorkspace = {
   created_at?: string
   updated_at?: string
   members?: IMember[]
+  Page?: IPage[]
   user_id?: string
 }
 

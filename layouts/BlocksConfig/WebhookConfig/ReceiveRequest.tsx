@@ -140,7 +140,7 @@ export function ReceiveRequest({
   const handleCopyTextToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(content.link)
-      console.log("Content copied to clipboard")
+      // Content copied to clipboard
     } catch (err) {
       console.error("Failed to copy: ", err)
     }

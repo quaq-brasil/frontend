@@ -12,7 +12,7 @@ import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
 import { IUpdateUser } from "../../../types/User.type"
 import { pageUrls } from "../../../utils/pagesUrl"
 
-type SignupContentProps = {
+type SignUpContentProps = {
   handleUpdateUserData: (data: IUpdateUser) => void
   handleUpdateIsUpdating: (stat: boolean) => void
   handleUpdateRunUpdate: (stat: boolean) => void
@@ -21,14 +21,14 @@ type SignupContentProps = {
   userData: IUpdateUser | undefined
 }
 
-export function SignupContent({
+export function SignUpContent({
   handleUpdateIsUpdating,
   handleUpdateRunUpdate,
   handleUpdateUserData,
   isUpdating,
   runUpdate,
   userData,
-}: SignupContentProps) {
+}: SignUpContentProps) {
   const text = useTranslation().t
   const router = useRouter()
 
