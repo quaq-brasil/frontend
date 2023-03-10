@@ -49,6 +49,7 @@ export default function TemplateAccessControlPage({
           slug: data.slug,
           shortcut_image: data.shortcut_image,
           shortcut_size: data.shortcut_size,
+          visibility: data?.visibility || "public",
         },
       },
       {

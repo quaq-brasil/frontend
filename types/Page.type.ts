@@ -16,6 +16,7 @@ export type IPage = {
   services?: any
   trackers: ITrackers
   templates?: ITemplate[]
+  visibility?: "public" | "workspace"
 }
 
 export type IUpdatePage = {
@@ -28,4 +29,5 @@ export type IUpdatePage = {
   background_url?: string
   services?: any
   trackers?: ITrackers
+  visibility?: "public" | "workspace"
 }

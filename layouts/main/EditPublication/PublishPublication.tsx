@@ -26,7 +26,6 @@ import {
   getTemplateBySlugAndPageSlugProps,
   IUpdateTemplate,
 } from "../../../types/Template.type"
-import { pageUrls } from "../../../utils/pagesUrl"
 
 type PublishPublicationProps = {
   blocks: any[]
@@ -65,6 +64,9 @@ export const PublishPublication = ({
     publication?: {
       valid?: boolean
     }
+    visibility?: {
+      valid?: boolean
+    }
   }
 
   const [formData, setFormData] = useState<FormDataProps>({
@@ -81,6 +83,9 @@ export const PublishPublication = ({
       valid: true,
     },
     publication: {
+      valid: true,
+    },
+    visibility: {
       valid: true,
     },
   })
@@ -401,16 +406,26 @@ export const PublishPublication = ({
               <CardText label={text("centraloptions:visibility")} />
               <CardText
                 label={text("centraloptions:public")}
-                indicator={{ icon: Check }}
-                onClick={() => {}}
+                indicator={{
+                  icon:
+                    templateData?.visibility === "public" ? Check : undefined,
+                }}
+                onClick={() =>
+                  handleUpdateTemplateData({ visibility: "public" })
+                }
               />
               <CardLine />
               <CardText
                 label={text("centraloptions:wsmembers")}
                 indicator={{
-                  icon: Check,
+                  icon:
+                    templateData?.visibility === "workspace"
+                      ? Check
+                      : undefined,
                 }}
-                onClick={() => router.push(pageUrls.terms())}
+                onClick={() =>
+                  handleUpdateTemplateData({ visibility: "workspace" })
+                }
               />
               <CardLine />
             </Card>
