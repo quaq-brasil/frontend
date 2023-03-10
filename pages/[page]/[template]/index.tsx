@@ -7,6 +7,7 @@ import { api } from "../../../services/api"
 import { useTemplateBySlugAndPageSlug } from "../../../services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
 import { getTemplateBySlugAndPageSlugProps } from "../../../types/Template.type"
 import { RedirectNotFoundVerify } from "../../../utils/404Redirect"
+import { appParseCookies } from "../../../utils/cookies"
 
 type TemplateExecutionPageProps = {
   pageSlug: string
@@ -56,7 +57,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   async function getPageAndTemplate() {
     const { page, template } = ctx.params as Params
 
-    const { data } = await api.get(`/templates/${page}/${template}`)
+    const cookies = appParseCookies(ctx.req)
+
+    const { data } = await api.get(`/templates/${page}/${template}`, {
+      headers: {
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    })
 
     return {
       pageSlug: page,

@@ -7,6 +7,7 @@ import { api } from "../../services/api"
 import { usePageBySlug } from "../../services/hooks/usePage/usePageBySlug"
 import { IPage } from "../../types/Page.type"
 import { RedirectNotFoundVerify } from "../../utils/404Redirect"
+import { appParseCookies } from "../../utils/cookies"
 
 type ConsumerPagePageProps = {
   pageSlug: string
@@ -53,7 +54,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   async function getPage() {
     const { page } = ctx.params as Params
 
-    const { data } = await api.get(`/pages/slug/${page}`)
+    const cookies = appParseCookies(ctx.req)
+
+    const { data } = await api.get(`/pages/slug/${page}`, {
+      headers: {
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    })
 
     return {
       pageData: { data },
