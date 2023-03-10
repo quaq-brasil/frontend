@@ -17,6 +17,7 @@ export type ITemplate = {
   access_config: any
   trackers: ITrackers
   page_id: string
+  visibility?: string
 }
 
 export type IUpdateTemplate = {
@@ -30,6 +31,7 @@ export type IUpdateTemplate = {
   access_config?: any
   trackers?: ITrackers
   page_id?: string
+  visibility?: string
 }
 
 export type getTemplateBySlugAndPageSlugProps = {

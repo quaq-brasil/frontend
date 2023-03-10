@@ -43,6 +43,7 @@ export default function GeneralSettingsPage({
           slug: data.slug,
           description: data.description,
           background_url: data.background_url,
+          visibility: data?.visibility || "public",
         },
       },
       {

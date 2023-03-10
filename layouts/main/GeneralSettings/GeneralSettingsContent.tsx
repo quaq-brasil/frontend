@@ -54,6 +54,9 @@ export function GeneralSettingsContent({
     cover?: {
       valid?: boolean
     }
+    visibility?: {
+      valid?: boolean
+    }
   }
 
   const [formData, setFormData] = useState<FormDataProps>({
@@ -71,6 +74,9 @@ export function GeneralSettingsContent({
     },
     cover: {
       valid: false,
+    },
+    visibility: {
+      valid: true,
     },
   })
 
@@ -255,26 +261,18 @@ export function GeneralSettingsContent({
             <CardText label={text("generalsettings:visibility")} />
             <CardText
               label={text("generalsettings:public")}
-              indicator={{ icon: Check }}
-              onClick={() =>
-                router.push(
-                  pageUrls.pageSettings({
-                    pageSlug:
-                      pageData?.slug != initialPageData.slug
-                        ? initialPageData.slug
-                        : pageData?.slug,
-                    pageSettings: "delete",
-                  })
-                )
-              }
+              indicator={{
+                icon: pageData?.visibility === "public" ? Check : undefined,
+              }}
+              onClick={() => handleUpdatePageData({ visibility: "public" })}
             />
             <CardLine />
             <CardText
               label={text("generalsettings:wsmembers")}
               indicator={{
-                icon: Check,
+                icon: pageData?.visibility === "workspace" ? Check : undefined,
               }}
-              onClick={() => router.push(pageUrls.terms())}
+              onClick={() => handleUpdatePageData({ visibility: "workspace" })}
             />
             <CardLine />
           </Card>
