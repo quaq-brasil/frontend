@@ -238,8 +238,8 @@ export function BlockSelector(props: BlockSelectorProps) {
         onClick={handleSelectorOpening}
         className={`flex relative justify-center items-center 
         p-[0.75rem] md:p-[1rem] lg:p-[1.5rem] min-w-[100%]
-        rounded-[20px] lg:rounded-[30px] bg-white ${
-          selected ? "text-white bg-slate-900" : ""
+        rounded-[20px] lg:rounded-[30px] ${
+          selected ? "text-white bg-slate-900" : "text-black bg-white"
         }`}
       >
         <span className="lg:text-[1.1rem] font-semibold w-fit">

@@ -71,8 +71,6 @@ export function TextEntryConfig({
 
   function handleUpdateSaveAs(value: typeof saveAs) {
     setSaveAs(value)
-    const isValid = handleCheckSaveAs(value)
-    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateRunUpdate(stat: boolean) {
@@ -108,25 +106,6 @@ export function TextEntryConfig({
     })
     handleClosing()
   }
-
-  useEffect(() => {
-    if (blockData) {
-      setContent(blockData.data)
-      setSaveAs(blockData.save_as)
-      handleUpdateFormData({
-        placeholder: { valid: true },
-        saveAs: { valid: true },
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockData])
-
-  useEffect(() => {
-    if (content && saveAs) {
-      onAddBlock()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -176,6 +155,45 @@ export function TextEntryConfig({
       })
     handleOpenVariablePanel()
   }
+
+  useEffect(() => {
+    if (content.placeholder) {
+      handleUpdateFormData({ placeholder: { valid: true } })
+    } else {
+      handleUpdateFormData({ placeholder: { valid: false } })
+    }
+    if (saveAs) {
+      if (blockData) {
+        if (blockData.save_as == saveAs) {
+          handleUpdateFormData({ saveAs: { valid: true } })
+        } else {
+          const isValid = handleCheckSaveAs(saveAs)
+          handleUpdateFormData({ saveAs: { valid: isValid } })
+        }
+      } else {
+        const isValid = handleCheckSaveAs(saveAs)
+        handleUpdateFormData({ saveAs: { valid: isValid } })
+      }
+    } else {
+      handleUpdateFormData({ saveAs: { valid: false } })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [content, saveAs])
+
+  useEffect(() => {
+    if (blockData) {
+      setContent(blockData.data)
+      setSaveAs(blockData.save_as)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
+
+  useEffect(() => {
+    if (content && saveAs) {
+      onAddBlock()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   useEffect(() => {
     if (formData.placeholder?.valid && formData.saveAs?.valid) {
@@ -281,7 +299,9 @@ export function TextEntryConfig({
                 block={{
                   data: {
                     color: "bg-white",
-                    text: text("textentryconfig:addblock"),
+                    text: blockData
+                      ? text("textentryconfig:updateblock")
+                      : text("textentryconfig:addblock"),
                     onClick: () => handleUpdateRunUpdate(true),
                   },
                 }}

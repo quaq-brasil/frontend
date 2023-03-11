@@ -58,30 +58,14 @@ export function ImageConfig({
     })
   }
 
-  function handleValidation() {
-    if (content.img_url) {
-      handleUpdateFormData({ img_url: { valid: true } })
-    } else {
-      handleUpdateFormData({ img_url: { valid: false } })
-    }
-    if (saveAs) {
-      handleUpdateFormData({ saveAs: { valid: true } })
-    } else {
-      handleUpdateFormData({ saveAs: { valid: false } })
-    }
-  }
-
   function handleUpdateContent(newData: IImage) {
     setContent({
       img_url: newData.img_url,
     })
-    handleUpdateFormData({ img_url: { valid: true } })
   }
 
   function handleUpdateSaveAs(value: string | null) {
     setSaveAs(value)
-    const isValid = handleCheckSaveAs(value)
-    handleValidation()
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -113,31 +97,6 @@ export function ImageConfig({
     })
     handleClosing()
   }
-
-  useEffect(() => {
-    if (blockData) {
-      setContent(blockData.data)
-      setSaveAs(blockData.save_as)
-      handleUpdateFormData({
-        img_url: { valid: true },
-        saveAs: { valid: true },
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockData])
-
-  useEffect(() => {
-    if (content && saveAs) {
-      onAddBlock()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
-
-  useEffect(() => {
-    if (formData.img_url?.valid && formData.saveAs?.valid) {
-      setIsUpdating(true)
-    }
-  }, [formData])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -176,6 +135,57 @@ export function ImageConfig({
     handleOpenVariablePanel()
   }
 
+  useEffect(() => {
+    if (content?.img_url) {
+      handleUpdateFormData({ img_url: { valid: true } })
+    } else {
+      handleUpdateFormData({ img_url: { valid: false } })
+    }
+    if (saveAs) {
+      if (blockData) {
+        if (blockData.save_as == saveAs) {
+          handleUpdateFormData({ saveAs: { valid: true } })
+        } else {
+          const isValid = handleCheckSaveAs(saveAs)
+          handleUpdateFormData({ saveAs: { valid: isValid } })
+        }
+      } else {
+        const isValid = handleCheckSaveAs(saveAs)
+        handleUpdateFormData({ saveAs: { valid: isValid } })
+      }
+    } else {
+      handleUpdateFormData({ saveAs: { valid: false } })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [content, saveAs])
+
+  useEffect(() => {
+    if (blockData) {
+      setContent(blockData.data)
+      setSaveAs(blockData.save_as)
+      handleUpdateFormData({
+        img_url: { valid: true },
+        saveAs: { valid: true },
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
+
+  useEffect(() => {
+    if (content && saveAs) {
+      onAddBlock()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
+  useEffect(() => {
+    if (formData.img_url?.valid && formData.saveAs?.valid) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+  }, [formData])
+
   return (
     <>
       <Dialog isOpen={isOpen} title={text("imageconfig:toptitle")}>
@@ -187,7 +197,6 @@ export function ImageConfig({
                 <ImageSelector
                   onImageChange={(image) => {
                     handleUpdateContent({ img_url: image })
-                    handleValidation()
                   }}
                   url={content?.img_url}
                 />
@@ -231,7 +240,9 @@ export function ImageConfig({
                 block={{
                   data: {
                     color: "bg-white",
-                    text: text("imageconfig:addblock"),
+                    text: blockData
+                      ? text("imageconfig:updateblock")
+                      : text("imageconfig:addblock"),
                     onClick: () => handleUpdateRunUpdate(true),
                   },
                 }}

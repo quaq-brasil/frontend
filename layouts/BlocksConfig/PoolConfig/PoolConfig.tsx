@@ -84,8 +84,6 @@ export function PoolConfig({
 
   function handleUpdateSaveAs(value: typeof saveAs) {
     setSaveAs(value)
-    const isValid = handleCheckSaveAs(value)
-    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -123,55 +121,6 @@ export function PoolConfig({
       data: content,
     })
     handleClosing()
-  }
-
-  useEffect(() => {
-    if (blockData) {
-      setContent(blockData.data)
-      setSaveAs(blockData.save_as)
-      handleUpdateFormData({
-        description: { valid: true },
-        options: { valid: true },
-        saveAs: { valid: true },
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockData])
-
-  useEffect(() => {
-    if (content?.options && saveAs) {
-      onAddBlock()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
-
-  function handleTabBar() {
-    if (isUpdating) {
-      return [
-        <Tag
-          key={1}
-          variant="txt"
-          text={text("poolconfig:cancel")}
-          onClick={() => handleClosing()}
-        />,
-        <div key={2} className="w-fit h-fit xl:hidden">
-          <Tag
-            variant="txt"
-            text={text("poolconfig:add")}
-            onClick={() => handleUpdateRunUpdate(true)}
-          />
-        </div>,
-      ]
-    } else {
-      return [
-        <Tag
-          key={1}
-          variant="txt"
-          text={text("poolconfig:cancel")}
-          onClick={() => handleClosing()}
-        />,
-      ]
-    }
   }
 
   type HandleUpdateOptionsProps = {
@@ -256,6 +205,84 @@ export function PoolConfig({
       })
     handleOpenVariablePanel()
   }
+
+  function handleTabBar() {
+    if (isUpdating) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("poolconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+        <div key={2} className="w-fit h-fit xl:hidden">
+          <Tag
+            variant="txt"
+            text={text("poolconfig:add")}
+            onClick={() => handleUpdateRunUpdate(true)}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("poolconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+      ]
+    }
+  }
+
+  useEffect(() => {
+    if (saveAs) {
+      if (blockData) {
+        if (blockData.save_as == saveAs) {
+          handleUpdateFormData({ saveAs: { valid: true } })
+        } else {
+          const isValid = handleCheckSaveAs(saveAs)
+          handleUpdateFormData({ saveAs: { valid: isValid } })
+        }
+      } else {
+        const isValid = handleCheckSaveAs(saveAs)
+        handleUpdateFormData({ saveAs: { valid: isValid } })
+      }
+    } else {
+      handleUpdateFormData({ saveAs: { valid: false } })
+    }
+    if (content?.options) {
+      handleUpdateFormData({ options: { valid: true } })
+    } else {
+      handleUpdateFormData({ options: { valid: false } })
+    }
+    if (content?.title) {
+      handleUpdateFormData({ description: { valid: true } })
+    } else {
+      handleUpdateFormData({ description: { valid: false } })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [content, saveAs])
+
+  useEffect(() => {
+    if (blockData) {
+      setContent(blockData.data)
+      setSaveAs(blockData.save_as)
+      handleUpdateFormData({
+        description: { valid: true },
+        options: { valid: true },
+        saveAs: { valid: true },
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
+
+  useEffect(() => {
+    if (content?.options && saveAs) {
+      onAddBlock()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   useEffect(() => {
     if (

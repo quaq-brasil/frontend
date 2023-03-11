@@ -40,8 +40,8 @@ export default function AdmSelectedPage({
 
   return (
     <CreatorPage
-      initialWorkspacesData={getWorkspaces.data}
-      initialCurrentPageData={getCurrentPage.data}
+      initialWorkspacesData={getWorkspaces?.data}
+      initialCurrentPageData={getCurrentPage?.data}
     />
   )
 }

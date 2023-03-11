@@ -72,8 +72,6 @@ export function ButtonConfig({
 
   function handleUpdateSaveAs(value: typeof saveAs) {
     setSaveAs(value)
-    const isValid = handleCheckSaveAs(value)
-    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -109,30 +107,6 @@ export function ButtonConfig({
     })
     handleClosing()
   }
-
-  useEffect(() => {
-    if (blockData) {
-      setContent(blockData.data)
-      setSaveAs(blockData.save_as)
-      handleUpdateFormData({ saveAs: { valid: true }, text: { valid: true } })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockData])
-
-  useEffect(() => {
-    if (content && saveAs) {
-      onAddBlock()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
-
-  useEffect(() => {
-    if (formData.text?.valid && formData.saveAs?.valid) {
-      handleUpdateIsUpdating(true)
-    } else {
-      handleUpdateIsUpdating(false)
-    }
-  }, [formData])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -180,6 +154,53 @@ export function ButtonConfig({
       })
     handleOpenVariablePanel()
   }
+
+  useEffect(() => {
+    if (saveAs) {
+      if (blockData) {
+        if (blockData.save_as == saveAs) {
+          handleUpdateFormData({ saveAs: { valid: true } })
+        } else {
+          const isValid = handleCheckSaveAs(saveAs)
+          handleUpdateFormData({ saveAs: { valid: isValid } })
+        }
+      } else {
+        const isValid = handleCheckSaveAs(saveAs)
+        handleUpdateFormData({ saveAs: { valid: isValid } })
+      }
+    } else {
+      handleUpdateFormData({ saveAs: { valid: false } })
+    }
+    if (content?.text) {
+      handleUpdateFormData({ text: { valid: true } })
+    } else {
+      handleUpdateFormData({ text: { valid: false } })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [saveAs, content])
+
+  useEffect(() => {
+    if (blockData) {
+      setContent(blockData.data)
+      setSaveAs(blockData.save_as)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
+
+  useEffect(() => {
+    if (content && saveAs) {
+      onAddBlock()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
+  useEffect(() => {
+    if (formData.text?.valid && formData.saveAs?.valid) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+  }, [formData])
 
   return (
     <>

@@ -32,25 +32,14 @@ export function TextConfig({
     }
   }
 
-  const [formData, setFormData] = useState<FormDataProps>(
-    blockData
-      ? {
-          content: {
-            valid: true,
-          },
-          saveAs: {
-            valid: true,
-          },
-        }
-      : {
-          content: {
-            valid: false,
-          },
-          saveAs: {
-            valid: false,
-          },
-        }
-  )
+  const [formData, setFormData] = useState<FormDataProps>({
+    content: {
+      valid: true,
+    },
+    saveAs: {
+      valid: true,
+    },
+  })
   const [content, setContent] = useState<string | null>(null)
   const [saveAs, setSaveAs] = useState<string | null>(null)
   const [isUpdating, setIsUpdating] = useState(false)
@@ -65,27 +54,12 @@ export function TextConfig({
     })
   }
 
-  function handleValidation() {
-    if (saveAs) {
-      handleUpdateFormData({ saveAs: { valid: true } })
-    } else {
-      handleUpdateFormData({ saveAs: { valid: false } })
-    }
-  }
-
   function handleUpdateContent(value: typeof content) {
     setContent(value)
-    if (value && value.length > 0) {
-      handleUpdateFormData({ content: { valid: true } })
-    } else {
-      handleUpdateFormData({ content: { valid: false } })
-    }
   }
 
   function handleUpdateSaveAs(value: typeof saveAs) {
     setSaveAs(value)
-    const isValid = handleCheckSaveAs(value)
-    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -117,33 +91,6 @@ export function TextConfig({
     })
     handleClosing()
   }
-
-  useEffect(() => {
-    if (blockData) {
-      setContent(blockData.data)
-      setSaveAs(blockData.save_as)
-      handleUpdateFormData({
-        content: { valid: true },
-        saveAs: { valid: true },
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockData])
-
-  useEffect(() => {
-    if (content && content.length > 0) {
-      onAddBlock()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
-
-  useEffect(() => {
-    if (formData.content?.valid && formData.saveAs?.valid) {
-      handleUpdateIsUpdating(true)
-    } else {
-      handleUpdateIsUpdating(false)
-    }
-  }, [formData])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -178,7 +125,6 @@ export function TextConfig({
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
         handleUpdateContent(content ? `${content}${variable}` : variable)
-        handleValidation()
       })
     handleOpenVariablePanel()
   }
@@ -187,10 +133,56 @@ export function TextConfig({
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
         handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
-        handleValidation()
       })
     handleOpenVariablePanel()
   }
+
+  useEffect(() => {
+    if (saveAs) {
+      if (blockData) {
+        if (blockData.save_as == saveAs) {
+          handleUpdateFormData({ saveAs: { valid: true } })
+        } else {
+          const isValid = handleCheckSaveAs(saveAs)
+          handleUpdateFormData({ saveAs: { valid: isValid } })
+        }
+      } else {
+        const isValid = handleCheckSaveAs(saveAs)
+        handleUpdateFormData({ saveAs: { valid: isValid } })
+      }
+    } else {
+      handleUpdateFormData({ saveAs: { valid: false } })
+    }
+    if (content) {
+      handleUpdateFormData({ content: { valid: true } })
+    } else {
+      handleUpdateFormData({ content: { valid: false } })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [saveAs, content])
+
+  useEffect(() => {
+    if (blockData) {
+      setContent(blockData.data)
+      setSaveAs(blockData.save_as)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
+
+  useEffect(() => {
+    if (content && saveAs) {
+      onAddBlock()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
+  useEffect(() => {
+    if (formData.content?.valid && formData.saveAs?.valid) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+  }, [formData])
 
   return (
     <>
@@ -208,7 +200,6 @@ export function TextConfig({
               content={content || ""}
               onChange={(text) => {
                 handleUpdateContent(text)
-                handleValidation()
               }}
               handleOpenVariablePanelForText={handleOpenVariablePanelForText}
             />
@@ -233,23 +224,6 @@ export function TextConfig({
               </p>
             )}
           </Card>
-          {isUpdating && (
-            <>
-              <div className="w-full h-fit hidden xl:block">
-                <Button
-                  block={{
-                    data: {
-                      color: "bg-white",
-                      text: text("textconfig:addblock"),
-                      onClick: () => handleUpdateRunUpdate(true),
-                    },
-                  }}
-                  isEditable={false}
-                />
-              </div>
-            </>
-          )}
-
           <div className="w-full h-fit hidden xl:block">
             <Button
               block={{
@@ -262,6 +236,24 @@ export function TextConfig({
               isEditable={false}
             />
           </div>
+          {isUpdating && (
+            <>
+              <div className="w-full h-fit hidden xl:block">
+                <Button
+                  block={{
+                    data: {
+                      color: "bg-white",
+                      text: blockData
+                        ? text("textconfig:updateblock")
+                        : text("textconfig:addblock"),
+                      onClick: () => handleUpdateRunUpdate(true),
+                    },
+                  }}
+                  isEditable={false}
+                />
+              </div>
+            </>
+          )}
         </div>
         <TabBar isHidden={true} tags={handleTabBar()} />
       </Dialog>

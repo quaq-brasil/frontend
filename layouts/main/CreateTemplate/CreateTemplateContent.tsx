@@ -54,6 +54,9 @@ export function CreateTemplateContent({
 
   function handleBlockConfigClosing() {
     setIsOpen(false)
+    if (editBlockData) {
+      setEditBlockData(null)
+    }
   }
 
   const handleAddBlock = (newBlock: BlockProps) => {

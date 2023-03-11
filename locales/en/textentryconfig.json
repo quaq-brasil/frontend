@@ -19,5 +19,6 @@
   "option6": "address",
   "option7": "currency",
   "option8": "long text",
-  "option9": "short text"
+  "option9": "short text",
+  "updateblock": "update block"
 }

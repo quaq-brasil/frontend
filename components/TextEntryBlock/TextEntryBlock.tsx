@@ -105,7 +105,7 @@ export const TextEntryBlock = ({
         className="flex justify-between items-center
             min-w-[100%] bg-white py-[1.125rem] rounded-[20px] lg:rounded-[30px] lg:py-[1.275rem]"
       >
-        <div className="w-full">
+        <div className="w-full lg:my-1">
           <TextEntry
             placeholder={block.data.placeholder}
             type={block.data.type}
