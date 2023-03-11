@@ -5,6 +5,7 @@ import { BlockReader } from "../../../components/BlockReader/BlockReader"
 import { Card } from "../../../components/Card/Card"
 import { useUserAuth } from "../../../contexts/userAuth"
 import { useTerms } from "../../../contexts/useTerms"
+import { useDebounce } from "../../../hooks/useDebouce"
 import { useCreateInteraction } from "../../../services/hooks/useInteraction/useCreateInteraction"
 import { useUpdateInteraction } from "../../../services/hooks/useInteraction/useUpdateInteraction"
 import { IInteractionData } from "../../../types/Interaction.type"
@@ -53,16 +54,25 @@ export function TemplateExecutionContent({
     })
   }
 
+  const debouncedInteraction = useDebounce({
+    value: interactions,
+    delay: 1000 * 1,
+  })
+
   useEffect(() => {
     const handleSaveInteractions = async () => {
-      if (user?.id && interactions.length > 0 && interactionId !== "loading") {
+      if (
+        user?.id &&
+        debouncedInteraction.length > 0 &&
+        interactionId !== "loading"
+      ) {
         if (interactionId) {
           updateInteraction.mutate(
             {
               id: interactionId,
               data: {
                 blocks: Object.keys(blocks).map((key) => blocks[key]),
-                data: interactions,
+                data: debouncedInteraction,
                 events: [],
                 template_id: pageAndTemplateData?.id,
                 publication_id: pageAndTemplateData?.publication.id,
@@ -82,7 +92,7 @@ export function TemplateExecutionContent({
           createInteraction.mutate(
             {
               blocks: Object.keys(blocks).map((key) => blocks[key]),
-              data: interactions,
+              data: debouncedInteraction,
               events: [],
               template_id: pageAndTemplateData?.id,
               publication_id: pageAndTemplateData?.publication.id,
@@ -103,7 +113,7 @@ export function TemplateExecutionContent({
     handleSaveInteractions()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [interactions])
+  }, [debouncedInteraction])
 
   return (
     <div className="w-full h-screen bg-slate-100">
