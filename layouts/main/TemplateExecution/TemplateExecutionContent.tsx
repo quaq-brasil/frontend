@@ -54,7 +54,7 @@ export function TemplateExecutionContent({
     })
   }
 
-  const debouncedInteraction = useDebounce({
+  const debouncedInteractions = useDebounce({
     value: interactions,
     delay: 1000 * 1,
   })
@@ -63,7 +63,7 @@ export function TemplateExecutionContent({
     const handleSaveInteractions = async () => {
       if (
         user?.id &&
-        debouncedInteraction.length > 0 &&
+        debouncedInteractions.length > 0 &&
         interactionId !== "loading"
       ) {
         if (interactionId) {
@@ -72,7 +72,7 @@ export function TemplateExecutionContent({
               id: interactionId,
               data: {
                 blocks: Object.keys(blocks).map((key) => blocks[key]),
-                data: debouncedInteraction,
+                data: debouncedInteractions,
                 events: [],
                 template_id: pageAndTemplateData?.id,
                 publication_id: pageAndTemplateData?.publication.id,
@@ -92,7 +92,7 @@ export function TemplateExecutionContent({
           createInteraction.mutate(
             {
               blocks: Object.keys(blocks).map((key) => blocks[key]),
-              data: debouncedInteraction,
+              data: debouncedInteractions,
               events: [],
               template_id: pageAndTemplateData?.id,
               publication_id: pageAndTemplateData?.publication.id,
@@ -113,7 +113,7 @@ export function TemplateExecutionContent({
     handleSaveInteractions()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedInteraction])
+  }, [debouncedInteractions])
 
   return (
     <div className="w-full h-screen bg-slate-100">
