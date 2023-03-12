@@ -1,15 +1,15 @@
+import CreateWorkspace from "layouts/main/CreateWorkspace/CreateWorkspace"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
-import CreateWorkspace from "../../../layouts/main/CreateWorkspace/CreateWorkspace"
-import { useCreateWorkspace } from "../../../services/hooks/useWorkspace/useCreateWorkspace"
-import { IUserPayload } from "../../../types/Auth.types"
-import { IUpdateWorkspace } from "../../../types/Workspace.type"
+import { useCreateWorkspace } from "services/hooks/useWorkspace/useCreateWorkspace"
+import { IUserPayload } from "types/Auth.types"
+import { IUpdateWorkspace } from "types/Workspace.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../utils/404Redirect"
-import { pageUrls } from "../../../utils/pagesUrl"
-import { withAuth } from "../../../utils/withAuth"
+} from "utils/404Redirect"
+import { pageUrls } from "utils/pagesUrl"
+import { withAuth } from "utils/withAuth"
 
 type CreateWorkspacePageProps = {
   data: IUserPayload

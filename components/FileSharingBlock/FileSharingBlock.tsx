@@ -1,16 +1,16 @@
-import { Eye, PencilSimple } from "phosphor-react";
-import { Tag } from "../Tag/Tag";
+import { Tag } from "components/Tag/Tag"
+import { Eye, PencilSimple } from "phosphor-react"
 
 type files = {
-  title: string;
-  url: string;
-  onClick: (url: string) => void;
-};
+  title: string
+  url: string
+  onClick: (url: string) => void
+}
 
 type FileSharingblockProps = {
-  files: files[];
-  isEditable: boolean;
-};
+  files: files[]
+  isEditable: boolean
+}
 
 export function FileSharingblock(props: FileSharingblockProps) {
   return (
@@ -38,5 +38,5 @@ export function FileSharingblock(props: FileSharingblockProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

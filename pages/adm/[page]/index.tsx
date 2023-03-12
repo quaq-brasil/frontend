@@ -1,17 +1,17 @@
+import CreatorPage from "layouts/main/CreatorPage/CreatorPage"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
-import CreatorPage from "../../../layouts/main/CreatorPage/CreatorPage"
-import { api } from "../../../services/api"
-import { usePageBySlug } from "../../../services/hooks/usePage/usePageBySlug"
-import { useWorkspacesByUserId } from "../../../services/hooks/useWorkspace/useWorkspacesByUserId"
-import { IUserPayload } from "../../../types/Auth.types"
-import { IPage } from "../../../types/Page.type"
-import { IWorkspace } from "../../../types/Workspace.type"
+import { api } from "services/api"
+import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
+import { useWorkspacesByUserId } from "services/hooks/useWorkspace/useWorkspacesByUserId"
+import { IUserPayload } from "types/Auth.types"
+import { IPage } from "types/Page.type"
+import { IWorkspace } from "types/Workspace.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../utils/404Redirect"
-import { withAuth } from "../../../utils/withAuth"
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type AdmSelectedPageProps = {
   workspacesData: IWorkspace[]

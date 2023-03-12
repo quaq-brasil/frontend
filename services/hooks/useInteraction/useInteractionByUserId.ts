@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
-import { useQueryProps } from "../../../types/useQueryProps"
-import { api } from "../../api"
-import { IInteraction } from "./../../../types/Interaction.type"
+import { api } from "services/api"
+import { IInteraction } from "types/Interaction.type"
+import { useQueryProps } from "types/useQueryProps"
 
 type useInteractionByUserIdProps = {
   id: string

@@ -1,9 +1,9 @@
-import useTranslation from "next-translate/useTranslation";
-import { Card } from "../../../components/Card/Card";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
+import { Card } from "components/Card/Card"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import useTranslation from "next-translate/useTranslation"
 
 export function TermsAndServicesContent() {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -21,5 +21,5 @@ export function TermsAndServicesContent() {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -6,9 +6,9 @@ import {
   PointElement,
   Tooltip,
 } from "chart.js"
+import { Card } from "components/Card/Card"
 import { Trash } from "phosphor-react"
 import { Scatter } from "react-chartjs-2"
-import { Card } from "../Card/Card"
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend)
 

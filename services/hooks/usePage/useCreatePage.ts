@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { api } from "../../api"
-import { IPage } from "./../../../types/Page.type"
+import { api } from "services/api"
+import { IPage } from "types/Page.type"
 
 type useCreatePageProps = {
   data: IPage

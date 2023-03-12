@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
-import { IFile } from "../../../types/File.types"
-import { useQueryProps } from "../../../types/useQueryProps"
-import { api } from "../../api"
+import { api } from "services/api"
+import { IFile } from "types/File.types"
+import { useQueryProps } from "types/useQueryProps"
 
 type useFileProps = {
   id: string

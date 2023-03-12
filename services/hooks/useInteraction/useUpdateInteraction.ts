@@ -1,7 +1,7 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { IInteraction } from "../../../types/Interaction.type"
-import { useMutationProps } from "../../../types/useQueryProps"
-import { api } from "../../api"
+import { api } from "services/api"
+import { IInteraction } from "types/Interaction.type"
+import { useMutationProps } from "types/useQueryProps"
 
 type useUpdateInteractionProps = {
   id: string

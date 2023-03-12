@@ -1,5 +1,5 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { api } from "../../api"
+import { api } from "services/api"
 
 type useGetPageSlugProps = {
   id?: string

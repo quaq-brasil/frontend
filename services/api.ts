@@ -1,5 +1,5 @@
 import axios from "axios"
-import { appGetCookie } from "../utils/cookies"
+import { appGetCookie } from "utils/cookies"
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_HOST,
@@ -13,9 +13,8 @@ api.interceptors.request.use((request) => {
     return request
   }
 
-  
   const token = appGetCookie("token")
-  
+
   if (token) {
     request.headers["Authorization"] = `Bearer ${token}`
   }

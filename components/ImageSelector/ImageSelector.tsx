@@ -3,8 +3,8 @@ import Image from "next/image"
 import { ImageSquare, Plus } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
-import { useCreateFile } from "../../services/hooks/useFile/useCreateFile"
-import { checkForFileSize } from "../../utils/checkForFileSize"
+import { useCreateFile } from "services/hooks/useFile/useCreateFile"
+import { checkForFileSize } from "utils/checkForFileSize"
 import { LoadingImage } from "./LoadingImage"
 
 type ImageSelectorProps = {
@@ -52,9 +52,7 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
 
       let imageUrl
       if (file.type === "image/heic") {
-        const { convertHeicToJpeg } = await import(
-          "../../utils/convertHeicToJpeg"
-        )
+        const { convertHeicToJpeg } = await import("utils/convertHeicToJpeg")
         const jpegImage = await convertHeicToJpeg(file)
 
         if (typeof jpegImage !== "string") {

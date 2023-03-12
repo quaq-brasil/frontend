@@ -1,10 +1,10 @@
-import useTranslation from "next-translate/useTranslation";
-import { Card } from "../../../components/Card/Card";
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine";
-import { CardText } from "../../../components/Card/CardContentVariants/CardText";
+import { Card } from "components/Card/Card"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import useTranslation from "next-translate/useTranslation"
 
 export function CentralStatsContent() {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -41,5 +41,5 @@ export function CentralStatsContent() {
         </div>
       </div>
     </div>
-  );
+  )
 }

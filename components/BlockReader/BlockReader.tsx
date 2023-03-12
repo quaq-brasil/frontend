@@ -1,13 +1,13 @@
-import { BlockProps } from "../../types/Block.types"
-import { IInteractionData } from "../../types/Interaction.type"
-import { Button } from "../Button/Button"
-import { ChartBlock } from "../ChartBlock/ChartBlock"
-import { ImageBlock } from "../ImageBlock/ImageBlock"
-import { PoolBlock } from "../PoolBlock/PoolBlock"
-import { ReviewBlock } from "../ReviewBlock/ReviewBlock"
-import { TextBlock } from "../TextBlock/TextBlock"
-import { TextEntryBlock } from "../TextEntryBlock/TextEntryBlock"
-import { WebhookBlock } from "../WebhookBlock/WebhookBlock"
+import { Button } from "components/Button/Button"
+import { ChartBlock } from "components/ChartBlock/ChartBlock"
+import { ImageBlock } from "components/ImageBlock/ImageBlock"
+import { PoolBlock } from "components/PoolBlock/PoolBlock"
+import { ReviewBlock } from "components/ReviewBlock/ReviewBlock"
+import { TextBlock } from "components/TextBlock/TextBlock"
+import { TextEntryBlock } from "components/TextEntryBlock/TextEntryBlock"
+import { WebhookBlock } from "components/WebhookBlock/WebhookBlock"
+import { BlockProps } from "types/Block.types"
+import { IInteractionData } from "types/Interaction.type"
 
 type BlockReaderProps = {
   block: BlockProps

@@ -1,7 +1,7 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { useMutationProps } from "../../../types/useQueryProps"
-import { api } from "../../api"
-import { IWorkspace } from "./../../../types/Workspace.type"
+import { api } from "services/api"
+import { useMutationProps } from "types/useQueryProps"
+import { IWorkspace } from "types/Workspace.type"
 
 type useCreateWorkspaceProps = {
   data: IWorkspace

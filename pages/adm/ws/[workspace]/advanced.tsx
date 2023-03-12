@@ -1,14 +1,14 @@
+import WorkspaceAdvanced from "layouts/main/WorkspaceAdvanced/WorkspaceAdvanced"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
-import WorkspaceAdvanced from "../../../../layouts/main/WorkspaceAdvanced/WorkspaceAdvanced"
-import { api } from "../../../../services/api"
-import { useWorkspaceBySlug } from "../../../../services/hooks/useWorkspace/useWorkspaceBySlug"
-import { IWorkspace } from "../../../../types/Workspace.type"
+import { api } from "services/api"
+import { useWorkspaceBySlug } from "services/hooks/useWorkspace/useWorkspaceBySlug"
+import { IWorkspace } from "types/Workspace.type"
 import {
   RedirectNotFoundVerify,
-  redirectNotFoundVerifyProps
-} from "../../../../utils/404Redirect"
-import { withAuth } from "../../../../utils/withAuth"
+  redirectNotFoundVerifyProps,
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type WorkspaceAdvancedPageProps = {
   workspaceData: IWorkspace

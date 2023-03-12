@@ -1,8 +1,8 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { getTemplateBySlugAndPageSlugProps } from "./../../../types/Template.type"
+import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
 
-import { useMutationProps } from "../../../types/useQueryProps"
-import { api } from "../../api"
+import { api } from "services/api"
+import { useMutationProps } from "types/useQueryProps"
 
 type useTemplateByUrlAndPageUrlProps = {
   url: string

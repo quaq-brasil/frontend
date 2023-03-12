@@ -1,21 +1,21 @@
+import CentralOptions from "layouts/main/CentralOptions/CentralOptions"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
-import CentralOptions from "../../../../layouts/main/CentralOptions/CentralOptions"
-import { api } from "../../../../services/api"
-import { useTemplateBySlugAndPageSlug } from "../../../../services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
-import { useUpdateTemplate } from "../../../../services/hooks/useTemplate/useUpdateTemplate"
-import { IUserPayload } from "../../../../types/Auth.types"
+import { api } from "services/api"
+import { useTemplateBySlugAndPageSlug } from "services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
+import { useUpdateTemplate } from "services/hooks/useTemplate/useUpdateTemplate"
+import { IUserPayload } from "types/Auth.types"
 import {
   getTemplateBySlugAndPageSlugProps,
   IUpdateTemplate,
-} from "../../../../types/Template.type"
+} from "types/Template.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../../utils/404Redirect"
-import { pageUrls } from "../../../../utils/pagesUrl"
-import { withAuth } from "../../../../utils/withAuth"
+} from "utils/404Redirect"
+import { pageUrls } from "utils/pagesUrl"
+import { withAuth } from "utils/withAuth"
 
 type TemplateAccessControlPageProps = {
   pageSlug: string

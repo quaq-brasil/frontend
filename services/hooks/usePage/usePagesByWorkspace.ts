@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
-import { useQueryProps } from "../../../types/useQueryProps"
-import { api } from "../../api"
-import { IPage } from "./../../../types/Page.type"
+import { api } from "services/api"
+import { IPage } from "types/Page.type"
+import { useQueryProps } from "types/useQueryProps"
 
 type usePagesByWorkspaceProps = {
   id: string

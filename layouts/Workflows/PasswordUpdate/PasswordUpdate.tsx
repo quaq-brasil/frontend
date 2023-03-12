@@ -1,11 +1,11 @@
+import { Header } from "components/Header/Header"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { Header } from "../../../components/Header/Header"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
-import { IUpdateUser, IUser } from "../../../types/User.type"
-import { pageUrls } from "../../../utils/pagesUrl"
+import { IUpdateUser, IUser } from "types/User.type"
+import { pageUrls } from "utils/pagesUrl"
 import { PasswordUpdateContent } from "./PasswordUpdateContent"
 
 type PasswordUpdateProps = {

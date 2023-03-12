@@ -7,10 +7,10 @@ import {
   useMemo,
   useState,
 } from "react"
-import { queryClient } from "../services/queryClient"
-import { IUpdateUser } from "../types/User.type"
-import { getPayload } from "../utils/auth"
-import { appGetCookie } from "../utils/cookies"
+import { queryClient } from "services/queryClient"
+import { IUpdateUser } from "types/User.type"
+import { getPayload } from "utils/auth"
+import { appGetCookie } from "utils/cookies"
 
 type AuthProviderProps = {
   children: ReactNode

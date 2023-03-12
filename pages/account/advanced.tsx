@@ -1,13 +1,13 @@
+import ProfileAdvanced from "layouts/main/ProfileAdvanced/ProfileAdvanced"
 import { GetServerSideProps } from "next"
-import ProfileAdvanced from "../../layouts/main/ProfileAdvanced/ProfileAdvanced"
-import { api } from "../../services/api"
-import { useUser } from "../../services/hooks/useUser/useUser"
-import { IUser } from "../../types/User.type"
+import { api } from "services/api"
+import { useUser } from "services/hooks/useUser/useUser"
+import { IUser } from "types/User.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../utils/404Redirect"
-import { withAuth } from "../../utils/withAuth"
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type ProfileAdvancedPageProps = {
   user: IUser

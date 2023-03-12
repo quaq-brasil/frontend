@@ -1,16 +1,16 @@
+import LogContent from "layouts/main/InteractionLog/LogContent"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
-import LogContent from "../../../../../../layouts/main/InteractionLog/LogContent"
-import { api } from "../../../../../../services/api"
-import { useInteraction } from "../../../../../../services/hooks/useInteraction/useInteraction"
-import { useTemplateBySlugAndPageSlug } from "../../../../../../services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
-import { IInteraction } from "../../../../../../types/Interaction.type"
-import { getTemplateBySlugAndPageSlugProps } from "../../../../../../types/Template.type"
+import { api } from "services/api"
+import { useInteraction } from "services/hooks/useInteraction/useInteraction"
+import { useTemplateBySlugAndPageSlug } from "services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
+import { IInteraction } from "types/Interaction.type"
+import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../../../../utils/404Redirect"
-import { withAuth } from "../../../../../../utils/withAuth"
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type TemplateLogsProps = {
   pageSlug: string

@@ -1,14 +1,14 @@
+import { EmailUpdate } from "layouts/Workflows/EmailUpdate/EmailUpdate"
 import { GetServerSideProps } from "next"
-import { EmailUpdate } from "../../layouts/Workflows/EmailUpdate/EmailUpdate"
-import { api } from "../../services/api"
-import { useUpdateUser } from "../../services/hooks/useUser/useUpdateUser"
-import { useUser } from "../../services/hooks/useUser/useUser"
-import { IUpdateUser, IUser } from "../../types/User.type"
+import { api } from "services/api"
+import { useUpdateUser } from "services/hooks/useUser/useUpdateUser"
+import { useUser } from "services/hooks/useUser/useUser"
+import { IUpdateUser, IUser } from "types/User.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../utils/404Redirect"
-import { withAuth } from "../../utils/withAuth"
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type EmailUpdatePageProps = {
   data: IUser

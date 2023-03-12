@@ -1,15 +1,15 @@
+import { Button } from "components/Button/Button"
+import { Card } from "components/Card/Card"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, CopySimple } from "phosphor-react"
 import { useEffect, useState } from "react"
+import { BlocksConfigProps } from "types/BlockConfig.types"
 import { v4 } from "uuid"
-import { Button } from "../../../components/Button/Button"
-import { Card } from "../../../components/Card/Card"
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
-import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 
 export function ReceiveRequest({
   isOpen,

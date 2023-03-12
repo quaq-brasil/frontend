@@ -1,11 +1,11 @@
+import { useUserAuth } from "contexts/userAuth"
+import Explorer from "layouts/main/Explorer/Explorer"
 import { GetServerSideProps } from "next"
 import { useEffect, useState } from "react"
-import { useUserAuth } from "../contexts/userAuth"
-import Explorer from "../layouts/main/Explorer/Explorer"
-import { api } from "../services/api"
-import { usePageBySlug } from "../services/hooks/usePage/usePageBySlug"
-import { IPage } from "../types/Page.type"
-import { RedirectNotFoundVerify } from "../utils/404Redirect"
+import { api } from "services/api"
+import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
+import { IPage } from "types/Page.type"
+import { RedirectNotFoundVerify } from "utils/404Redirect"
 
 type ConsumerPagePageProps = {
   pageData: IPage

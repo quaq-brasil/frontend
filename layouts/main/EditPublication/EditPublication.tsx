@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { IPage } from "../../../types/Page.type"
-import { getTemplateBySlugAndPageSlugProps } from "../../../types/Template.type"
+import { IPage } from "types/Page.type"
+import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
 
 import { EditPublicationContent } from "./EditPublicationContent"
 

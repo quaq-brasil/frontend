@@ -1,7 +1,7 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { useMutationProps } from "../../../types/useQueryProps"
-import { api } from "../../api"
-import { IUser } from "./../../../types/User.type"
+import { api } from "services/api"
+import { useMutationProps } from "types/useQueryProps"
+import { IUser } from "types/User.type"
 
 type useMutateUserProps = {
   id: string

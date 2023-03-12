@@ -1,10 +1,6 @@
 import useTranslation from "next-translate/useTranslation"
 import { useState } from "react"
-import {
-  validateEmail,
-  validateNumber,
-  validateUrl,
-} from "../../utils/validations"
+import { validateEmail, validateNumber, validateUrl } from "utils/validations"
 
 type TextEntryProps = {
   type: string

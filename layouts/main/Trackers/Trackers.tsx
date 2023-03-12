@@ -1,10 +1,10 @@
+import { Card } from "components/Card/Card"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
+import { Dialog } from "components/Dialog/Dialog"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
-import { Card } from "../../../components/Card/Card"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
-import { Dialog } from "../../../components/Dialog/Dialog"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
 
 type TrackersProps = {
   isOpen: boolean

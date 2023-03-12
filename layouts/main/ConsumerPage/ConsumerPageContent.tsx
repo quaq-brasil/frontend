@@ -1,13 +1,13 @@
+import { Card } from "components/Card/Card"
+import { Shortcut } from "components/Shortcut/Shortcut"
+import { ShortcutGrid } from "components/ShortcutGrid/ShortcutGrid"
+import { useTerms } from "contexts/useTerms"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { Card } from "../../../components/Card/Card"
-import { Shortcut } from "../../../components/Shortcut/Shortcut"
-import { ShortcutGrid } from "../../../components/ShortcutGrid/ShortcutGrid"
-import { useTerms } from "../../../contexts/useTerms"
-import { IPage } from "../../../types/Page.type"
-import { ITemplate } from "../../../types/Template.type"
-import { pageUrls } from "../../../utils/pagesUrl"
+import { IPage } from "types/Page.type"
+import { ITemplate } from "types/Template.type"
+import { pageUrls } from "utils/pagesUrl"
 
 type ConsumerPageContentProps = {
   templatesData: ITemplate[] | undefined

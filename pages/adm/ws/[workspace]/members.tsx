@@ -1,14 +1,14 @@
+import WorkspaceMembers from "layouts/main/WorkspaceMembers/WorkspaceMembers"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
-import WorkspaceMembers from "../../../../layouts/main/WorkspaceMembers/WorkspaceMembers"
-import { api } from "../../../../services/api"
-import { useWorkspaceBySlug } from "../../../../services/hooks/useWorkspace/useWorkspaceBySlug"
-import { IWorkspace } from "../../../../types/Workspace.type"
+import { api } from "services/api"
+import { useWorkspaceBySlug } from "services/hooks/useWorkspace/useWorkspaceBySlug"
+import { IWorkspace } from "types/Workspace.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../../utils/404Redirect"
-import { withAuth } from "../../../../utils/withAuth"
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type WorkspaceMembersPageProps = {
   workspaceData: IWorkspace

@@ -1,12 +1,12 @@
+import { Button } from "components/Button/Button"
+import { Card } from "components/Card/Card"
+import { CardImageInput } from "components/Card/CardContentVariants/CardImageInput"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
+import { ImageSelector } from "components/ImageSelector/ImageSelector"
 import useTranslation from "next-translate/useTranslation"
 import { useEffect, useState } from "react"
-import { Button } from "../../../components/Button/Button"
-import { Card } from "../../../components/Card/Card"
-import { CardImageInput } from "../../../components/Card/CardContentVariants/CardImageInput"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
-import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
-import { IUpdateWorkspace } from "../../../types/Workspace.type"
+import { IUpdateWorkspace } from "types/Workspace.type"
 
 type CreateWorkspaceContentProps = {
   isUpdating: boolean

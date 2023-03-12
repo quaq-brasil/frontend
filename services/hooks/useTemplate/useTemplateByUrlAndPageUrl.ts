@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
-import { getTemplateBySlugAndPageSlugProps } from "../../../types/Template.type"
-import { useQueryProps } from "../../../types/useQueryProps"
-import { api } from "../../api"
+import { api } from "services/api"
+import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
+import { useQueryProps } from "types/useQueryProps"
 
 type useTemplateBySlugProps = {
   slug: string

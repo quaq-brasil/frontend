@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
-import { useQueryProps } from "../../../types/useQueryProps"
-import { api } from "../../api"
-import { IUser } from "./../../../types/User.type"
+import { api } from "services/api"
+import { useQueryProps } from "types/useQueryProps"
+import { IUser } from "types/User.type"
 
 export const useUser = ({ options }: useQueryProps) => {
   const getUser = async () => {

@@ -1,11 +1,11 @@
+import { Header } from "components/Header/Header"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { Header } from "../../../components/Header/Header"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
-import { IUserLogin } from "../../../types/User.type"
-import { pageUrls } from "../../../utils/pagesUrl"
+import { IUserLogin } from "types/User.type"
+import { pageUrls } from "utils/pagesUrl"
 import { LoginContent } from "./LogInContent"
 
 type LoginProps = {

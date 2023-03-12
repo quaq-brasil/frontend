@@ -2,7 +2,7 @@ import useTranslation from "next-translate/useTranslation"
 import { SpinnerGap, UploadSimple } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
-import { checkForFileSize } from "../../utils/checkForFileSize"
+import { checkForFileSize } from "utils/checkForFileSize"
 
 export type FileProps = {
   name: string

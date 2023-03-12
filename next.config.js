@@ -12,6 +12,7 @@ const securityHeaders = [
 const nextConfig = {
   experimental: { esmExternals: true },
   reactStrictMode: true,
+  swcMinify: true,
   images: {
     domains: [
       'images.unsplash.com',

@@ -1,10 +1,10 @@
+import { Card } from "components/Card/Card"
+import { Dialog } from "components/Dialog/Dialog"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { ArrowRight } from "phosphor-react"
 import { useEffect, useState } from "react"
-import { Card } from "../../../components/Card/Card"
-import { Dialog } from "../../../components/Dialog/Dialog"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
 
 export type Variable = {
   name: string

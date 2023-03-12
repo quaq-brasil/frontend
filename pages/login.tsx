@@ -1,12 +1,12 @@
+import Login from "layouts/Onboarding/LogIn/LogIn"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
-import Login from "../layouts/Onboarding/LogIn/LogIn"
 
-import { useLogin } from "../services/hooks/useUser/useLogin"
-import { IUserLogin } from "../types/User.type"
-import { isTokenExpired } from "../utils/auth"
-import { appParseCookies } from "../utils/cookies"
-import { pageUrls } from "../utils/pagesUrl"
+import { useLogin } from "services/hooks/useUser/useLogin"
+import { IUserLogin } from "types/User.type"
+import { isTokenExpired } from "utils/auth"
+import { appParseCookies } from "utils/cookies"
+import { pageUrls } from "utils/pagesUrl"
 
 export default function LoginPage() {
   const loginUser = useLogin()

@@ -1,13 +1,13 @@
+import { useUserAuth } from "contexts/userAuth"
+import TemplateExecution from "layouts/main/TemplateExecution/TemplateExecution"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import { useEffect, useState } from "react"
-import { useUserAuth } from "../../../contexts/userAuth"
-import TemplateExecution from "../../../layouts/main/TemplateExecution/TemplateExecution"
-import { api } from "../../../services/api"
-import { useTemplateBySlugAndPageSlug } from "../../../services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
-import { getTemplateBySlugAndPageSlugProps } from "../../../types/Template.type"
-import { RedirectNotFoundVerify } from "../../../utils/404Redirect"
-import { appParseCookies } from "../../../utils/cookies"
+import { api } from "services/api"
+import { useTemplateBySlugAndPageSlug } from "services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
+import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
+import { RedirectNotFoundVerify } from "utils/404Redirect"
+import { appParseCookies } from "utils/cookies"
 
 type TemplateExecutionPageProps = {
   pageSlug: string

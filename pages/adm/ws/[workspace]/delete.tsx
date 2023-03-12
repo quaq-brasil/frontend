@@ -1,17 +1,17 @@
+import WorkspaceDelete from "layouts/main/WorkspaceDelete/WorkspaceDelete"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
-import WorkspaceDelete from "../../../../layouts/main/WorkspaceDelete/WorkspaceDelete"
-import { api } from "../../../../services/api"
-import { useUser } from "../../../../services/hooks/useUser/useUser"
-import { useDeleteWorkspace } from "../../../../services/hooks/useWorkspace/useDeleteWorkspace"
-import { useWorkspaceBySlug } from "../../../../services/hooks/useWorkspace/useWorkspaceBySlug"
-import { IUser } from "../../../../types/User.type"
-import { IWorkspace } from "../../../../types/Workspace.type"
+import { api } from "services/api"
+import { useUser } from "services/hooks/useUser/useUser"
+import { useDeleteWorkspace } from "services/hooks/useWorkspace/useDeleteWorkspace"
+import { useWorkspaceBySlug } from "services/hooks/useWorkspace/useWorkspaceBySlug"
+import { IUser } from "types/User.type"
+import { IWorkspace } from "types/Workspace.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../../utils/404Redirect"
-import { withAuth } from "../../../../utils/withAuth"
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type WorkspaceDeletePageProps = {
   workspaceData: IWorkspace

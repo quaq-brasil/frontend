@@ -1,9 +1,9 @@
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
 import { EyeSlash } from "phosphor-react"
-import { IBlock } from "../../types/Block.types"
+import { IBlock } from "types/Block.types"
 const BlockMenu = dynamic(
-  () => import("../BlockMenu/BlockMenu").then((mod) => mod.default),
+  () => import("components/BlockMenu/BlockMenu").then((mod) => mod.default),
   { ssr: false }
 )
 

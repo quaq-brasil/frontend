@@ -7,9 +7,9 @@ import {
   Title,
   Tooltip,
 } from "chart.js"
+import { Card } from "components/Card/Card"
 import { Trash } from "phosphor-react"
 import { Bar } from "react-chartjs-2"
-import { Card } from "../Card/Card"
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 

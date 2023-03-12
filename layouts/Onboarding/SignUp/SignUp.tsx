@@ -1,10 +1,10 @@
+import { Header } from "components/Header/Header"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { Header } from "../../../components/Header/Header"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
-import { IUpdateUser } from "../../../types/User.type"
+import { IUpdateUser } from "types/User.type"
 import { SignUpContent } from "./SignUpContent"
 
 type SignUpProps = {

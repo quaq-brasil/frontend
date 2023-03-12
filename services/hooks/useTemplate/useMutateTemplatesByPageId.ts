@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { ITemplate } from "../../../types/Template.type"
-import { api } from "../../api"
+import { api } from "services/api"
+import { ITemplate } from "types/Template.type"
 
 type useMutateTemplatesByPageIdPros = {
   id: string

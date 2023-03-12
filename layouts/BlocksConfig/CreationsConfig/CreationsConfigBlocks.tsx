@@ -1,8 +1,8 @@
+import { Dialog } from "components/Dialog/Dialog"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { useState } from "react"
-import { Dialog } from "../../../components/Dialog/Dialog"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
 
 type CreationsConfigBlocksProps = {
   isOpen: boolean

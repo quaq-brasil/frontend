@@ -1,21 +1,21 @@
+import { BlockReader } from "components/BlockReader/BlockReader"
+import { BlockSelector } from "components/BlockSelector/BlockSelector"
+import { Header } from "components/Header/Header"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
+import {
+  ConnectedTemplatesProps,
+  VariablesPanelDialog,
+} from "layouts/BlocksConfig/VariablesPanel/VariablesPanelDialog"
 import { Translate } from "next-translate"
 import useTranslation from "next-translate/useTranslation"
 import { NextRouter, useRouter } from "next/router"
 import { useEffect, useState } from "react"
+import { BlockProps } from "types/Block.types"
+import { IPage } from "types/Page.type"
+import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
+import { pageUrls } from "utils/pagesUrl"
 import { v4 } from "uuid"
-import { BlockReader } from "../../../components/BlockReader/BlockReader"
-import { BlockSelector } from "../../../components/BlockSelector/BlockSelector"
-import { Header } from "../../../components/Header/Header"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
-import { BlockProps } from "../../../types/Block.types"
-import { IPage } from "../../../types/Page.type"
-import { getTemplateBySlugAndPageSlugProps } from "../../../types/Template.type"
-import { pageUrls } from "../../../utils/pagesUrl"
-import {
-  ConnectedTemplatesProps,
-  VariablesPanelDialog,
-} from "../../BlocksConfig/VariablesPanel/VariablesPanelDialog"
 import { RenderBlockConfig } from "../CreateTemplate/RenderBlockConfig"
 import { PublishPublication } from "./PublishPublication"
 

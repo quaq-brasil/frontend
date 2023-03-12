@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
-import { loginProps, loginResponseProps } from "../../../types/Auth.types"
-import { appSetCookies } from "../../../utils/cookies"
-import { api } from "../../api"
+import { api } from "services/api"
+import { loginProps, loginResponseProps } from "types/Auth.types"
+import { appSetCookies } from "utils/cookies"
 
 export const useLogin = () => {
   const login = async (data: loginProps) => {

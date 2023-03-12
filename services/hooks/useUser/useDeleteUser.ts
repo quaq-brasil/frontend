@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
-import { useMutationProps } from "../../../types/useQueryProps"
-import { api } from "../../api"
+import { api } from "services/api"
+import { useMutationProps } from "types/useQueryProps"
 
 type useDeleteUserProps = {
   id: string

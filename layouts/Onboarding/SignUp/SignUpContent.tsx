@@ -1,16 +1,16 @@
+import { Card } from "components/Card/Card"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
+import { ImageSelector } from "components/ImageSelector/ImageSelector"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { Check } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import { Card } from "../../../components/Card/Card"
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
-import { ImageSelector } from "../../../components/ImageSelector/ImageSelector"
-import { IUpdateUser } from "../../../types/User.type"
-import { pageUrls } from "../../../utils/pagesUrl"
+import { IUpdateUser } from "types/User.type"
+import { pageUrls } from "utils/pagesUrl"
 
 type SignUpContentProps = {
   handleUpdateUserData: (data: IUpdateUser) => void

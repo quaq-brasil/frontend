@@ -1,12 +1,12 @@
+import { Button } from "components/Button/Button"
+import { Card } from "components/Card/Card"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import useTranslation from "next-translate/useTranslation"
 import { useEffect, useState } from "react"
-import { Button } from "../../../components/Button/Button"
-import { Card } from "../../../components/Card/Card"
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
-import { useLogin } from "../../../services/hooks/useUser/useLogin"
-import { IUserPayload } from "../../../types/Auth.types"
+import { useLogin } from "services/hooks/useUser/useLogin"
+import { IUserPayload } from "types/Auth.types"
 
 type PageDeleteContentProps = {
   handleDeletePage: () => void

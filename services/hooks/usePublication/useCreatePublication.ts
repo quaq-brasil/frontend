@@ -1,7 +1,7 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { useMutationProps } from "../../../types/useQueryProps"
-import { api } from "../../api"
-import { IPublication } from "./../../../types/Publication.type"
+import { api } from "services/api"
+import { IPublication } from "types/Publication.type"
+import { useMutationProps } from "types/useQueryProps"
 
 type useCreatePublicationProps = {
   data: IPublication

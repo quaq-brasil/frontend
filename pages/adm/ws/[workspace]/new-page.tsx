@@ -1,18 +1,18 @@
+import { CreatePage } from "layouts/Onboarding/CreatePage/CreatePage"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
-import { CreatePage } from "../../../../layouts/Onboarding/CreatePage/CreatePage"
-import { api } from "../../../../services/api"
-import { useCreatePage } from "../../../../services/hooks/usePage/useCreatePage"
-import { useWorkspaceBySlug } from "../../../../services/hooks/useWorkspace/useWorkspaceBySlug"
-import { IUpdatePage } from "../../../../types/Page.type"
-import { IWorkspace } from "../../../../types/Workspace.type"
+import { api } from "services/api"
+import { useCreatePage } from "services/hooks/usePage/useCreatePage"
+import { useWorkspaceBySlug } from "services/hooks/useWorkspace/useWorkspaceBySlug"
+import { IUpdatePage } from "types/Page.type"
+import { IWorkspace } from "types/Workspace.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../../utils/404Redirect"
-import { pageUrls } from "../../../../utils/pagesUrl"
-import { withAuth } from "../../../../utils/withAuth"
+} from "utils/404Redirect"
+import { pageUrls } from "utils/pagesUrl"
+import { withAuth } from "utils/withAuth"
 
 type CreatePagePagePros = {
   workspaceData: IWorkspace

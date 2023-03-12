@@ -1,3 +1,4 @@
+import { Popover } from "components/Popover/Popover"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import {
@@ -11,11 +12,10 @@ import {
   Trash,
 } from "phosphor-react"
 import { useState } from "react"
-import { useDeleteTemplate } from "../../services/hooks/useTemplate/useDeleteTemplate"
-import { IPage } from "../../types/Page.type"
-import { IUpdateTemplate } from "../../types/Template.type"
-import { pageUrls } from "../../utils/pagesUrl"
-import { Popover } from "../Popover/Popover"
+import { useDeleteTemplate } from "services/hooks/useTemplate/useDeleteTemplate"
+import { IPage } from "types/Page.type"
+import { IUpdateTemplate } from "types/Template.type"
+import { pageUrls } from "utils/pagesUrl"
 
 type ShortcutMenuProps = {
   templateData: IUpdateTemplate | undefined

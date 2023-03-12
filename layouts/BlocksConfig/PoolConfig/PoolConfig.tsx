@@ -2,14 +2,14 @@ import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, X } from "phosphor-react"
 import { useEffect, useState } from "react"
 
-import { Button } from "../../../components/Button/Button"
-import { Card } from "../../../components/Card/Card"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
-import { Dialog } from "../../../components/Dialog/Dialog"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
-import { BlocksConfigProps } from "../../../types/BlockConfig.types"
+import { Button } from "components/Button/Button"
+import { Card } from "components/Card/Card"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
+import { Dialog } from "components/Dialog/Dialog"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
+import { BlocksConfigProps } from "types/BlockConfig.types"
 
 export function PoolConfig({
   handleAddBlock,

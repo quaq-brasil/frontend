@@ -1,10 +1,10 @@
+import { Header } from "components/Header/Header"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
-import { Header } from "../components/Header/Header"
-import { TabBar } from "../components/TabBar/TabBar"
-import { Tag } from "../components/Tag/Tag"
 const BlockMenu = dynamic(
-  () => import("../components/BlockMenu/BlockMenu").then((mod) => mod.default),
+  () => import("components/BlockMenu/BlockMenu").then((mod) => mod.default),
   { ssr: false }
 )
 

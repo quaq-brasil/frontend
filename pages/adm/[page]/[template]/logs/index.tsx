@@ -1,14 +1,14 @@
+import InteractionLog from "layouts/main/InteractionLog/InteractionLog"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
-import InteractionLog from "../../../../../layouts/main/InteractionLog/InteractionLog"
-import { api } from "../../../../../services/api"
-import { useTemplateBySlugAndPageSlug } from "../../../../../services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
-import { getTemplateBySlugAndPageSlugProps } from "../../../../../types/Template.type"
+import { api } from "services/api"
+import { useTemplateBySlugAndPageSlug } from "services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
+import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../../../utils/404Redirect"
-import { withAuth } from "../../../../../utils/withAuth"
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type TemplateLogsProps = {
   pageAndTemplateData: getTemplateBySlugAndPageSlugProps

@@ -1,10 +1,10 @@
+import { Header } from "components/Header/Header"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { Header } from "../../../components/Header/Header"
-import { Tag } from "../../../components/Tag/Tag"
-import { IPage } from "../../../types/Page.type"
-import { pageUrls } from "../../../utils/pagesUrl"
+import { IPage } from "types/Page.type"
+import { pageUrls } from "utils/pagesUrl"
 import { CreateTemplateContent } from "./CreateTemplateContent"
 
 type CreateTemplateProps = {
