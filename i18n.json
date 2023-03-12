@@ -2,66 +2,27 @@
   "locales": ["en", "pt"],
   "defaultLocale": "en",
   "pages": {
-    "*": [
-      "common",
-      "example",
-      "redirectconfig",
-      "imageconfig",
-      "toggleconfig",
-      "reviewconfig",
-      "textentryconfig",
-      "embedconfig",
-      "counterconfig",
-      "buttonconfig",
+    "/": [
+      "explorer"
+    ],
+    "/500": [
+      "explorer"
+    ],
+    "/404": [
+      "explorer"
+    ],
+    "/login": [
+      "login"
+    ],
+    "/signup": [
       "signup",
-      "imageselector",
-      "consumerpage",
-      "creatorpage",
-      "login",
-      "pwupdate",
-      "pwrecovery",
-      "wssetup",
-      "poolconfig",
-      "webhookconfig",
-      "wssettings",
-      "wsadvanced",
-      "wsdelete",
-      "profile",
-      "profileadvanced",
-      "emailupdate",
-      "terms",
-      "publish",
-      "accesscontrol",
-      "texteditor",
-      "trackers",
-      "edittemplate",
-      "blockselector",
-      "texteditor",
-      "textentryblock",
-      "fileentryblock",
-      "textconfig",
-      "filesharingconfig",
-      "jsonconfig",
-      "fileentryconfig",
-      "generalsettings",
-      "centraloptions",
-      "centraltrackers",
-      "centrallogs",
-      "centralstats",
-      "creationsconfig",
-      "automationconfig",
-      "createtemplate",
-      "automationblock",
-      "createpage",
-      "variablespanel",
-      "createwspace",
-      "pagedelete",
-      "pagetrackers",
-      "explorer",
-      "userdelete",
-      "chartconfig",
-      "blockmenu",
-      "validation"
+      "imageselector"
+    ],
+    "/terms": [
+      "terms"
+    ],
+    "/adm": [
+      "creatorpage"
     ]
   }
 }

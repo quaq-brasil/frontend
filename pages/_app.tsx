@@ -6,8 +6,8 @@ import { AppHooks } from "hooks"
 import { SessionProvider } from "next-auth/react"
 import type { AppProps } from "next/app"
 import dynamic from "next/dynamic"
-import "pages/styles/global.css"
 import { queryClient } from "services/queryClient"
+import "styles/global.css"
 const NextNProgress = dynamic(
   () => import("nextjs-progressbar").then((mod) => mod.default),
   { ssr: false }
