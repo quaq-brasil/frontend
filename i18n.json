@@ -5,24 +5,8 @@
     "/": [
       "explorer"
     ],
-    "/500": [
-      "explorer"
-    ],
-    "/404": [
-      "explorer"
-    ],
-    "/login": [
-      "login"
-    ],
-    "/signup": [
-      "signup",
-      "imageselector"
-    ],
-    "/terms": [
-      "terms"
-    ],
-    "/adm": [
-      "creatorpage"
+    "/[page]": [
+      "consumerpage"
     ]
   }
 }
