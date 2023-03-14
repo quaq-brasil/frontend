@@ -50,7 +50,7 @@ export function PieChart({ data, title, isEditable, onDelete }: PieChartProps) {
         </button>
       )}
       <Card>
-        <Pie className="px-2 md:px-6" data={data} options={options} />
+        <Pie className="px-2 md:px-6" options={options} data={data} />
       </Card>
     </div>
   )

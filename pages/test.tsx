@@ -1,5 +1,7 @@
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
+import { ChartBlock } from "../components/ChartBlock/ChartBlock"
+import { createChartData } from "../components/ChartBlock/createChartData"
 import { Header } from "../components/Header/Header"
 import { TabBar } from "../components/TabBar/TabBar"
 import { Tag } from "../components/Tag/Tag"
@@ -102,6 +104,20 @@ export default function TestPage() {
     ],
   }
 
+  const data1 = {
+    labels: ["1", "2", "3", "4", "5", "6"],
+    dataset: [5, 6, "7", 8, 9, 10],
+  }
+
+  const data2 = [5, 6, "7", 8, 9, 10]
+
+  function handleUpdateData() {
+    const test = createChartData(data1, "line")
+    console.log(test)
+  }
+
+  const dataset = createChartData(data1, "line")
+
   return (
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
@@ -111,12 +127,10 @@ export default function TestPage() {
       bg-slate-100 rounded-t-[25px] overflow-y-scroll scrollbar-hide pt-2 px-2
       md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:p-[2rem]"
         >
-          <div className="flex flex-col gap-2 md:gap-4 items-center">
-            <div className="w-fit">
-              <BlockMenu />
-            </div>
-            <span className="w-full h-[4rem]"></span>
-          </div>
+          <ChartBlock
+            isEditable={false}
+            block={{ title: "test", data: dataset, type: "line" }}
+          />
         </div>
       </div>
       <TabBar isHidden={false} tags={handleTabBar()} />

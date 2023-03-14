@@ -137,7 +137,7 @@ export const ChartBlock = ({
         return (
           <PieChart
             data={{
-              datasets: block.data as IDataSet2[],
+              datasets: block.data.dataset as IDataSet2[],
               labels: block.data.labels,
             }}
             title={block.title}
@@ -148,7 +148,7 @@ export const ChartBlock = ({
       case "scatter":
         return (
           <ScatterChart
-            data={{ datasets: block.data as IDataSet3[] }}
+            data={{ datasets: block.data.dataset as IDataSet3[] }}
             title={block.title}
             onDelete={onDelete}
             isEditable={isEditable}
