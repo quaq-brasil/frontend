@@ -7,6 +7,7 @@ import {
   ConnectedTemplatesProps,
   VariablesPanelDialog,
 } from "layouts/BlocksConfig/VariablesPanel/VariablesPanelDialog"
+import { RenderBlockConfig } from "layouts/main/CreateTemplate/RenderBlockConfig"
 import { Translate } from "next-translate"
 import useTranslation from "next-translate/useTranslation"
 import { NextRouter, useRouter } from "next/router"
@@ -16,7 +17,6 @@ import { IPage } from "types/Page.type"
 import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
 import { pageUrls } from "utils/pagesUrl"
 import { v4 } from "uuid"
-import { RenderBlockConfig } from "../CreateTemplate/RenderBlockConfig"
 import { PublishPublication } from "./PublishPublication"
 
 type EditPublicationContentProps = {
