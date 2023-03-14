@@ -1,15 +1,15 @@
+import WorkspaceSettings from "layouts/main/WorkspaceSettings/WorkspaceSettings"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
-import WorkspaceSettings from "../../../../layouts/main/WorkspaceSettings/WorkspaceSettings"
-import { api } from "../../../../services/api"
-import { useUpdateWorkspace } from "../../../../services/hooks/useWorkspace/useUpdateWorkspace"
-import { useWorkspaceBySlug } from "../../../../services/hooks/useWorkspace/useWorkspaceBySlug"
-import { IUpdateWorkspace, IWorkspace } from "../../../../types/Workspace.type"
+import { api } from "services/api"
+import { useUpdateWorkspace } from "services/hooks/useWorkspace/useUpdateWorkspace"
+import { useWorkspaceBySlug } from "services/hooks/useWorkspace/useWorkspaceBySlug"
+import { IUpdateWorkspace, IWorkspace } from "types/Workspace.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../../utils/404Redirect"
-import { withAuth } from "../../../../utils/withAuth"
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type WorkspaceSettingsPageProps = {
   workspaceData: IWorkspace

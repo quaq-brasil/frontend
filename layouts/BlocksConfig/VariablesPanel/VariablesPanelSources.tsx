@@ -1,8 +1,8 @@
+import { Card } from "components/Card/Card"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import useTranslation from "next-translate/useTranslation"
 import { Plus, X } from "phosphor-react"
 import { useState } from "react"
-import { Card } from "../../../components/Card/Card"
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
 import { ConnectedTemplatesProps } from "./VariablesPanelDialog"
 import { VariablesPanelPages } from "./VariablesPanelPages"
 

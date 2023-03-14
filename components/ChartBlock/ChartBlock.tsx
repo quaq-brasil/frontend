@@ -1,14 +1,14 @@
 import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
-import { IBlock } from "../../types/Block.types"
-import { IInteractionData } from "../../types/Interaction.type"
+import { IBlock } from "types/Block.types"
+import { IInteractionData } from "types/Interaction.type"
 import { HorizontalBarChart } from "./HorizontalBarChart"
 import { LineChart } from "./LineChart"
 import { PieChart } from "./PieChart"
 import { ScatterChart } from "./ScatterChart"
 import { VerticalBarChart } from "./VerticalBarChart"
 const BlockMenu = dynamic(
-  () => import("../BlockMenu/BlockMenu").then((mod) => mod.default),
+  () => import("components/BlockMenu/BlockMenu").then((mod) => mod.default),
   { ssr: false }
 )
 

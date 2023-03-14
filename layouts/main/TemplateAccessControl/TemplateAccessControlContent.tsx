@@ -1,14 +1,14 @@
+import { Button } from "components/Button/Button"
+import { Card } from "components/Card/Card"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { ArrowRight, Check } from "phosphor-react"
-import { Button } from "../../../components/Button/Button"
-import { Card } from "../../../components/Card/Card"
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
-import { IUpdatePage } from "../../../types/Page.type"
-import { IUpdateTemplate } from "../../../types/Template.type"
-import { pageUrls } from "../../../utils/pagesUrl"
+import { IUpdatePage } from "types/Page.type"
+import { IUpdateTemplate } from "types/Template.type"
+import { pageUrls } from "utils/pagesUrl"
 
 type TemplateAccessControlContentProps = {
   templateData: IUpdateTemplate | undefined

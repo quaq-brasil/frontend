@@ -1,7 +1,7 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { useMutationProps } from "../../../types/useQueryProps"
-import { appSetCookies } from "../../../utils/cookies"
-import { api } from "../../api"
+import { api } from "services/api"
+import { useMutationProps } from "types/useQueryProps"
+import { appSetCookies } from "utils/cookies"
 
 type LoginProps = {
   token: string

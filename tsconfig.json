@@ -19,6 +19,7 @@
     "jsx": "preserve",
     "incremental": true,
     "strictNullChecks": false,
+    "baseUrl": "."
   },
   "include": [
     "next-env.d.ts",

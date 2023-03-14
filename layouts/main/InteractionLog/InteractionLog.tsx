@@ -1,12 +1,12 @@
+import { Header } from "components/Header/Header"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { Header } from "../../../components/Header/Header"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
-import { IUpdatePage } from "../../../types/Page.type"
-import { IUpdateTemplate } from "../../../types/Template.type"
-import { pageUrls } from "../../../utils/pagesUrl"
+import { IUpdatePage } from "types/Page.type"
+import { IUpdateTemplate } from "types/Template.type"
+import { pageUrls } from "utils/pagesUrl"
 import { InteractionLogContent } from "./InteractionLogContent"
 
 type InteractionLogProps = {

@@ -1,9 +1,9 @@
+import { Dialog } from "components/Dialog/Dialog"
+import { Shortcut } from "components/Shortcut/Shortcut"
+import { ShortcutGrid } from "components/ShortcutGrid/ShortcutGrid"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
-import { Dialog } from "../../../components/Dialog/Dialog"
-import { Shortcut } from "../../../components/Shortcut/Shortcut"
-import { ShortcutGrid } from "../../../components/ShortcutGrid/ShortcutGrid"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
 
 type CreationsConfigTemplatesProps = {
   isOpen: boolean

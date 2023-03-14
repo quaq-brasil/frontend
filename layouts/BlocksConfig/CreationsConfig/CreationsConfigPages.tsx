@@ -1,12 +1,12 @@
+import { Card } from "components/Card/Card"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
+import { CardLog } from "components/Card/CardContentVariants/CardLog"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import { Dialog } from "components/Dialog/Dialog"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { ArrowRight } from "phosphor-react"
-import { Card } from "../../../components/Card/Card"
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
-import { CardLog } from "../../../components/Card/CardContentVariants/CardLog"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { Dialog } from "../../../components/Dialog/Dialog"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
 
 type CreationsConfigPagesProps = {
   isOpen: boolean

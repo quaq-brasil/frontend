@@ -1,14 +1,14 @@
+import Profile from "layouts/main/Profile/Profile"
 import { GetServerSideProps } from "next"
-import Profile from "../../layouts/main/Profile/Profile"
-import { api } from "../../services/api"
-import { useUpdateUser } from "../../services/hooks/useUser/useUpdateUser"
-import { useUser } from "../../services/hooks/useUser/useUser"
-import { IUpdateUser, IUser } from "../../types/User.type"
+import { api } from "services/api"
+import { useUpdateUser } from "services/hooks/useUser/useUpdateUser"
+import { useUser } from "services/hooks/useUser/useUser"
+import { IUpdateUser, IUser } from "types/User.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../utils/404Redirect"
-import { withAuth } from "../../utils/withAuth"
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type ProfilePageProps = {
   data: IUser

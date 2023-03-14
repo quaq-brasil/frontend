@@ -1,19 +1,19 @@
+import CentralTrackers from "layouts/main/CentralTrackers/CentralTrackers"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
-import CentralTrackers from "../../../../layouts/main/CentralTrackers/CentralTrackers"
-import { api } from "../../../../services/api"
-import { useTemplateBySlugAndPageSlug } from "../../../../services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
-import { useUpdateTemplate } from "../../../../services/hooks/useTemplate/useUpdateTemplate"
-import { IUserPayload } from "../../../../types/Auth.types"
+import { api } from "services/api"
+import { useTemplateBySlugAndPageSlug } from "services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
+import { useUpdateTemplate } from "services/hooks/useTemplate/useUpdateTemplate"
+import { IUserPayload } from "types/Auth.types"
 import {
   getTemplateBySlugAndPageSlugProps,
   IUpdateTemplate,
-} from "../../../../types/Template.type"
+} from "types/Template.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../../utils/404Redirect"
-import { withAuth } from "../../../../utils/withAuth"
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type CentralTrackersPageProps = {
   pageSlug: string

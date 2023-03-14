@@ -1,10 +1,10 @@
+import { Card } from "components/Card/Card"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
+import { CardText } from "components/Card/CardContentVariants/CardText"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { ArrowRight } from "phosphor-react"
-import { Card } from "../../../components/Card/Card"
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { pageUrls } from "../../../utils/pagesUrl"
+import { pageUrls } from "utils/pagesUrl"
 
 export function ProfileAdvancedContent() {
   const text = useTranslation().t

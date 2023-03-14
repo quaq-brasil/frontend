@@ -1,15 +1,15 @@
+import PageTrackers from "layouts/main/PageTrackers/PageTrackers"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
-import PageTrackers from "../../../../layouts/main/PageTrackers/PageTrackers"
-import { api } from "../../../../services/api"
-import { usePageBySlug } from "../../../../services/hooks/usePage/usePageBySlug"
-import { useUpdatePage } from "../../../../services/hooks/usePage/useUpdatePage"
-import { IPage, IUpdatePage } from "../../../../types/Page.type"
+import { api } from "services/api"
+import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
+import { useUpdatePage } from "services/hooks/usePage/useUpdatePage"
+import { IPage, IUpdatePage } from "types/Page.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../../utils/404Redirect"
-import { withAuth } from "../../../../utils/withAuth"
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type PageTrackersPageProps = {
   pageSlug: string

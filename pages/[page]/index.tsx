@@ -1,13 +1,13 @@
+import { useUserAuth } from "contexts/userAuth"
+import ConsumerPage from "layouts/main/ConsumerPage/ConsumerPage"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import { useEffect, useState } from "react"
-import { useUserAuth } from "../../contexts/userAuth"
-import ConsumerPage from "../../layouts/main/ConsumerPage/ConsumerPage"
-import { api } from "../../services/api"
-import { usePageBySlug } from "../../services/hooks/usePage/usePageBySlug"
-import { IPage } from "../../types/Page.type"
-import { RedirectNotFoundVerify } from "../../utils/404Redirect"
-import { appParseCookies } from "../../utils/cookies"
+import { api } from "services/api"
+import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
+import { IPage } from "types/Page.type"
+import { RedirectNotFoundVerify } from "utils/404Redirect"
+import { appParseCookies } from "utils/cookies"
 
 type ConsumerPagePageProps = {
   pageSlug: string

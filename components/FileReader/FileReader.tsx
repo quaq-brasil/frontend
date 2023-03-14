@@ -1,22 +1,22 @@
-import { useState } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-import workerSrc from "../../pdf-worker";
+import workerSrc from "pdf-worker"
+import { useState } from "react"
+import { Document, Page, pdfjs } from "react-pdf"
 
-pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
+pdfjs.GlobalWorkerOptions.workerSrc = workerSrc
 
 type FileReaderProps = {
-  url: string;
-};
+  url: string
+}
 
 type FileReaderState = {
-  numPages: number;
-};
+  numPages: number
+}
 
 export function FileReader({ url }: FileReaderProps) {
-  const [numPages, setNumPages] = useState(1);
+  const [numPages, setNumPages] = useState(1)
 
   function onDocumentLoadSuccess({ numPages: nextNumPages }: FileReaderState) {
-    setNumPages(nextNumPages);
+    setNumPages(nextNumPages)
   }
 
   return (
@@ -37,5 +37,5 @@ export function FileReader({ url }: FileReaderProps) {
         ))}
       </Document>
     </div>
-  );
+  )
 }

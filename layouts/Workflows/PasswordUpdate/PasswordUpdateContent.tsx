@@ -1,10 +1,10 @@
+import { Button } from "components/Button/Button"
+import { Card } from "components/Card/Card"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import useTranslation from "next-translate/useTranslation"
 import { useEffect, useState } from "react"
-import { Button } from "../../../components/Button/Button"
-import { Card } from "../../../components/Card/Card"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
-import { IUpdateUser } from "../../../types/User.type"
+import { IUpdateUser } from "types/User.type"
 
 type PasswordUpdateContentProps = {
   handleUpdateUser: (data: IUpdateUser) => void

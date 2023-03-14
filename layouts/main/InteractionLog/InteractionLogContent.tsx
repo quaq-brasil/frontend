@@ -1,15 +1,15 @@
+import { Card } from "components/Card/Card"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
+import { CardLog } from "components/Card/CardContentVariants/CardLog"
+import { CardText } from "components/Card/CardContentVariants/CardText"
 import moment from "moment"
 import { useRouter } from "next/router"
 import { ArrowRight } from "phosphor-react"
 import { useEffect, useState } from "react"
-import { Card } from "../../../components/Card/Card"
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
-import { CardLog } from "../../../components/Card/CardContentVariants/CardLog"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { useMutateTemplate } from "../../../services/hooks/useTemplate/useMutateTemplate"
-import { IUpdatePage } from "../../../types/Page.type"
-import { ITemplateLogs, IUpdateTemplate } from "../../../types/Template.type"
-import { pageUrls } from "../../../utils/pagesUrl"
+import { useMutateTemplate } from "services/hooks/useTemplate/useMutateTemplate"
+import { IUpdatePage } from "types/Page.type"
+import { ITemplateLogs, IUpdateTemplate } from "types/Template.type"
+import { pageUrls } from "utils/pagesUrl"
 
 type InteractionLogContentProps = {
   templateData: IUpdateTemplate | undefined

@@ -1,16 +1,16 @@
-import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
-import { BlockReader } from "../../../components/BlockReader/BlockReader"
-import { BlockSelector } from "../../../components/BlockSelector/BlockSelector"
-import { Dialog } from "../../../components/Dialog/Dialog"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
-import { BlockProps } from "../../../types/Block.types"
-import { RenderBlockConfig } from "../../main/CreateTemplate/RenderBlockConfig"
+import { BlockReader } from "components/BlockReader/BlockReader"
+import { BlockSelector } from "components/BlockSelector/BlockSelector"
+import { Dialog } from "components/Dialog/Dialog"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import {
   ConnectedTemplatesProps,
   VariablesPanelDialog,
-} from "../VariablesPanel/VariablesPanelDialog"
+} from "layouts/BlocksConfig/VariablesPanel/VariablesPanelDialog"
+import { RenderBlockConfig } from "layouts/main/CreateTemplate/RenderBlockConfig"
+import useTranslation from "next-translate/useTranslation"
+import { useState } from "react"
+import { BlockProps } from "types/Block.types"
 
 type AutomationBlocksConfigProps = {
   isThisOpen: boolean

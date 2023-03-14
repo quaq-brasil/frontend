@@ -1,6 +1,6 @@
+import { useValidation } from "hooks/useValidation"
 import { IconProps } from "phosphor-react"
 import { ForwardRefExoticComponent, RefAttributes } from "react"
-import { useValidation } from "../../../hooks/useValidation"
 
 type CardTextInputProps = {
   input?: {

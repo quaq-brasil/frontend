@@ -1,18 +1,18 @@
+import PageDelete from "layouts/main/PageDelete/PageDelete"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
-import PageDelete from "../../../../layouts/main/PageDelete/PageDelete"
-import { api } from "../../../../services/api"
-import { useDeletePage } from "../../../../services/hooks/usePage/useDeletePage"
-import { usePageBySlug } from "../../../../services/hooks/usePage/usePageBySlug"
-import { IUserPayload } from "../../../../types/Auth.types"
-import { IPage } from "../../../../types/Page.type"
+import { api } from "services/api"
+import { useDeletePage } from "services/hooks/usePage/useDeletePage"
+import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
+import { IUserPayload } from "types/Auth.types"
+import { IPage } from "types/Page.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../../utils/404Redirect"
-import { pageUrls } from "../../../../utils/pagesUrl"
-import { withAuth } from "../../../../utils/withAuth"
+} from "utils/404Redirect"
+import { pageUrls } from "utils/pagesUrl"
+import { withAuth } from "utils/withAuth"
 
 type PageDeletePageProps = {
   payload: IUserPayload

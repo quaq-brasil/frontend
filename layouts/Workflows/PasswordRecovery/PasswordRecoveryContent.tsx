@@ -1,8 +1,8 @@
+import { Button } from "components/Button/Button"
+import { Card } from "components/Card/Card"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import useTranslation from "next-translate/useTranslation"
-import { Button } from "../../../components/Button/Button"
-import { Card } from "../../../components/Card/Card"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
 
 export function PasswordRecoveryContent() {
   const text = useTranslation().t

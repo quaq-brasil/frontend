@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { api } from "../../api"
-import { IUser } from "./../../../types/User.type"
+import { api } from "services/api"
+import { IUser } from "types/User.type"
 
 export const useCreateUser = () => {
   const createUser = async (data: any) => {

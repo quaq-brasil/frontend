@@ -1,3 +1,4 @@
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import {
   Article,
@@ -16,7 +17,6 @@ import {
   X,
 } from "phosphor-react"
 import { useState } from "react"
-import { Tag } from "../Tag/Tag"
 
 type BlockSelectorProps = {
   onBlockSelect?: (type: string | undefined) => void

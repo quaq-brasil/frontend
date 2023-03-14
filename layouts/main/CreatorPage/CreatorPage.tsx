@@ -1,3 +1,7 @@
+import { Header } from "components/Header/Header"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
+import { useContextMenu } from "hooks/ContextMenuHook"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import {
@@ -9,16 +13,12 @@ import {
   UserCircle,
 } from "phosphor-react"
 import { useEffect, useState } from "react"
-import { Header } from "../../../components/Header/Header"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
-import { useContextMenu } from "../../../hooks/ContextMenuHook"
-import { useMutatePagesByWorkspaceId } from "../../../services/hooks/usePage/useMutatePagesByWorkspaceId"
-import { useMutateTemplatesByPageId } from "../../../services/hooks/useTemplate/useMutateTemplatesByPageId"
-import { IPage } from "../../../types/Page.type"
-import { ITemplate } from "../../../types/Template.type"
-import { IWorkspace } from "../../../types/Workspace.type"
-import { pageUrls } from "../../../utils/pagesUrl"
+import { useMutatePagesByWorkspaceId } from "services/hooks/usePage/useMutatePagesByWorkspaceId"
+import { useMutateTemplatesByPageId } from "services/hooks/useTemplate/useMutateTemplatesByPageId"
+import { IPage } from "types/Page.type"
+import { ITemplate } from "types/Template.type"
+import { IWorkspace } from "types/Workspace.type"
+import { pageUrls } from "utils/pagesUrl"
 import { CreatorPageContent } from "./CreatorPageContent"
 
 type CreatorPageProps = {

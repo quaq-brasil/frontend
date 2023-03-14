@@ -22,5 +22,5 @@
   "hooktype": "hook type",
   "send": "send",
   "receive": "receive",
-  "keytitle": "secret key (optional)"
+  "keytitle": "secret key"
 }

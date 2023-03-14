@@ -1,8 +1,8 @@
+import { useUserAuth } from "contexts/userAuth"
+import Explorer from "layouts/main/Explorer/Explorer"
 import { useEffect, useState } from "react"
-import { useUserAuth } from "../contexts/userAuth"
-import Explorer from "../layouts/main/Explorer/Explorer"
-import { usePageBySlug } from "../services/hooks/usePage/usePageBySlug"
-import { IPage } from "../types/Page.type"
+import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
+import { IPage } from "types/Page.type"
 
 export default function Custom404() {
   const { user } = useUserAuth()

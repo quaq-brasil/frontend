@@ -1,14 +1,14 @@
+import UserDelete from "layouts/main/UserDelete/UserDelete"
 import { GetServerSideProps } from "next"
-import UserDelete from "../../layouts/main/UserDelete/UserDelete"
-import { api } from "../../services/api"
-import { useDeleteUser } from "../../services/hooks/useUser/useDeleteUser"
-import { useUser } from "../../services/hooks/useUser/useUser"
-import { IUser } from "../../types/User.type"
+import { api } from "services/api"
+import { useDeleteUser } from "services/hooks/useUser/useDeleteUser"
+import { useUser } from "services/hooks/useUser/useUser"
+import { IUser } from "types/User.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../utils/404Redirect"
-import { withAuth } from "../../utils/withAuth"
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type UserDeletePageProps = {
   data: IUser

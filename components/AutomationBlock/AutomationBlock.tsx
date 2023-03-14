@@ -1,7 +1,7 @@
+import { Button } from "components/Button/Button"
 import useTranslation from "next-translate/useTranslation"
 import { EyeSlash, PencilSimple } from "phosphor-react"
 import { useState } from "react"
-import { Button } from "../Button/Button"
 import { AutomationBlockBlocks } from "./AutomationBlockBlocks"
 
 type Spec = {

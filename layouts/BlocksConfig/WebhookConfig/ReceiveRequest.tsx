@@ -1,15 +1,15 @@
+import { Button } from "components/Button/Button"
+import { Card } from "components/Card/Card"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, CopySimple } from "phosphor-react"
 import { useEffect, useState } from "react"
+import { BlocksConfigProps } from "types/BlockConfig.types"
 import { v4 } from "uuid"
-import { Button } from "../../../components/Button/Button"
-import { Card } from "../../../components/Card/Card"
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
-import { BlocksConfigProps } from "../../../types/BlockConfig.types"
 
 export function ReceiveRequest({
   isOpen,
@@ -57,6 +57,9 @@ export function ReceiveRequest({
     },
   })
   const [content, setContent] = useState<IWebhook>()
+  const [key, _setKey] = useState(v4())
+  const [slug, _setSlug] = useState(`${v4()}`)
+
   const [saveAs, setSaveAs] = useState<string | null>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
@@ -71,12 +74,12 @@ export function ReceiveRequest({
   }
 
   function handleValidation() {
-    if (content.description) {
+    if (content?.description) {
       handleUpdateFormData({ description: { valid: true } })
     } else {
       handleUpdateFormData({ description: { valid: false } })
     }
-    if (content.key) {
+    if (content?.key) {
       handleUpdateFormData({ key: { valid: true } })
     } else {
       handleUpdateFormData({ key: { valid: false } })
@@ -137,9 +140,9 @@ export function ReceiveRequest({
     handleClosing()
   }
 
-  const handleCopyTextToClipboard = async () => {
+  const handleCopyTextToClipboard = async (value: string) => {
     try {
-      await navigator.clipboard.writeText(content.link)
+      await navigator.clipboard.writeText(value)
       // Content copied to clipboard
     } catch (err) {
       console.error("Failed to copy: ", err)
@@ -227,10 +230,22 @@ export function ReceiveRequest({
           <CardText label={text("webhookconfig:keytitle")} />
           <CardLine />
           <CardText
-            label={text("webhookconfig:key")}
+            label={key}
             indicator={{
               icon: CopySimple,
-              onClick: () => handleCopyTextToClipboard(),
+              onClick: () => handleCopyTextToClipboard(key),
+            }}
+          />
+          <CardLine />
+        </Card>
+        <Card>
+          <CardText label={text("webhookconfig:url")} />
+          <CardLine />
+          <CardText
+            label={`api.quaq.me/entrypoint/${slug}`}
+            indicator={{
+              icon: CopySimple,
+              onClick: () => handleCopyTextToClipboard(slug),
             }}
           />
           <CardLine />

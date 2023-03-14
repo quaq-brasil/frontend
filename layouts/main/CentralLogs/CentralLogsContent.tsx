@@ -1,7 +1,7 @@
-import { Card } from "../../../components/Card/Card"
-import { CardLine } from "../../../components/Card/CardContentVariants/CardLine"
-import { CardLog } from "../../../components/Card/CardContentVariants/CardLog"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
+import { Card } from "components/Card/Card"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
+import { CardLog } from "components/Card/CardContentVariants/CardLog"
+import { CardText } from "components/Card/CardContentVariants/CardText"
 
 export function CentralLogsContent() {
   function handleLogs() {

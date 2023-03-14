@@ -1,4 +1,4 @@
-import FileEntry, { FileProps } from "../FileEntryBlock/FileEntry"
+import FileEntry, { FileProps } from "components/FileEntryBlock/FileEntry"
 
 type FileManagerProps = {
   files: FileProps[]

@@ -1,17 +1,17 @@
+import GeneralSettings from "layouts/main/GeneralSettings/GeneralSettings"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
-import GeneralSettings from "../../../../layouts/main/GeneralSettings/GeneralSettings"
-import { api } from "../../../../services/api"
-import { usePageBySlug } from "../../../../services/hooks/usePage/usePageBySlug"
-import { useUpdatePage } from "../../../../services/hooks/usePage/useUpdatePage"
-import { IPage, IUpdatePage } from "../../../../types/Page.type"
+import { api } from "services/api"
+import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
+import { useUpdatePage } from "services/hooks/usePage/useUpdatePage"
+import { IPage, IUpdatePage } from "types/Page.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../../utils/404Redirect"
-import { pageUrls } from "../../../../utils/pagesUrl"
-import { withAuth } from "../../../../utils/withAuth"
+} from "utils/404Redirect"
+import { pageUrls } from "utils/pagesUrl"
+import { withAuth } from "utils/withAuth"
 
 type GeneralSettingsPageProps = {
   pageSlug: string

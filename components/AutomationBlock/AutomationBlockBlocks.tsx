@@ -1,8 +1,8 @@
+import { BlockSelector } from "components/BlockSelector/BlockSelector"
+import { Dialog } from "components/Dialog/Dialog"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
-import { BlockSelector } from "../BlockSelector/BlockSelector"
-import { Dialog } from "../Dialog/Dialog"
-import { TabBar } from "../TabBar/TabBar"
-import { Tag } from "../Tag/Tag"
 
 type AutomationBlockBlocksProps = {
   isOpen: boolean

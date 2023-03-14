@@ -1,12 +1,12 @@
+import { Button } from "components/Button/Button"
+import { Card } from "components/Card/Card"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
-import { Button } from "../../../components/Button/Button"
-import { Card } from "../../../components/Card/Card"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
-import { IUserLogin } from "../../../types/User.type"
+import { IUserLogin } from "types/User.type"
 
-const QuickIn = dynamic(() => import("../../../components/QuickIn/QuickIn"), {
+const QuickIn = dynamic(() => import("components/QuickIn/QuickIn"), {
   ssr: false,
 })
 

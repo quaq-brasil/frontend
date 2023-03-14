@@ -1,10 +1,10 @@
+import { Button } from "components/Button/Button"
+import { Card } from "components/Card/Card"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import useTranslation from "next-translate/useTranslation"
 import { useEffect } from "react"
-import { Button } from "../../../components/Button/Button"
-import { Card } from "../../../components/Card/Card"
-import { CardText } from "../../../components/Card/CardContentVariants/CardText"
-import { CardTextInput } from "../../../components/Card/CardContentVariants/CardTextInput"
-import { IUpdatePage } from "../../../types/Page.type"
+import { IUpdatePage } from "types/Page.type"
 
 type PageTrackersContentProps = {
   pageData: IUpdatePage | undefined

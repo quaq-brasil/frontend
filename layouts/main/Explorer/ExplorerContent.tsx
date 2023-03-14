@@ -1,8 +1,8 @@
+import { Shortcut } from "components/Shortcut/Shortcut"
+import { ShortcutGrid } from "components/ShortcutGrid/ShortcutGrid"
 import { useEffect, useState } from "react"
-import { Shortcut } from "../../../components/Shortcut/Shortcut"
-import { ShortcutGrid } from "../../../components/ShortcutGrid/ShortcutGrid"
-import { IPage } from "../../../types/Page.type"
-import { ITemplate } from "../../../types/Template.type"
+import { IPage } from "types/Page.type"
+import { ITemplate } from "types/Template.type"
 
 type ExplorerContentProps = {
   templatesData: ITemplate[] | undefined

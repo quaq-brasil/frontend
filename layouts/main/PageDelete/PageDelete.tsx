@@ -1,12 +1,12 @@
+import { Header } from "components/Header/Header"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { Header } from "../../../components/Header/Header"
-import { TabBar } from "../../../components/TabBar/TabBar"
-import { Tag } from "../../../components/Tag/Tag"
-import { IUserPayload } from "../../../types/Auth.types"
-import { IPage } from "../../../types/Page.type"
-import { pageUrls } from "../../../utils/pagesUrl"
+import { IUserPayload } from "types/Auth.types"
+import { IPage } from "types/Page.type"
+import { pageUrls } from "utils/pagesUrl"
 import { PageDeleteContent } from "./PageDeleteContent"
 
 type PageDeleteProps = {

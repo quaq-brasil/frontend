@@ -1,14 +1,14 @@
+import CreatorPage from "layouts/main/CreatorPage/CreatorPage"
 import { GetServerSideProps } from "next"
-import CreatorPage from "../../layouts/main/CreatorPage/CreatorPage"
-import { api } from "../../services/api"
-import { useWorkspacesByUserId } from "../../services/hooks/useWorkspace/useWorkspacesByUserId"
-import { IUserPayload } from "../../types/Auth.types"
-import { IWorkspace } from "../../types/Workspace.type"
+import { api } from "services/api"
+import { useWorkspacesByUserId } from "services/hooks/useWorkspace/useWorkspacesByUserId"
+import { IUserPayload } from "types/Auth.types"
+import { IWorkspace } from "types/Workspace.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../utils/404Redirect"
-import { withAuth } from "../../utils/withAuth"
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type AdmPageProps = {
   workspaces: IWorkspace[]

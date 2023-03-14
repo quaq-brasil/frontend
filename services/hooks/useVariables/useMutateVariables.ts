@@ -1,10 +1,7 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
-import { useMutationProps } from "../../../types/useQueryProps"
-import {
-  IVariableRequest,
-  IVariableResponse,
-} from "../../../types/Variables.types"
-import { api } from "../../api"
+import { api } from "services/api"
+import { useMutationProps } from "types/useQueryProps"
+import { IVariableRequest, IVariableResponse } from "types/Variables.types"
 
 type useMutateVariablesProps = {
   data: IVariableRequest

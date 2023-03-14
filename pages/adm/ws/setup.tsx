@@ -1,16 +1,16 @@
+import FirstWorkspace from "layouts/Onboarding/FirstWorkspace/FirstWorkspace"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
-import FirstWorkspace from "../../../layouts/Onboarding/FirstWorkspace/FirstWorkspace"
-import { api } from "../../../services/api"
-import { useCreateWorkspace } from "../../../services/hooks/useWorkspace/useCreateWorkspace"
-import { IUserPayload } from "../../../types/Auth.types"
-import { IUpdateWorkspace } from "../../../types/Workspace.type"
+import { api } from "services/api"
+import { useCreateWorkspace } from "services/hooks/useWorkspace/useCreateWorkspace"
+import { IUserPayload } from "types/Auth.types"
+import { IUpdateWorkspace } from "types/Workspace.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../utils/404Redirect"
-import { pageUrls } from "../../../utils/pagesUrl"
-import { withAuth } from "../../../utils/withAuth"
+} from "utils/404Redirect"
+import { pageUrls } from "utils/pagesUrl"
+import { withAuth } from "utils/withAuth"
 
 type FirstWorkspacePageProps = {
   data: IUserPayload

@@ -1,14 +1,14 @@
+import CreateTemplate from "layouts/main/CreateTemplate/CreateTemplate"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
-import CreateTemplate from "../../../../layouts/main/CreateTemplate/CreateTemplate"
-import { api } from "../../../../services/api"
-import { usePageBySlug } from "../../../../services/hooks/usePage/usePageBySlug"
-import { IPage } from "../../../../types/Page.type"
+import { api } from "services/api"
+import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
+import { IPage } from "types/Page.type"
 import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
-} from "../../../../utils/404Redirect"
-import { withAuth } from "../../../../utils/withAuth"
+} from "utils/404Redirect"
+import { withAuth } from "utils/withAuth"
 
 type CreateTemplatePageProps = {
   pageSlug: string

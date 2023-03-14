@@ -1,19 +1,19 @@
-import { GetServerSideProps } from "next";
-import { getSession, signIn } from "next-auth/react";
-import useTranslation from "next-translate/useTranslation";
-import { Tag } from "../Tag/Tag";
+import { Tag } from "components/Tag/Tag"
+import { GetServerSideProps } from "next"
+import { getSession, signIn } from "next-auth/react"
+import useTranslation from "next-translate/useTranslation"
 
 type QuickInProps = {
-  currentUrl: (currentUrl: string) => void;
-  isHidden?: boolean;
-};
+  currentUrl: (currentUrl: string) => void
+  isHidden?: boolean
+}
 
 export default function QuickIn(props: QuickInProps) {
-  const text = useTranslation().t;
+  const text = useTranslation().t
 
   function handleClick(provider: string) {
-    props.currentUrl(window.location.href);
-    signIn(provider);
+    props.currentUrl(window.location.href)
+    signIn(provider)
   }
 
   return (
@@ -61,11 +61,11 @@ export default function QuickIn(props: QuickInProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = async (conect) => {
-  const session = await getSession(conect);
+  const session = await getSession(conect)
 
   if (session) {
     return {
@@ -73,12 +73,12 @@ export const getServerSideProps: GetServerSideProps = async (conect) => {
         destination: "/",
         permanent: false,
       },
-    };
+    }
   }
 
   return {
     props: {
       session,
     },
-  };
-};
+  }
+}

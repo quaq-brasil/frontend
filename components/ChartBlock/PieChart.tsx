@@ -1,7 +1,7 @@
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js"
+import { Card } from "components/Card/Card"
 import { Trash } from "phosphor-react"
 import { Pie } from "react-chartjs-2"
-import { Card } from "../Card/Card"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
