@@ -69,9 +69,10 @@ export function CentralOptionsContent({
       valid: false,
     },
     visibility: {
-      valid: true,
+      valid: false,
     },
   })
+  const [secondValidation, setSecondValidation] = useState(false)
 
   function handleUpdateFormData(newData: FormDataProps) {
     setFormData((state) => {
@@ -82,7 +83,31 @@ export function CentralOptionsContent({
     })
   }
 
-  function handleValidation() {
+  const generateTemplateUniqueUrl = useGenerateTemplateUniqueSlug()
+
+  type handleGetTemplateUrlProps = {
+    id: string
+    title: string
+    page_id: string
+  }
+
+  function handleGetTemplateUrl(data: handleGetTemplateUrlProps) {
+    generateTemplateUniqueUrl.mutate(
+      { data },
+      {
+        onSuccess: (slug) => {
+          handleUpdateTemplateData({ slug })
+        },
+      }
+    )
+  }
+
+  const debouncedTemplateName = useDebounce({
+    value: templateData?.title,
+    delay: 1000 * 1,
+  })
+
+  useEffect(() => {
     if (templateData.title.length > 1) {
       handleUpdateFormData({ title: { valid: true } })
     } else {
@@ -103,32 +128,11 @@ export function CentralOptionsContent({
     } else {
       handleUpdateFormData({ size: { valid: false } })
     }
-  }
-
-  const generateTemplateUniqueUrl = useGenerateTemplateUniqueSlug()
-
-  type handleGetTemplateUrlProps = {
-    id: string
-    title: string
-    page_id: string
-  }
-
-  function handleGetTemplateUrl(data: handleGetTemplateUrlProps) {
-    generateTemplateUniqueUrl.mutate(
-      { data },
-      {
-        onSuccess: (slug) => {
-          handleUpdateTemplateData({ slug })
-        },
-      }
-    )
-    handleValidation()
-  }
-
-  const debouncedTemplateName = useDebounce({
-    value: templateData?.title,
-    delay: 1000 * 1,
-  })
+    if (templateData.visibility) {
+      handleUpdateFormData({ visibility: { valid: true } })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templateData])
 
   useEffect(() => {
     if (debouncedTemplateName && formData.title.valid) {
@@ -146,7 +150,8 @@ export function CentralOptionsContent({
       formData.cover?.valid &&
       formData.slug?.valid &&
       formData.size?.valid &&
-      formData.title?.valid
+      formData.title?.valid &&
+      formData.visibility?.valid
     ) {
       handleUpdateIsUpdating(true)
     } else {
@@ -169,7 +174,7 @@ export function CentralOptionsContent({
               input={{
                 onChange: (title) => {
                   handleUpdateTemplateData({ title: title })
-                  handleValidation()
+                  setSecondValidation(true)
                 },
                 inputValue: templateData?.title,
                 type: "title",
@@ -181,7 +186,10 @@ export function CentralOptionsContent({
             <CardText label={text("centraloptions:link")} />
             <CardTextInput
               input={{
-                onChange: (slug) => handleUpdateTemplateData({ slug: slug }),
+                onChange: (slug) => {
+                  handleUpdateTemplateData({ slug: slug })
+                  setSecondValidation(true)
+                },
                 value: templateData?.slug,
                 fixedText: `quaq.me/${pageData?.slug}/`,
               }}
@@ -199,7 +207,7 @@ export function CentralOptionsContent({
                 <ImageSelector
                   onImageChange={(image) => {
                     handleUpdateTemplateData({ shortcut_image: image })
-                    handleValidation()
+                    setSecondValidation(true)
                   }}
                   url={templateData?.shortcut_image}
                 />
@@ -217,7 +225,7 @@ export function CentralOptionsContent({
               }}
               onClick={() => {
                 handleUpdateTemplateData({ shortcut_size: "small" })
-                handleValidation()
+                setSecondValidation(true)
               }}
             />
             <CardLine />
@@ -229,7 +237,7 @@ export function CentralOptionsContent({
               }}
               onClick={() => {
                 handleUpdateTemplateData({ shortcut_size: "large" })
-                handleValidation()
+                setSecondValidation(true)
               }}
             />
             <CardLine />
@@ -240,25 +248,31 @@ export function CentralOptionsContent({
             <CardText
               label={text("centraloptions:public")}
               indicator={{
-                icon: templateData?.visibility === "public" ? Check : undefined,
+                icon: Check,
+                isVisible:
+                  templateData?.visibility === "workspace" ? true : false,
               }}
-              onClick={() => handleUpdateTemplateData({ visibility: "public" })}
+              onClick={() => {
+                handleUpdateTemplateData({ visibility: "public" })
+                setSecondValidation(true)
+              }}
             />
             <CardLine />
             <CardText
               label={text("centraloptions:wsmembers")}
               indicator={{
-                icon:
-                  templateData?.visibility === "workspace" ? Check : undefined,
+                icon: Check,
+                isVisible: templateData?.visibility === "public" ? true : false,
               }}
-              onClick={() =>
+              onClick={() => {
                 handleUpdateTemplateData({ visibility: "workspace" })
-              }
+                setSecondValidation(true)
+              }}
             />
             <CardLine />
           </Card>
 
-          {isUpdating && (
+          {isUpdating && secondValidation && (
             <div className="w-full h-fit hidden xl:block">
               <Button
                 block={{

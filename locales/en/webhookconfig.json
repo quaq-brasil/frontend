@@ -22,5 +22,6 @@
   "hooktype": "hook type",
   "send": "send",
   "receive": "receive",
-  "keytitle": "secret key"
+  "keytitle": "secret key",
+  "url": "entry pont url"
 }

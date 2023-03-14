@@ -42,6 +42,7 @@ export default function AdmSelectedPage({
     <CreatorPage
       initialWorkspacesData={getWorkspaces?.data}
       initialCurrentPageData={getCurrentPage?.data}
+      payload={payload}
     />
   )
 }

@@ -23,7 +23,9 @@ export default function AdmPage({ workspaces, payload }: AdmPageProps) {
     },
   })
 
-  return <CreatorPage initialWorkspacesData={getWorkspaces.data} />
+  return (
+    <CreatorPage initialWorkspacesData={getWorkspaces.data} payload={payload} />
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = withAuth(

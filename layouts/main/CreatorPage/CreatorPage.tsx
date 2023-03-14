@@ -10,11 +10,11 @@ import {
   GearSix,
   MagnifyingGlass,
   Plus,
-  UserCircle,
 } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { useMutatePagesByWorkspaceId } from "services/hooks/usePage/useMutatePagesByWorkspaceId"
 import { useMutateTemplatesByPageId } from "services/hooks/useTemplate/useMutateTemplatesByPageId"
+import { IUserPayload } from "types/Auth.types"
 import { IPage } from "types/Page.type"
 import { ITemplate } from "types/Template.type"
 import { IWorkspace } from "types/Workspace.type"
@@ -24,11 +24,13 @@ import { CreatorPageContent } from "./CreatorPageContent"
 type CreatorPageProps = {
   initialWorkspacesData: IWorkspace[] | undefined
   initialCurrentPageData?: IPage
+  payload: IUserPayload | undefined
 }
 
 export default function CreatorPage({
   initialWorkspacesData,
   initialCurrentPageData,
+  payload,
 }: CreatorPageProps) {
   const text = useTranslation().t
   const router = useRouter()
@@ -41,6 +43,7 @@ export default function CreatorPage({
     initialWorkspacesData
   )
   const [currentWorkspace, setCurrentWorkspace] = useState<IWorkspace>()
+  const [userData, setUserData] = useState<IUserPayload>(payload)
 
   useEffect(() => {
     if (initialWorkspacesData) {
@@ -82,6 +85,12 @@ export default function CreatorPage({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialCurrentPageData, workspaces])
+
+  useEffect(() => {
+    if (payload) {
+      setUserData(payload)
+    }
+  }, [payload])
 
   function handleCurrentWorkspaceUpdate(newWorkspace: IWorkspace) {
     setCurrentWorkspace(newWorkspace)
@@ -173,9 +182,9 @@ export default function CreatorPage({
           </div>
           <div className={`w-fit ${isSwitchSelected ? "hidden" : ""}`}>
             <Tag
-              variant="icn-txt"
+              variant="img-txt"
               text={text("creatorpage:profile")}
-              icon={UserCircle}
+              img_url={userData?.avatar_url}
               onClick={() => {
                 handleCloseContextMenu()
                 router.push(pageUrls.meSettings())

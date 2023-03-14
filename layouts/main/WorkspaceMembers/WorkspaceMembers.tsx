@@ -41,7 +41,11 @@ export default function WorkspaceMembers({
         key={1}
         variant="txt"
         text={text("wssettings:back")}
-        onClick={() => router.push(pageUrls.adm())}
+        onClick={() =>
+          router.push(
+            pageUrls.workspaceSettings({ workspaceSlug: workspaceData.slug })
+          )
+        }
       />,
     ]
   }

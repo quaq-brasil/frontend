@@ -22,5 +22,6 @@
   "hooktype": "tipo de hook",
   "send": "enviar",
   "receive": "receber",
-  "keytitle": "chave secreta"
+  "keytitle": "chave secreta",
+  "url": "url do ponto de entrada"
 }

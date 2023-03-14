@@ -356,8 +356,9 @@ export const PublishNewTemplate = ({
               <CardText
                 label={text("centraloptions:public")}
                 indicator={{
-                  icon:
-                    templateData?.visibility === "public" ? Check : undefined,
+                  icon: Check,
+                  isVisible:
+                    templateData?.visibility === "workspace" ? true : false,
                 }}
                 onClick={() =>
                   handleUpdateTemplateData({ visibility: "public" })
@@ -367,10 +368,9 @@ export const PublishNewTemplate = ({
               <CardText
                 label={text("centraloptions:wsmembers")}
                 indicator={{
-                  icon:
-                    templateData?.visibility === "workspace"
-                      ? Check
-                      : undefined,
+                  icon: Check,
+                  isVisible:
+                    templateData?.visibility === "public" ? true : false,
                 }}
                 onClick={() =>
                   handleUpdateTemplateData({ visibility: "workspace" })
