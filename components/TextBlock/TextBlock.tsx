@@ -1,4 +1,7 @@
-import parse from "html-react-parser"
+import HighLight from "@tiptap/extension-highlight"
+import Typography from "@tiptap/extension-typography"
+import { EditorContent, useEditor } from "@tiptap/react"
+import StarterKit from "@tiptap/starter-kit"
 import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
@@ -33,15 +36,16 @@ export const TextBlock = ({
 
   const [events, setEvents] = useState<IEvent>()
 
-  useEffect(() => {
-    if (!events?.displayedAt) {
-      const event = {
-        displayedAt: new Date().toString(),
-      }
-      setEvents(event)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const editor = useEditor({
+    extensions: [StarterKit, HighLight, Typography],
+    content: block.data,
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-headings:m-0 prose-p:m-0 focus:outline-none bg-white pointer-events-none select-none h-fit min-w-full my-2 px-3",
+      },
+    },
+  })
 
   const onInteraction = () => {
     handleUpdateInteractions &&
@@ -60,6 +64,16 @@ export const TextBlock = ({
   }
 
   useEffect(() => {
+    if (!events?.displayedAt) {
+      const event = {
+        displayedAt: new Date().toString(),
+      }
+      setEvents(event)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
     onInteraction()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [events])
@@ -68,10 +82,10 @@ export const TextBlock = ({
     <div className="flex relative min-w-[100%]">
       {isEditable && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       <div
-        className="min-w-[100%] px-3 py-3 bg-white lg:px-[1rem] lg:py-[1rem]
+        className="min-w-[100%] lg:px-1 py-1 bg-white lg:py-[0.75rem]
         rounded-[20px] lg:rounded-[30px] text-black lg:text-[1.1rem]"
       >
-        {parse(block.data)}
+        <EditorContent className="" editor={editor} disabled />
       </div>
     </div>
   )

@@ -10,7 +10,7 @@ import { useEffect } from "react"
 type TextEditorProps = {
   content?: string
   onChange?: (content: string) => void
-  handleOpenVariablePanelForText: () => void
+  handleOpenVariablePanelForText?: () => void
 }
 
 function TextEditor({
