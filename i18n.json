@@ -44,7 +44,8 @@
       "buttonconfig",
       "reviewconfig",
       "automationconfig",
-      "webhookconfig"
+      "webhookconfig",
+      "variablespanel"
     ],
     "/adm/[page]/[template]/edit": [
       "publish",
@@ -61,7 +62,8 @@
       "buttonconfig",
       "reviewconfig",
       "automationconfig",
-      "webhookconfig"
+      "webhookconfig",
+      "variablespanel"
     ]
   }
 }

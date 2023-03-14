@@ -82,29 +82,6 @@ export function SendRequest({
     })
   }
 
-  function handleValidation() {
-    if (content.description) {
-      handleUpdateFormData({ description: { valid: true } })
-    } else {
-      handleUpdateFormData({ description: { valid: false } })
-    }
-    if (content.parameters) {
-      handleUpdateFormData({ parameters: { valid: true } })
-    } else {
-      handleUpdateFormData({ parameters: { valid: false } })
-    }
-    if (content.type) {
-      handleUpdateFormData({ type: { valid: true } })
-    } else {
-      handleUpdateFormData({ type: { valid: false } })
-    }
-    if (content.link) {
-      handleUpdateFormData({ link: { valid: true } })
-    } else {
-      handleUpdateFormData({ link: { valid: false } })
-    }
-  }
-
   function handleUpdateHeader(data: string) {
     handleUpdateContent({ header: data })
   }
@@ -124,8 +101,6 @@ export function SendRequest({
 
   function handleUpdateSaveAs(value: typeof saveAs) {
     setSaveAs(value)
-    const isValid = handleCheckSaveAs(value)
-    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -176,6 +151,34 @@ export function SendRequest({
   }
 
   useEffect(() => {
+    if (content?.description) {
+      handleUpdateFormData({ description: { valid: true } })
+    } else {
+      handleUpdateFormData({ description: { valid: false } })
+    }
+    if (content?.parameters) {
+      handleUpdateFormData({ parameters: { valid: true } })
+    } else {
+      handleUpdateFormData({ parameters: { valid: false } })
+    }
+    if (content?.type) {
+      handleUpdateFormData({ type: { valid: true } })
+    } else {
+      handleUpdateFormData({ type: { valid: false } })
+    }
+    if (content?.link) {
+      handleUpdateFormData({ link: { valid: true } })
+    } else {
+      handleUpdateFormData({ link: { valid: false } })
+    }
+    if (saveAs) {
+      const isValid = handleCheckSaveAs(saveAs)
+      handleUpdateFormData({ saveAs: { valid: isValid } })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [content, saveAs])
+
+  useEffect(() => {
     if (content && saveAs) {
       onAddBlock()
     }
@@ -204,7 +207,6 @@ export function SendRequest({
             ? `${content?.description}${variable}`
             : variable,
         })
-        handleValidation()
       })
     handleOpenVariablePanel()
   }
@@ -217,7 +219,6 @@ export function SendRequest({
             ? `${content?.parameters}${variable}`
             : variable,
         })
-        handleValidation()
       })
     handleOpenVariablePanel()
   }
@@ -228,7 +229,6 @@ export function SendRequest({
         handleUpdateContent({
           link: content?.link ? `${content?.link}${variable}` : variable,
         })
-        handleValidation()
       })
     handleOpenVariablePanel()
   }
@@ -246,7 +246,7 @@ export function SendRequest({
       setFunctionHandleAddVariable(() => (variable: any) => {
         handleUpdateContent({ header: `${content?.link}${variable}` })
       })
-    handleValidation()
+
     handleOpenVariablePanel()
   }
 
@@ -255,7 +255,7 @@ export function SendRequest({
       setFunctionHandleAddVariable(() => (variable: any) => {
         handleUpdateContent({ body: `${content?.link}${variable}` })
       })
-    handleValidation()
+
     handleOpenVariablePanel()
   }
 
@@ -298,7 +298,6 @@ export function SendRequest({
               label: text("webhookconfig:descriptioninput"),
               onChange: (description) => {
                 handleUpdateContent({ description: description })
-                handleValidation()
               },
               inputValue: content?.description,
             }}
@@ -324,7 +323,6 @@ export function SendRequest({
               label: text("webhookconfig:parametersinput"),
               onChange: (parameters) => {
                 handleUpdateContent({ parameters: parameters })
-                handleValidation()
               },
               inputValue: content?.parameters,
             }}
@@ -365,7 +363,6 @@ export function SendRequest({
             }}
             onClick={() => {
               handleUpdateContent({ type: "GET" })
-              handleValidation()
             }}
           />
           <CardLine />
@@ -377,7 +374,6 @@ export function SendRequest({
             }}
             onClick={() => {
               handleUpdateContent({ type: "POST" })
-              handleValidation()
             }}
           />
           <CardLine />
@@ -389,7 +385,6 @@ export function SendRequest({
             }}
             onClick={() => {
               handleUpdateContent({ type: "PATCH" })
-              handleValidation()
             }}
           />
           <CardLine />
@@ -401,7 +396,6 @@ export function SendRequest({
             }}
             onClick={() => {
               handleUpdateContent({ type: "DELETE" })
-              handleValidation()
             }}
           />
           <CardLine />
@@ -414,7 +408,6 @@ export function SendRequest({
               label: text("webhookconfig:linkinput"),
               onChange: (link) => {
                 handleUpdateContent({ link: link })
-                handleValidation()
               },
               inputValue: content?.link,
             }}

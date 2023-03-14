@@ -15,6 +15,7 @@ type IData = {
   body?: string
   type?: string
   link?: string
+  key?: string
 }
 
 type IWebhookBlock = {
@@ -63,14 +64,30 @@ export const WebhookBlock = ({
       </div>
       <span className="w-full p-[0.5px] bg-slate-100 mb-[0.5rem] lg:text-[1.1rem]"></span>
       <div>
-        <p className="font-semibold">{text("webhookconfig:type")}</p>
-        <p className="pl-3 mb-2">{block.data.type}</p>
-        <p className="font-semibold">link</p>
-        <p className="pl-3 mb-2">{block.data.link}</p>
-        <p className="font-semibold">{text("webhookconfig:parameters")}</p>
-        <p className="pl-3 mb-2">{block.data.parameters}</p>
-        <p className="font-semibold">{text("webhookconfig:saveas")}</p>
-        <p className="pl-3 mb-2">{block.save_as}</p>
+        {block.data.type && (
+          <>
+            <p className="font-semibold">{text("webhookconfig:type")}</p>
+            <p className="pl-3 mb-2">{block.data.type}</p>
+          </>
+        )}
+        {block.data.link && (
+          <>
+            <p className="font-semibold">link</p>
+            <p className="pl-3 mb-2">{block.data.link}</p>
+          </>
+        )}
+        {block.data.parameters && (
+          <>
+            <p className="font-semibold">{text("webhookconfig:parameters")}</p>
+            <p className="pl-3 mb-2">{block.data.parameters}</p>
+          </>
+        )}
+        {block.save_as && (
+          <>
+            <p className="font-semibold">{text("webhookconfig:saveas")}</p>
+            <p className="pl-3 mb-2">{block.save_as}</p>
+          </>
+        )}
       </div>
     </div>
   )

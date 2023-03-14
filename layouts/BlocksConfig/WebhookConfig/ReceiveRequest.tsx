@@ -31,12 +31,6 @@ export function ReceiveRequest({
     description?: {
       valid?: boolean
     }
-    key?: {
-      valid?: boolean
-    }
-    link?: {
-      valid?: boolean
-    }
     saveAs?: {
       valid?: boolean
     }
@@ -44,12 +38,6 @@ export function ReceiveRequest({
 
   const [formData, setFormData] = useState<FormDataProps>({
     description: {
-      valid: false,
-    },
-    key: {
-      valid: false,
-    },
-    link: {
       valid: false,
     },
     saveAs: {
@@ -73,19 +61,6 @@ export function ReceiveRequest({
     })
   }
 
-  function handleValidation() {
-    if (content?.description) {
-      handleUpdateFormData({ description: { valid: true } })
-    } else {
-      handleUpdateFormData({ description: { valid: false } })
-    }
-    if (content?.key) {
-      handleUpdateFormData({ key: { valid: true } })
-    } else {
-      handleUpdateFormData({ key: { valid: false } })
-    }
-  }
-
   function handleUpdateContent(newData: IWebhook) {
     setContent((state) => {
       return {
@@ -97,8 +72,6 @@ export function ReceiveRequest({
 
   function handleUpdateSaveAs(value: typeof saveAs) {
     setSaveAs(value)
-    const isValid = handleCheckSaveAs(value)
-    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -116,9 +89,6 @@ export function ReceiveRequest({
     handleUpdateIsUpdating(false)
     handleUpdateFormData({
       description: {
-        valid: false,
-      },
-      key: {
         valid: false,
       },
       saveAs: {
@@ -157,7 +127,6 @@ export function ReceiveRequest({
             ? `${content?.description}${variable}`
             : variable,
         })
-        handleValidation()
       })
     handleOpenVariablePanel()
   }
@@ -169,13 +138,6 @@ export function ReceiveRequest({
       })
     handleOpenVariablePanel()
   }
-
-  useEffect(() => {
-    if (content && saveAs) {
-      onAddBlock()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -206,6 +168,34 @@ export function ReceiveRequest({
     }
   }
 
+  useEffect(() => {
+    if (content?.description) {
+      handleUpdateFormData({ description: { valid: true } })
+    } else {
+      handleUpdateFormData({ description: { valid: false } })
+    }
+    if (saveAs) {
+      const isValid = handleCheckSaveAs(saveAs)
+      handleUpdateFormData({ saveAs: { valid: isValid } })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [content, saveAs])
+
+  useEffect(() => {
+    if (formData.description.valid && formData.saveAs.valid) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+  }, [formData])
+
+  useEffect(() => {
+    if (content && saveAs) {
+      onAddBlock()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
   return (
     <>
       <>
@@ -216,7 +206,6 @@ export function ReceiveRequest({
               label: text("webhookconfig:descriptioninput"),
               onChange: (description) => {
                 handleUpdateContent({ description: description })
-                handleValidation()
               },
               inputValue: content?.description,
             }}
