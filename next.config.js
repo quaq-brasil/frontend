@@ -1,17 +1,33 @@
 const nextTranslate = require('next-translate-plugin');
+const removeImports = require("next-remove-imports")();
+
+const securityHeaders = [
+  {
+    key: 'X-Frame-Options',
+    value: 'ALLOWALL'
+  }
+]
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  ...nextTranslate(),
-
   images: {
     domains: [
-      'quaq-files.s3.sa-east-1.amazonaws.com',
-      "images.unsplash.com"
+      'images.unsplash.com',
+      'quaq-files.s3.sa-east-1.amazonaws.com'
     ]
-  }
-};
+  },
+ 
+  async headers() {
+    return [
+      {
+        source: '/(.*)?',
+        headers: securityHeaders,
+      },
+    ]
+  },
+  ...nextTranslate()
+}
 
-module.exports = nextConfig;
+module.exports = removeImports(nextConfig)
