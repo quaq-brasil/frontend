@@ -1,5 +1,8 @@
-import { SignUp } from "layouts/Onboarding/SignUp/SignUp"
+import { SignUp } from "layouts/Onboarding/Signup/SignUp"
 import { GetServerSideProps } from "next"
+import useTranslation from "next-translate/useTranslation"
+import Head from "next/head"
+
 import { useRouter } from "next/router"
 
 import { useCreateUser } from "services/hooks/useUser/useCreateUser"
@@ -11,6 +14,8 @@ import { appParseCookies } from "utils/cookies"
 import { pageUrls } from "utils/pagesUrl"
 
 export default function LoginPage() {
+  const text = useTranslation().t
+
   const router = useRouter()
 
   const createUser = useCreateUser()
@@ -57,7 +62,15 @@ export default function LoginPage() {
     )
   }
 
-  return <SignUp handleCreateUser={handleCreateUser} />
+  return (
+    <>
+      <Head>
+        <title>{`${text("signup:pagetitle")}`}</title>
+        <meta name="description" content={text("signup:pagedescription")} />
+      </Head>
+      <SignUp handleCreateUser={handleCreateUser} />
+    </>
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

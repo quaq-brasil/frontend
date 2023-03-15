@@ -1,6 +1,9 @@
 import { CreateTemplate } from "layouts/main/CreateTemplate/CreateTemplate"
 import { GetServerSideProps } from "next"
+import useTranslation from "next-translate/useTranslation"
+import Head from "next/head"
 import { ParsedUrlQuery } from "querystring"
+import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
 import { IPage } from "types/Page.type"
@@ -19,12 +22,37 @@ export default function CreateTemplatePage({
   pageData,
   pageSlug,
 }: CreateTemplatePageProps) {
+  const text = useTranslation().t
+
   const getPage = usePageBySlug({
     slug: pageSlug,
     options: { initialData: pageData },
   })
 
-  return <CreateTemplate initialPageData={getPage.data} />
+  const [pageTitle, setPageTitle] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (getPage) {
+      let pageTitle =
+        getPage.data.title.charAt(0).toUpperCase() +
+        getPage.data.title.slice(1).toLowerCase()
+
+      setPageTitle(pageTitle)
+    }
+  }, [getPage])
+
+  return (
+    <>
+      <Head>
+        <title>{`${pageTitle} - ${text("createtemplate:pagetitle")}`}</title>
+        <meta
+          name="description"
+          content={`${pageTitle} - ${text("createtemplate:pagedescription")}`}
+        />
+      </Head>
+      <CreateTemplate initialPageData={getPage.data} />
+    </>
+  )
 }
 
 type Params = {

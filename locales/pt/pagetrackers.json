@@ -7,5 +7,7 @@
   "facebooklabel": "digite aqui",
   "google": "id do google analytics",
   "googlelabel": "digite aqui",
-  "confirm": "confirmar"
+  "confirm": "confirmar",
+  "pagetitle": "rastreadores",
+  "pagedescription": "Configuração dos rastreadores da página."
 }

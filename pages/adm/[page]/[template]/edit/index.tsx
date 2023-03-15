@@ -1,6 +1,8 @@
 import { EditPublication } from "layouts/main/EditPublication/EditPublication"
 import { GetServerSideProps } from "next"
+import Head from "next/head"
 import { ParsedUrlQuery } from "querystring"
+import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { useTemplateBySlugAndPageSlug } from "services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
 import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
@@ -30,11 +32,43 @@ export default function EditTemplatePage({
     },
   })
 
+  type PageAndTemplateProps = {
+    templateTitle: string
+    pageTitle: string
+    pageDescription: string
+  }
+
+  const [pageInfo, setPageInfo] = useState<PageAndTemplateProps | null>(null)
+
+  useEffect(() => {
+    if (getPageAndTemplate) {
+      let pageTitle =
+        getPageAndTemplate.data.Page.title.charAt(0).toUpperCase() +
+        getPageAndTemplate.data.Page.title.slice(1).toLowerCase()
+
+      let templateTitle =
+        getPageAndTemplate.data.title.charAt(0).toUpperCase() +
+        getPageAndTemplate.data.title.slice(1).toLowerCase()
+
+      setPageInfo({
+        pageTitle: pageTitle,
+        templateTitle: templateTitle,
+        pageDescription: getPageAndTemplate.data.Page.description,
+      })
+    }
+  }, [getPageAndTemplate])
+
   return (
-    <EditPublication
-      initialPageData={getPageAndTemplate.data.Page}
-      initialTemplateData={getPageAndTemplate.data}
-    />
+    <>
+      <Head>
+        <title>{`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}</title>
+        <meta name="description" content={pageInfo.pageDescription} />
+      </Head>
+      <EditPublication
+        initialPageData={getPageAndTemplate.data.Page}
+        initialTemplateData={getPageAndTemplate.data}
+      />
+    </>
   )
 }
 

@@ -1,7 +1,10 @@
 import { CentralOptions } from "layouts/main/CentralOptions/CentralOptions"
 import { GetServerSideProps } from "next"
+import useTranslation from "next-translate/useTranslation"
+import Head from "next/head"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
+import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { useTemplateBySlugAndPageSlug } from "services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
 import { useUpdateTemplate } from "services/hooks/useTemplate/useUpdateTemplate"
@@ -30,6 +33,8 @@ export default function TemplateAccessControlPage({
   payload,
   pageAndTemplateData,
 }: TemplateAccessControlPageProps) {
+  const text = useTranslation().t
+
   const router = useRouter()
 
   const getPageAndTemplate = useTemplateBySlugAndPageSlug({
@@ -66,12 +71,44 @@ export default function TemplateAccessControlPage({
     )
   }
 
+  type PageAndTemplateProps = {
+    templateTitle: string
+    pageTitle: string
+    pageDescription: string
+  }
+
+  const [pageInfo, setPageInfo] = useState<PageAndTemplateProps | null>(null)
+
+  useEffect(() => {
+    if (getPageAndTemplate) {
+      let pageTitle =
+        getPageAndTemplate.data.Page.title.charAt(0).toUpperCase() +
+        getPageAndTemplate.data.Page.title.slice(1).toLowerCase()
+
+      let templateTitle =
+        getPageAndTemplate.data.title.charAt(0).toUpperCase() +
+        getPageAndTemplate.data.title.slice(1).toLowerCase()
+
+      setPageInfo({
+        pageTitle: pageTitle,
+        templateTitle: templateTitle,
+        pageDescription: getPageAndTemplate.data.Page.description,
+      })
+    }
+  }, [getPageAndTemplate])
+
   return (
-    <CentralOptions
-      initialPageData={getPageAndTemplate.data.Page}
-      initialTemplateData={getPageAndTemplate.data}
-      handleUpdateTemplate={handleUpdateTemplate}
-    />
+    <>
+      <Head>
+        <title>{`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}</title>
+        <meta name="description" content={pageInfo.pageDescription} />
+      </Head>
+      <CentralOptions
+        initialPageData={getPageAndTemplate.data.Page}
+        initialTemplateData={getPageAndTemplate.data}
+        handleUpdateTemplate={handleUpdateTemplate}
+      />
+    </>
   )
 }
 

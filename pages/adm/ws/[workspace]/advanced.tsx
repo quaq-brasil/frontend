@@ -1,6 +1,8 @@
 import { WorkspaceAdvanced } from "layouts/main/WorkspaceAdvanced/WorkspaceAdvanced"
 import { GetServerSideProps } from "next"
+import Head from "next/head"
 import { ParsedUrlQuery } from "querystring"
+import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { useWorkspaceBySlug } from "services/hooks/useWorkspace/useWorkspaceBySlug"
 import { IWorkspace } from "types/Workspace.type"
@@ -24,7 +26,27 @@ export default function WorkspaceAdvancedPage({
     options: { initialData: workspaceData },
   })
 
-  return <WorkspaceAdvanced initialWorkspaceData={getWorkspace.data} />
+  const [workspaceTitle, setWorkspaceTitle] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (getWorkspace) {
+      let wsTitle =
+        getWorkspace.data.title.charAt(0).toUpperCase() +
+        getWorkspace.data.title.slice(1).toLowerCase()
+
+      setWorkspaceTitle(wsTitle)
+    }
+  }, [getWorkspace])
+
+  return (
+    <>
+      <Head>
+        <title>{workspaceTitle}</title>
+        <meta name="description" content={`${workspaceTitle} workspace.`} />
+      </Head>
+      <WorkspaceAdvanced initialWorkspaceData={getWorkspace.data} />
+    </>
+  )
 }
 
 type Params = {

@@ -18,5 +18,7 @@
   "confirm": "atualizar página",
   "visibility": "visibilidade da página",
   "public": "qualquer um",
-  "wsmembers": "apenas membros do workspace"
+  "wsmembers": "apenas membros do workspace",
+  "pagetitle": "geral",
+  "pagedescription": "Configurações gerais da página."
 }

@@ -11,5 +11,7 @@
   "pagedescription": "page description",
   "inputpagedescription": "type it here",
   "confirm": "confirm",
-  "pagecover": "page cover picture"
+  "pagecover": "page cover picture",
+  "pagetitle1": "New page",
+  "pagedescription1": "Create a new Quaq page."
 }

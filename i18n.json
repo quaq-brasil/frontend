@@ -30,7 +30,7 @@
     "/adm/ws/setup": ["createwspace", "imageselector", "wssetup"],
     "/[page]/[template]": ["profile", "consumerpage"],
     "/500": ["explorer", "consumerpage"],
-    "/400": ["explorer", "consumerpage"],
+    "/404": ["explorer", "consumerpage"],
     "/adm/[page]/new-template": [
       "publish",
       "centraloptions",

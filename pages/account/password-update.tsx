@@ -1,5 +1,7 @@
 import { PasswordUpdate } from "layouts/Workflows/PasswordUpdate/PasswordUpdate"
 import { GetServerSideProps } from "next"
+import useTranslation from "next-translate/useTranslation"
+import Head from "next/head"
 import { api } from "services/api"
 import { useUpdateUser } from "services/hooks/useUser/useUpdateUser"
 import { useUser } from "services/hooks/useUser/useUser"
@@ -15,6 +17,8 @@ type PasswordUpdatePageProps = {
 }
 
 export default function PasswordUpdatePage({ data }: PasswordUpdatePageProps) {
+  const text = useTranslation().t
+
   const getUser = useUser({
     options: {
       initialData: data,
@@ -33,10 +37,16 @@ export default function PasswordUpdatePage({ data }: PasswordUpdatePageProps) {
   }
 
   return (
-    <PasswordUpdate
-      initialUserData={getUser.data}
-      handleUpdateUser={handleUpdateUser}
-    />
+    <>
+      <Head>
+        <title>{`${text("profile:pagetitle")}`}</title>
+        <meta name="description" content={text("profile:pagedescription")} />
+      </Head>
+      <PasswordUpdate
+        initialUserData={getUser.data}
+        handleUpdateUser={handleUpdateUser}
+      />
+    </>
   )
 }
 

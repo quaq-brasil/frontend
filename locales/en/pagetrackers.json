@@ -7,5 +7,7 @@
   "facebooklabel": "type it here",
   "google": "google analytics id",
   "googlelabel": "type it here",
-  "confirm": "confirm"
+  "confirm": "confirm",
+  "pagetitle": "trackers",
+  "pagedescription": "Page trackers settings."
 }

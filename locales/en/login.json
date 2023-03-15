@@ -8,5 +8,7 @@
   "back": "back",
   "signup": "sign up",
   "login": "login",
-  "update": "login"
+  "update": "login",
+  "pagetitle": "Login",
+  "pagedescription": "Access your Quaq account."
 }

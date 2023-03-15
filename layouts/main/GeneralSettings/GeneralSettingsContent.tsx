@@ -79,6 +79,11 @@ export function GeneralSettingsContent({
       valid: true,
     },
   })
+  const [isChanging, setIsChanging] = useState(false)
+
+  function handleUpdateIsChanging(stat: boolean) {
+    setIsChanging(stat)
+  }
 
   function handleUpdateFormData(newData: FormDataProps) {
     setFormData((state) => {
@@ -107,7 +112,6 @@ export function GeneralSettingsContent({
         },
       }
     )
-    handleValidation()
   }
 
   const debouncedPageTitle = useDebounce({
@@ -115,30 +119,12 @@ export function GeneralSettingsContent({
     delay: 1000 * 1,
   })
 
-  useEffect(() => {
-    if (debouncedPageTitle && formData.title.valid) {
-      handleGetPageSlug({
-        id: pageData?.id,
-        name: pageData?.title,
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedPageTitle])
-
   function onPageUpdate() {
     handleUpdatePage(pageData)
     handleUpdateIsUpdating(false)
   }
 
   useEffect(() => {
-    if (runUpdate && isUpdating) {
-      onPageUpdate()
-      handleUpdateRunUpdate(false)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
-
-  function handleValidation() {
     if (pageData.title.length > 1) {
       handleUpdateFormData({ title: { valid: true } })
     } else {
@@ -164,10 +150,35 @@ export function GeneralSettingsContent({
     } else {
       handleUpdateFormData({ cover: { valid: false } })
     }
-  }
+    if (pageData?.visibility) {
+      handleUpdateFormData({ cover: { valid: true } })
+    } else {
+      handleUpdateFormData({ cover: { valid: false } })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageData])
 
   useEffect(() => {
-    if (formData.title?.valid && formData.description?.valid) {
+    if (debouncedPageTitle && formData.title.valid) {
+      handleGetPageSlug({
+        id: pageData?.id,
+        name: pageData?.title,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedPageTitle])
+
+  useEffect(() => {
+    if (runUpdate && isUpdating) {
+      onPageUpdate()
+      handleUpdateRunUpdate(false)
+      setIsChanging(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
+  useEffect(() => {
+    if (formData.title?.valid && formData.description?.valid && isChanging) {
       handleUpdateIsUpdating(true)
     } else {
       handleUpdateIsUpdating(false)
@@ -190,7 +201,7 @@ export function GeneralSettingsContent({
                 label: text("generalsettings:titlelabel"),
                 onChange: (title) => {
                   handleUpdatePageData({ title: title })
-                  handleValidation()
+                  handleUpdateIsChanging(true)
                 },
                 defaultValue: pageData?.title,
                 type: "title",
@@ -222,7 +233,7 @@ export function GeneralSettingsContent({
                 label: text("generalsettings:descriptionlabel"),
                 onChange: (description) => {
                   handleUpdatePageData({ description: description })
-                  handleValidation()
+                  handleUpdateIsChanging(true)
                 },
                 defaultValue: pageData?.description,
               }}
@@ -235,7 +246,7 @@ export function GeneralSettingsContent({
                 <ImageSelector
                   onImageChange={(avatar) => {
                     handleUpdatePageData({ avatar_url: avatar })
-                    handleValidation()
+                    handleUpdateIsChanging(true)
                   }}
                   url={pageData?.avatar_url}
                 />
@@ -249,7 +260,7 @@ export function GeneralSettingsContent({
                 <ImageSelector
                   onImageChange={(cover) => {
                     handleUpdatePageData({ background_url: cover })
-                    handleValidation()
+                    handleUpdateIsChanging(true)
                   }}
                   url={pageData?.background_url}
                 />
@@ -262,17 +273,25 @@ export function GeneralSettingsContent({
             <CardText
               label={text("generalsettings:public")}
               indicator={{
-                icon: pageData?.visibility === "public" ? Check : undefined,
+                icon: Check,
+                isVisible: pageData?.visibility === "workspace" ? true : false,
               }}
-              onClick={() => handleUpdatePageData({ visibility: "public" })}
+              onClick={() => {
+                handleUpdateIsChanging(true)
+                handleUpdatePageData({ visibility: "public" })
+              }}
             />
             <CardLine />
             <CardText
               label={text("generalsettings:wsmembers")}
               indicator={{
-                icon: pageData?.visibility === "workspace" ? Check : undefined,
+                icon: Check,
+                isVisible: pageData?.visibility === "public" ? true : false,
               }}
-              onClick={() => handleUpdatePageData({ visibility: "workspace" })}
+              onClick={() => {
+                handleUpdateIsChanging(true)
+                handleUpdatePageData({ visibility: "workspace" })
+              }}
             />
             <CardLine />
           </Card>

@@ -1,5 +1,7 @@
 import { UserDelete } from "layouts/main/UserDelete/UserDelete"
 import { GetServerSideProps } from "next"
+import useTranslation from "next-translate/useTranslation"
+import Head from "next/head"
 import { api } from "services/api"
 import { useDeleteUser } from "services/hooks/useUser/useDeleteUser"
 import { useUser } from "services/hooks/useUser/useUser"
@@ -15,6 +17,8 @@ type UserDeletePageProps = {
 }
 
 export default function UserDeletePage({ data }: UserDeletePageProps) {
+  const text = useTranslation().t
+
   const getUser = useUser({
     options: {
       initialData: data,
@@ -28,10 +32,16 @@ export default function UserDeletePage({ data }: UserDeletePageProps) {
   }
 
   return (
-    <UserDelete
-      initialUserData={getUser.data}
-      handleDeleteUser={handleDeleteUser}
-    />
+    <>
+      <Head>
+        <title>{`${text("profile:pagetitle")}`}</title>
+        <meta name="description" content={text("profile:pagedescription")} />
+      </Head>
+      <UserDelete
+        initialUserData={getUser.data}
+        handleDeleteUser={handleDeleteUser}
+      />
+    </>
   )
 }
 

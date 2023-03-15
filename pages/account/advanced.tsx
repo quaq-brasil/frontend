@@ -1,11 +1,13 @@
 import { ProfileAdvanced } from "layouts/main/ProfileAdvanced/ProfileAdvanced"
 import { GetServerSideProps } from "next"
+import useTranslation from "next-translate/useTranslation"
+import Head from "next/head"
 import { api } from "services/api"
 import { useUser } from "services/hooks/useUser/useUser"
 import { IUser } from "types/User.type"
 import {
   RedirectNotFoundVerify,
-  redirectNotFoundVerifyProps
+  redirectNotFoundVerifyProps,
 } from "utils/404Redirect"
 import { withAuth } from "utils/withAuth"
 
@@ -16,13 +18,23 @@ type ProfileAdvancedPageProps = {
 export default function ProfileAdvancedPage({
   user,
 }: ProfileAdvancedPageProps) {
+  const text = useTranslation().t
+
   const getUser = useUser({
     options: {
       initialData: user,
     },
   })
 
-  return <ProfileAdvanced userData={getUser?.data as IUser} />
+  return (
+    <>
+      <Head>
+        <title>{`${text("profile:pagetitle")}`}</title>
+        <meta name="description" content={text("profile:pagedescription")} />
+      </Head>
+      <ProfileAdvanced userData={getUser?.data as IUser} />
+    </>
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = withAuth(

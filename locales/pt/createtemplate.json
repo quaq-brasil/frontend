@@ -1,5 +1,7 @@
 {
   "back": "voltar",
   "newtemplate": "novo template",
-  "saveas": "valor precisa ser único"
+  "saveas": "valor precisa ser único",
+  "pagetitle": "novo template",
+  "pagedescription": "Criação de um novo template."
 }

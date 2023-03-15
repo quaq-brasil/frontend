@@ -21,18 +21,26 @@ import { IWorkspace } from "types/Workspace.type"
 import { pageUrls } from "utils/pagesUrl"
 import { CreatorPageContent } from "./CreatorPageContent"
 
+type PageInfoProps = {
+  title: string
+  description: string
+}
+
 type CreatorPageProps = {
   initialWorkspacesData: IWorkspace[] | undefined
   initialCurrentPageData?: IPage
   payload: IUserPayload | undefined
+  handleUpdatePageTitle?: (newInfo: PageInfoProps) => void
 }
 
 export function CreatorPage({
   initialWorkspacesData,
   initialCurrentPageData,
   payload,
+  handleUpdatePageTitle,
 }: CreatorPageProps) {
   const text = useTranslation().t
+
   const router = useRouter()
 
   const getPages = useMutatePagesByWorkspaceId()
@@ -44,6 +52,20 @@ export function CreatorPage({
   )
   const [currentWorkspace, setCurrentWorkspace] = useState<IWorkspace>()
   const [userData, setUserData] = useState<IUserPayload>(payload)
+
+  useEffect(() => {
+    if (currentPage) {
+      let pageTitle =
+        currentPage.title.charAt(0).toUpperCase() +
+        currentPage.title.slice(1).toLowerCase()
+      handleUpdatePageTitle &&
+        handleUpdatePageTitle({
+          title: pageTitle,
+          description: currentPage.description,
+        })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage])
 
   useEffect(() => {
     if (initialWorkspacesData) {
