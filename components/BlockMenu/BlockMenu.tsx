@@ -24,7 +24,7 @@ export default function BlockMenu({
             <button
               className={`h-[1.5rem] w-[1.5rem] rounded-full flex justify-center items-center ${
                 selected ? "bg-slate-900 text-white" : "bg-white text-black"
-              } outline outline-1 outline-slate-100`}
+              } ring-1 ring-slate-100`}
             >
               <DotsThree className="w-[2rem] h-[2rem]" weight="bold" />
             </button>

@@ -141,7 +141,7 @@ export const Shortcut = (props: ShortcutProps) => {
         }
         ${
           props.isCreator && props.isSelected
-            ? "outline outline-[6px] outline-white"
+            ? "ring-[0.375rem] ring-white"
             : ""
         }
         `}
