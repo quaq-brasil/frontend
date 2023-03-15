@@ -1,5 +1,5 @@
 import { Card } from "components/Card/Card"
-import { Shortcut } from "components/Shortcut/Shortcut"
+import { SimpleShortcut } from "components/Shortcut/SimpleShortcut"
 import { ShortcutGrid } from "components/ShortcutGrid/ShortcutGrid"
 import { useTerms } from "contexts/useTerms"
 import useTranslation from "next-translate/useTranslation"
@@ -28,14 +28,13 @@ export function ConsumerPageContent({
     if (templatesData) {
       const data = templatesData.map((template, index) => {
         return (
-          <Shortcut
+          <SimpleShortcut
             key={index}
             id={template.id || ""}
             img_url={template.shortcut_image || ""}
             index={index || 0}
             size={template.shortcut_size || "small"}
             title={template.title}
-            isCreator={false}
             templateData={template}
             pageData={pageData}
           />
