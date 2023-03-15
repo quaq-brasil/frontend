@@ -41,7 +41,7 @@ export default function ConsumerPagePage({
     <ConsumerPage
       isLoggedIn={isLoggedIn}
       initialPageData={getPage?.data}
-      initialTemplatesData={getPage?.data?.templates || []}
+      initialTemplatesData={getPage?.data?.templates}
     />
   )
 }
