@@ -1,10 +1,10 @@
-import heic2any from "heic2any"
-
 export const convertHeicToJpeg = async (file: Blob): Promise<File | string> => {
   try {
     if (file.type !== "image/heic") {
       throw new Error("Invalid file type, not a HEIC image")
     }
+
+    const heic2any = (await import("heic2any")).default
 
     const result = await heic2any({ blob: file, toType: "image/jpeg" })
     const fileName =
