@@ -11,9 +11,7 @@ type CreateTemplateProps = {
   initialPageData: IPage | undefined
 }
 
-export default function CreateTemplate({
-  initialPageData,
-}: CreateTemplateProps) {
+export function CreateTemplate({ initialPageData }: CreateTemplateProps) {
   const text = useTranslation().t
   const router = useRouter()
 

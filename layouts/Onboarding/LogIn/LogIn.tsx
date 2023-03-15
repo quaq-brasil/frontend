@@ -12,7 +12,7 @@ type LoginProps = {
   handleUserLogin: (data: IUserLogin) => void
 }
 
-export default function Login({ handleUserLogin }: LoginProps) {
+export function Login({ handleUserLogin }: LoginProps) {
   const text = useTranslation().t
   const router = useRouter()
 

@@ -14,7 +14,7 @@ type FirstWorkspaceProps = {
   handleCreateWorkspace: (data: IUpdateWorkspace) => void
 }
 
-export default function FirstWorkspace({
+export function FirstWorkspace({
   handleCreateWorkspace,
   initialUserData,
 }: FirstWorkspaceProps) {

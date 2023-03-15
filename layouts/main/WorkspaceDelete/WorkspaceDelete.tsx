@@ -15,7 +15,7 @@ type WorkspaceDeleteProps = {
   initialUserData: IUser | null
 }
 
-export default function WorkspaceDelete({
+export function WorkspaceDelete({
   initialWorkspaceData,
   handleDeleteWorkspace,
   initialUserData,

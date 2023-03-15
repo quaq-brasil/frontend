@@ -1,4 +1,4 @@
-import GeneralSettings from "layouts/main/GeneralSettings/GeneralSettings"
+import { GeneralSettings } from "layouts/main/GeneralSettings/GeneralSettings"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"

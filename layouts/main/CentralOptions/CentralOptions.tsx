@@ -15,7 +15,7 @@ type CentralOptionsProps = {
   handleUpdateTemplate: (data: IUpdateTemplate) => void
 }
 
-export default function CentralOptions({
+export function CentralOptions({
   initialPageData,
   initialTemplateData,
   handleUpdateTemplate,

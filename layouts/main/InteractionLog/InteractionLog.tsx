@@ -14,7 +14,7 @@ type InteractionLogProps = {
   initialTemplateData: IUpdateTemplate | undefined
 }
 
-export default function InteractionLog({
+export function InteractionLog({
   initialPageData,
   initialTemplateData,
 }: InteractionLogProps) {

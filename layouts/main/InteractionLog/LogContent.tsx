@@ -21,7 +21,7 @@ type LogContentProps = {
   initialTemplateData: ITemplate | undefined
 }
 
-export default function LogContent({
+export function LogContent({
   initialLogData,
   initialPageData,
   initialTemplateData,

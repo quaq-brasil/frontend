@@ -1,4 +1,4 @@
-import PageTrackers from "layouts/main/PageTrackers/PageTrackers"
+import { PageTrackers } from "layouts/main/PageTrackers/PageTrackers"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import { api } from "services/api"

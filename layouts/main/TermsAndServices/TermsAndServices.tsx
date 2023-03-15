@@ -5,7 +5,7 @@ import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { TermsAndServicesContent } from "./TermsAndServicesContent"
 
-export default function TermsAndServices() {
+export function TermsAndServices() {
   const text = useTranslation().t
   const router = useRouter()
 

@@ -12,7 +12,7 @@ type WorkspaceAdvancedProps = {
   initialWorkspaceData: IWorkspace
 }
 
-export default function WorkspaceAdvanced({
+export function WorkspaceAdvanced({
   initialWorkspaceData,
 }: WorkspaceAdvancedProps) {
   const text = useTranslation().t

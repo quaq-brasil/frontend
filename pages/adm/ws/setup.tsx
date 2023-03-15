@@ -1,4 +1,4 @@
-import FirstWorkspace from "layouts/Onboarding/FirstWorkspace/FirstWorkspace"
+import { FirstWorkspace } from "layouts/Onboarding/FirstWorkspace/FirstWorkspace"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { api } from "services/api"

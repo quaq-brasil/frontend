@@ -8,7 +8,7 @@ type QuickInProps = {
   isHidden?: boolean
 }
 
-export default function QuickIn(props: QuickInProps) {
+export function QuickIn(props: QuickInProps) {
   const text = useTranslation().t
 
   function handleClick(provider: string) {

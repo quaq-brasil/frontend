@@ -12,7 +12,7 @@ import { useMutateVariables } from "services/hooks/useVariables/useMutateVariabl
 import { IBlock } from "types/Block.types"
 import { ITemplate } from "types/Template.type"
 import { IVariableResponse } from "types/Variables.types"
-import VariablesPanelSources from "./VariablesPanelSources"
+import { VariablesPanelSources } from "./VariablesPanelSources"
 
 export type ConnectedTemplatesProps = {
   workspaceId?: string

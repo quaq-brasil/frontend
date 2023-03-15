@@ -1,4 +1,4 @@
-import WorkspaceAdvanced from "layouts/main/WorkspaceAdvanced/WorkspaceAdvanced"
+import { WorkspaceAdvanced } from "layouts/main/WorkspaceAdvanced/WorkspaceAdvanced"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import { api } from "services/api"

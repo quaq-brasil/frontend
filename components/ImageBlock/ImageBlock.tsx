@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
 const BlockMenu = dynamic(
-  () => import("components/BlockMenu/BlockMenu").then((mod) => mod.default),
+  () => import("components/BlockMenu/BlockMenu").then((mod) => mod.BlockMenu),
   { ssr: false }
 )
 

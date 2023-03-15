@@ -24,7 +24,7 @@ type ShortcutMenuProps = {
   handleUpdateContentData: (newData: IUpdateTemplate) => void
 }
 
-export default function ShortcutMenu({
+export function ShortcutMenu({
   templateData,
   pageData,
   handleClose,

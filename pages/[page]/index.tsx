@@ -1,6 +1,7 @@
 import { useUserAuth } from "contexts/userAuth"
-import ConsumerPage from "layouts/main/ConsumerPage/ConsumerPage"
+import { ConsumerPage } from "layouts/main/ConsumerPage/ConsumerPage"
 import { GetServerSideProps } from "next"
+import Head from "next/head"
 import { ParsedUrlQuery } from "querystring"
 import { useEffect, useState } from "react"
 import { api } from "services/api"
@@ -38,11 +39,17 @@ export default function ConsumerPagePage({
   })
 
   return (
-    <ConsumerPage
-      isLoggedIn={isLoggedIn}
-      initialPageData={getPage?.data}
-      initialTemplatesData={getPage?.data?.templates}
-    />
+    <>
+      <Head>
+        <title>{getPage?.data?.title}</title>
+        <meta name="description" content={getPage?.data?.description} />
+      </Head>
+      <ConsumerPage
+        isLoggedIn={isLoggedIn}
+        initialPageData={getPage?.data}
+        initialTemplatesData={getPage?.data?.templates || []}
+      />
+    </>
   )
 }
 

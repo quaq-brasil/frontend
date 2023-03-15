@@ -14,7 +14,7 @@ type VariablesPanelSourcesProps = {
   connectedTemplates: ConnectedTemplatesProps[]
 }
 
-const VariablesPanelSources = ({
+export const VariablesPanelSources = ({
   handleAddConnectedTemplate,
   handleDisconnectSource,
   connectedTemplates,
@@ -78,5 +78,3 @@ const VariablesPanelSources = ({
     </>
   )
 }
-
-export default VariablesPanelSources

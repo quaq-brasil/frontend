@@ -13,7 +13,7 @@ type WorkspaceSettingsProps = {
   handleUpdateWorkspace: (data: IUpdateWorkspace) => void
 }
 
-export default function WorkspaceSettings({
+export function WorkspaceSettings({
   handleUpdateWorkspace,
   initialWorkspaceData,
 }: WorkspaceSettingsProps) {

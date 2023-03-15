@@ -1,4 +1,4 @@
-import CentralOptions from "layouts/main/CentralOptions/CentralOptions"
+import { CentralOptions } from "layouts/main/CentralOptions/CentralOptions"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"

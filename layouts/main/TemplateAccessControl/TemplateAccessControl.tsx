@@ -14,7 +14,7 @@ type TemplateAccessControlProps = {
   initialPageData: IPage | undefined
 }
 
-export default function TemplateAccessControl({
+export function TemplateAccessControl({
   initialTemplateData,
   initialPageData,
 }: TemplateAccessControlProps) {

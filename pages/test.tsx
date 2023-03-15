@@ -6,7 +6,7 @@ import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
 const BlockMenu = dynamic(
-  () => import("components/BlockMenu/BlockMenu").then((mod) => mod.default),
+  () => import("components/BlockMenu/BlockMenu").then((mod) => mod.BlockMenu),
   { ssr: false }
 )
 

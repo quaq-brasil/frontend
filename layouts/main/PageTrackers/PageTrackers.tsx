@@ -13,7 +13,7 @@ type PageTrackersProps = {
   initialPageData?: IPage
 }
 
-export default function PageTrackers({
+export function PageTrackers({
   handleUpdateTrackers,
   initialPageData,
 }: PageTrackersProps) {

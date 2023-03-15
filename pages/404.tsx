@@ -1,5 +1,5 @@
 import { useUserAuth } from "contexts/userAuth"
-import Explorer from "layouts/main/Explorer/Explorer"
+import { Explorer } from "layouts/main/Explorer/Explorer"
 import { useEffect, useState } from "react"
 import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
 import { IPage } from "types/Page.type"

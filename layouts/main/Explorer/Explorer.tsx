@@ -23,7 +23,7 @@ type ExplorerProps = {
   isLoggedIn?: boolean
 }
 
-export default function Explorer({
+export function Explorer({
   initialPageData,
   initialTemplatesData,
   isLoggedIn,

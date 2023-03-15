@@ -13,7 +13,7 @@ type UserDeleteProps = {
   handleDeleteUser: () => void
 }
 
-export default function UserDelete({
+export function UserDelete({
   handleDeleteUser,
   initialUserData,
 }: UserDeleteProps) {

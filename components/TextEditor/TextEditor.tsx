@@ -13,7 +13,7 @@ type TextEditorProps = {
   handleOpenVariablePanelForText?: () => void
 }
 
-function TextEditor({
+export function TextEditor({
   content,
   onChange,
   handleOpenVariablePanelForText,
@@ -65,5 +65,3 @@ function TextEditor({
     </div>
   )
 }
-
-export default TextEditor

@@ -15,7 +15,7 @@ type CentralTrackersProps = {
   initialTemplateData: ITemplate
 }
 
-export default function CentralTrackers({
+export function CentralTrackers({
   handleUpdateTrackers,
   initialPageData,
   initialTemplateData,

@@ -1,4 +1,4 @@
-import WorkspaceMembers from "layouts/main/WorkspaceMembers/WorkspaceMembers"
+import { WorkspaceMembers } from "layouts/main/WorkspaceMembers/WorkspaceMembers"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import { api } from "services/api"

@@ -76,6 +76,7 @@ export const RedirectBlock = (props: RedirectBlockProps) => {
                   className="rounded-[20px] lg:rounded-[30px]"
                   src={props.img_url}
                   fill
+                  priority
                   style={{ objectFit: "cover" }}
                   alt={""}
                 />

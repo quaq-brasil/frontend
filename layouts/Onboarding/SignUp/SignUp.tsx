@@ -11,7 +11,7 @@ type SignUpProps = {
   handleCreateUser: (data: IUpdateUser) => void
 }
 
-export default function SignUp({ handleCreateUser }: SignUpProps) {
+export function SignUp({ handleCreateUser }: SignUpProps) {
   const text = useTranslation().t
   const router = useRouter()
 

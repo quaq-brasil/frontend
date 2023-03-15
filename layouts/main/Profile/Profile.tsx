@@ -13,10 +13,7 @@ type ProfileProps = {
   handleUserUpdate: (userData: IUpdateUser) => void
 }
 
-export default function Profile({
-  initialUserData,
-  handleUserUpdate,
-}: ProfileProps) {
+export function Profile({ initialUserData, handleUserUpdate }: ProfileProps) {
   const text = useTranslation().t
   const router = useRouter()
 

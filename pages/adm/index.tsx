@@ -1,4 +1,4 @@
-import CreatorPage from "layouts/main/CreatorPage/CreatorPage"
+import { CreatorPage } from "layouts/main/CreatorPage/CreatorPage"
 import { GetServerSideProps } from "next"
 import { api } from "services/api"
 import { useWorkspacesByUserId } from "services/hooks/useWorkspace/useWorkspacesByUserId"

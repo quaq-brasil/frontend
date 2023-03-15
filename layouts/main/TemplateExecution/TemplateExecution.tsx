@@ -14,7 +14,7 @@ type TemplateExecutionContent = {
   isLoggedIn: boolean
 }
 
-export default function TemplateExecution({
+export function TemplateExecution({
   initialData,
   isLoggedIn,
 }: TemplateExecutionContent) {

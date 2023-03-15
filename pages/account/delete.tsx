@@ -1,4 +1,4 @@
-import UserDelete from "layouts/main/UserDelete/UserDelete"
+import { UserDelete } from "layouts/main/UserDelete/UserDelete"
 import { GetServerSideProps } from "next"
 import { api } from "services/api"
 import { useDeleteUser } from "services/hooks/useUser/useDeleteUser"

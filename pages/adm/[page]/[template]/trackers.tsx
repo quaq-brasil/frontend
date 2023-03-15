@@ -1,4 +1,4 @@
-import CentralTrackers from "layouts/main/CentralTrackers/CentralTrackers"
+import { CentralTrackers } from "layouts/main/CentralTrackers/CentralTrackers"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import { api } from "services/api"

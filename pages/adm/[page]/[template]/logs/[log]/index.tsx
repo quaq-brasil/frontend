@@ -1,4 +1,4 @@
-import LogContent from "layouts/main/InteractionLog/LogContent"
+import { LogContent } from "layouts/main/InteractionLog/LogContent"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import { api } from "services/api"

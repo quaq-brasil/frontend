@@ -1,4 +1,4 @@
-import CreateTemplate from "layouts/main/CreateTemplate/CreateTemplate"
+import { CreateTemplate } from "layouts/main/CreateTemplate/CreateTemplate"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import { api } from "services/api"

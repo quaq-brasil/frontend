@@ -8,7 +8,7 @@ import { PieChart } from "./PieChart"
 import { ScatterChart } from "./ScatterChart"
 import { VerticalBarChart } from "./VerticalBarChart"
 const BlockMenu = dynamic(
-  () => import("components/BlockMenu/BlockMenu").then((mod) => mod.default),
+  () => import("components/BlockMenu/BlockMenu").then((mod) => mod.BlockMenu),
   { ssr: false }
 )
 
