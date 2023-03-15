@@ -4,7 +4,7 @@
   "pages": {
     "/": ["explorer"],
     "/[page]": ["consumerpage"],
-    "/login": ["login"],
+    "/login": ["login", "validation"],
     "/adm": ["creatorpage"],
     "/adm/[page]": ["creatorpage"],
     "/adm/[page]/config/general": ["generalsettings"],
@@ -29,6 +29,7 @@
     "/adm/ws/setup": ["createwspace", "imageselector", "wssetup"],
     "/[page]/[template]": ["profile"],
     "/500": ["explorer"],
+    "/400": ["explorer"],
     "/adm/[page]/new-template": [
       "publish",
       "centraloptions",

@@ -7,5 +7,6 @@
   "confirm": "login",
   "back": "voltar",
   "signup": "cadastrar-se",
-  "login": "login"
+  "login": "login",
+  "update": "login"
 }

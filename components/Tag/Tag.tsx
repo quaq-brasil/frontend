@@ -85,7 +85,7 @@ export const Tag = (props: TagProps) => {
           props.isSelected ? "bg-slate-900 text-white" : "bg-white text-black"
         }
         ${props.isSeparated ? "lg:mt-3" : ""}
-        ${props.hasOutline ? "outline outline-1 outline-slate-100" : ""}
+        ${props.hasOutline ? "ring-1 ring-slate-100" : ""}
         `}
       >
         <>
