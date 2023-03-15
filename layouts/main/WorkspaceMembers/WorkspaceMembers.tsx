@@ -12,7 +12,7 @@ type WorkspaceMembersProps = {
   initialWorkspaceData: IUpdateWorkspace | undefined
 }
 
-export default function WorkspaceMembers({
+export function WorkspaceMembers({
   initialWorkspaceData,
 }: WorkspaceMembersProps) {
   const text = useTranslation().t

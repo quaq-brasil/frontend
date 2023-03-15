@@ -1,5 +1,5 @@
 import { useUserAuth } from "contexts/userAuth"
-import TemplateExecution from "layouts/main/TemplateExecution/TemplateExecution"
+import { TemplateExecution } from "layouts/main/TemplateExecution/TemplateExecution"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import { useEffect, useState } from "react"

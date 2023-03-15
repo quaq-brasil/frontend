@@ -1,5 +1,5 @@
 import { PencilSimple } from "phosphor-react"
-import FileEntry from "./FileEntry"
+import { FileEntry } from "./FileEntry"
 
 type FileEntryBlockProps = {
   isEditable: boolean

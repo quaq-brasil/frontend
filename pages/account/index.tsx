@@ -1,4 +1,4 @@
-import Profile from "layouts/main/Profile/Profile"
+import { Profile } from "layouts/main/Profile/Profile"
 import { GetServerSideProps } from "next"
 import { api } from "services/api"
 import { useUpdateUser } from "services/hooks/useUser/useUpdateUser"

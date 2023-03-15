@@ -1,4 +1,4 @@
-import WorkspaceDelete from "layouts/main/WorkspaceDelete/WorkspaceDelete"
+import { WorkspaceDelete } from "layouts/main/WorkspaceDelete/WorkspaceDelete"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import { api } from "services/api"

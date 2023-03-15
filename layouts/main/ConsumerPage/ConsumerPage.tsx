@@ -17,7 +17,7 @@ type ConsumerPageProps = {
   isLoggedIn: boolean
 }
 
-export default function ConsumerPage({
+export function ConsumerPage({
   initialPageData,
   initialTemplatesData,
   isLoggedIn,

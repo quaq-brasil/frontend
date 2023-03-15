@@ -9,13 +9,13 @@ export type FileProps = {
   file: File
 }
 
-type FileEntryProps = {
+export type FileEntryProps = {
   file?: File
   name?: string
   onFileChange?: ({ file, name }: FileProps) => void
 }
 
-export default function FileEntry({ onFileChange }: FileEntryProps) {
+export function FileEntry({ onFileChange }: FileEntryProps) {
   const text = useTranslation().t
   const [file, setFile] = useState<string | undefined>()
   const [fileName, setFileName] = useState<string | undefined>()

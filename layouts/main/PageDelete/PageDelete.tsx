@@ -15,7 +15,7 @@ type PageDeleteProps = {
   handleDeletePage: () => void
 }
 
-export default function PageDelete({
+export function PageDelete({
   handleDeletePage,
   initialPageData,
   initialUserData,

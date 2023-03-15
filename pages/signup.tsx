@@ -1,4 +1,4 @@
-import SignUp from "layouts/Onboarding/SignUp/SignUp"
+import { SignUp } from "layouts/Onboarding/SignUp/SignUp"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 

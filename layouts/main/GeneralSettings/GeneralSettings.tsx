@@ -13,7 +13,7 @@ type GeneralSettingsProps = {
   handleUpdatePage: (data: IUpdatePage) => void
 }
 
-export default function GeneralSettings({
+export function GeneralSettings({
   initialPageData,
   handleUpdatePage,
 }: GeneralSettingsProps) {

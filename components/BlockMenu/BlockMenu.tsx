@@ -3,17 +3,13 @@ import useTranslation from "next-translate/useTranslation"
 import { DotsThree } from "phosphor-react"
 import { useState } from "react"
 
-type BlockMenuProps = {
+export type BlockMenuProps = {
   onEdit?: () => void
   onDelete?: () => void
   onDrag?: () => void
 }
 
-export default function BlockMenu({
-  onDelete,
-  onDrag,
-  onEdit,
-}: BlockMenuProps) {
+export function BlockMenu({ onDelete, onDrag, onEdit }: BlockMenuProps) {
   const text = useTranslation().t
   const [selected, setSelected] = useState(false)
   return (

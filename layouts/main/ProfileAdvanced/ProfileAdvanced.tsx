@@ -12,7 +12,7 @@ type ProfileAdvancedProps = {
   userData: IUser
 }
 
-export default function ProfileAdvanced({ userData }: ProfileAdvancedProps) {
+export function ProfileAdvanced({ userData }: ProfileAdvancedProps) {
   const text = useTranslation().t
 
   const [userName, setUserName] = useState("")

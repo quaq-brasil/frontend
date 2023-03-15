@@ -1,4 +1,4 @@
-import PageDelete from "layouts/main/PageDelete/PageDelete"
+import { PageDelete } from "layouts/main/PageDelete/PageDelete"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"

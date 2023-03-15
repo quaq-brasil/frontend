@@ -6,9 +6,10 @@ import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
 import { IUserLogin } from "types/User.type"
 
-const QuickIn = dynamic(() => import("components/QuickIn/QuickIn"), {
-  ssr: false,
-})
+const QuickIn = dynamic(
+  () => import("components/QuickIn/QuickIn").then((mod) => mod.QuickIn),
+  { ssr: false }
+)
 
 type LoginContentProps = {
   isUpdating: boolean

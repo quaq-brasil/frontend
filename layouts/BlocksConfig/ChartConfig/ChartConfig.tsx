@@ -12,7 +12,7 @@ import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import { BlocksConfigProps } from "types/BlockConfig.types"
 
-export default function ChartConfig({
+export function ChartConfig({
   handleAddBlock,
   isOpen,
   onClose,

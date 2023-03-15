@@ -1,4 +1,4 @@
-import WorkspaceSettings from "layouts/main/WorkspaceSettings/WorkspaceSettings"
+import { WorkspaceSettings } from "layouts/main/WorkspaceSettings/WorkspaceSettings"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import { api } from "services/api"

@@ -4,7 +4,7 @@ import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { CentralLogsContent } from "./CentralLogsContent"
 
-export default function CentralLogs() {
+export function CentralLogs() {
   const text = useTranslation().t
 
   function handleTabBar() {

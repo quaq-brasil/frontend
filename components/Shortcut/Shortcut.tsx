@@ -1,4 +1,4 @@
-import ShortcutMenu from "components/ShortcutMenu/ShortcutMenu"
+import { ShortcutMenu } from "components/ShortcutMenu/ShortcutMenu"
 import type { Identifier, XYCoord } from "dnd-core"
 import Image from "next/image"
 import { useRouter } from "next/router"

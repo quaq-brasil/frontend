@@ -1,5 +1,5 @@
 import { useUserAuth } from "contexts/userAuth"
-import Explorer from "layouts/main/Explorer/Explorer"
+import { Explorer } from "layouts/main/Explorer/Explorer"
 import { GetServerSideProps } from "next"
 import { useEffect, useState } from "react"
 import { api } from "services/api"

@@ -1,4 +1,4 @@
-import CreateWorkspace from "layouts/main/CreateWorkspace/CreateWorkspace"
+import { CreateWorkspace } from "layouts/main/CreateWorkspace/CreateWorkspace"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { useCreateWorkspace } from "services/hooks/useWorkspace/useCreateWorkspace"

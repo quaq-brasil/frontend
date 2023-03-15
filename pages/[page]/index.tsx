@@ -1,5 +1,5 @@
 import { useUserAuth } from "contexts/userAuth"
-import ConsumerPage from "layouts/main/ConsumerPage/ConsumerPage"
+import { ConsumerPage } from "layouts/main/ConsumerPage/ConsumerPage"
 import { GetServerSideProps } from "next"
 import { ParsedUrlQuery } from "querystring"
 import { useEffect, useState } from "react"

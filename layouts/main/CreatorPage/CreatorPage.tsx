@@ -27,7 +27,7 @@ type CreatorPageProps = {
   payload: IUserPayload | undefined
 }
 
-export default function CreatorPage({
+export function CreatorPage({
   initialWorkspacesData,
   initialCurrentPageData,
   payload,

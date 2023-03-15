@@ -1,6 +1,6 @@
 import { AutomationConfig } from "layouts/BlocksConfig/AutomationConfig/AutomationConfig"
 import { ButtonConfig } from "layouts/BlocksConfig/ButtonConfig/ButtonConfig"
-import ChartConfig from "layouts/BlocksConfig/ChartConfig/ChartConfig"
+import { ChartConfig } from "layouts/BlocksConfig/ChartConfig/ChartConfig"
 import { CounterConfig } from "layouts/BlocksConfig/CounterConfig/CounterConfig"
 import { CreationsConfigPages } from "layouts/BlocksConfig/CreationsConfig/CreationsConfigPages"
 import { EmbedConfig } from "layouts/BlocksConfig/EmbedConfig/EmbedConfig"
