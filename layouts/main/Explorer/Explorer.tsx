@@ -1,7 +1,6 @@
 import { Header } from "components/Header/Header"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
-import { useUserAuth } from "contexts/userAuth"
 import { useContextMenu } from "hooks/ContextMenuHook"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
@@ -30,8 +29,6 @@ export function Explorer({
 }: ExplorerProps) {
   const text = useTranslation().t
   const router = useRouter()
-
-  const user = useUserAuth()
 
   const [pageData, setPageData] = useState<IPage>(initialPageData)
   const [templatesData, setTemplatesData] =
