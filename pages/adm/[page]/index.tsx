@@ -1,6 +1,8 @@
 import { CreatorPage } from "layouts/main/CreatorPage/CreatorPage"
 import { GetServerSideProps } from "next"
+import Head from "next/head"
 import { ParsedUrlQuery } from "querystring"
+import { useState } from "react"
 import { api } from "services/api"
 import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
 import { useWorkspacesByUserId } from "services/hooks/useWorkspace/useWorkspacesByUserId"
@@ -38,12 +40,35 @@ export default function AdmSelectedPage({
     options: { initialData: pageData },
   })
 
+  type PageInfoProps = {
+    title: string
+    description: string
+  }
+
+  const [pageInfo, setPageInfo] = useState<PageInfoProps | null>(null)
+
+  function handleUpdatePageTitle(newInfo: PageInfoProps) {
+    setPageInfo((state) => {
+      return {
+        ...state,
+        ...newInfo,
+      } as PageInfoProps
+    })
+  }
+
   return (
-    <CreatorPage
-      initialWorkspacesData={getWorkspaces?.data}
-      initialCurrentPageData={getCurrentPage?.data}
-      payload={payload}
-    />
+    <>
+      <Head>
+        <title>{pageInfo?.title}</title>
+        <meta name="description" content={pageInfo?.description} />
+      </Head>
+      <CreatorPage
+        initialWorkspacesData={getWorkspaces?.data}
+        initialCurrentPageData={getCurrentPage?.data}
+        payload={payload}
+        handleUpdatePageTitle={handleUpdatePageTitle}
+      />
+    </>
   )
 }
 

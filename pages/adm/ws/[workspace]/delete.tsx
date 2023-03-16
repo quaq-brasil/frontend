@@ -1,6 +1,8 @@
 import { WorkspaceDelete } from "layouts/main/WorkspaceDelete/WorkspaceDelete"
 import { GetServerSideProps } from "next"
+import Head from "next/head"
 import { ParsedUrlQuery } from "querystring"
+import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { useUser } from "services/hooks/useUser/useUser"
 import { useDeleteWorkspace } from "services/hooks/useWorkspace/useDeleteWorkspace"
@@ -41,12 +43,30 @@ export default function WorkspaceDeletePage({
     deleteWorkspace.mutate({ id: getWorkspace.data.id })
   }
 
+  const [workspaceTitle, setWorkspaceTitle] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (getWorkspace) {
+      let wsTitle =
+        getWorkspace.data.title.charAt(0).toUpperCase() +
+        getWorkspace.data.title.slice(1).toLowerCase()
+
+      setWorkspaceTitle(wsTitle)
+    }
+  }, [getWorkspace])
+
   return (
-    <WorkspaceDelete
-      initialWorkspaceData={getWorkspace?.data as IWorkspace}
-      initialUserData={getUser.data}
-      handleDeleteWorkspace={handleDeleteWorkspace}
-    />
+    <>
+      <Head>
+        <title>{workspaceTitle}</title>
+        <meta name="description" content={`${workspaceTitle} workspace.`} />
+      </Head>
+      <WorkspaceDelete
+        initialWorkspaceData={getWorkspace?.data as IWorkspace}
+        initialUserData={getUser.data}
+        handleDeleteWorkspace={handleDeleteWorkspace}
+      />
+    </>
   )
 }
 

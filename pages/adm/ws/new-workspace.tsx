@@ -1,5 +1,7 @@
 import { CreateWorkspace } from "layouts/main/CreateWorkspace/CreateWorkspace"
 import { GetServerSideProps } from "next"
+import useTranslation from "next-translate/useTranslation"
+import Head from "next/head"
 import { useRouter } from "next/router"
 import { useCreateWorkspace } from "services/hooks/useWorkspace/useCreateWorkspace"
 import { IUserPayload } from "types/Auth.types"
@@ -18,6 +20,8 @@ type CreateWorkspacePageProps = {
 export default function CreateWorkspacePage({
   data,
 }: CreateWorkspacePageProps) {
+  const text = useTranslation().t
+
   const router = useRouter()
 
   const createWorkspace = useCreateWorkspace()
@@ -42,10 +46,19 @@ export default function CreateWorkspacePage({
   }
 
   return (
-    <CreateWorkspace
-      initialUserData={data}
-      handleCreateWorkspace={handleCreateWorkspace}
-    />
+    <>
+      <Head>
+        <title>{text("createwspace:pagetitle")}</title>
+        <meta
+          name="description"
+          content={text("createwspace:pagedescription")}
+        />
+      </Head>
+      <CreateWorkspace
+        initialUserData={data}
+        handleCreateWorkspace={handleCreateWorkspace}
+      />
+    </>
   )
 }
 

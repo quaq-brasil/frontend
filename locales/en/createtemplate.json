@@ -1,5 +1,7 @@
 {
   "back": "back",
   "newtemplate": "new template",
-  "saveas": "value must be unique"
+  "saveas": "value must be unique",
+  "pagetitle": "new template",
+  "pagedescription": "Create a new template."
 }

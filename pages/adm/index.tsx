@@ -1,5 +1,7 @@
 import { CreatorPage } from "layouts/main/CreatorPage/CreatorPage"
 import { GetServerSideProps } from "next"
+import Head from "next/head"
+import { useState } from "react"
 import { api } from "services/api"
 import { useWorkspacesByUserId } from "services/hooks/useWorkspace/useWorkspacesByUserId"
 import { IUserPayload } from "types/Auth.types"
@@ -23,8 +25,34 @@ export default function AdmPage({ workspaces, payload }: AdmPageProps) {
     },
   })
 
+  type PageInfoProps = {
+    title: string
+    description: string
+  }
+
+  const [pageInfo, setPageInfo] = useState<PageInfoProps | null>(null)
+
+  function handleUpdatePageTitle(newInfo: PageInfoProps) {
+    setPageInfo((state) => {
+      return {
+        ...state,
+        ...newInfo,
+      } as PageInfoProps
+    })
+  }
+
   return (
-    <CreatorPage initialWorkspacesData={getWorkspaces.data} payload={payload} />
+    <>
+      <Head>
+        <title>{pageInfo?.title}</title>
+        <meta name="description" content={pageInfo?.description} />
+      </Head>
+      <CreatorPage
+        initialWorkspacesData={getWorkspaces.data}
+        payload={payload}
+        handleUpdatePageTitle={handleUpdatePageTitle}
+      />
+    </>
   )
 }
 

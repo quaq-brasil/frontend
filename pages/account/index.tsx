@@ -1,5 +1,7 @@
 import { Profile } from "layouts/main/Profile/Profile"
 import { GetServerSideProps } from "next"
+import useTranslation from "next-translate/useTranslation"
+import Head from "next/head"
 import { api } from "services/api"
 import { useUpdateUser } from "services/hooks/useUser/useUpdateUser"
 import { useUser } from "services/hooks/useUser/useUser"
@@ -15,6 +17,8 @@ type ProfilePageProps = {
 }
 
 export default function ProfilePage({ data }: ProfilePageProps) {
+  const text = useTranslation().t
+
   const getUser = useUser({
     options: {
       initialData: data,
@@ -34,10 +38,16 @@ export default function ProfilePage({ data }: ProfilePageProps) {
   }
 
   return (
-    <Profile
-      initialUserData={getUser?.data}
-      handleUserUpdate={handleUserUpdate}
-    />
+    <>
+      <Head>
+        <title>{`${text("profile:pagetitle")}`}</title>
+        <meta name="description" content={text("profile:pagedescription")} />
+      </Head>
+      <Profile
+        initialUserData={getUser?.data}
+        handleUserUpdate={handleUserUpdate}
+      />
+    </>
   )
 }
 

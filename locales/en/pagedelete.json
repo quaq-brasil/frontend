@@ -7,5 +7,7 @@
   "password": "type you password to dele this page",
   "passwordinput": "type it here",
   "confirm": "confirm",
-  "failed": "password incorrect, please try again"
+  "failed": "password incorrect, please try again",
+  "pagetitle": "delete",
+  "pagedescription": "Delete a Quaq page."
 }

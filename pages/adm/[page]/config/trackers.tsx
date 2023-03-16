@@ -1,6 +1,9 @@
 import { PageTrackers } from "layouts/main/PageTrackers/PageTrackers"
 import { GetServerSideProps } from "next"
+import useTranslation from "next-translate/useTranslation"
+import Head from "next/head"
 import { ParsedUrlQuery } from "querystring"
+import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
 import { useUpdatePage } from "services/hooks/usePage/useUpdatePage"
@@ -20,6 +23,8 @@ export default function PageTrackersPage({
   pageData,
   pageSlug,
 }: PageTrackersPageProps) {
+  const text = useTranslation().t
+
   const getPage = usePageBySlug({
     slug: pageSlug,
     options: { initialData: pageData },
@@ -36,11 +41,32 @@ export default function PageTrackersPage({
     })
   }
 
+  const [pageTitle, setPageTitle] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (getPage) {
+      let pageTitle =
+        getPage.data.title.charAt(0).toUpperCase() +
+        getPage.data.title.slice(1).toLowerCase()
+
+      setPageTitle(pageTitle)
+    }
+  }, [getPage])
+
   return (
-    <PageTrackers
-      handleUpdateTrackers={handleUpdateTrackers}
-      initialPageData={getPage?.data}
-    />
+    <>
+      <Head>
+        <title>{`${pageTitle} - ${text("pagetrackers:pagetitle")}`}</title>
+        <meta
+          name="description"
+          content={`${text("pagetrackers:pagedescription")}`}
+        />
+      </Head>
+      <PageTrackers
+        handleUpdateTrackers={handleUpdateTrackers}
+        initialPageData={getPage?.data}
+      />
+    </>
   )
 }
 

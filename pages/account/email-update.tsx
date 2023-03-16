@@ -1,5 +1,7 @@
 import { EmailUpdate } from "layouts/Workflows/EmailUpdate/EmailUpdate"
 import { GetServerSideProps } from "next"
+import useTranslation from "next-translate/useTranslation"
+import Head from "next/head"
 import { api } from "services/api"
 import { useUpdateUser } from "services/hooks/useUser/useUpdateUser"
 import { useUser } from "services/hooks/useUser/useUser"
@@ -15,6 +17,8 @@ type EmailUpdatePageProps = {
 }
 
 export default function EmailUpdatePage({ data }: EmailUpdatePageProps) {
+  const text = useTranslation().t
+
   const getUser = useUser({
     options: {
       initialData: data,
@@ -33,10 +37,16 @@ export default function EmailUpdatePage({ data }: EmailUpdatePageProps) {
   }
 
   return (
-    <EmailUpdate
-      handleChangeEmail={handleChangeEmail}
-      initialUserData={getUser.data}
-    />
+    <>
+      <Head>
+        <title>{`${text("profile:pagetitle")}`}</title>
+        <meta name="description" content={text("profile:pagedescription")} />
+      </Head>
+      <EmailUpdate
+        handleChangeEmail={handleChangeEmail}
+        initialUserData={getUser.data}
+      />
+    </>
   )
 }
 

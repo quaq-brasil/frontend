@@ -7,5 +7,7 @@
   "password": "digite a sua senha para deletar esta página",
   "passwordinput": "digite aqui",
   "confirm": "confirmar",
-  "failed": "senha incorreta, por favor tente novamente"
+  "failed": "senha incorreta, por favor tente novamente",
+  "pagetitle": "deletar",
+  "pagedescription": "Delete uma página do Quaq."
 }

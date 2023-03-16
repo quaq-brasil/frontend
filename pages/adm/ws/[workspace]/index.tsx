@@ -1,6 +1,8 @@
 import { WorkspaceSettings } from "layouts/main/WorkspaceSettings/WorkspaceSettings"
 import { GetServerSideProps } from "next"
+import Head from "next/head"
 import { ParsedUrlQuery } from "querystring"
+import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { useUpdateWorkspace } from "services/hooks/useWorkspace/useUpdateWorkspace"
 import { useWorkspaceBySlug } from "services/hooks/useWorkspace/useWorkspaceBySlug"
@@ -37,11 +39,29 @@ export default function WorkspaceSettingsPage({
     })
   }
 
+  const [workspaceTitle, setWorkspaceTitle] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (getWorkspace) {
+      let wsTitle =
+        getWorkspace.data.title.charAt(0).toUpperCase() +
+        getWorkspace.data.title.slice(1).toLowerCase()
+
+      setWorkspaceTitle(wsTitle)
+    }
+  }, [getWorkspace])
+
   return (
-    <WorkspaceSettings
-      initialWorkspaceData={getWorkspace.data}
-      handleUpdateWorkspace={handleUpdateWorkspace}
-    />
+    <>
+      <Head>
+        <title>{workspaceTitle}</title>
+        <meta name="description" content={`${workspaceTitle} workspace.`} />
+      </Head>
+      <WorkspaceSettings
+        initialWorkspaceData={getWorkspace.data}
+        handleUpdateWorkspace={handleUpdateWorkspace}
+      />
+    </>
   )
 }
 

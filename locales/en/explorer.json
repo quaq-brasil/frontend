@@ -2,5 +2,7 @@
   "login": "login",
   "signup": "sign up",
   "pages": "my pages",
-  "usequaq": "use quaq"
+  "usequaq": "use quaq",
+  "pagetitle": "Quaq",
+  "pagedescription": "Quaq helps companies turn data into actionable insights that improve performance, efficiency and profitability."
 }

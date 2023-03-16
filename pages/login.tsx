@@ -1,5 +1,7 @@
-import { Login } from "layouts/Onboarding/LogIn/LogIn"
+import { Login } from "layouts/Onboarding/Login/LogIn"
 import { GetServerSideProps } from "next"
+import useTranslation from "next-translate/useTranslation"
+import Head from "next/head"
 import { useRouter } from "next/router"
 
 import { useLogin } from "services/hooks/useUser/useLogin"
@@ -9,6 +11,8 @@ import { appParseCookies } from "utils/cookies"
 import { pageUrls } from "utils/pagesUrl"
 
 export default function LoginPage() {
+  const text = useTranslation().t
+
   const loginUser = useLogin()
 
   const router = useRouter()
@@ -26,7 +30,15 @@ export default function LoginPage() {
     )
   }
 
-  return <Login handleUserLogin={handleUserLogin} />
+  return (
+    <>
+      <Head>
+        <title>{`${text("login:pagetitle")}`}</title>
+        <meta name="description" content={text("login:pagedescription")} />
+      </Head>
+      <Login handleUserLogin={handleUserLogin} />
+    </>
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

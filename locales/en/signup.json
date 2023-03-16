@@ -22,5 +22,7 @@
   "acceptterms1": "do you accept our ",
   "acceptterms2": "terms and policies",
   "accept": "accept",
-  "decline": "decline"
+  "decline": "decline",
+  "pagetitle": "Sign Up",
+  "pagedescription": "Create a Quaq account."
 }

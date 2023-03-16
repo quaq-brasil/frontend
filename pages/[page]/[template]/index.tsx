@@ -1,6 +1,7 @@
 import { useUserAuth } from "contexts/userAuth"
 import { TemplateExecution } from "layouts/main/TemplateExecution/TemplateExecution"
 import { GetServerSideProps } from "next"
+import Head from "next/head"
 import { ParsedUrlQuery } from "querystring"
 import { useEffect, useState } from "react"
 import { api } from "services/api"
@@ -40,11 +41,43 @@ export default function TemplateExecutionPage({
     },
   })
 
+  type PageAndTemplateProps = {
+    templateTitle: string
+    pageTitle: string
+    pageDescription: string
+  }
+
+  const [pageInfo, setPageInfo] = useState<PageAndTemplateProps | null>(null)
+
+  useEffect(() => {
+    if (getTemplateAndPage) {
+      let pageTitle =
+        getTemplateAndPage.data.Page.title.charAt(0).toUpperCase() +
+        getTemplateAndPage.data.Page.title.slice(1).toLowerCase()
+
+      let templateTitle =
+        getTemplateAndPage.data.title.charAt(0).toUpperCase() +
+        getTemplateAndPage.data.title.slice(1).toLowerCase()
+
+      setPageInfo({
+        pageTitle: pageTitle,
+        templateTitle: templateTitle,
+        pageDescription: getTemplateAndPage.data.Page.description,
+      })
+    }
+  }, [getTemplateAndPage])
+
   return (
-    <TemplateExecution
-      isLoggedIn={isLoggedIn}
-      initialData={getTemplateAndPage.data}
-    />
+    <>
+      <Head>
+        <title>{`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}</title>
+        <meta name="description" content={pageInfo.pageDescription} />
+      </Head>
+      <TemplateExecution
+        isLoggedIn={isLoggedIn}
+        initialData={getTemplateAndPage.data}
+      />
+    </>
   )
 }
 

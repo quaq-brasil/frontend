@@ -14,5 +14,7 @@
   "logoutdescription": "Are you sure that you want to logout?",
   "logoutdecline": "cancel",
   "logoutaccepet": "logout",
-  "logouttitle": "logging out"
+  "logouttitle": "logging out",
+  "pagetitle": "Quaq Account",
+  "pagedescription": "Quaq Account settings."
 }

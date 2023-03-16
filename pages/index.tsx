@@ -1,6 +1,8 @@
 import { useUserAuth } from "contexts/userAuth"
 import { Explorer } from "layouts/main/Explorer/Explorer"
 import { GetServerSideProps } from "next"
+import useTranslation from "next-translate/useTranslation"
+import Head from "next/head"
 import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
@@ -12,6 +14,8 @@ type ConsumerPagePageProps = {
 }
 
 export default function Home({ pageData }: ConsumerPagePageProps) {
+  const text = useTranslation().t
+
   const { user } = useUserAuth()
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -30,11 +34,17 @@ export default function Home({ pageData }: ConsumerPagePageProps) {
   })
 
   return (
-    <Explorer
-      isLoggedIn={isLoggedIn}
-      initialPageData={getPage?.data as IPage}
-      initialTemplatesData={getPage?.data?.templates}
-    />
+    <>
+      <Head>
+        <title>{`${text("explorer:pagetitle")}`}</title>
+        <meta name="description" content={text("explorer:pagedescription")} />
+      </Head>
+      <Explorer
+        isLoggedIn={isLoggedIn}
+        initialPageData={getPage?.data as IPage}
+        initialTemplatesData={getPage?.data?.templates}
+      />
+    </>
   )
 }
 

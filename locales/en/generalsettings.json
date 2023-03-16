@@ -18,5 +18,7 @@
   "confirm": "update page",
   "visibility": "page visibility",
   "public": "anyone",
-  "wsmembers": "workspace members only"
+  "wsmembers": "workspace members only",
+  "pagetitle": "general",
+  "pagedescription": "General page settings."
 }

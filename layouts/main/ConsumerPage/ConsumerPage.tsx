@@ -12,8 +12,8 @@ import { pageUrls } from "utils/pagesUrl"
 import { ConsumerPageContent } from "./ConsumerPageContent"
 
 type ConsumerPageProps = {
-  initialPageData: IPage
-  initialTemplatesData: ITemplate[]
+  initialPageData: IPage | undefined
+  initialTemplatesData: ITemplate[] | undefined
   isLoggedIn: boolean
 }
 
@@ -25,16 +25,21 @@ export function ConsumerPage({
   const text = useTranslation().t
   const router = useRouter()
 
-  const [pageData, setPageData] = useState<IPage>(initialPageData)
-  const [templatesData, setTemplatesData] =
-    useState<ITemplate[]>(initialTemplatesData)
+  const [pageData, setPageData] = useState<IPage | undefined>(initialPageData)
+  const [templatesData, setTemplatesData] = useState<ITemplate[] | undefined>(
+    initialTemplatesData
+  )
 
   useEffect(() => {
-    setPageData(initialPageData)
+    if (initialPageData) {
+      setPageData(initialPageData)
+    }
   }, [initialPageData])
 
   useEffect(() => {
-    setTemplatesData(initialTemplatesData)
+    if (initialTemplatesData) {
+      setTemplatesData(initialTemplatesData)
+    }
   }, [initialTemplatesData])
 
   const { handleToggleContextMenu, handleCloseContextMenu } = useContextMenu()

@@ -1,7 +1,10 @@
 import { GeneralSettings } from "layouts/main/GeneralSettings/GeneralSettings"
 import { GetServerSideProps } from "next"
+import useTranslation from "next-translate/useTranslation"
+import Head from "next/head"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
+import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
 import { useUpdatePage } from "services/hooks/usePage/useUpdatePage"
@@ -22,6 +25,8 @@ export default function GeneralSettingsPage({
   pageData,
   pageSlug,
 }: GeneralSettingsPageProps) {
+  const text = useTranslation().t
+
   const router = useRouter()
 
   const getPage = usePageBySlug({
@@ -59,11 +64,32 @@ export default function GeneralSettingsPage({
     )
   }
 
+  const [pageTitle, setPageTitle] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (getPage) {
+      let pageTitle =
+        getPage.data.title.charAt(0).toUpperCase() +
+        getPage.data.title.slice(1).toLowerCase()
+
+      setPageTitle(pageTitle)
+    }
+  }, [getPage])
+
   return (
-    <GeneralSettings
-      initialPageData={getPage.data}
-      handleUpdatePage={handleUpdatePage}
-    />
+    <>
+      <Head>
+        <title>{`${pageTitle} - ${text("generalsettings:pagetitle")}`}</title>
+        <meta
+          name="description"
+          content={`${text("generalsettings:pagedescription")}`}
+        />
+      </Head>
+      <GeneralSettings
+        initialPageData={getPage.data}
+        handleUpdatePage={handleUpdatePage}
+      />
+    </>
   )
 }
 

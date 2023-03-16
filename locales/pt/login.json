@@ -8,5 +8,7 @@
   "back": "voltar",
   "signup": "cadastrar-se",
   "login": "login",
-  "update": "login"
+  "update": "login",
+  "pagetitle": "Login",
+  "pagedescription": "Acesse a sua conta Quaq."
 }

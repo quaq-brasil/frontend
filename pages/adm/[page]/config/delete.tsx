@@ -1,7 +1,10 @@
 import { PageDelete } from "layouts/main/PageDelete/PageDelete"
 import { GetServerSideProps } from "next"
+import useTranslation from "next-translate/useTranslation"
+import Head from "next/head"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
+import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { useDeletePage } from "services/hooks/usePage/useDeletePage"
 import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
@@ -25,6 +28,8 @@ export default function PageDeletePage({
   pageData,
   pageSlug,
 }: PageDeletePageProps) {
+  const text = useTranslation().t
+
   const getPage = usePageBySlug({
     slug: pageSlug,
     options: {
@@ -47,12 +52,33 @@ export default function PageDeletePage({
     )
   }
 
+  const [pageTitle, setPageTitle] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (getPage) {
+      let pageTitle =
+        getPage.data.title.charAt(0).toUpperCase() +
+        getPage.data.title.slice(1).toLowerCase()
+
+      setPageTitle(pageTitle)
+    }
+  }, [getPage])
+
   return (
-    <PageDelete
-      initialPageData={getPage.data}
-      initialUserData={payload}
-      handleDeletePage={handleDeletePage}
-    />
+    <>
+      <Head>
+        <title>{`${pageTitle} - ${text("pagedelete:pagetitle")}`}</title>
+        <meta
+          name="description"
+          content={`${text("pagedelete:pagedescription")}`}
+        />
+      </Head>
+      <PageDelete
+        initialPageData={getPage.data}
+        initialUserData={payload}
+        handleDeletePage={handleDeletePage}
+      />
+    </>
   )
 }
 

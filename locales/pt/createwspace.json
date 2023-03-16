@@ -5,5 +5,7 @@
   "getwsname": "título do workspace",
   "inputwsname": "digite aqui",
   "uploadimg": "imagem do workspace",
-  "confirm": "confirmar"
+  "confirm": "confirmar",
+  "pagetitle": "Novo Workspace",
+  "pagedescription": "Crie um novo workspace no Quaq."
 }
