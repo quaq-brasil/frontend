@@ -62,7 +62,7 @@ export default function TemplateExecutionPage({
       setPageInfo({
         pageTitle: pageTitle,
         templateTitle: templateTitle,
-        pageDescription: getTemplateAndPage.data.Page.description,
+        pageDescription: getTemplateAndPage.data?.Page?.description,
       })
     }
   }, [getTemplateAndPage])
@@ -71,7 +71,7 @@ export default function TemplateExecutionPage({
     <>
       <Head>
         <title>{`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}</title>
-        <meta name="description" content={pageInfo.pageDescription} />
+        <meta name="description" content={pageInfo?.pageDescription} />
       </Head>
       <TemplateExecution
         isLoggedIn={isLoggedIn}

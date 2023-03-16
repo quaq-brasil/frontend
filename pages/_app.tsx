@@ -1,17 +1,54 @@
-import { ThemeProvider } from "@material-tailwind/react"
-import { QueryClientProvider } from "@tanstack/react-query"
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import { AppContexts } from "contexts"
-import { AppHooks } from "hooks"
-import { SessionProvider } from "next-auth/react"
 import type { AppProps } from "next/app"
 import dynamic from "next/dynamic"
-import { queryClient } from "services/queryClient"
 import "styles/global.css"
+
 const NextNProgress = dynamic(
   () => import("nextjs-progressbar").then((mod) => mod.default),
   { ssr: false }
 )
+
+const AppHooks = dynamic(() => import("hooks").then((mod) => mod.AppHooks), {
+  ssr: false,
+})
+
+const AppContexts = dynamic(
+  () => import("contexts").then((mod) => mod.AppContexts),
+  { ssr: false }
+)
+
+const ThemeProvider = dynamic(
+  () => import("@material-tailwind/react").then((mod) => mod.ThemeProvider),
+  {
+    ssr: false,
+  }
+)
+
+const QueryClientProvider = dynamic(
+  () => import("@tanstack/react-query").then((mod) => mod.QueryClientProvider),
+  {
+    ssr: false,
+  }
+)
+
+const ReactQueryDevtools = dynamic(
+  () =>
+    import("@tanstack/react-query-devtools").then(
+      (mod) => mod.ReactQueryDevtools
+    ),
+  {
+    ssr: false,
+  }
+)
+
+import { queryClient } from "services/queryClient"
+
+import { Outfit } from "next/font/google"
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-outfit",
+})
 
 export default function App({
   Component,
@@ -21,23 +58,25 @@ export default function App({
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
-        <SessionProvider session={session}>
-          <AppContexts>
-            <AppHooks>
-              <NextNProgress
-                color="#000"
-                startPosition={0.3}
-                stopDelayMs={200}
-                height={3}
-                showOnShallow={true}
-                options={{
-                  showSpinner: false,
-                }}
-              />
+        {/* <SessionProvider session={session}> */}
+        <NextNProgress
+          color="#000"
+          startPosition={0.3}
+          stopDelayMs={200}
+          height={3}
+          showOnShallow={true}
+          options={{
+            showSpinner: false,
+          }}
+        />
+        <AppContexts>
+          <AppHooks>
+            <main className={`${outfit.variable} font-sans`}>
               <Component {...pageProps} />
-            </AppHooks>
-          </AppContexts>
-        </SessionProvider>
+            </main>
+          </AppHooks>
+        </AppContexts>
+        {/* </SessionProvider> */}
       </QueryClientProvider>
     </ThemeProvider>
   )
