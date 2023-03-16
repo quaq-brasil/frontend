@@ -48,7 +48,7 @@ export const Header = ({
         <Image
           src={background_url}
           className="lg:rounded-[2.5rem] opacity-90 bg-slate-300"
-          priority
+          quality={50}
           fill
           style={{ objectFit: "cover" }}
           sizes="(max-width: 768px) 100vw,
