@@ -1,6 +1,5 @@
 import { CentralTrackers } from "layouts/main/CentralTrackers/CentralTrackers"
 import { GetServerSideProps } from "next"
-import useTranslation from "next-translate/useTranslation"
 import Head from "next/head"
 import { ParsedUrlQuery } from "querystring"
 import { useEffect, useState } from "react"
@@ -31,8 +30,6 @@ export default function CentralTrackersPage({
   payload,
   pageAndTemplateData,
 }: CentralTrackersPageProps) {
-  const text = useTranslation().t
-
   const getPageAndTemplate = useTemplateBySlugAndPageSlug({
     page_slug: pageSlug,
     slug: templateSlug,

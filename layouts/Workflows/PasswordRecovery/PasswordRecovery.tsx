@@ -2,12 +2,10 @@ import { Header } from "components/Header/Header"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
-import { useRouter } from "next/router"
 import { PasswordRecoveryContent } from "./PasswordRecoveryContent"
 
 export function PasswordRecovery() {
   const text = useTranslation().t
-  const router = useRouter()
 
   function handleTabBar() {
     return [<Tag key={1} variant="txt" text={text("pwrecovery:tab1")} />]
