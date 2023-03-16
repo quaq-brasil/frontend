@@ -7,14 +7,27 @@ export type redirectNotFoundVerifyProps = {
   payload: any
 }
 
-export async function RedirectNotFoundVerify(
-  func: any,
-  ctx: any,
-  cookies?: any,
+type RedirectNotFoundVerifyProps = {
+  func: any
+  ctx: any
+  cookies?: any
   payload?: any
-) {
+  isStatic?: boolean
+}
+
+export async function RedirectNotFoundVerify({
+  func,
+  ctx,
+  cookies,
+  payload,
+  isStatic,
+}: RedirectNotFoundVerifyProps) {
   try {
     const data = await func({ ctx, cookies, payload })
+
+    if (isStatic) {
+      return { props: { ...data }, revalidate: 1 }
+    }
 
     return { props: { ...data } }
   } catch (err: any) {

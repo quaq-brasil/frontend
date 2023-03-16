@@ -101,6 +101,11 @@ export const getServerSideProps: GetServerSideProps = withAuth(
       }
     }
 
-    return await RedirectNotFoundVerify(getWorkspace, ctx, cookies, payload)
+    return await RedirectNotFoundVerify({
+      func: getWorkspace,
+      ctx,
+      cookies,
+      payload,
+    })
   }
 )
