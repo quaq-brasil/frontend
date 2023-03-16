@@ -1,6 +1,5 @@
 import { CentralOptions } from "layouts/main/CentralOptions/CentralOptions"
 import { GetServerSideProps } from "next"
-import useTranslation from "next-translate/useTranslation"
 import Head from "next/head"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
@@ -33,8 +32,6 @@ export default function TemplateAccessControlPage({
   payload,
   pageAndTemplateData,
 }: TemplateAccessControlPageProps) {
-  const text = useTranslation().t
-
   const router = useRouter()
 
   const getPageAndTemplate = useTemplateBySlugAndPageSlug({
