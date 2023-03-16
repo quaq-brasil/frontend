@@ -1,11 +1,18 @@
 import useTranslation from "next-translate/useTranslation"
-import Image from "next/image"
-import { ImageSquare, Plus } from "phosphor-react"
+import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { useCreateFile } from "services/hooks/useFile/useCreateFile"
 import { checkForFileSize } from "utils/checkForFileSize"
 import { LoadingImage } from "./LoadingImage"
+
+const Plus = dynamic(() => import("phosphor-react").then((mod) => mod.Plus))
+
+const ImageSquare = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.ImageSquare)
+)
+
+const Image = dynamic(() => import("next/image").then((mod) => mod.default))
 
 type ImageSelectorProps = {
   url?: string

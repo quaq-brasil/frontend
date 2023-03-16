@@ -1,5 +1,9 @@
-import { PencilSimple } from "phosphor-react"
+import dynamic from "next/dynamic"
 import { FileEntry } from "./FileEntry"
+
+const PencilSimple = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.PencilSimple)
+)
 
 type FileEntryBlockProps = {
   isEditable: boolean

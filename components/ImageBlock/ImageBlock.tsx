@@ -1,8 +1,10 @@
 import dynamic from "next/dynamic"
-import Image from "next/image"
 import { useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
+
+const Image = dynamic(() => import("next/image").then((mod) => mod.default))
+
 const BlockMenu = dynamic(
   () => import("components/BlockMenu/BlockMenu").then((mod) => mod.BlockMenu),
   { ssr: false }

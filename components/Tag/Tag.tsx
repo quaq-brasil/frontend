@@ -1,6 +1,8 @@
-import Image from "next/image"
+import dynamic from "next/dynamic"
 import { IconProps } from "phosphor-react"
-import { ForwardRefExoticComponent, RefAttributes } from "react"
+import { ComponentType, ForwardRefExoticComponent, RefAttributes } from "react"
+
+const Image = dynamic(() => import("next/image").then((mod) => mod.default))
 
 export type TagProps =
   | {
@@ -39,7 +41,9 @@ export type TagProps =
     }
   | {
       text: string
-      icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+      icon:
+        | ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+        | ComponentType<IconProps & RefAttributes<SVGSVGElement>>
       variant: "txt-icn"
       isSelected?: boolean
       onClick?: () => void
@@ -48,7 +52,9 @@ export type TagProps =
     }
   | {
       text: string
-      icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+      icon:
+        | ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+        | ComponentType<IconProps & RefAttributes<SVGSVGElement>>
       variant: "icn-txt"
       isSelected?: boolean
       onClick?: () => void
@@ -57,7 +63,9 @@ export type TagProps =
     }
   | {
       text: string
-      icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+      icon:
+        | ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+        | ComponentType<IconProps & RefAttributes<SVGSVGElement>>
       variant: "icn-txt-xl"
       isSelected?: boolean
       onClick?: () => void
@@ -65,7 +73,9 @@ export type TagProps =
       hasOutline?: boolean
     }
   | {
-      icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+      icon:
+        | ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+        | ComponentType<IconProps & RefAttributes<SVGSVGElement>>
       variant: "icn"
       isSelected?: boolean
       onClick?: () => void

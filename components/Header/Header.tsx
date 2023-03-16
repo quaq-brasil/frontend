@@ -1,5 +1,7 @@
-import Image from "next/image"
+import dynamic from "next/dynamic"
 import { useEffect, useRef } from "react"
+
+const Image = dynamic(() => import("next/image").then((mod) => mod.default))
 
 type HeaderProps = {
   background_url: string

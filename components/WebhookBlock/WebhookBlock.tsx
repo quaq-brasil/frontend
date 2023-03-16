@@ -1,7 +1,11 @@
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
-import { EyeSlash } from "phosphor-react"
 import { IBlock } from "types/Block.types"
+
+const EyeSlash = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.EyeSlash)
+)
+
 const BlockMenu = dynamic(
   () => import("components/BlockMenu/BlockMenu").then((mod) => mod.BlockMenu),
   { ssr: false }

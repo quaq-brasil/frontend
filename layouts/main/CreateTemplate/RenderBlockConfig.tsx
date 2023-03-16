@@ -1,21 +1,102 @@
-import { AutomationConfig } from "layouts/BlocksConfig/AutomationConfig/AutomationConfig"
-import { ButtonConfig } from "layouts/BlocksConfig/ButtonConfig/ButtonConfig"
-import { ChartConfig } from "layouts/BlocksConfig/ChartConfig/ChartConfig"
-import { CounterConfig } from "layouts/BlocksConfig/CounterConfig/CounterConfig"
-import { CreationsConfigPages } from "layouts/BlocksConfig/CreationsConfig/CreationsConfigPages"
-import { EmbedConfig } from "layouts/BlocksConfig/EmbedConfig/EmbedConfig"
-import { FileSharingConfig } from "layouts/BlocksConfig/FileSharingConfig/FileSharingConfig"
-import { ImageConfig } from "layouts/BlocksConfig/ImageConfig/ImageConfig"
-import { JsonConfig } from "layouts/BlocksConfig/JsonConfig/JsonConfig"
-import { PoolConfig } from "layouts/BlocksConfig/PoolConfig/PoolConfig"
-import { RedirectConfig } from "layouts/BlocksConfig/RedirectConfig/RedirectConfig"
-import { ReviewConfig } from "layouts/BlocksConfig/ReviewConfig/ReviewConfig"
-import { TextConfig } from "layouts/BlocksConfig/TextConfig/TextConfig"
-import { TextEntryConfig } from "layouts/BlocksConfig/TextEntryConfig/TextEntryConfig"
-import { ToggleConfig } from "layouts/BlocksConfig/ToggleConfig/ToggleConfig"
-import { WebhookConfig } from "layouts/BlocksConfig/WebhookConfig/WebhookConfig"
+import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 import { BlockProps } from "types/Block.types"
+
+const WebhookConfig = dynamic(() =>
+  import("layouts/BlocksConfig/WebhookConfig/WebhookConfig").then(
+    (mod) => mod.WebhookConfig
+  )
+)
+
+const ToggleConfig = dynamic(() =>
+  import("layouts/BlocksConfig/ToggleConfig/ToggleConfig").then(
+    (mod) => mod.ToggleConfig
+  )
+)
+
+const TextEntryConfig = dynamic(() =>
+  import("layouts/BlocksConfig/TextEntryConfig/TextEntryConfig").then(
+    (mod) => mod.TextEntryConfig
+  )
+)
+
+const TextConfig = dynamic(() =>
+  import("layouts/BlocksConfig/TextConfig/TextConfig").then(
+    (mod) => mod.TextConfig
+  )
+)
+
+const ReviewConfig = dynamic(() =>
+  import("layouts/BlocksConfig/ReviewConfig/ReviewConfig").then(
+    (mod) => mod.ReviewConfig
+  )
+)
+
+const RedirectConfig = dynamic(() =>
+  import("layouts/BlocksConfig/RedirectConfig/RedirectConfig").then(
+    (mod) => mod.RedirectConfig
+  )
+)
+
+const PoolConfig = dynamic(() =>
+  import("layouts/BlocksConfig/PoolConfig/PoolConfig").then(
+    (mod) => mod.PoolConfig
+  )
+)
+
+const JsonConfig = dynamic(() =>
+  import("layouts/BlocksConfig/JsonConfig/JsonConfig").then(
+    (mod) => mod.JsonConfig
+  )
+)
+
+const ImageConfig = dynamic(() =>
+  import("layouts/BlocksConfig/ImageConfig/ImageConfig").then(
+    (mod) => mod.ImageConfig
+  )
+)
+
+const FileSharingConfig = dynamic(() =>
+  import("layouts/BlocksConfig/FileSharingConfig/FileSharingConfig").then(
+    (mod) => mod.FileSharingConfig
+  )
+)
+
+const EmbedConfig = dynamic(() =>
+  import("layouts/BlocksConfig/EmbedConfig/EmbedConfig").then(
+    (mod) => mod.EmbedConfig
+  )
+)
+
+const CreationsConfigPages = dynamic(() =>
+  import("layouts/BlocksConfig/CreationsConfig/CreationsConfigPages").then(
+    (mod) => mod.CreationsConfigPages
+  )
+)
+
+const CounterConfig = dynamic(() =>
+  import("layouts/BlocksConfig/CounterConfig/CounterConfig").then(
+    (mod) => mod.CounterConfig
+  )
+)
+
+const ChartConfig = dynamic(() =>
+  import("layouts/BlocksConfig/ChartConfig/ChartConfig").then(
+    (mod) => mod.ChartConfig
+  )
+)
+
+const ButtonConfig = dynamic(() =>
+  import("layouts/BlocksConfig/ButtonConfig/ButtonConfig").then(
+    (mod) => mod.ButtonConfig
+  )
+)
+
+const AutomationConfig = dynamic(() =>
+  import("layouts/BlocksConfig/AutomationConfig/AutomationConfig").then(
+    (mod) => mod.AutomationConfig
+  )
+)
 
 type RenderBlockConfig = {
   block: string

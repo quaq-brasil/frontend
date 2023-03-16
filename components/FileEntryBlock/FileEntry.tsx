@@ -1,8 +1,16 @@
 import useTranslation from "next-translate/useTranslation"
-import { SpinnerGap, UploadSimple } from "phosphor-react"
+import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { checkForFileSize } from "utils/checkForFileSize"
+
+const SpinnerGap = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.SpinnerGap)
+)
+
+const UploadSimple = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.UploadSimple)
+)
 
 export type FileProps = {
   name: string

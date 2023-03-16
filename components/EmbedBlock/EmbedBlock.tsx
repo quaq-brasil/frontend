@@ -1,13 +1,17 @@
-import dynamic from "next/dynamic";
-import { PencilSimple } from "phosphor-react";
+import dynamic from "next/dynamic"
+
+const PencilSimple = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.PencilSimple)
+)
+
 const Embed = dynamic(() => import("react-embed"), {
   ssr: false,
-});
+})
 
 type EmbedBlockProps = {
-  url: string;
-  isEditable: boolean;
-};
+  url: string
+  isEditable: boolean
+}
 
 export const EmbedBlock = (props: EmbedBlockProps) => {
   return (
@@ -23,5 +27,5 @@ export const EmbedBlock = (props: EmbedBlockProps) => {
       )}
       {props.url && <Embed url={props.url} />}
     </div>
-  );
-};
+  )
+}

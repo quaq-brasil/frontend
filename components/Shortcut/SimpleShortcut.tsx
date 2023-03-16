@@ -1,8 +1,10 @@
-import Image from "next/image"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { IPage } from "types/Page.type"
 import { ITemplate, IUpdateTemplate } from "types/Template.type"
+
+const Image = dynamic(() => import("next/image").then((mod) => mod.default))
 
 type SimpleShortcutProps = {
   title: string

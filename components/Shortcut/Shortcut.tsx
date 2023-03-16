@@ -1,12 +1,14 @@
 import type { Identifier, XYCoord } from "dnd-core"
 import dynamic from "next/dynamic"
-import Image from "next/image"
 import { useRouter } from "next/router"
 import { useEffect, useRef, useState } from "react"
 import { useDrag, useDrop } from "react-dnd"
 import { useUpdateTemplate } from "services/hooks/useTemplate/useUpdateTemplate"
 import { IPage } from "types/Page.type"
 import { ITemplate, IUpdateTemplate } from "types/Template.type"
+
+const Image = dynamic(() => import("next/image").then((mod) => mod.default))
+
 const ShortcutMenu = dynamic(() =>
   import("components/ShortcutMenu/ShortcutMenu").then((mod) => mod.ShortcutMenu)
 )

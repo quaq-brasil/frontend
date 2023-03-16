@@ -1,22 +1,51 @@
 import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
-import {
-  Article,
-  ChartLine,
-  CheckSquare,
-  FlowArrow,
-  ImageSquare,
-  Plugs,
-  Plus,
-  RadioButton,
-  Robot,
-  Star,
-  TextAa,
-  Textbox,
-  TextIndent,
-  X,
-} from "phosphor-react"
+import dynamic from "next/dynamic"
 import { useState } from "react"
+
+const Article = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.Article)
+)
+
+const ChartLine = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.ChartLine)
+)
+
+const CheckSquare = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.CheckSquare)
+)
+
+const FlowArrow = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.FlowArrow)
+)
+
+const ImageSquare = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.ImageSquare)
+)
+
+const Plugs = dynamic(() => import("phosphor-react").then((mod) => mod.Plugs))
+
+const Plus = dynamic(() => import("phosphor-react").then((mod) => mod.Plus))
+
+const RadioButton = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.RadioButton)
+)
+
+const Robot = dynamic(() => import("phosphor-react").then((mod) => mod.Robot))
+
+const Star = dynamic(() => import("phosphor-react").then((mod) => mod.Star))
+
+const TextAa = dynamic(() => import("phosphor-react").then((mod) => mod.TextAa))
+
+const Textbox = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.Textbox)
+)
+
+const TextIndent = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.TextIndent)
+)
+
+const X = dynamic(() => import("phosphor-react").then((mod) => mod.X))
 
 type BlockSelectorProps = {
   onBlockSelect?: (type: string | undefined) => void
