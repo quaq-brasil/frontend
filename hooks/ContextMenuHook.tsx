@@ -76,7 +76,7 @@ function ContextMenuProvider({ children }: ContextMenuProviderProps) {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div>
+              <div onClick={handleCloseContextMenu}>
                 <div
                   className="fixed inset-0 bg-black opacity-30"
                   aria-hidden="true"
