@@ -9,7 +9,7 @@ import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
 
 import {
   RedirectNotFoundVerify,
-  redirectNotFoundVerifyProps,
+  redirectNotFoundVerifyProps
 } from "utils/404Redirect"
 import { withAuth } from "utils/withAuth"
 
@@ -62,7 +62,7 @@ export default function EditTemplatePage({
     <>
       <Head>
         <title>{`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}</title>
-        <meta name="description" content={pageInfo.pageDescription} />
+        <meta name="description" content={pageInfo?.pageDescription} />
       </Head>
       <EditPublication
         initialPageData={getPageAndTemplate.data.Page}

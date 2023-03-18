@@ -14,5 +14,13 @@
   "executionslabel": "digite aqui",
   "saveas": "salvar como",
   "saveaslabel": "digite aqui",
-  "savebutton": "salvar"
+  "savebutton": "salvar",
+  "trigger": "gatilho",
+  "triggerlabel": "digite aqui",
+  "firstvariable": "primeiro valor",
+  "comparison": "comparação",
+  "secondvariables": "segundo valor",
+  "cancel": "cancelar",
+  "addtrigger": "adicionar gatilho",
+  "newtrigger": "novo gatilho"
 }

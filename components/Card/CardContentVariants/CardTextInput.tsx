@@ -23,6 +23,7 @@ type CardTextInputProps = {
   dropdown?: {
     options: DropdownOptions[]
     onChange: (value: string) => void
+    value?: string
   }
 }
 
@@ -84,13 +85,18 @@ export function CardTextInput(props: CardTextInputProps) {
           }`}
             type={props.input.type || "text"}
             placeholder={props.input.label}
-            value={props.input.inputValue || props.input.defaultValue}
+            value={
+              typeof props.input.inputValue === "string"
+                ? props.input.inputValue
+                : props.input.defaultValue
+            }
           />
         )}
 
         {props.dropdown && (
           <select
             onChange={(event) => props.dropdown?.onChange?.(event.target.value)}
+            value={props.dropdown.value}
             className="w-full h-12 lg:h-[3.375rem] pl-2 bg-slate-50
         lg:pl-[1.125rem] lg:mr-[2.25rem] hover:outline-none focus:outline-none"
           >

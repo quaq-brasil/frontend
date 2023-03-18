@@ -68,6 +68,7 @@
       "webhookconfig",
       "variablespanel",
       "blockmenu"
-    ]
+    ],
+    "/test2": ["automationconfig"]
   }
 }

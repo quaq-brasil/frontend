@@ -42,13 +42,13 @@ const ReactQueryDevtools = dynamic(
 
 import { queryClient } from "services/queryClient"
 
-import { Outfit } from "next/font/google"
+// import { Outfit } from "next/font/google"
 
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-outfit",
-})
+// const outfit = Outfit({
+//   subsets: ["latin"],
+//   weight: ["300", "400", "500", "600", "700"],
+//   variable: "--font-outfit",
+// })
 
 export default function App({
   Component,
@@ -71,9 +71,9 @@ export default function App({
         />
         <AppContexts>
           <AppHooks>
-            <main className={`${outfit.variable} font-sans`}>
-              <Component {...pageProps} />
-            </main>
+            {/* <main className={`${outfit.variable} font-sans`}> */}
+            <Component {...pageProps} />
+            {/* </main> */}
           </AppHooks>
         </AppContexts>
         {/* </SessionProvider> */}

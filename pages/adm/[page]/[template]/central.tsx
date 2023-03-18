@@ -10,11 +10,11 @@ import { useUpdateTemplate } from "services/hooks/useTemplate/useUpdateTemplate"
 import { IUserPayload } from "types/Auth.types"
 import {
   getTemplateBySlugAndPageSlugProps,
-  IUpdateTemplate,
+  IUpdateTemplate
 } from "types/Template.type"
 import {
   RedirectNotFoundVerify,
-  redirectNotFoundVerifyProps,
+  redirectNotFoundVerifyProps
 } from "utils/404Redirect"
 import { pageUrls } from "utils/pagesUrl"
 import { withAuth } from "utils/withAuth"
@@ -98,7 +98,7 @@ export default function TemplateAccessControlPage({
     <>
       <Head>
         <title>{`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}</title>
-        <meta name="description" content={pageInfo.pageDescription} />
+        <meta name="description" content={pageInfo?.pageDescription} />
       </Head>
       <CentralOptions
         initialPageData={getPageAndTemplate.data.Page}
