@@ -28,7 +28,7 @@
     "/adm/ws/[workspace]/new-page": ["createpage", "imageselector"],
     "/adm/ws/new-workspace": ["createwspace", "imageselector"],
     "/adm/ws/setup": ["createwspace", "imageselector", "wssetup"],
-    "/[page]/[template]": ["profile", "consumerpage"],
+    "/[page]/[template]": ["profile", "consumerpage", "textentryblock"],
     "/500": ["explorer", "consumerpage"],
     "/404": ["explorer", "consumerpage"],
     "/adm/[page]/new-template": [
@@ -48,7 +48,8 @@
       "automationconfig",
       "webhookconfig",
       "variablespanel",
-      "blockmenu"
+      "blockmenu",
+      "textentryblock"
     ],
     "/adm/[page]/[template]/edit": [
       "publish",
@@ -67,7 +68,8 @@
       "automationconfig",
       "webhookconfig",
       "variablespanel",
-      "blockmenu"
+      "blockmenu",
+      "textentryblock"
     ]
   }
 }
