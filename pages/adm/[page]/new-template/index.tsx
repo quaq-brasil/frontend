@@ -1,6 +1,6 @@
-import { CreateTemplate } from "layouts/main/CreateTemplate/CreateTemplate"
 import { GetServerSideProps } from "next"
 import useTranslation from "next-translate/useTranslation"
+import dynamic from "next/dynamic"
 import Head from "next/head"
 import { ParsedUrlQuery } from "querystring"
 import { useEffect, useState } from "react"
@@ -12,6 +12,15 @@ import {
   redirectNotFoundVerifyProps,
 } from "utils/404Redirect"
 import { withAuth } from "utils/withAuth"
+
+const CreateTemplate = dynamic(() =>
+  import("layouts/main/CreateTemplate/CreateTemplate").then(
+    (mod) => mod.CreateTemplate
+  )
+)
+
+const capitalize = (str: string) =>
+  str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 
 type CreateTemplatePageProps = {
   pageSlug: string
@@ -32,14 +41,10 @@ export default function CreateTemplatePage({
   const [pageTitle, setPageTitle] = useState<string | null>(null)
 
   useEffect(() => {
-    if (getPage) {
-      let pageTitle =
-        getPage.data.title.charAt(0).toUpperCase() +
-        getPage.data.title.slice(1).toLowerCase()
-
-      setPageTitle(pageTitle)
+    if (getPage.data) {
+      setPageTitle(capitalize(getPage.data.title))
     }
-  }, [getPage])
+  }, [getPage.data])
 
   return (
     <>

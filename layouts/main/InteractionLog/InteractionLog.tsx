@@ -24,8 +24,8 @@ export function InteractionLog({
   const [pageData, setPageData] = useState<IUpdatePage>(initialPageData)
   const [templateData, setTemplateData] =
     useState<IUpdateTemplate>(initialTemplateData)
-  const [isUpdating, _setIsUpdating] = useState(false)
-  const [_runUpdate, setRunUpdate] = useState(false)
+  const [isUpdating] = useState(false)
+  const [, setRunUpdate] = useState(false)
 
   useEffect(() => {
     setPageData(initialPageData)
@@ -113,7 +113,7 @@ export function InteractionLog({
 
   function loadHeader() {
     return (
-      <Header background_url={pageData?.background_url || ""}>
+      <Header background_url={pageData?.background_url}>
         <Tag
           variant="img-txt"
           text={pageData?.title || ""}

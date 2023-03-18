@@ -41,18 +41,20 @@ export default function TemplateLogs({
 
   useEffect(() => {
     if (getPageAndTemplate) {
-      let pageTitle =
-        getPageAndTemplate.data.Page.title.charAt(0).toUpperCase() +
-        getPageAndTemplate.data.Page.title.slice(1).toLowerCase()
-
-      let templateTitle =
-        getPageAndTemplate.data.title.charAt(0).toUpperCase() +
-        getPageAndTemplate.data.title.slice(1).toLowerCase()
+      const {
+        data: {
+          Page: { title: pageTitle, description: pageDescription },
+          title: templateTitle,
+        },
+      } = getPageAndTemplate
 
       setPageInfo({
-        pageTitle: pageTitle,
-        templateTitle: templateTitle,
-        pageDescription: getPageAndTemplate.data.Page.description,
+        pageTitle:
+          pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1).toLowerCase(),
+        templateTitle:
+          templateTitle.charAt(0).toUpperCase() +
+          templateTitle.slice(1).toLowerCase(),
+        pageDescription,
       })
     }
   }, [getPageAndTemplate])
@@ -61,7 +63,7 @@ export default function TemplateLogs({
     <>
       <Head>
         <title>{`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}</title>
-        <meta name="description" content={pageInfo.pageDescription} />
+        <meta name="description" content={pageInfo?.pageDescription} />
       </Head>
       <InteractionLog
         initialPageData={getPageAndTemplate.data.Page}

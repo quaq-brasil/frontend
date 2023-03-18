@@ -136,7 +136,7 @@ export function Explorer({
     } else {
       return (
         <Header
-          reightContent={
+          rightContent={
             <Tag
               variant="icn"
               icon={UserCirclePlus}

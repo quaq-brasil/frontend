@@ -1,45 +1,51 @@
-import { Header } from "components/Header/Header"
-import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
 import { IPage } from "types/Page.type"
 import { pageUrls } from "utils/pagesUrl"
-import { CreateTemplateContent } from "./CreateTemplateContent"
+
+const Header = dynamic(() =>
+  import("components/Header/Header").then((mod) => mod.Header)
+)
+
+const CreateTemplateContent = dynamic(() =>
+  import("./CreateTemplateContent").then((mod) => mod.CreateTemplateContent)
+)
+const Tag = dynamic(() => import("components/Tag/Tag").then((mod) => mod.Tag))
 
 type CreateTemplateProps = {
   initialPageData: IPage | undefined
 }
 
-export function CreateTemplate({ initialPageData }: CreateTemplateProps) {
+type HeaderProps = {
+  pageData: IPage
+}
+
+const CustomHeader = ({ pageData }: HeaderProps) => {
   const text = useTranslation().t
   const router = useRouter()
 
-  const [pageData, setPageData] = useState<IPage>(initialPageData)
+  return (
+    <Header background_url={pageData.background_url || ""}>
+      <Tag
+        variant="img-txt"
+        text={pageData.title || ""}
+        img_url={pageData.avatar_url || ""}
+        onClick={() =>
+          router.push(pageUrls.pageSettings({ pageSlug: pageData.slug }))
+        }
+      />
+      <Tag variant="txt" text={text("createtemplate:newtemplate")} />
+    </Header>
+  )
+}
 
-  useEffect(() => {
-    setPageData(initialPageData)
-  }, [initialPageData])
-
-  function loadHeader() {
-    return (
-      <Header background_url={pageData.background_url || ""}>
-        <Tag
-          variant="img-txt"
-          text={pageData.title || ""}
-          img_url={pageData.avatar_url || ""}
-          onClick={() =>
-            router.push(pageUrls.pageSettings({ pageSlug: pageData.slug }))
-          }
-        />
-        <Tag variant="txt" text={text("createtemplate:newtemplate")} />
-      </Header>
-    )
-  }
+export function CreateTemplate({ initialPageData }: CreateTemplateProps) {
+  const pageData = initialPageData
 
   return (
     <div className="bg-slate-100 fixed inset-0">
-      {loadHeader()}
+      <CustomHeader pageData={pageData} />
       <CreateTemplateContent pageData={pageData} />
     </div>
   )

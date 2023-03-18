@@ -142,7 +142,7 @@ export function ConsumerPage({
     } else {
       return (
         <Header
-          reightContent={
+          rightContent={
             <Tag
               variant="icn"
               icon={UserCirclePlus}

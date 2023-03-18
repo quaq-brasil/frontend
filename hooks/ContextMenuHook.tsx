@@ -1,5 +1,5 @@
 import { Dialog as HeadlessDialog, Transition } from "@headlessui/react"
-import React, {
+import {
   createContext,
   Fragment,
   memo,
@@ -38,10 +38,13 @@ const ContextMenuProvider = memo(function ContextMenuProvider({
     setIsOpen(false)
   }, [])
 
-  const handleToggleContextMenu = useCallback((content: React.ReactNode) => {
-    setIsOpen(!isOpen)
-    setContent(!isOpen ? content : null)
-  }, [])
+  const handleToggleContextMenu = useCallback(
+    (content: React.ReactNode) => {
+      setIsOpen((prevState) => !prevState)
+      setContent((prevState) => (!isOpen ? content : null))
+    },
+    [isOpen]
+  )
 
   const handleUpdateContextMenu = useCallback((content: React.ReactNode) => {
     setContent(content)
