@@ -72,7 +72,7 @@ export default function TemplateLogs({
     <>
       <Head>
         <title>{`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}</title>
-        <meta name="description" content={pageInfo.pageDescription} />
+        <meta name="description" content={pageInfo?.pageDescription} />
       </Head>
       <LogContent
         initialLogData={getInteractionLog?.data}
@@ -118,6 +118,11 @@ export const getServerSideProps: GetServerSideProps = withAuth(
       }
     }
 
-    return await RedirectNotFoundVerify(getTemplate, ctx, cookies, payload)
+    return await RedirectNotFoundVerify({
+      func: getTemplate,
+      ctx,
+      cookies,
+      payload,
+    })
   }
 )

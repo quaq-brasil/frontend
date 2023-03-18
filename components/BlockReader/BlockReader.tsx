@@ -1,40 +1,13 @@
-import dynamic from "next/dynamic"
+import { Button } from "components/Button/Button"
+import { ChartBlock } from "components/ChartBlock/ChartBlock"
+import { ImageBlock } from "components/ImageBlock/ImageBlock"
+import { PoolBlock } from "components/PoolBlock/PoolBlock"
+import { ReviewBlock } from "components/ReviewBlock/ReviewBlock"
+import { TextBlock } from "components/TextBlock/TextBlock"
+import { TextEntryBlock } from "components/TextEntryBlock/TextEntryBlock"
+import { WebhookBlock } from "components/WebhookBlock/WebhookBlock"
 import { BlockProps } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
-
-const TextBlock = dynamic(() =>
-  import("components/TextBlock/TextBlock").then((mod) => mod.TextBlock)
-)
-
-const PoolBlock = dynamic(() =>
-  import("components/PoolBlock/PoolBlock").then((mod) => mod.PoolBlock)
-)
-
-const ImageBlock = dynamic(() =>
-  import("components/ImageBlock/ImageBlock").then((mod) => mod.ImageBlock)
-)
-
-const ReviewBlock = dynamic(() =>
-  import("components/ReviewBlock/ReviewBlock").then((mod) => mod.ReviewBlock)
-)
-
-const TextEntryBlock = dynamic(() =>
-  import("components/TextEntryBlock/TextEntryBlock").then(
-    (mod) => mod.TextEntryBlock
-  )
-)
-
-const Button = dynamic(() =>
-  import("components/Button/Button").then((mod) => mod.Button)
-)
-
-const WebhookBlock = dynamic(() =>
-  import("components/WebhookBlock/WebhookBlock").then((mod) => mod.WebhookBlock)
-)
-
-const ChartBlock = dynamic(() =>
-  import("components/ChartBlock/ChartBlock").then((mod) => mod.ChartBlock)
-)
 
 type BlockReaderProps = {
   block: BlockProps

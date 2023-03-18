@@ -2,10 +2,10 @@ import { Card } from "components/Card/Card"
 import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardLog } from "components/Card/CardContentVariants/CardLog"
 import { CardText } from "components/Card/CardContentVariants/CardText"
-import moment from "moment"
+import { formatDistanceToNow } from "date-fns"
 import { useRouter } from "next/router"
 import { ArrowRight } from "phosphor-react"
-import { useEffect, useState } from "react"
+import { memo, useEffect, useState } from "react"
 import { useMutateTemplate } from "services/hooks/useTemplate/useMutateTemplate"
 import { IUpdatePage } from "types/Page.type"
 import { ITemplateLogs, IUpdateTemplate } from "types/Template.type"
@@ -16,7 +16,7 @@ type InteractionLogContentProps = {
   pageData: IUpdatePage | undefined
 }
 
-export function InteractionLogContent({
+export const InteractionLogContent = memo(function InteractionLogContent({
   templateData,
   pageData,
 }: InteractionLogContentProps) {
@@ -26,7 +26,7 @@ export function InteractionLogContent({
 
   const getLogs = useMutateTemplate()
 
-  useEffect(() => {
+  const fetchLogs = () => {
     if (templateData?.id) {
       getLogs.mutate(
         {
@@ -39,6 +39,10 @@ export function InteractionLogContent({
         }
       )
     }
+  }
+
+  useEffect(() => {
+    fetchLogs()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [templateData])
 
@@ -69,7 +73,10 @@ export function InteractionLogContent({
                             <CardLog
                               key={interaction.id}
                               name={interaction.User.name}
-                              date={moment(interaction.updated_at).fromNow()}
+                              date={formatDistanceToNow(
+                                new Date(interaction.updated_at),
+                                { addSuffix: true }
+                              )}
                               img_url={interaction.User.avatar_url}
                               icon={ArrowRight}
                               onClick={() => {
@@ -98,4 +105,4 @@ export function InteractionLogContent({
       </div>
     </div>
   )
-}
+})

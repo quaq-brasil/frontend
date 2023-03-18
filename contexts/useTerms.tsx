@@ -18,8 +18,12 @@ type TermsContextData = {
 
 export const TermsContext = createContext({} as TermsContextData)
 
+const DEFAULT_COOKIES_ACCEPTED = true
+
 const TermsProvider = ({ children }: TermsProviderProps) => {
-  const [isCookiesAccepted, setIsCookiesAccepted] = useState(true)
+  const [isCookiesAccepted, setIsCookiesAccepted] = useState(
+    DEFAULT_COOKIES_ACCEPTED
+  )
 
   useEffect(() => {
     const { "quaq.is-cookie-accepted": isCookiesAccepted } = parseCookies()

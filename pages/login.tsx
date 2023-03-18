@@ -1,4 +1,4 @@
-import { Login } from "layouts/Onboarding/Login/Login"
+import { Login } from "layouts/Onboarding/LogIn/LogIn"
 import { GetServerSideProps } from "next"
 import useTranslation from "next-translate/useTranslation"
 import Head from "next/head"

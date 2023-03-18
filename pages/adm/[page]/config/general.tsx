@@ -115,6 +115,11 @@ export const getServerSideProps: GetServerSideProps = withAuth(
       }
     }
 
-    return await RedirectNotFoundVerify(getPage, ctx, cookies, payload)
+    return await RedirectNotFoundVerify({
+      func: getPage,
+      ctx,
+      cookies,
+      payload,
+    })
   }
 )

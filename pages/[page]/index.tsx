@@ -75,5 +75,5 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
-  return await RedirectNotFoundVerify(getPage, ctx)
+  return await RedirectNotFoundVerify({ func: getPage, ctx })
 }

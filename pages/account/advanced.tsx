@@ -49,6 +49,11 @@ export const getServerSideProps: GetServerSideProps = withAuth(
       return user
     }
 
-    return await RedirectNotFoundVerify(getUser, ctx, cookies, payload)
+    return await RedirectNotFoundVerify({
+      func: getUser,
+      ctx,
+      cookies,
+      payload,
+    })
   }
 )

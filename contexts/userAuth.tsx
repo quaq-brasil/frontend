@@ -2,6 +2,7 @@ import { destroyCookie } from "nookies"
 import {
   createContext,
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -36,11 +37,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, [])
 
-  const contextValue = useMemo(() => {
-    return { user, signOut }
-  }, [user])
-
-  function signOut() {
+  const signOut = useCallback(() => {
     destroyCookie(null, "token")
     destroyCookie(null, "refresh_token")
 
@@ -52,7 +49,11 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     })
 
     queryClient.invalidateQueries(["user"])
-  }
+  }, [])
+
+  const contextValue = useMemo(() => {
+    return { user, signOut }
+  }, [user, signOut])
 
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

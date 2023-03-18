@@ -491,7 +491,7 @@ export function CreatorPage({
   function loadHeader() {
     return (
       <Header
-        reightContent={
+        rightContent={
           <Tag
             variant="img"
             img_url={currentWorkspace?.avatar_url || ""}

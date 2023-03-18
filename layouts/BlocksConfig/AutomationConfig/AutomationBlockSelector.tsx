@@ -1,105 +1,40 @@
-const BlockReader = dynamic(() =>
-  import("components/BlockReader/BlockReader").then((mod) => mod.BlockReader)
-)
-const BlockSelector = dynamic(() =>
-  import("components/BlockSelector/BlockSelector").then(
-    (mod) => mod.BlockSelector
-  )
-)
-const TabBar = dynamic(() =>
-  import("components/TabBar/TabBar").then((mod) => mod.TabBar)
-)
-const Tag = dynamic(() => import("components/Tag/Tag").then((mod) => mod.Tag))
-
-const PublishNewTemplate = dynamic(() =>
-  import("./PublishNewTemplate").then((mod) => mod.PublishNewTemplate)
-)
-const RenderBlockConfig = dynamic(() =>
-  import("./RenderBlockConfig").then((mod) => mod.RenderBlockConfig)
-)
+import { BlockReader } from "components/BlockReader/BlockReader"
+import { BlockSelector } from "components/BlockSelector/BlockSelector"
+import { RenderBlockConfig } from "layouts/main/CreateTemplate/RenderBlockConfig"
+import { Dispatch, SetStateAction, useState } from "react"
+import { BlockProps } from "types/Block.types"
+import { v4 } from "uuid"
 import {
   ConnectedTemplatesProps,
   VariablesPanelDialog,
-} from "layouts/BlocksConfig/VariablesPanel/VariablesPanelDialog"
-import useTranslation from "next-translate/useTranslation"
-import dynamic from "next/dynamic"
-import { useRouter } from "next/router"
-import { useState } from "react"
-import { BlockProps } from "types/Block.types"
-import { IPage } from "types/Page.type"
-import { pageUrls } from "utils/pagesUrl"
-import { v4 } from "uuid"
+} from "../VariablesPanel/VariablesPanelDialog"
 
-type CreateTemplateContentProps = {
-  pageData: IPage | undefined
+type AutomationBlockSelectorProps = {
+  blocks: BlockProps[]
+  setBlocks: Dispatch<SetStateAction<BlockProps[]>>
+  onClose: () => void
 }
 
 type TabBarContent = {
-  pageData: IPage | undefined
   isPublishVisible: boolean
   onPublishClick: () => void
 }
 
-const TabBarContent = ({
-  pageData,
-  isPublishVisible,
-  onPublishClick,
-}: TabBarContent) => {
-  const text = useTranslation().t
-  const router = useRouter()
-
-  const tags = [
-    <Tag
-      key={1}
-      variant="txt"
-      text={text("createtemplate:back")}
-      onClick={() =>
-        router.push(pageUrls.pageSettings({ pageSlug: pageData?.slug }))
-      }
-    />,
-  ]
-
-  if (isPublishVisible) {
-    tags.push(
-      <Tag
-        key={2}
-        variant="txt"
-        text={text("publish:publish")}
-        onClick={onPublishClick}
-      />
-    )
-  }
-
-  return <TabBar isHidden={false} tags={tags} />
-}
-
-export function CreateTemplateContent({
-  pageData,
-}: CreateTemplateContentProps) {
-  const text = useTranslation().t
-  const router = useRouter()
+export function AutomationBlockSelector({
+  blocks,
+  setBlocks,
+  onClose,
+}: AutomationBlockSelectorProps) {
+  // const text = useTranslation().t
 
   const [blockSelected, setBlockSelected] = useState<string | undefined>()
-  const [blocks, setBlocks] = useState<BlockProps[]>([])
-  const [isOpenPublishTemplate, setIsOpenPublishTemplate] = useState(false)
+  const [editBlockData, setEditBlockData] = useState<BlockProps | null>()
+  const [isOpen, setIsOpen] = useState(false)
   const [isVariablesPanelOpen, setIsVariablesPanelOpen] = useState(false)
   const [functionHandleAddVariable, setFunctionHandleAddVariable] = useState(
     () => (variable: any) => {}
   )
-  const [connectedTemplates, setConnectedTemplates] =
-    useState<ConnectedTemplatesProps[]>()
-  const [editBlockData, setEditBlockData] = useState<BlockProps | null>()
-
-  const handleOpenVariablePanel = () => {
-    setIsVariablesPanelOpen(true)
-  }
-
-  const handleCloseVariablePanel = () => {
-    setIsVariablesPanelOpen(false)
-  }
-
-  const [isOpen, setIsOpen] = useState(false)
-
+  const [isUpdating, setIsUpdating] = useState(false)
   function handleBlockSelection(block: string | undefined) {
     setBlockSelected(block)
     setIsOpen(true)
@@ -133,6 +68,17 @@ export function CreateTemplateContent({
     }
   }
 
+  const handleOpenVariablePanel = () => {
+    setIsVariablesPanelOpen(true)
+  }
+
+  const handleCloseVariablePanel = () => {
+    setIsVariablesPanelOpen(false)
+  }
+
+  const [connectedTemplates, setConnectedTemplates] =
+    useState<ConnectedTemplatesProps[]>()
+
   const handleRemoveBlock = (removeIndex: number) => {
     const newBlocks = blocks.filter((block, index) => {
       return removeIndex !== index
@@ -154,27 +100,6 @@ export function CreateTemplateContent({
     return uniqueSaveAs
   }
 
-  function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("createtemplate:back")}
-        onClick={() =>
-          router.push(pageUrls.pageSettings({ pageSlug: pageData?.slug }))
-        }
-      />,
-      blocks.length > 0 && (
-        <Tag
-          key={2}
-          variant="txt"
-          text={text("publish:publish")}
-          onClick={() => setIsOpenPublishTemplate(true)}
-        />
-      ),
-    ]
-  }
-
   const handleOnEdit = (blockData: BlockProps) => {
     setEditBlockData((prevEditBlockData) => {
       if (prevEditBlockData && prevEditBlockData.id === blockData.id) {
@@ -186,24 +111,13 @@ export function CreateTemplateContent({
     handleBlockSelection(blockData.type)
   }
 
-  if (isOpenPublishTemplate) {
-    return (
-      <PublishNewTemplate
-        blocks={blocks}
-        connectedTemplates={connectedTemplates}
-        pageData={pageData}
-        onClose={() => setIsOpenPublishTemplate(false)}
-      />
-    )
-  }
-
   return (
     <>
       <div className="w-full h-screen bg-slate-100">
         <div
           className="fixed z-20 bottom-0 left-0 right-0 top-[76px] max-w-[1024px] mx-auto
-    bg-slate-100 rounded-t-[25px] overflow-y-scroll scrollbar-hide pt-2 px-2
-    md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:p-[2rem]"
+  bg-slate-100 rounded-t-[25px] overflow-y-scroll scrollbar-hide pt-2 px-2
+  md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:p-[2rem]"
         >
           {blocks.length > 0 ? (
             <div className="flex flex-col gap-2 mb-2 md:gap-4 md:mb-4">
@@ -220,7 +134,6 @@ export function CreateTemplateContent({
               })}
             </div>
           ) : null}
-
           <div className="flex flex-col gap-2 md:gap-4 items-center">
             <BlockSelector onBlockSelect={handleBlockSelection} />
             <RenderBlockConfig
@@ -244,22 +157,11 @@ export function CreateTemplateContent({
             <span className="w-full h-[4rem]"></span>
           </div>
         </div>
+
+        <button onClick={onClose}>close</button>
       </div>
 
-      <TabBarContent
-        pageData={pageData}
-        isPublishVisible={blocks.length > 0}
-        onPublishClick={() => setIsOpenPublishTemplate(true)}
-      />
-
-      {isOpenPublishTemplate && (
-        <PublishNewTemplate
-          blocks={blocks}
-          connectedTemplates={connectedTemplates}
-          pageData={pageData}
-          onClose={() => setIsOpenPublishTemplate(false)}
-        />
-      )}
+      {/* <TabBar isHidden={true} tags={handleTabBar()} /> */}
     </>
   )
 }

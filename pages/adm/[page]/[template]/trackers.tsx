@@ -9,11 +9,11 @@ import { useUpdateTemplate } from "services/hooks/useTemplate/useUpdateTemplate"
 import { IUserPayload } from "types/Auth.types"
 import {
   getTemplateBySlugAndPageSlugProps,
-  IUpdateTemplate,
+  IUpdateTemplate
 } from "types/Template.type"
 import {
   RedirectNotFoundVerify,
-  redirectNotFoundVerifyProps,
+  redirectNotFoundVerifyProps
 } from "utils/404Redirect"
 import { withAuth } from "utils/withAuth"
 
@@ -78,7 +78,7 @@ export default function CentralTrackersPage({
     <>
       <Head>
         <title>{`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}</title>
-        <meta name="description" content={pageInfo.pageDescription} />
+        <meta name="description" content={pageInfo?.pageDescription} />
       </Head>
       <CentralTrackers
         handleUpdateTrackers={handleUpdateTrackers}
@@ -115,11 +115,11 @@ export const getServerSideProps: GetServerSideProps = withAuth(
       }
     }
 
-    return await RedirectNotFoundVerify(
-      getPageAndTemplate,
+    return await RedirectNotFoundVerify({
+      func: getPageAndTemplate,
       ctx,
       cookies,
-      payload
-    )
+      payload,
+    })
   }
 )

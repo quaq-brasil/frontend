@@ -1,6 +1,6 @@
 import { useUserAuth } from "contexts/userAuth"
 import { Explorer } from "layouts/main/Explorer/Explorer"
-import { GetServerSideProps } from "next"
+import { GetStaticProps } from "next"
 import useTranslation from "next-translate/useTranslation"
 import Head from "next/head"
 import { useEffect, useState } from "react"
@@ -48,7 +48,7 @@ export default function Home({ pageData }: ConsumerPagePageProps) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getStaticProps: GetStaticProps = async (ctx) => {
   async function getPage() {
     const { data: pageData } = await api.get(`/pages/slug/quaq`)
 
@@ -57,5 +57,5 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
-  return await RedirectNotFoundVerify(getPage, ctx)
+  return await RedirectNotFoundVerify({ func: getPage, ctx, isStatic: true })
 }
