@@ -2,6 +2,8 @@ import { Dialog as HeadlessDialog, Transition } from "@headlessui/react"
 import React, {
   createContext,
   Fragment,
+  memo,
+  useCallback,
   useContext,
   useMemo,
   useState,
@@ -20,11 +22,32 @@ export type ContextMenuProviderProps = {
   children: React.ReactNode
 }
 
-function ContextMenuProvider({ children }: ContextMenuProviderProps) {
+const ContextMenuProvider = memo(function ContextMenuProvider({
+  children,
+}: ContextMenuProviderProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [content, setContent] = useState<React.ReactNode>(null)
 
-  const contextValue = useMemo(
+  const handleOpenContextMenu = useCallback((content: React.ReactNode) => {
+    setContent(content)
+    setIsOpen(true)
+  }, [])
+
+  const handleCloseContextMenu = useCallback(() => {
+    setContent(null)
+    setIsOpen(false)
+  }, [])
+
+  const handleToggleContextMenu = useCallback((content: React.ReactNode) => {
+    setIsOpen(!isOpen)
+    setContent(!isOpen ? content : null)
+  }, [])
+
+  const handleUpdateContextMenu = useCallback((content: React.ReactNode) => {
+    setContent(content)
+  }, [])
+
+  const contextMenuActions = useMemo(
     () => ({
       handleOpenContextMenu,
       handleCloseContextMenu,
@@ -39,27 +62,8 @@ function ContextMenuProvider({ children }: ContextMenuProviderProps) {
     ]
   )
 
-  function handleOpenContextMenu(content: React.ReactNode) {
-    setContent(content)
-    setIsOpen(true)
-  }
-
-  function handleCloseContextMenu() {
-    setContent(null)
-    setIsOpen(false)
-  }
-
-  function handleToggleContextMenu(content: React.ReactNode) {
-    setIsOpen(!isOpen)
-    setContent(!isOpen ? content : null)
-  }
-
-  function handleUpdateContextMenu(content: React.ReactNode) {
-    setContent(content)
-  }
-
   return (
-    <ContextMenuHook.Provider value={contextValue}>
+    <ContextMenuHook.Provider value={contextMenuActions}>
       <>
         <Transition.Root show={isOpen} as={Fragment}>
           <HeadlessDialog
@@ -91,7 +95,7 @@ function ContextMenuProvider({ children }: ContextMenuProviderProps) {
       </>
     </ContextMenuHook.Provider>
   )
-}
+})
 
 const useContextMenu = () => useContext(ContextMenuHook)
 

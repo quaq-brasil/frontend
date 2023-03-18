@@ -1,5 +1,5 @@
 import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 
 type ValidationFunction = (value: string) => string | null
 
@@ -8,63 +8,75 @@ export function useValidation() {
 
   const [errors, setErrors] = useState<string[]>([])
 
-  const validateRequiredField: ValidationFunction = (value) => {
-    if (!value) {
-      return text("validation:required")
+  const validateRequiredField = useMemo<ValidationFunction>(() => {
+    return (value) => {
+      if (!value) {
+        return text("validation:required")
+      }
+      return null
     }
-    return null
-  }
+  }, [text])
 
-  const validateEmailField: ValidationFunction = (value) => {
-    if (!value) {
-      return text("validation:required")
+  const validateEmailField = useMemo<ValidationFunction>(() => {
+    return (value) => {
+      if (!value) {
+        return text("validation:required")
+      }
+      const isValid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)
+      if (!isValid) {
+        return text("validation:validemail")
+      }
+      return null
     }
-    const isValid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)
-    if (!isValid) {
-      return text("validation:validemail")
-    }
-    return null
-  }
+  }, [text])
 
-  const validatePasswordField: ValidationFunction = (value) => {
-    if (!value) {
-      return text("validation:required")
+  const validatePasswordField = useMemo<ValidationFunction>(() => {
+    return (value) => {
+      if (!value) {
+        return text("validation:required")
+      }
+      const isValid =
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(value)
+      if (!isValid) {
+        return text("validation:validpassword")
+      }
+      return null
     }
-    const isValid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(
-      value
-    )
-    if (!isValid) {
-      return text("validation:validpassword")
-    }
-    return null
-  }
+  }, [text])
 
-  const validateNameField: ValidationFunction = (value) => {
-    if (!value) {
-      return text("validation:required")
+  const validateNameField = useMemo<ValidationFunction>(() => {
+    return (value) => {
+      if (!value) {
+        return text("validation:required")
+      }
+      if (value.length < 2) {
+        return text("validation:validname")
+      }
+      return null
     }
-    if (value.length < 2) {
-      return text("validation:validname")
-    }
-    return null
-  }
+  }, [text])
 
-  const validateTitleField: ValidationFunction = (value) => {
-    if (!value) {
-      return text("validation:required")
+  const validateTitleField = useMemo<ValidationFunction>(() => {
+    return (value) => {
+      if (!value) {
+        return text("validation:required")
+      }
+      if (value.length < 2) {
+        return text("validation:validtitle")
+      }
+      return null
     }
-    if (value.length < 2) {
-      return text("validation:validtitle")
-    }
-    return null
-  }
+  }, [text])
 
-  const validateField = (value: string, validators: ValidationFunction[]) => {
-    const errorMessages = validators
-      .map((validator) => validator(value))
-      .filter((errorMessage) => errorMessage !== null)
-    setErrors(errorMessages)
-  }
+  const validateField = useCallback(
+    (value: string, validators: ValidationFunction[]) => {
+      const errorMessages = validators
+        .map((validator) => validator(value))
+        .filter((errorMessage) => errorMessage !== null)
+      setErrors(errorMessages)
+    },
+    []
+  )
 
   return {
     errors,
