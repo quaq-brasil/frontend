@@ -5,6 +5,7 @@ import { ComparisonType } from "layouts/BlocksConfig/AutomationConfig/Automation
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
 import { EyeSlash } from "phosphor-react"
+import { useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
 
@@ -39,6 +40,47 @@ type AutomationBlockProps = {
 
 export const AutomationBlock = (props: AutomationBlockProps) => {
   const text = useTranslation().t
+
+  type IEvent = {
+    displayedAt?: string
+    lastExecutionAt?: string
+    firstExecutionAt?: string
+  }
+
+  const [events, setEvents] = useState<IEvent>()
+
+  function handleUpdateEvents(newEvent: IEvent) {
+    setEvents((state) => {
+      return {
+        ...state,
+        ...newEvent,
+      } as IEvent
+    })
+  }
+
+  const onInteraction = () => {
+    props.handleUpdateInteractions &&
+      props.handleUpdateInteractions({
+        id: props.block.id,
+        config: {
+          id: props.block.id,
+          save_as: props.block.save_as,
+          type: props.block.type,
+          data: props.block.data,
+        },
+        output: {
+          events: events,
+        },
+      })
+  }
+
+  useEffect(() => {
+    if (!events?.displayedAt) {
+      const displayedAt = new Date().toString()
+      handleUpdateEvents({ displayedAt: displayedAt })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div
