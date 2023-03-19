@@ -1,6 +1,8 @@
 import { BlockReader } from "components/BlockReader/BlockReader"
 import { BlockSelector } from "components/BlockSelector/BlockSelector"
+import { Button } from "components/Button/Button"
 import { RenderBlockConfig } from "layouts/main/CreateTemplate/RenderBlockConfig"
+import useTranslation from "next-translate/useTranslation"
 import { Dispatch, SetStateAction, useState } from "react"
 import { BlockProps } from "types/Block.types"
 import { v4 } from "uuid"
@@ -13,19 +15,20 @@ type AutomationBlockSelectorProps = {
   blocks: BlockProps[]
   setBlocks: Dispatch<SetStateAction<BlockProps[]>>
   onClose: () => void
-}
-
-type TabBarContent = {
-  isPublishVisible: boolean
-  onPublishClick: () => void
+  handleCheckSaveAs: (value: string) => boolean
+  saveAs: string
 }
 
 export function AutomationBlockSelector({
   blocks,
   setBlocks,
   onClose,
+  handleCheckSaveAs,
+  saveAs,
 }: AutomationBlockSelectorProps) {
-  // const text = useTranslation().t
+  const text = useTranslation().t
+
+  // Todo: Allow edit
 
   const [blockSelected, setBlockSelected] = useState<string | undefined>()
   const [editBlockData, setEditBlockData] = useState<BlockProps | null>()
@@ -34,7 +37,7 @@ export function AutomationBlockSelector({
   const [functionHandleAddVariable, setFunctionHandleAddVariable] = useState(
     () => (variable: any) => {}
   )
-  const [isUpdating, setIsUpdating] = useState(false)
+
   function handleBlockSelection(block: string | undefined) {
     setBlockSelected(block)
     setIsOpen(true)
@@ -76,6 +79,13 @@ export function AutomationBlockSelector({
     setIsVariablesPanelOpen(false)
   }
 
+  function handleCheckLocalSaveAs(value: string) {
+    const generalValidation = handleCheckSaveAs(value)
+    const localValidation = saveAs !== value
+
+    return generalValidation && localValidation
+  }
+
   const [connectedTemplates, setConnectedTemplates] =
     useState<ConnectedTemplatesProps[]>()
 
@@ -84,20 +94,6 @@ export function AutomationBlockSelector({
       return removeIndex !== index
     })
     setBlocks(newBlocks)
-  }
-
-  const handleCheckSaveAs = (value: string | undefined | null) => {
-    let uniqueSaveAs = true
-    if (!value) {
-      uniqueSaveAs = false
-    } else {
-      blocks.forEach((block) => {
-        if (block.save_as == value) {
-          uniqueSaveAs = false
-        }
-      })
-    }
-    return uniqueSaveAs
   }
 
   const handleOnEdit = (blockData: BlockProps) => {
@@ -111,57 +107,82 @@ export function AutomationBlockSelector({
     handleBlockSelection(blockData.type)
   }
 
+  function handleCancel() {
+    setBlocks([])
+    onClose()
+  }
+
+  function handleAddBlocks() {
+    onClose()
+  }
+
   return (
     <>
-      <div className="w-full h-screen bg-slate-100">
-        <div
-          className="fixed z-20 bottom-0 left-0 right-0 top-[76px] max-w-[1024px] mx-auto
-  bg-slate-100 rounded-t-[25px] overflow-y-scroll scrollbar-hide pt-2 px-2
-  md:pt-4 md:px-4 lg:z-0 lg:rounded-none lg:top-[148px] lg:p-[2rem]"
-        >
-          {blocks.length > 0 ? (
-            <div className="flex flex-col gap-2 mb-2 md:gap-4 md:mb-4">
-              {blocks.map((block, index) => {
-                return (
-                  <BlockReader
-                    key={block.id}
-                    block={block}
-                    isEditable={true}
-                    onDelete={() => handleRemoveBlock(index)}
-                    onEdit={() => handleOnEdit(block)}
-                  />
-                )
-              })}
-            </div>
-          ) : null}
-          <div className="flex flex-col gap-2 md:gap-4 items-center">
-            <BlockSelector onBlockSelect={handleBlockSelection} />
-            <RenderBlockConfig
-              block={blockSelected}
-              isOpen={isOpen}
-              onClose={handleBlockConfigClosing}
-              handleAddBlock={handleAddBlock}
-              handleOpenVariablePanel={handleOpenVariablePanel}
-              setFunctionHandleAddVariable={setFunctionHandleAddVariable}
-              handleCheckSaveAs={handleCheckSaveAs}
-              blockData={editBlockData}
-            />
-            <VariablesPanelDialog
-              handleInsertVariable={functionHandleAddVariable}
-              isOpen={isVariablesPanelOpen}
-              onClose={handleCloseVariablePanel}
-              blocks={blocks}
-              connectedTemplates={connectedTemplates}
-              setConnectedTemplates={setConnectedTemplates}
-            />
-            <span className="w-full h-[4rem]"></span>
-          </div>
+      {blocks.length > 0 ? (
+        <div className="flex flex-col gap-2 mb-2 md:gap-4 md:mb-4">
+          {blocks.map((block, index) => {
+            return (
+              <BlockReader
+                key={block.id}
+                block={block}
+                isEditable={true}
+                onDelete={() => handleRemoveBlock(index)}
+                onEdit={() => handleOnEdit(block)}
+              />
+            )
+          })}
         </div>
+      ) : null}
+      <div className="flex flex-col gap-2 md:gap-4 items-center">
+        <BlockSelector onBlockSelect={handleBlockSelection} />
+        <RenderBlockConfig
+          block={blockSelected}
+          isOpen={isOpen}
+          onClose={handleBlockConfigClosing}
+          handleAddBlock={handleAddBlock}
+          handleOpenVariablePanel={handleOpenVariablePanel}
+          setFunctionHandleAddVariable={setFunctionHandleAddVariable}
+          handleCheckSaveAs={handleCheckLocalSaveAs}
+          blockData={editBlockData}
+        />
+        <VariablesPanelDialog
+          handleInsertVariable={functionHandleAddVariable}
+          isOpen={isVariablesPanelOpen}
+          onClose={handleCloseVariablePanel}
+          blocks={blocks}
+          connectedTemplates={connectedTemplates}
+          setConnectedTemplates={setConnectedTemplates}
+        />
+        {blocks.length == 0 ? (
+          <div className="w-full h-fit">
+            <Button
+              block={{
+                data: {
+                  color: "bg-white",
+                  text: text("automationconfig:cancel"),
+                  onClick: handleCancel,
+                },
+              }}
+              isEditable={false}
+            />
+          </div>
+        ) : null}
 
-        <button onClick={onClose}>close</button>
+        {blocks.length > 0 ? (
+          <div className="w-full h-fit">
+            <Button
+              block={{
+                data: {
+                  color: "bg-white",
+                  text: text("automationconfig:add_blocks"),
+                  onClick: handleAddBlocks,
+                },
+              }}
+              isEditable={false}
+            />
+          </div>
+        ) : null}
       </div>
-
-      {/* <TabBar isHidden={true} tags={handleTabBar()} /> */}
     </>
   )
 }

@@ -35,5 +35,11 @@
   "is_string": "is string",
   "and": "and",
   "or": "or",
-  "add_blocks": "add blocks"
+  "manage_blocks": "conditional blocks",
+  "cancel": "cancel",
+  "add_blocks": "add blocks",
+  "back": "back",
+  "conditionals": "conditionals",
+  "settings": "settings",
+  "save": "save"
 }

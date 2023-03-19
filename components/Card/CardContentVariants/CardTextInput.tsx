@@ -97,11 +97,15 @@ export function CardTextInput(props: CardTextInputProps) {
           <select
             onChange={(event) => props.dropdown?.onChange?.(event.target.value)}
             value={props.dropdown.value}
-            className="w-full h-12 lg:h-[3.375rem] pl-2 bg-slate-50
+            className="w-full h-12 lg:h-[3.375rem] pl-2 bg-slate-50 lg:text-[1.1rem]
         lg:pl-[1.125rem] lg:mr-[2.25rem] hover:outline-none focus:outline-none"
           >
             {props.dropdown.options.map((option) => (
-              <option key={option.value} value={option.value}>
+              <option
+                className="lg:text-[1.1rem]"
+                key={option.value}
+                value={option.value}
+              >
                 {option.title}
               </option>
             ))}

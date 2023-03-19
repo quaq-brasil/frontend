@@ -1,7 +1,9 @@
+import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
 import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, X } from "phosphor-react"
 import { Fragment, memo } from "react"
@@ -42,6 +44,7 @@ type AutomationConditionalsProps = {
       comparativeValue?: string
     }
   }) => void
+  onClose: () => void
 }
 
 export const AutomationConditionals = memo(function AutomationConditionals({
@@ -51,20 +54,21 @@ export const AutomationConditionals = memo(function AutomationConditionals({
   handleRemoveComparison,
   handleUpdateComparison,
   handleOpenVariablePanelForComparison,
+  onClose,
 }: AutomationConditionalsProps) {
   const text = useTranslation().t
 
   const options = AutomationOptions(text)
 
   return (
-    <>
+    <div className="flex flex-col items-center gap-3">
       {conditionals.map((comparisons, conditionalsIndex) => (
         <Fragment key={conditionalsIndex}>
           {comparisons.length > 0 &&
             comparisons.map((comparison, index) => (
               <Card key={index}>
                 <CardText
-                  label={`${text("automationconfig:trigger")}`}
+                  label={`${text("automationconfig:trigger")} ${index + 1}`}
                   indicator={{
                     icon: X,
                     onClick: () =>
@@ -100,12 +104,20 @@ export const AutomationConditionals = memo(function AutomationConditionals({
                 <CardTextInput
                   dropdown={{
                     value: comparison.type,
-                    onChange: (type: any) =>
+                    onChange: (type: any) => {
                       handleUpdateComparison({
                         conditionalsIndex,
                         index,
                         comparison: { type },
-                      }),
+                      })
+                      if (!typesWithSecondValue.includes(type)) {
+                        handleUpdateComparison({
+                          conditionalsIndex,
+                          index,
+                          comparison: { comparativeValue: "" },
+                        })
+                      }
+                    },
                     options: options,
                   }}
                 />
@@ -117,12 +129,13 @@ export const AutomationConditionals = memo(function AutomationConditionals({
                       input={{
                         label: text("automationconfig:trigger_label"),
                         inputValue: comparison.comparativeValue,
-                        onChange: (comparativeValue) =>
+                        onChange: (comparativeValue) => {
                           handleUpdateComparison({
                             conditionalsIndex,
                             index,
                             comparison: { comparativeValue },
-                          }),
+                          })
+                        },
                       }}
                       indicator={{
                         icon: BracketsCurly,
@@ -139,17 +152,37 @@ export const AutomationConditionals = memo(function AutomationConditionals({
                   </>
                 ) : null}
 
-                <button onClick={() => handleAddComparison(conditionalsIndex)}>
+                <button
+                  className="lg:text-[1.1rem] mb-1"
+                  onClick={() => handleAddComparison(conditionalsIndex)}
+                >
                   {text("automationconfig:and")}
                 </button>
               </Card>
             ))}
 
-          <button onClick={handleAddConditionalsArray}>
-            {text("automationconfig:or")}
-          </button>
+          <Tag
+            variant="txt"
+            text={text("automationconfig:or")}
+            onClick={handleAddConditionalsArray}
+          />
         </Fragment>
       ))}
-    </>
+      <div className="w-full h-fit">
+        <Button
+          block={{
+            data: {
+              color: "bg-white",
+              text:
+                conditionals.length > 0 && conditionals[0][0].value
+                  ? text("automationconfig:save")
+                  : text("automationconfig:back"),
+              onClick: onClose,
+            },
+          }}
+          isEditable={false}
+        />
+      </div>
+    </div>
   )
 })

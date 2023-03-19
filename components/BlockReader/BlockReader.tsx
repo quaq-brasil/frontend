@@ -1,3 +1,4 @@
+import { AutomationBlock } from "components/AutomationBlock/AutomationBlock"
 import { Button } from "components/Button/Button"
 import { ChartBlock } from "components/ChartBlock/ChartBlock"
 import { ImageBlock } from "components/ImageBlock/ImageBlock"
@@ -96,6 +97,15 @@ export const BlockReader = ({
     case "chart":
       return (
         <ChartBlock
+          block={block}
+          isEditable={isEditable}
+          onDelete={onDelete}
+          onEdit={onEdit}
+        />
+      )
+    case "automation":
+      return (
+        <AutomationBlock
           block={block}
           isEditable={isEditable}
           onDelete={onDelete}

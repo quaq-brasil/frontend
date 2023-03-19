@@ -1,76 +1,80 @@
-import { Button } from "components/Button/Button"
+import { Card } from "components/Card/Card"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
+import { CardText } from "components/Card/CardContentVariants/CardText"
+import { ComparisonType } from "layouts/BlocksConfig/AutomationConfig/AutomationOptions"
 import useTranslation from "next-translate/useTranslation"
-import { EyeSlash, PencilSimple } from "phosphor-react"
-import { useState } from "react"
-import { AutomationBlockBlocks } from "./AutomationBlockBlocks"
+import dynamic from "next/dynamic"
+import { EyeSlash } from "phosphor-react"
+import { IBlock } from "types/Block.types"
+import { IInteractionData } from "types/Interaction.type"
 
-type Spec = {
-  title: string
-  description: string
+const BlockMenu = dynamic(
+  () => import("components/BlockMenu/BlockMenu").then((mod) => mod.BlockMenu),
+  { ssr: false }
+)
+
+export interface IComparison {
+  type: ComparisonType
+  value: any
+  comparativeValue?: any
 }
 
-type AutomationBlockProps = {
+type IData = {
   description: string
-  specs: Spec[]
+  conditionals: IComparison[][]
+  blocks: any[]
+}
+
+type IAutomationBlock = {
+  data: IData
+} & IBlock
+
+type AutomationBlockProps = {
+  block: IAutomationBlock
   isEditable: boolean
-  isVisible: boolean
+  onDelete?: () => void
+  handleUpdateInteractions?: (interaction: IInteractionData) => void
+  onEdit?: () => void
 }
 
 export const AutomationBlock = (props: AutomationBlockProps) => {
   const text = useTranslation().t
 
-  const [blocksOpen, setBlocksOpen] = useState<boolean>(false)
-
-  function handleOpenBlocks() {
-    setBlocksOpen(!blocksOpen)
-  }
-
   return (
     <div
-      className={`flex relative flex-col gap-[0.3125rem] justify-center
-            min-w-[100%] bg-white p-[0.75rem] rounded-[20px] lg:rounded-[30px]
-            ${
-              props.isVisible === false &&
-              props.isEditable === false &&
-              "hidden"
-            }
-            `}
+      className={`flex relative justify-end ${
+        props.isEditable ? "" : "hidden"
+      }`}
     >
-      {props.isEditable && (
-        <div className="z-10 absolute shrink-0 flex content-center rounded-full bg-white right-0 top-0">
-          <PencilSimple className="w-[1rem] h-[1rem] m-[5px] lg:w-[1.25rem] lg:h-[1.25rem] drop-shadow-md" />
-        </div>
+      {props.isEditable === true && (
+        <BlockMenu onDelete={props.onDelete} onEdit={props.onEdit} />
       )}
-      <div className="flex flex-row gap-3 items-center  mb-[0.5rem]">
-        {!props.isVisible && (
-          <div className="w-[1.25rem] h-[1.25rem] lg:w-[1.75rem] lg:h-[1.75rem]">
+      <Card>
+        <div className="flex flex-row items-center">
+          <div className="ml-4 w-[1.25rem] h-[1.25rem] lg:w-[1.75rem] lg:h-[1.75rem]">
             <EyeSlash className="w-[1.25rem] h-[1.25rem] lg:w-[1.75rem] lg:h-[1.75rem]" />
           </div>
-        )}
-        <p className="lg:text-[1.1rem] inline-block w-auto">
-          {props.description}
-        </p>
-      </div>
-      <span className="w-full p-[0.5px] bg-slate-100 mb-[0.5rem]"></span>
-      {props.specs.map((spec) => (
-        <div className="mb-[0.5rem]" key={spec.description}>
-          <p className="lg:text-[1.1rem] font-semibold">{spec.title}</p>
-          <p className="lg:text-[1.1rem]">{spec.description}</p>
+          <CardText label={props.block.data.description} />
         </div>
-      ))}
-      <div className="w-full pt-3">
-        <Button
-          block={{
-            data: {
-              color: "bg-slate-900",
-              text: text("automationblock:button"),
-              onClick: () => handleOpenBlocks(),
-            },
-          }}
-          isEditable={false}
-        />
-      </div>
-      <AutomationBlockBlocks isOpen={blocksOpen} setIsOpen={handleOpenBlocks} />
+        <CardLine />
+        {props.block.data.conditionals.map((conditionals, outerIndex) => {
+          const triggers = conditionals.map((conditional, innerIndex) => {
+            return `${conditional.value} ${conditional.type} ${conditional?.comparativeValue}`
+          })
+          const joinedTriggers = triggers.join(` ${text("consumerpage:and")} `)
+          return (
+            <>
+              <CardText
+                key={joinedTriggers}
+                label={`${
+                  outerIndex > 0 ? text("consumerpage:or") : ""
+                }${joinedTriggers}`}
+              />
+              <CardLine />
+            </>
+          )
+        })}
+      </Card>
     </div>
   )
 }
