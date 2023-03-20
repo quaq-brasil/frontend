@@ -54,10 +54,10 @@ export const Header = ({
           quality={50}
           fill
           style={{ objectFit: "cover" }}
-          loading="lazy"
+          priority
           sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 50vw,
-              33vw"
+              (max-width: 1200px) 80vw,
+              70vw"
           alt={""}
         />
       ) : null}
