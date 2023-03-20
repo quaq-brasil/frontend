@@ -1,12 +1,12 @@
 {
-  "name": "Quaq",
-  "short_name": "Quaq",
-  "start_url": "https://quaq.me",
-  "description": "Em uma missão de melhorar as nossas vidas, através da melhora dos meios de interação",
+  "name": "quaq",
+  "short_name": "quaq",
+  "start_url": "/",
+  "description": "em uma missão de melhorar as nossas vidas, através da melhora dos meios de interação",
   "theme_color": "#000",
   "background_color": "#000",
   "display": "minimal-ui",
-  "lang": "pt-BR",
+  "lang": "en",
   "scope": "/",
   "icons": [
     {
