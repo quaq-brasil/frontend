@@ -4,7 +4,7 @@ let policy = {
   userAgent: "*",
 }
 
-if (process.env.NEXT_PUBLIC_ENVIRONMENT !== "production") {
+if (process.env.NODE_ENV !== "production") {
   policy.disallow = "/"
 }
 
