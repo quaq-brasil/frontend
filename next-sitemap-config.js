@@ -35,7 +35,7 @@ module.exports = {
   ],
   robotsTxtOptions: {
     policies: [policy],
-    additionalSitemaps: ["https://bff.quaq.me/api/v1/sitemap"],
+    additionalSitemaps: ["https://api.quaq.me/api/v1/sitemap"],
   },
   outDir: "./public",
 }
