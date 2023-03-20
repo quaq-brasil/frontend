@@ -17,7 +17,7 @@ const nextConfig = {
       'images.unsplash.com',  
       'quaq-files.s3.sa-east-1.amazonaws.com'
     ],
-    formats: ['image/avif', 'image/webp'],
+    formats: ['image/webp', 'image/avif'],
   },
  
   async headers() {
