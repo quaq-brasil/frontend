@@ -9,6 +9,7 @@ import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
 import { IPage } from "types/Page.type"
 import { RedirectNotFoundVerify } from "utils/404Redirect"
 import { appParseCookies } from "utils/cookies"
+import { HeadTags } from "utils/HeadTags"
 
 type ConsumerPagePageProps = {
   pageSlug: string
@@ -41,8 +42,11 @@ export default function ConsumerPagePage({
   return (
     <>
       <Head>
-        <title>{getPage?.data?.title}</title>
-        <meta name="description" content={getPage?.data?.description} />
+        <HeadTags
+          title={getPage?.data?.title}
+          description={getPage?.data?.description}
+          image={getPage?.data?.avatar_url}
+        />
       </Head>
       <ConsumerPage
         isLoggedIn={isLoggedIn}
