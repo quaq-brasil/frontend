@@ -38,6 +38,7 @@ specifiers:
   next: 13.2.4
   next-auth: ^4.20.1
   next-remove-imports: ^1.0.10
+  next-sitemap: ^4.0.6
   next-translate: ^2.0.2
   next-translate-plugin: ^2.0.2
   nextjs-progressbar: ^0.0.16
@@ -116,6 +117,7 @@ devDependencies:
   eslint: 8.36.0
   eslint-config-next: 13.2.4_j4766f7ecgqbon3u7zlxn5zszu
   file-loader: 6.2.0
+  next-sitemap: 4.0.6_next@13.2.4
   next-translate-plugin: 2.0.2_next-translate@2.0.2
   postcss: 8.4.21
   tailwind-scrollbar-hide: 1.1.7
@@ -332,6 +334,10 @@ packages:
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
     dev: false
+
+  /@corex/deepmerge/4.0.37:
+    resolution: {integrity: sha512-PX90bEnrLdxd5e6rSFWsghExMuSw0Uov3fWJuuaoFuUQIS/446diu/4seExK5b+43L+SOBbd2uBGwYUkG1JfCw==}
+    dev: true
 
   /@emotion/is-prop-valid/0.8.8:
     resolution: {integrity: sha512-u5WtneEAr5IDG2Wv65yhunPSMLIpuKsbuOktRojfrEiEvRyC85LgPMZI63cr7NUqT8ZIGdSVg8ZKGxIug4lXcA==}
@@ -3417,6 +3423,19 @@ packages:
       - supports-color
       - webpack
     dev: false
+
+  /next-sitemap/4.0.6_next@13.2.4:
+    resolution: {integrity: sha512-pZ9tynYe6mRR189qZqcOlWVgM1Gxo07BJQW0AjerKmLwQOt+6FQMdaDgifgCt6jDT3Y3EG/+NUDDZRcd0gbPkA==}
+    engines: {node: '>=14.18'}
+    hasBin: true
+    peerDependencies:
+      '@next/env': '*'
+      next: '*'
+    dependencies:
+      '@corex/deepmerge': 4.0.37
+      minimist: 1.2.8
+      next: 13.2.4_biqbaboplfbrettd7655fr4n2y
+    dev: true
 
   /next-translate-plugin/2.0.2_next-translate@2.0.2:
     resolution: {integrity: sha512-0JzyvnzBmxeM62kIbxRbQboUQvGH1FM3q8wIPwAZQyf14I3+rVqjUfEIZzT8ioXx34RddNtYeR6K+zq/kfBiUg==}

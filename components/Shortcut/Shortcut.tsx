@@ -1,7 +1,7 @@
 import type { Identifier, XYCoord } from "dnd-core"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
-import { memo, useEffect, useMemo, useRef, useState } from "react"
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useDrag, useDrop } from "react-dnd"
 import { useUpdateTemplate } from "services/hooks/useTemplate/useUpdateTemplate"
 import { IPage } from "types/Page.type"
@@ -73,11 +73,11 @@ export const Shortcut = memo(function Shortcut(props: ShortcutProps) {
     )
   }
 
-  function handleClick() {
+  const handleClick = useCallback(() => {
     onClick
       ? onClick()
       : !isCreator && router.push(`/${pageData?.slug}/${templateData.slug}`)
-  }
+  }, [isCreator, onClick, pageData?.slug, router, templateData.slug])
 
   const ref = useRef<HTMLDivElement>(null)
 
