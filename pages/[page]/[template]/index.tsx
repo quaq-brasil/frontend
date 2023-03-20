@@ -7,7 +7,6 @@ import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { useTemplateBySlugAndPageSlug } from "services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
 import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
-import { HeadTags } from "utils/HeadTags"
 
 type TemplateExecutionPageProps = {
   pageSlug: string
@@ -70,11 +69,32 @@ export default function TemplateExecutionPage({
   return (
     <>
       <Head>
-        <HeadTags
-          title={`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}
-          description={pageInfo?.pageDescription}
-          image={getTemplateAndPage?.data?.shortcut_image}
+        <title>{`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}</title>
+        <meta name="description" content={pageInfo?.pageDescription}></meta>
+        <meta property="og:url" content="https://quaq.me" />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:title"
+          content={`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}
         />
+        <meta property="og:description" content={pageInfo?.pageDescription} />
+        <meta
+          property="og:image"
+          content={getTemplateAndPage?.data?.shortcut_image}
+        />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="quaq.me" />
+        <meta property="twitter:url" content="https://quaq.me" />
+        <meta
+          name="twitter:title"
+          content={`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}
+        />
+        <meta name="twitter:description" content={pageInfo?.pageDescription} />
+        <meta
+          name="twitter:image"
+          content={getTemplateAndPage?.data?.shortcut_image}
+        ></meta>
       </Head>
       <TemplateExecution
         isLoggedIn={isLoggedIn}
