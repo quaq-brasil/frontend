@@ -52,6 +52,7 @@ export const Header = ({
           src={background_url}
           className="lg:rounded-[2.5rem] opacity-90 bg-slate-300"
           quality={50}
+          loading="lazy"
           fill
           style={{ objectFit: "cover" }}
           priority
