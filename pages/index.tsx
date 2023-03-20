@@ -38,6 +38,24 @@ export default function Home({ pageData }: ConsumerPagePageProps) {
       <Head>
         <title>{`${text("explorer:pagetitle")}`}</title>
         <meta name="description" content={text("explorer:pagedescription")} />
+        <meta property="og:url" content="https://quaq.me" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={`${text("explorer:pagetitle")}`} />
+        <meta
+          property="og:description"
+          content={text("explorer:pagedescription")}
+        />
+        <meta property="og:image" content={getPage?.data?.avatar_url} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="quaq.me" />
+        <meta property="twitter:url" content="https://quaq.me" />
+        <meta name="twitter:title" content={`${text("explorer:pagetitle")}`} />
+        <meta
+          name="twitter:description"
+          content={text("explorer:pagedescription")}
+        />
+        <meta name="twitter:image" content={getPage?.data?.avatar_url}></meta>
       </Head>
       <Explorer
         isLoggedIn={isLoggedIn}
