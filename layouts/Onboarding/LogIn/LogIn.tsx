@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { IUserLogin } from "types/User.type"
 import { pageUrls } from "utils/pagesUrl"
-import { LoginContent } from "./LogInContent"
+import { LoginContent } from "./LoginContent"
 
 type LoginProps = {
   handleUserLogin: (data: IUserLogin) => void
