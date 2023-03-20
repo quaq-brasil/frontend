@@ -49,7 +49,7 @@ export const Shortcut = memo(function Shortcut(props: ShortcutProps) {
     pageData,
   } = props
 
-  const [contentData, setContentData] = useState<IUpdateTemplate>()
+  const [contentData, setContentData] = useState<IUpdateTemplate>(templateData)
   const updateTemplate = useUpdateTemplate()
 
   function handleUpdateContentData(newData: IUpdateTemplate) {
