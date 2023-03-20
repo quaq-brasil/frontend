@@ -1,7 +1,7 @@
 import type { Identifier, XYCoord } from "dnd-core"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
-import { useEffect, useRef, useState } from "react"
+import { memo, useEffect, useMemo, useRef, useState } from "react"
 import { useDrag, useDrop } from "react-dnd"
 import { useUpdateTemplate } from "services/hooks/useTemplate/useUpdateTemplate"
 import { IPage } from "types/Page.type"
@@ -32,8 +32,22 @@ interface DragItem {
   type: string
 }
 
-export const Shortcut = (props: ShortcutProps) => {
+export const Shortcut = memo(function Shortcut(props: ShortcutProps) {
   const router = useRouter()
+
+  const {
+    title,
+    img_url,
+    size,
+    isCreator,
+    isSelected,
+    onClick,
+    onMove,
+    index,
+    id,
+    templateData,
+    pageData,
+  } = props
 
   const [contentData, setContentData] = useState<IUpdateTemplate>()
   const updateTemplate = useUpdateTemplate()
@@ -60,10 +74,9 @@ export const Shortcut = (props: ShortcutProps) => {
   }
 
   function handleClick() {
-    props.onClick
-      ? props.onClick()
-      : !props.isCreator &&
-        router.push(`/${props.pageData?.slug}/${props.templateData.slug}`)
+    onClick
+      ? onClick()
+      : !isCreator && router.push(`/${pageData?.slug}/${templateData.slug}`)
   }
 
   const ref = useRef<HTMLDivElement>(null)
@@ -84,7 +97,7 @@ export const Shortcut = (props: ShortcutProps) => {
         return
       }
       const dragIndex = item.index
-      const hoverIndex = props.index
+      const hoverIndex = index
 
       if (dragIndex === hoverIndex) {
         return
@@ -107,7 +120,7 @@ export const Shortcut = (props: ShortcutProps) => {
         return
       }
 
-      props.onMove && props.onMove(dragIndex, hoverIndex)
+      onMove && onMove(dragIndex, hoverIndex)
 
       item.index = hoverIndex
     },
@@ -116,7 +129,7 @@ export const Shortcut = (props: ShortcutProps) => {
   const [{ isDragging }, drag] = useDrag({
     type: "card",
     item: () => {
-      return { id: props.id, index: props.index, type: "card" }
+      return { id: id, index: index, type: "card" }
     },
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
@@ -127,10 +140,30 @@ export const Shortcut = (props: ShortcutProps) => {
   drag(drop(ref))
 
   useEffect(() => {
-    if (props.templateData) {
-      setContentData(props.templateData)
+    if (templateData) {
+      setContentData(templateData)
     }
-  }, [props.templateData])
+  }, [templateData])
+
+  const MemoizedImage = useMemo(() => {
+    return (
+      <Image
+        className={`rounded-[20px] lg:rounded-[30px]`}
+        src={contentData?.shortcut_image}
+        fill
+        style={{ objectFit: "cover" }}
+        alt={""}
+        loading="lazy"
+        onClick={handleClick}
+        sizes={
+          size === "large"
+            ? "(max-width: 768px) 90vw, (max-width: 1200px) 50vw, 30vw"
+            : "(max-width: 768px) 40vw, (max-width: 1200px) 30vw, 15vw"
+        }
+      />
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contentData?.shortcut_image, contentData?.shortcut_size])
 
   return (
     <>
@@ -143,40 +176,29 @@ export const Shortcut = (props: ShortcutProps) => {
             ? "col-span-2  max-w-[100%]"
             : "col-span-1  md:max-w-[100%]"
         }
-        ${
-          props.isCreator && props.isSelected
-            ? "ring-[0.375rem] ring-white"
-            : ""
-        }
-        `}
+          ${isCreator && isSelected ? "ring-[0.375rem] ring-white" : ""}
+          `}
       >
         <div
           className={`z-10 absolute flex row justify-center bg-white ml-auto mr-auto left-[0.375rem]
-          right-[0.375rem] rounded-[15px] bottom-[6px] px-[6px] lg:rounded-[25px] `}
+            right-[0.375rem] rounded-[15px] bottom-[6px] px-[6px] lg:rounded-[25px] `}
           onClick={handleClick}
         >
           <p className="inline-block py-[0.625rem] text-center lg:text-[1.1rem]">
             {contentData?.title || ""}
           </p>
         </div>
-        {props.img_url ? (
-          <Image
-            className={`rounded-[20px] lg:rounded-[30px]`}
-            src={contentData?.shortcut_image || ""}
-            fill
-            style={{ objectFit: "cover" }}
-            alt={""}
-            onClick={handleClick}
-          />
+        {img_url ? (
+          <>{MemoizedImage}</>
         ) : (
           <div className="min-w-full min-h-full bg-slate-300 animate-pulse rounded-[20px] lg:rounded-[30px]"></div>
         )}
 
-        {props.isCreator && props.isSelected ? (
+        {isCreator && isSelected ? (
           <div className="relative z-10 h-full overscroll-y-none min-w-full w-fit pt-0 pl-0 flex scrollbar-hide gap-3 items-start align-top justify-start">
             <ShortcutMenu
               templateData={contentData}
-              pageData={props.pageData}
+              pageData={pageData}
               handleClose={handleClick}
               handleUpdateContentData={handleUpdateContentData}
             />
@@ -185,4 +207,4 @@ export const Shortcut = (props: ShortcutProps) => {
       </div>
     </>
   )
-}
+})

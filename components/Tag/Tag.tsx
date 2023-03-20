@@ -204,6 +204,7 @@ const ImageTag = ({ img_url }: ImageTagProps) => {
         width={100}
         height={100}
         alt=""
+        loading="lazy"
       />
     )
   }
