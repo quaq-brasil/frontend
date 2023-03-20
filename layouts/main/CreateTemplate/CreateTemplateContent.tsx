@@ -76,9 +76,6 @@ const TabBarContent = ({
 export function CreateTemplateContent({
   pageData,
 }: CreateTemplateContentProps) {
-  const text = useTranslation().t
-  const router = useRouter()
-
   const [blockSelected, setBlockSelected] = useState<string | undefined>()
   const [blocks, setBlocks] = useState<BlockProps[]>([])
   const [isOpenPublishTemplate, setIsOpenPublishTemplate] = useState(false)
@@ -152,27 +149,6 @@ export function CreateTemplateContent({
       })
     }
     return uniqueSaveAs
-  }
-
-  function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("createtemplate:back")}
-        onClick={() =>
-          router.push(pageUrls.pageSettings({ pageSlug: pageData?.slug }))
-        }
-      />,
-      blocks.length > 0 && (
-        <Tag
-          key={2}
-          variant="txt"
-          text={text("publish:publish")}
-          onClick={() => setIsOpenPublishTemplate(true)}
-        />
-      ),
-    ]
   }
 
   const handleOnEdit = (blockData: BlockProps) => {

@@ -101,6 +101,8 @@ export const PublishNewTemplate = ({
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
+  console.log(templateData)
+
   function handleUpdateIsUpdating(stat: boolean) {
     setIsUpdating(stat)
   }
@@ -243,6 +245,40 @@ export const PublishNewTemplate = ({
   }
 
   useEffect(() => {
+    if (templateData?.title) {
+      handleUpdateFormData({ title: { valid: true } })
+    } else {
+      handleUpdateFormData({ title: { valid: false } })
+    }
+    if (templateData?.slug) {
+      handleUpdateFormData({ slug: { valid: true } })
+    } else {
+      handleUpdateFormData({ slug: { valid: false } })
+    }
+    if (templateData?.shortcut_image) {
+      handleUpdateFormData({ cover: { valid: true } })
+    } else {
+      handleUpdateFormData({ cover: { valid: false } })
+    }
+    if (templateData?.shortcut_size) {
+      handleUpdateFormData({ shortcutSize: { valid: true } })
+    } else {
+      handleUpdateFormData({ shortcutSize: { valid: false } })
+    }
+    if (templateData?.visibility) {
+      handleUpdateFormData({ visibility: { valid: true } })
+    } else {
+      handleUpdateFormData({ visibility: { valid: false } })
+    }
+    if (publicationTitle) {
+      handleUpdateFormData({ publicationTitle: { valid: true } })
+    } else {
+      handleUpdateFormData({ publicationTitle: { valid: false } })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templateData, publicationTitle])
+
+  useEffect(() => {
     if (templateData) {
       handlePublishTemplate()
     }
@@ -285,10 +321,6 @@ export const PublishNewTemplate = ({
                   onChange: (title) =>
                     handleUpdateTemplateData({ title: title }),
                   type: "title",
-                  setValid: () =>
-                    handleUpdateFormData({ title: { valid: true } }),
-                  setInvalid: () =>
-                    handleUpdateFormData({ title: { valid: false } }),
                 }}
               />
             </Card>
@@ -318,7 +350,6 @@ export const PublishNewTemplate = ({
                     url={templateData?.shortcut_image}
                     onImageChange={(cover) => {
                       handleUpdateTemplateData({ shortcut_image: cover })
-                      handleUpdateFormData({ cover: { valid: true } })
                     }}
                   />
                 }
@@ -334,7 +365,6 @@ export const PublishNewTemplate = ({
                 }}
                 onClick={() => {
                   handleUpdateTemplateData({ shortcut_size: "small" })
-                  handleUpdateFormData({ shortcutSize: { valid: true } })
                 }}
               />
               <CardLine />
@@ -346,7 +376,6 @@ export const PublishNewTemplate = ({
                 }}
                 onClick={() => {
                   handleUpdateTemplateData({ shortcut_size: "large" })
-                  handleUpdateFormData({ shortcutSize: { valid: true } })
                 }}
               />
               <CardLine />
@@ -357,8 +386,7 @@ export const PublishNewTemplate = ({
                 label={text("centraloptions:public")}
                 indicator={{
                   icon: Check,
-                  isVisible:
-                    templateData?.visibility === "workspace" ? true : false,
+                  isVisible: templateData?.visibility != "public",
                 }}
                 onClick={() =>
                   handleUpdateTemplateData({ visibility: "public" })
@@ -369,8 +397,7 @@ export const PublishNewTemplate = ({
                 label={text("centraloptions:wsmembers")}
                 indicator={{
                   icon: Check,
-                  isVisible:
-                    templateData?.visibility === "public" ? true : false,
+                  isVisible: templateData?.visibility != "workspace",
                 }}
                 onClick={() =>
                   handleUpdateTemplateData({ visibility: "workspace" })
@@ -386,15 +413,6 @@ export const PublishNewTemplate = ({
                   defaultValue: publicationTitle,
                   onChange: (publicationTitle) => {
                     setPublicationTitle(publicationTitle)
-                    if (publicationTitle.length > 0) {
-                      handleUpdateFormData({
-                        publicationTitle: { valid: true },
-                      })
-                    } else {
-                      handleUpdateFormData({
-                        publicationTitle: { valid: false },
-                      })
-                    }
                   },
                 }}
               />

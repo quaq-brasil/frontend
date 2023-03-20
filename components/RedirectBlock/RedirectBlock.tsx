@@ -76,13 +76,12 @@ export const RedirectBlock = (props: RedirectBlockProps) => {
                   className="rounded-[20px] lg:rounded-[30px]"
                   src={props.img_url}
                   fill
-                  priority
                   style={{ objectFit: "cover" }}
                   alt={""}
-                  loading="lazy"
                   sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               33vw"
+                  loading="lazy"
                 />
               )}
             </div>
