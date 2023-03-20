@@ -105,7 +105,7 @@ export const ReviewBlock = ({
         <div className="flex flex-row justify-between py-3 w-full px-[20%] md:px-[35%] ">
           <button onClick={() => handleUpdateSelected(1)}>
             <Star
-              className={`w-[1.5rem] h-[1.5rem] lg:w-[2rem] lg:h-[2rem] ${
+              className={`w-[1.75rem] h-[1.75rem] lg:w-[2rem] lg:h-[2rem] ${
                 review > 0 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"
@@ -113,7 +113,7 @@ export const ReviewBlock = ({
           </button>
           <button onClick={() => handleUpdateSelected(2)}>
             <Star
-              className={`w-[1.5rem] h-[1.5rem] lg:w-[2rem] lg:h-[2rem] ${
+              className={`w-[1.75rem] h-[1.75rem] lg:w-[2rem] lg:h-[2rem] ${
                 review > 1 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"
@@ -121,7 +121,7 @@ export const ReviewBlock = ({
           </button>
           <button onClick={() => handleUpdateSelected(3)}>
             <Star
-              className={`w-[1.5rem] h-[1.5rem] lg:w-[2rem] lg:h-[2rem] ${
+              className={`w-[1.75rem] h-[1.75rem] lg:w-[2rem] lg:h-[2rem] ${
                 review > 2 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"
@@ -129,7 +129,7 @@ export const ReviewBlock = ({
           </button>
           <button onClick={() => handleUpdateSelected(4)}>
             <Star
-              className={`w-[1.5rem] h-[1.5rem] lg:w-[2rem] lg:h-[2rem] ${
+              className={`w-[1.75rem] h-[1.75rem] lg:w-[2rem] lg:h-[2rem] ${
                 review > 3 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"
@@ -137,7 +137,7 @@ export const ReviewBlock = ({
           </button>
           <button onClick={() => handleUpdateSelected(5)}>
             <Star
-              className={`w-[1.5rem] h-[1.5rem] lg:w-[2rem] lg:h-[2rem] ${
+              className={`w-[1.75rem] h-[1.75rem] lg:w-[2rem] lg:h-[2rem] ${
                 review > 4 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"

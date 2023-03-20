@@ -29,7 +29,7 @@ export function PoolConfig({
 
   type IContent = {
     options?: options[]
-    title?: string
+    description?: string
     max?: string
     min?: string
   }
@@ -172,7 +172,9 @@ export function PoolConfig({
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
         handleUpdateContent({
-          title: content.title ? `${content.title}${variable}` : variable,
+          description: content.description
+            ? `${content.description}${variable}`
+            : variable,
         })
       })
     handleOpenVariablePanel()
@@ -256,7 +258,7 @@ export function PoolConfig({
     } else {
       handleUpdateFormData({ options: { valid: false } })
     }
-    if (content?.title) {
+    if (content?.description) {
       handleUpdateFormData({ description: { valid: true } })
     } else {
       handleUpdateFormData({ description: { valid: false } })
@@ -268,11 +270,7 @@ export function PoolConfig({
     if (blockData) {
       setContent(blockData.data)
       setSaveAs(blockData.save_as)
-      handleUpdateFormData({
-        description: { valid: true },
-        options: { valid: true },
-        saveAs: { valid: true },
-      })
+      console.log(blockData)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockData])
@@ -310,14 +308,14 @@ export function PoolConfig({
               input={{
                 label: text("poolconfig:titlelabel"),
                 onChange: (title) => {
-                  handleUpdateContent({ title: title })
+                  handleUpdateContent({ description: title })
                   if (title.length > 0) {
                     handleUpdateFormData({ description: { valid: true } })
                   } else {
                     handleUpdateFormData({ description: { valid: false } })
                   }
                 },
-                inputValue: content.title,
+                inputValue: content.description,
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -414,6 +412,18 @@ export function PoolConfig({
               </p>
             )}
           </Card>
+          <div className="w-full h-fit hidden xl:block">
+            <Button
+              block={{
+                data: {
+                  color: "bg-white",
+                  text: text("textconfig:cancel"),
+                  onClick: () => handleClosing(),
+                },
+              }}
+              isEditable={false}
+            />
+          </div>
           {isUpdating && (
             <>
               <div className="w-full h-fit hidden xl:block">
@@ -430,18 +440,6 @@ export function PoolConfig({
               </div>
             </>
           )}
-          <div className="w-full h-fit hidden xl:block">
-            <Button
-              block={{
-                data: {
-                  color: "bg-white",
-                  text: text("textconfig:cancel"),
-                  onClick: () => handleClosing(),
-                },
-              }}
-              isEditable={false}
-            />
-          </div>
         </div>
         <TabBar isHidden={true} tags={handleTabBar()} />
       </Dialog>
