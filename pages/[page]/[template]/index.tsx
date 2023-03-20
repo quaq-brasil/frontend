@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { useTemplateBySlugAndPageSlug } from "services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
 import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
+import { HeadTags } from "utils/HeadTags"
 
 type TemplateExecutionPageProps = {
   pageSlug: string
@@ -69,8 +70,11 @@ export default function TemplateExecutionPage({
   return (
     <>
       <Head>
-        <title>{`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}</title>
-        <meta name="description" content={pageInfo?.pageDescription} />
+        <HeadTags
+          title={`${pageInfo?.pageTitle} - ${pageInfo?.templateTitle}`}
+          description={pageInfo?.pageDescription}
+          image={getTemplateAndPage?.data?.shortcut_image}
+        />
       </Head>
       <TemplateExecution
         isLoggedIn={isLoggedIn}
