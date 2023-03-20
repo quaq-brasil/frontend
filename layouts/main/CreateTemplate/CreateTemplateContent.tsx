@@ -34,7 +34,7 @@ type CreateTemplateContentProps = {
   pageData: IPage | undefined
 }
 
-type TabBarContent = {
+type TabBarContentProps = {
   pageData: IPage | undefined
   isPublishVisible: boolean
   onPublishClick: () => void
@@ -44,7 +44,7 @@ const TabBarContent = ({
   pageData,
   isPublishVisible,
   onPublishClick,
-}: TabBarContent) => {
+}: TabBarContentProps) => {
   const text = useTranslation().t
   const router = useRouter()
 
