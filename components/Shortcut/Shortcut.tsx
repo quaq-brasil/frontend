@@ -162,8 +162,7 @@ export const Shortcut = memo(function Shortcut(props: ShortcutProps) {
         }
       />
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contentData?.shortcut_image, contentData?.shortcut_size])
+  }, [contentData?.shortcut_image, handleClick, size])
 
   return (
     <>
