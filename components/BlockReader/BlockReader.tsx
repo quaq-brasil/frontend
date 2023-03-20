@@ -8,6 +8,7 @@ import { TextBlock } from "components/TextBlock/TextBlock"
 import { TextEntryBlock } from "components/TextEntryBlock/TextEntryBlock"
 import { ToggleBlock } from "components/ToggleBlock/ToggleBlock"
 import { WebhookBlock } from "components/WebhookBlock/WebhookBlock"
+import { memo } from "react"
 import { BlockProps } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
 
@@ -41,30 +42,32 @@ type BlockWrapperProps = {
   onEdit: () => void
 }
 
-const BlockWrapper = ({
+export const BlockWrapper = memo(function BlockWrapper({
   Component,
   block,
   isEditable,
   onDelete,
   handleUpdateInteractions,
   onEdit,
-}: BlockWrapperProps) => (
-  <Component
-    block={block}
-    isEditable={isEditable}
-    onDelete={onDelete}
-    onEdit={onEdit}
-    handleUpdateInteractions={handleUpdateInteractions}
-  />
-)
+}: BlockWrapperProps) {
+  return (
+    <Component
+      block={block}
+      isEditable={isEditable}
+      onDelete={onDelete}
+      onEdit={onEdit}
+      handleUpdateInteractions={handleUpdateInteractions}
+    />
+  )
+})
 
-export const BlockReader = ({
+export const BlockReader = memo(function BlockReader({
   block,
   isEditable = false,
   onDelete,
   handleUpdateInteractions,
   onEdit,
-}: BlockReaderProps) => {
+}: BlockReaderProps) {
   const Component = blockComponents[block.type]
 
   return Component ? (
@@ -79,4 +82,4 @@ export const BlockReader = ({
   ) : (
     <h1>error: missing block</h1>
   )
-}
+})
