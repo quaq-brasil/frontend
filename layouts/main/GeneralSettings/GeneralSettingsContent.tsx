@@ -125,27 +125,27 @@ export function GeneralSettingsContent({
   }
 
   useEffect(() => {
-    if (pageData.title.length > 1) {
+    if (pageData?.title?.length > 1) {
       handleUpdateFormData({ title: { valid: true } })
     } else {
       handleUpdateFormData({ title: { valid: false } })
     }
-    if (pageData.slug) {
+    if (pageData?.slug) {
       handleUpdateFormData({ slug: { valid: true } })
     } else {
       handleUpdateFormData({ slug: { valid: false } })
     }
-    if (pageData.description.length > 0) {
+    if (pageData?.description?.length > 0) {
       handleUpdateFormData({ description: { valid: true } })
     } else {
       handleUpdateFormData({ description: { valid: false } })
     }
-    if (pageData.avatar_url) {
+    if (pageData?.avatar_url) {
       handleUpdateFormData({ profile: { valid: true } })
     } else {
       handleUpdateFormData({ profile: { valid: false } })
     }
-    if (pageData.background_url) {
+    if (pageData?.background_url) {
       handleUpdateFormData({ cover: { valid: true } })
     } else {
       handleUpdateFormData({ cover: { valid: false } })

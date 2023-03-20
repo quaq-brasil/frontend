@@ -1,14 +1,12 @@
 import { useUserAuth } from "contexts/userAuth"
 import { ConsumerPage } from "layouts/main/ConsumerPage/ConsumerPage"
-import { GetServerSideProps } from "next"
+import { GetStaticPaths, GetStaticProps } from "next"
 import Head from "next/head"
 import { ParsedUrlQuery } from "querystring"
 import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
 import { IPage } from "types/Page.type"
-import { RedirectNotFoundVerify } from "utils/404Redirect"
-import { appParseCookies } from "utils/cookies"
 import { HeadTags } from "utils/HeadTags"
 
 type ConsumerPagePageProps = {
@@ -35,7 +33,8 @@ export default function ConsumerPagePage({
   const getPage = usePageBySlug({
     slug: pageSlug,
     options: {
-      initialData: pageData,
+      placeholderData: pageData,
+      retry: false,
     },
   })
 
@@ -61,23 +60,20 @@ type Params = {
   page: string
 } & ParsedUrlQuery
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  async function getPage() {
-    const { page } = ctx.params as Params
-
-    const cookies = appParseCookies(ctx.req)
-
-    const { data } = await api.get(`/pages/slug/${page}`, {
-      headers: {
-        Authorization: `Bearer ${cookies.token}`,
-      },
-    })
-
-    return {
-      pageData: { data },
-      pageSlug: page,
-    }
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [],
+    fallback: "blocking",
   }
+}
 
-  return await RedirectNotFoundVerify({ func: getPage, ctx })
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const { page } = ctx.params as Params
+  try {
+    const { data } = await api.get(`/pages/slug/${page}`)
+
+    return { props: { pageData: { data }, pageSlug: page }, revalidate: 1 }
+  } catch (err) {
+    return { props: { pageData: null, pageSlug: page }, revalidate: 1 }
+  }
 }

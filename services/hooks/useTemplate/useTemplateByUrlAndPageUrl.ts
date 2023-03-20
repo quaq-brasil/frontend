@@ -1,4 +1,5 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
+import Router from "next/router"
 import { api } from "services/api"
 import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
 import { useQueryProps } from "types/useQueryProps"
@@ -29,6 +30,10 @@ export const useTemplateBySlugAndPageSlug = ({
     queryKey: ["getTemplateBySlugAndPageSlug", slug, page_slug, consumer_id],
     queryFn: getTemplateBySlugAndPageSlug,
     ...options,
+    onError(err) {
+      console.log("404", err)
+      Router.push("/404")
+    },
   }) as UseQueryResult<{ data: getTemplateBySlugAndPageSlugProps }>
 
   return response.data

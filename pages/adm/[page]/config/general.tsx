@@ -69,8 +69,8 @@ export default function GeneralSettingsPage({
   useEffect(() => {
     if (getPage) {
       let pageTitle =
-        getPage.data.title.charAt(0).toUpperCase() +
-        getPage.data.title.slice(1).toLowerCase()
+        getPage?.data?.title.charAt(0).toUpperCase() +
+        getPage?.data?.title.slice(1).toLowerCase()
 
       setPageTitle(pageTitle)
     }

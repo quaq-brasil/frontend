@@ -46,8 +46,8 @@ export default function PageTrackersPage({
   useEffect(() => {
     if (getPage) {
       let pageTitle =
-        getPage.data.title.charAt(0).toUpperCase() +
-        getPage.data.title.slice(1).toLowerCase()
+        getPage?.data?.title.charAt(0).toUpperCase() +
+        getPage?.data?.title.slice(1).toLowerCase()
 
       setPageTitle(pageTitle)
     }

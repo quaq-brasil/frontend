@@ -40,9 +40,9 @@ export function TemplateExecution({
       <Tag
         key={2}
         variant="txt"
-        text={pageAndTemplateData.Page.title}
+        text={pageAndTemplateData?.Page.title}
         onClick={() =>
-          router.push(pageUrls.page(pageAndTemplateData.Page.slug || ""))
+          router.push(pageUrls.page(pageAndTemplateData?.Page.slug || ""))
         }
       />,
     ]
@@ -50,19 +50,19 @@ export function TemplateExecution({
 
   function loadHeader() {
     return (
-      <Header background_url={pageAndTemplateData.Page.background_url || ""}>
+      <Header background_url={pageAndTemplateData?.Page.background_url || ""}>
         <Tag
           variant="img-txt"
-          text={pageAndTemplateData.Page.title || ""}
-          img_url={pageAndTemplateData.Page.avatar_url || ""}
+          text={pageAndTemplateData?.Page.title || ""}
+          img_url={pageAndTemplateData?.Page.avatar_url || ""}
           onClick={() =>
-            router.push(pageUrls.page(pageAndTemplateData.Page.slug || ""))
+            router.push(pageUrls.page(pageAndTemplateData?.Page.slug || ""))
           }
         />
         <Tag
           variant="img-txt"
-          text={pageAndTemplateData.title || ""}
-          img_url={pageAndTemplateData.shortcut_image || ""}
+          text={pageAndTemplateData?.title || ""}
+          img_url={pageAndTemplateData?.shortcut_image || ""}
         />
       </Header>
     )

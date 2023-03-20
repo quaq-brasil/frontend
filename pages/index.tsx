@@ -30,7 +30,7 @@ export default function Home({ pageData }: ConsumerPagePageProps) {
 
   const getPage = usePageBySlug({
     slug: "quaq",
-    options: { initialData: pageData },
+    options: { placeholderData: pageData },
   })
 
   return (

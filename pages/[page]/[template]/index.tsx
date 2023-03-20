@@ -1,14 +1,12 @@
 import { useUserAuth } from "contexts/userAuth"
 import { TemplateExecution } from "layouts/main/TemplateExecution/TemplateExecution"
-import { GetServerSideProps } from "next"
+import { GetStaticPaths, GetStaticProps } from "next"
 import Head from "next/head"
 import { ParsedUrlQuery } from "querystring"
 import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { useTemplateBySlugAndPageSlug } from "services/hooks/useTemplate/useTemplateByUrlAndPageUrl"
 import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
-import { RedirectNotFoundVerify } from "utils/404Redirect"
-import { appParseCookies } from "utils/cookies"
 
 type TemplateExecutionPageProps = {
   pageSlug: string
@@ -37,7 +35,8 @@ export default function TemplateExecutionPage({
     slug: templateSlug,
     page_slug: pageSlug,
     options: {
-      initialData: pageAndTemplateData,
+      placeholderData: pageAndTemplateData,
+      retry: false,
     },
   })
 
@@ -52,17 +51,17 @@ export default function TemplateExecutionPage({
   useEffect(() => {
     if (getTemplateAndPage) {
       let pageTitle =
-        getTemplateAndPage.data.Page.title.charAt(0).toUpperCase() +
-        getTemplateAndPage.data.Page.title.slice(1).toLowerCase()
+        getTemplateAndPage?.data?.Page?.title?.charAt(0).toUpperCase() +
+        getTemplateAndPage?.data?.Page?.title?.slice(1).toLowerCase()
 
       let templateTitle =
-        getTemplateAndPage.data.title.charAt(0).toUpperCase() +
-        getTemplateAndPage.data.title.slice(1).toLowerCase()
+        getTemplateAndPage?.data?.title?.charAt(0).toUpperCase() +
+        getTemplateAndPage?.data?.title?.slice(1).toLowerCase()
 
       setPageInfo({
         pageTitle: pageTitle,
         templateTitle: templateTitle,
-        pageDescription: getTemplateAndPage.data?.Page?.description,
+        pageDescription: getTemplateAndPage?.data?.Page?.description,
       })
     }
   }, [getTemplateAndPage])
@@ -75,7 +74,7 @@ export default function TemplateExecutionPage({
       </Head>
       <TemplateExecution
         isLoggedIn={isLoggedIn}
-        initialData={getTemplateAndPage.data}
+        initialData={getTemplateAndPage?.data}
       />
     </>
   )
@@ -86,24 +85,35 @@ type Params = {
   template: string
 } & ParsedUrlQuery
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  async function getPageAndTemplate() {
-    const { page, template } = ctx.params as Params
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [],
+    fallback: "blocking",
+  }
+}
 
-    const cookies = appParseCookies(ctx.req)
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const { page, template } = ctx.params as Params
 
-    const { data } = await api.get(`/templates/${page}/${template}`, {
-      headers: {
-        Authorization: `Bearer ${cookies.token}`,
-      },
-    })
+  try {
+    const { data } = await api.get(`/templates/${page}/${template}`)
 
     return {
-      pageSlug: page,
-      templateSlug: template,
-      pageAndTemplateData: { data },
+      props: {
+        pageSlug: page,
+        templateSlug: template,
+        pageAndTemplateData: { data },
+      },
+      revalidate: 1,
+    }
+  } catch (err) {
+    return {
+      props: {
+        pageSlug: page,
+        templateSlug: template,
+        pageAndTemplateData: null,
+      },
+      revalidate: 1,
     }
   }
-
-  return await RedirectNotFoundVerify({ func: getPageAndTemplate, ctx })
 }

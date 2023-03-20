@@ -1,4 +1,5 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
+import Router from "next/router"
 import { api } from "services/api"
 import { IPage } from "types/Page.type"
 import { useQueryProps } from "types/useQueryProps"
@@ -16,6 +17,10 @@ export const usePageBySlug = ({ slug, options }: usePageBySlugProps) => {
     queryKey: ["getPageBySlug", slug],
     queryFn: getPageBySlug,
     ...options,
+    onError(err) {
+      console.log("404", err)
+      Router.push("/404")
+    },
   }) as UseQueryResult<{ data: IPage }>
 
   return response.data
