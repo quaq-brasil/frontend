@@ -1,4 +1,3 @@
-import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
@@ -11,12 +10,8 @@ const BlockMenu = dynamic(
   { ssr: false }
 )
 
-type IData = {
-  description: string
-}
-
 type IReviewBlock = {
-  data: IData
+  data: any
 } & IBlock
 
 type ReviewBlockProps = {
@@ -107,14 +102,10 @@ export const ReviewBlock = ({
         className="flex flex-col w-full justify-center items-center bg-white 
           p-[0.75rem] rounded-[20px] lg:rounded-[30px]"
       >
-        <p className="pb-3 px-1 font-semibold lg:text-[1.1rem] lg:px-[1.125rem]">
-          {block.data.description}
-        </p>
-        <CardLine />
-        <div className="flex flex-row justify-between pt-3 pb-2 w-full px-[20%] md:px-[25%] ">
+        <div className="flex flex-row justify-between py-3 w-full px-[20%] md:px-[35%] ">
           <button onClick={() => handleUpdateSelected(1)}>
             <Star
-              className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
+              className={`w-[1.5rem] h-[1.5rem] lg:w-[2rem] lg:h-[2rem] ${
                 review > 0 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"
@@ -122,7 +113,7 @@ export const ReviewBlock = ({
           </button>
           <button onClick={() => handleUpdateSelected(2)}>
             <Star
-              className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
+              className={`w-[1.5rem] h-[1.5rem] lg:w-[2rem] lg:h-[2rem] ${
                 review > 1 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"
@@ -130,7 +121,7 @@ export const ReviewBlock = ({
           </button>
           <button onClick={() => handleUpdateSelected(3)}>
             <Star
-              className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
+              className={`w-[1.5rem] h-[1.5rem] lg:w-[2rem] lg:h-[2rem] ${
                 review > 2 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"
@@ -138,7 +129,7 @@ export const ReviewBlock = ({
           </button>
           <button onClick={() => handleUpdateSelected(4)}>
             <Star
-              className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
+              className={`w-[1.5rem] h-[1.5rem] lg:w-[2rem] lg:h-[2rem] ${
                 review > 3 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"
@@ -146,7 +137,7 @@ export const ReviewBlock = ({
           </button>
           <button onClick={() => handleUpdateSelected(5)}>
             <Star
-              className={`w-[2rem] h-[2rem] lg:w-[2.5rem] lg:h-[2.5rem] ${
+              className={`w-[1.5rem] h-[1.5rem] lg:w-[2rem] lg:h-[2rem] ${
                 review > 4 ? "text-yellow-500" : "text-slate-200"
               }`}
               weight="fill"
