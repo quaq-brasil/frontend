@@ -1,36 +1,51 @@
 import dynamic from "next/dynamic"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
+import { Option } from "./Option"
 
 const BlockMenu = dynamic(
   () => import("components/BlockMenu/BlockMenu").then((mod) => mod.BlockMenu),
   { ssr: false }
 )
 
-type options = {
+interface Options {
   id: number
   value: string
 }
 
-type IData = {
-  options: options[]
+interface IData {
+  options: Options[]
   max?: string
   min?: string
   title: string
 }
 
-type IPoolBlock = {
+interface IPoolBlock extends IBlock {
   data: IData
-} & IBlock
+}
 
-type PoolBlockProps = {
+interface PoolBlockProps {
   block: IPoolBlock
   isEditable: boolean
   onDelete?: () => void
   handleUpdateInteractions?: (interaction: IInteractionData) => void
   onEdit?: () => void
 }
+
+type IAnswer = {
+  id: number
+  value: string
+  selected: boolean
+}
+
+type IEvent = Partial<{
+  displayedAt: string
+  lastInteractionAt: string
+  firstInteractionAt: string
+  maxAchievedAt: string
+  minAchievedAt: string
+}>
 
 export const PoolBlock = ({
   block,
@@ -39,20 +54,6 @@ export const PoolBlock = ({
   handleUpdateInteractions,
   onEdit,
 }: PoolBlockProps) => {
-  type IEvent = {
-    displayedAt?: string
-    lastInteractionAt?: string
-    firstInteractionAt?: string
-    maxAchievedAt?: string
-    minAchievedAt?: string
-  }
-
-  type IAnswer = {
-    id: number
-    value: string
-    selected: boolean
-  }
-
   const [events, setEvents] = useState<IEvent>()
   const [answers, setAnswers] = useState<IAnswer[]>()
   const [selectedAnswers, setSelectedAnswers] = useState(0)
@@ -79,29 +80,33 @@ export const PoolBlock = ({
     })
   }
 
-  function handleSelect(answer: IAnswer) {
-    if (events?.firstInteractionAt) {
-      const firstAndLast = new Date().toString()
-      handleUpdateEvents({
-        firstInteractionAt: firstAndLast,
-        lastInteractionAt: firstAndLast,
-      })
-    } else {
-      const lastInteractionAt = new Date().toString()
-      handleUpdateEvents({ lastInteractionAt: lastInteractionAt })
-    }
+  const handleSelect = useCallback(
+    (answer: IAnswer) => {
+      if (events?.firstInteractionAt) {
+        const firstAndLast = new Date().toString()
+        handleUpdateEvents({
+          firstInteractionAt: firstAndLast,
+          lastInteractionAt: firstAndLast,
+        })
+      } else {
+        const lastInteractionAt = new Date().toString()
+        handleUpdateEvents({ lastInteractionAt: lastInteractionAt })
+      }
 
-    const tempAnswers = [...(answers as IAnswer[])]
+      const tempAnswers = [...(answers as IAnswer[])]
 
-    if (answer.selected) {
-      setSelectedAnswers(selectedAnswers - 1)
-    } else {
-      setSelectedAnswers(selectedAnswers + 1)
-    }
+      if (answer.selected) {
+        setSelectedAnswers(selectedAnswers - 1)
+      } else {
+        setSelectedAnswers(selectedAnswers + 1)
+      }
 
-    tempAnswers[answer.id].selected = !tempAnswers[answer.id].selected
-    setAnswers(tempAnswers)
-  }
+      tempAnswers[answer.id].selected = !tempAnswers[answer.id].selected
+      setAnswers(tempAnswers)
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [answers, events]
+  )
 
   useEffect(() => {
     if (!events?.displayedAt) {
@@ -136,29 +141,29 @@ export const PoolBlock = ({
   }
 
   useEffect(() => {
-    onInteraction()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedAnswers])
+    if (answers) {
+      const max = Number(block.data.max) || 0
+      const min = Number(block.data.min) || 0
+      const maxAchieved = selectedAnswers === max
+      const minAchieved = selectedAnswers >= min
 
-  useEffect(() => {
-    if (isMaxAchieved) {
-      const maxAchievedAt = new Date().toString()
-      handleUpdateEvents({ maxAchievedAt: maxAchievedAt })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMaxAchieved])
+      const date = new Date().toString()
 
-  useEffect(() => {
-    if (isMaxAchieved) {
-      const minAchievedAt = new Date().toString()
-      handleUpdateEvents({ minAchievedAt: minAchievedAt })
+      if (maxAchieved) {
+        handleUpdateEvents({ maxAchievedAt: date })
+      }
+
+      if (minAchieved) {
+        handleUpdateEvents({ minAchievedAt: date })
+      }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMinAchieved])
+  }, [selectedAnswers, answers])
 
   return (
     <div className="flex relative justify-end min-w-[100%]">
-      {isEditable === true && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
+      {isEditable && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       <div
         className="flex flex-col px-2 pt-3 gap-[0.3125rem] justify-center
             min-w-[100%] bg-white 
@@ -184,26 +189,13 @@ export const PoolBlock = ({
         <span className="w-full p-[0.5px] bg-slate-100"></span>
         <div className="py-1">
           {answers &&
-            answers.map((answer, index) => (
-              <button
-                className={`flex flex-row justify-between items-center py-3 gap-3 rounded-[0.9375rem] px-3 mb-2 w-full lg:rounded-[1.25rem]
-                    ${
-                      answer.selected ? "bg-slate-900 text-white" : "bg-white"
-                    }`}
-                disabled={answer.selected ? false : isMaxAchieved || false}
-                key={index}
-                onClick={() => handleSelect(answer)}
-              >
-                <div
-                  className={`rounded-full w-[1.5625rem] h-[1.5625rem] border-[0.1875rem] shrink-0
-                        ${
-                          answer.selected ? "border-white" : "border-slate-500"
-                        }`}
-                ></div>
-                <p className="w-full text-left lg:text-[1.1rem]">
-                  {answer.value}
-                </p>
-              </button>
+            answers.map((answer) => (
+              <Option
+                key={answer.id}
+                answer={answer}
+                isMaxAchieved={isMaxAchieved}
+                handleSelect={handleSelect}
+              />
             ))}
         </div>
       </div>

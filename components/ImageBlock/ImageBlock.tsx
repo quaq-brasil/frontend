@@ -1,27 +1,31 @@
 import dynamic from "next/dynamic"
+import Image from 'next/image'
 import { useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
 
-const Image = dynamic(() => import("next/image").then((mod) => mod.default))
 
 const BlockMenu = dynamic(
   () => import("components/BlockMenu/BlockMenu").then((mod) => mod.BlockMenu),
   { ssr: false }
 )
 
-type ImageProps = {
+interface ImageProps extends IBlock {
   data: {
     img_url: string
   }
-} & IBlock
+}
 
-type ImageBlockProps = {
+interface ImageBlockProps {
   block: ImageProps
   isEditable: boolean
   onDelete?: () => void
   handleUpdateInteractions?: (interaction: IInteractionData) => void
   onEdit?: () => void
+}
+
+interface IEvent {
+  displayedAt: string
 }
 
 export const ImageBlock = ({
@@ -31,10 +35,6 @@ export const ImageBlock = ({
   handleUpdateInteractions,
   onEdit,
 }: ImageBlockProps) => {
-  type IEvent = {
-    displayedAt: string
-  }
-
   const [events, setEvents] = useState<IEvent>()
 
   useEffect(() => {
@@ -47,24 +47,22 @@ export const ImageBlock = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const onInteraction = () => {
-    handleUpdateInteractions &&
-      handleUpdateInteractions({
-        id: block.id,
-        config: {
-          id: block.id,
-          save_as: block.save_as,
-          type: block.type,
-          data: block.data.img_url,
-        },
-        output: {
-          events: events,
-        },
-      })
-  }
-
   useEffect(() => {
-    onInteraction()
+    if (events) {
+      handleUpdateInteractions &&
+        handleUpdateInteractions({
+          id: block.id,
+          config: {
+            id: block.id,
+            save_as: block.save_as,
+            type: block.type,
+            data: block.data.img_url,
+          },
+          output: {
+            events: events,
+          },
+        })
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [events])
 
@@ -81,6 +79,10 @@ export const ImageBlock = ({
           fill
           style={{ objectFit: "cover" }}
           alt={""}
+          loading="lazy"
+          sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
         />
       ) : (
         <div className="min-w-full min-h-full bg-slate-300 animate-pulse rounded-[20px] lg:rounded-[30px]"></div>

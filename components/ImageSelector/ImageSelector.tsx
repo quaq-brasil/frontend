@@ -117,6 +117,7 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
             width={85}
             height={85}
             alt="Selected Image"
+            loading="lazy"
           />
         ) : (
           <button

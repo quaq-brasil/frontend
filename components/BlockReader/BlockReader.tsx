@@ -18,6 +18,44 @@ type BlockReaderProps = {
   onEdit?: () => void
 }
 
+const blockComponents = {
+  text: TextBlock,
+  pool: PoolBlock,
+  image: ImageBlock,
+  review: ReviewBlock,
+  textentry: TextEntryBlock,
+  button: Button,
+  webhook: WebhookBlock,
+  chart: ChartBlock,
+  automation: AutomationBlock,
+}
+
+type BlockWrapperProps = {
+  Component: any
+  block: BlockProps
+  isEditable: boolean
+  onDelete: () => void
+  handleUpdateInteractions: (interaction: IInteractionData) => void
+  onEdit: () => void
+}
+
+const BlockWrapper = ({
+  Component,
+  block,
+  isEditable,
+  onDelete,
+  handleUpdateInteractions,
+  onEdit,
+}: BlockWrapperProps) => (
+  <Component
+    block={block}
+    isEditable={isEditable}
+    onDelete={onDelete}
+    onEdit={onEdit}
+    handleUpdateInteractions={handleUpdateInteractions}
+  />
+)
+
 export const BlockReader = ({
   block,
   isEditable = false,
@@ -25,98 +63,18 @@ export const BlockReader = ({
   handleUpdateInteractions,
   onEdit,
 }: BlockReaderProps) => {
-  switch (block.type) {
-    case "text":
-      return (
-        <TextBlock
-          block={block}
-          isEditable={isEditable}
-          onDelete={onDelete}
-          onEdit={onEdit}
-          handleUpdateInteractions={handleUpdateInteractions}
-        />
-      )
-    case "pool":
-      return (
-        <PoolBlock
-          block={block}
-          isEditable={isEditable}
-          onDelete={onDelete}
-          handleUpdateInteractions={handleUpdateInteractions}
-          onEdit={onEdit}
-        />
-      )
-    case "image":
-      return (
-        <ImageBlock
-          block={block}
-          isEditable={isEditable}
-          onDelete={onDelete}
-          handleUpdateInteractions={handleUpdateInteractions}
-          onEdit={onEdit}
-        />
-      )
-    case "review":
-      return (
-        <ReviewBlock
-          block={block}
-          isEditable={isEditable}
-          onDelete={onDelete}
-          handleUpdateInteractions={handleUpdateInteractions}
-          onEdit={onEdit}
-        />
-      )
-    case "textentry":
-      return (
-        <TextEntryBlock
-          block={block}
-          isEditable={isEditable}
-          onDelete={onDelete}
-          handleUpdateInteractions={handleUpdateInteractions}
-          onEdit={onEdit}
-        />
-      )
-    case "button":
-      return (
-        <Button
-          block={block}
-          isEditable={isEditable}
-          onDelete={onDelete}
-          handleUpdateInteractions={handleUpdateInteractions}
-          onEdit={onEdit}
-        />
-      )
-    case "webhook":
-      return (
-        <WebhookBlock
-          block={block}
-          isEditable={isEditable}
-          onDelete={onDelete}
-        />
-      )
-    case "chart":
-      return (
-        <ChartBlock
-          block={block}
-          isEditable={isEditable}
-          onDelete={onDelete}
-          onEdit={onEdit}
-        />
-      )
-    case "automation":
-      return (
-        <AutomationBlock
-          block={block}
-          isEditable={isEditable}
-          onDelete={onDelete}
-          onEdit={onEdit}
-        />
-      )
-    default:
-      return (
-        <>
-          <h1>error: missing block</h1>
-        </>
-      )
-  }
+  const Component = blockComponents[block.type]
+
+  return Component ? (
+    <BlockWrapper
+      Component={Component}
+      block={block}
+      isEditable={isEditable}
+      onDelete={onDelete}
+      handleUpdateInteractions={handleUpdateInteractions}
+      onEdit={onEdit}
+    />
+  ) : (
+    <h1>error: missing block</h1>
+  )
 }

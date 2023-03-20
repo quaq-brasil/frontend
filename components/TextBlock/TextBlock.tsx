@@ -24,6 +24,10 @@ type TextBlockProps = {
   onEdit?: () => void
 }
 
+type IEvent = {
+  displayedAt: string
+}
+
 export const TextBlock = ({
   block,
   isEditable,
@@ -31,10 +35,6 @@ export const TextBlock = ({
   handleUpdateInteractions,
   onEdit,
 }: TextBlockProps) => {
-  type IEvent = {
-    displayedAt: string
-  }
-
   const [events, setEvents] = useState<IEvent>()
 
   const editor = useEditor({
@@ -48,7 +48,7 @@ export const TextBlock = ({
     },
   })
 
-  const onInteraction = () => {
+  const onInteraction = useCallback(() => {
     handleUpdateInteractions &&
       handleUpdateInteractions({
         id: block.id,
@@ -62,22 +62,19 @@ export const TextBlock = ({
           events: events,
         },
       })
-  }
+  }, [block, handleUpdateInteractions, events])
 
   useEffect(() => {
     if (!events?.displayedAt) {
-      const event = {
-        displayedAt: new Date().toString(),
-      }
-      setEvents(event)
+      setEvents({ displayedAt: new Date().toString() })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [events])
 
   useEffect(() => {
-    onInteraction()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [events])
+    if (events) {
+      onInteraction()
+    }
+  }, [events, onInteraction])
 
   return (
     <div className="flex relative min-w-[100%]">

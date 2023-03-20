@@ -79,6 +79,10 @@ export const RedirectBlock = (props: RedirectBlockProps) => {
                   priority
                   style={{ objectFit: "cover" }}
                   alt={""}
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
                 />
               )}
             </div>

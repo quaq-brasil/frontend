@@ -1,6 +1,15 @@
 export type IBlock = {
   id?: string
-  type?: string
+  type?:
+    | "text"
+    | "pool"
+    | "image"
+    | "review"
+    | "textentry"
+    | "button"
+    | "webhook"
+    | "chart"
+    | "automation"
   save_as?: string
 }
 
