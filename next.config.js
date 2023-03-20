@@ -14,9 +14,10 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: [
-      'images.unsplash.com',
+      'images.unsplash.com',  
       'quaq-files.s3.sa-east-1.amazonaws.com'
-    ]
+    ],
+    formats: ['image/avif', 'image/webp'],
   },
  
   async headers() {
