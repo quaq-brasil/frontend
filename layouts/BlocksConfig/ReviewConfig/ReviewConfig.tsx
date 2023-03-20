@@ -170,10 +170,6 @@ export function ReviewConfig({
     if (blockData) {
       setContent(blockData.data)
       setSaveAs(blockData.save_as)
-      handleUpdateFormData({
-        description: { valid: true },
-        saveAs: { valid: true },
-      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockData])
@@ -195,11 +191,7 @@ export function ReviewConfig({
 
   return (
     <>
-      <Dialog
-        isOpen={isOpen}
-        title={text("reviewconfig:toptitle")}
-        onClose={() => {}}
-      >
+      <Dialog isOpen={isOpen} title={text("reviewconfig:toptitle")}>
         <div className="flex flex-col items-center gap-3">
           <Card>
             <CardText label={text("reviewconfig:title1")} />
@@ -209,11 +201,6 @@ export function ReviewConfig({
                 inputValue: content?.description,
                 onChange: (description) => {
                   handleUpdateContent({ description: description })
-                  if (description.length > 0) {
-                    handleUpdateFormData({ description: { valid: true } })
-                  } else {
-                    handleUpdateFormData({ description: { valid: false } })
-                  }
                 },
               }}
               indicator={{

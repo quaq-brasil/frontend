@@ -6,6 +6,7 @@ import { PoolBlock } from "components/PoolBlock/PoolBlock"
 import { ReviewBlock } from "components/ReviewBlock/ReviewBlock"
 import { TextBlock } from "components/TextBlock/TextBlock"
 import { TextEntryBlock } from "components/TextEntryBlock/TextEntryBlock"
+import { ToggleBlock } from "components/ToggleBlock/ToggleBlock"
 import { WebhookBlock } from "components/WebhookBlock/WebhookBlock"
 import { BlockProps } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
@@ -28,6 +29,7 @@ const blockComponents = {
   webhook: WebhookBlock,
   chart: ChartBlock,
   automation: AutomationBlock,
+  toggle: ToggleBlock,
 }
 
 type BlockWrapperProps = {

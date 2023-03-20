@@ -81,7 +81,7 @@ export const ReviewBlock = ({
         output: {
           events: events,
           data: {
-            currentReview: review,
+            current_review: review,
           },
         },
       })

@@ -17,7 +17,7 @@ type SimpleShortcutProps = {
 }
 
 export const SimpleShortcut = (props: SimpleShortcutProps) => {
-  const { title, img_url, size, index, id, templateData, pageData } = props
+  const { title, img_url, size, templateData, pageData } = props
 
   const router = useRouter()
 

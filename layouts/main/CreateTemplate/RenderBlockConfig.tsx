@@ -98,7 +98,7 @@ const AutomationConfig = dynamic(() =>
   )
 )
 
-type RenderBlockConfig = {
+type RenderBlockConfigProps = {
   block: string
   isOpen: boolean
   onClose: () => void
@@ -169,7 +169,7 @@ const blockConfigurations: BlockConfigurations = {
   },
 }
 
-export function RenderBlockConfig(props: RenderBlockConfig) {
+export function RenderBlockConfig(props: RenderBlockConfigProps) {
   const [data, setData] = useState(props)
 
   useEffect(() => {

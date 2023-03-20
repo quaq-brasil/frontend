@@ -3,6 +3,10 @@ import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
 import { useState } from "react"
 
+const ToggleLeft = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.ToggleLeft)
+)
+
 const Article = dynamic(() =>
   import("phosphor-react").then((mod) => mod.Article)
 )
@@ -155,13 +159,13 @@ export function BlockSelector(props: BlockSelectorProps) {
               hasOutline={true}
               onClick={() => handleBlockSelection("button")}
             />
-            {/* <Tag
+            <Tag
               variant="icn-txt"
               icon={ToggleLeft}
               text={text("blockselector:toggle")}
               hasOutline={true}
               onClick={() => handleBlockSelection("toggle")}
-            /> */}
+            />
             <Tag
               variant="icn-txt"
               icon={Star}

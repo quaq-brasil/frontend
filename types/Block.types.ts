@@ -10,6 +10,7 @@ export type IBlock = {
     | "webhook"
     | "chart"
     | "automation"
+    | "toggle"
   save_as?: string
 }
 
