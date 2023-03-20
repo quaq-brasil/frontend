@@ -1,9 +1,14 @@
 {
   "toptitle": "novo toggle",
-  "title1": "descrição",
-  "label1": "digite aqui",
-  "title2": "salvar como",
-  "label2": "digite aqui",
-  "tab1": "cancel",
-  "savebutton": "salvar"
+  "description": "descrição",
+  "descriptionlabel": "digite aqui",
+  "saveas": "salvar como",
+  "saveaslabel": "digite aqui",
+  "cancel": "cancelar",
+  "add": "adicionar",
+  "addblock": "adicionar bloco",
+  "on": "texto para toggle on (opcional)",
+  "onlabel": "padrão on",
+  "off": "texto para toggle off (opcional)",
+  "offlabel": "padrão off"
 }

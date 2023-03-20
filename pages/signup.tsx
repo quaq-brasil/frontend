@@ -1,10 +1,8 @@
-import { SignUp } from "layouts/Onboarding/SignUp/SignUp"
+import { SignUp } from "layouts/Onboarding/Signup/SignUp"
 import { GetServerSideProps } from "next"
 import useTranslation from "next-translate/useTranslation"
 import Head from "next/head"
-
 import { useRouter } from "next/router"
-
 import { useCreateUser } from "services/hooks/useUser/useCreateUser"
 import { useLogin } from "services/hooks/useUser/useLogin"
 import { useUpdateUser } from "services/hooks/useUser/useUpdateUser"

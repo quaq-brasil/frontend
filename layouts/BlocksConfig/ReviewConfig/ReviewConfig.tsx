@@ -22,10 +22,6 @@ export function ReviewConfig({
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
-  type IReview = {
-    description?: string
-  }
-
   type FormDataProps = {
     description?: {
       valid?: boolean
@@ -43,7 +39,6 @@ export function ReviewConfig({
       valid: false,
     },
   })
-  const [content, setContent] = useState<IReview>()
   const [saveAs, setSaveAs] = useState<string>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
@@ -54,12 +49,6 @@ export function ReviewConfig({
         ...state,
         ...newData,
       } as FormDataProps
-    })
-  }
-
-  function handleUpdateContent(newData: IReview) {
-    setContent({
-      description: newData.description,
     })
   }
 
@@ -76,7 +65,6 @@ export function ReviewConfig({
   }
 
   function handleClosing() {
-    handleUpdateContent({})
     setSaveAs(undefined)
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
@@ -88,7 +76,7 @@ export function ReviewConfig({
       id: blockData?.id || undefined,
       type: "review",
       save_as: saveAs,
-      data: content,
+      data: {},
     })
     handleClosing()
   }
@@ -122,18 +110,6 @@ export function ReviewConfig({
     }
   }
 
-  const handleOpenVariablePanelForDescription = () => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          description: content?.description
-            ? `${content?.description}${variable}`
-            : variable,
-        })
-      })
-    handleOpenVariablePanel()
-  }
-
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
@@ -158,28 +134,18 @@ export function ReviewConfig({
     } else {
       handleUpdateFormData({ saveAs: { valid: false } })
     }
-    if (content?.description) {
-      handleUpdateFormData({ description: { valid: true } })
-    } else {
-      handleUpdateFormData({ description: { valid: false } })
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [saveAs, content])
+  }, [saveAs])
 
   useEffect(() => {
     if (blockData) {
-      setContent(blockData.data)
       setSaveAs(blockData.save_as)
-      handleUpdateFormData({
-        description: { valid: true },
-        saveAs: { valid: true },
-      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockData])
 
   useEffect(() => {
-    if (content && saveAs) {
+    if (saveAs) {
       onAddBlock()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -195,34 +161,8 @@ export function ReviewConfig({
 
   return (
     <>
-      <Dialog
-        isOpen={isOpen}
-        title={text("reviewconfig:toptitle")}
-        onClose={() => {}}
-      >
+      <Dialog isOpen={isOpen} title={text("reviewconfig:toptitle")}>
         <div className="flex flex-col items-center gap-3">
-          <Card>
-            <CardText label={text("reviewconfig:title1")} />
-            <CardTextInput
-              input={{
-                label: text("reviewconfig:label1"),
-                inputValue: content?.description,
-                onChange: (description) => {
-                  handleUpdateContent({ description: description })
-                  if (description.length > 0) {
-                    handleUpdateFormData({ description: { valid: true } })
-                  } else {
-                    handleUpdateFormData({ description: { valid: false } })
-                  }
-                },
-              }}
-              indicator={{
-                icon: BracketsCurly,
-                onClick: handleOpenVariablePanelForDescription,
-              }}
-            />
-          </Card>
-
           <Card>
             <CardText label={text("reviewconfig:title2")} />
             <CardTextInput

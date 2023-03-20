@@ -1,3 +1,4 @@
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import dynamic from "next/dynamic"
 import { useCallback, useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
@@ -18,7 +19,7 @@ interface IData {
   options: Options[]
   max?: string
   min?: string
-  title: string
+  description: string
 }
 
 interface IPoolBlock extends IBlock {
@@ -125,7 +126,7 @@ export const PoolBlock = ({
           save_as: block.save_as,
           type: block.type,
           data: {
-            title: block.data.title,
+            description: block.data.description,
             min: block.data.min,
             max: block.data.max,
             options: block.data.options.map((option) => option.value),
@@ -156,6 +157,7 @@ export const PoolBlock = ({
       if (minAchieved) {
         handleUpdateEvents({ minAchievedAt: date })
       }
+      onInteraction()
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -165,16 +167,15 @@ export const PoolBlock = ({
     <div className="flex relative justify-end min-w-[100%]">
       {isEditable && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       <div
-        className="flex flex-col px-2 pt-3 gap-[0.3125rem] justify-center
-            min-w-[100%] bg-white 
-            rounded-[20px] lg:rounded-[30px] lg-px[1.125rem]"
+        className="flex flex-col px-3 pt-3 gap-[0.3125rem] justify-center
+            min-w-[100%] bg-white rounded-[20px] lg:rounded-[30px] lg:px-[1.125rem]"
       >
         <div>
-          <p className="pt-3 pb-3 px-1 font-semibold lg:text-[1.1rem] lg:px-[1.125rem]">
-            {block.data.title}
+          <p className="pt-1 pb-2 lg:text-[1.1rem] ">
+            {block.data.description}
           </p>
         </div>
-        <span className="w-full p-[0.5px] bg-slate-100"></span>
+        <CardLine />
         {block.data.min && (
           <div
             className={`w-full text-center lg:text-[1.1rem] ${
@@ -186,16 +187,19 @@ export const PoolBlock = ({
             </p>
           </div>
         )}
-        <span className="w-full p-[0.5px] bg-slate-100"></span>
-        <div className="py-1">
+        <CardLine />
+        <div className="flex flex-col gap-3 py-3">
           {answers &&
             answers.map((answer) => (
-              <Option
-                key={answer.id}
-                answer={answer}
-                isMaxAchieved={isMaxAchieved}
-                handleSelect={handleSelect}
-              />
+              <>
+                <Option
+                  key={answer.id}
+                  answer={answer}
+                  isMaxAchieved={isMaxAchieved}
+                  handleSelect={handleSelect}
+                />
+                <CardLine />
+              </>
             ))}
         </div>
       </div>

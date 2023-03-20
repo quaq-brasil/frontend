@@ -1,9 +1,14 @@
 {
   "toptitle": "new toggle",
-  "title1": "description",
-  "label1": "type it here",
-  "title2": "save as",
-  "label2": "type it here",
-  "tab1": "cancel",
-  "savebutton": "save"
+  "description": "description",
+  "descriptionlabel": "type it here",
+  "saveas": "save as",
+  "saveaslabel": "type it here",
+  "cancel": "cancel",
+  "add": "add",
+  "addblock": "add block",
+  "on": "text for toggle on (optional)",
+  "onlabel": "default on",
+  "off": "text for toggle off (optional)",
+  "offlabel": "default off"
 }
