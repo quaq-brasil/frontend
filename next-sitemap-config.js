@@ -37,5 +37,5 @@ module.exports = {
     policies: [policy],
     additionalSitemaps: ["https://bff.quaq.me/api/v1/sitemap"],
   },
-  outDir: "./out",
+  outDir: "./public",
 }
