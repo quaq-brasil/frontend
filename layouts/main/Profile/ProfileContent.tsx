@@ -47,6 +47,10 @@ export function ProfileContent({
     image: { valid: false },
     name: { valid: false },
   })
+  const [localUserData, setLocalUserData] = useState<IUpdateUser | undefined>(
+    undefined
+  )
+  const [hadChanged, setHasChanged] = useState(false)
   const [logout, setLogout] = useState(false)
 
   function handleUpdateFormData(newData: FormDataProps) {
@@ -68,18 +72,36 @@ export function ProfileContent({
     router.push(pageUrls.home())
   }
 
-  function handleValidation() {
-    if (userData.name.length > 1) {
-      handleUpdateFormData({ name: { valid: true } })
-    } else {
-      handleUpdateFormData({ name: { valid: false } })
+  useEffect(() => {
+    if (userData && !localUserData) {
+      setLocalUserData(userData)
     }
-    if (userData.avatar_url) {
-      handleUpdateFormData({ image: { valid: true } })
-    } else {
-      handleUpdateFormData({ image: { valid: false } })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData])
+
+  useEffect(() => {
+    if (userData && localUserData) {
+      if (userData?.name?.length > 1) {
+        if (userData?.name !== localUserData?.name) {
+          handleUpdateFormData({ name: { valid: true } })
+        } else {
+          handleUpdateFormData({ name: { valid: false } })
+        }
+      } else {
+        handleUpdateFormData({ name: { valid: false } })
+      }
+      if (userData?.avatar_url) {
+        if (userData?.avatar_url !== localUserData?.avatar_url) {
+          handleUpdateFormData({ image: { valid: true } })
+        } else {
+          handleUpdateFormData({ image: { valid: false } })
+        }
+      } else {
+        handleUpdateFormData({ image: { valid: false } })
+      }
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData, localUserData])
 
   useEffect(() => {
     if ((formData.image.valid, formData.name.valid)) {
@@ -105,7 +127,6 @@ export function ProfileContent({
                 <ImageSelector
                   onImageChange={(image) => {
                     handleUpdateUserData({ avatar_url: image })
-                    handleValidation()
                   }}
                   url={userData?.avatar_url || ""}
                 />
@@ -119,7 +140,6 @@ export function ProfileContent({
                 label: text("profile:inputname"),
                 onChange: (name) => {
                   handleUpdateUserData({ name: name })
-                  handleValidation()
                 },
                 type: "name",
                 defaultValue: userData?.name || "",
