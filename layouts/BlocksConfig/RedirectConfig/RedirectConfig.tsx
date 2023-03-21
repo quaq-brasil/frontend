@@ -1,3 +1,4 @@
+import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
 import { CardImageInput } from "components/Card/CardContentVariants/CardImageInput"
 import { CardLine } from "components/Card/CardContentVariants/CardLine"
@@ -9,49 +10,256 @@ import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, Check } from "phosphor-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BlocksConfigProps } from "types/BlockConfig.types"
 
-type RedirectConfigProps = {
-  size?: "sm" | "md" | "full"
-} & BlocksConfigProps
-
-export function RedirectConfig(props: RedirectConfigProps) {
+export function RedirectConfig({
+  handleAddBlock,
+  isOpen,
+  onClose,
+  handleOpenVariablePanel,
+  setFunctionHandleAddVariable,
+  handleCheckSaveAs,
+  blockData,
+}: BlocksConfigProps) {
   const text = useTranslation().t
 
-  const [redirectType, setRedirectType] = useState<string>("")
+  type IRedirect = {
+    description?: string
+    link?: string
+    type?: string
+    cover_image?: string
+  }
 
-  function handleChangeRedirectType(type: string) {
-    setRedirectType(type)
+  type FormDataProps = {
+    description?: {
+      valid?: boolean
+    }
+    link?: {
+      valid?: boolean
+    }
+    type?: {
+      valid?: boolean
+    }
+    cover_image?: {
+      valid?: boolean
+    }
+    save_as?: {
+      valid?: boolean
+    }
+  }
+
+  const [content, setContent] = useState<IRedirect>({ type: "manual" })
+  const [formData, setFormData] = useState<FormDataProps>({
+    description: {
+      valid: false,
+    },
+    save_as: {
+      valid: false,
+    },
+  })
+  const [save_as, set_save_as] = useState<string>()
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
+
+  function handleUpdateContent(newData: IRedirect) {
+    setContent((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IRedirect
+    })
+  }
+
+  function handleUpdateFormData(newData: FormDataProps) {
+    setFormData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as FormDataProps
+    })
+  }
+
+  function handleUpdateSaveAs(value: string) {
+    set_save_as(value)
+  }
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
+
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
+  }
+
+  function handleClosing() {
+    set_save_as(undefined)
+    setContent(undefined)
+    handleUpdateRunUpdate(false)
+    handleUpdateIsUpdating(false)
+    onClose()
+  }
+
+  function onAddBlock() {
+    handleAddBlock({
+      id: blockData?.id || undefined,
+      type: "redirect",
+      save_as: save_as,
+      data: content,
+    })
+    handleClosing()
   }
 
   function handleTabBar() {
-    return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("redirectconfig:back")}
-        onClick={() => props.onClose()}
-      />,
-    ]
+    if (isUpdating) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("redirectconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+        <div key={2} className="w-fit h-fit xl:hidden">
+          <Tag
+            variant="txt"
+            text={text("redirectconfig:add")}
+            onClick={() => onAddBlock()}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("redirectconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+      ]
+    }
   }
+
+  const handleOpenVariablePanelForDescription = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({
+          description: content.description
+            ? `${content.description}${variable}`
+            : variable,
+        })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForLink = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateContent({
+          link: content.link ? `${content.link}${variable}` : variable,
+        })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForSaveAs = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateSaveAs(save_as ? `${save_as}${variable}` : variable)
+      })
+    handleOpenVariablePanel()
+  }
+
+  useEffect(() => {
+    if (save_as) {
+      if (blockData) {
+        if (blockData.save_as == save_as) {
+          handleUpdateFormData({ save_as: { valid: true } })
+        } else {
+          const isValid = handleCheckSaveAs(save_as)
+          handleUpdateFormData({ save_as: { valid: isValid } })
+        }
+      } else {
+        const isValid = handleCheckSaveAs(save_as)
+        handleUpdateFormData({ save_as: { valid: isValid } })
+      }
+    } else {
+      handleUpdateFormData({ save_as: { valid: false } })
+    }
+    if (content?.description) {
+      handleUpdateFormData({ description: { valid: true } })
+    } else {
+      handleUpdateFormData({ description: { valid: false } })
+    }
+    if (content?.link) {
+      handleUpdateFormData({ link: { valid: true } })
+    } else {
+      handleUpdateFormData({ link: { valid: false } })
+    }
+    if (content?.type) {
+      handleUpdateFormData({ type: { valid: true } })
+    } else {
+      handleUpdateFormData({
+        type: { valid: false },
+      })
+    }
+    if (content?.cover_image) {
+      handleUpdateFormData({ cover_image: { valid: true } })
+    } else {
+      if (content?.type == "auto") {
+        handleUpdateFormData({ cover_image: { valid: true } })
+      } else {
+        handleUpdateFormData({ cover_image: { valid: false } })
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [save_as, content])
+
+  useEffect(() => {
+    if (blockData) {
+      setContent(blockData.data)
+      set_save_as(blockData.save_as)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
+
+  useEffect(() => {
+    if (save_as && content) {
+      onAddBlock()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
+  useEffect(() => {
+    if (
+      formData.description?.valid &&
+      formData.link?.valid &&
+      formData.type?.valid &&
+      formData.cover_image?.valid &&
+      formData.save_as?.valid
+    ) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+  }, [formData])
 
   return (
     <>
-      <Dialog
-        height={props.size}
-        isOpen={props.isOpen}
-        title={text("redirectconfig:toptitle")}
-      >
-        <div className="flex flex-col items-center gap-3 lg:gap-6 scrollbar-hide">
+      <Dialog isOpen={isOpen} title={text("redirectconfig:toptitle")}>
+        <div className="flex flex-col items-center gap-3 scrollbar-hide">
           <Card>
             <CardText label={text("redirectconfig:description")} />
             <CardTextInput
               input={{
                 label: text("redirectconfig:descriptionlabel"),
+                onChange: (value) => {
+                  handleUpdateContent({ description: value })
+                },
+                inputValue: content?.description,
               }}
               indicator={{
                 icon: BracketsCurly,
+                onClick: handleOpenVariablePanelForDescription,
               }}
             />
           </Card>
@@ -60,9 +268,14 @@ export function RedirectConfig(props: RedirectConfigProps) {
             <CardTextInput
               input={{
                 label: text("redirectconfig:linklabel"),
+                onChange: (value) => {
+                  handleUpdateContent({ link: value })
+                },
+                inputValue: content?.link,
               }}
               indicator={{
                 icon: BracketsCurly,
+                onClick: handleOpenVariablePanelForLink,
               }}
             />
           </Card>
@@ -73,8 +286,10 @@ export function RedirectConfig(props: RedirectConfigProps) {
               label={text("redirectconfig:manual")}
               indicator={{
                 icon: Check,
-                isVisible: redirectType !== "manual",
-                // onClick: () => handleChangeRedirectType("manual"),
+                isVisible: content?.type !== "manual",
+              }}
+              onClick={() => {
+                handleUpdateContent({ type: "manual" })
               }}
             />
             <CardLine />
@@ -82,17 +297,28 @@ export function RedirectConfig(props: RedirectConfigProps) {
               label={text("redirectconfig:auto")}
               indicator={{
                 icon: Check,
-                isVisible: redirectType !== "auto",
-                // onClick: () => handleChangeRedirectType("auto"),
+                isVisible: content?.type !== "auto",
+              }}
+              onClick={() => {
+                handleUpdateContent({ type: "auto" })
               }}
             />
             <CardLine />
           </Card>
 
-          {redirectType === "manual" && (
+          {content?.type === "manual" && (
             <Card>
               <CardText label={text("redirectconfig:coverimage")} />
-              <CardImageInput imageSelector={<ImageSelector />} />
+              <CardImageInput
+                imageSelector={
+                  <ImageSelector
+                    onImageChange={(value) =>
+                      handleUpdateContent({ cover_image: value })
+                    }
+                    url={content?.cover_image}
+                  />
+                }
+              />
             </Card>
           )}
 
@@ -101,28 +327,46 @@ export function RedirectConfig(props: RedirectConfigProps) {
             <CardTextInput
               input={{
                 label: text("redirectconfig:saveaslabel"),
+                onChange: (value) => {
+                  handleUpdateSaveAs(value)
+                },
+                inputValue: save_as,
               }}
               indicator={{
                 icon: BracketsCurly,
+                onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
           </Card>
 
-          {props.size === "sm" && (
-            <button
-              className="flex flex-col gap-[0.3125rem] w-[23.375rem] justify-center bg-white
-            rounded-[20px] lg:w-[35.25rem] lg:rounded-[30px]"
-            >
-              <p className="w-full p-3 lg:text-[1.1rem] lg:p-[1.125rem]">
-                {text("redirectconfig:savebutton")}
-              </p>
-            </button>
+          <div className="w-full h-fit hidden xl:block">
+            <Button
+              block={{
+                data: {
+                  color: "bg-white",
+                  text: text("redirectconfig:cancel"),
+                  onClick: handleClosing,
+                },
+              }}
+              isEditable={false}
+            />
+          </div>
+          {isUpdating && (
+            <div className="w-full h-fit hidden xl:block">
+              <Button
+                block={{
+                  data: {
+                    color: "bg-white",
+                    text: text("redirectconfig:addblock"),
+                    onClick: () => handleUpdateRunUpdate(true),
+                  },
+                }}
+                isEditable={false}
+              />
+            </div>
           )}
         </div>
-        <TabBar
-          isHidden={props.size === "sm" ? true : false}
-          tags={handleTabBar()}
-        />
+        <TabBar isHidden={true} tags={handleTabBar()} />
       </Dialog>
     </>
   )

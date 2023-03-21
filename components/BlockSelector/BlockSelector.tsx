@@ -3,6 +3,10 @@ import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
 import { useState } from "react"
 
+const ShuffleSimple = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.ShuffleSimple)
+)
+
 const ToggleLeft = dynamic(() =>
   import("phosphor-react").then((mod) => mod.ToggleLeft)
 )
@@ -199,13 +203,13 @@ export function BlockSelector(props: BlockSelectorProps) {
               hasOutline={true}
               onClick={() => handleBlockSelection("automation")}
             />
-            {/* <Tag
+            <Tag
               variant="icn-txt"
               icon={ShuffleSimple}
               text={text("blockselector:redirect")}
               hasOutline={true}
               onClick={() => handleBlockSelection("redirect")}
-            /> */}
+            />
             <Tag
               variant="icn-txt"
               icon={Plugs}

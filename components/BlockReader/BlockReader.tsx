@@ -3,6 +3,7 @@ import { Button } from "components/Button/Button"
 import { ChartBlock } from "components/ChartBlock/ChartBlock"
 import { ImageBlock } from "components/ImageBlock/ImageBlock"
 import { PoolBlock } from "components/PoolBlock/PoolBlock"
+import { RedirectBlock } from "components/RedirectBlock/RedirectBlock"
 import { ReviewBlock } from "components/ReviewBlock/ReviewBlock"
 import { TextBlock } from "components/TextBlock/TextBlock"
 import { TextEntryBlock } from "components/TextEntryBlock/TextEntryBlock"
@@ -31,6 +32,7 @@ const blockComponents = {
   chart: ChartBlock,
   automation: AutomationBlock,
   toggle: ToggleBlock,
+  redirect: RedirectBlock,
 }
 
 type BlockWrapperProps = {

@@ -88,6 +88,10 @@ const signup = () => {
   return "signup"
 }
 
+const any = (url: string) => {
+  return url
+}
+
 export const pageUrls = {
   page,
   pageSettings,
@@ -104,4 +108,5 @@ export const pageUrls = {
   pageNotFound,
   pageInternalServerError,
   signup,
+  any,
 }

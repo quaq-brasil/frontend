@@ -11,6 +11,7 @@ export type IBlock = {
     | "chart"
     | "automation"
     | "toggle"
+    | "redirect"
   save_as?: string
 }
 
