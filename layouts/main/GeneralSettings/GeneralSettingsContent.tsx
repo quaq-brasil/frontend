@@ -337,7 +337,7 @@ export function GeneralSettingsContent({
               onClick={() => router.push(pageUrls.terms())}
             />
             <CardLine />
-            <CardText
+            {/* <CardText
               label={text("generalsettings:trackers")}
               indicator={{ icon: ArrowRight }}
               onClick={() =>
@@ -352,7 +352,7 @@ export function GeneralSettingsContent({
                 )
               }
             />
-            <CardLine />
+            <CardLine /> */}
           </Card>
 
           <span className="w-full h-[4rem]"></span>
