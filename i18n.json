@@ -2,7 +2,7 @@
   "locales": ["en", "pt"],
   "defaultLocale": "en",
   "pages": {
-    "/": ["explorer"],
+    "/": ["explorer", "consumerpage"],
     "/[page]": ["consumerpage"],
     "/login": ["login", "validation"],
     "/signup": ["signup", "imageselector"],
