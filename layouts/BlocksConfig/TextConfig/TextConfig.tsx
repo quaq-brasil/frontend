@@ -186,11 +186,7 @@ export function TextConfig({
 
   return (
     <>
-      <Dialog
-        isOpen={isOpen}
-        title={text("textconfig:toptitle")}
-        onClose={() => {}}
-      >
+      <Dialog isOpen={isOpen} title={text("textconfig:toptitle")}>
         <div className="flex flex-col items-center gap-3">
           <div
             className="flex flex-col justify-center gap-[0.375rem] h-fit py-[16px]
