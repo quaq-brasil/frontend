@@ -1,18 +1,110 @@
-import { AutomationBlock } from "components/AutomationBlock/AutomationBlock"
-import { Button } from "components/Button/Button"
-import { ChartBlock } from "components/ChartBlock/ChartBlock"
-import { ImageBlock } from "components/ImageBlock/ImageBlock"
-import { PoolBlock } from "components/PoolBlock/PoolBlock"
-import { RedirectBlock } from "components/RedirectBlock/RedirectBlock"
-import { ReviewBlock } from "components/ReviewBlock/ReviewBlock"
-import { TextBlock } from "components/TextBlock/TextBlock"
-import { TextEntryBlock } from "components/TextEntryBlock/TextEntryBlock"
-import { ToggleBlock } from "components/ToggleBlock/ToggleBlock"
-import { WebhookBlock } from "components/WebhookBlock/WebhookBlock"
-import { EmbedConfig } from "layouts/BlocksConfig/EmbedConfig/EmbedConfig"
+import dynamic from "next/dynamic"
 import { memo } from "react"
 import { BlockProps } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
+
+const AutomationBlock = dynamic(
+  () =>
+    import("components/AutomationBlock/AutomationBlock").then(
+      (mod) => mod.AutomationBlock
+    ),
+  {
+    ssr: true,
+  }
+)
+
+const Button = dynamic(
+  () => import("components/Button/Button").then((mod) => mod.Button),
+  {
+    ssr: true,
+  }
+)
+
+const ChartBlock = dynamic(
+  () =>
+    import("components/ChartBlock/ChartBlock").then((mod) => mod.ChartBlock),
+  {
+    ssr: true,
+  }
+)
+
+const ImageBlock = dynamic(
+  () =>
+    import("components/ImageBlock/ImageBlock").then((mod) => mod.ImageBlock),
+  {
+    ssr: true,
+  }
+)
+
+const PoolBlock = dynamic(
+  () => import("components/PoolBlock/PoolBlock").then((mod) => mod.PoolBlock),
+  {
+    ssr: true,
+  }
+)
+
+const RedirectBlock = dynamic(
+  () =>
+    import("components/RedirectBlock/RedirectBlock").then(
+      (mod) => mod.RedirectBlock
+    ),
+  {
+    ssr: true,
+  }
+)
+
+const ReviewBlock = dynamic(
+  () =>
+    import("components/ReviewBlock/ReviewBlock").then((mod) => mod.ReviewBlock),
+  {
+    ssr: true,
+  }
+)
+
+const TextBlock = dynamic(
+  () => import("components/TextBlock/TextBlock").then((mod) => mod.TextBlock),
+  {
+    ssr: true,
+  }
+)
+
+const TextEntryBlock = dynamic(
+  () =>
+    import("components/TextEntryBlock/TextEntryBlock").then(
+      (mod) => mod.TextEntryBlock
+    ),
+  {
+    ssr: true,
+  }
+)
+
+const ToggleBlock = dynamic(
+  () =>
+    import("components/ToggleBlock/ToggleBlock").then((mod) => mod.ToggleBlock),
+  {
+    ssr: true,
+  }
+)
+
+const WebhookBlock = dynamic(
+  () =>
+    import("components/WebhookBlock/WebhookBlock").then(
+      (mod) => mod.WebhookBlock
+    ),
+  {
+    ssr: true,
+  }
+)
+
+const EmbedConfig = dynamic(
+  () =>
+    import("layouts/BlocksConfig/EmbedConfig/EmbedConfig").then(
+      (mod) => mod.EmbedConfig
+    ),
+  {
+    ssr: true,
+  }
+)
 
 type BlockReaderProps = {
   block: BlockProps

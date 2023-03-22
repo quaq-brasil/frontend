@@ -1,9 +1,10 @@
-import { BlockReader } from "components/BlockReader/BlockReader"
+// import { BlockReader } from "components/BlockReader/BlockReader"
 import { Card } from "components/Card/Card"
 import { useUserAuth } from "contexts/userAuth"
 import { useTerms } from "contexts/useTerms"
 import { useDebounce } from "hooks/useDebouce"
 import useTranslation from "next-translate/useTranslation"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useCreateInteraction } from "services/hooks/useInteraction/useCreateInteraction"
@@ -16,6 +17,14 @@ type TemplateExecutionContentProps = {
   pageAndTemplateData: getTemplateBySlugAndPageSlugProps | undefined
   setTemplateData: (data: any) => void
 }
+
+const BlockReader = dynamic(
+  () =>
+    import("components/BlockReader/BlockReader").then((mod) => mod.BlockReader),
+  {
+    ssr: true,
+  }
+)
 
 export function TemplateExecutionContent({
   pageAndTemplateData,

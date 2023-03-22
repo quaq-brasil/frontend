@@ -1,5 +1,9 @@
-const BlockReader = dynamic(() =>
-  import("components/BlockReader/BlockReader").then((mod) => mod.BlockReader)
+const BlockReader = dynamic(
+  () =>
+    import("components/BlockReader/BlockReader").then((mod) => mod.BlockReader),
+  {
+    ssr: true,
+  }
 )
 const BlockSelector = dynamic(() =>
   import("components/BlockSelector/BlockSelector").then(
@@ -17,6 +21,7 @@ const PublishNewTemplate = dynamic(() =>
 const RenderBlockConfig = dynamic(() =>
   import("./RenderBlockConfig").then((mod) => mod.RenderBlockConfig)
 )
+
 import {
   ConnectedTemplatesProps,
   VariablesPanelDialog,
