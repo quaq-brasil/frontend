@@ -107,6 +107,23 @@ export function InteractionLog({
           }
           isSelected
         />,
+        <Tag
+          key={4}
+          variant="txt"
+          text={text("centraloptions:stats")}
+          onClick={() =>
+            router.push(
+              pageUrls.templateCentral({
+                pageSlug: pageData?.slug,
+                settings: "stats",
+                templateSlug:
+                  templateData?.slug != initialTemplateData.slug
+                    ? initialTemplateData.slug
+                    : templateData?.slug,
+              })
+            )
+          }
+        />,
       ]
     }
   }

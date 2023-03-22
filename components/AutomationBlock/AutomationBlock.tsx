@@ -58,22 +58,6 @@ export const AutomationBlock = (props: AutomationBlockProps) => {
     })
   }
 
-  const onInteraction = () => {
-    props.handleUpdateInteractions &&
-      props.handleUpdateInteractions({
-        id: props.block.id,
-        config: {
-          id: props.block.id,
-          save_as: props.block.save_as,
-          type: props.block.type,
-          data: props.block.data,
-        },
-        output: {
-          events: events,
-        },
-      })
-  }
-
   useEffect(() => {
     if (!events?.displayedAt) {
       const displayedAt = new Date().toString()

@@ -13,6 +13,7 @@
     "/terms": ["terms", "profile"],
     "/adm/[page]/config/trackers": ["pagetrackers"],
     "/adm/[page]/[template]/central": ["centraloptions", "accesscontrol"],
+    "/adm/[page]/[template]/stats": ["centralstats"],
     "/adm/[page]/[template]/trackers": ["centraltrackers"],
     "/adm/[page]/[template]/logs": ["centraloptions"],
     "/adm/[page]/[template]/logs/[log]": ["centraloptions"],

@@ -1,8 +1,4 @@
-import { BlockReader } from "components/BlockReader/BlockReader"
-import { BlockSelector } from "components/BlockSelector/BlockSelector"
 import { Header } from "components/Header/Header"
-import { TabBar } from "components/TabBar/TabBar"
-import { Tag } from "components/Tag/Tag"
 import {
   ConnectedTemplatesProps,
   VariablesPanelDialog,
@@ -10,6 +6,7 @@ import {
 import { RenderBlockConfig } from "layouts/main/CreateTemplate/RenderBlockConfig"
 import { Translate } from "next-translate"
 import useTranslation from "next-translate/useTranslation"
+import dynamic from "next/dynamic"
 import { NextRouter, useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { BlockProps } from "types/Block.types"
@@ -18,6 +15,26 @@ import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
 import { pageUrls } from "utils/pagesUrl"
 import { v4 } from "uuid"
 import { PublishPublication } from "./PublishPublication"
+
+const BlockReader = dynamic(
+  () =>
+    import("components/BlockReader/BlockReader").then((mod) => mod.BlockReader),
+  {
+    ssr: true,
+  }
+)
+
+const BlockSelector = dynamic(() =>
+  import("components/BlockSelector/BlockSelector").then(
+    (mod) => mod.BlockSelector
+  )
+)
+
+const TabBar = dynamic(() =>
+  import("components/TabBar/TabBar").then((mod) => mod.TabBar)
+)
+
+const Tag = dynamic(() => import("components/Tag/Tag").then((mod) => mod.Tag))
 
 type EditPublicationContentProps = {
   pageData: IPage | undefined
