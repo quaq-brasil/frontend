@@ -1,9 +1,8 @@
 import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import dynamic from "next/dynamic"
 import Image from "next/image"
-import { useRouter } from "next/router"
 import { EyeSlash } from "phosphor-react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
 
@@ -38,9 +37,52 @@ export const RedirectBlock = ({
   handleUpdateInteractions,
   onEdit,
 }: RedirectBlockProps) => {
-  const router = useRouter()
+  type IEvent = {
+    displayedAt?: string
+    lastInteractionAt?: string
+    firstInteractionAt?: string
+  }
+
+  const [events, setEvents] = useState<IEvent>()
+
+  function handleUpdateEvents(newEvent: IEvent) {
+    setEvents((state) => {
+      return {
+        ...state,
+        ...newEvent,
+      } as IEvent
+    })
+  }
+
+  const onInteraction = () => {
+    handleUpdateInteractions &&
+      handleUpdateInteractions({
+        id: block.id,
+        config: {
+          id: block.id,
+          save_as: block.save_as,
+          type: block.type,
+          data: {
+            description: block.data.description,
+          },
+        },
+        output: {
+          events: events,
+        },
+      })
+  }
 
   function handleRedirection() {
+    if (events?.firstInteractionAt) {
+      const firstAndLast = new Date().toString()
+      handleUpdateEvents({
+        firstInteractionAt: firstAndLast,
+        lastInteractionAt: firstAndLast,
+      })
+    } else {
+      const lastInteractionAt = new Date().toString()
+      handleUpdateEvents({ lastInteractionAt: lastInteractionAt })
+    }
     if (!isEditable) {
       let url = block.data.link
       if (!/^https?:\/\//i.test(url)) {
@@ -53,9 +95,14 @@ export const RedirectBlock = ({
       }
       window.location.href = url
     }
+    onInteraction()
   }
 
   useEffect(() => {
+    if (!events?.displayedAt) {
+      const displayedAt = new Date().toString()
+      handleUpdateEvents({ displayedAt: displayedAt })
+    }
     if (block.data.type === "auto" && !isEditable) {
       handleRedirection()
     }
