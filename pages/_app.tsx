@@ -40,6 +40,7 @@ const ReactQueryDevtools = dynamic(
   }
 )
 
+import Script from "next/script"
 import { queryClient } from "services/queryClient"
 
 // import { Outfit } from "next/font/google"
@@ -78,6 +79,18 @@ export default function App({
         </AppContexts>
         {/* </SessionProvider> */}
       </QueryClientProvider>
+      <Script
+        strategy="afterInteractive"
+        src="https://www.googletagmanager.com/gtag/js?id=G-EJH4561QQN"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-EJH4561QQN');
+        `}
+      </Script>
     </ThemeProvider>
   )
 }
