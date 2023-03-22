@@ -4,7 +4,7 @@ let policy = {
   userAgent: "*",
 }
 
-if (process.env.NEXT_PUBLIC_ENVIRONMENT !== "production") {
+if (process.env.NODE_ENV !== "production") {
   policy.disallow = "/"
 }
 
@@ -35,7 +35,7 @@ module.exports = {
   ],
   robotsTxtOptions: {
     policies: [policy],
-    additionalSitemaps: ["https://bff.quaq.me/api/v1/sitemap"],
+    additionalSitemaps: ["https://api.quaq.me/api/v1/sitemap"],
   },
-  outDir: "./out",
+  outDir: "./public",
 }
