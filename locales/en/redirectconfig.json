@@ -11,5 +11,7 @@
   "saveas": "save as",
   "saveaslabel": "type it here",
   "back": "back",
-  "savebutton": "save"
+  "cancel": "cancel",
+  "add": "add",
+  "addblock": "add block"
 }

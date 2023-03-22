@@ -58,7 +58,7 @@ export function Profile({ initialUserData, handleUserUpdate }: ProfileProps) {
         <Tag
           key={1}
           variant="txt"
-          text={text("edittemplate:back")}
+          text={text("profile:back")}
           onClick={() => {
             handleUpdateIsUpdating(false)
             handleUpdateRunUpdate(false)
@@ -68,7 +68,7 @@ export function Profile({ initialUserData, handleUserUpdate }: ProfileProps) {
         <div key={2} className={`w-fit h-fit xl:hidden`}>
           <Tag
             variant="txt"
-            text={text("edittemplate:update")}
+            text={text("profile:update")}
             onClick={() => handleUpdateRunUpdate(true)}
           />
         </div>,

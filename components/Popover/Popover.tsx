@@ -37,7 +37,10 @@ export const Popover = ({
               <div className="fixed inset-0 bg-black bg-opacity-25" />
             </Transition.Child>
 
-            <div className="fixed inset-0 overflow-y-auto">
+            <div
+              onClick={declineFunc}
+              className="fixed inset-0 overflow-y-auto"
+            >
               <div className="flex min-h-full items-center justify-center p-4 text-center">
                 <Transition.Child
                   as={Fragment}
@@ -50,7 +53,7 @@ export const Popover = ({
                 >
                   <HeadlessDialog.Panel
                     className="w-full max-w-md transform overflow-hidden rounded-[20px]
-                bg-white p-3 text-left align-middle transition-all"
+                bg-white py-3 px-4 text-left align-middle transition-all"
                   >
                     <HeadlessDialog.Title
                       as="h3"

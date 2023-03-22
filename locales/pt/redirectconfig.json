@@ -11,5 +11,7 @@
   "saveas": "salvar como",
   "saveaslabel": "digite aqui",
   "back": "voltar",
-  "savebutton": "salvar"
+  "cancel": "cancelar",
+  "add": "adicionar",
+  "addblock": "adicionar bloco"
 }

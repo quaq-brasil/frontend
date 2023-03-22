@@ -81,6 +81,7 @@ export function Explorer({
                     variant="icn-txt"
                     text={text("explorer:signup")}
                     icon={UserPlus}
+                    onClick={() => router.push(pageUrls.signup())}
                   />
                 </div>
               </div>

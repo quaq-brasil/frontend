@@ -14,5 +14,6 @@
   "memberexample": "email@example.com",
   "newmember": "new member email",
   "add": "add new member",
-  "emailunique": "the email must be unique"
+  "emailunique": "the email must be unique",
+  "emailnotvalid": "the email is not valid"
 }

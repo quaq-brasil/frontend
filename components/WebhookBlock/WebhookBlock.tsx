@@ -1,3 +1,4 @@
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
 import { IBlock } from "types/Block.types"
@@ -31,12 +32,14 @@ type WebhookBlockProps = {
   isEditable: boolean
   isVisible?: boolean
   onDelete?: () => void
+  onEdit?: () => void
 }
 
 export const WebhookBlock = ({
   block,
   isEditable,
   onDelete,
+  onEdit,
 }: WebhookBlockProps) => {
   const text = useTranslation().t
 
@@ -51,7 +54,7 @@ export const WebhookBlock = ({
             }
             `}
     >
-      {isEditable && <BlockMenu onDelete={onDelete} />}
+      {isEditable && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       <div className="flex flex-row gap-3 items-center  mb-[0.5rem]">
         {!block.data.visibility && (
           <div className="w-[1.25rem] h-[1.25rem] lg:w-[1.75rem] lg:h-[1.75rem]">
@@ -66,7 +69,7 @@ export const WebhookBlock = ({
           {block.data.description}
         </p>
       </div>
-      <span className="w-full p-[0.5px] bg-slate-100 mb-[0.5rem] lg:text-[1.1rem]"></span>
+      <CardLine />
       <div>
         {block.data.type && (
           <>

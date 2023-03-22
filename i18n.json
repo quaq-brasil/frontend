@@ -2,7 +2,7 @@
   "locales": ["en", "pt"],
   "defaultLocale": "en",
   "pages": {
-    "/": ["explorer"],
+    "/": ["explorer", "consumerpage"],
     "/[page]": ["consumerpage"],
     "/login": ["login", "validation"],
     "/signup": ["signup", "imageselector"],
@@ -51,7 +51,8 @@
       "blockmenu",
       "textentryblock",
       "consumerpage",
-      "toggleconfig"
+      "toggleconfig",
+      "redirectconfig"
     ],
     "/adm/[page]/[template]/edit": [
       "publish",
@@ -73,7 +74,8 @@
       "blockmenu",
       "textentryblock",
       "consumerpage",
-      "toggleconfig"
+      "toggleconfig",
+      "redirectconfig"
     ]
   }
 }
