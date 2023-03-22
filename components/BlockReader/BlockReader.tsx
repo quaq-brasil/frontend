@@ -9,6 +9,7 @@ import { TextBlock } from "components/TextBlock/TextBlock"
 import { TextEntryBlock } from "components/TextEntryBlock/TextEntryBlock"
 import { ToggleBlock } from "components/ToggleBlock/ToggleBlock"
 import { WebhookBlock } from "components/WebhookBlock/WebhookBlock"
+import { EmbedConfig } from "layouts/BlocksConfig/EmbedConfig/EmbedConfig"
 import { memo } from "react"
 import { BlockProps } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
@@ -33,6 +34,7 @@ const blockComponents = {
   automation: AutomationBlock,
   toggle: ToggleBlock,
   redirect: RedirectBlock,
+  embed: EmbedConfig,
 }
 
 type BlockWrapperProps = {

@@ -52,7 +52,8 @@
       "textentryblock",
       "consumerpage",
       "toggleconfig",
-      "redirectconfig"
+      "redirectconfig",
+      "embedconfig"
     ],
     "/adm/[page]/[template]/edit": [
       "publish",
@@ -75,7 +76,8 @@
       "textentryblock",
       "consumerpage",
       "toggleconfig",
-      "redirectconfig"
+      "redirectconfig",
+      "embedconfig"
     ]
   }
 }

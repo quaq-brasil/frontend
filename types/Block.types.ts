@@ -12,6 +12,7 @@ export type IBlock = {
     | "automation"
     | "toggle"
     | "redirect"
+    | "embed"
   save_as?: string
 }
 

@@ -53,6 +53,10 @@ const TextIndent = dynamic(() =>
   import("phosphor-react").then((mod) => mod.TextIndent)
 )
 
+const CodeSimple = dynamic(() =>
+  import("phosphor-react").then((mod) => mod.CodeSimple)
+)
+
 const X = dynamic(() => import("phosphor-react").then((mod) => mod.X))
 
 type BlockSelectorProps = {
@@ -114,7 +118,7 @@ export function BlockSelector(props: BlockSelectorProps) {
               hasOutline={true}
               onClick={() => handleBlockSelection("chart")}
             />
-            {/* <Tag
+            <Tag
               variant="icn-txt"
               icon={CodeSimple}
               text={text("blockselector:embed")}
@@ -122,6 +126,7 @@ export function BlockSelector(props: BlockSelectorProps) {
               hasOutline={true}
               onClick={() => handleBlockSelection("embed")}
             />
+            {/*
             <Tag
               variant="icn-txt"
               icon={FileArrowUp}
