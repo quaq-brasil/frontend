@@ -86,23 +86,6 @@ export function CentralOptions({
             )
           }}
         />,
-        // <Tag
-        //   key={2}
-        //   variant="txt"
-        //   text={text("centraloptions:options")}
-        //   isSelected
-        //   isSeparated
-        // />,
-        // <Tag
-        //   key={3}
-        //   variant="txt"
-        //   text={text("centraloptions:logs")}
-        // />,
-        // <Tag
-        //   key={4}
-        //   variant="txt"
-        //   text={text("centraloptions:stats")}
-        // />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
@@ -163,11 +146,23 @@ export function CentralOptions({
             )
           }
         />,
-        // <Tag
-        //   key={4}
-        //   variant="txt"
-        //   text={text("centraloptions:stats")}
-        // />,
+        <Tag
+          key={4}
+          variant="txt"
+          text={text("centraloptions:stats")}
+          onClick={() =>
+            router.push(
+              pageUrls.templateCentral({
+                pageSlug: pageData?.slug,
+                settings: "stats",
+                templateSlug:
+                  templateData?.slug != initialTemplateData.slug
+                    ? initialTemplateData.slug
+                    : templateData?.slug,
+              })
+            )
+          }
+        />,
       ]
     }
   }
