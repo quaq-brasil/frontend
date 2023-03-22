@@ -255,8 +255,8 @@ export function EmbedConfig({
               </div>
             </>
           )}
-          <TabBar isHidden={true} tags={handleTabBar()} />
         </div>
+        <TabBar isHidden={true} tags={handleTabBar()} />
       </Dialog>
     </>
   )

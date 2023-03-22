@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic"
+import { useCallback, useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
 
@@ -27,6 +28,10 @@ type EmbedBlockProps = {
   onEdit?: () => void
 }
 
+type IEvent = {
+  displayedAt: string
+}
+
 export const EmbedBlock = ({
   block,
   isEditable,
@@ -34,6 +39,36 @@ export const EmbedBlock = ({
   handleUpdateInteractions,
   onEdit,
 }: EmbedBlockProps) => {
+  const [events, setEvents] = useState<IEvent>()
+
+  const onInteraction = useCallback(() => {
+    handleUpdateInteractions &&
+      handleUpdateInteractions({
+        id: block.id,
+        config: {
+          id: block.id,
+          save_as: block.save_as,
+          type: block.type,
+          data: block.data,
+        },
+        output: {
+          events: events,
+        },
+      })
+  }, [block, handleUpdateInteractions, events])
+
+  useEffect(() => {
+    if (!events?.displayedAt) {
+      setEvents({ displayedAt: new Date().toString() })
+    }
+  }, [events])
+
+  useEffect(() => {
+    if (events) {
+      onInteraction()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [events])
   return (
     <div className="flex relative justify-end">
       {isEditable === true && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
