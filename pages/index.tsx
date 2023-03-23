@@ -29,7 +29,7 @@ export default function Home({ pageData }: ConsumerPagePageProps) {
   }, [user])
 
   const getPage = usePageBySlug({
-    slug: "quaq",
+    slug: text("explorer:pageslug"),
     options: { placeholderData: pageData },
   })
 

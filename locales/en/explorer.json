@@ -4,5 +4,6 @@
   "pages": "my pages",
   "usequaq": "use quaq",
   "pagetitle": "Quaq",
-  "pagedescription": "Quaq helps companies turn data into actionable insights that improve performance, efficiency and profitability."
+  "pagedescription": "Quaq helps companies turn data into actionable insights that improve performance, efficiency and profitability.",
+  "pageslug": "quaq"
 }

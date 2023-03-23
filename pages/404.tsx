@@ -22,7 +22,7 @@ export default function Custom404() {
   }, [user])
 
   const getPage = usePageBySlug({
-    slug: "quaq",
+    slug: text("explorer:pageslug"),
   })
 
   return (

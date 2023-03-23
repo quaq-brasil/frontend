@@ -22,7 +22,7 @@ export default function Custom500() {
   }, [user])
 
   const getPage = usePageBySlug({
-    slug: "quaq",
+    slug: text("explorer:pageslug"),
   })
 
   return (
