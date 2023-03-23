@@ -23,5 +23,6 @@
   "send": "enviar",
   "receive": "receber",
   "keytitle": "chave secreta",
-  "url": "url do ponto de entrada"
+  "url": "url do ponto de entrada",
+  "json": "digite um código json"
 }

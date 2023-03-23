@@ -340,6 +340,7 @@ export function SendRequest({
             language="json"
             onChange={handleUpdateHeader}
             handleOpenVariablePanel={handleOpenVariablePanelForHeaders}
+            placeHolder={text("webhookconfig:json")}
           />
         </Card>
 
@@ -350,6 +351,7 @@ export function SendRequest({
             language="json"
             onChange={handleUpdateBody}
             handleOpenVariablePanel={handleOpenVariablePanelForBody}
+            placeHolder={text("webhookconfig:json")}
           />
         </Card>
 

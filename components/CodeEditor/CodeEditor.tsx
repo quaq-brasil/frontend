@@ -1,11 +1,11 @@
-// import "@uiw/react-textarea-code-editor/dist.css"
-// import dynamic from "next/dynamic"
+import "@uiw/react-textarea-code-editor/dist.css"
+import dynamic from "next/dynamic"
 import { BracketsCurly } from "phosphor-react"
 
-// const Editor = dynamic(
-//   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
-//   { ssr: false }
-// )
+const Editor = dynamic(
+  () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
+  { ssr: false }
+)
 
 type CodeEditorProps = {
   code: string
@@ -39,7 +39,7 @@ export function CodeEditor({
           </button>
         ) : null}
 
-        {/* <Editor
+        <Editor
           className="lg:mb-1"
           value={code}
           language={language}
@@ -51,7 +51,7 @@ export function CodeEditor({
             backgroundColor: "#F8FAFC",
             color: "#000000",
           }}
-        /> */}
+        />
       </div>
     </div>
   )

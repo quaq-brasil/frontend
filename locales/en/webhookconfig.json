@@ -23,5 +23,6 @@
   "send": "send",
   "receive": "receive",
   "keytitle": "secret key",
-  "url": "entry pont url"
+  "url": "entry pont url",
+  "json": "enter a json code"
 }
