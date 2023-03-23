@@ -83,12 +83,15 @@ const ContextMenuProvider = memo(function ContextMenuProvider({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div onClick={handleCloseContextMenu}>
+              <div>
                 <div
                   className="fixed inset-0 bg-black opacity-30"
                   aria-hidden="true"
+                  onClick={handleCloseContextMenu}
                 ></div>
-                <div className="relative  h-screen">{content}</div>
+                <div className="relative  h-fit w-fit bg-red-500">
+                  {content}
+                </div>
               </div>
             </Transition.Child>
           </HeadlessDialog>
