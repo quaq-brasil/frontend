@@ -1,7 +1,11 @@
 {
   "back": "back",
   "titletag": "terms and policies",
-  "title": "Terms of Use and Privcy Policies",
-  "terms": "Lorem Ipsun Amet Dolor Sit Amet Lorem Ipsun Amet Dolor Sit Amet Lorem Ipsun Amet Dolor Sit Amet Lorem Ipsun Amet Dolor Sit Amet Lorem Ipsun Amet Dolor Sit Amet Lorem Ipsun Amet Dolor Sit Amet Lorem Ipsun Amet Dolor Sit Amet ",
-  "pagetitle": "Terms and policies"
+  "pagetitle": "Terms and policies",
+  "policies": "Privacy Policies",
+  "policieslabel": "click here to access Quaq's Privacy Policies",
+  "policieslink": "https://drive.google.com/file/d/1d4sJAsd1g3Uuk1wmLLB3Ua0sD6iQl3kh/view?usp=sharing",
+  "terms": "Terms of Use",
+  "termslabel": "click here to access Quaq's Terms of Use",
+  "termslink": "https://drive.google.com/file/d/1d4sJAsd1g3Uuk1wmLLB3Ua0sD6iQl3kh/view?usp=sharing"
 }

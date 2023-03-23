@@ -1,9 +1,15 @@
 import { Card } from "components/Card/Card"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import useTranslation from "next-translate/useTranslation"
+import { ArrowRight } from "phosphor-react"
 
 export function TermsAndServicesContent() {
   const text = useTranslation().t
+
+  function handleSendToLink(link: string) {
+    window.location.href = link
+  }
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -14,8 +20,22 @@ export function TermsAndServicesContent() {
       >
         <div className="flex flex-col gap-2 md:gap-4 items-center">
           <Card>
-            <CardText label={text("terms:title")} />
+            <CardText label={text("terms:policies")} />
+            <CardText
+              label={text("terms:policieslabel")}
+              indicator={{ icon: ArrowRight }}
+              onClick={() => handleSendToLink(text("terms:policieslink"))}
+            />
+            <CardLine />
+          </Card>
+          <Card>
             <CardText label={text("terms:terms")} />
+            <CardText
+              label={text("terms:termslabel")}
+              indicator={{ icon: ArrowRight }}
+              onClick={() => handleSendToLink(text("terms:termslink"))}
+            />
+            <CardLine />
           </Card>
           <span className="w-full h-[4rem]"></span>
         </div>

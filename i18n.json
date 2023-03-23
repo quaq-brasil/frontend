@@ -9,7 +9,7 @@
     "/adm": ["creatorpage"],
     "/adm/[page]": ["creatorpage"],
     "/adm/[page]/config/general": ["generalsettings"],
-    "/adm/[page]/config/delete": ["pagedelete"],
+    "/adm/[page]/config/delete": ["pagedelete", "validation"],
     "/terms": ["terms", "profile"],
     "/adm/[page]/config/trackers": ["pagetrackers"],
     "/adm/[page]/[template]/central": ["centraloptions", "accesscontrol"],
