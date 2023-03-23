@@ -184,6 +184,7 @@ export const PublishPublication = ({
               blocks,
               template_id: templateData.id,
               page_id: pageData?.id,
+              published_at: new Date().toISOString(),
             },
           },
           {

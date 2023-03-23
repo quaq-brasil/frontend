@@ -228,8 +228,6 @@ export function AutomationConfig({
           comparison.comparativeValue = variable
         }
 
-        console.log("comparison", comparison)
-
         handleUpdateComparison({ conditionalsIndex, index, comparison })
       })
     handleOpenVariablePanel()

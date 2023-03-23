@@ -101,8 +101,6 @@ export const PublishNewTemplate = ({
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
-  console.log(templateData)
-
   function handleUpdateIsUpdating(stat: boolean) {
     setIsUpdating(stat)
   }

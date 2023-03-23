@@ -34,7 +34,6 @@ export const useTemplateBySlugAndPageSlug = ({
     queryFn: getTemplateBySlugAndPageSlug,
     ...options,
     onError(err) {
-      console.log("404", err)
       Router.push("/404")
     },
   }) as UseQueryResult<{ data: getTemplateBySlugAndPageSlugProps }>
