@@ -48,7 +48,7 @@ export const ToggleBlock = ({
   }
 
   function handleSwitch() {
-    if (events?.firstInteractionAt) {
+    if (!events?.firstInteractionAt) {
       const firstAndLast = new Date().toString()
       handleUpdateEvents({
         firstInteractionAt: firstAndLast,
@@ -71,6 +71,8 @@ export const ToggleBlock = ({
           type: block.type,
           data: {
             description: block.data.description,
+            off_label: block.data.off_label,
+            on_label: block.data.on_label,
           },
         },
         output: {

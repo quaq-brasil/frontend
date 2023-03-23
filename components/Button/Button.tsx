@@ -54,7 +54,7 @@ export function Button({
     if (!clicked) {
       setClicked(true)
     }
-    if (events?.firstInteractionAt) {
+    if (!events?.firstInteractionAt) {
       const firstAndLast = new Date().toString()
       handleUpdateEvents({
         firstInteractionAt: firstAndLast,

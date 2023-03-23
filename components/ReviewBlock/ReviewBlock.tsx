@@ -48,7 +48,7 @@ export const ReviewBlock = ({
   }
 
   function handleUpdateSelected(option: number) {
-    if (events?.firstInteractionAt) {
+    if (!events?.firstInteractionAt) {
       const firstAndLast = new Date().toString()
       handleUpdateEvents({
         firstInteractionAt: firstAndLast,

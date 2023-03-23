@@ -41,7 +41,7 @@ export const TextEntryBlock = ({
   const [value, setValue] = useState("")
 
   function handleUpdateValue(text: string) {
-    if (events?.firstInteractionAt) {
+    if (!events?.firstInteractionAt) {
       const lastInteractionAt = new Date().toString()
       handleUpdateEvents({ lastInteractionAt: lastInteractionAt })
       setValue(text)
