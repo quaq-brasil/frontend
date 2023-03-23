@@ -1,6 +1,6 @@
 type CardProps = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 export function Card(props: CardProps) {
   return (
@@ -10,5 +10,5 @@ export function Card(props: CardProps) {
     >
       {props.children}
     </div>
-  );
+  )
 }

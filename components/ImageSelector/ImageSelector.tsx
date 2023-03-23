@@ -1,16 +1,11 @@
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
+import { ImageSquare, Plus } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { useCreateFile } from "services/hooks/useFile/useCreateFile"
 import { checkForFileSize } from "utils/checkForFileSize"
 import { LoadingImage } from "./LoadingImage"
-
-const Plus = dynamic(() => import("phosphor-react").then((mod) => mod.Plus))
-
-const ImageSquare = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.ImageSquare)
-)
 
 const Image = dynamic(() => import("next/image").then((mod) => mod.default))
 
@@ -57,7 +52,6 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
         setError(text("imageselector:invalid_file_size"))
       }
 
-      let imageUrl
       if (file.type === "image/heic") {
         const { convertHeicToJpeg } = await import("utils/convertHeicToJpeg")
         const jpegImage = await convertHeicToJpeg(file)
@@ -66,7 +60,7 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
           createFile.mutate(jpegImage, {
             onSuccess: (data) => {
               setImageUrl(data.fileUrl)
-              onImageChange(data.fileUrl)
+              onImageChange && onImageChange(data.fileUrl)
             },
           })
         } else {
@@ -76,7 +70,7 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
         createFile.mutate(file, {
           onSuccess: (data) => {
             setImageUrl(data.fileUrl)
-            onImageChange(data.fileUrl)
+            onImageChange && onImageChange(data.fileUrl)
           },
         })
       }
@@ -92,16 +86,16 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
     setError("")
   }, [imageUrl])
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop })
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+  })
 
   let content = null
   if (isLoading) {
     content = (
-      <div className="w-fit">
-        <div className="relative" {...getRootProps()}>
-          <input {...getInputProps()} accept="image/" />
-          <LoadingImage />
-        </div>
+      <div className="w-fit relative" {...getRootProps()}>
+        <input {...getInputProps()} />
+        <LoadingImage />
       </div>
     )
   } else if (error) {
@@ -109,11 +103,11 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
   } else {
     content = (
       <div className="relative w-fit" {...getRootProps()}>
-        <input {...getInputProps()} accept="image/" />
+        <input {...getInputProps()} />
         {imageUrl ? (
           <Image
             src={imageUrl}
-            className="h-16 w-16  lg:h-20 lg:w-20 rounded-full object-cover border-[1px] border-black lg:border-[2px]"
+            className="h-16 w-16 lg:h-20 lg:w-20 rounded-full object-cover border-[1px] border-black lg:border-[2px]"
             width={85}
             height={85}
             alt="Selected Image"
@@ -128,12 +122,11 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
             <span>{text("imageselector:add")}</span>
           </button>
         )}
-
-        {imageUrl ? (
+        {imageUrl && (
           <div className="absolute bottom-0 right-0 bg-black flex justify-center items-center rounded-full h-5 w-5 lg:h-6 lg:w-6">
             <ImageSquare className="text-white w-3 h-3 lg:h-4 lg:w-4" />
           </div>
-        ) : null}
+        )}
       </div>
     )
   }

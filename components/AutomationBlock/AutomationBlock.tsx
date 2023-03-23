@@ -5,7 +5,7 @@ import { ComparisonType } from "layouts/BlocksConfig/AutomationConfig/Automation
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
 import { EyeSlash } from "phosphor-react"
-import { useEffect, useState } from "react"
+import { memo, useCallback, useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
 
@@ -38,7 +38,7 @@ type AutomationBlockProps = {
   onEdit?: () => void
 }
 
-export const AutomationBlock = (props: AutomationBlockProps) => {
+const AutomationBlockComponent = (props: AutomationBlockProps) => {
   const text = useTranslation().t
 
   type IEvent = {
@@ -49,14 +49,14 @@ export const AutomationBlock = (props: AutomationBlockProps) => {
 
   const [events, setEvents] = useState<IEvent>()
 
-  function handleUpdateEvents(newEvent: IEvent) {
+  const handleUpdateEvents = useCallback((newEvent: IEvent) => {
     setEvents((state) => {
       return {
         ...state,
         ...newEvent,
       } as IEvent
     })
-  }
+  }, [])
 
   useEffect(() => {
     if (!events?.displayedAt) {
@@ -104,3 +104,13 @@ export const AutomationBlock = (props: AutomationBlockProps) => {
     </div>
   )
 }
+
+export const AutomationBlock = memo(
+  AutomationBlockComponent,
+  (prevProps, nextProps) => {
+    return (
+      prevProps.block === nextProps.block &&
+      prevProps.isEditable === nextProps.isEditable
+    )
+  }
+)

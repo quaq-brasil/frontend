@@ -1,73 +1,90 @@
 import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
-import dynamic from "next/dynamic"
-import { useState } from "react"
-
-const ShuffleSimple = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.ShuffleSimple)
-)
-
-const ToggleLeft = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.ToggleLeft)
-)
-
-const Article = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.Article)
-)
-
-const ChartLine = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.ChartLine)
-)
-
-const CheckSquare = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.CheckSquare)
-)
-
-const FlowArrow = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.FlowArrow)
-)
-
-const ImageSquare = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.ImageSquare)
-)
-
-const Plugs = dynamic(() => import("phosphor-react").then((mod) => mod.Plugs))
-
-const Plus = dynamic(() => import("phosphor-react").then((mod) => mod.Plus))
-
-const RadioButton = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.RadioButton)
-)
-
-const Robot = dynamic(() => import("phosphor-react").then((mod) => mod.Robot))
-
-const Star = dynamic(() => import("phosphor-react").then((mod) => mod.Star))
-
-const TextAa = dynamic(() => import("phosphor-react").then((mod) => mod.TextAa))
-
-const Textbox = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.Textbox)
-)
-
-const TextIndent = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.TextIndent)
-)
-
-const CodeSimple = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.CodeSimple)
-)
-
-const X = dynamic(() => import("phosphor-react").then((mod) => mod.X))
+import {
+  Article,
+  ChartLine,
+  CheckSquare,
+  CodeSimple,
+  FlowArrow,
+  ImageSquare,
+  Plugs,
+  Plus,
+  RadioButton,
+  Robot,
+  ShuffleSimple,
+  Star,
+  TextAa,
+  Textbox,
+  TextIndent,
+  ToggleLeft,
+  X,
+} from "phosphor-react"
+import { memo, useState } from "react"
 
 type BlockSelectorProps = {
   onBlockSelect?: (type: string | undefined) => void
 }
 
-export function BlockSelector(props: BlockSelectorProps) {
+const blockOptionsConfig = [
+  {
+    type: "content",
+    options: [
+      { icon: ImageSquare, textKey: "blockselector:image", value: "image" },
+      { icon: TextAa, textKey: "blockselector:text", value: "text" },
+      { icon: ChartLine, textKey: "blockselector:chart", value: "chart" },
+      { icon: CodeSimple, textKey: "blockselector:embed", value: "embed" },
+    ],
+  },
+  {
+    type: "entry",
+    options: [
+      { icon: Textbox, textKey: "blockselector:textentry", value: "textentry" },
+      { icon: CheckSquare, textKey: "blockselector:pool", value: "pool" },
+      { icon: RadioButton, textKey: "blockselector:button", value: "button" },
+      { icon: ToggleLeft, textKey: "blockselector:toggle", value: "toggle" },
+      { icon: Star, textKey: "blockselector:review", value: "review" },
+    ],
+  },
+  {
+    type: "action",
+    options: [
+      { icon: Robot, textKey: "blockselector:automation", value: "automation" },
+      {
+        icon: ShuffleSimple,
+        textKey: "blockselector:redirect",
+        value: "redirect",
+      },
+      { icon: Plugs, textKey: "blockselector:webhook", value: "webhook" },
+    ],
+  },
+]
+
+interface BlockOptionTag {
+  icon: any
+  textKey: string
+  onClick: () => void
+}
+
+const BlockOptionTag = ({ icon, textKey, onClick }: BlockOptionTag) => {
+  const text = useTranslation().t
+  return (
+    <Tag
+      variant="icn-txt"
+      icon={icon}
+      text={text(textKey)}
+      isSelected={false}
+      hasOutline={true}
+      onClick={onClick}
+    />
+  )
+}
+
+export const BlockSelector = memo(function BlockSelector(
+  props: BlockSelectorProps
+) {
   const text = useTranslation().t
 
   const [selected, setSelected] = useState(false)
-
   const [options, setOptions] = useState<"content" | "entry" | "action">(
     "content"
   )
@@ -81,150 +98,17 @@ export function BlockSelector(props: BlockSelectorProps) {
     setSelected(!selected)
   }
 
-  function handleBlockOptions(type: string) {
-    switch (type) {
-      case "content":
-        return (
-          <>
-            {/* <Tag
-              variant="icn-txt"
-              icon={ArrowCounterClockwise}
-              text={text("blockselector:creations")}
-              isSelected={false}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("creations")}
-            /> */}
-            <Tag
-              variant="icn-txt"
-              icon={ImageSquare}
-              text={text("blockselector:image")}
-              isSelected={false}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("image")}
-            />
-            <Tag
-              variant="icn-txt"
-              icon={TextAa}
-              text={text("blockselector:text")}
-              isSelected={false}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("text")}
-            />
-            <Tag
-              variant="icn-txt"
-              icon={ChartLine}
-              text={text("blockselector:chart")}
-              isSelected={false}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("chart")}
-            />
-            <Tag
-              variant="icn-txt"
-              icon={CodeSimple}
-              text={text("blockselector:embed")}
-              isSelected={false}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("embed")}
-            />
-            {/*
-            <Tag
-              variant="icn-txt"
-              icon={FileArrowUp}
-              text={text("blockselector:file")}
-              isSelected={false}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("file")}
-            /> */}
-          </>
-        )
-      case "entry":
-        return (
-          <>
-            <Tag
-              variant="icn-txt"
-              icon={Textbox}
-              text={text("blockselector:textentry")}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("textentry")}
-            />
-            {/* <Tag
-              variant="icn-txt"
-              icon={FileArrowDown}
-              text={text("blockselector:fileentry")}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("fileentry")}
-            /> */}
-            <Tag
-              variant="icn-txt"
-              icon={CheckSquare}
-              text={text("blockselector:pool")}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("pool")}
-            />
-            <Tag
-              variant="icn-txt"
-              icon={RadioButton}
-              text={text("blockselector:button")}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("button")}
-            />
-            <Tag
-              variant="icn-txt"
-              icon={ToggleLeft}
-              text={text("blockselector:toggle")}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("toggle")}
-            />
-            <Tag
-              variant="icn-txt"
-              icon={Star}
-              text={text("blockselector:review")}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("review")}
-            />
-            {/* <Tag
-              variant="icn-txt"
-              icon={BracketsCurly}
-              text={text("blockselector:json")}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("json")}
-            />
-            <Tag
-              variant="icn-txt"
-              icon={PlusMinus}
-              text={text("blockselector:counter")}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("counter")}
-            /> */}
-          </>
-        )
-      case "action":
-        return (
-          <>
-            <Tag
-              variant="icn-txt"
-              icon={Robot}
-              text={text("blockselector:automation")}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("automation")}
-            />
-            <Tag
-              variant="icn-txt"
-              icon={ShuffleSimple}
-              text={text("blockselector:redirect")}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("redirect")}
-            />
-            <Tag
-              variant="icn-txt"
-              icon={Plugs}
-              text={text("blockselector:webhook")}
-              hasOutline={true}
-              onClick={() => handleBlockSelection("webhook")}
-            />
-          </>
-        )
-    }
+  function renderBlockOptions(type: string) {
+    return blockOptionsConfig
+      .find((config) => config.type === type)
+      .options.map(({ icon, textKey, value }) => (
+        <BlockOptionTag
+          key={value}
+          icon={icon}
+          textKey={textKey}
+          onClick={() => handleBlockSelection(value)}
+        />
+      ))
   }
 
   return (
@@ -232,13 +116,13 @@ export function BlockSelector(props: BlockSelectorProps) {
       {selected && (
         <div
           className="h-fit w-full bg-white shrink-0 mb-3 lg:mb-6 rounded-[20px] lg:rounded-[30px]
-          flex flex-col items-center justify-center overflow-x-hidden"
+             flex flex-col items-center justify-center overflow-x-hidden"
         >
           <div className="flex flex-col w-full justify-between h-full p-3 gap-3">
             <p className="px-3 lg:text-[1.1rem]">
               {text("blockselector:types")}
             </p>
-            <div className="flex flex-row gap-2 items-star">
+            <div className="flex flex-row gap-2 items-start">
               <Tag
                 variant="icn-txt"
                 icon={Article}
@@ -270,7 +154,7 @@ export function BlockSelector(props: BlockSelectorProps) {
             </p>
             <div>
               <div className="flex flex-row gap-3 items-end py-[2px] overflow-x-scroll scrollbar-hide">
-                <>{handleBlockOptions(options)}</>
+                {renderBlockOptions(options)}
               </div>
             </div>
           </div>
@@ -278,9 +162,7 @@ export function BlockSelector(props: BlockSelectorProps) {
       )}
       <button
         onClick={handleSelectorOpening}
-        className={`flex relative justify-center items-center 
-        p-[0.75rem] md:p-[1rem] lg:p-[1.5rem] min-w-[100%]
-        rounded-[20px] lg:rounded-[30px] ${
+        className={`flex relative justify-center items-center p-[0.75rem] md:p-[1rem] lg:p-[1.5rem] min-w-[100%] rounded-[20px] lg:rounded-[30px] ${
           selected ? "text-white bg-slate-900" : "text-black bg-white"
         }`}
       >
@@ -300,4 +182,4 @@ export function BlockSelector(props: BlockSelectorProps) {
       </button>
     </div>
   )
-}
+})

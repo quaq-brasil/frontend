@@ -1,9 +1,8 @@
 import dynamic from "next/dynamic"
-import Image from 'next/image'
+import Image from "next/image"
 import { useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
-
 
 const BlockMenu = dynamic(
   () => import("components/BlockMenu/BlockMenu").then((mod) => mod.BlockMenu),
@@ -44,37 +43,38 @@ export const ImageBlock = ({
       }
       setEvents(event)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (events) {
-      handleUpdateInteractions &&
-        handleUpdateInteractions({
+      handleUpdateInteractions?.({
+        id: block.id,
+        config: {
           id: block.id,
-          config: {
-            id: block.id,
-            save_as: block.save_as,
-            type: block.type,
-            data: block.data.img_url,
-          },
-          output: {
-            events: events,
-          },
-        })
+          save_as: block.save_as,
+          type: block.type,
+          data: block.data.img_url,
+        },
+        output: {
+          events: events,
+        },
+      })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [events])
+  }, [
+    events,
+    block.id,
+    block.save_as,
+    block.type,
+    block.data.img_url,
+    handleUpdateInteractions,
+  ])
 
   return (
-    <div
-      className="flex relative justify-center content-center
-            min-w-[100%] h-[13.0625rem]  lg:h-[19rem]"
-    >
+    <div className="flex relative justify-center items-center w-full h-52 lg:h-76">
       {isEditable && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       {block.data.img_url ? (
         <Image
-          className="rounded-[20px] lg:rounded-[30px]"
+          className="rounded-lg lg:rounded-xl"
           src={block.data.img_url}
           fill
           style={{ objectFit: "cover" }}
@@ -85,7 +85,7 @@ export const ImageBlock = ({
               33vw"
         />
       ) : (
-        <div className="min-w-full min-h-full bg-slate-300 animate-pulse rounded-[20px] lg:rounded-[30px]"></div>
+        <div className="w-full h-full bg-slate-300 animate-pulse rounded-lg lg:rounded-xl"></div>
       )}
     </div>
   )

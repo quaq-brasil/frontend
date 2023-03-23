@@ -3,6 +3,7 @@ import { Dialog } from "components/Dialog/Dialog"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
+import { memo, useMemo } from "react"
 
 type AutomationBlockBlocksProps = {
   isOpen: boolean
@@ -10,10 +11,12 @@ type AutomationBlockBlocksProps = {
   size?: "sm" | "md" | "full"
 }
 
-export function AutomationBlockBlocks(props: AutomationBlockBlocksProps) {
+export const AutomationBlockBlocks = memo(function AutomationBlockBlocks(
+  props: AutomationBlockBlocksProps
+) {
   const text = useTranslation().t
 
-  function handleTabBar() {
+  const tabBarTags = useMemo(() => {
     return [
       <Tag
         key={1}
@@ -22,7 +25,8 @@ export function AutomationBlockBlocks(props: AutomationBlockBlocksProps) {
         onClick={() => props.setIsOpen()}
       />,
     ]
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.setIsOpen, text])
 
   return (
     <>
@@ -35,10 +39,10 @@ export function AutomationBlockBlocks(props: AutomationBlockBlocksProps) {
           <BlockSelector />
           <TabBar
             isHidden={props.size === "sm" ? true : false}
-            tags={handleTabBar()}
+            tags={tabBarTags}
           />
         </div>
       </Dialog>
     </>
   )
-}
+})

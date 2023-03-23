@@ -1,17 +1,7 @@
 import { Menu, MenuHandler, MenuItem, MenuList } from "@material-tailwind/react"
 import useTranslation from "next-translate/useTranslation"
-import dynamic from "next/dynamic"
-import { useState } from "react"
-
-const ArrowsOutCardinal = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.ArrowsOutCardinal)
-)
-
-const DotsThree = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.DotsThree)
-)
-
-const X = dynamic(() => import("phosphor-react").then((mod) => mod.X))
+import { ArrowsOutCardinal, DotsThree, X } from "phosphor-react"
+import { memo, useState } from "react"
 
 export type BlockMenuProps = {
   onEdit?: () => void
@@ -19,7 +9,11 @@ export type BlockMenuProps = {
   onDrag?: () => void
 }
 
-export function BlockMenu({ onDelete, onDrag, onEdit }: BlockMenuProps) {
+export const BlockMenu = memo(function BlockMenu({
+  onDelete,
+  onDrag,
+  onEdit,
+}: BlockMenuProps) {
   const text = useTranslation().t
 
   const [selected, setSelected] = useState(false)
@@ -100,4 +94,4 @@ export function BlockMenu({ onDelete, onDrag, onEdit }: BlockMenuProps) {
       </Menu>
     </div>
   )
-}
+})
