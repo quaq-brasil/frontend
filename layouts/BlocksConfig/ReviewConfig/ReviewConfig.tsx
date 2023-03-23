@@ -1,14 +1,13 @@
 import { Button } from "components/Button/Button"
-import useTranslation from "next-translate/useTranslation"
-import { BracketsCurly } from "phosphor-react"
-import { useEffect, useState } from "react"
-
 import { Card } from "components/Card/Card"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import { Dialog } from "components/Dialog/Dialog"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
+import useTranslation from "next-translate/useTranslation"
+import { BracketsCurly } from "phosphor-react"
+import { useEffect, useState } from "react"
 import { BlocksConfigProps } from "types/BlockConfig.types"
 
 export function ReviewConfig({
@@ -23,18 +22,12 @@ export function ReviewConfig({
   const text = useTranslation().t
 
   type FormDataProps = {
-    description?: {
-      valid?: boolean
-    }
     saveAs?: {
       valid?: boolean
     }
   }
 
   const [formData, setFormData] = useState<FormDataProps>({
-    description: {
-      valid: false,
-    },
     saveAs: {
       valid: false,
     },
@@ -152,7 +145,7 @@ export function ReviewConfig({
   }, [runUpdate])
 
   useEffect(() => {
-    if (formData.description?.valid && formData.saveAs?.valid) {
+    if (formData.saveAs?.valid) {
       handleUpdateIsUpdating(true)
     } else {
       handleUpdateIsUpdating(false)

@@ -53,17 +53,17 @@ export default function TemplateLogs({
   useEffect(() => {
     if (getPageAndTemplate) {
       let pageTitle =
-        getPageAndTemplate.data.Page.title.charAt(0).toUpperCase() +
-        getPageAndTemplate.data.Page.title.slice(1).toLowerCase()
+        getPageAndTemplate.data?.Page.title.charAt(0).toUpperCase() +
+        getPageAndTemplate.data?.Page.title.slice(1).toLowerCase()
 
       let templateTitle =
-        getPageAndTemplate.data.title.charAt(0).toUpperCase() +
-        getPageAndTemplate.data.title.slice(1).toLowerCase()
+        getPageAndTemplate.data?.title.charAt(0).toUpperCase() +
+        getPageAndTemplate.data?.title.slice(1).toLowerCase()
 
       setPageInfo({
         pageTitle: pageTitle,
         templateTitle: templateTitle,
-        pageDescription: getPageAndTemplate.data.Page.description,
+        pageDescription: getPageAndTemplate.data?.Page.description,
       })
     }
   }, [getPageAndTemplate])

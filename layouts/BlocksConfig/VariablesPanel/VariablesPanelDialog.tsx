@@ -183,7 +183,7 @@ export const VariablesPanelDialog = ({
               {typeof currentData[key] == "object" ? (
                 <CardText
                   key={key}
-                  label={key.replace("_", " ")}
+                  label={key.replaceAll("_", " ")}
                   onClick={() => {
                     handleAddPath(key)
                   }}
@@ -203,7 +203,7 @@ export const VariablesPanelDialog = ({
                 >
                   <CardText
                     key={key}
-                    label={key.replace("_", " ")}
+                    label={key.replaceAll("_", " ")}
                     onClick={() => handleSelectVariable(key)}
                     indicator={{ text: currentData[key] }}
                   />
@@ -297,7 +297,7 @@ export const VariablesPanelDialog = ({
               className="flex flex-row gap-3 px-3 items-center lg:text-[1.1rem] text-left"
             >
               <ArrowLeft className="w-[1.375rem] h-[1.375rem] m-[0.3125rem] lg:w-[1.5625rem] lg:h-[1.5625rem]" />
-              {variablesPath[variablesPath.length - 1].replace("_", " ")}
+              {variablesPath[variablesPath.length - 1].replaceAll("_", " ")}
             </button>
             <CardLine />
           </>

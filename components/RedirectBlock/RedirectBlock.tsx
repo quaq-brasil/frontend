@@ -64,6 +64,9 @@ export const RedirectBlock = ({
           type: block.type,
           data: {
             description: block.data.description,
+            link: block.data.link,
+            type: block.data.type,
+            image: block.data.cover_image,
           },
         },
         output: {
@@ -73,7 +76,7 @@ export const RedirectBlock = ({
   }
 
   function handleRedirection() {
-    if (events?.firstInteractionAt) {
+    if (!events?.firstInteractionAt) {
       const firstAndLast = new Date().toString()
       handleUpdateEvents({
         firstInteractionAt: firstAndLast,

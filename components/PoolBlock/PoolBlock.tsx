@@ -83,7 +83,7 @@ export const PoolBlock = ({
 
   const handleSelect = useCallback(
     (answer: IAnswer) => {
-      if (events?.firstInteractionAt) {
+      if (!events?.firstInteractionAt) {
         const firstAndLast = new Date().toString()
         handleUpdateEvents({
           firstInteractionAt: firstAndLast,

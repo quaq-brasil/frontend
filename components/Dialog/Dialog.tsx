@@ -23,7 +23,7 @@ export function Dialog({
   height = "full",
 }: DialogProps) {
   return (
-    <Transition.Root show={isOpen} as={Fragment}>
+    <Transition.Root show={isOpen ? true : false} as={Fragment}>
       <HeadlessDialog
         as="div"
         className="relative z-50"
