@@ -82,10 +82,6 @@ export function EmbedConfig({
     handleUpdateIsUpdating(false)
     handleUpdateRunUpdate(false)
     handleUpdateSaveAs(null)
-    handleUpdateFormData({
-      content: { valid: false },
-      saveAs: { valid: false },
-    })
     onClose()
   }
 

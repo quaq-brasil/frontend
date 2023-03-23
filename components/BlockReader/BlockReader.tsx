@@ -3,6 +3,14 @@ import { memo } from "react"
 import { BlockProps } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
 
+const EmbedBlock = dynamic(
+  () =>
+    import("components/EmbedBlock/EmbedBlock").then((mod) => mod.EmbedBlock),
+  {
+    ssr: true,
+  }
+)
+
 const AutomationBlock = dynamic(
   () =>
     import("components/AutomationBlock/AutomationBlock").then(
@@ -96,16 +104,6 @@ const WebhookBlock = dynamic(
   }
 )
 
-const EmbedConfig = dynamic(
-  () =>
-    import("layouts/BlocksConfig/EmbedConfig/EmbedConfig").then(
-      (mod) => mod.EmbedConfig
-    ),
-  {
-    ssr: true,
-  }
-)
-
 type BlockReaderProps = {
   block: BlockProps
   isEditable?: boolean
@@ -126,7 +124,7 @@ const blockComponents = {
   automation: AutomationBlock,
   toggle: ToggleBlock,
   redirect: RedirectBlock,
-  embed: EmbedConfig,
+  embed: EmbedBlock,
 }
 
 type BlockWrapperProps = {
