@@ -5,7 +5,7 @@
     "/": ["explorer", "consumerpage"],
     "/[page]": ["consumerpage"],
     "/login": ["login", "validation"],
-    "/signup": ["signup", "imageselector"],
+    "/signup": ["signup", "imageselector", "validation"],
     "/adm": ["creatorpage"],
     "/adm/[page]": ["creatorpage"],
     "/adm/[page]/config/general": ["generalsettings"],
@@ -18,17 +18,21 @@
     "/adm/[page]/[template]/logs": ["centraloptions"],
     "/adm/[page]/[template]/logs/[log]": ["centraloptions"],
     "/account": ["profile"],
-    "/account/email-update": ["emailupdate"],
-    "/account/password-update": ["pwupdate"],
+    "/account/email-update": ["emailupdate", "validation"],
+    "/account/password-update": ["pwupdate", "validation"],
     "/account/advanced": ["profileadvanced"],
-    "/account/delete": ["userdelete"],
+    "/account/delete": ["userdelete", "validation"],
     "/adm/ws/[workspace]": ["wssettings"],
-    "/adm/ws/[workspace]/members": ["wssettings"],
+    "/adm/ws/[workspace]/members": ["wssettings", "validation"],
     "/adm/ws/[workspace]/advanced": ["wsadvanced"],
-    "/adm/ws/[workspace]/delete": ["wsdelete"],
-    "/adm/ws/[workspace]/new-page": ["createpage", "imageselector"],
-    "/adm/ws/new-workspace": ["createwspace", "imageselector"],
-    "/adm/ws/setup": ["createwspace", "imageselector", "wssetup"],
+    "/adm/ws/[workspace]/delete": ["wsdelete", "validation"],
+    "/adm/ws/[workspace]/new-page": [
+      "createpage",
+      "imageselector",
+      "validation"
+    ],
+    "/adm/ws/new-workspace": ["createwspace", "imageselector", "validation"],
+    "/adm/ws/setup": ["createwspace", "imageselector", "wssetup", "validation"],
     "/[page]/[template]": ["profile", "consumerpage", "textentryblock"],
     "/500": ["explorer", "consumerpage"],
     "/404": ["explorer", "consumerpage"],
@@ -54,7 +58,8 @@
       "consumerpage",
       "toggleconfig",
       "redirectconfig",
-      "embedconfig"
+      "embedconfig",
+      "validation"
     ],
     "/adm/[page]/[template]/edit": [
       "publish",
@@ -78,7 +83,8 @@
       "consumerpage",
       "toggleconfig",
       "redirectconfig",
-      "embedconfig"
+      "embedconfig",
+      "validation"
     ]
   }
 }
