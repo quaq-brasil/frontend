@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css"
 import { IUpdateUser } from "types/User.type"
 import { pageUrls } from "utils/pagesUrl"
 
-type SignUpContentProps = {
+type SignUserUpContentProps = {
   handleUpdateUserData: (data: IUpdateUser) => void
   handleUpdateIsUpdating: (stat: boolean) => void
   handleUpdateRunUpdate: (stat: boolean) => void
@@ -21,14 +21,14 @@ type SignUpContentProps = {
   userData: IUpdateUser | undefined
 }
 
-export function SignUpContent({
+export function SignUserUpContent({
   handleUpdateIsUpdating,
   handleUpdateRunUpdate,
   handleUpdateUserData,
   isUpdating,
   runUpdate,
   userData,
-}: SignUpContentProps) {
+}: SignUserUpContentProps) {
   const text = useTranslation().t
   const router = useRouter()
 

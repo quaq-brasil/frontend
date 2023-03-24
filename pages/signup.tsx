@@ -1,4 +1,4 @@
-import { SignUp } from "layouts/Onboarding/SignUp/SignUp"
+import { SignUserUp } from "layouts/Onboarding/SignUserUp/SignUserUp"
 import { GetServerSideProps } from "next"
 import useTranslation from "next-translate/useTranslation"
 import Head from "next/head"
@@ -66,7 +66,7 @@ export default function LoginPage() {
         <title>{`${text("signup:pagetitle")}`}</title>
         <meta name="description" content={text("signup:pagedescription")} />
       </Head>
-      <SignUp handleCreateUser={handleCreateUser} />
+      <SignUserUp handleCreateUser={handleCreateUser} />
     </>
   )
 }

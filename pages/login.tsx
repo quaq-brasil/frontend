@@ -1,4 +1,4 @@
-import { Login } from "layouts/Onboarding/LogIn/LogIn"
+import { LogUserIn } from "layouts/Onboarding/LogUserIn/LogUserIn"
 import { GetServerSideProps } from "next"
 import useTranslation from "next-translate/useTranslation"
 import Head from "next/head"
@@ -36,7 +36,7 @@ export default function LoginPage() {
         <title>{`${text("login:pagetitle")}`}</title>
         <meta name="description" content={text("login:pagedescription")} />
       </Head>
-      <Login handleUserLogin={handleUserLogin} />
+      <LogUserIn handleUserLogin={handleUserLogin} />
     </>
   )
 }

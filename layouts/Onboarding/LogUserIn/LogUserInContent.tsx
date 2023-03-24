@@ -11,17 +11,17 @@ const QuickIn = dynamic(
   { ssr: false }
 )
 
-type LoginContentProps = {
+type LogUserInContentProps = {
   isUpdating: boolean
   handleUpdateUserData: (data: IUserLogin) => void
   handleUpdateRunUpdate: (stat: boolean) => void
 }
 
-export function LoginContent({
+export function LogUserInContent({
   handleUpdateRunUpdate,
   handleUpdateUserData,
   isUpdating,
-}: LoginContentProps) {
+}: LogUserInContentProps) {
   const text = useTranslation().t
 
   return (

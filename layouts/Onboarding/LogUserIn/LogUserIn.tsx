@@ -4,18 +4,19 @@ import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { IUpdateUser } from "types/User.type"
-import { SignUpContent } from "./SignUpContent"
+import { IUserLogin } from "types/User.type"
+import { pageUrls } from "utils/pagesUrl"
+import { LogUserInContent } from "./LogUserInContent"
 
-type SignUpProps = {
-  handleCreateUser: (data: IUpdateUser) => void
+type LogUserInProps = {
+  handleUserLogin: (data: IUserLogin) => void
 }
 
-export function SignUp({ handleCreateUser }: SignUpProps) {
+export function LogUserIn({ handleUserLogin }: LogUserInProps) {
   const text = useTranslation().t
   const router = useRouter()
 
-  const [userData, setUserData] = useState<IUpdateUser>()
+  const [userData, setUserData] = useState<IUserLogin>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -27,18 +28,21 @@ export function SignUp({ handleCreateUser }: SignUpProps) {
     setRunUpdate(stat)
   }
 
-  function handleUpdateUserData(newData: IUpdateUser) {
+  function handleUpdateUserData(newData: IUserLogin) {
     setUserData((state) => {
       return {
         ...state,
         ...newData,
-      } as IUpdateUser
+      } as IUserLogin
     })
+    handleUpdateIsUpdating(true)
   }
 
   useEffect(() => {
     if (userData) {
-      handleCreateUser(userData)
+      handleUpdateRunUpdate(false)
+      handleUpdateIsUpdating(false)
+      handleUserLogin(userData)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
@@ -49,13 +53,13 @@ export function SignUp({ handleCreateUser }: SignUpProps) {
         <Tag
           key={1}
           variant="txt"
-          text={text("signup:back")}
-          onClick={() => router.back()}
+          text={text("login:back")}
+          onClick={() => router.push(pageUrls.home())}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("signup:signup")}
+            text={text("login:update")}
             onClick={() => handleUpdateRunUpdate(true)}
           />
         </div>,
@@ -65,8 +69,8 @@ export function SignUp({ handleCreateUser }: SignUpProps) {
         <Tag
           key={1}
           variant="txt"
-          text={text("signup:back")}
-          onClick={() => router.back()}
+          text={text("login:back")}
+          onClick={() => router.push(pageUrls.home())}
         />,
       ]
     }
@@ -79,15 +83,12 @@ export function SignUp({ handleCreateUser }: SignUpProps) {
           "https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1700&q=80"
         }
       >
-        <Tag variant="txt" text={text("signup:titletag")} />
+        <Tag variant="txt" text={text("login:titletag")} />
       </Header>
-      <SignUpContent
-        handleUpdateUserData={handleUpdateUserData}
-        handleUpdateIsUpdating={handleUpdateIsUpdating}
-        handleUpdateRunUpdate={handleUpdateRunUpdate}
+      <LogUserInContent
         isUpdating={isUpdating}
-        runUpdate={runUpdate}
-        userData={userData}
+        handleUpdateUserData={handleUpdateUserData}
+        handleUpdateRunUpdate={handleUpdateRunUpdate}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>
