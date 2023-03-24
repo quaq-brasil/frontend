@@ -51,9 +51,15 @@ export function ConsumerPage({
           <div
             className={`flex fixed z-10 top-0 left-0 right-0 bg-image justify-end min-h-[6.875rem] pb-[2rem] max-w-[1024px]
       lg:rounded-[2.5rem] mx-auto lg:min-h-[2.5rem] lg:px-10 
-      lg:py-10 text-white lg:mt-[1.5rem] mt-[19px] md:mt-0"`}
+      lg:py-10 text-white lg:mt-[1.5rem] mt-[19px] md:mt-0`}
+            onClick={handleCloseContextMenu}
           >
-            <div className="pr-4 z-10 flex space-x-3">
+            <div
+              className="mr-4 z-10 flex space-x-3"
+              onClick={(event) => {
+                event.stopPropagation()
+              }}
+            >
               <div className="flex flex-col items-end gap-3">
                 <div className="w-fit">
                   <Tag
