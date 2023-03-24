@@ -47,11 +47,13 @@ export function ProfileContent({
     image: { valid: false },
     name: { valid: false },
   })
-  const [localUserData, setLocalUserData] = useState<IUpdateUser | undefined>(
-    undefined
-  )
-  const [hadChanged, setHasChanged] = useState(false)
   const [logout, setLogout] = useState(false)
+  const [isChanging, setIsChanging] = useState(false)
+  const [localUserData, setLocalUserData] = useState<IUpdateUser | undefined>()
+
+  function handleUpdateIsChanging(stat: boolean) {
+    setIsChanging(stat)
+  }
 
   function handleUpdateFormData(newData: FormDataProps) {
     setFormData((state) => {
@@ -81,30 +83,39 @@ export function ProfileContent({
 
   useEffect(() => {
     if (userData && localUserData) {
-      if (userData?.name?.length > 1) {
-        if (userData?.name !== localUserData?.name) {
-          handleUpdateFormData({ name: { valid: true } })
-        } else {
-          handleUpdateFormData({ name: { valid: false } })
+      let isDifferent = false
+
+      for (const key in userData) {
+        if ((userData as any)[key] !== (localUserData as any)[key]) {
+          isDifferent = true
+          break
         }
-      } else {
-        handleUpdateFormData({ name: { valid: false } })
       }
-      if (userData?.avatar_url) {
-        if (userData?.avatar_url !== localUserData?.avatar_url) {
-          handleUpdateFormData({ image: { valid: true } })
-        } else {
-          handleUpdateFormData({ image: { valid: false } })
-        }
+
+      if (isDifferent) {
+        handleUpdateIsChanging(true)
       } else {
-        handleUpdateFormData({ image: { valid: false } })
+        handleUpdateIsChanging(false)
       }
+    }
+  }, [userData, localUserData])
+
+  useEffect(() => {
+    if (userData?.name?.length > 1) {
+      handleUpdateFormData({ name: { valid: true } })
+    } else {
+      handleUpdateFormData({ name: { valid: false } })
+    }
+    if (userData?.avatar_url) {
+      handleUpdateFormData({ image: { valid: true } })
+    } else {
+      handleUpdateFormData({ image: { valid: false } })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData, localUserData])
 
   useEffect(() => {
-    if ((formData.image.valid, formData.name.valid)) {
+    if (formData?.image.valid && formData?.name.valid && isChanging) {
       handleUpdateIsUpdating(true)
     } else {
       handleUpdateIsUpdating(false)
