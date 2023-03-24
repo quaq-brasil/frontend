@@ -28,7 +28,6 @@ export function CentralOptions({
     useState<IUpdateTemplate>(initialTemplateData)
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
-  const [hasChanged, setHasChanged] = useState(false)
 
   function handleUpdateIsUpdating(stat: boolean) {
     setIsUpdating(stat)
@@ -45,7 +44,6 @@ export function CentralOptions({
         ...newData,
       } as IUpdateTemplate
     })
-    setHasChanged(true)
   }
 
   useEffect(() => {
@@ -59,7 +57,7 @@ export function CentralOptions({
   function onUpdate() {
     handleUpdateIsUpdating(false)
     handleUpdateRunUpdate(false)
-    handleUpdateTemplate(templateData as IUpdateTemplate)
+    handleUpdateTemplate(templateData)
   }
 
   useEffect(() => {
@@ -70,7 +68,7 @@ export function CentralOptions({
   }, [runUpdate])
 
   function handleTabBar() {
-    if (isUpdating && hasChanged) {
+    if (isUpdating) {
       return [
         <Tag
           key={1}

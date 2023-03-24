@@ -80,6 +80,14 @@ export function GeneralSettingsContent({
     },
   })
   const [isChanging, setIsChanging] = useState(false)
+  const [localPageData, setLocalPageData] = useState<IUpdatePage | undefined>()
+
+  useEffect(() => {
+    if (pageData && !localPageData) {
+      setLocalPageData(initialPageData)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialPageData])
 
   function handleUpdateIsChanging(stat: boolean) {
     setIsChanging(stat)
@@ -123,6 +131,25 @@ export function GeneralSettingsContent({
     handleUpdatePage(pageData)
     handleUpdateIsUpdating(false)
   }
+
+  useEffect(() => {
+    if (pageData && localPageData) {
+      let isDifferent = false
+
+      for (const key in pageData) {
+        if ((pageData as any)[key] !== (localPageData as any)[key]) {
+          isDifferent = true
+          break
+        }
+      }
+
+      if (isDifferent) {
+        handleUpdateIsChanging(true)
+      } else {
+        handleUpdateIsChanging(false)
+      }
+    }
+  }, [pageData, localPageData])
 
   useEffect(() => {
     if (pageData?.title?.length > 1) {
@@ -184,7 +211,7 @@ export function GeneralSettingsContent({
       handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData])
+  }, [formData, isChanging])
 
   return (
     <div className="w-full h-screen bg-slate-100">

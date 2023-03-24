@@ -15,6 +15,7 @@ const nextConfig = {
   images: {
     domains: [
       'images.unsplash.com',  
+      'quaq-image.s3.sa-east-1.amazonaws.com',
       'quaq-files.s3.sa-east-1.amazonaws.com'
     ],
     formats: ['image/webp', 'image/avif'],

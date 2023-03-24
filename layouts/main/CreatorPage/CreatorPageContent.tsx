@@ -15,11 +15,11 @@ export function CreatorPageContent({
   pageData,
   handleUpdateTemplates,
 }: CreatorPageContentProps) {
-  const [selectedId, setSelectedId] = useState<number>()
+  const [selectedId, setSelectedId] = useState<string | null>()
 
-  function handleSelection(id: number) {
+  function handleSelection(id: string) {
     if (selectedId == id) {
-      setSelectedId(-1)
+      setSelectedId(null)
     } else {
       setSelectedId(id)
     }
@@ -53,8 +53,8 @@ export function CreatorPageContent({
             size={template.shortcut_size}
             title={template.title}
             isCreator={true}
-            isSelected={selectedId == index}
-            onClick={() => handleSelection(index)}
+            isSelected={selectedId == template.id}
+            onClick={() => handleSelection(template.id)}
             templateData={template}
             pageData={pageData}
             onMove={handleChangeInShortcutPosition}

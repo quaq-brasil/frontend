@@ -43,6 +43,13 @@ export function WorkspaceSettingsContent({
     image: { valid: false },
     title: { valid: false },
   })
+  const [isChanging, setIsChanging] = useState(false)
+  const [localWorkspaceData, setLocalWorkspaceData] =
+    useState<IUpdateWorkspace | null>()
+
+  function handleUpdateIsChanging(stat: boolean) {
+    setIsChanging(stat)
+  }
 
   function handleUpdateFormData(newData: FormDataProps) {
     setFormData((state) => {
@@ -53,8 +60,34 @@ export function WorkspaceSettingsContent({
     })
   }
 
-  function handleValidation() {
-    if ((workspaceData.title, length > 1)) {
+  useEffect(() => {
+    if (workspaceData && !localWorkspaceData) {
+      setLocalWorkspaceData(workspaceData)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workspaceData])
+
+  useEffect(() => {
+    if (workspaceData && localWorkspaceData) {
+      let isDifferent = false
+
+      for (const key in workspaceData) {
+        if ((workspaceData as any)[key] !== (localWorkspaceData as any)[key]) {
+          isDifferent = true
+          break
+        }
+      }
+
+      if (isDifferent) {
+        handleUpdateIsChanging(true)
+      } else {
+        handleUpdateIsChanging(false)
+      }
+    }
+  }, [workspaceData, localWorkspaceData])
+
+  useEffect(() => {
+    if (workspaceData?.title.length > 1) {
       handleUpdateFormData({ title: { valid: true } })
     } else {
       handleUpdateFormData({ title: { valid: false } })
@@ -64,16 +97,17 @@ export function WorkspaceSettingsContent({
     } else {
       handleUpdateFormData({ image: { valid: false } })
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workspaceData])
 
   useEffect(() => {
-    if (formData.image.valid && formData.title.valid) {
+    if (formData.image.valid && formData.title.valid && isChanging) {
       handleUpdateIsUpdating(true)
     } else {
       handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData])
+  }, [formData, isChanging])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -90,10 +124,9 @@ export function WorkspaceSettingsContent({
                 label: text("wssettings:titlelabel"),
                 onChange: (title) => {
                   handleUpdateWorkspaceData({ title: title })
-                  handleValidation()
                 },
                 type: "title",
-                defaultValue: workspaceData?.title || "",
+                inputValue: workspaceData?.title || "",
               }}
             />
           </Card>
@@ -104,7 +137,6 @@ export function WorkspaceSettingsContent({
                 <ImageSelector
                   onImageChange={(image) => {
                     handleUpdateWorkspaceData({ avatar_url: image })
-                    handleValidation()
                   }}
                   url={workspaceData?.avatar_url || ""}
                 />

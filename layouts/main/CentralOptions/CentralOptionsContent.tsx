@@ -72,7 +72,13 @@ export function CentralOptionsContent({
       valid: false,
     },
   })
-  const [secondValidation, setSecondValidation] = useState(false)
+  const [isChanging, setIsChanging] = useState(false)
+  const [localTemplateData, setLocalTemplateData] =
+    useState<IUpdateTemplate | null>()
+
+  function handleUpdateIsChanging(stat: boolean) {
+    setIsChanging(stat)
+  }
 
   function handleUpdateFormData(newData: FormDataProps) {
     setFormData((state) => {
@@ -108,6 +114,32 @@ export function CentralOptionsContent({
   })
 
   useEffect(() => {
+    if (templateData && !localTemplateData) {
+      setLocalTemplateData(templateData)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templateData])
+
+  useEffect(() => {
+    if (templateData && localTemplateData) {
+      let isDifferent = false
+
+      for (const key in templateData) {
+        if ((templateData as any)[key] !== (localTemplateData as any)[key]) {
+          isDifferent = true
+          break
+        }
+      }
+
+      if (isDifferent) {
+        handleUpdateIsChanging(true)
+      } else {
+        handleUpdateIsChanging(false)
+      }
+    }
+  }, [templateData, localTemplateData])
+
+  useEffect(() => {
     if (templateData.title.length > 1) {
       handleUpdateFormData({ title: { valid: true } })
     } else {
@@ -135,7 +167,7 @@ export function CentralOptionsContent({
   }, [templateData])
 
   useEffect(() => {
-    if (debouncedTemplateName && formData.title.valid) {
+    if (debouncedTemplateName && formData?.title.valid) {
       handleGetTemplateUrl({
         id: templateData.id,
         title: debouncedTemplateName,
@@ -151,7 +183,8 @@ export function CentralOptionsContent({
       formData.slug?.valid &&
       formData.size?.valid &&
       formData.title?.valid &&
-      formData.visibility?.valid
+      formData.visibility?.valid &&
+      isChanging
     ) {
       handleUpdateIsUpdating(true)
     } else {
@@ -174,7 +207,6 @@ export function CentralOptionsContent({
               input={{
                 onChange: (title) => {
                   handleUpdateTemplateData({ title: title })
-                  setSecondValidation(true)
                 },
                 inputValue: templateData?.title,
                 type: "title",
@@ -188,7 +220,6 @@ export function CentralOptionsContent({
               input={{
                 onChange: (slug) => {
                   handleUpdateTemplateData({ slug: slug })
-                  setSecondValidation(true)
                 },
                 value: templateData?.slug,
                 fixedText: `quaq.me/${pageData?.slug}/`,
@@ -207,7 +238,6 @@ export function CentralOptionsContent({
                 <ImageSelector
                   onImageChange={(image) => {
                     handleUpdateTemplateData({ shortcut_image: image })
-                    setSecondValidation(true)
                   }}
                   url={templateData?.shortcut_image}
                 />
@@ -225,7 +255,6 @@ export function CentralOptionsContent({
               }}
               onClick={() => {
                 handleUpdateTemplateData({ shortcut_size: "small" })
-                setSecondValidation(true)
               }}
             />
             <CardLine />
@@ -237,7 +266,6 @@ export function CentralOptionsContent({
               }}
               onClick={() => {
                 handleUpdateTemplateData({ shortcut_size: "large" })
-                setSecondValidation(true)
               }}
             />
             <CardLine />
@@ -254,7 +282,6 @@ export function CentralOptionsContent({
               }}
               onClick={() => {
                 handleUpdateTemplateData({ visibility: "public" })
-                setSecondValidation(true)
               }}
             />
             <CardLine />
@@ -266,13 +293,12 @@ export function CentralOptionsContent({
               }}
               onClick={() => {
                 handleUpdateTemplateData({ visibility: "workspace" })
-                setSecondValidation(true)
               }}
             />
             <CardLine />
           </Card>
 
-          {isUpdating && secondValidation && (
+          {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
                 block={{

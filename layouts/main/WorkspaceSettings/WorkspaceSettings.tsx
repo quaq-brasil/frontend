@@ -18,6 +18,7 @@ export function WorkspaceSettings({
   initialWorkspaceData,
 }: WorkspaceSettingsProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [workspaceData, setWorkspaceData] =
     useState<IUpdateWorkspace>(initialWorkspaceData)
@@ -45,10 +46,8 @@ export function WorkspaceSettings({
     setRunUpdate(stat)
   }
 
-  const router = useRouter()
-
   useEffect(() => {
-    if (workspaceData) {
+    if (workspaceData && runUpdate) {
       handleUpdateWorkspace(workspaceData)
       handleUpdateIsUpdating(false)
       handleUpdateRunUpdate(false)
