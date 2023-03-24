@@ -71,7 +71,7 @@ export function ShortcutMenu({
 
   return (
     <div className="relative z-10 min-w-full w-fit h-full">
-      <div className="h-fit pt-3 pl-3 overflow-x-scroll flex scrollbar-hide gap-3 items-center justify-start">
+      <div className="h-fit pt-3 pl-3 overflow-x-scroll flex scrollbar-hide gap-3 items-center justify-start pr-3">
         {!openSizeOptions ? (
           <>
             <button className="min-w-[40px] h-10 rounded-full bg-white p-1 flex items-center justify-center">
@@ -134,7 +134,7 @@ export function ShortcutMenu({
                 handleClose()
                 handleDeleteTemplate()
               }}
-              className="min-w-[40px] h-10 rounded-full bg-white p-1 flex items-center justify-center mr-3"
+              className="min-w-[40px] h-10 rounded-full bg-white p-1 flex items-center justify-center"
             >
               <Trash className="w-5 h-5 text-black" weight="bold" />
             </button>
