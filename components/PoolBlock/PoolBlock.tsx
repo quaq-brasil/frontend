@@ -70,7 +70,8 @@ export const PoolBlock = ({
       }
     })
     setAnswers(tempAnswers)
-  }, [block])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   function handleUpdateEvents(newEvent: IEvent) {
     setEvents((state) => {
@@ -161,7 +162,7 @@ export const PoolBlock = ({
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedAnswers, answers])
+  }, [selectedAnswers])
 
   return (
     <div className="flex relative justify-end min-w-[100%]">

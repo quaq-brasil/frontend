@@ -40,16 +40,9 @@ export function ShortcutMenu({
 
   function handleDeleteTemplate() {
     setIsOpen(false)
-    deleteTemplate.mutate(
-      {
-        id: templateData?.id,
-      },
-      {
-        onSuccess: () => {
-          router.push(pageUrls.pageSettings({ pageSlug: pageData?.slug }))
-        },
-      }
-    )
+    deleteTemplate.mutate({
+      id: templateData?.id,
+    })
   }
 
   return (

@@ -34,7 +34,6 @@ export default function TemplateExecutionPage({
   const getTemplateAndPage = useTemplateBySlugAndPageSlug({
     slug: templateSlug,
     page_slug: pageSlug,
-    autoUpdate: true,
     options: {
       placeholderData: pageAndTemplateData,
       retry: false,

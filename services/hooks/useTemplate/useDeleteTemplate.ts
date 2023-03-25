@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query"
+import Router from "next/router"
 import { api } from "services/api"
 import { useMutationProps } from "types/useQueryProps"
 
@@ -14,5 +15,8 @@ export const useDeleteTemplate = () => {
   return useMutation({
     mutationKey: ["deleteTemplate"],
     mutationFn: deleteTemplate,
+    onSuccess() {
+      Router.reload()
+    },
   })
 }
