@@ -1,9 +1,8 @@
 import dynamic from "next/dynamic"
+import { Star } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
-
-const Star = dynamic(() => import("phosphor-react").then((mod) => mod.Star))
 
 const BlockMenu = dynamic(
   () => import("components/BlockMenu/BlockMenu").then((mod) => mod.BlockMenu),

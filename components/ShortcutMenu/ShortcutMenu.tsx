@@ -1,38 +1,21 @@
 import { Popover } from "components/Popover/Popover"
 import useTranslation from "next-translate/useTranslation"
-import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
+import {
+  ArrowsOutCardinal,
+  CornersIn,
+  CornersOut,
+  Crop,
+  GearSix,
+  PencilSimple,
+  Play,
+  Trash,
+} from "phosphor-react"
 import { useState } from "react"
 import { useDeleteTemplate } from "services/hooks/useTemplate/useDeleteTemplate"
 import { IPage } from "types/Page.type"
 import { IUpdateTemplate } from "types/Template.type"
 import { pageUrls } from "utils/pagesUrl"
-
-const ArrowsOutCardinal = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.ArrowsOutCardinal)
-)
-
-const CornersIn = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.CornersIn)
-)
-
-const CornersOut = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.CornersOut)
-)
-
-const Crop = dynamic(() => import("phosphor-react").then((mod) => mod.Crop))
-
-const GearSix = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.GearSix)
-)
-
-const PencilSimple = dynamic(() =>
-  import("phosphor-react").then((mod) => mod.PencilSimple)
-)
-
-const Play = dynamic(() => import("phosphor-react").then((mod) => mod.Play))
-
-const Trash = dynamic(() => import("phosphor-react").then((mod) => mod.Trash))
 
 type ShortcutMenuProps = {
   templateData: IUpdateTemplate | undefined
