@@ -253,7 +253,7 @@ export function AutomationConfig({
   }
 
   useEffect(() => {
-    if (blockData) {
+    if (blockData && blockData.data && blockData.data.blocks) {
       setDescription(blockData?.data?.description)
       setConditionals([...blockData?.data?.conditionals])
       setAutomationBlocks([...blockData?.data?.blocks])
@@ -293,9 +293,9 @@ export function AutomationConfig({
 
   useEffect(() => {
     if (
-      formData.conditionals.valid &&
-      formData.description.valid &&
-      formData.saveAs.valid
+      formData?.conditionals?.valid &&
+      formData?.description?.valid &&
+      formData?.saveAs?.valid
     ) {
       handleUpdateIsUpdating(true)
     } else {
