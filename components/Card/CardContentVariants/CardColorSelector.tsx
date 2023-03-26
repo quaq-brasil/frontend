@@ -50,13 +50,13 @@ export function CardColorSelector({
   return (
     <>
       <span
-        className={`w-[4.0625rem] h-[4.0625rem] rounded-full ${color} mb-4`}
+        className={`m-3 lg:ml-5 w-[4.0625rem] h-[4.0625rem] rounded-full ${color} mb-4`}
       ></span>
       <span className="w-full p-[0.5px] bg-slate-100"></span>
       <div className="w-full px-5 flex flex-row gap-3 pt-3 flex-wrap items-center">
-        {colors.map((color, index) => (
+        {colors.map((color) => (
           <ColorButton
-            key={index}
+            key={color}
             color={color}
             onClick={() => handleColorSelection(color)}
           />
