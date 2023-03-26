@@ -26,9 +26,6 @@ type FormDataProps = {
   description?: {
     valid?: boolean
   }
-  parameters?: {
-    valid?: boolean
-  }
   type?: {
     valid?: boolean
   }
@@ -42,7 +39,6 @@ type FormDataProps = {
 
 const initialFormData: FormDataProps = {
   description: { valid: false },
-  parameters: { valid: false },
   type: { valid: false },
   link: { valid: false },
   saveAs: { valid: false },
@@ -105,9 +101,6 @@ export function SendRequest({
       description: {
         valid: false,
       },
-      parameters: {
-        valid: false,
-      },
       type: {
         valid: false,
       },
@@ -141,11 +134,6 @@ export function SendRequest({
     } else {
       handleUpdateFormData({ description: { valid: false } })
     }
-    if (content?.parameters) {
-      handleUpdateFormData({ parameters: { valid: true } })
-    } else {
-      handleUpdateFormData({ parameters: { valid: false } })
-    }
     if (content?.type) {
       handleUpdateFormData({ type: { valid: true } })
     } else {
@@ -167,7 +155,6 @@ export function SendRequest({
     if (
       formData.description?.valid &&
       formData.link?.valid &&
-      formData.parameters?.valid &&
       formData.type?.valid &&
       formData.saveAs?.valid
     ) {
