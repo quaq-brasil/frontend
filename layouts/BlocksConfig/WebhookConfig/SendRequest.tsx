@@ -11,67 +11,57 @@ import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, Check } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { BlocksConfigProps } from "types/BlockConfig.types"
-import { v4 } from "uuid"
+
+type IWebhook = {
+  description?: string
+  visibility?: boolean
+  parameters?: any
+  header?: string
+  body?: string
+  type?: string
+  link?: string
+}
+
+type FormDataProps = {
+  description?: {
+    valid?: boolean
+  }
+  parameters?: {
+    valid?: boolean
+  }
+  type?: {
+    valid?: boolean
+  }
+  link?: {
+    valid?: boolean
+  }
+  saveAs?: {
+    valid?: boolean
+  }
+}
+
+const initialFormData: FormDataProps = {
+  description: { valid: false },
+  parameters: { valid: false },
+  type: { valid: false },
+  link: { valid: false },
+  saveAs: { valid: false },
+}
 
 export function SendRequest({
   isOpen,
   onClose,
+  blockData,
   handleAddBlock,
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
   handleCheckSaveAs,
 }: BlocksConfigProps) {
   const text = useTranslation().t
-
-  type IWebhook = {
-    description?: string
-    visibility?: boolean
-    parameters?: any
-    header?: string
-    body?: string
-    type?: string
-    link?: string
-  }
-
-  type FormDataProps = {
-    description?: {
-      valid?: boolean
-    }
-    parameters?: {
-      valid?: boolean
-    }
-    type?: {
-      valid?: boolean
-    }
-    link?: {
-      valid?: boolean
-    }
-    saveAs?: {
-      valid?: boolean
-    }
-  }
-
-  const [formData, setFormData] = useState<FormDataProps>({
-    description: {
-      valid: false,
-    },
-    parameters: {
-      valid: false,
-    },
-    type: {
-      valid: false,
-    },
-    link: {
-      valid: false,
-    },
-    saveAs: {
-      valid: false,
-    },
-  })
+  const [formData, setFormData] = useState<FormDataProps>(initialFormData)
   const [content, setContent] = useState<IWebhook>()
   const [saveAs, setSaveAs] = useState<string | null>()
   const [isUpdating, setIsUpdating] = useState(false)
-  const [runUpdate, setRunUpdate] = useState(false)
 
   function handleUpdateFormData(newData: FormDataProps) {
     setFormData((state) => {
@@ -107,14 +97,9 @@ export function SendRequest({
     setIsUpdating(stat)
   }
 
-  function handleUpdateRunUpdate(stat: boolean) {
-    setRunUpdate(stat)
-  }
-
   function handleClosing() {
     handleUpdateContent({})
     setSaveAs(undefined)
-    handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
     handleUpdateFormData({
       description: {
@@ -138,7 +123,7 @@ export function SendRequest({
 
   function onAddBlock() {
     handleAddBlock({
-      id: v4(),
+      id: blockData?.id || undefined,
       type: "webhook",
       save_as: saveAs,
       data: {
@@ -177,13 +162,6 @@ export function SendRequest({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [content, saveAs])
-
-  useEffect(() => {
-    if (content && saveAs) {
-      onAddBlock()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
 
   useEffect(() => {
     if (
@@ -272,7 +250,7 @@ export function SendRequest({
           <Tag
             variant="txt"
             text={text("webhookconfig:add")}
-            onClick={() => handleUpdateRunUpdate(true)}
+            onClick={onAddBlock}
           />
         </div>,
       ]
@@ -458,7 +436,7 @@ export function SendRequest({
                 data: {
                   color: "bg-white",
                   text: text("webhookconfig:addblock"),
-                  onClick: () => handleUpdateRunUpdate(true),
+                  onClick: onAddBlock,
                 },
               }}
               isEditable={false}

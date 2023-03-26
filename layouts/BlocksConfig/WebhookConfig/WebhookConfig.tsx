@@ -16,6 +16,7 @@ export function WebhookConfig({
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
   handleCheckSaveAs,
+  blockData,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -61,6 +62,7 @@ export function WebhookConfig({
               handleOpenVariablePanel={handleOpenVariablePanel}
               isOpen={isOpen}
               onClose={onClose}
+              blockData={blockData}
               setFunctionHandleAddVariable={setFunctionHandleAddVariable}
             />
           ) : (
