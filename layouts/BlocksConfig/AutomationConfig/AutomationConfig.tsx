@@ -45,6 +45,7 @@ export function AutomationConfig({
   setFunctionHandleAddVariable,
   handleCheckSaveAs,
   blockData,
+  blocks,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -75,7 +76,7 @@ export function AutomationConfig({
   const [conditionals, setConditionals] = useState<IComparison[][]>([
     [defaultValueComparison],
   ])
-  const [blocks, setBlocks] = useState<BlockProps[]>([])
+  const [automationBlocks, setAutomationBlocks] = useState<BlockProps[]>([])
   const [isBlockSelectorOpen, setIsBlockSelectorOpen] = useState(false)
   const [isConditionalsOpen, setConditionalsOpen] = useState(false)
   const [saveAs, setSaveAs] = useState<string | null>()
@@ -202,7 +203,7 @@ export function AutomationConfig({
       data: {
         description,
         conditionals,
-        blocks,
+        automationBlocks,
       },
     })
     handleClosing()
@@ -255,7 +256,7 @@ export function AutomationConfig({
     if (blockData) {
       setDescription(blockData?.data?.description)
       setConditionals([...blockData?.data?.conditionals])
-      setBlocks([...blockData?.data?.blocks])
+      setAutomationBlocks([...blockData?.data?.blocks])
       setSaveAs(blockData.save_as)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -340,7 +341,7 @@ export function AutomationConfig({
             <CardLine />
             <CardText
               label={`${text("automationconfig:manage_blocks")} (${
-                blocks.length
+                automationBlocks.length
               })`}
               indicator={{
                 icon: ArrowRight,
@@ -405,8 +406,9 @@ export function AutomationConfig({
         <>
           {isBlockSelectorOpen && (
             <AutomationBlockSelector
-              blocks={blocks}
-              setBlocks={setBlocks}
+              blocks={automationBlocks}
+              publicationBlocks={blocks}
+              setBlocks={setAutomationBlocks}
               onClose={() => setIsBlockSelectorOpen(false)}
               handleCheckSaveAs={handleCheckSaveAs}
               saveAs={saveAs}

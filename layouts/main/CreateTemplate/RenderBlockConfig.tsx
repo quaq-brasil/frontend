@@ -107,6 +107,7 @@ type RenderBlockConfigProps = {
   setFunctionHandleAddVariable: (variable: any) => void
   handleCheckSaveAs: (value: string | undefined | null) => boolean
   blockData?: BlockProps | null
+  blocks?: BlockProps[]
 }
 
 type BlockConfigurations = {
@@ -188,6 +189,7 @@ export function RenderBlockConfig(props: RenderBlockConfigProps) {
         setFunctionHandleAddVariable={data.setFunctionHandleAddVariable}
         handleCheckSaveAs={data.handleCheckSaveAs}
         blockData={data.blockData || null}
+        blocks={data.blocks}
       />
     )
   } else {

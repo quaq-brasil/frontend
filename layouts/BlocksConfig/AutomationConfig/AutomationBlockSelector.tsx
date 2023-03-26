@@ -13,6 +13,7 @@ import {
 
 type AutomationBlockSelectorProps = {
   blocks: BlockProps[]
+  publicationBlocks: BlockProps[]
   setBlocks: Dispatch<SetStateAction<BlockProps[]>>
   onClose: () => void
   handleCheckSaveAs: (value: string) => boolean
@@ -25,6 +26,7 @@ export function AutomationBlockSelector({
   onClose,
   handleCheckSaveAs,
   saveAs,
+  publicationBlocks,
 }: AutomationBlockSelectorProps) {
   const text = useTranslation().t
 
@@ -149,7 +151,7 @@ export function AutomationBlockSelector({
           handleInsertVariable={functionHandleAddVariable}
           isOpen={isVariablesPanelOpen}
           onClose={handleCloseVariablePanel}
-          blocks={blocks}
+          blocks={[...blocks, ...publicationBlocks]}
           connectedTemplates={connectedTemplates}
           setConnectedTemplates={setConnectedTemplates}
         />

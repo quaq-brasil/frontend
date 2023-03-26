@@ -213,6 +213,7 @@ export function CreateTemplateContent({
               setFunctionHandleAddVariable={setFunctionHandleAddVariable}
               handleCheckSaveAs={handleCheckSaveAs}
               blockData={editBlockData}
+              blocks={blocks}
             />
             <VariablesPanelDialog
               handleInsertVariable={functionHandleAddVariable}

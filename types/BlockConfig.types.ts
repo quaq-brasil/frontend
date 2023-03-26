@@ -8,4 +8,5 @@ export type BlocksConfigProps = {
   setFunctionHandleAddVariable?: (variable: any) => void
   handleCheckSaveAs: (value: string | undefined | null) => boolean
   blockData?: BlockProps | null
+  blocks?: BlockProps[]
 }

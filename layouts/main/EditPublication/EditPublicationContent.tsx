@@ -220,6 +220,7 @@ export const EditPublicationContent = ({
               setFunctionHandleAddVariable={setFunctionHandleAddVariable}
               handleCheckSaveAs={handleCheckSaveAs}
               blockData={editBlockData}
+              blocks={blocks}
             />
             <VariablesPanelDialog
               handleInsertVariable={functionHandleAddVariable}
