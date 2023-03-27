@@ -71,25 +71,37 @@ export const WebhookBlock = ({
       </div>
       <CardLine />
       <div>
-        {block.data.type && (
+        {block?.data?.type && (
           <>
             <p className="font-semibold">{text("webhookconfig:type")}</p>
             <p className="pl-3 mb-2">{block.data.type}</p>
           </>
         )}
-        {block.data.link && (
+        {block?.data?.link && (
           <>
             <p className="font-semibold">link</p>
             <p className="pl-3 mb-2">{block.data.link}</p>
           </>
         )}
-        {block.data.parameters && (
+        {block?.data?.parameters && (
           <>
             <p className="font-semibold">{text("webhookconfig:parameters")}</p>
             <p className="pl-3 mb-2">{block.data.parameters}</p>
           </>
         )}
-        {block.save_as && (
+        {block?.data?.header && (
+          <>
+            <p className="font-semibold">{"header"}</p>
+            <p className="pl-3 mb-2">{block.data.parameters}</p>
+          </>
+        )}
+        {block?.data?.body && (
+          <>
+            <p className="font-semibold">{"body"}</p>
+            <p className="pl-3 mb-2">{block.data.parameters}</p>
+          </>
+        )}
+        {block?.save_as && (
           <>
             <p className="font-semibold">{text("webhookconfig:saveas")}</p>
             <p className="pl-3 mb-2">{block.save_as}</p>
