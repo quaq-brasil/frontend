@@ -18,6 +18,7 @@ export function ReceiveRequest({
   handleOpenVariablePanel,
   setFunctionHandleAddVariable,
   handleCheckSaveAs,
+  blockData,
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
@@ -182,7 +183,15 @@ export function ReceiveRequest({
   }, [content, saveAs])
 
   useEffect(() => {
-    if (formData.description.valid && formData.saveAs.valid) {
+    if (blockData) {
+      setContent(blockData.data)
+      setSaveAs(blockData.save_as)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
+
+  useEffect(() => {
+    if (formData?.description.valid && formData?.saveAs.valid) {
       handleUpdateIsUpdating(true)
     } else {
       handleUpdateIsUpdating(false)

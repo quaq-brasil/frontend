@@ -152,6 +152,14 @@ export function SendRequest({
   }, [content, saveAs])
 
   useEffect(() => {
+    if (blockData) {
+      setContent(blockData.data)
+      setSaveAs(blockData.save_as)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
+
+  useEffect(() => {
     if (
       formData.description?.valid &&
       formData.link?.valid &&

@@ -209,6 +209,22 @@ export function AutomationConfig({
     handleClosing()
   }
 
+  useEffect(() => {
+    if (
+      blockData &&
+      blockData.data &&
+      blockData.data.description &&
+      blockData.data.conditionals &&
+      blockData.data.automationBlocks
+    ) {
+      setDescription(blockData.data.description)
+      setConditionals(blockData.data.conditionals)
+      setAutomationBlocks(blockData.data.automationBlocks)
+      setSaveAs(blockData.save_as)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
+
   const handleOpenVariablePanelForComparison = ({
     conditionalsIndex,
     index,
