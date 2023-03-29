@@ -23,49 +23,16 @@ import { memo, useState } from "react"
 
 type BlockSelectorProps = {
   onBlockSelect?: (type: string | undefined) => void
+  isInsideAutomation?: boolean
 }
 
-const blockOptionsConfig = [
-  {
-    type: "content",
-    options: [
-      { icon: ImageSquare, textKey: "blockselector:image", value: "image" },
-      { icon: TextAa, textKey: "blockselector:text", value: "text" },
-      { icon: ChartLine, textKey: "blockselector:chart", value: "chart" },
-      { icon: CodeSimple, textKey: "blockselector:embed", value: "embed" },
-    ],
-  },
-  {
-    type: "entry",
-    options: [
-      { icon: Textbox, textKey: "blockselector:textentry", value: "textentry" },
-      { icon: CheckSquare, textKey: "blockselector:pool", value: "pool" },
-      { icon: RadioButton, textKey: "blockselector:button", value: "button" },
-      { icon: ToggleLeft, textKey: "blockselector:toggle", value: "toggle" },
-      { icon: Star, textKey: "blockselector:review", value: "review" },
-    ],
-  },
-  {
-    type: "action",
-    options: [
-      { icon: Robot, textKey: "blockselector:automation", value: "automation" },
-      {
-        icon: ShuffleSimple,
-        textKey: "blockselector:redirect",
-        value: "redirect",
-      },
-      { icon: Plugs, textKey: "blockselector:webhook", value: "webhook" },
-    ],
-  },
-]
-
-interface BlockOptionTag {
+interface BlockOptionTagProps {
   icon: any
   textKey: string
   onClick: () => void
 }
 
-const BlockOptionTag = ({ icon, textKey, onClick }: BlockOptionTag) => {
+const BlockOptionTag = ({ icon, textKey, onClick }: BlockOptionTagProps) => {
   const text = useTranslation().t
   return (
     <Tag
@@ -83,6 +50,57 @@ export const BlockSelector = memo(function BlockSelector(
   props: BlockSelectorProps
 ) {
   const text = useTranslation().t
+
+  const blockOptionsConfig = [
+    {
+      type: "content",
+      options: [
+        { icon: ImageSquare, textKey: "blockselector:image", value: "image" },
+        { icon: TextAa, textKey: "blockselector:text", value: "text" },
+        { icon: ChartLine, textKey: "blockselector:chart", value: "chart" },
+        { icon: CodeSimple, textKey: "blockselector:embed", value: "embed" },
+      ],
+    },
+    {
+      type: "entry",
+      options: [
+        {
+          icon: Textbox,
+          textKey: "blockselector:textentry",
+          value: "textentry",
+        },
+        { icon: CheckSquare, textKey: "blockselector:pool", value: "pool" },
+        { icon: RadioButton, textKey: "blockselector:button", value: "button" },
+        { icon: ToggleLeft, textKey: "blockselector:toggle", value: "toggle" },
+        { icon: Star, textKey: "blockselector:review", value: "review" },
+      ],
+    },
+    {
+      type: "action",
+      options: props.isInsideAutomation
+        ? [
+            {
+              icon: ShuffleSimple,
+              textKey: "blockselector:redirect",
+              value: "redirect",
+            },
+            { icon: Plugs, textKey: "blockselector:webhook", value: "webhook" },
+          ]
+        : [
+            {
+              icon: Robot,
+              textKey: "blockselector:automation",
+              value: "automation",
+            },
+            {
+              icon: ShuffleSimple,
+              textKey: "blockselector:redirect",
+              value: "redirect",
+            },
+            { icon: Plugs, textKey: "blockselector:webhook", value: "webhook" },
+          ],
+    },
+  ]
 
   const [selected, setSelected] = useState(false)
   const [options, setOptions] = useState<"content" | "entry" | "action">(
