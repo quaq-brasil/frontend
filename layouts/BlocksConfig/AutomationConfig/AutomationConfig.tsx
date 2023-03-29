@@ -4,6 +4,8 @@ import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import { Dialog } from "components/Dialog/Dialog"
+import { TabBar } from "components/TabBar/TabBar"
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
 import { ArrowRight, BracketsCurly } from "phosphor-react"
@@ -268,6 +270,35 @@ export function AutomationConfig({
     handleOpenVariablePanel()
   }
 
+  function handleTabBar() {
+    if (isUpdating) {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("reviewconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+        <div key={2} className="w-fit h-fit xl:hidden">
+          <Tag
+            variant="txt"
+            text={text("reviewconfig:add")}
+            onClick={() => onAddBlock()}
+          />
+        </div>,
+      ]
+    } else {
+      return [
+        <Tag
+          key={1}
+          variant="txt"
+          text={text("reviewconfig:cancel")}
+          onClick={() => handleClosing()}
+        />,
+      ]
+    }
+  }
+
   useEffect(() => {
     if (blockData && blockData.data && blockData.data.blocks) {
       setDescription(blockData?.data?.description)
@@ -417,6 +448,7 @@ export function AutomationConfig({
               </div>
             </>
           )}
+          <TabBar isHidden={true} tags={handleTabBar()} />
         </div>
       ) : (
         <>
