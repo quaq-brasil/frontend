@@ -69,7 +69,7 @@ export const ImageBlock = ({
       {isEditable && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       {block.data.img_url ? (
         <Image
-          className="rounded-lg lg:rounded-xl"
+          className="rounded-[20px] lg:rounded-[30px]"
           src={block.data.img_url}
           fill
           style={{ objectFit: "cover" }}
@@ -80,7 +80,7 @@ export const ImageBlock = ({
               33vw"
         />
       ) : (
-        <div className="w-full h-full bg-slate-300 animate-pulse rounded-lg lg:rounded-xl"></div>
+        <div className="w-full h-full bg-slate-300 animate-pulse rounded-[20px] lg:rounded-[30px]"></div>
       )}
     </div>
   )
