@@ -79,10 +79,10 @@ export function TemplateExecution({
       {pageAndTemplateData?.trackers?.google && (
         <>
           <Script
-            strategy="lazyOnload"
+            strategy="afterInteractive"
             src={`https://www.googletagmanager.com/gtag/js?id=${pageAndTemplateData?.trackers?.google}`}
           />
-          <Script id="google-analytics" strategy="lazyOnload">
+          <Script id="google-analytics" strategy="afterInteractive">
             {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

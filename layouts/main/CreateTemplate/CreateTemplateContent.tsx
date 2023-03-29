@@ -29,7 +29,7 @@ import {
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BlockProps } from "types/Block.types"
 import { IPage } from "types/Page.type"
 import { pageUrls } from "utils/pagesUrl"
@@ -83,6 +83,7 @@ export function CreateTemplateContent({
 }: CreateTemplateContentProps) {
   const [blockSelected, setBlockSelected] = useState<string | undefined>()
   const [blocks, setBlocks] = useState<BlockProps[]>([])
+  const [blocksVariables, setBlocksVariables] = useState<BlockProps[]>([])
   const [isOpenPublishTemplate, setIsOpenPublishTemplate] = useState(false)
   const [isVariablesPanelOpen, setIsVariablesPanelOpen] = useState(false)
   const [functionHandleAddVariable, setFunctionHandleAddVariable] = useState(
@@ -91,6 +92,23 @@ export function CreateTemplateContent({
   const [connectedTemplates, setConnectedTemplates] =
     useState<ConnectedTemplatesProps[]>()
   const [editBlockData, setEditBlockData] = useState<BlockProps | null>()
+
+  useEffect(() => {
+    let newBlocksVariables = [] as BlockProps[]
+
+    blocks.forEach((block) => {
+      if (block.type === "automation") {
+        newBlocksVariables = [
+          ...newBlocksVariables,
+          ...block?.data?.automationBlocks,
+        ]
+      } else {
+        newBlocksVariables.push(block)
+      }
+    })
+
+    setBlocksVariables(newBlocksVariables)
+  }, [blocks])
 
   const handleOpenVariablePanel = () => {
     setIsVariablesPanelOpen(true)
@@ -219,7 +237,7 @@ export function CreateTemplateContent({
               handleInsertVariable={functionHandleAddVariable}
               isOpen={isVariablesPanelOpen}
               onClose={handleCloseVariablePanel}
-              blocks={blocks}
+              blocks={blocksVariables}
               connectedTemplates={connectedTemplates}
               setConnectedTemplates={setConnectedTemplates}
             />

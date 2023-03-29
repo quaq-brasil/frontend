@@ -52,6 +52,7 @@ export const EditPublicationContent = ({
   const [isUpdating, setIsUpdating] = useState(false)
   const [blockSelected, setBlockSelected] = useState<string | undefined>()
   const [blocks, setBlocks] = useState<BlockProps[]>([])
+  const [blocksVariables, setBlocksVariables] = useState<BlockProps[]>([])
   const [isOpenPublishTemplate, setIsOpenPublishTemplate] = useState(false)
   const [isVariablesPanelOpen, setIsVariablesPanelOpen] = useState(false)
   const [functionHandleAddVariable, setFunctionHandleAddVariable] = useState(
@@ -60,6 +61,23 @@ export const EditPublicationContent = ({
   const [connectedTemplates, setConnectedTemplates] =
     useState<ConnectedTemplatesProps[]>()
   const [editBlockData, setEditBlockData] = useState<BlockProps | null>()
+
+  useEffect(() => {
+    let newBlocksVariables = [] as BlockProps[]
+
+    blocks.forEach((block) => {
+      if (block.type === "automation") {
+        newBlocksVariables = [
+          ...newBlocksVariables,
+          ...block?.data?.automationBlocks,
+        ]
+      } else {
+        newBlocksVariables.push(block)
+      }
+    })
+
+    setBlocksVariables(newBlocksVariables)
+  }, [blocks])
 
   useEffect(() => {
     if (templateData?.publication.blocks) {
@@ -227,7 +245,7 @@ export const EditPublicationContent = ({
               handleInsertVariable={functionHandleAddVariable}
               isOpen={isVariablesPanelOpen}
               onClose={handleCloseVariablePanel}
-              blocks={blocks}
+              blocks={blocksVariables}
               connectedTemplates={connectedTemplates}
               setConnectedTemplates={setConnectedTemplates}
             />
