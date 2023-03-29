@@ -69,6 +69,9 @@ export const EmbedBlock = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [events])
+
+  console.log("EmbedBlock", block)
+
   return (
     <div className="flex relative justify-end">
       {isEditable === true && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
