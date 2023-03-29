@@ -61,7 +61,7 @@ export const ImageBlock = ({
           data: { ...block.data, height: finalHeight },
         })
     },
-    [block, handleAddBlock]
+    [block]
   )
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -126,7 +126,7 @@ export const ImageBlock = ({
         },
       })
     }
-  }, [events, block, handleUpdateInteractions])
+  }, [events])
 
   return (
     <div
