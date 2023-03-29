@@ -314,7 +314,7 @@ export function CentralOptionsContent({
           )}
           <Card>
             <CardText label={text("centraloptions:moreoptions")} />
-            {/* <CardLine />
+            <CardLine />
             <CardText
               label={text("accesscontrol:setuptrackers")}
               indicator={{ icon: ArrowRight }}
@@ -330,7 +330,7 @@ export function CentralOptionsContent({
                   })
                 )
               }
-            /> */}
+            />
             <CardLine />
             <CardText
               label={text("centraloptions:edit")}
