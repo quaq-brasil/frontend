@@ -203,6 +203,7 @@ export const EditPublicationContent = ({
                     isEditable={true}
                     onDelete={() => handleRemoveBlock(index)}
                     onEdit={() => handleOnEdit(block)}
+                    handleAddBlock={handleAddBlock}
                   />
                 )
               })}

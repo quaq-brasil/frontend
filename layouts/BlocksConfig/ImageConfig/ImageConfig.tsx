@@ -25,6 +25,7 @@ export function ImageConfig({
 
   type IImage = {
     img_url?: string
+    height?: string
   }
 
   type FormDataProps = {
@@ -44,7 +45,7 @@ export function ImageConfig({
       valid: false,
     },
   })
-  const [content, setContent] = useState<IImage>()
+  const [content, setContent] = useState<IImage>({ height: "28rem" })
   const [saveAs, setSaveAs] = useState<string | null>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
