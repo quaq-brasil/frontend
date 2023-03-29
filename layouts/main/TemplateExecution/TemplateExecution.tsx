@@ -3,6 +3,7 @@ import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
+import Script from "next/script"
 import { useEffect, useState } from "react"
 import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
 
@@ -68,8 +69,30 @@ export function TemplateExecution({
     )
   }
 
+  console.log(
+    "pageAndTemplateData?.trackers?.google",
+    pageAndTemplateData?.trackers?.google
+  )
+
   return (
     <div className="bg-slate-100 fixed inset-0">
+      {pageAndTemplateData?.trackers?.google && (
+        <>
+          <Script
+            strategy="lazyOnload"
+            src={`https://www.googletagmanager.com/gtag/js?id=${pageAndTemplateData?.trackers?.google}`}
+          />
+          <Script id="google-analytics" strategy="lazyOnload">
+            {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${pageAndTemplateData?.trackers?.google}');
+        `}
+          </Script>
+        </>
+      )}
+
       {loadHeader()}
       <TemplateExecutionContent
         setTemplateData={setPageAndTemplateData}
