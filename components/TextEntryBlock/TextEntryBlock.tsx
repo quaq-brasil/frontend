@@ -38,7 +38,19 @@ export const TextEntryBlock = ({
   }
 
   const [events, setEvents] = useState<IEvent>()
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState<string | number>("")
+
+  function tryParseNumber(input: string): number | string {
+    const parsedNumber = Number(input)
+
+    if (Number.isNaN(parsedNumber)) {
+      // Return the original string if the conversion fails
+      return input
+    } else {
+      // Return the parsed number if the conversion succeeds
+      return parsedNumber
+    }
+  }
 
   function handleUpdateValue(text: string) {
     if (!events?.firstInteractionAt) {
@@ -51,7 +63,10 @@ export const TextEntryBlock = ({
         firstInteractionAt: firstAndLast,
         lastInteractionAt: firstAndLast,
       })
-      setValue(text)
+
+      const parsedValue = tryParseNumber(text)
+
+      setValue(parsedValue)
     }
   }
 
