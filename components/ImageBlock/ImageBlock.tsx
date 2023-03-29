@@ -61,14 +61,8 @@ export const ImageBlock = ({
         },
       })
     }
-  }, [
-    events,
-    block.id,
-    block.save_as,
-    block.type,
-    block.data.img_url,
-    handleUpdateInteractions,
-  ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [events])
 
   return (
     <div className="flex relative justify-center items-center w-full h-52 lg:h-76">
