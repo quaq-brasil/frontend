@@ -1,33 +1,37 @@
-import * as z from "zod";
+import * as z from "zod"
 
 export const validateEmail = (email: string) => {
-  const emailSchema = z.string().email();
+  const emailSchema = z.string().email()
   try {
-    emailSchema.parse(email);
-    return true;
+    emailSchema.parse(email)
+    return true
   } catch (err) {
-    return false;
+    return false
   }
-};
+}
 
-export const validateNumber = (number: number) => {
-  const numberSchema = z.number();
+export const validateNumber = (number: number | string) => {
+  if (typeof number === "string") {
+    return false
+  }
+
+  const numberSchema = z.number()
 
   try {
-    numberSchema.parse(number);
-    return true;
+    numberSchema.parse(number)
+    return true
   } catch (err) {
-    return false;
+    return false
   }
-};
+}
 
 export const validateUrl = (url: string) => {
-  const urlSchema = z.string().url();
+  const urlSchema = z.string().url()
 
   try {
-    urlSchema.parse(url);
-    return true;
+    urlSchema.parse(url)
+    return true
   } catch (err) {
-    return false;
+    return false
   }
-};
+}

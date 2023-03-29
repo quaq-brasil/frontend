@@ -30,7 +30,7 @@ export const BlockMenu = memo(function BlockMenu({
             >
               <MenuHandler>
                 <button
-                  className={`h-[1.5rem] w-[1.5rem] rounded-full flex justify-center items-center ${
+                  className={`h-[1.5rem] w-[1.5rem] shrink-0 rounded-full flex justify-center items-center ${
                     selected ? "bg-slate-900 text-white" : "bg-white text-black"
                   } ring-1 ring-slate-100`}
                 >
@@ -76,17 +76,20 @@ export const BlockMenu = memo(function BlockMenu({
         )}
         {isMoveSelected && (
           <>
-            <button onClick={() => {}} className="w-fit h-fit">
+            <button
+              onClick={() => {}}
+              className="w-fit h-fit flex flex-row justify-start items-center align-middle gap-2"
+            >
+              <button
+                onClick={() => setIsMoveSelected(false)}
+                className={`h-[1.5rem] w-[1.5rem] rounded-full flex justify-center items-center bg-white text-black ring-1 ring-slate-100`}
+              >
+                <X className="w-[1.15rem] h-[1.15rem] ml-[1px]" />
+              </button>
               <button
                 className={`h-[1.5rem] w-[1.5rem] rounded-full flex justify-center items-center bg-slate-900 text-white ring-1 ring-slate-100`}
               >
                 <ArrowsOutCardinal className="w-[1.15rem] h-[1.15rem] ml-[1px]" />
-              </button>
-              <button
-                onClick={() => setIsMoveSelected(false)}
-                className={`h-[1.5rem] w-[1.5rem] rounded-full flex justify-center items-center mt-2 bg-white text-black ring-1 ring-slate-100`}
-              >
-                <X className="w-[1.15rem] h-[1.15rem] ml-[1px]" />
               </button>
             </button>
           </>

@@ -69,6 +69,11 @@ export function TemplateExecution({
     )
   }
 
+  console.log(
+    "pageAndTemplateData?.trackers?.google",
+    pageAndTemplateData?.trackers?.google
+  )
+
   return (
     <div className="bg-slate-100 fixed inset-0">
       {pageAndTemplateData?.trackers?.google && (

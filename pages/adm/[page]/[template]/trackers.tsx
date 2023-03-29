@@ -9,11 +9,11 @@ import { useUpdateTemplate } from "services/hooks/useTemplate/useUpdateTemplate"
 import { IUserPayload } from "types/Auth.types"
 import {
   getTemplateBySlugAndPageSlugProps,
-  IUpdateTemplate
+  IUpdateTemplate,
 } from "types/Template.type"
 import {
   RedirectNotFoundVerify,
-  redirectNotFoundVerifyProps
+  redirectNotFoundVerifyProps,
 } from "utils/404Redirect"
 import { withAuth } from "utils/withAuth"
 
@@ -33,7 +33,6 @@ export default function CentralTrackersPage({
   const getPageAndTemplate = useTemplateBySlugAndPageSlug({
     page_slug: pageSlug,
     slug: templateSlug,
-    consumer_id: payload.sub,
     options: { initialData: pageAndTemplateData },
   })
 

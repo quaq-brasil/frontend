@@ -61,16 +61,14 @@ export const EmbedBlock = ({
     if (!events?.displayedAt) {
       setEvents({ displayedAt: new Date().toString() })
     }
-  }, [events])
 
-  useEffect(() => {
     if (events) {
       onInteraction()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [events])
 
-  console.log("EmbedBlock", block)
+  console.log(block.data.link)
 
   return (
     <div className="flex relative justify-end">

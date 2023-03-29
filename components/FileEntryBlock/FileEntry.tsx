@@ -75,7 +75,7 @@ export function FileEntry({ onFileChange }: FileEntryProps) {
   return (
     <div className="relative px-3" {...getRootProps()}>
       <input {...inputProps} />
-      <button className="h-[2.5rem] px-[0.625rem] lg:h-[3.25rem] my-2 lg:px-3 lg:text-[1.1rem] flex items-center shrink-0 gap-2 py-1 rounded-full outline outline-1 outline-slate-100 bg-white ">
+      <button className="h-[2.5rem] px-[0.625rem] lg:h-[3.25rem] my-2 lg:px-3 lg:text-[1.1rem] flex items-center shrink-0 gap-2 py-1 rounded-full ring-1 ring-slate-100 bg-white ">
         {!isLoading ? (
           <UploadSimple weight="bold" className="h-5 w-5 shrink-0" />
         ) : (

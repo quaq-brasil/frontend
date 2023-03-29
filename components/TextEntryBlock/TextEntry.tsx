@@ -15,6 +15,18 @@ export function TextEntry({ placeholder, type, onChange }: TextEntryProps) {
 
   const text = useTranslation().t
 
+  function tryParseNumber(input: string): number | string {
+    const parsedNumber = Number(input)
+
+    if (Number.isNaN(parsedNumber)) {
+      // Return the original string if the conversion fails
+      return input
+    } else {
+      // Return the parsed number if the conversion succeeds
+      return parsedNumber
+    }
+  }
+
   const handleChange = (e: any) => {
     setValue(e.target.value)
     onChange && onChange(e.target.value)
@@ -30,7 +42,8 @@ export function TextEntry({ placeholder, type, onChange }: TextEntryProps) {
         }
         break
       case "number":
-        const numberValid = validateNumber(e.target.value)
+        const parsedNumber = tryParseNumber(e.target.value)
+        const numberValid = validateNumber(parsedNumber)
         if (!numberValid) {
           setError(text("textentryblock:invalid_number"))
           setValid(false)

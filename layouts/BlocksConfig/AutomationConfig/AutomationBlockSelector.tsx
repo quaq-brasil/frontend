@@ -136,7 +136,10 @@ export function AutomationBlockSelector({
         </div>
       ) : null}
       <div className="flex flex-col gap-2 md:gap-4 items-center">
-        <BlockSelector onBlockSelect={handleBlockSelection} />
+        <BlockSelector
+          onBlockSelect={handleBlockSelection}
+          isInsideAutomation={true}
+        />
         <RenderBlockConfig
           block={blockSelected}
           isOpen={isOpen}
