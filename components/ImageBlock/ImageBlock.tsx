@@ -157,7 +157,7 @@ export const ImageBlock = ({
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
         >
-          <ArrowsVertical className="text-white" />
+          <ArrowsVertical className="text-white" weight="bold" />
         </div>
       )}
     </div>
