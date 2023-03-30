@@ -110,6 +110,7 @@ type BlockReaderProps = {
   onDelete?: () => void
   handleUpdateInteractions?: (interaction: IInteractionData) => void
   onEdit?: () => void
+  handleAddBlock?: (newBlock: BlockProps) => void
 }
 
 const blockComponents = {
@@ -134,6 +135,7 @@ type BlockWrapperProps = {
   onDelete: () => void
   handleUpdateInteractions: (interaction: IInteractionData) => void
   onEdit: () => void
+  handleAddBlock?: (newBlock: BlockProps) => void
 }
 
 export const BlockWrapper = memo(function BlockWrapper({
@@ -143,6 +145,7 @@ export const BlockWrapper = memo(function BlockWrapper({
   onDelete,
   handleUpdateInteractions,
   onEdit,
+  handleAddBlock,
 }: BlockWrapperProps) {
   return (
     <Component
@@ -151,6 +154,7 @@ export const BlockWrapper = memo(function BlockWrapper({
       onDelete={onDelete}
       onEdit={onEdit}
       handleUpdateInteractions={handleUpdateInteractions}
+      handleAddBlock={handleAddBlock}
     />
   )
 })
@@ -161,6 +165,7 @@ export const BlockReader = memo(function BlockReader({
   onDelete,
   handleUpdateInteractions,
   onEdit,
+  handleAddBlock,
 }: BlockReaderProps) {
   const Component = blockComponents[block.type]
 
@@ -172,6 +177,7 @@ export const BlockReader = memo(function BlockReader({
       onDelete={onDelete}
       handleUpdateInteractions={handleUpdateInteractions}
       onEdit={onEdit}
+      handleAddBlock={handleAddBlock}
     />
   ) : (
     <h1>error: missing block</h1>
