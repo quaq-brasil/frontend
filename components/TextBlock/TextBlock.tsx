@@ -55,7 +55,14 @@ export const TextBlock = ({
           events: events,
         },
       })
-  }, [block, handleUpdateInteractions, events])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [block, events])
+
+  useEffect(() => {
+    if (editor) {
+      editor.commands.setContent(block.data)
+    }
+  }, [block.data, editor])
 
   useEffect(() => {
     if (!events?.displayedAt) {
