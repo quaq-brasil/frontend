@@ -9,7 +9,7 @@ import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
 
 import {
   RedirectNotFoundVerify,
-  redirectNotFoundVerifyProps
+  redirectNotFoundVerifyProps,
 } from "utils/404Redirect"
 import { withAuth } from "utils/withAuth"
 
@@ -27,6 +27,7 @@ export default function EditTemplatePage({
   const getPageAndTemplate = useTemplateBySlugAndPageSlug({
     slug: templateSlug,
     page_slug: pageSlug,
+    compilation: false,
     options: {
       initialData: pageAndTemplateData,
     },

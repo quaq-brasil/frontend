@@ -8,6 +8,7 @@ type useTemplateBySlugProps = {
   slug: string
   page_slug: string
   consumer_id?: string
+  compilation?: boolean
 } & useQueryProps
 
 export const useTemplateBySlugAndPageSlug = ({
@@ -15,6 +16,7 @@ export const useTemplateBySlugAndPageSlug = ({
   page_slug,
   consumer_id,
   options,
+  compilation = true,
 }: useTemplateBySlugProps) => {
   let path = `/templates/${page_slug}/${slug}`
 
@@ -23,7 +25,11 @@ export const useTemplateBySlugAndPageSlug = ({
   }
 
   const getTemplateBySlugAndPageSlug = async () => {
-    return api.get(path)
+    return api.get(path, {
+      headers: {
+        COMPILATION: compilation ? "true" : "false",
+      },
+    })
   }
 
   const response = useQuery({
@@ -31,7 +37,6 @@ export const useTemplateBySlugAndPageSlug = ({
     queryFn: getTemplateBySlugAndPageSlug,
     ...options,
     onError(err) {
-      console.log("404", err)
       Router.push("/404")
     },
   }) as UseQueryResult<{ data: getTemplateBySlugAndPageSlugProps }>

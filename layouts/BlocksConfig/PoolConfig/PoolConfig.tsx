@@ -270,7 +270,6 @@ export function PoolConfig({
     if (blockData) {
       setContent(blockData.data)
       setSaveAs(blockData.save_as)
-      console.log(blockData)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockData])
