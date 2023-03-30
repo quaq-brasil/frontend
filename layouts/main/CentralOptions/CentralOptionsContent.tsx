@@ -115,17 +115,20 @@ export function CentralOptionsContent({
 
   useEffect(() => {
     if (templateData && !localTemplateData) {
-      setLocalTemplateData(templateData)
+      setLocalTemplateData(() => templateData)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [templateData])
+  }, [])
 
   useEffect(() => {
     if (templateData && localTemplateData) {
       let isDifferent = false
 
       for (const key in templateData) {
-        if ((templateData as any)[key] !== (localTemplateData as any)[key]) {
+        if (
+          key !== "updated_at" &&
+          (templateData as any)[key] !== (localTemplateData as any)[key]
+        ) {
           isDifferent = true
           break
         }
