@@ -3,6 +3,7 @@ import Placeholder from "@tiptap/extension-placeholder"
 import Typography from "@tiptap/extension-typography"
 import { EditorContent, useEditor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
+import classNames from "classnames"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect } from "react"
@@ -18,7 +19,7 @@ export function TextEditor({
   onChange,
   handleOpenVariablePanelForText,
 }: TextEditorProps) {
-  const text = useTranslation().t
+  const { t } = useTranslation()
 
   const editor = useEditor({
     extensions: [
@@ -26,9 +27,14 @@ export function TextEditor({
       HighLight,
       Typography,
       Placeholder.configure({
-        placeholder: text("texteditor:placeholder"),
-        emptyEditorClass:
-          "before:content-[attr(data-placeholder)] before:text-slate-500 before:h-0 before:float-left before:pointer-events-none",
+        placeholder: t("texteditor:placeholder"),
+        emptyEditorClass: classNames(
+          "before:content-[attr(data-placeholder)]",
+          "before:text-slate-500",
+          "before:h-0",
+          "before:float-left",
+          "before:pointer-events-none"
+        ),
       }),
     ],
     content,
@@ -38,17 +44,35 @@ export function TextEditor({
     },
     editorProps: {
       attributes: {
-        class:
-          "prose prose-headings:m-0 prose-p:m-0 focus:outline-none bg-white min-h-[11.25rem] min-w-full mt-2 px-3",
+        class: classNames(
+          "prose",
+          "text-lg",
+          "prose-headings:m-0",
+          "prose-p:m-0",
+          "prose-p:empty:h-5",
+          "focus:outline-none",
+          "bg-white",
+          "min-h-[11.25rem]",
+          "min-w-full",
+          "mt-2",
+          "px-3"
+        ),
       },
     },
   })
 
   useEffect(() => {
-    if (editor && content !== editor?.getHTML())
+    if (editor && content !== editor?.getHTML()) {
       editor?.chain()?.focus()?.setContent(content)?.run()
+    }
+  }, [content, editor])
+
+  useEffect(() => {
+    return () => {
+      editor?.destroy()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content])
+  }, [])
 
   return (
     <div className="flex relative min-w-[100%] justify-end content-center">
@@ -60,7 +84,7 @@ export function TextEditor({
         <BracketsCurly className="w-[1rem] h-[1rem] m-[0.3125rem] lg:w-[1.25rem] lg:h-[1.25rem]" />
       </div>
       <div className="w-full">
-        <EditorContent className="" editor={editor} />
+        <EditorContent editor={editor} />
       </div>
     </div>
   )

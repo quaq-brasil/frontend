@@ -1,4 +1,5 @@
-import parse from "html-react-parser"
+import { EditorContent, useEditor } from "@tiptap/react"
+import StarterKit from "@tiptap/starter-kit"
 import dynamic from "next/dynamic"
 import { useCallback, useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
@@ -33,6 +34,12 @@ export const TextBlock = ({
   onEdit,
 }: TextBlockProps) => {
   const [events, setEvents] = useState<IEvent>()
+
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: block.data,
+    editable: false, // Make the editor read-only
+  })
 
   const onInteraction = useCallback(() => {
     handleUpdateInteractions &&
@@ -70,7 +77,7 @@ export const TextBlock = ({
         className="min-w-[100%] px-3 py-3 bg-white lg:px-[1rem] lg:py-[1rem]
         rounded-[20px] lg:rounded-[30px] text-black lg:text-[1.1rem] prose prose-headings:m-0 prose-p:m-0 focus:outline-none"
       >
-        {parse(block.data)}
+        <EditorContent editor={editor} />
       </div>
     </div>
   )
