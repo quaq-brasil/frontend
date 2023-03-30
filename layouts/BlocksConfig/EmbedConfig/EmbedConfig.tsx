@@ -23,6 +23,7 @@ export function EmbedConfig({
 
   type IContent = {
     link?: string
+    height?: string
   }
 
   type FormDataProps = {
@@ -42,7 +43,7 @@ export function EmbedConfig({
       valid: true,
     },
   })
-  const [content, setContent] = useState<IContent | null>(null)
+  const [content, setContent] = useState<IContent | null>({ height: "28rem" })
   const [saveAs, setSaveAs] = useState<string | null>(null)
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)

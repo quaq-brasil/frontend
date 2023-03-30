@@ -61,6 +61,7 @@ export const ImageBlock = ({
           data: { ...block.data, height: finalHeight },
         })
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [block]
   )
 
@@ -126,6 +127,7 @@ export const ImageBlock = ({
         },
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [events])
 
   return (
