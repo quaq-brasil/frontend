@@ -72,6 +72,7 @@ export function ConsumerPageContent({
           </div>
         )}
         <ShortcutGrid>{shortcuts}</ShortcutGrid>
+        <span className="w-full h-[4rem]"></span>
       </div>
     </div>
   )
