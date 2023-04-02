@@ -189,6 +189,7 @@ export function AutomationConfig({
     handleUpdateIsUpdating(false)
     handleUpdateRunUpdate(false)
     handleUpdateSaveAs(null)
+    setAutomationBlocks([])
     handleUpdateFormData({
       description: { valid: false },
       conditionals: { valid: false },
@@ -210,22 +211,6 @@ export function AutomationConfig({
     })
     handleClosing()
   }
-
-  useEffect(() => {
-    if (
-      blockData &&
-      blockData.data &&
-      blockData.data.description &&
-      blockData.data.conditionals &&
-      blockData.data.automationBlocks
-    ) {
-      setDescription(blockData.data.description)
-      setConditionals(blockData.data.conditionals)
-      setAutomationBlocks(blockData.data.automationBlocks)
-      setSaveAs(blockData.save_as)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockData])
 
   const handleOpenVariablePanelForComparison = ({
     conditionalsIndex,
@@ -300,6 +285,22 @@ export function AutomationConfig({
   }
 
   useEffect(() => {
+    if (
+      blockData &&
+      blockData.data &&
+      blockData.data.description &&
+      blockData.data.conditionals &&
+      blockData.data.automationBlocks
+    ) {
+      setDescription(blockData.data.description)
+      setConditionals(blockData.data.conditionals)
+      setAutomationBlocks(blockData.data.automationBlocks)
+      setSaveAs(blockData.save_as)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
+
+  useEffect(() => {
     if (blockData && blockData.data && blockData.data.blocks) {
       setDescription(blockData?.data?.description)
       setConditionals([...blockData?.data?.conditionals])
@@ -367,7 +368,7 @@ export function AutomationConfig({
               input={{
                 label: text("automationconfig:description_label"),
                 onChange: (text) => handleUpdateDescription(text),
-                inputValue: description || "",
+                value: description || "",
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -404,7 +405,7 @@ export function AutomationConfig({
               input={{
                 label: text("buttonconfig:saveaslabel"),
                 onChange: (e) => handleUpdateSaveAs(e),
-                inputValue: saveAs || "",
+                value: saveAs || "",
               }}
               indicator={{
                 icon: BracketsCurly,
