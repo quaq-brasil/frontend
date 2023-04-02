@@ -1,8 +1,11 @@
+import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
+import { CardImageInput } from "components/Card/CardContentVariants/CardImageInput"
 import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "components/ImageSelector/ImageSelector"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { Check } from "phosphor-react"
@@ -13,21 +16,19 @@ import { IUpdateUser } from "types/User.type"
 import { pageUrls } from "utils/pagesUrl"
 
 type SignUserUpContentProps = {
-  handleUpdateUserData: (data: IUpdateUser) => void
   handleUpdateIsUpdating: (stat: boolean) => void
   handleUpdateRunUpdate: (stat: boolean) => void
   isUpdating: boolean
   runUpdate: boolean
-  userData: IUpdateUser | undefined
+  handleCreateUser: (data: IUpdateUser) => void
 }
 
 export function SignUserUpContent({
   handleUpdateIsUpdating,
   handleUpdateRunUpdate,
-  handleUpdateUserData,
   isUpdating,
   runUpdate,
-  userData,
+  handleCreateUser,
 }: SignUserUpContentProps) {
   const text = useTranslation().t
   const router = useRouter()
@@ -41,82 +42,84 @@ export function SignUserUpContent({
     accept?: boolean
   }
 
-  const [temporaryData, setTemporaryData] = useState<TemporaryDataProps>()
-
-  function handleUpdateTemporaryData(newData: TemporaryDataProps) {
-    setTemporaryData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as TemporaryDataProps
-    })
-  }
-
-  type FormDataProps = {
-    name?: {
-      valid?: boolean
-    }
-    picture?: {
-      valid?: boolean
-    }
-    email?: {
-      valid?: boolean
-    }
-    password?: {
-      valid?: boolean
-    }
-    accept?: {
-      valid?: boolean
-    }
-  }
-
-  const [formData, setFormData] = useState<FormDataProps>({
+  const [
+    localUserData,
+    setLocalUserData,
+    localUserDataErrors,
+    isLocalUserDataValid,
+  ] = useValidation<TemporaryDataProps>({
     name: {
-      valid: false,
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
     },
     picture: {
-      valid: false,
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
     },
     email: {
-      valid: false,
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.email(text("validation:email")),
+      ],
     },
     password: {
-      valid: false,
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.strongPassword(text("validation:validpassword")),
+      ],
+    },
+    passwordConfirmation: {
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.passwordConfirmation(
+          text("validation:passwordmatch"),
+          () => password
+        ),
+      ],
     },
     accept: {
-      valid: false,
+      initialValue: false,
+      validators: [validationRules.required(text("validation:required"))],
     },
   })
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
+  const [password, setPassword] = useState("")
+
+  const [hasDataChanged, setHasDataChanged] = useState(false)
+
+  function handleUpdateLocalUserData(newUserData: TemporaryDataProps) {
+    setLocalUserData({ ...localUserData, ...newUserData })
   }
 
   useEffect(() => {
-    if (
-      formData.accept.valid &&
-      formData.email.valid &&
-      formData.name.valid &&
-      formData.password.valid &&
-      formData.picture.valid
-    ) {
+    setPassword(localUserData.password)
+  }, [localUserData.password])
+
+  useEffect(() => {
+    if (isLocalUserDataValid) {
       handleUpdateIsUpdating(true)
-      handleUpdateUserData({
-        avatar_url: temporaryData.picture,
-        email: temporaryData.email,
-        name: temporaryData.name,
-        password: temporaryData.password,
-      })
     } else {
       handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData])
+  }, [isLocalUserDataValid, localUserData])
+
+  useEffect(() => {
+    if (runUpdate) {
+      handleCreateUser({
+        avatar_url: localUserData.picture,
+        email: localUserData.email,
+        name: localUserData.name,
+        password: localUserData.password,
+      })
+      setHasDataChanged(true)
+      handleUpdateRunUpdate(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -134,47 +137,37 @@ export function SignUserUpContent({
             <CardTextInput
               input={{
                 onChange: (name) => {
-                  handleUpdateTemporaryData({ name: name })
-                  if (name && name.length > 1) {
-                    handleUpdateFormData({ name: { valid: true } })
-                  } else {
-                    handleUpdateFormData({ name: { valid: false } })
-                  }
+                  handleUpdateLocalUserData({ name: name })
                 },
                 label: text("signup:namelabel"),
-                type: "name",
+                errors: hasDataChanged ? localUserDataErrors.name : [],
               }}
             />
           </Card>
           <Card>
             <CardText label={text("signup:picture")} />
-            <div className="w-full flex flex-row justify-between items-center bg-slate-50 my-2 py-3 px-3 lg:px-[1.125rem]">
-              <ImageSelector
-                onImageChange={(image) => {
-                  handleUpdateTemporaryData({ picture: image })
-                  if (image) {
-                    handleUpdateFormData({ picture: { valid: true } })
-                  } else {
-                    handleUpdateFormData({ picture: { valid: false } })
-                  }
-                }}
-              />
-            </div>
+            <CardImageInput
+              imageSelector={
+                <ImageSelector
+                  onImageChange={(image) => {
+                    handleUpdateLocalUserData({ picture: image })
+                  }}
+                  url={localUserData.picture}
+                />
+              }
+              errors={hasDataChanged ? localUserDataErrors.picture : []}
+            />
           </Card>
           <Card>
             <CardText label={text("signup:email")} />
             <CardTextInput
               input={{
                 onChange: (email) => {
-                  handleUpdateTemporaryData({ email: email })
-                  if (email && email.length > 4) {
-                    handleUpdateFormData({ email: { valid: true } })
-                  } else {
-                    handleUpdateFormData({ email: { valid: false } })
-                  }
+                  handleUpdateLocalUserData({ email: email })
                 },
                 type: "email",
                 label: text("signup:emaillabel"),
+                errors: hasDataChanged ? localUserDataErrors.email : [],
               }}
             />
           </Card>
@@ -183,19 +176,13 @@ export function SignUserUpContent({
             <CardTextInput
               input={{
                 onChange: (password) => {
-                  handleUpdateTemporaryData({ password: password })
-                  if (
-                    password &&
-                    password.length > 8 &&
-                    password === temporaryData.passwordConfirmation
-                  ) {
-                    handleUpdateFormData({ password: { valid: true } })
-                  } else {
-                    handleUpdateFormData({ password: { valid: false } })
-                  }
+                  handleUpdateLocalUserData({ password: password })
                 },
                 type: "password",
                 label: text("signup:passwordlabel"),
+                errors: localUserData.password
+                  ? localUserDataErrors.password
+                  : [],
               }}
             />
           </Card>
@@ -204,21 +191,15 @@ export function SignUserUpContent({
             <CardTextInput
               input={{
                 onChange: (confirmation) => {
-                  handleUpdateTemporaryData({
+                  handleUpdateLocalUserData({
                     passwordConfirmation: confirmation,
                   })
-                  if (
-                    confirmation &&
-                    confirmation.length > 8 &&
-                    confirmation === temporaryData.password
-                  ) {
-                    handleUpdateFormData({ password: { valid: true } })
-                  } else {
-                    handleUpdateFormData({ password: { valid: false } })
-                  }
                 },
                 type: "password",
                 label: text("signup:confirmationlabel"),
+                errors: localUserData.passwordConfirmation
+                  ? localUserDataErrors.passwordConfirmation
+                  : [],
               }}
             />
           </Card>
@@ -238,11 +219,10 @@ export function SignUserUpContent({
               label={text("signup:accept")}
               indicator={{
                 icon: Check,
-                isVisible: !temporaryData?.accept,
+                isVisible: !localUserData?.accept,
               }}
               onClick={() => {
-                handleUpdateTemporaryData({ accept: true })
-                handleUpdateFormData({ accept: { valid: true } })
+                handleUpdateLocalUserData({ accept: true })
               }}
             />
             <CardLine />
@@ -250,29 +230,25 @@ export function SignUserUpContent({
               label={text("signup:decline")}
               indicator={{
                 icon: Check,
-                isVisible: temporaryData?.accept,
+                isVisible: localUserData?.accept,
               }}
               onClick={() => {
-                handleUpdateTemporaryData({ accept: false })
-                handleUpdateFormData({ accept: { valid: false } })
+                handleUpdateLocalUserData({ accept: false })
               }}
             />
             <CardLine />
           </Card>
           {isUpdating && (
-            <div className="w-full h-fit hidden xl:block">
-              <button
-                className="flex justify-between items-center font-semibold
-            p-[0.75rem] md:p-[1rem] lg:p-[1.5rem] min-w-[100%]
-            rounded-[20px] lg:rounded-[30px] bg-black text-white"
-                type="submit"
-                onClick={() => handleUpdateRunUpdate(true)}
-              >
-                <p className="lg:text-[1.1rem] text-center w-full">
-                  {text("signup:confirm")}
-                </p>
-              </button>
-            </div>
+            <Button
+              block={{
+                data: {
+                  color: "bg-black",
+                  text: text("signup:confirm"),
+                  onClick: () => handleUpdateRunUpdate(true),
+                },
+              }}
+              isEditable={false}
+            />
           )}
           <span className="w-full h-[4rem]"></span>
           <div className="absolute z-30">

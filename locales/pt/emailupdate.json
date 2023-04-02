@@ -4,7 +4,9 @@
   "inputemail": "digite aqui",
   "password": "digite a sua senha",
   "inputpassword": "digite aqui",
-  "confirm": "confirmar",
+  "confirm": "atualizar email",
   "validation": "Para concluir a alteração, acesse o link enviado para o email fornecido.",
-  "back": "voltar"
+  "back": "voltar",
+  "update": "atualizar",
+  "failed": "email ou senha estão incorretos!"
 }

@@ -6,10 +6,11 @@ import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "components/ImageSelector/ImageSelector"
 import { useDebounce } from "hooks/useDebouce"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { ArrowRight, Check } from "phosphor-react"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useGenerateTemplateUniqueSlug } from "services/hooks/useTemplate/useGenerateTemplateUniqueSlug"
 import { IUpdatePage } from "types/Page.type"
 import { IUpdateTemplate } from "types/Template.type"
@@ -19,182 +20,142 @@ type CentralOptionsContentProps = {
   templateData: IUpdateTemplate | undefined
   initialTemplateData: IUpdateTemplate | undefined
   isUpdating: boolean
-  handleUpdateTemplateData: (data: IUpdateTemplate) => void
   pageData: IUpdatePage | undefined
   handleUpdateRunUpdate: (stat: boolean) => void
   handleUpdateIsUpdating: (stat: boolean) => void
+  runUpdate: boolean
+  handleUpdateTemplate: (templateData: IUpdateTemplate) => void
 }
 
 export function CentralOptionsContent({
-  handleUpdateTemplateData,
   isUpdating,
   templateData,
   initialTemplateData,
   pageData,
   handleUpdateRunUpdate,
   handleUpdateIsUpdating,
+  runUpdate,
+  handleUpdateTemplate,
 }: CentralOptionsContentProps) {
   const text = useTranslation().t
   const router = useRouter()
 
-  type FormDataProps = {
-    title?: {
-      valid?: boolean
-    }
-    slug?: {
-      valid?: boolean
-    }
-    cover?: {
-      valid?: boolean
-    }
-    size?: {
-      valid?: boolean
-    }
-    visibility?: {
-      valid?: boolean
-    }
+  type LocalTemplateDataProps = {
+    title?: string
+    slug?: string
+    shortcut_image?: string
+    shortcut_size?: "small" | "large"
+    visibility?: string
   }
 
-  const [formData, setFormData] = useState<FormDataProps>({
+  const [
+    localTemplateData,
+    setLocalTemplateData,
+    localTemplateDataErrors,
+    isLocalTemplateDataValid,
+  ] = useValidation<LocalTemplateDataProps>({
+    shortcut_image: {
+      initialValue: templateData.shortcut_image || "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    shortcut_size: {
+      initialValue: templateData.shortcut_size || "small",
+      validators: [validationRules.required(text("validation:required"))],
+    },
     title: {
-      valid: false,
+      initialValue: templateData.title || "",
+      validators: [validationRules.required(text("validation:required"))],
     },
     slug: {
-      valid: false,
-    },
-    cover: {
-      valid: false,
-    },
-    size: {
-      valid: false,
+      initialValue: templateData.slug || "",
+      validators: [validationRules.required(text("validation:required"))],
     },
     visibility: {
-      valid: false,
+      initialValue: templateData.visibility || "public",
+      validators: [validationRules.required(text("validation:required"))],
     },
   })
-  const [isChanging, setIsChanging] = useState(false)
-  const [localTemplateData, setLocalTemplateData] =
-    useState<IUpdateTemplate | null>()
-
-  function handleUpdateIsChanging(stat: boolean) {
-    setIsChanging(stat)
-  }
-
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
 
   const generateTemplateUniqueUrl = useGenerateTemplateUniqueSlug()
-
-  type handleGetTemplateUrlProps = {
-    id: string
-    title: string
-    page_id: string
-  }
-
-  function handleGetTemplateUrl(data: handleGetTemplateUrlProps) {
-    generateTemplateUniqueUrl.mutate(
-      { data },
-      {
-        onSuccess: (slug) => {
-          handleUpdateTemplateData({ slug })
-        },
-      }
-    )
-  }
 
   const debouncedTemplateName = useDebounce({
     value: templateData?.title,
     delay: 1000 * 1,
   })
 
-  useEffect(() => {
-    if (templateData && !localTemplateData) {
-      setLocalTemplateData(() => templateData)
+  function handleUpdateLocalTemplateData(
+    newTemplateData: LocalTemplateDataProps
+  ) {
+    setLocalTemplateData({ ...localTemplateData, ...newTemplateData })
+  }
+
+  function isTemplateDataDifferent(
+    templateData: IUpdateTemplate | undefined,
+    localTemplateData: LocalTemplateDataProps
+  ) {
+    if (!templateData) {
+      return false
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    return (
+      templateData.title !== localTemplateData.title ||
+      templateData.shortcut_image !== localTemplateData.shortcut_image ||
+      templateData.slug !== localTemplateData.slug ||
+      templateData.shortcut_size !== localTemplateData.shortcut_size ||
+      templateData.visibility !== localTemplateData.visibility
+    )
+  }
 
   useEffect(() => {
-    if (templateData && localTemplateData) {
-      let isDifferent = false
-
-      for (const key in templateData) {
-        if (
-          key !== "updated_at" &&
-          (templateData as any)[key] !== (localTemplateData as any)[key]
-        ) {
-          isDifferent = true
-          break
+    if (debouncedTemplateName) {
+      generateTemplateUniqueUrl.mutate(
+        {
+          data: {
+            page_id: pageData.id,
+            title: debouncedTemplateName,
+            id: templateData.id,
+          },
+        },
+        {
+          onSuccess: (slug) => {
+            handleUpdateLocalTemplateData({ slug })
+          },
         }
-      }
-
-      if (isDifferent) {
-        handleUpdateIsChanging(true)
-      } else {
-        handleUpdateIsChanging(false)
-      }
-    }
-  }, [templateData, localTemplateData])
-
-  useEffect(() => {
-    if (templateData.title.length > 1) {
-      handleUpdateFormData({ title: { valid: true } })
-    } else {
-      handleUpdateFormData({ title: { valid: false } })
-    }
-    if (templateData.slug) {
-      handleUpdateFormData({ slug: { valid: true } })
-    } else {
-      handleUpdateFormData({ title: { valid: false } })
-    }
-    if (templateData.shortcut_image) {
-      handleUpdateFormData({ cover: { valid: true } })
-    } else {
-      handleUpdateFormData({ cover: { valid: false } })
-    }
-    if (templateData.shortcut_size) {
-      handleUpdateFormData({ size: { valid: true } })
-    } else {
-      handleUpdateFormData({ size: { valid: false } })
-    }
-    if (templateData.visibility) {
-      handleUpdateFormData({ visibility: { valid: true } })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [templateData])
-
-  useEffect(() => {
-    if (debouncedTemplateName && formData?.title.valid) {
-      handleGetTemplateUrl({
-        id: templateData.id,
-        title: debouncedTemplateName,
-        page_id: pageData?.id,
-      })
+      )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedTemplateName])
 
   useEffect(() => {
     if (
-      formData.cover?.valid &&
-      formData.slug?.valid &&
-      formData.size?.valid &&
-      formData.title?.valid &&
-      formData.visibility?.valid &&
-      isChanging
+      isLocalTemplateDataValid &&
+      isTemplateDataDifferent(templateData, localTemplateData)
     ) {
       handleUpdateIsUpdating(true)
     } else {
       handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData])
+  }, [isLocalTemplateDataValid, localTemplateData])
+
+  function onUpdate() {
+    handleUpdateIsUpdating(false)
+    handleUpdateRunUpdate(false)
+    handleUpdateTemplate({
+      id: templateData.id,
+      shortcut_image: localTemplateData.shortcut_image,
+      shortcut_size: localTemplateData.shortcut_size,
+      title: localTemplateData.title,
+      slug: localTemplateData.slug,
+      visibility: localTemplateData.visibility,
+    })
+  }
+
+  useEffect(() => {
+    if (templateData) {
+      onUpdate()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -209,10 +170,11 @@ export function CentralOptionsContent({
             <CardTextInput
               input={{
                 onChange: (title) => {
-                  handleUpdateTemplateData({ title: title })
+                  handleUpdateLocalTemplateData({ title })
                 },
-                inputValue: templateData?.title,
-                type: "title",
+                value: localTemplateData?.title,
+                errors: localTemplateDataErrors?.title,
+                label: text("centraloptions:label"),
               }}
             />
           </Card>
@@ -221,11 +183,10 @@ export function CentralOptionsContent({
             <CardText label={text("centraloptions:link")} />
             <CardTextInput
               input={{
-                onChange: (slug) => {
-                  handleUpdateTemplateData({ slug: slug })
-                },
-                value: templateData?.slug,
-                fixedText: `quaq.me/${pageData?.slug}/`,
+                value: localTemplateData?.slug,
+                fixedText: `quaq.me/`,
+                errors: localTemplateDataErrors?.slug,
+                label: text("centraloptions:label"),
               }}
               indicator={{
                 icon: Check,
@@ -240,11 +201,12 @@ export function CentralOptionsContent({
               imageSelector={
                 <ImageSelector
                   onImageChange={(image) => {
-                    handleUpdateTemplateData({ shortcut_image: image })
+                    handleUpdateLocalTemplateData({ shortcut_image: image })
                   }}
-                  url={templateData?.shortcut_image}
+                  url={localTemplateData?.shortcut_image}
                 />
               }
+              errors={localTemplateDataErrors.shortcut_image}
             />
           </Card>
 
@@ -254,10 +216,10 @@ export function CentralOptionsContent({
               label={text("centraloptions:small")}
               indicator={{
                 icon: Check,
-                isVisible: templateData?.shortcut_size !== "small",
+                isVisible: localTemplateData?.shortcut_size !== "small",
               }}
               onClick={() => {
-                handleUpdateTemplateData({ shortcut_size: "small" })
+                handleUpdateLocalTemplateData({ shortcut_size: "small" })
               }}
             />
             <CardLine />
@@ -265,10 +227,10 @@ export function CentralOptionsContent({
               label={text("centraloptions:large")}
               indicator={{
                 icon: Check,
-                isVisible: templateData?.shortcut_size !== "large",
+                isVisible: localTemplateData?.shortcut_size !== "large",
               }}
               onClick={() => {
-                handleUpdateTemplateData({ shortcut_size: "large" })
+                handleUpdateLocalTemplateData({ shortcut_size: "large" })
               }}
             />
             <CardLine />
@@ -281,10 +243,10 @@ export function CentralOptionsContent({
               indicator={{
                 icon: Check,
                 isVisible:
-                  templateData?.visibility === "workspace" ? true : false,
+                  localTemplateData?.visibility === "workspace" ? true : false,
               }}
               onClick={() => {
-                handleUpdateTemplateData({ visibility: "public" })
+                handleUpdateLocalTemplateData({ visibility: "public" })
               }}
             />
             <CardLine />
@@ -292,10 +254,11 @@ export function CentralOptionsContent({
               label={text("centraloptions:wsmembers")}
               indicator={{
                 icon: Check,
-                isVisible: templateData?.visibility === "public" ? true : false,
+                isVisible:
+                  localTemplateData?.visibility === "public" ? true : false,
               }}
               onClick={() => {
-                handleUpdateTemplateData({ visibility: "workspace" })
+                handleUpdateLocalTemplateData({ visibility: "workspace" })
               }}
             />
             <CardLine />

@@ -18,6 +18,7 @@ export function EmailUpdate({
   initialUserData,
 }: EmailUpdateProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [userData, setUserData] = useState<IUser | null>(null)
   const [isUpdating, setIsUpdating] = useState(false)
@@ -36,14 +37,13 @@ export function EmailUpdate({
   }
 
   function handleUpdateUserData(newData: IUpdateUser) {
-    setUserData({
-      ...userData,
-      email: newData.email || userData?.email,
+    setUserData((state) => {
+      return {
+        ...state,
+        ...newData,
+      } as IUser
     })
-    handleUpdateIsUpdating(true)
   }
-
-  const router = useRouter()
 
   function handleTabBar() {
     if (isUpdating) {
@@ -93,11 +93,11 @@ export function EmailUpdate({
       {loadHeader()}
       <EmailUpdateContent
         handleUpdateRunUpdate={handleUpdateRunUpdate}
-        handleUpdateUserData={handleUpdateUserData}
         userData={userData}
         handleChangeEmail={handleChangeEmail}
         runUpdate={runUpdate}
         isUpdating={isUpdating}
+        handleUpdateIsUpdating={handleUpdateIsUpdating}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

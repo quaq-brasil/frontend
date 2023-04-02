@@ -2,6 +2,7 @@ import { PasswordUpdate } from "layouts/Workflows/PasswordUpdate/PasswordUpdate"
 import { GetServerSideProps } from "next"
 import useTranslation from "next-translate/useTranslation"
 import Head from "next/head"
+import { useRouter } from "next/router"
 import { api } from "services/api"
 import { useUpdateUser } from "services/hooks/useUser/useUpdateUser"
 import { useUser } from "services/hooks/useUser/useUser"
@@ -10,6 +11,7 @@ import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
 } from "utils/404Redirect"
+import { pageUrls } from "utils/pagesUrl"
 import { withAuth } from "utils/withAuth"
 
 type PasswordUpdatePageProps = {
@@ -18,6 +20,7 @@ type PasswordUpdatePageProps = {
 
 export default function PasswordUpdatePage({ data }: PasswordUpdatePageProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const getUser = useUser({
     options: {
@@ -28,12 +31,19 @@ export default function PasswordUpdatePage({ data }: PasswordUpdatePageProps) {
   const updateUser = useUpdateUser()
 
   function handleUpdateUser(data: IUpdateUser) {
-    updateUser.mutate({
-      id: getUser.data.id,
-      data: {
-        password: data.password,
+    updateUser.mutate(
+      {
+        id: getUser.data.id,
+        data: {
+          password: data.password,
+        },
       },
-    })
+      {
+        onSuccess() {
+          router.push(pageUrls.meSettings())
+        },
+      }
+    )
   }
 
   return (
@@ -43,7 +53,7 @@ export default function PasswordUpdatePage({ data }: PasswordUpdatePageProps) {
         <meta name="description" content={text("profile:pagedescription")} />
       </Head>
       <PasswordUpdate
-        initialUserData={getUser.data}
+        initialUserData={getUser?.data}
         handleUpdateUser={handleUpdateUser}
       />
     </>

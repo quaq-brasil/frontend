@@ -16,5 +16,6 @@
   "update": "update",
   "visibility": "template visibility",
   "public": "anyone",
-  "wsmembers": "workspace members only"
+  "wsmembers": "workspace members only",
+  "label": "type it here"
 }

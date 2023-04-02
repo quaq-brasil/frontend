@@ -5,10 +5,11 @@ import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "components/ImageSelector/ImageSelector"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { ArrowRight } from "phosphor-react"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { IUpdateWorkspace } from "types/Workspace.type"
 import { pageUrls } from "utils/pagesUrl"
 
@@ -18,6 +19,8 @@ type WorkspaceSettingsContentProps = {
   handleUpdateIsUpdating: (stat: boolean) => void
   workspaceData: IUpdateWorkspace | undefined
   isUpdating: boolean
+  runUpdate: boolean
+  handleUpdateWorkspace: (data: IUpdateWorkspace) => void
 }
 
 export function WorkspaceSettingsContent({
@@ -26,88 +29,82 @@ export function WorkspaceSettingsContent({
   handleUpdateIsUpdating,
   isUpdating,
   workspaceData,
+  handleUpdateWorkspace,
+  runUpdate,
 }: WorkspaceSettingsContentProps) {
   const text = useTranslation().t
   const router = useRouter()
 
-  type FormDataProps = {
-    title?: {
-      valid?: boolean
-    }
-    image?: {
-      valid?: boolean
-    }
+  type LocalWorkspaceProps = {
+    title?: string
+    avatar_url?: string
   }
 
-  const [formData, setFormData] = useState<FormDataProps>({
-    image: { valid: false },
-    title: { valid: false },
+  const [
+    localWorkspaceData,
+    setLocalWorkspaceData,
+    localWorkspaceDataErrors,
+    isLocalWorkspaceDataValid,
+  ] = useValidation<LocalWorkspaceProps>({
+    avatar_url: {
+      initialValue: workspaceData?.avatar_url || "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    title: {
+      initialValue: workspaceData?.title || "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
   })
-  const [isChanging, setIsChanging] = useState(false)
-  const [localWorkspaceData, setLocalWorkspaceData] =
-    useState<IUpdateWorkspace | null>()
 
-  function handleUpdateIsChanging(stat: boolean) {
-    setIsChanging(stat)
+  function handleUpdateLocalWorkspaceData(
+    newWorkspaceData: LocalWorkspaceProps
+  ) {
+    setLocalWorkspaceData({ ...localWorkspaceData, ...newWorkspaceData })
   }
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
+  function isWorkspaceDataDifferent(
+    workspaceData: IUpdateWorkspace | undefined,
+    localWorkspaceData: LocalWorkspaceProps
+  ) {
+    if (!workspaceData) {
+      return false
+    }
+    return (
+      workspaceData.title !== localWorkspaceData.title ||
+      workspaceData.avatar_url !== localWorkspaceData.avatar_url
+    )
   }
 
   useEffect(() => {
-    if (workspaceData && !localWorkspaceData) {
+    if (workspaceData) {
       setLocalWorkspaceData(workspaceData)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workspaceData])
 
   useEffect(() => {
-    if (workspaceData && localWorkspaceData) {
-      let isDifferent = false
-
-      for (const key in workspaceData) {
-        if ((workspaceData as any)[key] !== (localWorkspaceData as any)[key]) {
-          isDifferent = true
-          break
-        }
-      }
-
-      if (isDifferent) {
-        handleUpdateIsChanging(true)
-      } else {
-        handleUpdateIsChanging(false)
-      }
-    }
-  }, [workspaceData, localWorkspaceData])
-
-  useEffect(() => {
-    if (workspaceData?.title.length > 1) {
-      handleUpdateFormData({ title: { valid: true } })
-    } else {
-      handleUpdateFormData({ title: { valid: false } })
-    }
-    if (workspaceData.avatar_url) {
-      handleUpdateFormData({ image: { valid: true } })
-    } else {
-      handleUpdateFormData({ image: { valid: false } })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [workspaceData])
-
-  useEffect(() => {
-    if (formData.image.valid && formData.title.valid && isChanging) {
+    if (
+      isLocalWorkspaceDataValid &&
+      isWorkspaceDataDifferent(workspaceData, localWorkspaceData)
+    ) {
       handleUpdateIsUpdating(true)
     } else {
       handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData, isChanging])
+  }, [isLocalWorkspaceDataValid, localWorkspaceData])
+
+  useEffect(() => {
+    if (runUpdate) {
+      handleUpdateWorkspace({
+        title: localWorkspaceData.title,
+        avatar_url: localWorkspaceData.avatar_url,
+      })
+      handleUpdateIsUpdating(false)
+      handleUpdateRunUpdate(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -123,10 +120,10 @@ export function WorkspaceSettingsContent({
               input={{
                 label: text("wssettings:titlelabel"),
                 onChange: (title) => {
-                  handleUpdateWorkspaceData({ title: title })
+                  handleUpdateLocalWorkspaceData({ title: title })
                 },
-                type: "title",
-                inputValue: workspaceData?.title || "",
+                value: localWorkspaceData.title,
+                errors: localWorkspaceDataErrors.title,
               }}
             />
           </Card>
@@ -136,11 +133,12 @@ export function WorkspaceSettingsContent({
               imageSelector={
                 <ImageSelector
                   onImageChange={(image) => {
-                    handleUpdateWorkspaceData({ avatar_url: image })
+                    handleUpdateLocalWorkspaceData({ avatar_url: image })
                   }}
                   url={workspaceData?.avatar_url || ""}
                 />
               }
+              errors={localWorkspaceDataErrors.avatar_url}
             />
           </Card>
           {isUpdating && (

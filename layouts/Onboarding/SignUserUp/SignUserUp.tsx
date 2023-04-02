@@ -3,7 +3,7 @@ import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { IUpdateUser } from "types/User.type"
 import { SignUserUpContent } from "./SignUserUpContent"
 
@@ -15,7 +15,6 @@ export function SignUserUp({ handleCreateUser }: SignUserUpProps) {
   const text = useTranslation().t
   const router = useRouter()
 
-  const [userData, setUserData] = useState<IUpdateUser>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -26,22 +25,6 @@ export function SignUserUp({ handleCreateUser }: SignUserUpProps) {
   function handleUpdateRunUpdate(stat: boolean) {
     setRunUpdate(stat)
   }
-
-  function handleUpdateUserData(newData: IUpdateUser) {
-    setUserData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as IUpdateUser
-    })
-  }
-
-  useEffect(() => {
-    if (userData) {
-      handleCreateUser(userData)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -82,12 +65,11 @@ export function SignUserUp({ handleCreateUser }: SignUserUpProps) {
         <Tag variant="txt" text={text("signup:titletag")} />
       </Header>
       <SignUserUpContent
-        handleUpdateUserData={handleUpdateUserData}
         handleUpdateIsUpdating={handleUpdateIsUpdating}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
         isUpdating={isUpdating}
         runUpdate={runUpdate}
-        userData={userData}
+        handleCreateUser={handleCreateUser}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

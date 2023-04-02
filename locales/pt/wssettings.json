@@ -5,7 +5,7 @@
   "title": "título do workspace",
   "titlelabel": "digite aqui",
   "image": "imagem do workspace",
-  "confirm": "confirmar",
+  "confirm": "atualizar o workspace",
   "terms": "termos e políticas",
   "advanced": "avançado",
   "options": "opções",
@@ -15,5 +15,10 @@
   "newmember": "email do novo membro",
   "add": "adicionar novo membro",
   "emailunique": "o email deve ser único",
-  "emailnotvalid": "o email não é válido"
+  "emailnotvalid": "o email não é válido",
+  "removemember": "remover membro",
+  "removememberdescription": "você tem certeza que deseja remover este membro?",
+  "cancel": "cancelar",
+  "remove": "remover",
+  "cantfindmember": "não foi possível encontrar o usuário"
 }

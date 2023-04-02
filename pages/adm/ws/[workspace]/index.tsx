@@ -30,26 +30,42 @@ export default function WorkspaceSettingsPage({
   const updateWorkspace = useUpdateWorkspace()
 
   function handleUpdateWorkspace(data: IUpdateWorkspace) {
-    updateWorkspace.mutate({
-      id: getWorkspace.data.id,
-      data: {
-        avatar_url: data.avatar_url,
-        title: data.title,
+    updateWorkspace.mutate(
+      {
+        id: getWorkspace.data.id,
+        data: {
+          avatar_url: data.avatar_url,
+          title: data.title,
+        },
       },
-    })
+      {
+        onSuccess(data) {
+          setLocalWorkspaceData(data)
+        },
+      }
+    )
   }
 
+  const [localWorkspaceData, setLocalWorkspaceData] =
+    useState<IWorkspace | null>(null)
   const [workspaceTitle, setWorkspaceTitle] = useState<string | null>(null)
 
   useEffect(() => {
-    if (getWorkspace) {
+    if (getWorkspace.data && !localWorkspaceData) {
+      setLocalWorkspaceData(getWorkspace.data)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getWorkspace])
+
+  useEffect(() => {
+    if (localWorkspaceData) {
       let wsTitle =
-        getWorkspace.data.title.charAt(0).toUpperCase() +
-        getWorkspace.data.title.slice(1).toLowerCase()
+        localWorkspaceData.title.charAt(0).toUpperCase() +
+        localWorkspaceData.title.slice(1).toLowerCase()
 
       setWorkspaceTitle(wsTitle)
     }
-  }, [getWorkspace])
+  }, [localWorkspaceData])
 
   return (
     <>
@@ -58,7 +74,7 @@ export default function WorkspaceSettingsPage({
         <meta name="description" content={`${workspaceTitle} workspace.`} />
       </Head>
       <WorkspaceSettings
-        initialWorkspaceData={getWorkspace.data}
+        initialWorkspaceData={localWorkspaceData}
         handleUpdateWorkspace={handleUpdateWorkspace}
       />
     </>

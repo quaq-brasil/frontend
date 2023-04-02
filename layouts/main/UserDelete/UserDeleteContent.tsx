@@ -3,12 +3,11 @@ import { Card } from "components/Card/Card"
 import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
-import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useLogin } from "services/hooks/useUser/useLogin"
 import { IUser } from "types/User.type"
-import { pageUrls } from "utils/pagesUrl"
 
 type UserDeleteContentProps = {
   handleDeleteUser: () => void
@@ -28,15 +27,27 @@ export function UserDeleteContent({
   userData,
 }: UserDeleteContentProps) {
   const text = useTranslation().t
-  const router = useRouter()
 
-  const [password, setPassword] = useState<string>()
+  type LocalPasswordProps = {
+    password?: string
+  }
+
+  const [
+    localPasswordData,
+    setLocalPasswordData,
+    localPasswordDataErrors,
+    isLocalPasswordDataValid,
+  ] = useValidation<LocalPasswordProps>({
+    password: {
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+  })
+
   const [passwordNotValid, setPasswordNotValid] = useState(false)
 
   function handleUpdatePassword(password: string) {
-    setPassword(password)
-    handleUpdateIsUpdating(true)
-    setPasswordNotValid(false)
+    setLocalPasswordData({ password })
   }
 
   useEffect(() => {
@@ -51,15 +62,15 @@ export function UserDeleteContent({
   function handleVerifyUser() {
     getUser.mutate(
       {
-        email: userData?.email || "",
-        password: password || "",
+        email: userData?.email,
+        password: localPasswordData.password,
       },
       {
         onSuccess: () => {
           handleUpdateRunUpdate(true)
           handleUpdateIsUpdating(false)
           handleDeleteUser()
-          router.push(pageUrls.home())
+          setPasswordNotValid(false)
         },
         onError: () => {
           setPasswordNotValid(true)
@@ -69,6 +80,15 @@ export function UserDeleteContent({
       }
     )
   }
+
+  useEffect(() => {
+    if (isLocalPasswordDataValid) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLocalPasswordDataValid, localPasswordData])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -91,9 +111,17 @@ export function UserDeleteContent({
                 label: text("userdelete:passwordinput"),
                 onChange: (password) => handleUpdatePassword(password),
                 type: "password",
+                errors: passwordNotValid
+                  ? localPasswordDataErrors.password
+                  : [],
               }}
             />
           </Card>
+          {passwordNotValid && (
+            <Card>
+              <CardText label={text("userdelete:failed")} />
+            </Card>
+          )}
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button
@@ -107,11 +135,6 @@ export function UserDeleteContent({
                 isEditable={false}
               />
             </div>
-          )}
-          {passwordNotValid && (
-            <Card>
-              <CardText label={text("userdelete:failed")} />
-            </Card>
           )}
           <span className="w-full h-[4rem]"></span>
         </div>

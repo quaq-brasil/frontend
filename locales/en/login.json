@@ -10,5 +10,6 @@
   "login": "login",
   "update": "login",
   "pagetitle": "Login",
-  "pagedescription": "Access your Quaq account."
+  "pagedescription": "Access your Quaq account.",
+  "problem": "email or password incorrect"
 }

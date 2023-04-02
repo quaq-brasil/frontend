@@ -2,6 +2,7 @@ import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { useEffect, useState } from "react"
 import { IUpdateUser } from "types/User.type"
@@ -12,8 +13,6 @@ type PasswordUpdateContentProps = {
   handleUpdateRunUpdate: (stat: boolean) => void
   runUpdate: boolean
   isUpdating: boolean
-  setPasswordMatch: (stat: boolean) => void
-  passwordMatch: boolean
 }
 
 export function PasswordUpdateContent({
@@ -22,41 +21,65 @@ export function PasswordUpdateContent({
   handleUpdateUser,
   isUpdating,
   runUpdate,
-  passwordMatch,
-  setPasswordMatch,
 }: PasswordUpdateContentProps) {
   const text = useTranslation().t
 
-  const [newPassword, setNewPassword] = useState<string>()
-  const [confirmPassword, setConfirmPassword] = useState<string>()
-
-  function handleUpdateNewPassword(password: string) {
-    setNewPassword(password)
-    handleUpdateIsUpdating(true)
+  type UpdatePasswordProps = {
+    password?: string
+    confirmPassword?: string
   }
 
-  function handleUpdateConfirmPassword(password: string) {
-    setConfirmPassword(password)
-    handleUpdateIsUpdating(true)
+  const [
+    localPasswordData,
+    setLocalPasswordData,
+    localPasswordDataErrors,
+    isLocalPasswordDataValid,
+  ] = useValidation<UpdatePasswordProps>({
+    password: {
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.strongPassword(text("validation:validpassword")),
+      ],
+    },
+    confirmPassword: {
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.passwordConfirmation(
+          text("validation:passwordmatch"),
+          () => password
+        ),
+      ],
+    },
+  })
+
+  const [password, setPassword] = useState("")
+
+  const [hasDataBeenUpdated, setHasDataBeenUpdated] = useState(false)
+
+  function handleUpdateLocalPasswordData(newPasswordData: UpdatePasswordProps) {
+    setLocalPasswordData({ ...localPasswordData, ...newPasswordData })
+    setHasDataBeenUpdated(true)
   }
 
   useEffect(() => {
-    if (newPassword === confirmPassword) {
-      if (newPassword && confirmPassword) {
-        setPasswordMatch(true)
-      } else {
-        setPasswordMatch(false)
-      }
+    setPassword(localPasswordData.password)
+  }, [localPasswordData])
+
+  useEffect(() => {
+    if (isLocalPasswordDataValid) {
+      handleUpdateIsUpdating(true)
     } else {
-      setPasswordMatch(false)
+      handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newPassword, confirmPassword])
+  }, [isLocalPasswordDataValid])
 
   useEffect(() => {
-    if (passwordMatch) {
+    if (runUpdate) {
       handleUpdateUser({
-        password: newPassword,
+        password: localPasswordData.password,
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -75,8 +98,12 @@ export function PasswordUpdateContent({
             <CardTextInput
               input={{
                 label: text("pwupdate:inputpassword"),
-                onChange: (e) => handleUpdateNewPassword(e),
+                onChange: (password) =>
+                  handleUpdateLocalPasswordData({ password: password }),
                 type: "password",
+                errors: hasDataBeenUpdated
+                  ? localPasswordDataErrors.password
+                  : [],
               }}
             />
           </Card>
@@ -85,17 +112,18 @@ export function PasswordUpdateContent({
             <CardTextInput
               input={{
                 label: text("pwupdate:inputconfirmation"),
-                onChange: (e) => handleUpdateConfirmPassword(e),
+                onChange: (confirmPassword) =>
+                  handleUpdateLocalPasswordData({
+                    confirmPassword: confirmPassword,
+                  }),
                 type: "password",
+                errors: hasDataBeenUpdated
+                  ? localPasswordDataErrors.confirmPassword
+                  : [],
               }}
             />
           </Card>
-          {!passwordMatch && (
-            <Card>
-              <CardText label={text("pwupdate:dontmatch")} />
-            </Card>
-          )}
-          {isUpdating && passwordMatch && (
+          {isUpdating && hasDataBeenUpdated && (
             <div className="w-full h-fit hidden xl:block">
               <Button
                 block={{

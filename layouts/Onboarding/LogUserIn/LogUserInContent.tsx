@@ -2,9 +2,13 @@ import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
-import { IUserLogin } from "types/User.type"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
+import { useLogin } from "services/hooks/useUser/useLogin"
+import { pageUrls } from "utils/pagesUrl"
 
 const QuickIn = dynamic(
   () => import("components/QuickIn/QuickIn").then((mod) => mod.QuickIn),
@@ -13,16 +17,87 @@ const QuickIn = dynamic(
 
 type LogUserInContentProps = {
   isUpdating: boolean
-  handleUpdateUserData: (data: IUserLogin) => void
   handleUpdateRunUpdate: (stat: boolean) => void
+  handleUpdateIsUpdating(stat: boolean): void
+  runUpdate: boolean
 }
 
 export function LogUserInContent({
   handleUpdateRunUpdate,
-  handleUpdateUserData,
   isUpdating,
+  handleUpdateIsUpdating,
+  runUpdate,
 }: LogUserInContentProps) {
   const text = useTranslation().t
+  const router = useRouter()
+
+  type UserDataProps = {
+    email?: string
+    password?: string
+  }
+
+  const [
+    localUserData,
+    setLocalUserData,
+    localUserDataErrors,
+    isLocalUserDataValid,
+  ] = useValidation<UserDataProps>({
+    email: {
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    password: {
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+  })
+
+  const [hasDataChanged, setHasDataChanged] = useState(false)
+
+  const [showError, setShowError] = useState(false)
+
+  const loginUser = useLogin()
+
+  function handleUpdateLocalUserData(newUserData: UserDataProps) {
+    setLocalUserData({ ...localUserData, ...newUserData })
+  }
+
+  function handleUserLogin() {
+    loginUser.mutate(
+      {
+        email: localUserData.email,
+        password: localUserData.password,
+      },
+      {
+        onSuccess: () => {
+          router.push(pageUrls.adm())
+        },
+        onError: () => {
+          handleUpdateRunUpdate(false)
+          handleUpdateIsUpdating(false)
+          setShowError(true)
+        },
+      }
+    )
+  }
+
+  useEffect(() => {
+    if (isLocalUserDataValid) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLocalUserDataValid, localUserData])
+
+  useEffect(() => {
+    if (runUpdate) {
+      handleUserLogin()
+      setHasDataChanged(true)
+      handleUpdateRunUpdate(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -37,8 +112,10 @@ export function LogUserInContent({
             <CardTextInput
               input={{
                 label: text("login:inputemail"),
-                onChange: (email) => handleUpdateUserData({ email: email }),
+                onChange: (email) =>
+                  handleUpdateLocalUserData({ email: email }),
                 type: "email",
+                errors: hasDataChanged ? localUserDataErrors.email : [],
               }}
             />
           </Card>
@@ -47,13 +124,18 @@ export function LogUserInContent({
             <CardTextInput
               input={{
                 label: text("login:inputpassword"),
-                validate: false,
                 onChange: (password) =>
-                  handleUpdateUserData({ password: password }),
+                  handleUpdateLocalUserData({ password: password }),
                 type: "password",
+                errors: hasDataChanged ? localUserDataErrors.password : [],
               }}
             />
           </Card>
+          {showError && (
+            <Card>
+              <CardText label={text("login:problem")} />
+            </Card>
+          )}
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">
               <Button

@@ -3,20 +3,14 @@ import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
-import { IUserLogin } from "types/User.type"
+import { useState } from "react"
 import { pageUrls } from "utils/pagesUrl"
 import { LogUserInContent } from "./LogUserInContent"
 
-type LogUserInProps = {
-  handleUserLogin: (data: IUserLogin) => void
-}
-
-export function LogUserIn({ handleUserLogin }: LogUserInProps) {
+export function LogUserIn() {
   const text = useTranslation().t
   const router = useRouter()
 
-  const [userData, setUserData] = useState<IUserLogin>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
@@ -27,25 +21,6 @@ export function LogUserIn({ handleUserLogin }: LogUserInProps) {
   function handleUpdateRunUpdate(stat: boolean) {
     setRunUpdate(stat)
   }
-
-  function handleUpdateUserData(newData: IUserLogin) {
-    setUserData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as IUserLogin
-    })
-    handleUpdateIsUpdating(true)
-  }
-
-  useEffect(() => {
-    if (userData) {
-      handleUpdateRunUpdate(false)
-      handleUpdateIsUpdating(false)
-      handleUserLogin(userData)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -87,8 +62,9 @@ export function LogUserIn({ handleUserLogin }: LogUserInProps) {
       </Header>
       <LogUserInContent
         isUpdating={isUpdating}
-        handleUpdateUserData={handleUpdateUserData}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
+        handleUpdateIsUpdating={handleUpdateIsUpdating}
+        runUpdate={runUpdate}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

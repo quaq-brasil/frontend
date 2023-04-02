@@ -24,15 +24,6 @@ export function GeneralSettings({
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
 
-  function handleUpdatePageData(newData: IUpdatePage) {
-    setPageData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as IUpdatePage
-    })
-  }
-
   function handleUpdateIsUpdating(stat: boolean) {
     setIsUpdating(stat)
   }
@@ -120,9 +111,7 @@ export function GeneralSettings({
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
       <GeneralSettingsContent
-        initialPageData={initialPageData}
         pageData={pageData}
-        handleUpdatePageData={handleUpdatePageData}
         handleUpdatePage={handleUpdatePage}
         isUpdating={isUpdating}
         handleUpdateIsUpdating={handleUpdateIsUpdating}

@@ -37,15 +37,6 @@ export function CentralOptions({
     setRunUpdate(stat)
   }
 
-  function handleUpdateTemplateData(newData: IUpdateTemplate) {
-    setTemplateData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as IUpdateTemplate
-    })
-  }
-
   useEffect(() => {
     setPageData(initialPageData)
   }, [initialPageData])
@@ -53,19 +44,6 @@ export function CentralOptions({
   useEffect(() => {
     setTemplateData(initialTemplateData)
   }, [initialTemplateData])
-
-  function onUpdate() {
-    handleUpdateIsUpdating(false)
-    handleUpdateRunUpdate(false)
-    handleUpdateTemplate(templateData)
-  }
-
-  useEffect(() => {
-    if (templateData) {
-      onUpdate()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -196,10 +174,11 @@ export function CentralOptions({
         templateData={templateData}
         initialTemplateData={initialTemplateData}
         isUpdating={isUpdating}
-        handleUpdateTemplateData={handleUpdateTemplateData}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
         pageData={pageData}
         handleUpdateIsUpdating={handleUpdateIsUpdating}
+        runUpdate={runUpdate}
+        handleUpdateTemplate={handleUpdateTemplate}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

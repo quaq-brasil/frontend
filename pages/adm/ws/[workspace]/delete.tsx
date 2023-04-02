@@ -43,17 +43,26 @@ export default function WorkspaceDeletePage({
     deleteWorkspace.mutate({ id: getWorkspace.data.id })
   }
 
+  const [localWorkspaceData, setLocalWorkspaceData] =
+    useState<IWorkspace | null>(null)
   const [workspaceTitle, setWorkspaceTitle] = useState<string | null>(null)
 
   useEffect(() => {
-    if (getWorkspace) {
+    if (getWorkspace.data && !localWorkspaceData) {
+      setLocalWorkspaceData(getWorkspace.data)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getWorkspace])
+
+  useEffect(() => {
+    if (localWorkspaceData) {
       let wsTitle =
-        getWorkspace.data.title.charAt(0).toUpperCase() +
-        getWorkspace.data.title.slice(1).toLowerCase()
+        localWorkspaceData.title.charAt(0).toUpperCase() +
+        localWorkspaceData.title.slice(1).toLowerCase()
 
       setWorkspaceTitle(wsTitle)
     }
-  }, [getWorkspace])
+  }, [localWorkspaceData])
 
   return (
     <>
@@ -62,7 +71,7 @@ export default function WorkspaceDeletePage({
         <meta name="description" content={`${workspaceTitle} workspace.`} />
       </Head>
       <WorkspaceDelete
-        initialWorkspaceData={getWorkspace?.data as IWorkspace}
+        initialWorkspaceData={localWorkspaceData}
         initialUserData={getUser.data}
         handleDeleteWorkspace={handleDeleteWorkspace}
       />

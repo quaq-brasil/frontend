@@ -7,6 +7,7 @@ import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput
 import { Popover } from "components/Popover/Popover"
 import { useDebounce } from "hooks/useDebouce"
 import useTranslation from "next-translate/useTranslation"
+import { useRouter } from "next/router"
 import { X } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { useAddNewWorkspaceMember } from "services/hooks/useWorkspace/useAddNewWorkspaceMember"
@@ -23,6 +24,7 @@ export function WorkspaceMembersContent({
   handleUpdateWorkspaceData,
 }: WorkspaceMembersContentProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const addNewMember = useAddNewWorkspaceMember()
   const removeMember = useRemoveWorkspaceMember()
@@ -50,17 +52,21 @@ export function WorkspaceMembersContent({
   const [memberToBeRemoved, setMemberToBeRemoved] = useState<IMember | null>()
   const [runRemoveMember, setRunRemoveMember] = useState(false)
 
+  function handleAddMember() {
+    const newMembers = workspaceData.members.map((member) => {
+      return {
+        id: member.id,
+        user: member.user,
+        user_id: member.user_id,
+        workspace_id: member.workspace_id,
+      } as IMember
+    })
+    setMembers([...newMembers])
+  }
+
   useEffect(() => {
-    if (workspaceData?.members) {
-      const newMembers = workspaceData.members.map((member) => {
-        return {
-          id: member.id,
-          user: member.user,
-          user_id: member.user_id,
-          workspace_id: member.workspace_id,
-        } as IMember
-      })
-      setMembers([...newMembers])
+    if (workspaceData?.members && !members) {
+      handleAddMember()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workspaceData])
@@ -112,6 +118,7 @@ export function WorkspaceMembersContent({
         {
           onSuccess: (data) => {
             handleUpdateWorkspaceData(data)
+            handleAddMember()
             setIsAddingMember(false)
             setTempNewMemberEmail("")
             setNewMemberEmail("")
@@ -119,11 +126,22 @@ export function WorkspaceMembersContent({
             setRunUpdate(false)
             setErrorMessage(null)
           },
+          onError() {
+            setRunUpdate(false)
+            setErrorMessage(text("wssettings:cantfindmember"))
+          },
         }
       )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
+
+  function handleRemoveMember(member: IMember) {
+    const tempMembers = members.filter((m) => m.user_id !== member.user_id)
+    setMembers([...tempMembers])
+    setMemberToBeRemoved(null)
+    setRunRemoveMember(false)
+  }
 
   useEffect(() => {
     if (memberToBeRemoved && runRemoveMember) {
@@ -131,9 +149,8 @@ export function WorkspaceMembersContent({
         { memberId: memberToBeRemoved.user_id, workspaceId: workspaceData.id },
         {
           onSuccess: (data) => {
-            handleUpdateWorkspaceData(data)
-            setMemberToBeRemoved(null)
-            setRunRemoveMember(false)
+            handleUpdateWorkspaceData({ members: data.members })
+            handleRemoveMember(memberToBeRemoved)
           },
         }
       )
@@ -176,7 +193,7 @@ export function WorkspaceMembersContent({
               <Button
                 block={{
                   data: {
-                    color: "bg-white",
+                    color: "bg-black",
                     text: text("wssettings:addmember"),
                     onClick: () => setIsAddingMember(true),
                   },

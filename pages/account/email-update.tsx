@@ -2,6 +2,7 @@ import { EmailUpdate } from "layouts/Workflows/EmailUpdate/EmailUpdate"
 import { GetServerSideProps } from "next"
 import useTranslation from "next-translate/useTranslation"
 import Head from "next/head"
+import { useRouter } from "next/router"
 import { api } from "services/api"
 import { useUpdateUser } from "services/hooks/useUser/useUpdateUser"
 import { useUser } from "services/hooks/useUser/useUser"
@@ -10,6 +11,7 @@ import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
 } from "utils/404Redirect"
+import { pageUrls } from "utils/pagesUrl"
 import { withAuth } from "utils/withAuth"
 
 type EmailUpdatePageProps = {
@@ -18,6 +20,7 @@ type EmailUpdatePageProps = {
 
 export default function EmailUpdatePage({ data }: EmailUpdatePageProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const getUser = useUser({
     options: {
@@ -28,12 +31,19 @@ export default function EmailUpdatePage({ data }: EmailUpdatePageProps) {
   const updateUser = useUpdateUser()
 
   const handleChangeEmail = (data: IUpdateUser) => {
-    updateUser.mutate({
-      id: getUser.data.id,
-      data: {
-        email: data.email,
+    updateUser.mutate(
+      {
+        id: getUser?.data?.id,
+        data: {
+          email: data?.email,
+        },
       },
-    })
+      {
+        onSuccess() {
+          router.push(pageUrls.meSettings())
+        },
+      }
+    )
   }
 
   return (
@@ -44,7 +54,7 @@ export default function EmailUpdatePage({ data }: EmailUpdatePageProps) {
       </Head>
       <EmailUpdate
         handleChangeEmail={handleChangeEmail}
-        initialUserData={getUser.data}
+        initialUserData={getUser?.data}
       />
     </>
   )

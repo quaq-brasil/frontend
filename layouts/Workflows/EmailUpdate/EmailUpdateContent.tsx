@@ -2,6 +2,7 @@ import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { useEffect, useState } from "react"
 import { useLogin } from "services/hooks/useUser/useLogin"
@@ -9,7 +10,7 @@ import { IUpdateUser } from "types/User.type"
 
 type EmailUpdateContentProps = {
   handleUpdateRunUpdate: (stat: boolean) => void
-  handleUpdateUserData: (data: IUpdateUser) => void
+  handleUpdateIsUpdating: (stat: boolean) => void
   userData: IUpdateUser | null
   handleChangeEmail: (data: IUpdateUser) => void
   runUpdate: boolean
@@ -18,30 +19,70 @@ type EmailUpdateContentProps = {
 
 export function EmailUpdateContent({
   handleUpdateRunUpdate,
-  handleUpdateUserData,
+  handleChangeEmail,
   userData,
   runUpdate,
   isUpdating,
+  handleUpdateIsUpdating,
 }: EmailUpdateContentProps) {
   const text = useTranslation().t
 
-  const [password, setPassword] = useState<string>("")
+  type EmailUpdateProps = {
+    email?: string
+    password?: string
+  }
+
+  const [
+    localUserData,
+    setLocalUserData,
+    localUserDataErrors,
+    isLocalUserDataValid,
+  ] = useValidation<EmailUpdateProps>({
+    email: {
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.email(text("validation:validemail")),
+      ],
+    },
+    password: {
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+  })
+
+  const [hasAnyUpdateBeenMade, setHasAnyUpdateBeenMade] = useState(false)
+
   const [_failed, setFailed] = useState(false)
 
   const userLogin = useLogin()
 
+  function handleUpdateLocalUserData(newUserData: EmailUpdateProps) {
+    setLocalUserData({ ...localUserData, ...newUserData })
+  }
+
+  function handleRunUpdate() {
+    handleUpdateIsUpdating(false)
+    handleUpdateRunUpdate(false)
+    setHasAnyUpdateBeenMade(false)
+    handleChangeEmail({ ...userData, email: localUserData.email })
+  }
+
   function handleUserVerification() {
     userLogin.mutate(
       {
-        email: userData?.email || "",
-        password: password,
+        email: userData?.email,
+        password: localUserData?.password,
       },
       {
         onSuccess: () => {
-          handleUpdateRunUpdate(true)
+          handleRunUpdate()
         },
         onError: () => {
           handleUpdateFailed(true)
+          handleUpdateIsUpdating(false)
+          handleUpdateRunUpdate(false)
+          setHasAnyUpdateBeenMade(true)
         },
       }
     )
@@ -51,12 +92,19 @@ export function EmailUpdateContent({
     setFailed(stat)
   }
 
-  const handleUpdatePassword = (password: string) => {
-    setPassword(password)
-  }
+  useEffect(() => {
+    if (isLocalUserDataValid) {
+      handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLocalUserDataValid, localUserData])
 
   useEffect(() => {
-    handleUserVerification()
+    if (runUpdate) {
+      handleUserVerification()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
@@ -73,8 +121,9 @@ export function EmailUpdateContent({
             <CardTextInput
               input={{
                 label: text("emailupdate:inputemail"),
-                onChange: (email) => handleUpdateUserData({ email: email }),
-                type: "email",
+                onChange: (email) =>
+                  handleUpdateLocalUserData({ email: email }),
+                errors: hasAnyUpdateBeenMade ? localUserDataErrors.email : [],
               }}
             />
           </Card>
@@ -83,12 +132,20 @@ export function EmailUpdateContent({
             <CardTextInput
               input={{
                 label: text("emailupdate:inputpassword"),
-                onChange: (password) => handleUpdatePassword(password),
-                type: "password",
+                onChange: (password) =>
+                  handleUpdateLocalUserData({ password: password }),
+                errors: hasAnyUpdateBeenMade
+                  ? localUserDataErrors.password
+                  : [],
               }}
             />
           </Card>
-          {isUpdating && (
+          {hasAnyUpdateBeenMade && _failed && (
+            <Card>
+              <CardText label={text("emailupdate:failed")} />
+            </Card>
+          )}
+          {isUpdating && hasAnyUpdateBeenMade && (
             <div className="w-full h-fit hidden xl:block">
               <Button
                 block={{
