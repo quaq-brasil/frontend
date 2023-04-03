@@ -46,15 +46,6 @@ export function WorkspaceSettings({
     setRunUpdate(stat)
   }
 
-  useEffect(() => {
-    if (workspaceData && runUpdate) {
-      handleUpdateWorkspace(workspaceData)
-      handleUpdateIsUpdating(false)
-      handleUpdateRunUpdate(false)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
-
   function handleTabBar() {
     if (isUpdating) {
       return [
@@ -118,6 +109,8 @@ export function WorkspaceSettings({
         handleUpdateIsUpdating={handleUpdateIsUpdating}
         workspaceData={workspaceData}
         isUpdating={isUpdating}
+        runUpdate={runUpdate}
+        handleUpdateWorkspace={handleUpdateWorkspace}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

@@ -26,5 +26,7 @@
   "bordercolorlabel": "rgba(00, 00, 00, 0.0)",
   "borderwidth": "largura da borda",
   "borderwidthlabel": "digite um número",
-  "newdataset": "novo conjunto de dados"
+  "newdataset": "novo conjunto de dados",
+  "update": "atualizar",
+  "updateblock": "atualizar bloco"
 }

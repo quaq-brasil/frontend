@@ -140,14 +140,21 @@ export const EditPublicationContent = ({
     setIsUpdating(true)
   }
 
-  const handleCheckSaveAs = (value: string | undefined | null) => {
+  const handleCheckSaveAs = (
+    value: string | undefined | null,
+    current_save_as?: string
+  ) => {
     let uniqueSaveAs = true
     if (!value) {
       uniqueSaveAs = false
     } else {
       blocks.forEach((block) => {
         if (block.save_as == value) {
-          uniqueSaveAs = false
+          if (current_save_as && current_save_as == value) {
+            uniqueSaveAs = true
+          } else {
+            uniqueSaveAs = false
+          }
         }
       })
     }

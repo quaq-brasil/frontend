@@ -8,6 +8,7 @@ import { Dialog } from "components/Dialog/Dialog"
 import { ImageSelector } from "components/ImageSelector/ImageSelector"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, Check } from "phosphor-react"
 import { useEffect, useState } from "react"
@@ -24,64 +25,54 @@ export function RedirectConfig({
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
-  type IRedirect = {
+  type RedirectProps = {
     description?: string
     link?: string
     type?: string
     cover_image?: string
+    save_as?: string
   }
 
-  type FormDataProps = {
-    description?: {
-      valid?: boolean
-    }
-    link?: {
-      valid?: boolean
-    }
-    type?: {
-      valid?: boolean
-    }
-    cover_image?: {
-      valid?: boolean
-    }
-    save_as?: {
-      valid?: boolean
-    }
-  }
-
-  const [content, setContent] = useState<IRedirect>({ type: "manual" })
-  const [formData, setFormData] = useState<FormDataProps>({
+  const [
+    localBlockData,
+    setLocalBlockData,
+    LocalBlockDataErrors,
+    isLocalBlockDataValid,
+  ] = useValidation<RedirectProps>({
     description: {
-      valid: false,
+      initialValue: blockData?.data?.description || "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    link: {
+      initialValue: blockData?.data?.link || "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.url(text("validation:url")),
+      ],
+    },
+    type: {
+      initialValue: blockData?.data?.type || "manual",
+      validators: [validationRules.required(text("validation:required"))],
     },
     save_as: {
-      valid: false,
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.custom(
+          text("createtemplate:saveas"),
+          handleCheckSaveAs,
+          [blockData?.save_as]
+        ),
+      ],
     },
   })
-  const [save_as, set_save_as] = useState<string>()
+
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+  const [hasDataChanged, setHasDataChanged] = useState(false)
 
-  function handleUpdateContent(newData: IRedirect) {
-    setContent((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as IRedirect
-    })
-  }
-
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
-
-  function handleUpdateSaveAs(value: string) {
-    set_save_as(value)
+  function handleUpdateLocalBlockData(newBlockData: RedirectProps) {
+    setLocalBlockData({ ...localBlockData, ...newBlockData })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -92,11 +83,41 @@ export function RedirectConfig({
     setRunUpdate(stat)
   }
 
+  function checkIfDataHasChanged() {
+    if (blockData) {
+      let hasDataChanged = false
+      if (blockData?.data?.cover_image !== localBlockData?.cover_image) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.description !== localBlockData?.description) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.link !== localBlockData?.link) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.type !== localBlockData?.type) {
+        hasDataChanged = true
+      }
+      if (blockData?.save_as !== localBlockData?.save_as) {
+        hasDataChanged = true
+      }
+      return hasDataChanged
+    } else {
+      return false
+    }
+  }
+
   function handleClosing() {
-    set_save_as(undefined)
-    setContent(undefined)
+    setLocalBlockData({
+      cover_image: "",
+      description: "",
+      link: "",
+      type: "manual",
+      save_as: "",
+    })
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
+    setHasDataChanged(false)
     onClose()
   }
 
@@ -104,8 +125,13 @@ export function RedirectConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "redirect",
-      save_as: save_as,
-      data: content,
+      save_as: localBlockData.save_as,
+      data: {
+        cover_image: localBlockData.cover_image,
+        description: localBlockData.description,
+        link: localBlockData.link,
+        type: localBlockData.type,
+      },
     })
     handleClosing()
   }
@@ -122,7 +148,11 @@ export function RedirectConfig({
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("redirectconfig:add")}
+            text={
+              blockData
+                ? text("redirectconfig:update")
+                : text("redirectconfig:add")
+            }
             onClick={() => onAddBlock()}
           />
         </div>,
@@ -142,9 +172,9 @@ export function RedirectConfig({
   const handleOpenVariablePanelForDescription = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          description: content.description
-            ? `${content.description}${variable}`
+        handleUpdateLocalBlockData({
+          description: localBlockData.description
+            ? `${localBlockData.description}${variable}`
             : variable,
         })
       })
@@ -154,8 +184,10 @@ export function RedirectConfig({
   const handleOpenVariablePanelForLink = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          link: content.link ? `${content.link}${variable}` : variable,
+        handleUpdateLocalBlockData({
+          link: localBlockData.link
+            ? `${localBlockData.link}${variable}`
+            : variable,
         })
       })
     handleOpenVariablePanel()
@@ -164,84 +196,61 @@ export function RedirectConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(save_as ? `${save_as}${variable}` : variable)
+        handleUpdateLocalBlockData({
+          save_as: localBlockData.save_as
+            ? `${localBlockData.save_as}${variable}`
+            : variable,
+        })
       })
     handleOpenVariablePanel()
   }
 
   useEffect(() => {
-    if (save_as) {
-      if (blockData) {
-        if (blockData.save_as == save_as) {
-          handleUpdateFormData({ save_as: { valid: true } })
-        } else {
-          const isValid = handleCheckSaveAs(save_as)
-          handleUpdateFormData({ save_as: { valid: isValid } })
-        }
-      } else {
-        const isValid = handleCheckSaveAs(save_as)
-        handleUpdateFormData({ save_as: { valid: isValid } })
-      }
-    } else {
-      handleUpdateFormData({ save_as: { valid: false } })
-    }
-    if (content?.description) {
-      handleUpdateFormData({ description: { valid: true } })
-    } else {
-      handleUpdateFormData({ description: { valid: false } })
-    }
-    if (content?.link) {
-      handleUpdateFormData({ link: { valid: true } })
-    } else {
-      handleUpdateFormData({ link: { valid: false } })
-    }
-    if (content?.type) {
-      handleUpdateFormData({ type: { valid: true } })
-    } else {
-      handleUpdateFormData({
-        type: { valid: false },
-      })
-    }
-    if (content?.cover_image) {
-      handleUpdateFormData({ cover_image: { valid: true } })
-    } else {
-      if (content?.type == "auto") {
-        handleUpdateFormData({ cover_image: { valid: true } })
-      } else {
-        handleUpdateFormData({ cover_image: { valid: false } })
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [save_as, content])
-
-  useEffect(() => {
     if (blockData) {
-      setContent(blockData.data)
-      set_save_as(blockData.save_as)
+      setLocalBlockData({
+        cover_image: blockData.data.cover_image,
+        description: blockData.data.description,
+        link: blockData.data.link,
+        type: blockData.data.type,
+        save_as: blockData.save_as,
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockData])
 
   useEffect(() => {
-    if (save_as && content) {
-      onAddBlock()
+    if (runUpdate && isLocalBlockDataValid) {
+      if (!blockData) {
+        onAddBlock()
+      } else {
+        if (checkIfDataHasChanged()) {
+          onAddBlock()
+        }
+      }
+    } else if (runUpdate && !isLocalBlockDataValid) {
+      setHasDataChanged(true)
+      handleUpdateRunUpdate(false)
+      handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
   useEffect(() => {
-    if (
-      formData.description?.valid &&
-      formData.link?.valid &&
-      formData.type?.valid &&
-      formData.cover_image?.valid &&
-      formData.save_as?.valid
-    ) {
-      handleUpdateIsUpdating(true)
+    if (blockData) {
+      if (checkIfDataHasChanged() && isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     } else {
-      handleUpdateIsUpdating(false)
+      if (isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     }
-  }, [formData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localBlockData, isLocalBlockDataValid])
 
   return (
     <>
@@ -253,9 +262,10 @@ export function RedirectConfig({
               input={{
                 label: text("redirectconfig:descriptionlabel"),
                 onChange: (value) => {
-                  handleUpdateContent({ description: value })
+                  handleUpdateLocalBlockData({ description: value })
                 },
-                inputValue: content?.description,
+                value: localBlockData?.description,
+                errors: hasDataChanged ? LocalBlockDataErrors.description : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -269,9 +279,10 @@ export function RedirectConfig({
               input={{
                 label: text("redirectconfig:linklabel"),
                 onChange: (value) => {
-                  handleUpdateContent({ link: value })
+                  handleUpdateLocalBlockData({ link: value })
                 },
-                inputValue: content?.link,
+                value: localBlockData?.link,
+                errors: hasDataChanged ? LocalBlockDataErrors.description : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -286,10 +297,10 @@ export function RedirectConfig({
               label={text("redirectconfig:manual")}
               indicator={{
                 icon: Check,
-                isVisible: content?.type !== "manual",
+                isVisible: localBlockData?.type !== "manual",
               }}
               onClick={() => {
-                handleUpdateContent({ type: "manual" })
+                handleUpdateLocalBlockData({ type: "manual" })
               }}
             />
             <CardLine />
@@ -297,27 +308,28 @@ export function RedirectConfig({
               label={text("redirectconfig:auto")}
               indicator={{
                 icon: Check,
-                isVisible: content?.type !== "auto",
+                isVisible: localBlockData?.type !== "auto",
               }}
               onClick={() => {
-                handleUpdateContent({ type: "auto" })
+                handleUpdateLocalBlockData({ type: "auto" })
               }}
             />
             <CardLine />
           </Card>
 
-          {content?.type === "manual" && (
+          {localBlockData?.type === "manual" && (
             <Card>
               <CardText label={text("redirectconfig:coverimage")} />
               <CardImageInput
                 imageSelector={
                   <ImageSelector
                     onImageChange={(value) =>
-                      handleUpdateContent({ cover_image: value })
+                      handleUpdateLocalBlockData({ cover_image: value })
                     }
-                    url={content?.cover_image}
+                    url={localBlockData?.cover_image}
                   />
                 }
+                errors={hasDataChanged ? LocalBlockDataErrors.cover_image : []}
               />
             </Card>
           )}
@@ -328,9 +340,12 @@ export function RedirectConfig({
               input={{
                 label: text("redirectconfig:saveaslabel"),
                 onChange: (value) => {
-                  handleUpdateSaveAs(value)
+                  handleUpdateLocalBlockData({ save_as: value })
                 },
-                inputValue: save_as,
+                value: localBlockData.save_as,
+                errors: localBlockData.save_as
+                  ? LocalBlockDataErrors.save_as
+                  : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -357,7 +372,9 @@ export function RedirectConfig({
                 block={{
                   data: {
                     color: "bg-white",
-                    text: text("redirectconfig:addblock"),
+                    text: blockData
+                      ? text("redirectconfig:updateblock")
+                      : text("redirectconfig:addblock"),
                     onClick: () => handleUpdateRunUpdate(true),
                   },
                 }}

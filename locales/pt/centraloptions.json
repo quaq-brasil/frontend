@@ -16,5 +16,6 @@
   "update": "update",
   "visibility": "visibilidade do template",
   "public": "qualquer um",
-  "wsmembers": "membros do workspace apenas"
+  "wsmembers": "membros do workspace apenas",
+  "label": "digite aqui"
 }

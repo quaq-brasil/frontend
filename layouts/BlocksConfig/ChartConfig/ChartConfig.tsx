@@ -10,6 +10,7 @@ import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput
 import { Dialog } from "components/Dialog/Dialog"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
+import { useValidation, validationRules } from "hooks/useValidation"
 import { BlocksConfigProps } from "types/BlockConfig.types"
 
 export function ChartConfig({
@@ -23,7 +24,7 @@ export function ChartConfig({
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
-  type IDatasets = {
+  type DatasetsProps = {
     label?: string
     data?: string
     backgroundColor?: string
@@ -31,100 +32,70 @@ export function ChartConfig({
     borderWidth?: string
   }
 
-  type IChart = {
+  type ChartProps = {
     chartType?: string
     data?: {
-      datasets?: IDatasets[]
+      datasets?: DatasetsProps[]
       labels?: string
     }
     title?: string
+    save_as?: string
   }
 
-  type FormDataProps = {
-    title?: {
-      valid?: boolean
-    }
-    type?: {
-      valid?: boolean
-    }
-    data?: {
-      valid?: boolean
-    }
-    saveAs?: {
-      valid?: boolean
-    }
-  }
-
-  const [formData, setFormData] = useState<FormDataProps>({
-    title: {
-      valid: false,
-    },
-    type: {
-      valid: false,
-    },
-    data: {
-      valid: false,
-    },
-    saveAs: {
-      valid: false,
+  const [
+    localBlockData,
+    setLocalBlockData,
+    LocalBlockDataErrors,
+    isLocalBlockDataValid,
+  ] = useValidation<ChartProps>({
+    save_as: {
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.custom(
+          text("createtemplate:saveas"),
+          handleCheckSaveAs,
+          [blockData?.save_as]
+        ),
+      ],
     },
   })
-  const [content, setContent] = useState<IChart | null>()
-  const [saveAs, setSaveAs] = useState<string | null>()
+
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
-  const [datasets, setDatasets] = useState<IDatasets[]>([
-    {
-      backgroundColor: "",
-      borderColor: "",
-      borderWidth: "",
-      data: "",
-      label: "",
-    },
-  ])
+  const [hasDataChanged, setHasDataChanged] = useState(false)
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
-
-  function handleUpdateContent(newData: IChart | null | undefined) {
-    setContent((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as IChart
-    })
+  function handleUpdateLocalBlockData(newBlockData: ChartProps) {
+    setLocalBlockData({ ...localBlockData, ...newBlockData })
   }
 
   type IUpdateDatasets = {
     id?: number
     type: string
-    newData?: IDatasets
+    newData?: DatasetsProps
   }
 
   function handleUpdateDatasets({ id, type, newData }: IUpdateDatasets) {
     switch (type) {
       case "add":
-        setDatasets([
-          ...datasets,
-          {
-            backgroundColor: "",
-            data: "",
-            label: "",
-            borderColor: "",
-            borderWidth: "",
+        handleUpdateLocalBlockData({
+          data: {
+            datasets: [
+              ...localBlockData.data.datasets,
+              {
+                backgroundColor: "",
+                data: "",
+                label: "",
+                borderColor: "",
+                borderWidth: "",
+              },
+            ],
           },
-        ])
-        handleUpdateContent({ data: { datasets: datasets } })
+        })
         break
       case "update":
         if (newData) {
-          const updateDatasets = [...datasets]
+          const updateDatasets = [...localBlockData.data.datasets]
           updateDatasets[id] = {
             backgroundColor:
               newData.backgroundColor || updateDatasets[id].backgroundColor,
@@ -133,26 +104,34 @@ export function ChartConfig({
             borderColor: newData.borderColor || updateDatasets[id].borderColor,
             borderWidth: newData.borderWidth || updateDatasets[id].borderWidth,
           }
-          setDatasets([...updateDatasets])
-          handleUpdateContent({ data: { datasets: updateDatasets } })
-          handleUpdateFormData({ data: { valid: true } })
+          handleUpdateLocalBlockData({
+            data: { datasets: [...updateDatasets] },
+          })
         }
         break
       case "delete":
-        const newDatasets = [...(datasets as IDatasets[])]
+        const newDatasets = [
+          ...(localBlockData.data.datasets as DatasetsProps[]),
+        ]
         newDatasets.splice(id, 1)
-        if (newDatasets) {
-          handleUpdateContent({ data: { datasets: newDatasets } })
+        if (newDatasets.length === 0) {
+          handleUpdateLocalBlockData({
+            data: {
+              datasets: [
+                {
+                  backgroundColor: "",
+                  borderColor: "",
+                  borderWidth: "",
+                  data: "",
+                  label: "",
+                },
+              ],
+            },
+          })
         } else {
-          handleUpdateFormData({ data: { valid: false } })
+          handleUpdateLocalBlockData({ data: { datasets: [...newDatasets] } })
         }
     }
-  }
-
-  function handleUpdateSaveAs(value: string | null) {
-    setSaveAs(value)
-    const isValid = handleCheckSaveAs(value)
-    handleUpdateFormData({ saveAs: { valid: isValid } })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -163,34 +142,47 @@ export function ChartConfig({
     setRunUpdate(stat)
   }
 
+  function checkIfDataHasChanged() {
+    if (blockData) {
+      let hasDataChanged = false
+      if (blockData?.data?.chartType !== localBlockData?.chartType) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.data !== localBlockData?.data) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.title !== localBlockData?.title) {
+        hasDataChanged = true
+      }
+      if (blockData?.save_as !== localBlockData?.save_as) {
+        hasDataChanged = true
+      }
+      return hasDataChanged
+    } else {
+      return false
+    }
+  }
+
   function handleClosing() {
-    setContent(null)
-    setSaveAs(null)
-    setDatasets([
-      {
-        backgroundColor: "",
-        borderColor: "",
-        borderWidth: "",
-        data: "",
-        label: "",
-      },
-    ])
-    handleUpdateFormData({
-      title: {
-        valid: false,
-      },
-      type: {
-        valid: false,
-      },
+    setLocalBlockData({
+      chartType: "",
       data: {
-        valid: false,
+        datasets: [
+          {
+            backgroundColor: "",
+            borderColor: "",
+            borderWidth: "",
+            data: "",
+            label: "",
+          },
+        ],
+        labels: "",
       },
-      saveAs: {
-        valid: false,
-      },
+      save_as: "",
     })
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
+    setHasDataChanged(false)
     onClose()
   }
 
@@ -198,32 +190,16 @@ export function ChartConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "chart",
-      save_as: saveAs,
-      data: content,
+      save_as: localBlockData.save_as,
+      data: {
+        chartType: localBlockData.chartType,
+        datasets: localBlockData.data.datasets,
+        labels: localBlockData.data.labels,
+        title: localBlockData.title,
+      },
     })
     handleClosing()
   }
-
-  useEffect(() => {
-    if (blockData) {
-      setContent(blockData.data)
-      setSaveAs(blockData.save_as)
-      handleUpdateFormData({
-        data: { valid: true },
-        saveAs: { valid: true },
-        title: { valid: true },
-        type: { valid: true },
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockData])
-
-  useEffect(() => {
-    if (content && saveAs) {
-      onAddBlock()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
 
   function handleTabBar() {
     if (isUpdating) {
@@ -237,7 +213,9 @@ export function ChartConfig({
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("chartconfig:add")}
+            text={
+              blockData ? text("chartconfig:update") : text("chartconfig:add")
+            }
             onClick={() => onAddBlock()}
           />
         </div>,
@@ -257,7 +235,11 @@ export function ChartConfig({
   const handleOpenVariablePanelForTitle = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ title: `${content?.title}${variable}` })
+        handleUpdateLocalBlockData({
+          title: localBlockData?.title
+            ? `${localBlockData?.title}${variable}`
+            : variable,
+        })
       })
     handleOpenVariablePanel()
   }
@@ -323,8 +305,12 @@ export function ChartConfig({
   const handleOpenVariablePanelForLabels = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          data: { labels: `${content?.data?.labels}${variable}` },
+        handleUpdateLocalBlockData({
+          data: {
+            labels: localBlockData?.data?.labels
+              ? `${localBlockData?.data?.labels}${variable}`
+              : variable,
+          },
         })
       })
     handleOpenVariablePanel()
@@ -333,23 +319,63 @@ export function ChartConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(`${saveAs}${variable}`)
+        handleUpdateLocalBlockData({
+          save_as: localBlockData.save_as
+            ? `${localBlockData.save_as}${variable}`
+            : variable,
+        })
       })
     handleOpenVariablePanel()
   }
 
   useEffect(() => {
-    if (
-      formData.data?.valid &&
-      formData.title?.valid &&
-      formData.type?.valid &&
-      formData.saveAs?.valid
-    ) {
-      handleUpdateIsUpdating(true)
-    } else {
+    if (blockData) {
+      setLocalBlockData({
+        chartType: blockData.data.chartType,
+        data: {
+          datasets: blockData.data.datasets,
+          labels: blockData.data.labels,
+        },
+        title: blockData.data.title,
+        save_as: blockData.save_as,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
+
+  useEffect(() => {
+    if (runUpdate && isLocalBlockDataValid) {
+      if (!blockData) {
+        onAddBlock()
+      } else {
+        if (checkIfDataHasChanged()) {
+          onAddBlock()
+        }
+      }
+    } else if (runUpdate && !isLocalBlockDataValid) {
+      setHasDataChanged(true)
+      handleUpdateRunUpdate(false)
       handleUpdateIsUpdating(false)
     }
-  }, [formData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
+  useEffect(() => {
+    if (blockData) {
+      if (checkIfDataHasChanged() && isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
+    } else {
+      if (isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localBlockData, isLocalBlockDataValid])
 
   return (
     <>
@@ -365,14 +391,10 @@ export function ChartConfig({
               input={{
                 label: text("chartconfig:titlelabel"),
                 onChange: (title) => {
-                  handleUpdateContent({ title: title })
+                  handleUpdateLocalBlockData({ title: title })
                 },
-                inputValue: content?.title,
-                type: "title",
-                setValid: () =>
-                  handleUpdateFormData({ title: { valid: true } }),
-                setInvalid: () =>
-                  handleUpdateFormData({ title: { valid: false } }),
+                value: localBlockData?.title,
+                errors: hasDataChanged ? LocalBlockDataErrors.title : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -387,11 +409,10 @@ export function ChartConfig({
               label={text("chartconfig:line")}
               indicator={{
                 icon: Check,
-                isVisible: content?.chartType !== "line",
+                isVisible: localBlockData?.chartType !== "line",
               }}
               onClick={() => {
-                handleUpdateContent({ chartType: "line" })
-                handleUpdateFormData({ type: { valid: true } })
+                handleUpdateLocalBlockData({ chartType: "line" })
               }}
             />
             <CardLine />
@@ -399,11 +420,10 @@ export function ChartConfig({
               label={text("chartconfig:verticalbar")}
               indicator={{
                 icon: Check,
-                isVisible: content?.chartType !== "verticalbar",
+                isVisible: localBlockData?.chartType !== "verticalbar",
               }}
               onClick={() => {
-                handleUpdateContent({ chartType: "verticalbar" })
-                handleUpdateFormData({ type: { valid: true } })
+                handleUpdateLocalBlockData({ chartType: "verticalbar" })
               }}
             />
             <CardLine />
@@ -411,11 +431,10 @@ export function ChartConfig({
               label={text("chartconfig:horizontalbar")}
               indicator={{
                 icon: Check,
-                isVisible: content?.chartType !== "horizontalbar",
+                isVisible: localBlockData?.chartType !== "horizontalbar",
               }}
               onClick={() => {
-                handleUpdateContent({ chartType: "horizontalbar" })
-                handleUpdateFormData({ type: { valid: true } })
+                handleUpdateLocalBlockData({ chartType: "horizontalbar" })
               }}
             />
             <CardLine />
@@ -423,11 +442,10 @@ export function ChartConfig({
               label={text("chartconfig:scatter")}
               indicator={{
                 icon: Check,
-                isVisible: content?.chartType !== "scatter",
+                isVisible: localBlockData?.chartType !== "scatter",
               }}
               onClick={() => {
-                handleUpdateContent({ chartType: "scatter" })
-                handleUpdateFormData({ type: { valid: true } })
+                handleUpdateLocalBlockData({ chartType: "scatter" })
               }}
             />
             <CardLine />
@@ -435,24 +453,23 @@ export function ChartConfig({
               label={text("chartconfig:pie")}
               indicator={{
                 icon: Check,
-                isVisible: content?.chartType !== "pie",
+                isVisible: localBlockData?.chartType !== "pie",
               }}
               onClick={() => {
-                handleUpdateContent({ chartType: "pie" })
-                handleUpdateFormData({ type: { valid: true } })
+                handleUpdateLocalBlockData({ chartType: "pie" })
               }}
             />
           </Card>
 
-          {content?.chartType === "pie" && (
+          {localBlockData?.chartType === "pie" && (
             <Card>
               <CardText label={text("chartconfig:labels")} />
               <CardTextInput
                 input={{
                   label: text("chartconfig:labelslabel"),
                   onChange: (labels) =>
-                    handleUpdateContent({ data: { labels: labels } }),
-                  inputValue: content?.data?.labels?.toString() || "",
+                    handleUpdateLocalBlockData({ data: { labels: labels } }),
+                  value: localBlockData?.data?.labels?.toString() || "",
                 }}
                 indicator={{
                   icon: BracketsCurly,
@@ -462,9 +479,9 @@ export function ChartConfig({
             </Card>
           )}
 
-          {datasets?.map((dataset, index) => {
+          {localBlockData.data.datasets?.map((dataset, index) => {
             return (
-              <Card key={index}>
+              <Card key={dataset.data}>
                 <CardText
                   label={`${text("chartconfig:dataset")} ${index + 1}`}
                   indicator={{ icon: X }}
@@ -482,7 +499,7 @@ export function ChartConfig({
                         type: "update",
                         newData: { label: label },
                       }),
-                    inputValue: dataset.label,
+                    value: dataset.label,
                     label: text("chartconfig:labellabel"),
                   }}
                   indicator={{
@@ -503,7 +520,7 @@ export function ChartConfig({
                         type: "update",
                         newData: { data: data },
                       }),
-                    inputValue: dataset.data,
+                    value: dataset.data,
                     label: text("chartconfig:datalabel"),
                   }}
                   indicator={{
@@ -524,7 +541,7 @@ export function ChartConfig({
                         type: "update",
                         newData: { backgroundColor: color },
                       }),
-                    inputValue: dataset.backgroundColor,
+                    value: dataset.backgroundColor,
                     label: text("chartconfig:bgcolorlabel"),
                   }}
                   indicator={{
@@ -536,7 +553,7 @@ export function ChartConfig({
                       }),
                   }}
                 />
-                {content?.chartType !== "scatter" && (
+                {localBlockData?.chartType !== "scatter" && (
                   <>
                     <CardText label={text("chartconfig:bordercolor")} />
                     <CardTextInput
@@ -547,7 +564,7 @@ export function ChartConfig({
                             type: "update",
                             newData: { borderColor: color },
                           }),
-                        inputValue: dataset.borderColor,
+                        value: dataset.borderColor,
                         label: text("chartconfig:bordercolorlabel"),
                       }}
                       indicator={{
@@ -559,7 +576,7 @@ export function ChartConfig({
                           }),
                       }}
                     />
-                    {content?.chartType === "pie" && (
+                    {localBlockData?.chartType === "pie" && (
                       <>
                         <CardText label={text("chartconfig:borderwidth")} />
                         <CardTextInput
@@ -570,7 +587,7 @@ export function ChartConfig({
                                 type: "update",
                                 newData: { borderWidth: width },
                               }),
-                            inputValue: dataset.borderWidth,
+                            value: dataset.borderWidth,
                             label: text("chartconfig:borderwidthlabel"),
                           }}
                           indicator={{
@@ -600,19 +617,18 @@ export function ChartConfig({
             <CardTextInput
               input={{
                 label: text("chartconfig:saveaslabel"),
-                onChange: (value) => handleUpdateSaveAs(value),
-                inputValue: saveAs || "",
+                onChange: (value) =>
+                  handleUpdateLocalBlockData({ save_as: value }),
+                value: localBlockData.save_as,
+                errors: localBlockData.save_as
+                  ? LocalBlockDataErrors.save_as
+                  : [],
               }}
               indicator={{
                 icon: BracketsCurly,
                 onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
-            {!formData.saveAs?.valid && (
-              <p className="w-full lg:text-[1.1rem] text-center">
-                {text("createtemplate:saveas")}
-              </p>
-            )}
           </Card>
 
           <div className="w-full h-fit hidden xl:block">
@@ -633,7 +649,9 @@ export function ChartConfig({
                 block={{
                   data: {
                     color: "bg-white",
-                    text: text("chartconfig:addblock"),
+                    text: blockData
+                      ? text("chartconfig:updateblock")
+                      : text("chartconfig:addblock"),
                     onClick: () => handleUpdateRunUpdate(true),
                   },
                 }}

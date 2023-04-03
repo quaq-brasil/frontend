@@ -7,42 +7,11 @@ import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput
 import { CodeEditor } from "components/CodeEditor/CodeEditor"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly, Check } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { BlocksConfigProps } from "types/BlockConfig.types"
-
-type IWebhook = {
-  description?: string
-  visibility?: boolean
-  parameters?: any
-  header?: string
-  body?: string
-  type?: string
-  link?: string
-}
-
-type FormDataProps = {
-  description?: {
-    valid?: boolean
-  }
-  type?: {
-    valid?: boolean
-  }
-  link?: {
-    valid?: boolean
-  }
-  saveAs?: {
-    valid?: boolean
-  }
-}
-
-const initialFormData: FormDataProps = {
-  description: { valid: false },
-  type: { valid: false },
-  link: { valid: false },
-  saveAs: { valid: false },
-}
 
 export function SendRequest({
   isOpen,
@@ -54,63 +23,128 @@ export function SendRequest({
   handleCheckSaveAs,
 }: BlocksConfigProps) {
   const text = useTranslation().t
-  const [formData, setFormData] = useState<FormDataProps>(initialFormData)
-  const [content, setContent] = useState<IWebhook>()
-  const [saveAs, setSaveAs] = useState<string | null>()
+
+  type WebhookProps = {
+    description?: string
+    visibility?: boolean
+    parameters?: string
+    header?: string
+    body?: string
+    type?: string
+    link?: string
+    save_as?: string
+  }
+
+  const [
+    localBlockData,
+    setLocalBlockData,
+    localBlockDataErrors,
+    isLocalBlockDataValid,
+  ] = useValidation<WebhookProps>({
+    description: {
+      initialValue: blockData?.data?.description || "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    visibility: {
+      initialValue: blockData?.data?.visibility || false,
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    parameters: {
+      initialValue: blockData?.data?.parameters || "",
+    },
+    header: {
+      initialValue: blockData?.data?.header || "",
+    },
+    body: {
+      initialValue: blockData?.data?.body || "",
+    },
+    type: {
+      initialValue: blockData?.data?.type || "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    link: {
+      initialValue: blockData?.data?.link || "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.url(text("validation:url")),
+      ],
+    },
+    save_as: {
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.custom(
+          text("createtemplate:saveas"),
+          handleCheckSaveAs,
+          [blockData?.save_as]
+        ),
+      ],
+    },
+  })
+
   const [isUpdating, setIsUpdating] = useState(false)
+  const [runUpdate, setRunUpdate] = useState(false)
+  const [hasDataChanged, setHasDataChanged] = useState(false)
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
-
-  function handleUpdateHeader(data: string) {
-    handleUpdateContent({ header: data })
-  }
-
-  function handleUpdateBody(data: string) {
-    handleUpdateContent({ body: data })
-  }
-
-  function handleUpdateContent(newData: IWebhook) {
-    setContent((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as IWebhook
-    })
-  }
-
-  function handleUpdateSaveAs(value: typeof saveAs) {
-    setSaveAs(value)
+  function handleUpdateLocalBlockData(newBlockData: WebhookProps) {
+    setLocalBlockData({ ...localBlockData, ...newBlockData })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
     setIsUpdating(stat)
   }
 
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
+  }
+
+  function checkIfDataHasChanged() {
+    if (blockData) {
+      let hasDataChanged = false
+      if (blockData?.data?.body !== localBlockData?.body) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.description !== localBlockData?.description) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.header !== localBlockData?.header) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.link !== localBlockData?.link) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.parameters !== localBlockData?.parameters) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.type !== localBlockData?.type) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.visibility !== localBlockData?.visibility) {
+        hasDataChanged = true
+      }
+      if (blockData?.save_as !== localBlockData?.save_as) {
+        hasDataChanged = true
+      }
+      return hasDataChanged
+    } else {
+      return false
+    }
+  }
+
   function handleClosing() {
-    handleUpdateContent({})
-    setSaveAs(undefined)
-    handleUpdateIsUpdating(false)
-    handleUpdateFormData({
-      description: {
-        valid: false,
-      },
-      type: {
-        valid: false,
-      },
-      link: {
-        valid: false,
-      },
-      saveAs: {
-        valid: false,
-      },
+    setLocalBlockData({
+      description: "",
+      visibility: false,
+      parameters: "",
+      header: "",
+      body: "",
+      type: "",
+      link: "",
+      save_as: "",
     })
+    handleUpdateRunUpdate(false)
+    handleUpdateIsUpdating(false)
+    setHasDataChanged(false)
     onClose()
   }
 
@@ -118,118 +152,18 @@ export function SendRequest({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "webhook",
-      save_as: saveAs,
+      save_as: localBlockData.save_as,
       data: {
-        ...content,
-        body: `{${content?.body}}`,
-        header: `{${content?.header}}`,
+        description: localBlockData.description,
+        visibility: localBlockData.visibility,
+        parameters: localBlockData.parameters,
+        header: localBlockData.header,
+        body: localBlockData.body,
+        type: localBlockData.type,
+        link: localBlockData.link,
       },
     })
     handleClosing()
-  }
-
-  useEffect(() => {
-    if (content?.description) {
-      handleUpdateFormData({ description: { valid: true } })
-    } else {
-      handleUpdateFormData({ description: { valid: false } })
-    }
-    if (content?.type) {
-      handleUpdateFormData({ type: { valid: true } })
-    } else {
-      handleUpdateFormData({ type: { valid: false } })
-    }
-    if (content?.link) {
-      handleUpdateFormData({ link: { valid: true } })
-    } else {
-      handleUpdateFormData({ link: { valid: false } })
-    }
-    if (saveAs) {
-      const isValid = handleCheckSaveAs(saveAs)
-      handleUpdateFormData({ saveAs: { valid: isValid } })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content, saveAs])
-
-  useEffect(() => {
-    if (blockData) {
-      setContent(blockData.data)
-      setSaveAs(blockData.save_as)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockData])
-
-  useEffect(() => {
-    if (
-      formData.description?.valid &&
-      formData.link?.valid &&
-      formData.type?.valid &&
-      formData.saveAs?.valid
-    ) {
-      handleUpdateIsUpdating(true)
-    } else {
-      handleUpdateIsUpdating(false)
-    }
-  }, [formData])
-
-  const handleOpenVariablePanelForDescription = () => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          description: content?.description
-            ? `${content?.description}${variable}`
-            : variable,
-        })
-      })
-    handleOpenVariablePanel()
-  }
-
-  const handleOpenVariablePanelForParameters = () => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          parameters: content?.parameters
-            ? `${content?.parameters}${variable}`
-            : variable,
-        })
-      })
-    handleOpenVariablePanel()
-  }
-
-  const handleOpenVariablePanelForLink = () => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          link: content?.link ? `${content?.link}${variable}` : variable,
-        })
-      })
-    handleOpenVariablePanel()
-  }
-
-  const handleOpenVariablePanelForSaveAs = () => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
-      })
-    handleOpenVariablePanel()
-  }
-
-  const handleOpenVariablePanelForHeaders = () => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ header: `${content?.link}${variable}` })
-      })
-
-    handleOpenVariablePanel()
-  }
-
-  const handleOpenVariablePanelForBody = () => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({ body: `${content?.link}${variable}` })
-      })
-
-    handleOpenVariablePanel()
   }
 
   function handleTabBar() {
@@ -244,7 +178,11 @@ export function SendRequest({
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("webhookconfig:add")}
+            text={
+              blockData
+                ? text("webhookconfig:update")
+                : text("webhookconfig:add")
+            }
             onClick={onAddBlock}
           />
         </div>,
@@ -261,6 +199,130 @@ export function SendRequest({
     }
   }
 
+  const handleOpenVariablePanelForDescription = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateLocalBlockData({
+          description: localBlockData?.description
+            ? `${localBlockData?.description}${variable}`
+            : variable,
+        })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForParameters = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateLocalBlockData({
+          parameters: localBlockData?.parameters
+            ? `${localBlockData?.parameters}${variable}`
+            : variable,
+        })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForLink = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateLocalBlockData({
+          link: localBlockData?.link
+            ? `${localBlockData?.link}${variable}`
+            : variable,
+        })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForSaveAs = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateLocalBlockData({
+          save_as: localBlockData.save_as
+            ? `${localBlockData.save_as}${variable}`
+            : variable,
+        })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForHeaders = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateLocalBlockData({
+          header: localBlockData?.link
+            ? `${localBlockData?.link}${variable}`
+            : variable,
+        })
+      })
+
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForBody = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateLocalBlockData({
+          body: localBlockData?.link
+            ? `${localBlockData?.link}${variable}`
+            : variable,
+        })
+      })
+
+    handleOpenVariablePanel()
+  }
+
+  useEffect(() => {
+    if (blockData) {
+      setLocalBlockData({
+        description: blockData.data.description,
+        visibility: blockData.data.visibility,
+        parameters: blockData.data.parameters,
+        header: blockData.data.header,
+        body: blockData.data.body,
+        type: blockData.data.type,
+        link: blockData.data.link,
+        save_as: blockData.save_as,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockData])
+
+  useEffect(() => {
+    if (runUpdate && isLocalBlockDataValid) {
+      if (!blockData) {
+        onAddBlock()
+      } else {
+        if (checkIfDataHasChanged()) {
+          onAddBlock()
+        }
+      }
+    } else if (runUpdate && !isLocalBlockDataValid) {
+      setHasDataChanged(true)
+      handleUpdateRunUpdate(false)
+      handleUpdateIsUpdating(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
+  useEffect(() => {
+    if (blockData) {
+      if (checkIfDataHasChanged() && isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
+    } else {
+      if (isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localBlockData, isLocalBlockDataValid])
+
   return (
     <>
       <>
@@ -270,9 +332,10 @@ export function SendRequest({
             input={{
               label: text("webhookconfig:descriptioninput"),
               onChange: (description) => {
-                handleUpdateContent({ description: description })
+                handleUpdateLocalBlockData({ description: description })
               },
-              inputValue: content?.description,
+              value: localBlockData?.description,
+              errors: hasDataChanged ? localBlockDataErrors.description : [],
             }}
             indicator={{
               icon: BracketsCurly,
@@ -283,7 +346,9 @@ export function SendRequest({
 
         <Card>
           <CardSwitch
-            onChange={(stat) => handleUpdateContent({ visibility: stat })}
+            onChange={(stat) =>
+              handleUpdateLocalBlockData({ visibility: stat })
+            }
             text={text("webhookconfig:switch")}
             showStatus={true}
           />
@@ -295,9 +360,10 @@ export function SendRequest({
             input={{
               label: text("webhookconfig:parametersinput"),
               onChange: (parameters) => {
-                handleUpdateContent({ parameters: parameters })
+                handleUpdateLocalBlockData({ parameters: parameters })
               },
-              inputValue: content?.parameters,
+              value: localBlockData?.parameters,
+              errors: hasDataChanged ? localBlockDataErrors.parameters : [],
             }}
             indicator={{
               icon: BracketsCurly,
@@ -309,9 +375,9 @@ export function SendRequest({
         <Card>
           <CardText label={text("webhookconfig:header")} />
           <CodeEditor
-            code={content?.header || ``}
+            code={localBlockData?.header || ``}
             language="json"
-            onChange={handleUpdateHeader}
+            onChange={(header) => handleUpdateLocalBlockData({ header })}
             handleOpenVariablePanel={handleOpenVariablePanelForHeaders}
             placeHolder={text("webhookconfig:json")}
           />
@@ -320,9 +386,9 @@ export function SendRequest({
         <Card>
           <CardText label={text("webhookconfig:body")} />
           <CodeEditor
-            code={content?.body || ``}
+            code={localBlockData?.body || ``}
             language="json"
-            onChange={handleUpdateBody}
+            onChange={(body) => handleUpdateLocalBlockData({ body })}
             handleOpenVariablePanel={handleOpenVariablePanelForBody}
             placeHolder={text("webhookconfig:json")}
           />
@@ -334,10 +400,10 @@ export function SendRequest({
             label={text("webhookconfig:get")}
             indicator={{
               icon: Check,
-              isVisible: content?.type == "GET" ? false : true,
+              isVisible: localBlockData?.type == "GET" ? false : true,
             }}
             onClick={() => {
-              handleUpdateContent({ type: "GET" })
+              handleUpdateLocalBlockData({ type: "GET" })
             }}
           />
           <CardLine />
@@ -345,10 +411,10 @@ export function SendRequest({
             label={text("webhookconfig:post")}
             indicator={{
               icon: Check,
-              isVisible: content?.type == "POST" ? false : true,
+              isVisible: localBlockData?.type == "POST" ? false : true,
             }}
             onClick={() => {
-              handleUpdateContent({ type: "POST" })
+              handleUpdateLocalBlockData({ type: "POST" })
             }}
           />
           <CardLine />
@@ -356,10 +422,10 @@ export function SendRequest({
             label={text("webhookconfig:patch")}
             indicator={{
               icon: Check,
-              isVisible: content?.type == "PATCH" ? false : true,
+              isVisible: localBlockData?.type == "PATCH" ? false : true,
             }}
             onClick={() => {
-              handleUpdateContent({ type: "PATCH" })
+              handleUpdateLocalBlockData({ type: "PATCH" })
             }}
           />
           <CardLine />
@@ -367,10 +433,10 @@ export function SendRequest({
             label={text("webhookconfig:delete")}
             indicator={{
               icon: Check,
-              isVisible: content?.type == "DELETE" ? false : true,
+              isVisible: localBlockData?.type == "DELETE" ? false : true,
             }}
             onClick={() => {
-              handleUpdateContent({ type: "DELETE" })
+              handleUpdateLocalBlockData({ type: "DELETE" })
             }}
           />
           <CardLine />
@@ -382,9 +448,10 @@ export function SendRequest({
             input={{
               label: text("webhookconfig:linkinput"),
               onChange: (link) => {
-                handleUpdateContent({ link: link })
+                handleUpdateLocalBlockData({ link: link })
               },
-              inputValue: content?.link,
+              value: localBlockData?.link,
+              errors: hasDataChanged ? localBlockDataErrors.link : [],
             }}
             indicator={{
               icon: BracketsCurly,
@@ -398,19 +465,17 @@ export function SendRequest({
           <CardTextInput
             input={{
               label: text("webhookconfig:saveasinput"),
-              onChange: (e) => handleUpdateSaveAs(e),
-              inputValue: saveAs || "",
+              onChange: (e) => handleUpdateLocalBlockData({ save_as: e }),
+              value: localBlockData.save_as,
+              errors: localBlockData.save_as
+                ? localBlockDataErrors.save_as
+                : [],
             }}
             indicator={{
               icon: BracketsCurly,
               onClick: handleOpenVariablePanelForSaveAs,
             }}
           />
-          {!formData.saveAs?.valid && (
-            <p className="w-full lg:text-[1.1rem] text-center">
-              {text("createtemplate:saveas")}
-            </p>
-          )}
         </Card>
         <div className="w-full h-fit hidden xl:block">
           <Button
@@ -430,8 +495,10 @@ export function SendRequest({
               block={{
                 data: {
                   color: "bg-white",
-                  text: text("webhookconfig:addblock"),
-                  onClick: onAddBlock,
+                  text: blockData
+                    ? text("webhookconfig:updateblock")
+                    : text("webhookconfig:addblock"),
+                  onClick: () => handleUpdateRunUpdate(true),
                 },
               }}
               isEditable={false}

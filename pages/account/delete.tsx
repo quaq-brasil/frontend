@@ -2,6 +2,7 @@ import { UserDelete } from "layouts/main/UserDelete/UserDelete"
 import { GetServerSideProps } from "next"
 import useTranslation from "next-translate/useTranslation"
 import Head from "next/head"
+import { useRouter } from "next/router"
 import { api } from "services/api"
 import { useDeleteUser } from "services/hooks/useUser/useDeleteUser"
 import { useUser } from "services/hooks/useUser/useUser"
@@ -10,6 +11,7 @@ import {
   RedirectNotFoundVerify,
   redirectNotFoundVerifyProps,
 } from "utils/404Redirect"
+import { pageUrls } from "utils/pagesUrl"
 import { withAuth } from "utils/withAuth"
 
 type UserDeletePageProps = {
@@ -18,6 +20,7 @@ type UserDeletePageProps = {
 
 export default function UserDeletePage({ data }: UserDeletePageProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const getUser = useUser({
     options: {
@@ -28,7 +31,14 @@ export default function UserDeletePage({ data }: UserDeletePageProps) {
   const deleteUser = useDeleteUser()
 
   function handleDeleteUser() {
-    deleteUser.mutate({ id: getUser.data.id })
+    deleteUser.mutate(
+      { id: getUser.data.id },
+      {
+        onSuccess() {
+          router.push(pageUrls.home())
+        },
+      }
+    )
   }
 
   return (
@@ -38,7 +48,7 @@ export default function UserDeletePage({ data }: UserDeletePageProps) {
         <meta name="description" content={text("profile:pagedescription")} />
       </Head>
       <UserDelete
-        initialUserData={getUser.data}
+        initialUserData={getUser?.data}
         handleDeleteUser={handleDeleteUser}
       />
     </>

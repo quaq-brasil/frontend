@@ -7,9 +7,10 @@ import { useRouter } from "next/router"
 import {
   ArrowsCounterClockwise,
   ArrowsLeftRight,
-  GearSix,
   MagnifyingGlass,
   Plus,
+  User,
+  X,
 } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { useMutatePagesByWorkspaceId } from "services/hooks/usePage/useMutatePagesByWorkspaceId"
@@ -143,20 +144,22 @@ export function CreatorPage({
   function loadWorkspaces() {
     if (workspaces) {
       const workspacesTags: JSX.Element[] = workspaces.map((workspace) => {
-        return (
-          <div key={workspace.id} className="w-fit">
-            <Tag
-              variant="img-txt"
-              img_url={workspace.avatar_url || ""}
-              text={workspace.title || ""}
-              isSelected={workspace.id == currentWorkspace?.id}
-              onClick={() => {
-                handleCloseContextMenu()
-                handleCurrentWorkspaceUpdate(workspace)
-              }}
-            />
-          </div>
-        )
+        if (currentWorkspace.id != workspace.id) {
+          return (
+            <div key={workspace.id} className="w-fit">
+              <Tag
+                variant="img-txt"
+                img_url={workspace.avatar_url || ""}
+                text={workspace.title || ""}
+                isSelected={workspace.id == currentWorkspace?.id}
+                onClick={() => {
+                  handleCloseContextMenu()
+                  handleCurrentWorkspaceUpdate(workspace)
+                }}
+              />
+            </div>
+          )
+        }
       })
       return workspacesTags
     }
@@ -180,44 +183,45 @@ export function CreatorPage({
           <div className="w-fit">
             <Tag
               variant="img"
-              img_url={currentWorkspace?.avatar_url || ""}
+              img_url={userData?.avatar_url || ""}
               onClick={handleCloseContextMenu}
             />
           </div>
-          <div className="w-fit">
+          <div className={`w-fit`}>
             <Tag
               variant="icn-txt"
-              text={text("creatorpage:switch")}
-              icon={ArrowsLeftRight}
-              isSelected={isSwitchSelected}
-              onClick={() => handleSwitchClick()}
-            />
-          </div>
-          <div className={`w-fit ${isSwitchSelected ? "hidden" : ""}`}>
-            <Tag
-              variant="icn-txt"
-              text={text("creatorpage:settings")}
-              icon={GearSix}
-              onClick={() => {
-                handleCloseContextMenu()
-                router.push(
-                  pageUrls.workspaceSettings({
-                    workspaceSlug: currentWorkspace?.slug,
-                  })
-                )
-              }}
-            />
-          </div>
-          <div className={`w-fit ${isSwitchSelected ? "hidden" : ""}`}>
-            <Tag
-              variant="img-txt"
               text={text("creatorpage:profile")}
-              img_url={userData?.avatar_url}
+              icon={User}
               onClick={() => {
                 handleCloseContextMenu()
                 router.push(pageUrls.meSettings())
               }}
             />
+          </div>
+          <div className="flex flex-row justify-center gap-2 lg:gap-3">
+            <div className="w-fit">
+              <Tag
+                variant="icn"
+                icon={isSwitchSelected ? X : ArrowsLeftRight}
+                onClick={() => handleSwitchClick()}
+              />
+            </div>
+            <div className="w-fit">
+              <Tag
+                variant="img-txt"
+                text={currentWorkspace?.title}
+                img_url={currentWorkspace?.avatar_url || ""}
+                isSelected={isSwitchSelected}
+                onClick={() => {
+                  handleCloseContextMenu()
+                  router.push(
+                    pageUrls.workspaceSettings({
+                      workspaceSlug: currentWorkspace?.slug,
+                    })
+                  )
+                }}
+              />
+            </div>
           </div>
           {isSwitchSelected && <>{loadWorkspaces()}</>}
           {isSwitchSelected && (
@@ -500,7 +504,7 @@ export function CreatorPage({
         rightContent={
           <Tag
             variant="img"
-            img_url={currentWorkspace?.avatar_url || ""}
+            img_url={userData?.avatar_url}
             onClick={() => handleHeaderTagContextMenu()}
           />
         }

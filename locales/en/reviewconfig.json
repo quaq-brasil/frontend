@@ -6,5 +6,7 @@
   "label2": "type it here",
   "cancel": "cancel",
   "add": "add",
-  "addblock": "add block"
+  "addblock": "add block",
+  "update": "update",
+  "updateblock": "update block"
 }

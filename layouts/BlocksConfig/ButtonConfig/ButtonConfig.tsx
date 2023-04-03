@@ -6,6 +6,7 @@ import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput
 import { Dialog } from "components/Dialog/Dialog"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
@@ -22,56 +23,45 @@ export function ButtonConfig({
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
-  type IButton = {
+  type ButtonProps = {
     text?: string
     color?: string
+    save_as?: string
   }
 
-  type FormDataProps = {
-    text?: {
-      valid?: boolean
-    }
-    saveAs?: {
-      valid?: boolean
-    }
-  }
-
-  const [formData, setFormData] = useState<FormDataProps>({
+  const [
+    localBlockData,
+    setLocalBlockData,
+    localBlockDataErrors,
+    isLocalBlockDataValid,
+  ] = useValidation<ButtonProps>({
     text: {
-      valid: false,
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
     },
-    saveAs: {
-      valid: false,
+    color: {
+      initialValue: "bg-black",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    save_as: {
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.custom(
+          text("createtemplate:saveas"),
+          handleCheckSaveAs,
+          [blockData?.save_as]
+        ),
+      ],
     },
   })
-  const [content, setContent] = useState<IButton>({
-    color: "bg-black",
-    text: "",
-  })
-  const [saveAs, setSaveAs] = useState<string | null>()
+
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+  const [hasDataChanged, setHasDataChanged] = useState(false)
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
-
-  function handleUpdateContent(newData: IButton) {
-    setContent((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as IButton
-    })
-  }
-
-  function handleUpdateSaveAs(value: typeof saveAs) {
-    setSaveAs(value)
+  function handleUpdateLocalBlockData(newBlockData: ButtonProps) {
+    setLocalBlockData({ ...localBlockData, ...newBlockData })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -82,19 +72,33 @@ export function ButtonConfig({
     setRunUpdate(stat)
   }
 
+  function checkIfDataHasChanged() {
+    if (blockData) {
+      let hasDataChanged = false
+      if (blockData?.data?.text !== localBlockData?.text) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.color !== localBlockData?.color) {
+        hasDataChanged = true
+      }
+      if (blockData?.save_as !== localBlockData?.save_as) {
+        hasDataChanged = true
+      }
+      return hasDataChanged
+    } else {
+      return false
+    }
+  }
+
   function handleClosing() {
-    handleUpdateContent({})
-    setSaveAs(null)
+    setLocalBlockData({
+      text: "",
+      color: "bg-black",
+      save_as: "",
+    })
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
-    handleUpdateFormData({
-      text: {
-        valid: false,
-      },
-      saveAs: {
-        valid: false,
-      },
-    })
+    setHasDataChanged(false)
     onClose()
   }
 
@@ -102,8 +106,11 @@ export function ButtonConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "button",
-      save_as: saveAs,
-      data: content,
+      save_as: localBlockData.save_as,
+      data: {
+        text: localBlockData.text,
+        color: localBlockData.color,
+      },
     })
     handleClosing()
   }
@@ -120,7 +127,9 @@ export function ButtonConfig({
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("reviewconfig:add")}
+            text={
+              blockData ? text("buttonconfig:update") : text("buttonconfig:add")
+            }
             onClick={() => onAddBlock()}
           />
         </div>,
@@ -140,8 +149,10 @@ export function ButtonConfig({
   const handleOpenVariablePanelForText = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          text: content?.text ? `${content?.text}${variable}` : variable,
+        handleUpdateLocalBlockData({
+          text: localBlockData?.text
+            ? `${localBlockData?.text}${variable}`
+            : variable,
         })
       })
     handleOpenVariablePanel()
@@ -150,57 +161,59 @@ export function ButtonConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
+        handleUpdateLocalBlockData({
+          save_as: localBlockData.save_as
+            ? `${localBlockData.save_as}${variable}`
+            : variable,
+        })
       })
     handleOpenVariablePanel()
   }
 
   useEffect(() => {
-    if (saveAs) {
-      if (blockData) {
-        if (blockData.save_as == saveAs) {
-          handleUpdateFormData({ saveAs: { valid: true } })
-        } else {
-          const isValid = handleCheckSaveAs(saveAs)
-          handleUpdateFormData({ saveAs: { valid: isValid } })
-        }
-      } else {
-        const isValid = handleCheckSaveAs(saveAs)
-        handleUpdateFormData({ saveAs: { valid: isValid } })
-      }
-    } else {
-      handleUpdateFormData({ saveAs: { valid: false } })
-    }
-    if (content?.text) {
-      handleUpdateFormData({ text: { valid: true } })
-    } else {
-      handleUpdateFormData({ text: { valid: false } })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [saveAs, content])
-
-  useEffect(() => {
     if (blockData) {
-      setContent(blockData.data)
-      setSaveAs(blockData.save_as)
+      setLocalBlockData({
+        text: blockData.data.text,
+        color: blockData.data.color,
+        save_as: blockData.save_as,
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockData])
 
   useEffect(() => {
-    if (content && saveAs) {
-      onAddBlock()
+    if (runUpdate && isLocalBlockDataValid) {
+      if (!blockData) {
+        onAddBlock()
+      } else {
+        if (checkIfDataHasChanged()) {
+          onAddBlock()
+        }
+      }
+    } else if (runUpdate && !isLocalBlockDataValid) {
+      setHasDataChanged(true)
+      handleUpdateRunUpdate(false)
+      handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
   useEffect(() => {
-    if (formData.text?.valid && formData.saveAs?.valid) {
-      handleUpdateIsUpdating(true)
+    if (blockData) {
+      if (checkIfDataHasChanged() && isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     } else {
-      handleUpdateIsUpdating(false)
+      if (isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     }
-  }, [formData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localBlockData, isLocalBlockDataValid])
 
   return (
     <>
@@ -216,14 +229,10 @@ export function ButtonConfig({
               input={{
                 label: text("buttonconfig:textlabel"),
                 onChange: (text) => {
-                  handleUpdateContent({ text: text })
-                  if (text.length > 0) {
-                    handleUpdateFormData({ text: { valid: true } })
-                  } else {
-                    handleUpdateFormData({ text: { valid: false } })
-                  }
+                  handleUpdateLocalBlockData({ text: text })
                 },
-                inputValue: content?.text,
+                value: localBlockData?.text,
+                errors: hasDataChanged ? localBlockDataErrors.text : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -233,9 +242,9 @@ export function ButtonConfig({
             <CardText label={text("buttonconfig:color")} />
             <CardColorSelector
               onColorSelection={(color) =>
-                handleUpdateContent({ color: color })
+                handleUpdateLocalBlockData({ color: color })
               }
-              currentColor={content.color}
+              currentColor={localBlockData.color}
             />
           </Card>
           <Card>
@@ -243,19 +252,17 @@ export function ButtonConfig({
             <CardTextInput
               input={{
                 label: text("buttonconfig:saveaslabel"),
-                onChange: (e) => handleUpdateSaveAs(e),
-                inputValue: saveAs || "",
+                onChange: (e) => handleUpdateLocalBlockData({ save_as: e }),
+                value: localBlockData.save_as,
+                errors: localBlockData.save_as
+                  ? localBlockDataErrors.save_as
+                  : [],
               }}
               indicator={{
                 icon: BracketsCurly,
                 onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
-            {!formData.saveAs?.valid && (
-              <p className="w-full lg:text-[1.1rem] text-center">
-                {text("createtemplate:saveas")}
-              </p>
-            )}
           </Card>
           <div className="w-full h-fit hidden xl:block">
             <Button
@@ -275,7 +282,9 @@ export function ButtonConfig({
                 block={{
                   data: {
                     color: "bg-white",
-                    text: text("buttonconfig:addblock"),
+                    text: blockData
+                      ? text("buttonconfig:updateblock")
+                      : text("buttonconfig:addblock"),
                     onClick: () => handleUpdateRunUpdate(true),
                   },
                 }}

@@ -1,10 +1,12 @@
 import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
 import { CardImageInput } from "components/Card/CardContentVariants/CardImageInput"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "components/ImageSelector/ImageSelector"
 import { useDebounce } from "hooks/useDebouce"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { Check } from "phosphor-react"
 import { useEffect, useState } from "react"
@@ -17,6 +19,8 @@ type CreatePageContentProps = {
   handleUpdateRunUpdate: (stat: boolean) => void
   pageData: IUpdatePage | undefined
   handleUpdateIsUpdating: (stat: boolean) => void
+  handleCreatePage: (data: IUpdatePage) => void
+  runUpdate: boolean
 }
 
 export function CreatePageContent({
@@ -25,55 +29,64 @@ export function CreatePageContent({
   isUpdating,
   pageData,
   handleUpdateIsUpdating,
+  handleCreatePage,
+  runUpdate,
 }: CreatePageContentProps) {
   const text = useTranslation().t
 
-  type FormDataProps = {
-    title?: {
-      valid?: boolean
-    }
-    slug?: {
-      valid?: boolean
-    }
-    description?: {
-      valid?: boolean
-    }
-    avatar?: {
-      valid?: boolean
-    }
-    cover?: {
-      valid?: boolean
-    }
+  type LocalPageProps = {
+    title?: string
+    description?: string
+    slug?: string
+    profilePicture?: string
+    coverPicture?: string
+    visibility?: "public" | "workspace"
   }
 
-  const [formData, setFormData] = useState<FormDataProps>({
+  const [
+    localPageData,
+    setLocalPageData,
+    localPageDataErrors,
+    isLocalPageDataValid,
+  ] = useValidation<LocalPageProps>({
     title: {
-      valid: false,
-    },
-    slug: {
-      valid: false,
+      initialValue: pageData?.title || "",
+      validators: [validationRules.required(text("validation:required"))],
     },
     description: {
-      valid: false,
+      initialValue: pageData?.description || "",
+      validators: [validationRules.required(text("validation:required"))],
     },
-    avatar: {
-      valid: false,
+    slug: {
+      initialValue: pageData?.slug || "",
+      validators: [validationRules.required(text("validation:required"))],
     },
-    cover: {
-      valid: false,
+    profilePicture: {
+      initialValue: pageData?.avatar_url || "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    coverPicture: {
+      initialValue: pageData?.background_url || "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    visibility: {
+      initialValue: pageData?.visibility || "public",
+      validators: [validationRules.required(text("validation:required"))],
     },
   })
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
+  const [hasDataChanged, setHasDataChanged] = useState(false)
 
   const getPageSlug = useGetPageSlug()
+
+  const debouncedPageTitle = useDebounce({
+    value: localPageData.title,
+    delay: 1000 * 1,
+  })
+
+  function handleUpdateLocalPageData(newPageData: LocalPageProps) {
+    setLocalPageData({ ...localPageData, ...newPageData })
+  }
 
   type IGetPageSlug = {
     name: string
@@ -85,7 +98,7 @@ export function CreatePageContent({
       { name, id },
       {
         onSuccess: (slug) => {
-          handleUpdatePageData({
+          handleUpdateLocalPageData({
             slug,
           })
         },
@@ -93,31 +106,36 @@ export function CreatePageContent({
     )
   }
 
-  const debouncedPageName = useDebounce({
-    value: pageData?.title,
-    delay: 1000 * 1,
-  })
-
   useEffect(() => {
-    if (debouncedPageName && pageData?.title) {
-      handleGetPageSlug({ id: pageData.id, name: pageData.title })
-      handleUpdateFormData({ slug: { valid: true } })
+    if (debouncedPageTitle) {
+      handleGetPageSlug({ id: pageData?.id, name: debouncedPageTitle })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedPageName])
+  }, [debouncedPageTitle])
 
   useEffect(() => {
-    if (
-      formData.avatar?.valid &&
-      formData.cover?.valid &&
-      formData.description?.valid &&
-      formData.slug?.valid &&
-      formData.title?.valid
-    ) {
+    if (isLocalPageDataValid) {
       handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData])
+  }, [isLocalPageDataValid, localPageData])
+
+  useEffect(() => {
+    if (runUpdate) {
+      handleCreatePage({
+        avatar_url: localPageData.profilePicture,
+        background_url: localPageData.coverPicture,
+        description: localPageData.description,
+        slug: localPageData.slug,
+        title: localPageData.title,
+        visibility: localPageData.visibility,
+      })
+      setHasDataChanged(true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -132,10 +150,9 @@ export function CreatePageContent({
             <CardTextInput
               input={{
                 label: text("createpage:inputpagetitle"),
-                onChange: (title) => handleUpdatePageData({ title: title }),
-                type: "title",
-                setValid: () =>
-                  handleUpdateFormData({ title: { valid: true } }),
+                onChange: (title) =>
+                  handleUpdateLocalPageData({ title: title }),
+                errors: hasDataChanged ? localPageDataErrors.title : [],
               }}
             />
           </Card>
@@ -144,10 +161,10 @@ export function CreatePageContent({
             <CardTextInput
               input={{
                 label: text("createpage:inputpagelink"),
-                onChange: (link) => handleUpdatePageData({ slug: link }),
                 type: "text",
                 fixedText: "quaq.me/",
-                value: pageData?.slug,
+                value: localPageData?.slug,
+                errors: hasDataChanged ? localPageDataErrors.slug : [],
               }}
               indicator={{
                 icon: Check,
@@ -162,10 +179,8 @@ export function CreatePageContent({
               input={{
                 label: text("createpage:inputpagedescription"),
                 onChange: (description) =>
-                  handleUpdatePageData({ description: description }),
-                type: "text",
-                setValid: () =>
-                  handleUpdateFormData({ description: { valid: true } }),
+                  handleUpdateLocalPageData({ description: description }),
+                errors: hasDataChanged ? localPageDataErrors.description : [],
               }}
             />
           </Card>
@@ -175,11 +190,11 @@ export function CreatePageContent({
               imageSelector={
                 <ImageSelector
                   onImageChange={(picture) => {
-                    handleUpdatePageData({ avatar_url: picture })
-                    handleUpdateFormData({ avatar: { valid: true } })
+                    handleUpdateLocalPageData({ profilePicture: picture })
                   }}
                 />
               }
+              errors={hasDataChanged ? localPageDataErrors.profilePicture : []}
             />
           </Card>
           <Card>
@@ -188,12 +203,38 @@ export function CreatePageContent({
               imageSelector={
                 <ImageSelector
                   onImageChange={(cover) => {
-                    handleUpdatePageData({ background_url: cover })
-                    handleUpdateFormData({ cover: { valid: true } })
+                    handleUpdateLocalPageData({ coverPicture: cover })
                   }}
                 />
               }
+              errors={hasDataChanged ? localPageDataErrors.coverPicture : []}
             />
+          </Card>
+          <Card>
+            <CardText label={text("generalsettings:visibility")} />
+            <CardText
+              label={text("generalsettings:public")}
+              indicator={{
+                icon: Check,
+                isVisible:
+                  localPageData.visibility === "workspace" ? true : false,
+              }}
+              onClick={() => {
+                handleUpdateLocalPageData({ visibility: "public" })
+              }}
+            />
+            <CardLine />
+            <CardText
+              label={text("generalsettings:wsmembers")}
+              indicator={{
+                icon: Check,
+                isVisible: localPageData.visibility === "public" ? true : false,
+              }}
+              onClick={() => {
+                handleUpdateLocalPageData({ visibility: "workspace" })
+              }}
+            />
+            <CardLine />
           </Card>
           {isUpdating && (
             <div className="w-full h-fit hidden xl:block">

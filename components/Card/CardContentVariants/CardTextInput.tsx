@@ -1,19 +1,15 @@
-import { useValidation } from "hooks/useValidation"
 import { IconProps } from "phosphor-react"
-import { ForwardRefExoticComponent, RefAttributes } from "react"
+import React, { ForwardRefExoticComponent, RefAttributes } from "react"
 
 type CardTextInputProps = {
   input?: {
     onChange?: (value: string) => void
-    type?: "name" | "email" | "password" | "text" | "title"
+    type?: "name" | "email" | "password" | "text" | "title" | "number"
     label?: string
     fixedText?: string
     defaultValue?: string
     value?: string
-    inputValue?: string
-    setValid?: () => void
-    setInvalid?: () => void
-    validate?: boolean
+    errors?: string[] | null
   }
   indicator?: {
     icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
@@ -32,64 +28,52 @@ type DropdownOptions = {
   title: string
 }
 
-export function CardTextInput(props: CardTextInputProps) {
-  const { errors, validateField, validators } = useValidation()
-
-  const handleOnChange = (value: string) => {
-    const requiredValidators = []
-
-    if (props.input?.type == "name") {
-      requiredValidators.push(validators.name)
-    } else if (props.input?.type == "email") {
-      requiredValidators.push(validators.email)
-    } else if (props.input?.type == "password") {
-      requiredValidators.push(validators.password)
-    } else if (props.input?.type == "title") {
-      requiredValidators.push(validators.title)
-    }
-
-    if (props.input.validate !== false) {
-      validateField(value, [...requiredValidators])
-    }
-    props.input?.onChange && props.input.onChange(value)
-
-    if (errors && errors.length > 0) {
-      props.input?.setInvalid && props.input.setInvalid()
-    } else {
-      props.input?.setValid && props.input.setValid()
-    }
+const TextInput: React.FC<{
+  fixedText?: string
+  type?: string
+  label?: string
+  value?: string
+  defaultValue?: string
+  onChange: (value: string) => void
+}> = ({ fixedText, type, label, value, onChange, defaultValue }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value)
   }
 
+  return (
+    <div className="flex flex-col w-full">
+      <input
+        onChange={handleChange}
+        className={`bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem]
+          placeholder:text-slate-300 lg:text-[1.1rem] hover:outline-none focus:outline-none
+          ${fixedText ? "ml-[-8px] lg:ml-[-12px]" : "px-3 lg:px-[1.125rem]"}`}
+        type={type || "text"}
+        placeholder={label}
+        value={value}
+        defaultValue={defaultValue}
+      />
+    </div>
+  )
+}
+
+export function CardTextInput(props: CardTextInputProps) {
   return (
     <>
       <div className="flex flex-row justify-between items-center bg-slate-50 my-2">
         {props.input?.fixedText && (
-          <p className="lg:text-[1.1rem] px-3 lg:px-[1.125rem] font-semibold inline text-left shrink-0">
+          <p className="lg:text-[1.1rem] px-3 lg:pl-[1.125rem] font-semibold inline text-left">
             {props.input.fixedText}
           </p>
         )}
 
-        {props.input && !props.input.value && (
-          <input
-            onChange={(e) =>
-              props.input?.type
-                ? handleOnChange(e.target.value)
-                : props.input?.onChange(e.target.value)
-            }
-            className={`bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem]
-        placeholder:text-slate-300 lg:text-[1.1rem] hover:outline-none focus:outline-none
-          ${
-            props.input.fixedText
-              ? "ml-[-12px] lg:ml-[-18px]"
-              : "px-3 lg:px-[1.125rem]"
-          }`}
-            type={props.input.type || "text"}
-            placeholder={props.input.label}
-            value={
-              typeof props.input.inputValue === "string"
-                ? props.input.inputValue
-                : props.input.defaultValue
-            }
+        {props.input && (
+          <TextInput
+            fixedText={props.input.fixedText}
+            type={props.input.type}
+            label={props.input.label}
+            value={props.input.value}
+            defaultValue={props.input.defaultValue}
+            onChange={props.input.onChange}
           />
         )}
 
@@ -98,7 +82,7 @@ export function CardTextInput(props: CardTextInputProps) {
             onChange={(event) => props.dropdown?.onChange?.(event.target.value)}
             value={props.dropdown.value}
             className="w-full h-12 lg:h-[3.375rem] pl-2 bg-slate-50 lg:text-[1.1rem]
-        lg:pl-[1.125rem] lg:mr-[2.25rem] hover:outline-none focus:outline-none"
+              lg:pl-[1.125rem] lg:mr-[2.25rem] hover:outline-none focus:outline-none"
           >
             {props.dropdown.options.map((option) => (
               <option
@@ -112,26 +96,17 @@ export function CardTextInput(props: CardTextInputProps) {
           </select>
         )}
 
-        {props.input?.value && (
-          <div
-            className={`bg-slate-50 border-0 w-full h-12 lg:h-[3.375rem]
-          flex items-center ml-[-12px] lg:ml-[-18px]`}
-          >
-            <p className="lg:text-[1.1rem]">{props.input.value}</p>
-          </div>
-        )}
-
         {props.indicator && (
           <div className="flex justify-end items-end">
             <button
               onClick={() => props?.indicator?.onClick()}
               className={`z-10 flex rounded-full
-          mr-3 lg:mr-[1.125rem] border border-slate-100 
-          ${
-            props.indicator.bgColor
-              ? `text-white bg-${props.indicator.bgColor}`
-              : "bg-white"
-          } `}
+                mr-3 lg:mr-[1.125rem] border border-slate-100
+                ${
+                  props.indicator.bgColor
+                    ? `text-white bg-${props.indicator.bgColor}`
+                    : "bg-white"
+                } `}
             >
               {props.indicator && (
                 <>
@@ -142,18 +117,16 @@ export function CardTextInput(props: CardTextInputProps) {
           </div>
         )}
       </div>
-      {errors &&
-        errors.length > 0 &&
-        errors.map((error) => {
-          return (
-            <p
-              key={error}
-              className="w-full text-center text-red-500 lg:text-[1.1rem]"
-            >
-              {error}
-            </p>
-          )
-        })}
+      {props.input.errors &&
+        props.input.errors.length > 0 &&
+        props.input.errors.map((error) => (
+          <p
+            key={error}
+            className="text-red-500 lg:text-[1.1rem] px-3 lg:pl-[1.125rem] text-left"
+          >
+            {error}
+          </p>
+        ))}
     </>
   )
 }

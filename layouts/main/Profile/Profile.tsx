@@ -44,14 +44,6 @@ export function Profile({ initialUserData, handleUserUpdate }: ProfileProps) {
     })
   }
 
-  useEffect(() => {
-    if (userData) {
-      handleUserUpdate(userData)
-      handleUpdateIsUpdating(false)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
-
   function handleTabBar() {
     if (isUpdating) {
       return [
@@ -109,11 +101,12 @@ export function Profile({ initialUserData, handleUserUpdate }: ProfileProps) {
     <div className="bg-slate-100 fixed inset-0">
       {loadHeader()}
       <ProfileContent
-        handleUpdateUserData={handleUpdateUserData}
         userData={userData}
         isUpdating={isUpdating}
         handleUpdateRunUpdate={handleUpdateRunUpdate}
         handleUpdateIsUpdating={handleUpdateIsUpdating}
+        handleUserUpdate={handleUserUpdate}
+        runUpdate={runUpdate}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

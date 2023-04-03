@@ -24,7 +24,7 @@ export function WorkspaceMembers({
     setWorkspaceData((state) => {
       return {
         ...state,
-        ...newData,
+        members: newData.members,
       }
     })
   }

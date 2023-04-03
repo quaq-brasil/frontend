@@ -26,5 +26,7 @@
   "bordercolorlabel": "rgba(00, 00, 00, 0.0)",
   "borderwidth": "border width",
   "borderwidthlabel": "type a number",
-  "newdataset": "new data set"
+  "newdataset": "new data set",
+  "update": "update",
+  "updateblock": "update block"
 }

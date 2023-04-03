@@ -13,5 +13,7 @@
   "add": "add",
   "addblock": "add block",
   "title": "pool description",
-  "titlelabel": "type it here"
+  "titlelabel": "type it here",
+  "update": "update",
+  "updateblock": "update block"
 }

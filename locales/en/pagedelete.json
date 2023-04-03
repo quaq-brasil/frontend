@@ -6,7 +6,7 @@
   "longtext": "by deleting a page you agree to delete all the templates and data associeted with it",
   "password": "type you password to dele this page",
   "passwordinput": "type it here",
-  "confirm": "confirm",
+  "confirm": "delete page",
   "failed": "password incorrect, please try again",
   "pagetitle": "delete",
   "pagedescription": "Delete a Quaq page."

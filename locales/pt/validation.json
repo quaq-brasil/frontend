@@ -1,7 +1,9 @@
 {
   "required": "Este campo é obrigatório.",
   "validemail": "Por favor insira um endereço de e-mail válido.",
-  "validpassword": "A senha deve ter pelo menos 8 caracteres e conter pelo menos uma letra maiúscula, uma letra minúscula e um número.",
+  "validpassword": "A senha deve ter pelo menos 8 caracteres e conter pelo menos uma letra maiúscula, uma letra minúscula, um número e ao menos um caracter especial.",
   "validname": "O nome deve conter pelo menos 2 letras.",
-  "validtitle": "O título deve conter pelo menos 2 letras."
+  "validtitle": "O título deve conter pelo menos 2 letras.",
+  "passwordmatch": "As senhas não coincidem.",
+  "url": "Por favor insira uma URL válida."
 }

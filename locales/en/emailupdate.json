@@ -4,7 +4,9 @@
   "inputemail": "type it here",
   "password": "type your password",
   "inputpassword": "type it here",
-  "confirm": "confirm",
+  "confirm": "update email",
   "validation": "To conclude the change, please access the link sent to the provided email.",
-  "back": "back"
+  "back": "back",
+  "update": "update",
+  "failed": "email or password are incorrect!"
 }

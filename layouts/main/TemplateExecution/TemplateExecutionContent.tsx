@@ -157,7 +157,7 @@ export function TemplateExecutionContent({
                 />
               )
             })}
-            <div className="w-full h-[4rem]"> </div>
+            <span className="w-full h-[4rem]"></span>
           </div>
         ) : null}
       </div>

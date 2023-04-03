@@ -12,12 +12,14 @@ type TextEditorProps = {
   content?: string
   onChange?: (content: string) => void
   handleOpenVariablePanelForText?: () => void
+  errors?: string[] | null
 }
 
 export function TextEditor({
   content,
   onChange,
   handleOpenVariablePanelForText,
+  errors,
 }: TextEditorProps) {
   const { t } = useTranslation()
 
@@ -86,6 +88,16 @@ export function TextEditor({
       <div className="w-full">
         <EditorContent editor={editor} />
       </div>
+      {errors &&
+        errors.length > 0 &&
+        errors.map((error) => (
+          <p
+            key={error}
+            className="text-red-500 lg:text-[1.1rem] px-3 lg:pl-[1.125rem] text-left"
+          >
+            {error}
+          </p>
+        ))}
     </div>
   )
 }

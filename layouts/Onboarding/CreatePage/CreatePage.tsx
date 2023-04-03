@@ -47,13 +47,6 @@ export function CreatePage({
     setRunUpdate(stat)
   }
 
-  useEffect(() => {
-    if (pageData) {
-      handleCreatePage(pageData)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runUpdate])
-
   function handleTabBar() {
     if (isUpdating) {
       return [
@@ -125,6 +118,8 @@ export function CreatePage({
         handleUpdateRunUpdate={handleUpdateRunUpdate}
         pageData={pageData}
         handleUpdateIsUpdating={handleUpdateIsUpdating}
+        handleCreatePage={handleCreatePage}
+        runUpdate={runUpdate}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

@@ -10,5 +10,7 @@
   "on": "text for toggle on (optional)",
   "onlabel": "default on",
   "off": "text for toggle off (optional)",
-  "offlabel": "default off"
+  "offlabel": "default off",
+  "update": "update",
+  "updateblock": "update block"
 }

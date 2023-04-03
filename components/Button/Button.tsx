@@ -101,7 +101,7 @@ export function Button({
           handleUpdateClicked()
         }}
         className={`flex relative justify-between items-center p-[0.75rem] md:p-[1rem] lg:p-[1.5rem] min-w-[100%] 
-        rounded-[20px] lg:rounded-[30px] ${block.data.color} transform active:scale-90 transition-transform`}
+        rounded-[20px] lg:rounded-[30px] ${block.data.color} transform active:scale-95 transition-transform`}
       >
         <span
           className={`lg:text-[1.1rem] font-semibold text-center w-full ${

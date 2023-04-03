@@ -7,6 +7,7 @@ import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput
 import { ImageSelector } from "components/ImageSelector/ImageSelector"
 import { Popover } from "components/Popover/Popover"
 import { useUserAuth } from "contexts/userAuth"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { ArrowRight } from "phosphor-react"
@@ -15,53 +16,54 @@ import { IUpdateUser } from "types/User.type"
 import { pageUrls } from "utils/pagesUrl"
 
 type ProfileContentProps = {
-  handleUpdateUserData: (data: IUpdateUser) => void
   userData: IUpdateUser | undefined
   handleUpdateRunUpdate: (stat: boolean) => void
   handleUpdateIsUpdating: (stat: boolean) => void
   isUpdating: boolean
+  runUpdate: boolean
+  handleUserUpdate: (userData: IUpdateUser) => void
 }
 
 export function ProfileContent({
   handleUpdateRunUpdate,
-  handleUpdateUserData,
   handleUpdateIsUpdating,
   isUpdating,
   userData,
+  handleUserUpdate,
+  runUpdate,
 }: ProfileContentProps) {
   const text = useTranslation().t
   const router = useRouter()
-
   const { signOut } = useUserAuth()
 
-  type FormDataProps = {
-    image?: {
-      valid?: boolean
-    }
-    name?: {
-      valid?: boolean
-    }
+  type LocalUserDataProps = {
+    name?: string
+    avatar_url?: string
   }
 
-  const [formData, setFormData] = useState<FormDataProps>({
-    image: { valid: false },
-    name: { valid: false },
+  const [
+    localUserData,
+    setLocalUserData,
+    localUserDataErrors,
+    isLocalUserDataValid,
+  ] = useValidation<LocalUserDataProps>({
+    name: {
+      initialValue: userData?.name || "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    avatar_url: {
+      initialValue: userData?.avatar_url || "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
   })
+
   const [logout, setLogout] = useState(false)
-  const [isChanging, setIsChanging] = useState(false)
-  const [localUserData, setLocalUserData] = useState<IUpdateUser | undefined>()
 
-  function handleUpdateIsChanging(stat: boolean) {
-    setIsChanging(stat)
-  }
+  const [hasDataBeenUpdated, setHasDataBeenUpdated] = useState(false)
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
+  function handleUpdateLocalPageData(newWorkspaceData: LocalUserDataProps) {
+    setLocalUserData({ ...localUserData, ...newWorkspaceData })
+    setHasDataBeenUpdated(true)
   }
 
   function handleUpdateLogout(stat: boolean) {
@@ -74,54 +76,46 @@ export function ProfileContent({
     router.push(pageUrls.home())
   }
 
+  function isUserDataDifferent(
+    userData: IUpdateUser | undefined,
+    localUserData: LocalUserDataProps
+  ) {
+    if (!userData) {
+      return false
+    }
+    return (
+      userData.name !== localUserData.name ||
+      userData.avatar_url !== localUserData.avatar_url
+    )
+  }
+
   useEffect(() => {
-    if (userData && !localUserData) {
+    if (userData) {
       setLocalUserData(userData)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData])
 
   useEffect(() => {
-    if (userData && localUserData) {
-      let isDifferent = false
-
-      for (const key in userData) {
-        if ((userData as any)[key] !== (localUserData as any)[key]) {
-          isDifferent = true
-          break
-        }
-      }
-
-      if (isDifferent) {
-        handleUpdateIsChanging(true)
-      } else {
-        handleUpdateIsChanging(false)
-      }
-    }
-  }, [userData, localUserData])
-
-  useEffect(() => {
-    if (userData?.name?.length > 1) {
-      handleUpdateFormData({ name: { valid: true } })
-    } else {
-      handleUpdateFormData({ name: { valid: false } })
-    }
-    if (userData?.avatar_url) {
-      handleUpdateFormData({ image: { valid: true } })
-    } else {
-      handleUpdateFormData({ image: { valid: false } })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData, localUserData])
-
-  useEffect(() => {
-    if (formData?.image.valid && formData?.name.valid && isChanging) {
+    if (isLocalUserDataValid && isUserDataDifferent(userData, localUserData)) {
       handleUpdateIsUpdating(true)
     } else {
       handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData])
+  }, [localUserData, isLocalUserDataValid])
+
+  useEffect(() => {
+    if (userData) {
+      handleUserUpdate({
+        avatar_url: localUserData.avatar_url,
+        name: localUserData.name,
+      })
+      handleUpdateIsUpdating(false)
+      setHasDataBeenUpdated(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -137,11 +131,12 @@ export function ProfileContent({
               imageSelector={
                 <ImageSelector
                   onImageChange={(image) => {
-                    handleUpdateUserData({ avatar_url: image })
+                    handleUpdateLocalPageData({ avatar_url: image })
                   }}
-                  url={userData?.avatar_url || ""}
+                  url={localUserData?.avatar_url}
                 />
               }
+              errors={hasDataBeenUpdated ? localUserDataErrors.avatar_url : []}
             />
           </Card>
           <Card>
@@ -150,10 +145,10 @@ export function ProfileContent({
               input={{
                 label: text("profile:inputname"),
                 onChange: (name) => {
-                  handleUpdateUserData({ name: name })
+                  handleUpdateLocalPageData({ name: name })
                 },
-                type: "name",
-                defaultValue: userData?.name || "",
+                value: localUserData.name,
+                errors: hasDataBeenUpdated ? localUserDataErrors.name : [],
               }}
             />
           </Card>

@@ -6,5 +6,6 @@
   "cancel": "cancel",
   "add": "add",
   "addblock": "add block",
-  "updateblock": "update block"
+  "updateblock": "update block",
+  "update": "update"
 }

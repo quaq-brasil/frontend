@@ -5,6 +5,7 @@ import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput
 import { Dialog } from "components/Dialog/Dialog"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
@@ -21,54 +22,50 @@ export function ToggleConfig({
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
-  type IToggle = {
+  type ToggleProps = {
     description?: string
     on_label?: string
     off_label?: string
+    save_as?: string
   }
 
-  type FormDataProps = {
-    description?: {
-      valid?: boolean
-    }
-    save_as?: {
-      valid?: boolean
-    }
-  }
-
-  const [formData, setFormData] = useState<FormDataProps>({
+  const [
+    localBlockData,
+    setLocalBlockData,
+    LocalBlockDataErrors,
+    isLocalBlockDataValid,
+  ] = useValidation<ToggleProps>({
     description: {
-      valid: false,
+      initialValue: blockData?.data?.description || "",
+      validators: [],
+    },
+    on_label: {
+      initialValue: blockData?.data?.on_label || "",
+      validators: [],
+    },
+    off_label: {
+      initialValue: blockData?.data?.off_label || "",
+      validators: [],
     },
     save_as: {
-      valid: false,
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.custom(
+          text("createtemplate:saveas"),
+          handleCheckSaveAs,
+          [blockData?.save_as]
+        ),
+      ],
     },
   })
-  const [content, setContent] = useState<IToggle>()
-  const [save_as, set_save_as] = useState<string>()
+
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+  const [hasDataChanged, setHasDataChanged] = useState(false)
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
-
-  function handleUpdateContent(newData: IToggle) {
-    setContent((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as IToggle
-    })
-  }
-
-  function handleUpdateSaveAs(value: string) {
-    set_save_as(value)
+  function handleUpdateLocalBlockData(newBlockData: ToggleProps) {
+    setLocalBlockData({ ...localBlockData, ...newBlockData })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -79,11 +76,37 @@ export function ToggleConfig({
     setRunUpdate(stat)
   }
 
+  function checkIfDataHasChanged() {
+    if (blockData) {
+      let hasDataChanged = false
+      if (blockData?.data?.description !== localBlockData?.description) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.off_label !== localBlockData?.off_label) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.on_label !== localBlockData?.on_label) {
+        hasDataChanged = true
+      }
+      if (blockData?.save_as !== localBlockData?.save_as) {
+        hasDataChanged = true
+      }
+      return hasDataChanged
+    } else {
+      return false
+    }
+  }
+
   function handleClosing() {
-    handleUpdateContent({})
-    set_save_as(undefined)
+    setLocalBlockData({
+      description: "",
+      on_label: "",
+      off_label: "",
+      save_as: "",
+    })
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
+    setHasDataChanged(false)
     onClose()
   }
 
@@ -91,8 +114,12 @@ export function ToggleConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "toggle",
-      save_as: save_as,
-      data: content,
+      save_as: localBlockData.save_as,
+      data: {
+        description: localBlockData.description,
+        on_label: localBlockData.on_label,
+        off_label: localBlockData.off_label,
+      },
     })
     handleClosing()
   }
@@ -109,7 +136,9 @@ export function ToggleConfig({
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("toggleconfig:add")}
+            text={
+              blockData ? text("toggleconfig:update") : text("toggleconfig:add")
+            }
             onClick={() => onAddBlock()}
           />
         </div>,
@@ -129,9 +158,9 @@ export function ToggleConfig({
   const handleOpenVariablePanelForDescription = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          description: content?.description
-            ? `${content?.description}${variable}`
+        handleUpdateLocalBlockData({
+          description: localBlockData?.description
+            ? `${localBlockData?.description}${variable}`
             : variable,
         })
       })
@@ -141,9 +170,9 @@ export function ToggleConfig({
   const handleOpenVariablePanelForOn = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          on_label: content?.on_label
-            ? `${content?.on_label}${variable}`
+        handleUpdateLocalBlockData({
+          on_label: localBlockData?.on_label
+            ? `${localBlockData?.on_label}${variable}`
             : variable,
         })
       })
@@ -153,9 +182,9 @@ export function ToggleConfig({
   const handleOpenVariablePanelForOff = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          off_label: content?.off_label
-            ? `${content?.off_label}${variable}`
+        handleUpdateLocalBlockData({
+          off_label: localBlockData?.off_label
+            ? `${localBlockData?.off_label}${variable}`
             : variable,
         })
       })
@@ -165,57 +194,60 @@ export function ToggleConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(save_as ? `${save_as}${variable}` : variable)
+        handleUpdateLocalBlockData({
+          save_as: localBlockData.save_as
+            ? `${localBlockData.save_as}${variable}`
+            : variable,
+        })
       })
     handleOpenVariablePanel()
   }
 
   useEffect(() => {
-    if (save_as) {
-      if (blockData) {
-        if (blockData.save_as == save_as) {
-          handleUpdateFormData({ save_as: { valid: true } })
-        } else {
-          const isValid = handleCheckSaveAs(save_as)
-          handleUpdateFormData({ save_as: { valid: isValid } })
-        }
-      } else {
-        const isValid = handleCheckSaveAs(save_as)
-        handleUpdateFormData({ save_as: { valid: isValid } })
-      }
-    } else {
-      handleUpdateFormData({ save_as: { valid: false } })
-    }
-    if (content?.description) {
-      handleUpdateFormData({ description: { valid: true } })
-    } else {
-      handleUpdateFormData({ description: { valid: false } })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [save_as, content])
-
-  useEffect(() => {
     if (blockData) {
-      setContent(blockData.data)
-      set_save_as(blockData.save_as)
+      setLocalBlockData({
+        description: blockData?.data?.description,
+        on_label: blockData?.data?.on_label,
+        off_label: blockData?.data?.off_label,
+        save_as: blockData.save_as,
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockData])
 
   useEffect(() => {
-    if (content && save_as) {
-      onAddBlock()
+    if (runUpdate && isLocalBlockDataValid) {
+      if (!blockData) {
+        onAddBlock()
+      } else {
+        if (checkIfDataHasChanged()) {
+          onAddBlock()
+        }
+      }
+    } else if (runUpdate && !isLocalBlockDataValid) {
+      setHasDataChanged(true)
+      handleUpdateRunUpdate(false)
+      handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
   useEffect(() => {
-    if (formData.description?.valid && formData.save_as?.valid) {
-      handleUpdateIsUpdating(true)
+    if (blockData) {
+      if (checkIfDataHasChanged() && isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     } else {
-      handleUpdateIsUpdating(false)
+      if (isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     }
-  }, [formData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localBlockData, isLocalBlockDataValid])
 
   return (
     <>
@@ -226,10 +258,11 @@ export function ToggleConfig({
             <CardTextInput
               input={{
                 label: text("toggleconfig:descriptionlabel"),
-                inputValue: content?.description,
+                value: localBlockData?.description,
                 onChange: (description) => {
-                  handleUpdateContent({ description: description })
+                  handleUpdateLocalBlockData({ description: description })
                 },
+                errors: hasDataChanged ? LocalBlockDataErrors.description : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -242,10 +275,11 @@ export function ToggleConfig({
             <CardTextInput
               input={{
                 label: text("toggleconfig:onlabel"),
-                inputValue: content?.on_label,
+                value: localBlockData?.on_label,
                 onChange: (label) => {
-                  handleUpdateContent({ on_label: label })
+                  handleUpdateLocalBlockData({ on_label: label })
                 },
+                errors: hasDataChanged ? LocalBlockDataErrors.on_label : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -258,10 +292,11 @@ export function ToggleConfig({
             <CardTextInput
               input={{
                 label: text("toggleconfig:offlabel"),
-                inputValue: content?.off_label,
+                value: localBlockData?.off_label,
                 onChange: (label) => {
-                  handleUpdateContent({ off_label: label })
+                  handleUpdateLocalBlockData({ off_label: label })
                 },
+                errors: hasDataChanged ? LocalBlockDataErrors.off_label : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -275,8 +310,10 @@ export function ToggleConfig({
             <CardTextInput
               input={{
                 label: text("toggleconfig:saveaslabel"),
-                inputValue: save_as,
-                onChange: (value) => handleUpdateSaveAs(value),
+                value: localBlockData.save_as,
+                onChange: (value) =>
+                  handleUpdateLocalBlockData({ save_as: value }),
+                errors: hasDataChanged ? LocalBlockDataErrors.save_as : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -302,7 +339,9 @@ export function ToggleConfig({
                 block={{
                   data: {
                     color: "bg-white",
-                    text: text("toggleconfig:addblock"),
+                    text: blockData
+                      ? text("toggleconfig:updateblock")
+                      : text("toggleconfig:addblock"),
                     onClick: () => handleUpdateRunUpdate(true),
                   },
                 }}

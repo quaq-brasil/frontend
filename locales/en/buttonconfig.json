@@ -7,5 +7,7 @@
   "saveaslabel": "type it here",
   "addblock": "add block",
   "cancel": "cancel",
-  "add": "add"
+  "add": "add",
+  "update": "update",
+  "updateblock": "update block"
 }

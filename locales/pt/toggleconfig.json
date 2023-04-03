@@ -10,5 +10,7 @@
   "on": "texto para toggle on (opcional)",
   "onlabel": "padrão on",
   "off": "texto para toggle off (opcional)",
-  "offlabel": "padrão off"
+  "offlabel": "padrão off",
+  "update": "atualizar",
+  "updateblock": "atualizar bloco"
 }

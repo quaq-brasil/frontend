@@ -18,11 +18,11 @@ export function PasswordUpdate({
   handleUpdateUser,
 }: PasswordUpdateProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const [userData, setUserData] = useState<IUpdateUser>()
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
-  const [passwordMatch, setPasswordMatch] = useState(false)
 
   useEffect(() => {
     if (initialUserData) {
@@ -37,8 +37,6 @@ export function PasswordUpdate({
   function handleUpdateRunUpdate(stat: boolean) {
     setRunUpdate(stat)
   }
-
-  const router = useRouter()
 
   function handleTabBar() {
     if (isUpdating) {
@@ -92,8 +90,6 @@ export function PasswordUpdate({
         handleUpdateRunUpdate={handleUpdateRunUpdate}
         runUpdate={runUpdate}
         isUpdating={isUpdating}
-        setPasswordMatch={setPasswordMatch}
-        passwordMatch={passwordMatch}
       />
       <TabBar isHidden={false} tags={handleTabBar()} />
     </div>

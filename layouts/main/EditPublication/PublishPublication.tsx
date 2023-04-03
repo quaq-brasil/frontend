@@ -9,23 +9,19 @@ import { ImageSelector } from "components/ImageSelector/ImageSelector"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import { useDebounce } from "hooks/useDebouce"
+import { useValidation, validationRules } from "hooks/useValidation"
 import { Translate } from "next-translate"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { Check } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { useCreatePublication } from "services/hooks/usePublication/useCreatePublication"
-import { usePublication } from "services/hooks/usePublication/usePublication"
 import { useUpdatePublication } from "services/hooks/usePublication/useUpdatePublication"
 import { useGenerateTemplateUniqueSlug } from "services/hooks/useTemplate/useGenerateTemplateUniqueSlug"
 
 import { useUpdateTemplate } from "services/hooks/useTemplate/useUpdateTemplate"
 import { IPage } from "types/Page.type"
-import { IPublication } from "types/Publication.type"
-import {
-  getTemplateBySlugAndPageSlugProps,
-  IUpdateTemplate,
-} from "types/Template.type"
+import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
 
 type PublishPublicationProps = {
   blocks: any[]
@@ -40,6 +36,15 @@ type handleGetTemplateUrlProps = {
   page_id: string
 }
 
+type LocalTemplateDataProps = {
+  title?: string
+  slug?: string
+  cover?: string
+  shortcut_size?: "small" | "large"
+  publication_title?: string
+  visibility?: string
+}
+
 export const PublishPublication = ({
   blocks,
   onClose,
@@ -47,126 +52,45 @@ export const PublishPublication = ({
   template,
 }: PublishPublicationProps) => {
   const text = useTranslation().t
+  const router = useRouter()
 
-  type FormDataProps = {
-    title?: {
-      valid?: boolean
-    }
-    slug?: {
-      valid?: boolean
-    }
-    cover?: {
-      valid?: boolean
-    }
-    size?: {
-      valid?: boolean
-    }
-    publication?: {
-      valid?: boolean
-    }
-    visibility?: {
-      valid?: boolean
-    }
-  }
-
-  const [formData, setFormData] = useState<FormDataProps>({
+  const [
+    localTemplateData,
+    setLocalTemplateData,
+    localTemplateDataErrors,
+    isLocalTemplateDataValid,
+  ] = useValidation<LocalTemplateDataProps>({
     title: {
-      valid: true,
+      initialValue: template?.title || "",
+      validators: [validationRules.required(text("validation:required"))],
     },
     slug: {
-      valid: true,
+      initialValue: template?.slug || "",
+      validators: [validationRules.required(text("validation:required"))],
     },
     cover: {
-      valid: true,
+      initialValue: template?.shortcut_image || "",
+      validators: [validationRules.required(text("validation:required"))],
     },
-    size: {
-      valid: true,
+    shortcut_size: {
+      initialValue: template?.shortcut_size || "small",
+      validators: [validationRules.required(text("validation:required"))],
     },
-    publication: {
-      valid: true,
+    publication_title: {
+      initialValue: template?.publication?.title || "",
+      validators: [validationRules.required(text("validation:required"))],
     },
     visibility: {
-      valid: true,
+      initialValue: template?.visibility || "public",
+      validators: [validationRules.required(text("validation:required"))],
     },
   })
-  const [publicationTitle, setPublicationTitle] = useState("")
-  const [currentPublication, setCurrentPublication] = useState<IPublication>()
+
   const [isUpdating, setIsUpdating] = useState(false)
-  const router = useRouter()
-  const [templateData, setTemplateData] =
-    useState<getTemplateBySlugAndPageSlugProps>()
-
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
-
-  function handleValidation() {
-    if (templateData.title.length > 1) {
-      handleUpdateFormData({ title: { valid: true } })
-    } else {
-      handleUpdateFormData({ title: { valid: false } })
-    }
-    if (templateData.slug) {
-      handleUpdateFormData({ slug: { valid: true } })
-    } else {
-      handleUpdateFormData({ title: { valid: false } })
-    }
-    if (templateData.shortcut_image) {
-      handleUpdateFormData({ cover: { valid: true } })
-    } else {
-      handleUpdateFormData({ cover: { valid: false } })
-    }
-    if (templateData.shortcut_size) {
-      handleUpdateFormData({ size: { valid: true } })
-    } else {
-      handleUpdateFormData({ size: { valid: false } })
-    }
-    if (publicationTitle.length > 1) {
-      handleUpdateFormData({ publication: { valid: true } })
-    } else {
-      handleUpdateFormData({ publication: { valid: false } })
-    }
-  }
-
-  function handleUpdateIsUpdating(stat: boolean) {
-    setIsUpdating(stat)
-  }
-
-  const getCurrentPublication = usePublication({
-    id: templateData?.current_publication_id,
-  })
+  const [runUpdate, setRunUpdate] = useState(false)
+  const [hasDataChanged, setHasDataChanged] = useState(false)
 
   const generateTemplateUniqueSlug = useGenerateTemplateUniqueSlug()
-
-  function handleGetTemplateUrl(data: handleGetTemplateUrlProps) {
-    generateTemplateUniqueSlug.mutate(
-      { data },
-      {
-        onSuccess: (slug) => {
-          handleUpdateTemplateData({ slug })
-        },
-      }
-    )
-  }
-
-  const debouncedTemplateName = useDebounce({
-    value: templateData?.title,
-    delay: 1000 * 1,
-  })
-
-  const handleUpdateTemplateData = (newData: IUpdateTemplate) => {
-    setTemplateData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as getTemplateBySlugAndPageSlugProps
-    })
-  }
 
   const createPublication = useCreatePublication()
 
@@ -174,15 +98,46 @@ export const PublishPublication = ({
 
   const updateTemplate = useUpdateTemplate()
 
-  function handleCreatePublication() {
-    if (currentPublication?.title !== publicationTitle) {
-      if (templateData?.id) {
+  const debouncedTemplateName = useDebounce({
+    value: localTemplateData?.title,
+    delay: 1000 * 1,
+  })
+
+  function handleUpdateLocalTemplateData(
+    newTemplateData: LocalTemplateDataProps
+  ) {
+    setLocalTemplateData({ ...localTemplateData, ...newTemplateData })
+    setHasDataChanged(true)
+  }
+
+  function handleUpdateIsUpdating(stat: boolean) {
+    setIsUpdating(stat)
+  }
+
+  function handleUpdateRunUpdate(stat: boolean) {
+    setRunUpdate(stat)
+  }
+
+  function handleGetTemplateUrl(data: handleGetTemplateUrlProps) {
+    generateTemplateUniqueSlug.mutate(
+      { data },
+      {
+        onSuccess: (slug) => {
+          handleUpdateLocalTemplateData({ slug })
+        },
+      }
+    )
+  }
+
+  function handlePublishTemplate() {
+    if (template?.publication?.title !== localTemplateData.publication_title) {
+      if (template?.id) {
         createPublication.mutate(
           {
             data: {
-              title: publicationTitle,
+              title: localTemplateData.publication_title,
               blocks,
-              template_id: templateData.id,
+              template_id: template?.id,
               page_id: pageData?.id,
               published_at: new Date().toISOString(),
             },
@@ -191,13 +146,13 @@ export const PublishPublication = ({
             onSuccess: (data) => {
               updateTemplate.mutate(
                 {
-                  id: templateData.id,
+                  id: template?.id,
                   data: {
                     current_publication_id: data.id,
-                    title: templateData.title,
-                    slug: templateData.slug,
-                    shortcut_image: templateData.shortcut_image,
-                    shortcut_size: templateData.shortcut_size,
+                    title: localTemplateData.title,
+                    slug: localTemplateData.slug,
+                    shortcut_image: localTemplateData.cover,
+                    shortcut_size: localTemplateData.shortcut_size,
                   },
                 },
                 {
@@ -211,15 +166,15 @@ export const PublishPublication = ({
         )
       }
     } else {
-      if (templateData?.id) {
-        if (currentPublication.id) {
+      if (template?.id) {
+        if (template?.publication?.id) {
           updateCurrentPublication.mutate(
             {
-              id: currentPublication.id,
+              id: template?.publication?.id,
               data: {
-                title: publicationTitle,
+                title: template?.publication?.title,
                 blocks,
-                template_id: templateData.id,
+                template_id: template?.id,
                 page_id: pageData?.id,
               },
             },
@@ -227,12 +182,12 @@ export const PublishPublication = ({
               onSuccess: () => {
                 updateTemplate.mutate(
                   {
-                    id: templateData.id,
+                    id: template?.id,
                     data: {
-                      title: templateData.title,
-                      slug: templateData.slug,
-                      shortcut_image: templateData.shortcut_image,
-                      shortcut_size: templateData.shortcut_size,
+                      title: localTemplateData.title,
+                      slug: localTemplateData.slug,
+                      shortcut_image: localTemplateData.cover,
+                      shortcut_size: localTemplateData.shortcut_size,
                     },
                   },
                   {
@@ -262,7 +217,7 @@ export const PublishPublication = ({
           <Tag
             variant="txt"
             text={text("publish:publish")}
-            onClick={handleCreatePublication}
+            onClick={() => handleUpdateRunUpdate(true)}
           />
         </div>,
       ]
@@ -279,21 +234,23 @@ export const PublishPublication = ({
   }
 
   useEffect(() => {
-    if (getCurrentPublication) {
-      setPublicationTitle(getCurrentPublication.data.title)
-      setCurrentPublication(getCurrentPublication.data)
+    if (template) {
+      setLocalTemplateData({
+        title: template?.title,
+        slug: template?.slug,
+        cover: template?.shortcut_image,
+        shortcut_size: template?.shortcut_size,
+        publication_title: template?.publication?.title,
+        visibility: template?.visibility,
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getCurrentPublication])
-
-  useEffect(() => {
-    setTemplateData(template)
   }, [template])
 
   useEffect(() => {
-    if (debouncedTemplateName && formData.title.valid) {
+    if (debouncedTemplateName) {
       handleGetTemplateUrl({
-        id: templateData?.id,
+        id: template?.id,
         title: debouncedTemplateName,
         page_id: pageData?.id,
       })
@@ -302,24 +259,32 @@ export const PublishPublication = ({
   }, [debouncedTemplateName])
 
   useEffect(() => {
-    if (
-      (formData.cover.valid,
-      formData.publication.valid,
-      formData.size.valid,
-      formData.slug.valid,
-      formData.title.valid)
-    ) {
-      handleUpdateIsUpdating(true)
-    } else {
-      handleUpdateIsUpdating(false)
+    if (runUpdate) {
+      if (isLocalTemplateDataValid) {
+        handlePublishTemplate()
+      } else {
+        handleUpdateRunUpdate(false)
+      }
     }
-  }, [formData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
+
+  useEffect(() => {
+    if (template) {
+      if (hasDataChanged) {
+        handleUpdateIsUpdating(isLocalTemplateDataValid)
+      } else {
+        handleUpdateIsUpdating(true)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localTemplateData, isLocalTemplateDataValid])
 
   return (
     <>
       <PublishPublicationHeader
         pageData={pageData}
-        templateData={templateData}
+        templateData={localTemplateData}
         text={text}
       />
       <div className="w-full h-screen bg-slate-100">
@@ -334,11 +299,10 @@ export const PublishPublication = ({
               <CardTextInput
                 input={{
                   label: text("publish:titlelabel"),
-                  defaultValue: templateData?.title,
-                  onChange: (title) => {
-                    handleValidation()
-                    handleUpdateTemplateData({ title: title })
-                  },
+                  value: localTemplateData?.title,
+                  onChange: (title) =>
+                    handleUpdateLocalTemplateData({ title: title }),
+                  errors: hasDataChanged ? localTemplateDataErrors?.title : [],
                 }}
               />
             </Card>
@@ -347,12 +311,12 @@ export const PublishPublication = ({
               <CardTextInput
                 input={{
                   label: "",
-                  onChange: (link) => {
-                    handleValidation()
-                    handleUpdateTemplateData({ slug: link })
+                  onChange: (slug) => {
+                    handleUpdateLocalTemplateData({ slug: slug })
                   },
                   fixedText: `quaq.me/${pageData?.slug}/`,
-                  value: templateData?.slug,
+                  value: localTemplateData?.slug,
+                  errors: hasDataChanged ? localTemplateDataErrors?.slug : [],
                 }}
                 indicator={{
                   icon: Check,
@@ -366,13 +330,13 @@ export const PublishPublication = ({
               <CardImageInput
                 imageSelector={
                   <ImageSelector
-                    url={templateData?.shortcut_image}
+                    url={localTemplateData?.cover}
                     onImageChange={(cover) => {
-                      handleValidation()
-                      handleUpdateTemplateData({ shortcut_image: cover })
+                      handleUpdateLocalTemplateData({ cover })
                     }}
                   />
                 }
+                errors={hasDataChanged ? localTemplateDataErrors?.cover : []}
               />
             </Card>
 
@@ -382,11 +346,10 @@ export const PublishPublication = ({
                 label={text("publish:small")}
                 indicator={{
                   icon: Check,
-                  isVisible: templateData?.shortcut_size != "small",
+                  isVisible: localTemplateData?.shortcut_size != "small",
                 }}
                 onClick={() => {
-                  handleValidation()
-                  handleUpdateTemplateData({ shortcut_size: "small" })
+                  handleUpdateLocalTemplateData({ shortcut_size: "small" })
                 }}
               />
               <CardLine />
@@ -394,11 +357,10 @@ export const PublishPublication = ({
                 label={text("publish:large")}
                 indicator={{
                   icon: Check,
-                  isVisible: templateData?.shortcut_size != "large",
+                  isVisible: localTemplateData?.shortcut_size != "large",
                 }}
                 onClick={() => {
-                  handleValidation()
-                  handleUpdateTemplateData({ shortcut_size: "large" })
+                  handleUpdateLocalTemplateData({ shortcut_size: "large" })
                 }}
               />
               <CardLine />
@@ -409,11 +371,10 @@ export const PublishPublication = ({
                 label={text("centraloptions:public")}
                 indicator={{
                   icon: Check,
-                  isVisible:
-                    templateData?.visibility === "workspace" ? true : false,
+                  isVisible: localTemplateData?.visibility != "public",
                 }}
                 onClick={() =>
-                  handleUpdateTemplateData({ visibility: "public" })
+                  handleUpdateLocalTemplateData({ visibility: "public" })
                 }
               />
               <CardLine />
@@ -421,11 +382,10 @@ export const PublishPublication = ({
                 label={text("centraloptions:wsmembers")}
                 indicator={{
                   icon: Check,
-                  isVisible:
-                    templateData?.visibility === "public" ? true : false,
+                  isVisible: localTemplateData?.visibility != "workspace",
                 }}
                 onClick={() =>
-                  handleUpdateTemplateData({ visibility: "workspace" })
+                  handleUpdateLocalTemplateData({ visibility: "workspace" })
                 }
               />
               <CardLine />
@@ -435,11 +395,13 @@ export const PublishPublication = ({
               <CardTextInput
                 input={{
                   label: text("publish:publishaslabel"),
-                  defaultValue: publicationTitle,
-                  onChange: (publicationTitle) => {
-                    handleValidation()
-                    setPublicationTitle(publicationTitle)
+                  value: localTemplateData.publication_title,
+                  onChange: (publication_title) => {
+                    handleUpdateLocalTemplateData({ publication_title })
                   },
+                  errors: hasDataChanged
+                    ? localTemplateDataErrors?.publication_title
+                    : [],
                 }}
               />
             </Card>
@@ -450,7 +412,7 @@ export const PublishPublication = ({
                     data: {
                       color: "bg-black",
                       text: text("publish:publish"),
-                      onClick: handleCreatePublication,
+                      onClick: () => handleUpdateRunUpdate(true),
                     },
                   }}
                   isEditable={false}
@@ -468,7 +430,7 @@ export const PublishPublication = ({
 
 type PublishPublicationHeaderProps = {
   pageData: IPage | undefined
-  templateData: getTemplateBySlugAndPageSlugProps | undefined
+  templateData: LocalTemplateDataProps | undefined
   text: Translate
 }
 
@@ -484,17 +446,17 @@ const PublishPublicationHeader = ({
         text={pageData?.title || ""}
         img_url={pageData?.avatar_url || ""}
       />
-      {!templateData?.title && !templateData?.shortcut_image && (
+      {!templateData?.title && !templateData?.cover && (
         <Tag variant="txt" text={text("publish:titletag")} />
       )}
-      {templateData?.title && !templateData?.shortcut_image && (
+      {templateData?.title && !templateData?.cover && (
         <Tag variant="txt" text={templateData.title} />
       )}
-      {templateData?.title && templateData?.shortcut_image && (
+      {templateData?.title && templateData?.cover && (
         <Tag
           variant="img-txt"
           text={templateData.title}
-          img_url={templateData.shortcut_image}
+          img_url={templateData.cover}
         />
       )}
     </Header>

@@ -24,5 +24,7 @@
   "receive": "receber",
   "keytitle": "chave secreta",
   "url": "url do ponto de entrada",
-  "json": "digite um código json"
+  "json": "digite um código json",
+  "update": "atualizar",
+  "updateblock": "atualizar bloco"
 }

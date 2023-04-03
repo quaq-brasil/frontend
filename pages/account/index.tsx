@@ -2,6 +2,7 @@ import { Profile } from "layouts/main/Profile/Profile"
 import { GetServerSideProps } from "next"
 import useTranslation from "next-translate/useTranslation"
 import Head from "next/head"
+import { useRouter } from "next/router"
 import { api } from "services/api"
 import { useUpdateUser } from "services/hooks/useUser/useUpdateUser"
 import { useUser } from "services/hooks/useUser/useUser"
@@ -18,6 +19,7 @@ type ProfilePageProps = {
 
 export default function ProfilePage({ data }: ProfilePageProps) {
   const text = useTranslation().t
+  const router = useRouter()
 
   const getUser = useUser({
     options: {
@@ -28,13 +30,20 @@ export default function ProfilePage({ data }: ProfilePageProps) {
   const updateUser = useUpdateUser()
 
   function handleUserUpdate(data: IUpdateUser) {
-    updateUser.mutate({
-      id: getUser.data.id,
-      data: {
-        name: data.name,
-        avatar_url: data.avatar_url,
+    updateUser.mutate(
+      {
+        id: getUser.data.id,
+        data: {
+          name: data.name,
+          avatar_url: data.avatar_url,
+        },
       },
-    })
+      {
+        onSuccess() {
+          router.reload()
+        },
+      }
+    )
   }
 
   return (

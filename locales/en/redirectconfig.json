@@ -13,5 +13,7 @@
   "back": "back",
   "cancel": "cancel",
   "add": "add",
-  "addblock": "add block"
+  "addblock": "add block",
+  "update": "update",
+  "updateblock": "update block"
 }

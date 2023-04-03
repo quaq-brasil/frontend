@@ -2,10 +2,7 @@ import { LogUserIn } from "layouts/Onboarding/LogUserIn/LogUserIn"
 import { GetServerSideProps } from "next"
 import useTranslation from "next-translate/useTranslation"
 import Head from "next/head"
-import { useRouter } from "next/router"
 
-import { useLogin } from "services/hooks/useUser/useLogin"
-import { IUserLogin } from "types/User.type"
 import { isTokenExpired } from "utils/auth"
 import { appParseCookies } from "utils/cookies"
 import { pageUrls } from "utils/pagesUrl"
@@ -13,30 +10,13 @@ import { pageUrls } from "utils/pagesUrl"
 export default function LoginPage() {
   const text = useTranslation().t
 
-  const loginUser = useLogin()
-
-  const router = useRouter()
-  function handleUserLogin(data: IUserLogin) {
-    loginUser.mutate(
-      {
-        email: data.email || "",
-        password: data.password || "",
-      },
-      {
-        onSuccess: () => {
-          router.push(pageUrls.adm())
-        },
-      }
-    )
-  }
-
   return (
     <>
       <Head>
         <title>{`${text("login:pagetitle")}`}</title>
         <meta name="description" content={text("login:pagedescription")} />
       </Head>
-      <LogUserIn handleUserLogin={handleUserLogin} />
+      <LogUserIn />
     </>
   )
 }

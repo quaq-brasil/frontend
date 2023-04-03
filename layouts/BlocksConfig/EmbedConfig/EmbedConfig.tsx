@@ -5,6 +5,7 @@ import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput
 import { Dialog } from "components/Dialog/Dialog"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
@@ -21,53 +22,48 @@ export function EmbedConfig({
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
-  type IContent = {
+  type EmbedProps = {
     link?: string
     height?: string
+    save_as?: string
   }
 
-  type FormDataProps = {
-    content?: {
-      valid?: boolean
-    }
-    saveAs?: {
-      valid?: boolean
-    }
-  }
-
-  const [formData, setFormData] = useState<FormDataProps>({
-    content: {
-      valid: true,
+  const [
+    localBlockData,
+    setLocalBlockData,
+    LocalBlockDataErrors,
+    isLocalBlockDataValid,
+  ] = useValidation<EmbedProps>({
+    link: {
+      initialValue: blockData?.data?.link || "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.url(text("validation:url")),
+      ],
     },
-    saveAs: {
-      valid: true,
+    height: {
+      initialValue: blockData?.data?.height || "28rem",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    save_as: {
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.custom(
+          text("createtemplate:saveas"),
+          handleCheckSaveAs,
+          [blockData?.save_as]
+        ),
+      ],
     },
   })
-  const [content, setContent] = useState<IContent | null>({ height: "28rem" })
-  const [saveAs, setSaveAs] = useState<string | null>(null)
+
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+  const [hasDataChanged, setHasDataChanged] = useState(false)
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
-
-  function handleUpdateContent(newData: IContent) {
-    setContent((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as IContent
-    })
-  }
-
-  function handleUpdateSaveAs(value: typeof saveAs) {
-    setSaveAs(value)
+  function handleUpdateLocalBlockData(newBlockData: EmbedProps) {
+    setLocalBlockData({ ...localBlockData, ...newBlockData })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -78,11 +74,33 @@ export function EmbedConfig({
     setRunUpdate(stat)
   }
 
+  function checkIfDataHasChanged() {
+    if (blockData) {
+      let hasDataChanged = false
+      if (blockData?.data?.height !== localBlockData?.height) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.link !== localBlockData?.link) {
+        hasDataChanged = true
+      }
+      if (blockData?.save_as !== localBlockData?.save_as) {
+        hasDataChanged = true
+      }
+      return hasDataChanged
+    } else {
+      return false
+    }
+  }
+
   function handleClosing() {
-    setContent(null)
-    handleUpdateIsUpdating(false)
+    setLocalBlockData({
+      height: "",
+      link: "",
+      save_as: "",
+    })
     handleUpdateRunUpdate(false)
-    handleUpdateSaveAs(null)
+    handleUpdateIsUpdating(false)
+    setHasDataChanged(false)
     onClose()
   }
 
@@ -90,8 +108,11 @@ export function EmbedConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "embed",
-      data: content,
-      save_as: saveAs,
+      save_as: localBlockData.save_as,
+      data: {
+        height: localBlockData.height,
+        link: localBlockData.link,
+      },
     })
     handleClosing()
   }
@@ -108,7 +129,9 @@ export function EmbedConfig({
         <div key={2}>
           <Tag
             variant="txt"
-            text={text("textconfig:add")}
+            text={
+              blockData ? text("textconfig:update") : text("textconfig:add")
+            }
             onClick={() => handleUpdateRunUpdate(true)}
           />
         </div>,
@@ -128,8 +151,10 @@ export function EmbedConfig({
   const handleOpenVariablePanelForLink = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          link: content?.link ? `${content.link}${variable}` : variable,
+        handleUpdateLocalBlockData({
+          link: localBlockData?.link
+            ? `${localBlockData.link}${variable}`
+            : variable,
         })
       })
     handleOpenVariablePanel()
@@ -138,57 +163,59 @@ export function EmbedConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
+        handleUpdateLocalBlockData({
+          save_as: localBlockData.save_as
+            ? `${localBlockData.save_as}${variable}`
+            : variable,
+        })
       })
     handleOpenVariablePanel()
   }
 
   useEffect(() => {
-    if (saveAs) {
-      if (blockData) {
-        if (blockData.save_as == saveAs) {
-          handleUpdateFormData({ saveAs: { valid: true } })
-        } else {
-          const isValid = handleCheckSaveAs(saveAs)
-          handleUpdateFormData({ saveAs: { valid: isValid } })
-        }
-      } else {
-        const isValid = handleCheckSaveAs(saveAs)
-        handleUpdateFormData({ saveAs: { valid: isValid } })
-      }
-    } else {
-      handleUpdateFormData({ saveAs: { valid: false } })
-    }
-    if (content) {
-      handleUpdateFormData({ content: { valid: true } })
-    } else {
-      handleUpdateFormData({ content: { valid: false } })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [saveAs, content])
-
-  useEffect(() => {
     if (blockData) {
-      setContent(blockData.data)
-      setSaveAs(blockData.save_as)
+      setLocalBlockData({
+        height: blockData?.data?.height,
+        link: blockData?.data?.link,
+        save_as: blockData.save_as,
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockData])
 
   useEffect(() => {
-    if (content && saveAs) {
-      onAddBlock()
+    if (runUpdate && isLocalBlockDataValid) {
+      if (!blockData) {
+        onAddBlock()
+      } else {
+        if (checkIfDataHasChanged()) {
+          onAddBlock()
+        }
+      }
+    } else if (runUpdate && !isLocalBlockDataValid) {
+      setHasDataChanged(true)
+      handleUpdateRunUpdate(false)
+      handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
   useEffect(() => {
-    if (formData.content?.valid && formData.saveAs?.valid) {
-      handleUpdateIsUpdating(true)
+    if (blockData) {
+      if (checkIfDataHasChanged() && isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     } else {
-      handleUpdateIsUpdating(false)
+      if (isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     }
-  }, [formData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localBlockData, isLocalBlockDataValid])
 
   return (
     <>
@@ -199,8 +226,9 @@ export function EmbedConfig({
             <CardTextInput
               input={{
                 label: text("embedconfig:label1"),
-                inputValue: content?.link,
-                onChange: (link) => handleUpdateContent({ link: link }),
+                value: localBlockData?.link,
+                onChange: (link) => handleUpdateLocalBlockData({ link: link }),
+                errors: hasDataChanged ? LocalBlockDataErrors.link : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -213,8 +241,12 @@ export function EmbedConfig({
             <CardTextInput
               input={{
                 label: text("embedconfig:label2"),
-                inputValue: saveAs,
-                onChange: (value) => handleUpdateSaveAs(value),
+                value: localBlockData?.save_as,
+                onChange: (value) =>
+                  handleUpdateLocalBlockData({ save_as: value }),
+                errors: localBlockData.save_as
+                  ? LocalBlockDataErrors.save_as
+                  : [],
               }}
               indicator={{
                 icon: BracketsCurly,

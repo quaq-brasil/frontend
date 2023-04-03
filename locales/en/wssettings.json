@@ -5,7 +5,7 @@
   "title": "workspace title",
   "titlelabel": "type it here",
   "image": "workspace image",
-  "confirm": "confirm",
+  "confirm": "update workspace",
   "terms": "terms and policies",
   "advanced": "advanced",
   "options": "options",
@@ -15,5 +15,10 @@
   "newmember": "new member email",
   "add": "add new member",
   "emailunique": "the email must be unique",
-  "emailnotvalid": "the email is not valid"
+  "emailnotvalid": "the email is not valid",
+  "removemember": "remove member",
+  "removememberdescription": "are you sure you want to remove this member?",
+  "cancel": "cancel",
+  "remove": "remove",
+  "cantfindmember": "user was not found"
 }
