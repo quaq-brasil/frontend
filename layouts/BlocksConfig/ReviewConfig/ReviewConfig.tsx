@@ -5,6 +5,7 @@ import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput
 import { Dialog } from "components/Dialog/Dialog"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
@@ -21,32 +22,35 @@ export function ReviewConfig({
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
-  type FormDataProps = {
-    saveAs?: {
-      valid?: boolean
-    }
+  type ReviewProps = {
+    save_as?: string
   }
 
-  const [formData, setFormData] = useState<FormDataProps>({
-    saveAs: {
-      valid: false,
+  const [
+    localBlockData,
+    setLocalBlockData,
+    LocalBlockDataErrors,
+    isLocalBlockDataValid,
+  ] = useValidation<ReviewProps>({
+    save_as: {
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.custom(
+          text("createtemplate:saveas"),
+          handleCheckSaveAs,
+          [blockData?.id]
+        ),
+      ],
     },
   })
-  const [saveAs, setSaveAs] = useState<string>()
+
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+  const [hasDataChanged, setHasDataChanged] = useState(false)
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
-
-  function handleUpdateSaveAs(value: string) {
-    setSaveAs(value)
+  function handleUpdateLocalBlockData(newBlockData: ReviewProps) {
+    setLocalBlockData({ ...localBlockData, ...newBlockData })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -57,10 +61,25 @@ export function ReviewConfig({
     setRunUpdate(stat)
   }
 
+  function checkIfDataHasChanged() {
+    if (blockData) {
+      let hasDataChanged = false
+      if (blockData?.save_as !== localBlockData?.save_as) {
+        hasDataChanged = true
+      }
+      return hasDataChanged
+    } else {
+      return false
+    }
+  }
+
   function handleClosing() {
-    setSaveAs(undefined)
+    setLocalBlockData({
+      save_as: "",
+    })
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
+    setHasDataChanged(false)
     onClose()
   }
 
@@ -68,7 +87,7 @@ export function ReviewConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "review",
-      save_as: saveAs,
+      save_as: localBlockData.save_as,
       data: {},
     })
     handleClosing()
@@ -86,7 +105,9 @@ export function ReviewConfig({
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("reviewconfig:add")}
+            text={
+              blockData ? text("reviewconfig:update") : text("reviewconfig:add")
+            }
             onClick={() => onAddBlock()}
           />
         </div>,
@@ -106,51 +127,53 @@ export function ReviewConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
+        handleUpdateLocalBlockData({
+          save_as: localBlockData.save_as
+            ? `${localBlockData.save_as}${variable}`
+            : variable,
+        })
       })
     handleOpenVariablePanel()
   }
 
   useEffect(() => {
-    if (saveAs) {
-      if (blockData) {
-        if (blockData.save_as == saveAs) {
-          handleUpdateFormData({ saveAs: { valid: true } })
-        } else {
-          const isValid = handleCheckSaveAs(saveAs)
-          handleUpdateFormData({ saveAs: { valid: isValid } })
-        }
-      } else {
-        const isValid = handleCheckSaveAs(saveAs)
-        handleUpdateFormData({ saveAs: { valid: isValid } })
-      }
-    } else {
-      handleUpdateFormData({ saveAs: { valid: false } })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [saveAs])
-
-  useEffect(() => {
     if (blockData) {
-      setSaveAs(blockData.save_as)
+      setLocalBlockData({ save_as: blockData.save_as })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockData])
 
   useEffect(() => {
-    if (saveAs) {
-      onAddBlock()
+    if (runUpdate && isLocalBlockDataValid) {
+      if (!blockData) {
+        onAddBlock()
+      } else if (checkIfDataHasChanged()) {
+        onAddBlock()
+      }
+    } else if (runUpdate && !isLocalBlockDataValid) {
+      setHasDataChanged(true)
+      handleUpdateRunUpdate(false)
+      handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
   useEffect(() => {
-    if (formData.saveAs?.valid) {
-      handleUpdateIsUpdating(true)
+    if (blockData) {
+      if (checkIfDataHasChanged() && isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     } else {
-      handleUpdateIsUpdating(false)
+      if (isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     }
-  }, [formData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localBlockData, isLocalBlockDataValid])
 
   return (
     <>
@@ -161,8 +184,12 @@ export function ReviewConfig({
             <CardTextInput
               input={{
                 label: text("reviewconfig:label2"),
-                inputValue: saveAs,
-                onChange: (value) => handleUpdateSaveAs(value),
+                value: localBlockData.save_as,
+                onChange: (value) =>
+                  handleUpdateLocalBlockData({ save_as: value }),
+                errors: localBlockData.save_as
+                  ? LocalBlockDataErrors.save_as
+                  : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -188,7 +215,9 @@ export function ReviewConfig({
                 block={{
                   data: {
                     color: "bg-white",
-                    text: text("reviewconfig:addblock"),
+                    text: blockData
+                      ? text("reviewconfig:updateblock")
+                      : text("reviewconfig:addblock"),
                     onClick: () => handleUpdateRunUpdate(true),
                   },
                 }}
