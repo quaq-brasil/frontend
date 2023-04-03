@@ -24,5 +24,7 @@
   "receive": "receive",
   "keytitle": "secret key",
   "url": "entry pont url",
-  "json": "enter a json code"
+  "json": "enter a json code",
+  "update": "update",
+  "updateblock": "update block"
 }

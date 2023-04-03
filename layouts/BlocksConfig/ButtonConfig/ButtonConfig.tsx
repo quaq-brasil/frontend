@@ -32,7 +32,7 @@ export function ButtonConfig({
   const [
     localBlockData,
     setLocalBlockData,
-    LocalBlockDataErrors,
+    localBlockDataErrors,
     isLocalBlockDataValid,
   ] = useValidation<ButtonProps>({
     text: {
@@ -230,7 +230,7 @@ export function ButtonConfig({
                   handleUpdateLocalBlockData({ text: text })
                 },
                 value: localBlockData?.text,
-                errors: hasDataChanged ? LocalBlockDataErrors.text : [],
+                errors: hasDataChanged ? localBlockDataErrors.text : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -253,7 +253,7 @@ export function ButtonConfig({
                 onChange: (e) => handleUpdateLocalBlockData({ save_as: e }),
                 value: localBlockData.save_as,
                 errors: localBlockData.save_as
-                  ? LocalBlockDataErrors.save_as
+                  ? localBlockDataErrors.save_as
                   : [],
               }}
               indicator={{
