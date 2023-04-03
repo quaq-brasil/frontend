@@ -7,6 +7,7 @@ import { Dialog } from "components/Dialog/Dialog"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import { TextEditor } from "components/TextEditor/TextEditor"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
@@ -23,43 +24,40 @@ export function TextConfig({
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
-  type FormDataProps = {
-    content?: {
-      valid?: boolean
-    }
-    saveAs?: {
-      valid?: boolean
-    }
+  type TextProps = {
+    text?: string
+    save_as?: string
   }
 
-  const [formData, setFormData] = useState<FormDataProps>({
-    content: {
-      valid: true,
+  const [
+    localBlockData,
+    setLocalBlockData,
+    LocalBlockDataErrors,
+    isLocalBlockDataValid,
+  ] = useValidation<TextProps>({
+    text: {
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
     },
-    saveAs: {
-      valid: true,
+    save_as: {
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.custom(
+          text("createtemplate:saveas"),
+          handleCheckSaveAs,
+          [blockData?.id]
+        ),
+      ],
     },
   })
-  const [content, setContent] = useState<string | null>(null)
-  const [saveAs, setSaveAs] = useState<string | null>(null)
+
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+  const [hasDataChanged, setHasDataChanged] = useState(false)
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
-
-  function handleUpdateContent(value: typeof content) {
-    setContent(value)
-  }
-
-  function handleUpdateSaveAs(value: typeof saveAs) {
-    setSaveAs(value)
+  function handleUpdateLocalBlockData(newBlockData: TextProps) {
+    setLocalBlockData({ ...localBlockData, ...newBlockData })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -70,15 +68,29 @@ export function TextConfig({
     setRunUpdate(stat)
   }
 
+  function checkIfDataHasChanged() {
+    if (blockData) {
+      let hasDataChanged = false
+      if (blockData?.data?.text !== localBlockData?.text) {
+        hasDataChanged = true
+      }
+      if (blockData?.save_as !== localBlockData?.save_as) {
+        hasDataChanged = true
+      }
+      return hasDataChanged
+    } else {
+      return false
+    }
+  }
+
   function handleClosing() {
-    handleUpdateContent(null)
-    handleUpdateIsUpdating(false)
-    handleUpdateRunUpdate(false)
-    handleUpdateSaveAs(null)
-    handleUpdateFormData({
-      content: { valid: false },
-      saveAs: { valid: false },
+    setLocalBlockData({
+      text: "",
+      save_as: "",
     })
+    handleUpdateRunUpdate(false)
+    handleUpdateIsUpdating(false)
+    setHasDataChanged(false)
     onClose()
   }
 
@@ -86,8 +98,8 @@ export function TextConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "text",
-      data: content,
-      save_as: saveAs,
+      save_as: localBlockData.save_as,
+      data: localBlockData.text,
     })
     handleClosing()
   }
@@ -104,7 +116,9 @@ export function TextConfig({
         <div key={2}>
           <Tag
             variant="txt"
-            text={text("textconfig:add")}
+            text={
+              blockData ? text("textconfig:update") : text("textconfig:add")
+            }
             onClick={() => handleUpdateRunUpdate(true)}
           />
         </div>,
@@ -124,7 +138,11 @@ export function TextConfig({
   const handleOpenVariablePanelForText = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent(content ? `${content}${variable}` : variable)
+        handleUpdateLocalBlockData({
+          text: localBlockData.text
+            ? `${localBlockData.text}${variable}`
+            : variable,
+        })
       })
     handleOpenVariablePanel()
   }
@@ -132,57 +150,56 @@ export function TextConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
+        handleUpdateLocalBlockData({
+          save_as: localBlockData.save_as
+            ? `${localBlockData.save_as}${variable}`
+            : variable,
+        })
       })
     handleOpenVariablePanel()
   }
 
   useEffect(() => {
-    if (saveAs) {
-      if (blockData) {
-        if (blockData.save_as == saveAs) {
-          handleUpdateFormData({ saveAs: { valid: true } })
-        } else {
-          const isValid = handleCheckSaveAs(saveAs)
-          handleUpdateFormData({ saveAs: { valid: isValid } })
-        }
-      } else {
-        const isValid = handleCheckSaveAs(saveAs)
-        handleUpdateFormData({ saveAs: { valid: isValid } })
-      }
-    } else {
-      handleUpdateFormData({ saveAs: { valid: false } })
-    }
-    if (content) {
-      handleUpdateFormData({ content: { valid: true } })
-    } else {
-      handleUpdateFormData({ content: { valid: false } })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [saveAs, content])
-
-  useEffect(() => {
     if (blockData) {
-      setContent(blockData.data)
-      setSaveAs(blockData.save_as)
+      setLocalBlockData({
+        text: blockData.data.text,
+        save_as: blockData.save_as,
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockData])
 
   useEffect(() => {
-    if (content && saveAs) {
-      onAddBlock()
+    if (runUpdate && isLocalBlockDataValid) {
+      if (!blockData) {
+        onAddBlock()
+      } else if (checkIfDataHasChanged()) {
+        onAddBlock()
+      }
+    } else if (runUpdate && !isLocalBlockDataValid) {
+      setHasDataChanged(true)
+      handleUpdateRunUpdate(false)
+      handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
   useEffect(() => {
-    if (formData.content?.valid && formData.saveAs?.valid) {
-      handleUpdateIsUpdating(true)
+    if (blockData) {
+      if (checkIfDataHasChanged() && isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     } else {
-      handleUpdateIsUpdating(false)
+      if (isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     }
-  }, [formData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localBlockData, isLocalBlockDataValid])
 
   return (
     <>
@@ -193,11 +210,12 @@ export function TextConfig({
     bg-white min-w-[100%] rounded-[20px] lg:rounded-[30px] lg:gap-[0.75rem]"
           >
             <TextEditor
-              content={content || ""}
+              content={localBlockData.text}
               onChange={(text) => {
-                handleUpdateContent(text)
+                handleUpdateLocalBlockData({ text })
               }}
               handleOpenVariablePanelForText={handleOpenVariablePanelForText}
+              errors={hasDataChanged ? LocalBlockDataErrors.text : []}
             />
             <CardLine />
           </div>
@@ -206,19 +224,17 @@ export function TextConfig({
             <CardTextInput
               input={{
                 label: text("poolconfig:saveaslabel"),
-                onChange: (e) => handleUpdateSaveAs(e),
-                inputValue: saveAs || "",
+                onChange: (e) => handleUpdateLocalBlockData({ save_as: e }),
+                value: localBlockData.save_as,
+                errors: localBlockData.save_as
+                  ? LocalBlockDataErrors.save_as
+                  : [],
               }}
               indicator={{
                 icon: BracketsCurly,
                 onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
-            {!formData.saveAs?.valid && (
-              <p className="w-full lg:text-[1.1rem] text-center">
-                {text("createtemplate:saveas")}
-              </p>
-            )}
           </Card>
           <div className="w-full h-fit hidden xl:block">
             <Button
