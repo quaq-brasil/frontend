@@ -4,5 +4,6 @@
   "validpassword": "A senha deve ter pelo menos 8 caracteres e conter pelo menos uma letra maiúscula, uma letra minúscula, um número e ao menos um caracter especial.",
   "validname": "O nome deve conter pelo menos 2 letras.",
   "validtitle": "O título deve conter pelo menos 2 letras.",
-  "passwordmatch": "As senhas não coincidem."
+  "passwordmatch": "As senhas não coincidem.",
+  "url": "Por favor insira uma URL válida."
 }

@@ -4,5 +4,6 @@
   "validpassword": "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character.",
   "validname": "Name must contain at least 2 letters.",
   "validtitle": "Title must contain at least 2 letters.",
-  "passwordmatch": "Passwords do not match."
+  "passwordmatch": "Passwords do not match.",
+  "url": "Please enter a valid URL."
 }
