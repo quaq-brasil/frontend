@@ -13,5 +13,7 @@
   "back": "voltar",
   "cancel": "cancelar",
   "add": "adicionar",
-  "addblock": "adicionar bloco"
+  "addblock": "adicionar bloco",
+  "update": "atualizar",
+  "updateblock": "atualizar bloco"
 }
