@@ -4,11 +4,7 @@ type Validator<T> = (value: T, ...args: any[]) => string | null
 
 type ValidationRule<T> =
   | Validator<T>
-  | { validator: Validator<T>; args?: unknown[] }
-
-type ValidationRules<T> = {
-  [K in keyof T]?: Array<ValidationRule<T[K]>>
-}
+  | { validator: Validator<T>; args?: any[] }
 
 type InitialValuesAndValidators<T> = {
   [K in keyof T]: {
@@ -19,7 +15,12 @@ type InitialValuesAndValidators<T> = {
 
 export function useValidation<T>(
   initialValuesAndValidators: InitialValuesAndValidators<T>
-): [T, (value: T) => void, { [K in keyof T]?: string[] | null }, boolean] {
+): [
+  T,
+  (value: Partial<T>) => void,
+  Partial<{ [K in keyof T]: string[] | null }>,
+  boolean
+] {
   const initialValues = useMemo(() => {
     const values: Partial<T> = {}
     for (const key in initialValuesAndValidators) {
@@ -77,8 +78,8 @@ export function useValidation<T>(
 
   const isValid = Object.values(errors).every((error) => error === null)
 
-  const updateValue = (newValue: T) => {
-    setValue(newValue)
+  const updateValue = (newValue: Partial<T>) => {
+    setValue((prevValue) => ({ ...prevValue, ...newValue }))
   }
 
   return [value, updateValue, errors, isValid]
@@ -87,11 +88,10 @@ export function useValidation<T>(
 function createValidator<T>(rule: ValidationRule<T>): Validator<T> {
   if (typeof rule === "function") {
     return rule
-  } else {
-    const { validator, args } = rule
-    return (value: T, ...rest: any[]) =>
-      validator(value, ...(args || []), ...rest)
   }
+
+  const { validator, args } = rule
+  return (value: T) => validator(value, ...(args || []))
 }
 
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
@@ -127,5 +127,14 @@ export const validationRules = {
     (errorMessage: string): Validator<string> =>
     (value: string) => {
       return !strongPasswordPattern.test(value) ? errorMessage : null
+    },
+  custom:
+    <T>(
+      errorMessage: string,
+      customValidator: (value: T, ...args: any[]) => boolean,
+      args?: any[]
+    ): Validator<T> =>
+    (value: T) => {
+      return !customValidator(value, ...(args || [])) ? errorMessage : null
     },
 }

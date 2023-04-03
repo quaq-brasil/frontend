@@ -160,14 +160,21 @@ export function CreateTemplateContent({
     setBlocks(newBlocks)
   }
 
-  const handleCheckSaveAs = (value: string | undefined | null) => {
+  const handleCheckSaveAs = (
+    value: string | undefined | null,
+    block_id?: string
+  ) => {
     let uniqueSaveAs = true
     if (!value) {
       uniqueSaveAs = false
     } else {
       blocks.forEach((block) => {
         if (block.save_as == value) {
-          uniqueSaveAs = false
+          if (block_id && block.id == block_id) {
+            uniqueSaveAs = true
+          } else {
+            uniqueSaveAs = false
+          }
         }
       })
     }
