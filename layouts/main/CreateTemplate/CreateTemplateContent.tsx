@@ -162,7 +162,7 @@ export function CreateTemplateContent({
 
   const handleCheckSaveAs = (
     value: string | undefined | null,
-    block_id?: string
+    current_save_as?: string
   ) => {
     let uniqueSaveAs = true
     if (!value) {
@@ -170,7 +170,7 @@ export function CreateTemplateContent({
     } else {
       blocks.forEach((block) => {
         if (block.save_as == value) {
-          if (block_id && block.id == block_id) {
+          if (current_save_as && current_save_as == value) {
             uniqueSaveAs = true
           } else {
             uniqueSaveAs = false

@@ -49,7 +49,7 @@ export function TextEntryConfig({
         validationRules.custom(
           text("createtemplate:saveas"),
           handleCheckSaveAs,
-          [blockData?.id]
+          [blockData?.save_as]
         ),
       ],
     },
@@ -186,8 +186,10 @@ export function TextEntryConfig({
     if (runUpdate && isLocalBlockDataValid) {
       if (!blockData) {
         onAddBlock()
-      } else if (checkIfDataHasChanged()) {
-        onAddBlock()
+      } else {
+        if (checkIfDataHasChanged()) {
+          onAddBlock()
+        }
       }
     } else if (runUpdate && !isLocalBlockDataValid) {
       setHasDataChanged(true)

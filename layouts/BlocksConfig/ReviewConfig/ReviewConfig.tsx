@@ -39,7 +39,7 @@ export function ReviewConfig({
         validationRules.custom(
           text("createtemplate:saveas"),
           handleCheckSaveAs,
-          [blockData?.id]
+          [blockData?.save_as]
         ),
       ],
     },
@@ -147,8 +147,10 @@ export function ReviewConfig({
     if (runUpdate && isLocalBlockDataValid) {
       if (!blockData) {
         onAddBlock()
-      } else if (checkIfDataHasChanged()) {
-        onAddBlock()
+      } else {
+        if (checkIfDataHasChanged()) {
+          onAddBlock()
+        }
       }
     } else if (runUpdate && !isLocalBlockDataValid) {
       setHasDataChanged(true)
