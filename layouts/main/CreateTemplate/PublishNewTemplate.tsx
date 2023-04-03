@@ -9,6 +9,7 @@ import { ImageSelector } from "components/ImageSelector/ImageSelector"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import { useDebounce } from "hooks/useDebouce"
+import { useValidation, validationRules } from "hooks/useValidation"
 import { ConnectedTemplatesProps } from "layouts/BlocksConfig/VariablesPanel/VariablesPanelDialog"
 import { Translate } from "next-translate"
 import useTranslation from "next-translate/useTranslation"
@@ -20,7 +21,6 @@ import { useUpdatePublication } from "services/hooks/usePublication/useUpdatePub
 import { useCreateTemplate } from "services/hooks/useTemplate/useCreateTemplate"
 import { useGenerateTemplateUniqueSlug } from "services/hooks/useTemplate/useGenerateTemplateUniqueSlug"
 import { IPage } from "types/Page.type"
-import { ITemplate, IUpdateTemplate } from "types/Template.type"
 import { pageUrls } from "utils/pagesUrl"
 
 type PublishNewTemplateProps = {
@@ -36,6 +36,15 @@ type handleGetTemplateUrlProps = {
   page_id: string
 }
 
+type LocalTemplateDataProps = {
+  title?: string
+  slug?: string
+  cover?: string
+  shortcut_size?: "small" | "large"
+  publication_title?: string
+  visibility?: string
+}
+
 export const PublishNewTemplate = ({
   blocks,
   onClose,
@@ -45,61 +54,55 @@ export const PublishNewTemplate = ({
   const text = useTranslation().t
   const router = useRouter()
 
-  type FormDataProps = {
-    title?: {
-      valid?: boolean
-    }
-    slug?: {
-      valid?: boolean
-    }
-    cover?: {
-      valid?: boolean
-    }
-    shortcutSize?: {
-      valid?: boolean
-    }
-    publicationTitle?: {
-      valid?: boolean
-    }
-    visibility?: {
-      valid?: boolean
-    }
-  }
-
-  const [formData, setFormData] = useState<FormDataProps>({
+  const [
+    localTemplateData,
+    setLocalTemplateData,
+    localTemplateDataErrors,
+    isLocalTemplateDataValid,
+  ] = useValidation<LocalTemplateDataProps>({
     title: {
-      valid: false,
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
     },
     slug: {
-      valid: false,
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
     },
     cover: {
-      valid: false,
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
     },
-    shortcutSize: {
-      valid: false,
+    shortcut_size: {
+      initialValue: "small",
+      validators: [validationRules.required(text("validation:required"))],
     },
-    publicationTitle: {
-      valid: false,
+    publication_title: {
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
     },
     visibility: {
-      valid: true,
+      initialValue: "anyone",
+      validators: [validationRules.required(text("validation:required"))],
     },
   })
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
-
-  const [templateData, setTemplateData] = useState<ITemplate>()
-  const [publicationTitle, setPublicationTitle] = useState("")
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+  const [hasDataChanged, setHasDataChanged] = useState(false)
+
+  const generateTemplateUniqueSlug = useGenerateTemplateUniqueSlug()
+
+  const createPublication = useCreatePublication()
+
+  const createTemplate = useCreateTemplate()
+
+  const updatePublication = useUpdatePublication()
+
+  function handleUpdateLocalTemplateData(
+    newTemplateData: LocalTemplateDataProps
+  ) {
+    setLocalTemplateData({ ...localTemplateData, ...newTemplateData })
+  }
 
   function handleUpdateIsUpdating(stat: boolean) {
     setIsUpdating(stat)
@@ -109,53 +112,24 @@ export const PublishNewTemplate = ({
     setRunUpdate(stat)
   }
 
-  const generateTemplateUniqueSlug = useGenerateTemplateUniqueSlug()
-
   function handleGetTemplateSlug(data: handleGetTemplateUrlProps) {
     generateTemplateUniqueSlug.mutate(
       { data },
       {
         onSuccess: (slug) => {
-          handleUpdateTemplateData({ slug })
+          handleUpdateLocalTemplateData({ slug })
         },
       }
     )
-    handleUpdateFormData({ slug: { valid: true } })
   }
 
   const debouncedTemplateName = useDebounce({
-    value: templateData?.title,
+    value: localTemplateData?.title,
     delay: 1000 * 1,
   })
 
-  useEffect(() => {
-    if (debouncedTemplateName && templateData?.title !== "") {
-      handleGetTemplateSlug({
-        id: templateData?.id,
-        title: debouncedTemplateName,
-        page_id: pageData?.id,
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedTemplateName])
-
-  const handleUpdateTemplateData = (newData: IUpdateTemplate) => {
-    setTemplateData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as ITemplate
-    })
-  }
-
-  const createPublication = useCreatePublication()
-
-  const createTemplate = useCreateTemplate()
-
-  const updatePublication = useUpdatePublication()
-
   function handlePublishTemplate() {
-    if (templateData) {
+    if (localTemplateData) {
       createPublication.mutate(
         {
           data: {
@@ -167,7 +141,7 @@ export const PublishNewTemplate = ({
                 }) || [],
             },
             page_id: pageData?.id,
-            title: publicationTitle,
+            title: localTemplateData.publication_title,
             published_at: new Date().toISOString(),
           },
         },
@@ -176,12 +150,12 @@ export const PublishNewTemplate = ({
             createTemplate.mutate(
               {
                 data: {
-                  title: templateData.title,
+                  title: localTemplateData.title,
                   number_of_new_interactions: 0,
                   page_id: pageData?.id,
-                  shortcut_image: templateData.shortcut_image,
-                  shortcut_size: templateData.shortcut_size,
-                  slug: templateData.slug,
+                  shortcut_image: localTemplateData.cover,
+                  shortcut_size: localTemplateData.shortcut_size,
+                  slug: localTemplateData.slug,
                   current_publication_id: data.id,
                   trackers: {},
                   access_config: {},
@@ -243,64 +217,41 @@ export const PublishNewTemplate = ({
   }
 
   useEffect(() => {
-    if (templateData?.title) {
-      handleUpdateFormData({ title: { valid: true } })
-    } else {
-      handleUpdateFormData({ title: { valid: false } })
-    }
-    if (templateData?.slug) {
-      handleUpdateFormData({ slug: { valid: true } })
-    } else {
-      handleUpdateFormData({ slug: { valid: false } })
-    }
-    if (templateData?.shortcut_image) {
-      handleUpdateFormData({ cover: { valid: true } })
-    } else {
-      handleUpdateFormData({ cover: { valid: false } })
-    }
-    if (templateData?.shortcut_size) {
-      handleUpdateFormData({ shortcutSize: { valid: true } })
-    } else {
-      handleUpdateFormData({ shortcutSize: { valid: false } })
-    }
-    if (templateData?.visibility) {
-      handleUpdateFormData({ visibility: { valid: true } })
-    } else {
-      handleUpdateFormData({ visibility: { valid: false } })
-    }
-    if (publicationTitle) {
-      handleUpdateFormData({ publicationTitle: { valid: true } })
-    } else {
-      handleUpdateFormData({ publicationTitle: { valid: false } })
+    if (debouncedTemplateName) {
+      handleGetTemplateSlug({
+        title: debouncedTemplateName,
+        page_id: pageData?.id,
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [templateData, publicationTitle])
+  }, [debouncedTemplateName])
 
   useEffect(() => {
-    if (templateData) {
-      handlePublishTemplate()
+    if (runUpdate) {
+      if (isLocalTemplateDataValid) {
+        handlePublishTemplate()
+      } else {
+        handleUpdateRunUpdate(false)
+        setHasDataChanged(true)
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
   useEffect(() => {
-    if (
-      formData.title?.valid &&
-      formData.slug?.valid &&
-      formData.cover?.valid &&
-      formData.shortcutSize?.valid &&
-      formData.publicationTitle?.valid
-    ) {
+    if (hasDataChanged) {
+      handleUpdateIsUpdating(isLocalTemplateDataValid)
+    } else {
       handleUpdateIsUpdating(true)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData])
+  }, [localTemplateData, isLocalTemplateDataValid])
 
   return (
     <>
       <PublishNewTemplateHeader
         pageData={pageData}
-        templateData={templateData}
+        templateData={localTemplateData}
         text={text}
       />
       <div className="w-full h-screen bg-slate-100">
@@ -315,10 +266,10 @@ export const PublishNewTemplate = ({
               <CardTextInput
                 input={{
                   label: text("publish:titlelabel"),
-                  defaultValue: templateData?.title,
+                  value: localTemplateData?.title,
                   onChange: (title) =>
-                    handleUpdateTemplateData({ title: title }),
-                  type: "title",
+                    handleUpdateLocalTemplateData({ title: title }),
+                  errors: hasDataChanged ? localTemplateDataErrors?.title : [],
                 }}
               />
             </Card>
@@ -328,10 +279,11 @@ export const PublishNewTemplate = ({
                 input={{
                   label: "",
                   onChange: (slug) => {
-                    handleUpdateTemplateData({ slug: slug })
+                    handleUpdateLocalTemplateData({ slug: slug })
                   },
                   fixedText: `quaq.me/${pageData?.slug}/`,
-                  value: templateData?.slug,
+                  value: localTemplateData?.slug,
+                  errors: hasDataChanged ? localTemplateDataErrors?.slug : [],
                 }}
                 indicator={{
                   icon: Check,
@@ -345,12 +297,13 @@ export const PublishNewTemplate = ({
               <CardImageInput
                 imageSelector={
                   <ImageSelector
-                    url={templateData?.shortcut_image}
+                    url={localTemplateData?.cover}
                     onImageChange={(cover) => {
-                      handleUpdateTemplateData({ shortcut_image: cover })
+                      handleUpdateLocalTemplateData({ cover })
                     }}
                   />
                 }
+                errors={hasDataChanged ? localTemplateDataErrors?.cover : []}
               />
             </Card>
             <Card>
@@ -359,10 +312,10 @@ export const PublishNewTemplate = ({
                 label={text("publish:small")}
                 indicator={{
                   icon: Check,
-                  isVisible: templateData?.shortcut_size != "small",
+                  isVisible: localTemplateData?.shortcut_size != "small",
                 }}
                 onClick={() => {
-                  handleUpdateTemplateData({ shortcut_size: "small" })
+                  handleUpdateLocalTemplateData({ shortcut_size: "small" })
                 }}
               />
               <CardLine />
@@ -370,10 +323,10 @@ export const PublishNewTemplate = ({
                 label={text("publish:large")}
                 indicator={{
                   icon: Check,
-                  isVisible: templateData?.shortcut_size != "large",
+                  isVisible: localTemplateData?.shortcut_size != "large",
                 }}
                 onClick={() => {
-                  handleUpdateTemplateData({ shortcut_size: "large" })
+                  handleUpdateLocalTemplateData({ shortcut_size: "large" })
                 }}
               />
               <CardLine />
@@ -384,10 +337,10 @@ export const PublishNewTemplate = ({
                 label={text("centraloptions:public")}
                 indicator={{
                   icon: Check,
-                  isVisible: templateData?.visibility != "public",
+                  isVisible: localTemplateData?.visibility != "public",
                 }}
                 onClick={() =>
-                  handleUpdateTemplateData({ visibility: "public" })
+                  handleUpdateLocalTemplateData({ visibility: "public" })
                 }
               />
               <CardLine />
@@ -395,10 +348,10 @@ export const PublishNewTemplate = ({
                 label={text("centraloptions:wsmembers")}
                 indicator={{
                   icon: Check,
-                  isVisible: templateData?.visibility != "workspace",
+                  isVisible: localTemplateData?.visibility != "workspace",
                 }}
                 onClick={() =>
-                  handleUpdateTemplateData({ visibility: "workspace" })
+                  handleUpdateLocalTemplateData({ visibility: "workspace" })
                 }
               />
               <CardLine />
@@ -408,10 +361,13 @@ export const PublishNewTemplate = ({
               <CardTextInput
                 input={{
                   label: text("publish:publishaslabel"),
-                  defaultValue: publicationTitle,
-                  onChange: (publicationTitle) => {
-                    setPublicationTitle(publicationTitle)
+                  value: localTemplateData.publication_title,
+                  onChange: (publication_title) => {
+                    handleUpdateLocalTemplateData({ publication_title })
                   },
+                  errors: hasDataChanged
+                    ? localTemplateDataErrors?.publication_title
+                    : [],
                 }}
               />
             </Card>
@@ -440,7 +396,7 @@ export const PublishNewTemplate = ({
 
 type PublishNewTemplateHeaderProps = {
   pageData: IPage | undefined
-  templateData: ITemplate | undefined
+  templateData: LocalTemplateDataProps | undefined
   text: Translate
 }
 
@@ -456,17 +412,17 @@ const PublishNewTemplateHeader = ({
         text={pageData?.title || ""}
         img_url={pageData?.avatar_url || ""}
       />
-      {!templateData?.title && !templateData?.shortcut_image && (
+      {!templateData?.title && !templateData?.cover && (
         <Tag variant="txt" text={text("publish:titletag")} />
       )}
-      {templateData?.title && !templateData?.shortcut_image && (
+      {templateData?.title && !templateData?.cover && (
         <Tag variant="txt" text={templateData.title} />
       )}
-      {templateData?.title && templateData?.shortcut_image && (
+      {templateData?.title && templateData?.cover && (
         <Tag
           variant="img-txt"
           text={templateData.title}
-          img_url={templateData.shortcut_image}
+          img_url={templateData.cover}
         />
       )}
     </Header>
