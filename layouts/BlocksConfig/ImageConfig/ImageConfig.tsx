@@ -7,6 +7,7 @@ import { Dialog } from "components/Dialog/Dialog"
 import { ImageSelector } from "components/ImageSelector/ImageSelector"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
@@ -23,50 +24,45 @@ export function ImageConfig({
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
-  type IImage = {
+  type ImageProps = {
     img_url?: string
     height?: string
+    save_as?: string
   }
 
-  type FormDataProps = {
-    img_url?: {
-      valid?: boolean
-    }
-    saveAs?: {
-      valid?: boolean
-    }
-  }
-
-  const [formData, setFormData] = useState<FormDataProps>({
+  const [
+    localBlockData,
+    setLocalBlockData,
+    LocalBlockDataErrors,
+    isLocalBlockDataValid,
+  ] = useValidation<ImageProps>({
     img_url: {
-      valid: false,
+      initialValue: blockData?.data?.img_url || "",
+      validators: [validationRules.required(text("validation:required"))],
     },
-    saveAs: {
-      valid: false,
+    height: {
+      initialValue: blockData?.data?.height || "28rem",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    save_as: {
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.custom(
+          text("createtemplate:saveas"),
+          handleCheckSaveAs,
+          [blockData?.id]
+        ),
+      ],
     },
   })
-  const [content, setContent] = useState<IImage>({ height: "28rem" })
-  const [saveAs, setSaveAs] = useState<string | null>()
+
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+  const [hasDataChanged, setHasDataChanged] = useState(false)
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
-
-  function handleUpdateContent(newData: IImage) {
-    setContent({
-      img_url: newData.img_url,
-    })
-  }
-
-  function handleUpdateSaveAs(value: string | null) {
-    setSaveAs(value)
+  function handleUpdateLocalBlockData(newBlockData: ImageProps) {
+    setLocalBlockData({ ...localBlockData, ...newBlockData })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -77,15 +73,33 @@ export function ImageConfig({
     setRunUpdate(stat)
   }
 
+  function checkIfDataHasChanged() {
+    if (blockData) {
+      let hasDataChanged = false
+      if (blockData?.data?.height !== localBlockData?.height) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.img_url !== localBlockData?.img_url) {
+        hasDataChanged = true
+      }
+      if (blockData?.save_as !== localBlockData?.save_as) {
+        hasDataChanged = true
+      }
+      return hasDataChanged
+    } else {
+      return false
+    }
+  }
+
   function handleClosing() {
-    handleUpdateContent({})
-    setSaveAs(undefined)
+    setLocalBlockData({
+      img_url: "",
+      height: "28rem",
+      save_as: "",
+    })
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
-    handleUpdateFormData({
-      img_url: { valid: false },
-      saveAs: { valid: false },
-    })
+    setHasDataChanged(false)
     onClose()
   }
 
@@ -93,8 +107,11 @@ export function ImageConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "image",
-      save_as: saveAs,
-      data: content,
+      save_as: localBlockData.save_as,
+      data: {
+        img_url: localBlockData.img_url,
+        height: localBlockData.height,
+      },
     })
     handleClosing()
   }
@@ -111,7 +128,9 @@ export function ImageConfig({
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("imageconfig:add")}
+            text={
+              blockData ? text("imageconfig:update") : text("imageconfig:add")
+            }
             onClick={() => onAddBlock()}
           />
         </div>,
@@ -131,61 +150,57 @@ export function ImageConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
+        handleUpdateLocalBlockData({
+          save_as: localBlockData.save_as
+            ? `${localBlockData.save_as}${variable}`
+            : variable,
+        })
       })
     handleOpenVariablePanel()
   }
 
   useEffect(() => {
-    if (content?.img_url) {
-      handleUpdateFormData({ img_url: { valid: true } })
-    } else {
-      handleUpdateFormData({ img_url: { valid: false } })
-    }
-    if (saveAs) {
-      if (blockData) {
-        if (blockData.save_as == saveAs) {
-          handleUpdateFormData({ saveAs: { valid: true } })
-        } else {
-          const isValid = handleCheckSaveAs(saveAs)
-          handleUpdateFormData({ saveAs: { valid: isValid } })
-        }
-      } else {
-        const isValid = handleCheckSaveAs(saveAs)
-        handleUpdateFormData({ saveAs: { valid: isValid } })
-      }
-    } else {
-      handleUpdateFormData({ saveAs: { valid: false } })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content, saveAs])
-
-  useEffect(() => {
     if (blockData) {
-      setContent(blockData.data)
-      setSaveAs(blockData.save_as)
-      handleUpdateFormData({
-        img_url: { valid: true },
-        saveAs: { valid: true },
+      setLocalBlockData({
+        img_url: blockData.data.img_url,
+        height: blockData.data.height,
+        save_as: blockData.save_as,
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockData])
 
   useEffect(() => {
-    if (content && saveAs) {
-      onAddBlock()
+    if (runUpdate && isLocalBlockDataValid) {
+      if (!blockData) {
+        onAddBlock()
+      } else if (checkIfDataHasChanged()) {
+        onAddBlock()
+      }
+    } else if (runUpdate && !isLocalBlockDataValid) {
+      setHasDataChanged(true)
+      handleUpdateRunUpdate(false)
+      handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
   useEffect(() => {
-    if (formData.img_url?.valid && formData.saveAs?.valid) {
-      handleUpdateIsUpdating(true)
+    if (blockData) {
+      if (checkIfDataHasChanged() && isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     } else {
-      handleUpdateIsUpdating(false)
+      if (isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     }
-  }, [formData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localBlockData, isLocalBlockDataValid])
 
   return (
     <>
@@ -197,11 +212,12 @@ export function ImageConfig({
               imageSelector={
                 <ImageSelector
                   onImageChange={(image) => {
-                    handleUpdateContent({ img_url: image })
+                    handleUpdateLocalBlockData({ img_url: image })
                   }}
-                  url={content?.img_url}
+                  url={localBlockData?.img_url}
                 />
               }
+              errors={hasDataChanged ? LocalBlockDataErrors.img_url : []}
             />
           </Card>
           <Card>
@@ -209,19 +225,18 @@ export function ImageConfig({
             <CardTextInput
               input={{
                 label: text("imageconfig:saveaslabel"),
-                inputValue: saveAs || "",
-                onChange: (value) => handleUpdateSaveAs(value),
+                value: localBlockData.save_as,
+                onChange: (value) =>
+                  handleUpdateLocalBlockData({ save_as: value }),
+                errors: localBlockData.save_as
+                  ? LocalBlockDataErrors.save_as
+                  : [],
               }}
               indicator={{
                 icon: BracketsCurly,
                 onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
-            {!formData.saveAs?.valid && (
-              <p className="w-full lg:text-[1.1rem] text-center">
-                {text("createtemplate:saveas")}
-              </p>
-            )}
           </Card>
           <div className="w-full h-fit hidden xl:block">
             <Button
