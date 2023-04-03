@@ -5,6 +5,7 @@ import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput
 import { Dialog } from "components/Dialog/Dialog"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { BracketsCurly } from "phosphor-react"
 import { useEffect, useState } from "react"
@@ -21,56 +22,45 @@ export function TextEntryConfig({
 }: BlocksConfigProps) {
   const text = useTranslation().t
 
-  type ITextEntry = {
+  type TextEntryProps = {
     placeholder?: string
     type?: string
+    save_as?: string
   }
 
-  type FormDataProps = {
-    placeholder?: {
-      valid?: boolean
-    }
-    saveAs?: {
-      valid?: boolean
-    }
-  }
-
-  const [formData, setFormData] = useState<FormDataProps>({
+  const [
+    localBlockData,
+    setLocalBlockData,
+    LocalBlockDataErrors,
+    isLocalBlockDataValid,
+  ] = useValidation<TextEntryProps>({
     placeholder: {
-      valid: false,
+      initialValue: blockData?.data?.placeholder || "",
+      validators: [validationRules.required(text("validation:required"))],
     },
-    saveAs: {
-      valid: false,
+    type: {
+      initialValue: blockData?.data?.type || "email",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    save_as: {
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.custom(
+          text("createtemplate:saveas"),
+          handleCheckSaveAs,
+          [blockData?.id]
+        ),
+      ],
     },
   })
-  const [content, setContent] = useState<ITextEntry>({
-    type: "email",
-    placeholder: "",
-  })
-  const [saveAs, setSaveAs] = useState<string | null>()
+
   const [runUpdate, setRunUpdate] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
+  const [hasDataChanged, setHasDataChanged] = useState(false)
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
-
-  function handleUpdateContent(newData: ITextEntry) {
-    setContent((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as ITextEntry
-    })
-  }
-
-  function handleUpdateSaveAs(value: typeof saveAs) {
-    setSaveAs(value)
+  function handleUpdateLocalBlockData(newBlockData: TextEntryProps) {
+    setLocalBlockData({ ...localBlockData, ...newBlockData })
   }
 
   function handleUpdateRunUpdate(stat: boolean) {
@@ -81,28 +71,45 @@ export function TextEntryConfig({
     setIsUpdating(stat)
   }
 
+  function checkIfDataHasChanged() {
+    if (blockData) {
+      let hasDataChanged = false
+      if (blockData?.data?.placeholder !== localBlockData?.placeholder) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.type !== localBlockData?.type) {
+        hasDataChanged = true
+      }
+      if (blockData?.save_as !== localBlockData?.save_as) {
+        hasDataChanged = true
+      }
+      return hasDataChanged
+    } else {
+      return false
+    }
+  }
+
   function handleClosing() {
-    handleUpdateContent({})
-    setSaveAs(undefined)
-    handleUpdateRunUpdate(false)
-    handleUpdateFormData({
-      placeholder: {
-        valid: false,
-      },
-      saveAs: {
-        valid: false,
-      },
+    setLocalBlockData({
+      placeholder: "",
+      type: "email",
+      save_as: "",
     })
+    handleUpdateRunUpdate(false)
+    handleUpdateIsUpdating(false)
+    setHasDataChanged(false)
     onClose()
-    setContent({ type: "email" })
   }
 
   function onAddBlock() {
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "textentry",
-      save_as: saveAs,
-      data: content,
+      save_as: localBlockData.save_as,
+      data: {
+        placeholder: localBlockData.placeholder,
+        type: localBlockData.type,
+      },
     })
     handleClosing()
   }
@@ -119,7 +126,11 @@ export function TextEntryConfig({
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("textentryconfig:add")}
+            text={
+              blockData
+                ? text("textentryconfig:update")
+                : text("textentryconfig:add")
+            }
             onClick={() => onAddBlock()}
           />
         </div>,
@@ -139,9 +150,9 @@ export function TextEntryConfig({
   const handleOpenVariablePanelForPlaceholder = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          placeholder: content.placeholder
-            ? `${content.placeholder}${variable}`
+        handleUpdateLocalBlockData({
+          placeholder: localBlockData.placeholder
+            ? `${localBlockData.placeholder}${variable}`
             : variable,
         })
       })
@@ -151,57 +162,57 @@ export function TextEntryConfig({
   const handleOpenVariablePanelForSaveAs = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
+        handleUpdateLocalBlockData({
+          save_as: localBlockData.save_as
+            ? `${localBlockData.save_as}${variable}`
+            : variable,
+        })
       })
     handleOpenVariablePanel()
   }
 
   useEffect(() => {
-    if (content.placeholder) {
-      handleUpdateFormData({ placeholder: { valid: true } })
-    } else {
-      handleUpdateFormData({ placeholder: { valid: false } })
-    }
-    if (saveAs) {
-      if (blockData) {
-        if (blockData.save_as == saveAs) {
-          handleUpdateFormData({ saveAs: { valid: true } })
-        } else {
-          const isValid = handleCheckSaveAs(saveAs)
-          handleUpdateFormData({ saveAs: { valid: isValid } })
-        }
-      } else {
-        const isValid = handleCheckSaveAs(saveAs)
-        handleUpdateFormData({ saveAs: { valid: isValid } })
-      }
-    } else {
-      handleUpdateFormData({ saveAs: { valid: false } })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content, saveAs])
-
-  useEffect(() => {
     if (blockData) {
-      setContent(blockData.data)
-      setSaveAs(blockData.save_as)
+      setLocalBlockData({
+        placeholder: blockData?.data?.placeholder,
+        type: blockData?.data?.type,
+        save_as: blockData?.save_as,
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockData])
 
   useEffect(() => {
-    if (content && saveAs) {
-      onAddBlock()
+    if (runUpdate && isLocalBlockDataValid) {
+      if (!blockData) {
+        onAddBlock()
+      } else if (checkIfDataHasChanged()) {
+        onAddBlock()
+      }
+    } else if (runUpdate && !isLocalBlockDataValid) {
+      setHasDataChanged(true)
+      handleUpdateRunUpdate(false)
+      handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
   useEffect(() => {
-    if (formData.placeholder?.valid && formData.saveAs?.valid) {
-      handleUpdateIsUpdating(true)
+    if (blockData) {
+      if (checkIfDataHasChanged() && isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     } else {
-      handleUpdateIsUpdating(false)
+      if (isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     }
-  }, [formData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localBlockData, isLocalBlockDataValid])
 
   return (
     <>
@@ -216,15 +227,11 @@ export function TextEntryConfig({
             <CardTextInput
               input={{
                 label: text("textentryconfig:placeholderlabel"),
-                inputValue: content.placeholder,
+                value: localBlockData.placeholder,
                 onChange: (placeholder) => {
-                  handleUpdateContent({ placeholder: placeholder })
-                  if (placeholder.length > 0) {
-                    handleUpdateFormData({ placeholder: { valid: true } })
-                  } else {
-                    handleUpdateFormData({ placeholder: { valid: false } })
-                  }
+                  handleUpdateLocalBlockData({ placeholder: placeholder })
                 },
+                errors: hasDataChanged ? LocalBlockDataErrors.placeholder : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -236,7 +243,7 @@ export function TextEntryConfig({
             <CardText label={text("textentryconfig:type")} />
             <CardTextInput
               dropdown={{
-                onChange: (type) => handleUpdateContent({ type: type }),
+                onChange: (type) => handleUpdateLocalBlockData({ type: type }),
                 options: [
                   {
                     title: text("textentryconfig:option1"),
@@ -259,6 +266,7 @@ export function TextEntryConfig({
                     value: "text",
                   },
                 ],
+                value: localBlockData.type,
               }}
             />
           </Card>
@@ -267,19 +275,18 @@ export function TextEntryConfig({
             <CardTextInput
               input={{
                 label: text("textentryconfig:saveaslabel"),
-                onChange: (value) => handleUpdateSaveAs(value),
-                inputValue: saveAs || "",
+                onChange: (value) =>
+                  handleUpdateLocalBlockData({ save_as: value }),
+                value: localBlockData.save_as,
+                errors: localBlockData.save_as
+                  ? LocalBlockDataErrors.save_as
+                  : [],
               }}
               indicator={{
                 icon: BracketsCurly,
                 onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
-            {!formData.saveAs?.valid && (
-              <p className="w-full lg:text-[1.1rem] text-center">
-                {text("createtemplate:saveas")}
-              </p>
-            )}
           </Card>
           <div className="w-full h-fit hidden xl:block">
             <Button
