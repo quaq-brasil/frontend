@@ -481,7 +481,7 @@ export function ChartConfig({
 
           {localBlockData.data.datasets?.map((dataset, index) => {
             return (
-              <Card key={index}>
+              <Card key={dataset.data}>
                 <CardText
                   label={`${text("chartconfig:dataset")} ${index + 1}`}
                   indicator={{ icon: X }}
