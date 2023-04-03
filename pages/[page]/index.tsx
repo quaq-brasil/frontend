@@ -22,7 +22,7 @@ export default function ConsumerPagePage({
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    if (user && user.id) {
+    if (user?.type === "registered") {
       setIsLoggedIn(true)
     } else {
       setIsLoggedIn(false)

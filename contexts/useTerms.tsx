@@ -1,12 +1,13 @@
 import { parseCookies, setCookie } from "nookies"
 import {
-  createContext,
   ReactNode,
+  createContext,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from "react"
+import { useUserAuth } from "./userAuth"
 
 type TermsProviderProps = {
   children: ReactNode
@@ -25,6 +26,8 @@ const TermsProvider = ({ children }: TermsProviderProps) => {
     DEFAULT_COOKIES_ACCEPTED
   )
 
+  const { user, createAnonymousUser } = useUserAuth()
+
   useEffect(() => {
     const { "quaq.is-cookie-accepted": isCookiesAccepted } = parseCookies()
 
@@ -34,7 +37,10 @@ const TermsProvider = ({ children }: TermsProviderProps) => {
         maxAge: 60 * 60 * 24 * 365, // 365 days
         path: "/",
       })
+    } else if (isCookiesAccepted && !user?.id) {
+      createAnonymousUser()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const contextValue = useMemo(
