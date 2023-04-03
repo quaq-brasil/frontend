@@ -9,6 +9,7 @@ import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput
 import { Dialog } from "components/Dialog/Dialog"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
+import { useValidation, validationRules } from "hooks/useValidation"
 import { BlocksConfigProps } from "types/BlockConfig.types"
 
 export function PoolConfig({
@@ -27,63 +28,55 @@ export function PoolConfig({
     value?: string
   }
 
-  type IContent = {
+  type PoolProps = {
     options?: options[]
     description?: string
     max?: string
     min?: string
+    save_as?: string
   }
 
-  type FormDataProps = {
-    description?: {
-      valid?: boolean
-    }
-    options?: {
-      valid?: boolean
-    }
-    saveAs?: {
-      valid?: boolean
-    }
-  }
-
-  const [formData, setFormData] = useState<FormDataProps>({
-    description: {
-      valid: false,
-    },
+  const [
+    localBlockData,
+    setLocalBlockData,
+    LocalBlockDataErrors,
+    isLocalBlockDataValid,
+  ] = useValidation<PoolProps>({
     options: {
-      valid: false,
+      initialValue: [{ id: 0, value: "" }],
+      validators: [validationRules.required(text("validation:required"))],
     },
-    saveAs: {
-      valid: false,
+    description: {
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    max: {
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    min: {
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    save_as: {
+      initialValue: "",
+      validators: [
+        validationRules.required(text("validation:required")),
+        validationRules.custom(
+          text("createtemplate:saveas"),
+          handleCheckSaveAs,
+          [blockData?.id]
+        ),
+      ],
     },
   })
-  const [content, setContent] = useState<IContent>({
-    options: [{ id: 0, value: "" }],
-  })
-  const [saveAs, setSaveAs] = useState<string | null>()
+
   const [isUpdating, setIsUpdating] = useState(false)
   const [runUpdate, setRunUpdate] = useState(false)
+  const [hasDataChanged, setHasDataChanged] = useState(false)
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
-  }
-
-  function handleUpdateContent(newData: IContent) {
-    setContent((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as IContent
-    })
-  }
-
-  function handleUpdateSaveAs(value: typeof saveAs) {
-    setSaveAs(value)
+  function handleUpdateLocalBlockData(newBlockData: PoolProps) {
+    setLocalBlockData({ ...localBlockData, ...newBlockData })
   }
 
   function handleUpdateIsUpdating(stat: boolean) {
@@ -94,22 +87,41 @@ export function PoolConfig({
     setRunUpdate(stat)
   }
 
+  function checkIfDataHasChanged() {
+    if (blockData) {
+      let hasDataChanged = false
+      if (blockData?.data?.description !== localBlockData?.description) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.max !== localBlockData?.max) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.min !== localBlockData?.min) {
+        hasDataChanged = true
+      }
+      if (blockData?.data?.options !== localBlockData?.options) {
+        hasDataChanged = true
+      }
+      if (blockData?.save_as !== localBlockData?.save_as) {
+        hasDataChanged = true
+      }
+      return hasDataChanged
+    } else {
+      return false
+    }
+  }
+
   function handleClosing() {
-    setContent({})
-    setSaveAs(undefined)
-    handleUpdateFormData({
-      description: {
-        valid: false,
-      },
-      options: {
-        valid: false,
-      },
-      saveAs: {
-        valid: false,
-      },
+    setLocalBlockData({
+      description: "",
+      max: "",
+      min: "",
+      options: [{ id: 0, value: "" }],
+      save_as: "",
     })
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
+    setHasDataChanged(false)
     onClose()
   }
 
@@ -117,8 +129,13 @@ export function PoolConfig({
     handleAddBlock({
       id: blockData?.id || undefined,
       type: "pool",
-      save_as: saveAs,
-      data: content,
+      save_as: localBlockData.save_as,
+      data: {
+        description: localBlockData.description,
+        max: localBlockData.max,
+        min: localBlockData.min,
+        options: localBlockData.options,
+      },
     })
     handleClosing()
   }
@@ -134,7 +151,7 @@ export function PoolConfig({
     option,
     value,
   }: HandleUpdateOptionsProps) {
-    const options = [...(content.options || [])]
+    const options = [...(localBlockData.options || [])]
 
     if (option === "add") {
       options.push({ id: options.length, value: "" })
@@ -150,62 +167,7 @@ export function PoolConfig({
       }
     }
 
-    handleUpdateContent({ options })
-
-    const valid =
-      options.length > 0 && options.every((option) => option.value !== "")
-    handleUpdateFormData({ options: { valid } })
-  }
-
-  const handleOpenVariablePanelForOption = ({
-    option,
-    id,
-  }: HandleUpdateOptionsProps) => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: string) => {
-        handleUpdateOptions({ option, id, value: variable })
-      })
-    handleOpenVariablePanel()
-  }
-
-  const handleOpenVariablePanelForTitle = () => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          description: content.description
-            ? `${content.description}${variable}`
-            : variable,
-        })
-      })
-    handleOpenVariablePanel()
-  }
-
-  const handleOpenVariablePanelForMax = () => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          max: content.max ? `${content.max}${variable}` : variable,
-        })
-      })
-    handleOpenVariablePanel()
-  }
-
-  const handleOpenVariablePanelForMin = () => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateContent({
-          min: content.min ? `${content.min}${variable}` : variable,
-        })
-      })
-    handleOpenVariablePanel()
-  }
-
-  const handleOpenVariablePanelForSaveAs = () => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateSaveAs(saveAs ? `${saveAs}${variable}` : variable)
-      })
-    handleOpenVariablePanel()
+    handleUpdateLocalBlockData({ options })
   }
 
   function handleTabBar() {
@@ -220,7 +182,9 @@ export function PoolConfig({
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("poolconfig:add")}
+            text={
+              blockData ? text("poolconfig:update") : text("poolconfig:add")
+            }
             onClick={() => handleUpdateRunUpdate(true)}
           />
         </div>,
@@ -237,61 +201,109 @@ export function PoolConfig({
     }
   }
 
-  useEffect(() => {
-    if (saveAs) {
-      if (blockData) {
-        if (blockData.save_as == saveAs) {
-          handleUpdateFormData({ saveAs: { valid: true } })
-        } else {
-          const isValid = handleCheckSaveAs(saveAs)
-          handleUpdateFormData({ saveAs: { valid: isValid } })
-        }
-      } else {
-        const isValid = handleCheckSaveAs(saveAs)
-        handleUpdateFormData({ saveAs: { valid: isValid } })
-      }
-    } else {
-      handleUpdateFormData({ saveAs: { valid: false } })
-    }
-    if (content?.options) {
-      handleUpdateFormData({ options: { valid: true } })
-    } else {
-      handleUpdateFormData({ options: { valid: false } })
-    }
-    if (content?.description) {
-      handleUpdateFormData({ description: { valid: true } })
-    } else {
-      handleUpdateFormData({ description: { valid: false } })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content, saveAs])
+  const handleOpenVariablePanelForOption = ({
+    option,
+    id,
+  }: HandleUpdateOptionsProps) => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: string) => {
+        handleUpdateOptions({ option, id, value: variable })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForTitle = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateLocalBlockData({
+          description: localBlockData.description
+            ? `${localBlockData.description}${variable}`
+            : variable,
+        })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForMax = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateLocalBlockData({
+          max: localBlockData.max
+            ? `${localBlockData.max}${variable}`
+            : variable,
+        })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForMin = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateLocalBlockData({
+          min: localBlockData.min
+            ? `${localBlockData.min}${variable}`
+            : variable,
+        })
+      })
+    handleOpenVariablePanel()
+  }
+
+  const handleOpenVariablePanelForSaveAs = () => {
+    setFunctionHandleAddVariable &&
+      setFunctionHandleAddVariable(() => (variable: any) => {
+        handleUpdateLocalBlockData({
+          save_as: localBlockData.save_as
+            ? `${localBlockData.save_as}${variable}`
+            : variable,
+        })
+      })
+    handleOpenVariablePanel()
+  }
 
   useEffect(() => {
     if (blockData) {
-      setContent(blockData.data)
-      setSaveAs(blockData.save_as)
+      setLocalBlockData({
+        description: blockData.data.description,
+        max: blockData.data.max,
+        min: blockData.data.min,
+        options: blockData.data.options,
+        save_as: blockData.save_as,
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockData])
 
   useEffect(() => {
-    if (content?.options && saveAs) {
-      onAddBlock()
+    if (runUpdate && isLocalBlockDataValid) {
+      if (!blockData) {
+        onAddBlock()
+      } else if (checkIfDataHasChanged()) {
+        onAddBlock()
+      }
+    } else if (runUpdate && !isLocalBlockDataValid) {
+      setHasDataChanged(true)
+      handleUpdateRunUpdate(false)
+      handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runUpdate])
 
   useEffect(() => {
-    if (
-      formData.description?.valid &&
-      formData.options?.valid &&
-      formData.saveAs?.valid
-    ) {
-      handleUpdateIsUpdating(true)
+    if (blockData) {
+      if (checkIfDataHasChanged() && isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     } else {
-      handleUpdateIsUpdating(false)
+      if (isLocalBlockDataValid) {
+        handleUpdateIsUpdating(true)
+      } else {
+        handleUpdateIsUpdating(false)
+      }
     }
-  }, [formData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localBlockData, isLocalBlockDataValid])
 
   return (
     <>
@@ -307,14 +319,10 @@ export function PoolConfig({
               input={{
                 label: text("poolconfig:titlelabel"),
                 onChange: (title) => {
-                  handleUpdateContent({ description: title })
-                  if (title.length > 0) {
-                    handleUpdateFormData({ description: { valid: true } })
-                  } else {
-                    handleUpdateFormData({ description: { valid: false } })
-                  }
+                  handleUpdateLocalBlockData({ description: title })
                 },
-                inputValue: content.description,
+                value: localBlockData.description,
+                errors: hasDataChanged ? LocalBlockDataErrors.description : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -327,8 +335,10 @@ export function PoolConfig({
             <CardTextInput
               input={{
                 label: text("poolconfig:maxlabel"),
-                onChange: (max) => handleUpdateContent({ max: max }),
-                inputValue: content.max,
+                onChange: (max) => handleUpdateLocalBlockData({ max: max }),
+                value: localBlockData.max,
+                errors: hasDataChanged ? LocalBlockDataErrors.max : [],
+                type: "number",
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -341,8 +351,10 @@ export function PoolConfig({
             <CardTextInput
               input={{
                 label: text("poolconfig:minlabel"),
-                onChange: (min) => handleUpdateContent({ min: min }),
-                inputValue: content.min,
+                onChange: (min) => handleUpdateLocalBlockData({ min: min }),
+                value: localBlockData.min,
+                errors: hasDataChanged ? LocalBlockDataErrors.min : [],
+                type: "number",
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -351,8 +363,8 @@ export function PoolConfig({
             />
           </Card>
           <>
-            {content.options &&
-              content?.options.map((option, index) => (
+            {localBlockData.options &&
+              localBlockData?.options.map((option, index) => (
                 <Card key={option.id}>
                   <CardText
                     label={`${text("poolconfig:option")} ${index + 1}`}
@@ -373,7 +385,7 @@ export function PoolConfig({
                           value: value,
                         }),
                       defaultValue: option.value,
-                      inputValue: option.value,
+                      value: option.value,
                     }}
                     indicator={{
                       icon: BracketsCurly,
@@ -397,19 +409,17 @@ export function PoolConfig({
             <CardTextInput
               input={{
                 label: text("poolconfig:saveaslabel"),
-                onChange: (e) => handleUpdateSaveAs(e),
-                inputValue: saveAs,
+                onChange: (e) => handleUpdateLocalBlockData({ save_as: e }),
+                value: localBlockData.save_as,
+                errors: localBlockData.save_as
+                  ? LocalBlockDataErrors.save_as
+                  : [],
               }}
               indicator={{
                 icon: BracketsCurly,
                 onClick: handleOpenVariablePanelForSaveAs,
               }}
             />
-            {!formData.saveAs?.valid && (
-              <p className="w-full lg:text-[1.1rem] text-center">
-                {text("createtemplate:saveas")}
-              </p>
-            )}
           </Card>
           <div className="w-full h-fit hidden xl:block">
             <Button
@@ -430,7 +440,9 @@ export function PoolConfig({
                   block={{
                     data: {
                       color: "bg-white",
-                      text: text("textconfig:addblock"),
+                      text: blockData
+                        ? text("textconfig:updateblock")
+                        : text("textconfig:addblock"),
                       onClick: () => handleUpdateRunUpdate(true),
                     },
                   }}

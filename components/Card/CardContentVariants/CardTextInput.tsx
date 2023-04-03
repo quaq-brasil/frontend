@@ -4,7 +4,7 @@ import React, { ForwardRefExoticComponent, RefAttributes } from "react"
 type CardTextInputProps = {
   input?: {
     onChange?: (value: string) => void
-    type?: "name" | "email" | "password" | "text" | "title"
+    type?: "name" | "email" | "password" | "text" | "title" | "number"
     label?: string
     fixedText?: string
     defaultValue?: string

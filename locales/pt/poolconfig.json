@@ -13,5 +13,7 @@
   "add": "adicionar",
   "addblock": "adicionar bloco",
   "title": "pool description",
-  "titlelabel": "type it here"
+  "titlelabel": "type it here",
+  "update": "atualizar",
+  "updateblock": "atualizar bloco"
 }
