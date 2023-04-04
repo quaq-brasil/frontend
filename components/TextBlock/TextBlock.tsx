@@ -11,7 +11,9 @@ const BlockMenu = dynamic(
 )
 
 type ITextBlock = {
-  data: string
+  data: {
+    text: string
+  }
 } & IBlock
 
 type TextBlockProps = {
@@ -37,7 +39,7 @@ export const TextBlock = ({
 
   const editor = useEditor({
     extensions: [StarterKit],
-    content: block.data,
+    content: block.data.text,
     editable: false, // Make the editor read-only
   })
 
