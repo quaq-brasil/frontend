@@ -13,9 +13,14 @@ const BlockMenu = dynamic(
   { ssr: false }
 )
 
+interface IHeight {
+  value: number | null
+  locked_width: number | null
+}
+
 type IData = {
   link: string
-  height?: string
+  height?: IHeight
 }
 
 type IEmbedBlock = {
@@ -44,26 +49,27 @@ export const EmbedBlock = ({
   handleAddBlock,
 }: EmbedBlockProps) => {
   const [events, setEvents] = useState<IEvent>()
-  const [height, setHeight] = useState<string>(block.data.height || "36rem")
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [width, setWidth] = useState<number | undefined>()
+  const [height, setHeight] = useState<IHeight>({
+    value: null,
+    locked_width: null,
+  })
 
-  useEffect(() => {
-    if (block.data.height) {
-      setHeight(block.data.height)
-    }
-  }, [block.data.height])
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const handleResize = useCallback(
     (startY: number, startHeight: number, clientY: number) => {
       const newY = clientY
       const diff = newY - startY
       const newHeight = Math.max(startHeight + diff, 100)
-      const finalHeight = `${newHeight}px`
-      setHeight(finalHeight)
+      setHeight({ value: newHeight, locked_width: width })
       handleAddBlock &&
         handleAddBlock({
           ...block,
-          data: { ...block.data, height: finalHeight },
+          data: {
+            ...block.data,
+            height: { value: newHeight, locked_width: width },
+          },
         })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,8 +115,62 @@ export const EmbedBlock = ({
   }
 
   useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        const newWidth = containerRef.current.getBoundingClientRect().width
+        setWidth(newWidth)
+
+        if (isEditable && height.locked_width === null) {
+          setHeight((prevState) => ({
+            ...prevState,
+            value: 420,
+            locked_width: newWidth,
+          }))
+          handleAddBlock &&
+            handleAddBlock({
+              ...block,
+              data: {
+                ...block.data,
+                height: { value: 420, locked_width: newWidth },
+              },
+            })
+        }
+      }
+    }
+
+    updateWidth()
+    window.addEventListener("resize", updateWidth)
+    return () => window.removeEventListener("resize", updateWidth)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEditable, height.locked_width])
+
+  useEffect(() => {
+    if (!isEditable && block.data) {
+      setHeight(block.data.height)
+    }
+  }, [block.data, isEditable])
+
+  useEffect(() => {
     if (!events?.displayedAt) {
       setEvents({ displayedAt: new Date().toString() })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [events])
+
+  useEffect(() => {
+    if (events) {
+      handleUpdateInteractions?.({
+        id: block.id,
+        config: {
+          id: block.id,
+          save_as: block.save_as,
+          type: block.type,
+          data: block.data.link,
+        },
+        output: {
+          events: events,
+        },
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [events])
@@ -119,7 +179,9 @@ export const EmbedBlock = ({
     <div
       ref={containerRef}
       className="flex relative justify-end"
-      style={{ height }}
+      style={{
+        height: `${height.value * (width / height.locked_width)}px`,
+      }}
     >
       {isEditable === true && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       <div

@@ -26,14 +26,17 @@ export function ImageConfig({
 
   type ImageProps = {
     img_url?: string
-    height?: string
+    height?: {
+      value?: number | null
+      locked_width?: number | null
+    }
     save_as?: string
   }
 
   const [
     localBlockData,
     setLocalBlockData,
-    LocalBlockDataErrors,
+    localBlockDataErrors,
     isLocalBlockDataValid,
   ] = useValidation<ImageProps>({
     img_url: {
@@ -41,7 +44,7 @@ export function ImageConfig({
       validators: [validationRules.required(text("validation:required"))],
     },
     height: {
-      initialValue: blockData?.data?.height || "28rem",
+      initialValue: blockData?.data?.height || { locked_width: 0, value: 420 },
       validators: [validationRules.required(text("validation:required"))],
     },
     save_as: {
@@ -76,9 +79,6 @@ export function ImageConfig({
   function checkIfDataHasChanged() {
     if (blockData) {
       let hasDataChanged = false
-      if (blockData?.data?.height !== localBlockData?.height) {
-        hasDataChanged = true
-      }
       if (blockData?.data?.img_url !== localBlockData?.img_url) {
         hasDataChanged = true
       }
@@ -94,7 +94,10 @@ export function ImageConfig({
   function handleClosing() {
     setLocalBlockData({
       img_url: "",
-      height: "28rem",
+      height: {
+        value: null,
+        locked_width: null,
+      },
       save_as: "",
     })
     handleUpdateRunUpdate(false)
@@ -110,7 +113,10 @@ export function ImageConfig({
       save_as: localBlockData.save_as,
       data: {
         img_url: localBlockData.img_url,
-        height: localBlockData.height,
+        height: {
+          value: null,
+          locked_width: null,
+        },
       },
     })
     handleClosing()
@@ -219,7 +225,7 @@ export function ImageConfig({
                   url={localBlockData?.img_url}
                 />
               }
-              errors={hasDataChanged ? LocalBlockDataErrors.img_url : []}
+              errors={hasDataChanged ? localBlockDataErrors.img_url : []}
             />
           </Card>
           <Card>
@@ -231,7 +237,7 @@ export function ImageConfig({
                 onChange: (value) =>
                   handleUpdateLocalBlockData({ save_as: value }),
                 errors: localBlockData.save_as
-                  ? LocalBlockDataErrors.save_as
+                  ? localBlockDataErrors.save_as
                   : [],
               }}
               indicator={{

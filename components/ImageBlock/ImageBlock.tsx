@@ -10,10 +10,15 @@ const BlockMenu = dynamic(
   { ssr: false }
 )
 
+interface IHeight {
+  value: number | null
+  locked_width: number | null
+}
+
 interface ImageProps extends IBlock {
   data: {
     img_url: string
-    height: string
+    height: IHeight
   }
 }
 
@@ -39,26 +44,27 @@ export const ImageBlock = ({
   handleAddBlock,
 }: ImageBlockProps) => {
   const [events, setEvents] = useState<IEvent>()
-  const [height, setHeight] = useState<string>(block.data.height || "28rem")
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [width, setWidth] = useState<number | undefined>()
+  const [height, setHeight] = useState<IHeight>({
+    value: null,
+    locked_width: null,
+  })
 
-  useEffect(() => {
-    if (block.data.height) {
-      setHeight(block.data.height)
-    }
-  }, [block.data.height])
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const handleResize = useCallback(
     (startY: number, startHeight: number, clientY: number) => {
       const newY = clientY
       const diff = newY - startY
       const newHeight = Math.max(startHeight + diff, 100)
-      const finalHeight = `${newHeight}px`
-      setHeight(finalHeight)
+      setHeight({ value: newHeight, locked_width: width })
       handleAddBlock &&
         handleAddBlock({
           ...block,
-          data: { ...block.data, height: finalHeight },
+          data: {
+            ...block.data,
+            height: { value: newHeight, locked_width: width },
+          },
         })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -104,6 +110,42 @@ export const ImageBlock = ({
   }
 
   useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        const newWidth = containerRef.current.getBoundingClientRect().width
+        setWidth(newWidth)
+
+        if (isEditable && height.locked_width === null) {
+          setHeight((prevState) => ({
+            ...prevState,
+            value: 420,
+            locked_width: newWidth,
+          }))
+          handleAddBlock &&
+            handleAddBlock({
+              ...block,
+              data: {
+                ...block.data,
+                height: { value: 420, locked_width: newWidth },
+              },
+            })
+        }
+      }
+    }
+
+    updateWidth()
+    window.addEventListener("resize", updateWidth)
+    return () => window.removeEventListener("resize", updateWidth)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEditable, height.locked_width])
+
+  useEffect(() => {
+    if (!isEditable && block.data) {
+      setHeight(block.data.height)
+    }
+  }, [block.data, isEditable])
+
+  useEffect(() => {
     if (!events?.displayedAt) {
       const event = {
         displayedAt: new Date().toString(),
@@ -134,7 +176,9 @@ export const ImageBlock = ({
     <div
       ref={containerRef}
       className="flex relative justify-center items-center w-full"
-      style={{ height }}
+      style={{
+        height: `${height.value * (width / height.locked_width)}px`,
+      }}
     >
       {isEditable && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       {block.data.img_url ? (
@@ -145,6 +189,13 @@ export const ImageBlock = ({
           style={{ objectFit: "cover" }}
           alt={""}
           loading="lazy"
+          onLoad={() => {
+            if (isEditable) {
+              if (containerRef.current) {
+                setWidth(containerRef.current.getBoundingClientRect().width)
+              }
+            }
+          }}
           sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               33vw"
