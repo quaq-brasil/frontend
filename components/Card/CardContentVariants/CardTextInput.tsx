@@ -61,7 +61,7 @@ export function CardTextInput(props: CardTextInputProps) {
     <>
       <div className="flex flex-row justify-between items-center bg-slate-50 my-2">
         {props.input?.fixedText && (
-          <p className="lg:text-[1.1rem] px-3 lg:pl-[1.125rem] font-semibold inline text-left">
+          <p className="lg:text-[1.1rem] px-3 lg:pl-[1.125rem] font-semibold inline text-left shrink-0">
             {props.input.fixedText}
           </p>
         )}

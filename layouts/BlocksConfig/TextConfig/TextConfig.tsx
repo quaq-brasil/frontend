@@ -161,7 +161,7 @@ export function TextConfig({
 
   useEffect(() => {
     if (blockData) {
-      setLocalBlockData({
+      handleUpdateLocalBlockData({
         text: blockData.data.text,
         save_as: blockData.save_as,
       })
