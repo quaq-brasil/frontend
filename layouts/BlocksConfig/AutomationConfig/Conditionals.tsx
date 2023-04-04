@@ -80,7 +80,7 @@ export const AutomationConditionals = memo(function AutomationConditionals({
                 <CardTextInput
                   input={{
                     label: text("automationconfig:trigger_label"),
-                    inputValue: comparison.value,
+                    value: comparison.value,
                     onChange: (value) =>
                       handleUpdateComparison({
                         conditionalsIndex,
@@ -128,7 +128,7 @@ export const AutomationConditionals = memo(function AutomationConditionals({
                     <CardTextInput
                       input={{
                         label: text("automationconfig:trigger_label"),
-                        inputValue: comparison.comparativeValue,
+                        value: comparison.comparativeValue,
                         onChange: (comparativeValue) => {
                           handleUpdateComparison({
                             conditionalsIndex,
