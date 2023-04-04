@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic"
 import Image from "next/image"
-import { ArrowsVertical } from "phosphor-react"
+import { ArrowsOutLineVertical } from "phosphor-react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { BlockProps, IBlock } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
@@ -206,11 +206,11 @@ export const ImageBlock = ({
       {isEditable && (
         <div
           className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-slate-500 rounded-full 
-          cursor-row-resize flex justify-center items-center"
+          cursor-row-resize flex justify-center items-center mb-[-10px]"
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
         >
-          <ArrowsVertical className="text-white" weight="bold" />
+          <ArrowsOutLineVertical className="text-white" weight="bold" />
         </div>
       )}
     </div>
