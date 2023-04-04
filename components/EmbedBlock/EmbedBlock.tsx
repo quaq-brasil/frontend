@@ -145,7 +145,7 @@ export const EmbedBlock = ({
   }, [isEditable, height.locked_width])
 
   useEffect(() => {
-    if (!isEditable && block.data) {
+    if (block.data) {
       setHeight(block.data.height)
     }
   }, [block.data, isEditable])
@@ -180,7 +180,9 @@ export const EmbedBlock = ({
       ref={containerRef}
       className="flex relative justify-end"
       style={{
-        height: `${height.value * (width / height.locked_width)}px`,
+        height: height.locked_width
+          ? `${height.value * (width / height.locked_width)}px`
+          : `${height.value}px`,
       }}
     >
       {isEditable === true && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
@@ -199,7 +201,7 @@ export const EmbedBlock = ({
       {isEditable && (
         <div
           className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-slate-500 rounded-full 
-          cursor-row-resize flex justify-center items-center mb-[-10px]"
+          cursor-row-resize flex justify-center items-center mb-[-6px] lg:mb-[-10px]"
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
         >

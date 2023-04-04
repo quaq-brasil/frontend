@@ -140,7 +140,7 @@ export const ImageBlock = ({
   }, [isEditable, height.locked_width])
 
   useEffect(() => {
-    if (!isEditable && block.data) {
+    if (block.data) {
       setHeight(block.data.height)
     }
   }, [block.data, isEditable])
@@ -177,7 +177,9 @@ export const ImageBlock = ({
       ref={containerRef}
       className="flex relative justify-center items-center w-full"
       style={{
-        height: `${height.value * (width / height.locked_width)}px`,
+        height: height.locked_width
+          ? `${height.value * (width / height.locked_width)}px`
+          : `${height.value}px`,
       }}
     >
       {isEditable && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
@@ -206,7 +208,7 @@ export const ImageBlock = ({
       {isEditable && (
         <div
           className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-slate-500 rounded-full 
-          cursor-row-resize flex justify-center items-center mb-[-10px]"
+          cursor-row-resize flex justify-center items-center mb-[-6px] lg:mb-[-10px]"
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
         >
