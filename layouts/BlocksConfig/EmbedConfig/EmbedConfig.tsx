@@ -24,14 +24,17 @@ export function EmbedConfig({
 
   type EmbedProps = {
     link?: string
-    height?: string
+    height?: {
+      value?: number | null
+      locked_width?: number | null
+    }
     save_as?: string
   }
 
   const [
     localBlockData,
     setLocalBlockData,
-    LocalBlockDataErrors,
+    localBlockDataErrors,
     isLocalBlockDataValid,
   ] = useValidation<EmbedProps>({
     link: {
@@ -77,9 +80,6 @@ export function EmbedConfig({
   function checkIfDataHasChanged() {
     if (blockData) {
       let hasDataChanged = false
-      if (blockData?.data?.height !== localBlockData?.height) {
-        hasDataChanged = true
-      }
       if (blockData?.data?.link !== localBlockData?.link) {
         hasDataChanged = true
       }
@@ -94,7 +94,10 @@ export function EmbedConfig({
 
   function handleClosing() {
     setLocalBlockData({
-      height: "",
+      height: {
+        value: null,
+        locked_width: null,
+      },
       link: "",
       save_as: "",
     })
@@ -110,7 +113,10 @@ export function EmbedConfig({
       type: "embed",
       save_as: localBlockData.save_as,
       data: {
-        height: localBlockData.height,
+        height: {
+          value: null,
+          locked_width: null,
+        },
         link: localBlockData.link,
       },
     })
@@ -228,7 +234,7 @@ export function EmbedConfig({
                 label: text("embedconfig:label1"),
                 value: localBlockData?.link,
                 onChange: (link) => handleUpdateLocalBlockData({ link: link }),
-                errors: hasDataChanged ? LocalBlockDataErrors.link : [],
+                errors: hasDataChanged ? localBlockDataErrors.link : [],
               }}
               indicator={{
                 icon: BracketsCurly,
@@ -245,7 +251,7 @@ export function EmbedConfig({
                 onChange: (value) =>
                   handleUpdateLocalBlockData({ save_as: value }),
                 errors: localBlockData.save_as
-                  ? LocalBlockDataErrors.save_as
+                  ? localBlockDataErrors.save_as
                   : [],
               }}
               indicator={{

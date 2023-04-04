@@ -4,6 +4,7 @@ import { CardImageInput } from "components/Card/CardContentVariants/CardImageInp
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import { ImageSelector } from "components/ImageSelector/ImageSelector"
+import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { useEffect, useState } from "react"
 import { IUpdateWorkspace } from "types/Workspace.type"
@@ -13,6 +14,8 @@ type FirstWorkspaceContentProps = {
   handleUpdateWorkspaceData: (data: IUpdateWorkspace) => void
   handleUpdateRunUpdate: (stat: boolean) => void
   handleUpdateIsUpdating: (stat: boolean) => void
+  runUpdate: boolean
+  handleCreateWorkspace: (data: IUpdateWorkspace) => void
 }
 
 export function FirstWorkspaceContent({
@@ -20,42 +23,61 @@ export function FirstWorkspaceContent({
   handleUpdateRunUpdate,
   handleUpdateWorkspaceData,
   isUpdating,
+  runUpdate,
+  handleCreateWorkspace,
 }: FirstWorkspaceContentProps) {
   const text = useTranslation().t
 
-  type FormDataProps = {
-    title?: {
-      valid?: boolean
-    }
-    avatar?: {
-      valid?: boolean
-    }
+  type LocalWorkspaceProps = {
+    title?: string
+    avatar_url?: string
   }
 
-  const [formData, setFormData] = useState<FormDataProps>({
+  const [
+    localWorkspaceData,
+    setLocalWorkspaceData,
+    localWorkspaceDataErrors,
+    isLocalWorkspaceDataValid,
+  ] = useValidation<LocalWorkspaceProps>({
     title: {
-      valid: false,
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
     },
-    avatar: {
-      valid: false,
+    avatar_url: {
+      initialValue: "",
+      validators: [validationRules.required(text("validation:required"))],
     },
   })
 
-  function handleUpdateFormData(newData: FormDataProps) {
-    setFormData((state) => {
-      return {
-        ...state,
-        ...newData,
-      } as FormDataProps
-    })
+  const [hasDataChanged, setHasDataChanged] = useState(false)
+
+  function handleUpdateLocalPageData(newWorkspaceData: LocalWorkspaceProps) {
+    setLocalWorkspaceData({ ...localWorkspaceData, ...newWorkspaceData })
   }
 
   useEffect(() => {
-    if (formData.avatar?.valid && formData.title?.valid) {
+    if (isLocalWorkspaceDataValid || !hasDataChanged) {
       handleUpdateIsUpdating(true)
+    } else {
+      handleUpdateIsUpdating(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData])
+  }, [isLocalWorkspaceDataValid])
+
+  useEffect(() => {
+    if (runUpdate && isUpdating) {
+      if (isLocalWorkspaceDataValid) {
+        handleCreateWorkspace({
+          title: localWorkspaceData.title,
+          avatar_url: localWorkspaceData.avatar_url,
+        })
+      } else {
+        setHasDataChanged(true)
+      }
+      handleUpdateRunUpdate(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runUpdate])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -73,11 +95,11 @@ export function FirstWorkspaceContent({
             <CardTextInput
               input={{
                 label: text("wssetup:inputwsname"),
-                onChange: (title) =>
-                  handleUpdateWorkspaceData({ title: title }),
-                type: "title",
-                setValid: () =>
-                  handleUpdateFormData({ title: { valid: true } }),
+                onChange: (title) => {
+                  handleUpdateLocalPageData({ title: title })
+                },
+                value: localWorkspaceData.title,
+                errors: hasDataChanged ? localWorkspaceDataErrors.title : [],
               }}
             />
           </Card>
@@ -87,11 +109,11 @@ export function FirstWorkspaceContent({
               imageSelector={
                 <ImageSelector
                   onImageChange={(image) => {
-                    handleUpdateWorkspaceData({ avatar_url: image })
-                    handleUpdateFormData({ avatar: { valid: true } })
+                    handleUpdateLocalPageData({ avatar_url: image })
                   }}
                 />
               }
+              errors={hasDataChanged ? localWorkspaceDataErrors.avatar_url : []}
             />
           </Card>
           {isUpdating && (
