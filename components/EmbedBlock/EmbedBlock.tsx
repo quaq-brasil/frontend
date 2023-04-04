@@ -145,7 +145,7 @@ export const EmbedBlock = ({
   }, [isEditable, height.locked_width])
 
   useEffect(() => {
-    if (block.data) {
+    if (block.data && !isEditable) {
       setHeight(block.data.height)
     }
   }, [block.data, isEditable])
