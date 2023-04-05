@@ -12,6 +12,8 @@ export type IUser = {
   last_login: string
   created_at: string
   updated_at: string
+  token?: string
+  refresh_token?: string
 }
 
 export type IUpdateUser = {

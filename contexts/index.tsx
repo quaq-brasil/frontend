@@ -17,8 +17,8 @@ const AuthProvider = dynamic(
 
 export function AppContexts({ children }: ContextsProps) {
   return (
-    <TermsProvider>
-      <AuthProvider>{children}</AuthProvider>
-    </TermsProvider>
+    <AuthProvider>
+      <TermsProvider>{children}</TermsProvider>
+    </AuthProvider>
   )
 }

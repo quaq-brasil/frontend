@@ -1,3 +1,4 @@
+import { useUserAuth } from "contexts/userAuth"
 import { SignUserUp } from "layouts/Onboarding/SignUserUp/SignUserUp"
 import { GetServerSideProps } from "next"
 import useTranslation from "next-translate/useTranslation"
@@ -22,36 +23,29 @@ export default function LoginPage() {
 
   const loginUser = useLogin()
 
+  const { user } = useUserAuth()
+
   function handleCreateUser(newData: IUpdateUser) {
-    createUser.mutate(
-      { data: {} },
+    updateUser.mutate(
+      {
+        id: user?.id,
+        data: {
+          avatar_url: newData.avatar_url,
+          email: newData.email,
+          name: newData.name,
+          password: newData.password,
+        },
+      },
       {
         onSuccess: (data) => {
-          updateUser.mutate(
+          loginUser.mutate(
             {
-              id: data.id,
-              data: {
-                avatar_url: newData.avatar_url,
-                email: newData.email,
-                name: newData.name,
-                password: newData.password,
-              },
+              email: data.email,
+              password: newData.password,
             },
             {
-              onSuccess: (data) => {
-                loginUser.mutate(
-                  {
-                    email: data.email,
-                    password: newData.password,
-                  },
-                  {
-                    onSuccess: () => {
-                      router.push(
-                        pageUrls.workspaceSettings({ settings: "setup" })
-                      )
-                    },
-                  }
-                )
+              onSuccess: () => {
+                router.push(pageUrls.workspaceSettings({ settings: "setup" }))
               },
             }
           )

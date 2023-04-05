@@ -8,10 +8,11 @@ import {
   useMemo,
   useState,
 } from "react"
+import { useCreateUser } from "services/hooks/useUser/useCreateUser"
 import { queryClient } from "services/queryClient"
 import { IUpdateUser } from "types/User.type"
 import { getPayload } from "utils/auth"
-import { appGetCookie } from "utils/cookies"
+import { appGetCookie, appSetCookies } from "utils/cookies"
 
 type AuthProviderProps = {
   children: ReactNode
@@ -20,12 +21,15 @@ type AuthProviderProps = {
 type AuthContextData = {
   user: IUpdateUser | null
   signOut: () => void
+  createAnonymousUser: () => void
 }
 
 export const AuthContext = createContext({} as AuthContextData)
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<IUpdateUser | null>({ type: "registered" })
+  const [user, setUser] = useState<IUpdateUser | null>(null)
+
+  const createUser = useCreateUser()
 
   useEffect(() => {
     const token = appGetCookie("token")
@@ -51,9 +55,29 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     queryClient.invalidateQueries(["user"])
   }, [])
 
+  const createAnonymousUser = useCallback(() => {
+    createUser.mutate(
+      { data: {} },
+      {
+        onSuccess: (data) => {
+          setUser(data)
+
+          if (data?.token) {
+            appSetCookies("token", data.token)
+          }
+
+          if (data?.refresh_token) {
+            appSetCookies("refresh_token", data.refresh_token)
+          }
+        },
+      }
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const contextValue = useMemo(() => {
-    return { user, signOut }
-  }, [user, signOut])
+    return { user, signOut, createAnonymousUser }
+  }, [user, signOut, createAnonymousUser])
 
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
