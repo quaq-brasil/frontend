@@ -137,7 +137,6 @@ export const PublishPublication = ({
       template?.Publications[0]?.title !== localTemplateData.publication_title
     ) {
       if (template?.id) {
-        console.log("created publication")
         createPublication.mutate(
           {
             data: {
@@ -298,7 +297,7 @@ export const PublishPublication = ({
     // console.log("isUpdating", isUpdating)
     // console.log("runUpdate", runUpdate)
     // console.log("localTemplateDataErrors", localTemplateDataErrors)
-    console.log("template", template)
+    // console.log("template", template)
   }, [
     localTemplateData,
     isLocalTemplateDataValid,

@@ -30,8 +30,6 @@ export function AutomationBlockSelector({
 }: AutomationBlockSelectorProps) {
   const text = useTranslation().t
 
-  // Todo: Allow edit
-
   const [blockSelected, setBlockSelected] = useState<string | undefined>()
   const [editBlockData, setEditBlockData] = useState<BlockProps | null>()
   const [isOpen, setIsOpen] = useState(false)
@@ -52,7 +50,8 @@ export function AutomationBlockSelector({
     }
   }
 
-  const handleAddBlock = (newBlock: BlockProps) => {
+  const handleAddLocalBlocks = (newBlock: BlockProps) => {
+    console.log("newBlock", newBlock)
     if (newBlock.id) {
       const tempBlocks = blocks.map((block) => {
         if (block.id == newBlock.id) {
@@ -130,6 +129,7 @@ export function AutomationBlockSelector({
                 isEditable={true}
                 onDelete={() => handleRemoveBlock(index)}
                 onEdit={() => handleOnEdit(block)}
+                handleAddBlock={handleAddLocalBlocks}
               />
             )
           })}
@@ -144,7 +144,7 @@ export function AutomationBlockSelector({
           block={blockSelected}
           isOpen={isOpen}
           onClose={handleBlockConfigClosing}
-          handleAddBlock={handleAddBlock}
+          handleAddBlock={handleAddLocalBlocks}
           handleOpenVariablePanel={handleOpenVariablePanel}
           setFunctionHandleAddVariable={setFunctionHandleAddVariable}
           handleCheckSaveAs={handleCheckLocalSaveAs}

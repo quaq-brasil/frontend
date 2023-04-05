@@ -117,9 +117,9 @@ export function CardTextInput(props: CardTextInputProps) {
           </div>
         )}
       </div>
-      {props.input.errors &&
-        props.input.errors.length > 0 &&
-        props.input.errors.map((error) => (
+      {props?.input?.errors &&
+        props?.input?.errors?.length > 0 &&
+        props?.input?.errors.map((error) => (
           <p
             key={error}
             className="text-red-500 lg:text-[1.1rem] px-3 lg:pl-[1.125rem] text-left"

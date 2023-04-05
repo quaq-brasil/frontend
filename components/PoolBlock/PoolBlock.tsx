@@ -34,7 +34,7 @@ interface PoolBlockProps {
   onEdit?: () => void
 }
 
-type IAnswer = {
+type IOption = {
   id: number
   value: string
   selected: boolean
@@ -56,22 +56,11 @@ export const PoolBlock = ({
   onEdit,
 }: PoolBlockProps) => {
   const [events, setEvents] = useState<IEvent>()
-  const [answers, setAnswers] = useState<IAnswer[]>()
-  const [selectedAnswers, setSelectedAnswers] = useState(0)
-  const isMaxAchieved = selectedAnswers === (Number(block?.data.max) || 0)
-  const isMinAchieved = selectedAnswers >= (Number(block.data.min) || 0)
-
-  useEffect(() => {
-    const tempAnswers: IAnswer[] = block.data.options.map((option) => {
-      return {
-        id: option.id,
-        selected: false,
-        value: option.value,
-      }
-    })
-    setAnswers(tempAnswers)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const [options, setOptions] = useState<IOption[]>()
+  const [numberOfSelectedOptions, setNumberOfSelectedOptions] = useState(0)
+  const isMaxAchieved =
+    numberOfSelectedOptions === (Number(block?.data.max) || 0)
+  const isMinAchieved = numberOfSelectedOptions >= (Number(block.data.min) || 0)
 
   function handleUpdateEvents(newEvent: IEvent) {
     setEvents((state) => {
@@ -83,7 +72,7 @@ export const PoolBlock = ({
   }
 
   const handleSelect = useCallback(
-    (answer: IAnswer) => {
+    (answer: IOption) => {
       if (!events?.firstInteractionAt) {
         const firstAndLast = new Date().toString()
         handleUpdateEvents({
@@ -95,28 +84,20 @@ export const PoolBlock = ({
         handleUpdateEvents({ lastInteractionAt: lastInteractionAt })
       }
 
-      const tempAnswers = [...(answers as IAnswer[])]
+      const tempAnswers = [...(options as IOption[])]
 
       if (answer.selected) {
-        setSelectedAnswers(selectedAnswers - 1)
+        setNumberOfSelectedOptions(numberOfSelectedOptions - 1)
       } else {
-        setSelectedAnswers(selectedAnswers + 1)
+        setNumberOfSelectedOptions(numberOfSelectedOptions + 1)
       }
 
       tempAnswers[answer.id].selected = !tempAnswers[answer.id].selected
-      setAnswers(tempAnswers)
+      setOptions(tempAnswers)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [answers, events]
+    [options, events]
   )
-
-  useEffect(() => {
-    if (!events?.displayedAt) {
-      const displayedAt = new Date().toString()
-      handleUpdateEvents({ displayedAt: displayedAt })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const onInteraction = () => {
     handleUpdateInteractions &&
@@ -136,18 +117,41 @@ export const PoolBlock = ({
         output: {
           events: events,
           data: {
-            options: answers,
+            selected_options: options
+              .filter((option) => option.selected)
+              .map((option) => option.value),
+            number_of_selections: numberOfSelectedOptions,
           },
         },
       })
   }
 
   useEffect(() => {
-    if (answers) {
+    const tempOptions: IOption[] = block.data.options.map((option) => {
+      return {
+        id: option.id,
+        selected: false,
+        value: option.value,
+      }
+    })
+    setOptions(tempOptions)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    if (!events?.displayedAt) {
+      const displayedAt = new Date().toString()
+      handleUpdateEvents({ displayedAt: displayedAt })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    if (options) {
       const max = Number(block.data.max) || 0
       const min = Number(block.data.min) || 0
-      const maxAchieved = selectedAnswers === max
-      const minAchieved = selectedAnswers >= min
+      const maxAchieved = numberOfSelectedOptions === max
+      const minAchieved = numberOfSelectedOptions >= min
 
       const date = new Date().toString()
 
@@ -162,7 +166,7 @@ export const PoolBlock = ({
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedAnswers])
+  }, [numberOfSelectedOptions])
 
   return (
     <div className="flex relative justify-end min-w-[100%]">
@@ -184,18 +188,18 @@ export const PoolBlock = ({
             }`}
           >
             <p>
-              {selectedAnswers}/{block.data.min || block.data.max}
+              {numberOfSelectedOptions}/{block.data.min || block.data.max}
             </p>
           </div>
         )}
         <CardLine />
         <div className="flex flex-col gap-3 py-3">
-          {answers &&
-            answers.map((answer) => (
+          {options &&
+            options.map((option) => (
               <>
                 <Option
-                  key={answer.id}
-                  answer={answer}
+                  key={option.id}
+                  answer={option}
                   isMaxAchieved={isMaxAchieved}
                   handleSelect={handleSelect}
                 />

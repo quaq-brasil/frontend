@@ -147,10 +147,7 @@ export const ImageBlock = ({
 
   useEffect(() => {
     if (!events?.displayedAt) {
-      const event = {
-        displayedAt: new Date().toString(),
-      }
-      setEvents(event)
+      setEvents({ displayedAt: new Date().toString() })
     }
   }, [events])
 
@@ -172,10 +169,30 @@ export const ImageBlock = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [events])
 
+  useEffect(() => {
+    if (isEditable && height.locked_width && height.value) {
+      handleAddBlock &&
+        handleAddBlock({
+          ...block,
+          data: {
+            ...block.data,
+            height: height,
+          },
+        })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [height])
+
+  // useEffect(() => {
+  //   console.log("height", height)
+  //   console.log("width", width)
+  //   console.log("block", block)
+  // }, [width, height, block])
+
   return (
     <div
       ref={containerRef}
-      className="flex relative justify-center items-center w-full"
+      className="flex relative justify-end"
       style={{
         height: height.locked_width
           ? `${height.value * (width / height.locked_width)}px`
