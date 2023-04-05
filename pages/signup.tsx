@@ -26,8 +26,6 @@ export default function LoginPage() {
   const { user } = useUserAuth()
 
   function handleCreateUser(newData: IUpdateUser) {
-    console.log("user", user)
-
     updateUser.mutate(
       {
         id: user?.id,

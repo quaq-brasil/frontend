@@ -29,10 +29,6 @@ export const AuthContext = createContext({} as AuthContextData)
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<IUpdateUser | null>(null)
 
-  useEffect(() => {
-    console.log("user", user)
-  }, [user])
-
   const createUser = useCreateUser()
 
   useEffect(() => {
