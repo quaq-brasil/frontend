@@ -123,8 +123,8 @@ export const EmbedBlock = ({
         if (isEditable && height.locked_width === null) {
           setHeight((prevState) => ({
             ...prevState,
-            value: 420,
-            locked_width: newWidth,
+            value: block.data.height.value || 420,
+            locked_width: block.data.height.locked_width || newWidth,
           }))
           handleAddBlock &&
             handleAddBlock({

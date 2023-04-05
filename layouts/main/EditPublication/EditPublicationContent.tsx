@@ -200,6 +200,7 @@ export const EditPublicationContent = ({
         pageData={pageData}
         template={templateData}
         onClose={() => setIsOpenPublishTemplate(false)}
+        connectedTemplates={connectedTemplates}
       />
     )
   }

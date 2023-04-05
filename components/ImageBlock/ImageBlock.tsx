@@ -118,8 +118,8 @@ export const ImageBlock = ({
         if (isEditable && height.locked_width === null) {
           setHeight((prevState) => ({
             ...prevState,
-            value: 420,
-            locked_width: newWidth,
+            value: block.data.height.value || 420,
+            locked_width: block.data.height.locked_width || newWidth,
           }))
           handleAddBlock &&
             handleAddBlock({
@@ -137,7 +137,7 @@ export const ImageBlock = ({
     window.addEventListener("resize", updateWidth)
     return () => window.removeEventListener("resize", updateWidth)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEditable, height.locked_width])
+  }, [isEditable, height.locked_width, block])
 
   useEffect(() => {
     if (block.data && !isEditable) {

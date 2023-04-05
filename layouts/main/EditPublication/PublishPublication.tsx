@@ -10,6 +10,7 @@ import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import { useDebounce } from "hooks/useDebouce"
 import { useValidation, validationRules } from "hooks/useValidation"
+import { ConnectedTemplatesProps } from "layouts/BlocksConfig/VariablesPanel/VariablesPanelDialog"
 import { Translate } from "next-translate"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
@@ -28,6 +29,7 @@ type PublishPublicationProps = {
   onClose: () => void
   pageData: IPage | undefined
   template: getTemplateBySlugAndPageSlugProps | undefined
+  connectedTemplates?: ConnectedTemplatesProps[]
 }
 
 type handleGetTemplateUrlProps = {
@@ -50,6 +52,7 @@ export const PublishPublication = ({
   onClose,
   pageData,
   template,
+  connectedTemplates,
 }: PublishPublicationProps) => {
   const text = useTranslation().t
   const router = useRouter()
@@ -130,15 +133,23 @@ export const PublishPublication = ({
   }
 
   function handlePublishTemplate() {
-    if (template?.publication?.title !== localTemplateData.publication_title) {
+    if (
+      template?.Publications[0]?.title !== localTemplateData.publication_title
+    ) {
       if (template?.id) {
+        console.log("created publication")
         createPublication.mutate(
           {
             data: {
-              title: localTemplateData.publication_title,
-              blocks,
-              template_id: template?.id,
+              blocks: blocks,
+              dependencies: {
+                connected_templates:
+                  connectedTemplates?.map((template) => {
+                    return template.templateId
+                  }) || [],
+              },
               page_id: pageData?.id,
+              title: localTemplateData.publication_title,
               published_at: new Date().toISOString(),
             },
           },
@@ -279,6 +290,24 @@ export const PublishPublication = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localTemplateData, isLocalTemplateDataValid])
+
+  useEffect(() => {
+    // console.log("localTemplateData", localTemplateData)
+    // console.log("isLocalTemplateDataValid", isLocalTemplateDataValid)
+    // console.log("hasDataChanged", hasDataChanged)
+    // console.log("isUpdating", isUpdating)
+    // console.log("runUpdate", runUpdate)
+    // console.log("localTemplateDataErrors", localTemplateDataErrors)
+    console.log("template", template)
+  }, [
+    localTemplateData,
+    isLocalTemplateDataValid,
+    hasDataChanged,
+    isUpdating,
+    runUpdate,
+    localTemplateDataErrors,
+    template,
+  ])
 
   return (
     <>
