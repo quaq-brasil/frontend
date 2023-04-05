@@ -51,7 +51,6 @@ export function AutomationBlockSelector({
   }
 
   const handleAddLocalBlocks = (newBlock: BlockProps) => {
-    console.log("newBlock", newBlock)
     if (newBlock.id) {
       const tempBlocks = blocks.map((block) => {
         if (block.id == newBlock.id) {
