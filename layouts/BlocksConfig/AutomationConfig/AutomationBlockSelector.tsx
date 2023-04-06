@@ -3,7 +3,7 @@ import { BlockSelector } from "components/BlockSelector/BlockSelector"
 import { Button } from "components/Button/Button"
 import { RenderBlockConfig } from "layouts/main/CreateTemplate/RenderBlockConfig"
 import useTranslation from "next-translate/useTranslation"
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { BlockProps } from "types/Block.types"
 import { v4 } from "uuid"
 import {
@@ -30,6 +30,7 @@ export function AutomationBlockSelector({
 }: AutomationBlockSelectorProps) {
   const text = useTranslation().t
 
+  const [blocksVariables, setBlocksVariables] = useState<BlockProps[]>([])
   const [blockSelected, setBlockSelected] = useState<string | undefined>()
   const [editBlockData, setEditBlockData] = useState<BlockProps | null>()
   const [isOpen, setIsOpen] = useState(false)
@@ -37,6 +38,25 @@ export function AutomationBlockSelector({
   const [functionHandleAddVariable, setFunctionHandleAddVariable] = useState(
     () => (variable: any) => {}
   )
+
+  useEffect(() => {
+    let newBlocksVariables = [] as BlockProps[]
+
+    publicationBlocks.forEach((block) => {
+      if (block.type === "automation") {
+        newBlocksVariables = [
+          ...newBlocksVariables,
+          ...block?.data?.automationBlocks,
+        ]
+      } else {
+        newBlocksVariables.push(block)
+      }
+    })
+
+    setBlocksVariables(newBlocksVariables)
+  }, [publicationBlocks])
+
+  console.log("publicationBlocks", publicationBlocks)
 
   function handleBlockSelection(block: string | undefined) {
     setBlockSelected(block)
@@ -153,7 +173,7 @@ export function AutomationBlockSelector({
           handleInsertVariable={functionHandleAddVariable}
           isOpen={isVariablesPanelOpen}
           onClose={handleCloseVariablePanel}
-          blocks={[...blocks, ...publicationBlocks]}
+          blocks={[...blocksVariables, ...publicationBlocks]}
           connectedTemplates={connectedTemplates}
           setConnectedTemplates={setConnectedTemplates}
         />
