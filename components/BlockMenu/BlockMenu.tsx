@@ -20,7 +20,7 @@ export const BlockMenu = memo(function BlockMenu({
   const [isMoveSelected, setIsMoveSelected] = useState(false)
 
   return (
-    <div className="absolute right-0 top-0 z-10">
+    <div className="absolute right-0 top-0 z-50">
       <Menu placement="left-start">
         {!isMoveSelected && (
           <>

@@ -3,6 +3,7 @@ import { Card } from "components/Card/Card"
 import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
+import { Dialog } from "components/Dialog/Dialog"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
@@ -358,7 +359,7 @@ export function AutomationConfig({
   }, [runUpdate])
 
   return (
-    <div className={`w-full ${isOpen ? "" : "hidden"}`}>
+    <Dialog isOpen={isOpen} title={text("automationconfig:top_title")}>
       {!isBlockSelectorOpen && !isConditionalsOpen ? (
         <div className="flex flex-col items-center gap-3">
           <Card>
@@ -477,6 +478,6 @@ export function AutomationConfig({
           )}
         </>
       )}
-    </div>
+    </Dialog>
   )
 }
