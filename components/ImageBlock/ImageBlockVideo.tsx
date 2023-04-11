@@ -198,6 +198,7 @@ export const ImageBlockVideo = ({
             autoPlay
             loop
             muted
+            playsInline
           >
             <source src={block.data.img_url} type="video/mp4" />
           </video>
