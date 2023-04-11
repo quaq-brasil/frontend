@@ -44,6 +44,16 @@ const ImageBlock = dynamic(
   }
 )
 
+const ImageBlockVideo = dynamic(
+  () =>
+    import("components/ImageBlock/ImageBlockVideo").then(
+      (mod) => mod.ImageBlockVideo
+    ),
+  {
+    ssr: true,
+  }
+)
+
 const PoolBlock = dynamic(
   () => import("components/PoolBlock/PoolBlock").then((mod) => mod.PoolBlock),
   {
@@ -126,6 +136,7 @@ const blockComponents = {
   toggle: ToggleBlock,
   redirect: RedirectBlock,
   embed: EmbedBlock,
+  imagevideo: ImageBlockVideo,
 }
 
 type BlockWrapperProps = {
