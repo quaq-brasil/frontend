@@ -65,7 +65,7 @@ export function TemplateExecutionContent({
 
   const debouncedInteractions = useDebounce({
     value: interactions,
-    delay: 1000 * 1,
+    delay: 1000 * 0.1,
   })
 
   useEffect(() => {
