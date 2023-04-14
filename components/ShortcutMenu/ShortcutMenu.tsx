@@ -107,8 +107,7 @@ export function ShortcutMenu({
             </button>
             <button
               onClick={() => {
-                handleClose()
-                handleDeleteTemplate()
+                setIsOpen(true)
               }}
               className="min-w-[40px] h-10 rounded-full bg-white p-1 flex items-center justify-center"
             >
