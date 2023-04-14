@@ -483,18 +483,24 @@ export function CreatorPage({
             {
               onSuccess: (data) => {
                 setPages(data)
-                const currentPageId = loadData("currentPageId")
-                if (currentPageId) {
-                  const newCurrentPage = data.filter((page) => {
-                    if (page.id === currentPageId) {
-                      return page
+                if (!initialCurrentPageData) {
+                  const currentPageId = loadData("currentPageId")
+                  if (currentPageId) {
+                    const newCurrentPage = data.filter((page) => {
+                      if (page.id === currentPageId) {
+                        return page
+                      }
+                    })
+                    if (newCurrentPage[0]) {
+                      setCurrentPage(newCurrentPage[0])
                     }
-                  })
-                  if (newCurrentPage[0]) {
-                    setCurrentPage(newCurrentPage[0])
+                  } else {
+                    setCurrentPage(data[0])
+                    saveData("currentPageId", data[0].id)
                   }
                 } else {
-                  setCurrentPage(data[0])
+                  setCurrentPage(initialCurrentPageData)
+                  saveData("currentPageId", initialCurrentPageData.id)
                 }
               },
             }
