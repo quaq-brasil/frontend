@@ -1,3 +1,4 @@
+import { useDebounce } from "hooks/useDebouce"
 import dynamic from "next/dynamic"
 import Image from "next/image"
 import { ArrowsOutLineVertical } from "phosphor-react"
@@ -49,8 +50,18 @@ export const ImageBlock = ({
     value: null,
     locked_width: null,
   })
+  const [localBlockData, setLocalBlockData] = useState<ImageProps>()
+
+  const debouncedLocalBlockData = useDebounce({
+    value: localBlockData,
+    delay: 1000 * 0.25,
+  })
 
   const containerRef = useRef<HTMLDivElement>(null)
+
+  function handleUpdateLocalBlockData(newBlockData: ImageProps) {
+    setLocalBlockData({ ...localBlockData, ...newBlockData })
+  }
 
   const handleResize = useCallback(
     (startY: number, startHeight: number, clientY: number) => {
@@ -58,14 +69,13 @@ export const ImageBlock = ({
       const diff = newY - startY
       const newHeight = Math.max(startHeight + diff, 100)
       setHeight({ value: newHeight, locked_width: width })
-      handleAddBlock &&
-        handleAddBlock({
-          ...block,
-          data: {
-            ...block.data,
-            height: { value: newHeight, locked_width: width },
-          },
-        })
+      handleUpdateLocalBlockData({
+        ...block,
+        data: {
+          ...block.data,
+          height: { value: newHeight, locked_width: width },
+        },
+      })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [block]
@@ -110,6 +120,13 @@ export const ImageBlock = ({
   }
 
   useEffect(() => {
+    if (debouncedLocalBlockData) {
+      handleAddBlock && handleAddBlock(debouncedLocalBlockData)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedLocalBlockData])
+
+  useEffect(() => {
     const updateWidth = () => {
       if (containerRef.current) {
         const newWidth = containerRef.current.getBoundingClientRect().width
@@ -121,14 +138,13 @@ export const ImageBlock = ({
             value: block.data.height.value || 420,
             locked_width: block.data.height.locked_width || newWidth,
           }))
-          handleAddBlock &&
-            handleAddBlock({
-              ...block,
-              data: {
-                ...block.data,
-                height: { value: 420, locked_width: newWidth },
-              },
-            })
+          handleUpdateLocalBlockData({
+            ...block,
+            data: {
+              ...block.data,
+              height: { value: 420, locked_width: newWidth },
+            },
+          })
         }
       }
     }
@@ -142,7 +158,9 @@ export const ImageBlock = ({
   useEffect(() => {
     if (block.data && !isEditable) {
       setHeight(block.data.height)
+      setLocalBlockData(block)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [block.data, isEditable])
 
   useEffect(() => {
@@ -171,23 +189,16 @@ export const ImageBlock = ({
 
   useEffect(() => {
     if (isEditable && height.locked_width && height.value) {
-      handleAddBlock &&
-        handleAddBlock({
-          ...block,
-          data: {
-            ...block.data,
-            height: height,
-          },
-        })
+      handleUpdateLocalBlockData({
+        ...block,
+        data: {
+          ...block.data,
+          height: height,
+        },
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [height])
-
-  // useEffect(() => {
-  //   console.log("height", height)
-  //   console.log("width", width)
-  //   console.log("block", block)
-  // }, [width, height, block])
 
   return (
     <div

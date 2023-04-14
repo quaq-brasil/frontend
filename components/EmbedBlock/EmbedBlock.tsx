@@ -1,3 +1,4 @@
+import { useDebounce } from "hooks/useDebouce"
 import dynamic from "next/dynamic"
 import { ArrowsOutLineVertical } from "phosphor-react"
 import { useCallback, useEffect, useRef, useState } from "react"
@@ -54,8 +55,18 @@ export const EmbedBlock = ({
     value: null,
     locked_width: null,
   })
+  const [localBlockData, setLocalBlockData] = useState<IEmbedBlock>()
+
+  const debouncedLocalBlockData = useDebounce({
+    value: localBlockData,
+    delay: 1000 * 0.25,
+  })
 
   const containerRef = useRef<HTMLDivElement>(null)
+
+  function handleUpdateLocalBlockData(newBlockData: IEmbedBlock) {
+    setLocalBlockData({ ...localBlockData, ...newBlockData })
+  }
 
   const handleResize = useCallback(
     (startY: number, startHeight: number, clientY: number) => {
@@ -63,14 +74,13 @@ export const EmbedBlock = ({
       const diff = newY - startY
       const newHeight = Math.max(startHeight + diff, 100)
       setHeight({ value: newHeight, locked_width: width })
-      handleAddBlock &&
-        handleAddBlock({
-          ...block,
-          data: {
-            ...block.data,
-            height: { value: newHeight, locked_width: width },
-          },
-        })
+      handleUpdateLocalBlockData({
+        ...block,
+        data: {
+          ...block.data,
+          height: { value: newHeight, locked_width: width },
+        },
+      })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [block]
@@ -115,6 +125,13 @@ export const EmbedBlock = ({
   }
 
   useEffect(() => {
+    if (debouncedLocalBlockData) {
+      handleAddBlock && handleAddBlock(debouncedLocalBlockData)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedLocalBlockData])
+
+  useEffect(() => {
     const updateWidth = () => {
       if (containerRef.current) {
         const newWidth = containerRef.current.getBoundingClientRect().width
@@ -126,14 +143,13 @@ export const EmbedBlock = ({
             value: block.data.height.value || 420,
             locked_width: block.data.height.locked_width || newWidth,
           }))
-          handleAddBlock &&
-            handleAddBlock({
-              ...block,
-              data: {
-                ...block.data,
-                height: { value: 420, locked_width: newWidth },
-              },
-            })
+          handleUpdateLocalBlockData({
+            ...block,
+            data: {
+              ...block.data,
+              height: { value: 420, locked_width: newWidth },
+            },
+          })
         }
       }
     }
@@ -147,7 +163,9 @@ export const EmbedBlock = ({
   useEffect(() => {
     if (block.data && !isEditable) {
       setHeight(block.data.height)
+      setLocalBlockData(block)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [block.data, isEditable])
 
   useEffect(() => {
@@ -175,6 +193,19 @@ export const EmbedBlock = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [events])
 
+  useEffect(() => {
+    if (isEditable && height.locked_width && height.value) {
+      handleUpdateLocalBlockData({
+        ...block,
+        data: {
+          ...block.data,
+          height: height,
+        },
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [height])
+
   return (
     <div
       ref={containerRef}
@@ -188,8 +219,7 @@ export const EmbedBlock = ({
       {isEditable === true && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       <div
         className="flex relative justify-between items-center
-        min-w-[100%] bg-white
-        p-[0.75rem] rounded-[20px] lg:rounded-[30px]"
+        min-w-[100%] bg-white rounded-[20px] lg:rounded-[30px] overflow-hidden"
       >
         <ReactPlayer
           url={block.data.link}
