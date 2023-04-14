@@ -22,6 +22,7 @@ import { IUserPayload } from "types/Auth.types"
 import { IPage } from "types/Page.type"
 import { ITemplate } from "types/Template.type"
 import { IWorkspace } from "types/Workspace.type"
+import { loadData, saveData } from "utils/localStorage"
 import { pageUrls } from "utils/pagesUrl"
 import { CreatorPageContent } from "./CreatorPageContent"
 
@@ -43,12 +44,6 @@ export function CreatorPage({
   payload,
   handleUpdatePageTitle,
 }: CreatorPageProps) {
-  const text = useTranslation().t
-
-  const router = useRouter()
-
-  const getPages = useMutatePagesByWorkspaceId()
-
   const [pages, setPages] = useState<IPage[]>()
   const [currentPage, setCurrentPage] = useState<IPage>()
   const [workspaces, setWorkspaces] = useState<IWorkspace[]>(
@@ -56,117 +51,24 @@ export function CreatorPage({
   )
   const [currentWorkspace, setCurrentWorkspace] = useState<IWorkspace>()
   const [userData, setUserData] = useState<IUserPayload>(payload)
-
-  useEffect(() => {
-    if (currentPage) {
-      let pageTitle =
-        currentPage.title.charAt(0).toUpperCase() +
-        currentPage.title.slice(1).toLowerCase()
-      handleUpdatePageTitle &&
-        handleUpdatePageTitle({
-          title: pageTitle,
-          description: currentPage.description,
-        })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage])
-
-  useEffect(() => {
-    if (initialWorkspacesData) {
-      setWorkspaces([...initialWorkspacesData])
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialWorkspacesData])
-
-  useEffect(() => {
-    if (initialCurrentPageData && workspaces) {
-      setCurrentPage(initialCurrentPageData)
-      const newCurrentWorkspace = workspaces.filter((workspace) => {
-        if (workspace.id === initialCurrentPageData.workspace_id) {
-          return workspace
-        }
-      })
-      if (newCurrentWorkspace[0]) {
-        setCurrentWorkspace(newCurrentWorkspace[0])
-        getPages.mutate(
-          { id: newCurrentWorkspace[0].id },
-          {
-            onSuccess: (data) => {
-              setPages(data)
-            },
-          }
-        )
-      }
-    } else if (workspaces && workspaces.length > 0) {
-      setCurrentWorkspace(workspaces[0])
-      getPages.mutate(
-        { id: workspaces[0].id },
-        {
-          onSuccess: (data) => {
-            setPages(data)
-            setCurrentPage(data[0])
-          },
-        }
-      )
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialCurrentPageData, workspaces])
-
-  useEffect(() => {
-    if (payload) {
-      setUserData(payload)
-    }
-  }, [payload])
-
-  function handleCurrentWorkspaceUpdate(newWorkspace: IWorkspace) {
-    setCurrentWorkspace(newWorkspace)
-    getPages.mutate(
-      { id: newWorkspace.id },
-      {
-        onSuccess: (data) => {
-          setPages(data)
-          setCurrentPage(data[0])
-          router.push(pageUrls.pageSettings({ pageSlug: data[0].slug }))
-        },
-      }
-    )
-  }
-
+  const [templates, setTemplates] = useState<ITemplate[]>()
   const {
     handleToggleContextMenu,
     handleUpdateContextMenu,
     handleCloseContextMenu,
   } = useContextMenu()
-
   const [isSwitchSelected, setIsSwitchSelected] = useState(false)
-
   const [contextMenuSwitch, setContextMenuSwitch] = useState<string | null>(
     null
   )
 
-  function loadWorkspaces() {
-    if (workspaces) {
-      const workspacesTags: JSX.Element[] = workspaces.map((workspace) => {
-        if (currentWorkspace.id != workspace.id) {
-          return (
-            <div key={workspace.id} className="w-fit">
-              <Tag
-                variant="img-txt"
-                img_url={workspace.avatar_url || ""}
-                text={workspace.title || ""}
-                isSelected={workspace.id == currentWorkspace?.id}
-                onClick={() => {
-                  handleCloseContextMenu()
-                  handleCurrentWorkspaceUpdate(workspace)
-                }}
-              />
-            </div>
-          )
-        }
-      })
-      return workspacesTags
-    }
-  }
+  const text = useTranslation().t
+
+  const router = useRouter()
+
+  const getPages = useMutatePagesByWorkspaceId()
+
+  const getTemplates = useMutateTemplatesByPageId()
 
   const workspaceContextMenuContent = (
     <div
@@ -244,29 +146,6 @@ export function CreatorPage({
       </div>
     </div>
   )
-
-  function loadPages() {
-    if (pages) {
-      const pagesTags: JSX.Element[] = pages.map((page) => {
-        return (
-          <div key={page.id} className="w-fit">
-            <Tag
-              variant="img-txt"
-              text={page?.title || ""}
-              img_url={page?.avatar_url || ""}
-              isSelected={page.id == currentPage?.id}
-              onClick={() => {
-                handleCloseContextMenu()
-                setCurrentPage(page)
-                router.push(pageUrls.pageSettings({ pageSlug: page.slug }))
-              }}
-            />
-          </div>
-        )
-      })
-      return pagesTags
-    }
-  }
 
   const tabbarContextMenuContent = (
     <div className="fixed w-full px-[16px] flex flex-row justify-between left-0 right-0 bottom-[16px]">
@@ -350,19 +229,77 @@ export function CreatorPage({
     </div>
   )
 
-  useEffect(() => {
-    if (contextMenuSwitch === "workspace") {
-      handleUpdateContextMenu(workspaceContextMenuContent)
-    } else if (contextMenuSwitch === "tabbar") {
-      handleUpdateContextMenu(tabbarContextMenuContent)
+  function handleCurrentWorkspaceUpdate(newWorkspace: IWorkspace) {
+    setCurrentWorkspace(newWorkspace)
+    saveData("currentWorkspaceId", newWorkspace.id)
+    getPages.mutate(
+      { id: newWorkspace.id },
+      {
+        onSuccess: (data) => {
+          setPages(data)
+          setCurrentPage(data[0])
+        },
+      }
+    )
+  }
+
+  function handleCurrentPageUpdate(newPage: IPage) {
+    setCurrentPage(newPage)
+    saveData("currentPageId", newPage.id)
+    router.push(pageUrls.pageSettings({ pageSlug: newPage.slug }))
+  }
+
+  function loadWorkspaces() {
+    if (workspaces) {
+      const workspacesTags: JSX.Element[] = workspaces.map((workspace) => {
+        if (currentWorkspace.id != workspace.id) {
+          return (
+            <div key={workspace.id} className="w-fit">
+              <Tag
+                variant="img-txt"
+                img_url={workspace.avatar_url || ""}
+                text={workspace.title || ""}
+                isSelected={workspace.id == currentWorkspace?.id}
+                onClick={() => {
+                  handleCloseContextMenu()
+                  handleCurrentWorkspaceUpdate(workspace)
+                }}
+              />
+            </div>
+          )
+        }
+      })
+      return workspacesTags
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSwitchSelected])
+  }
+
+  function loadPages() {
+    if (pages) {
+      const pagesTags: JSX.Element[] = pages.map((page) => {
+        return (
+          <div key={page.id} className="w-fit">
+            <Tag
+              variant="img-txt"
+              text={page?.title || ""}
+              img_url={page?.avatar_url || ""}
+              isSelected={page.id == currentPage?.id}
+              onClick={() => {
+                handleCloseContextMenu()
+                handleCurrentPageUpdate(page)
+              }}
+            />
+          </div>
+        )
+      })
+      return pagesTags
+    }
+  }
 
   function handleSwitchClick() {
     setIsSwitchSelected((prev) => !prev)
     handleUpdateContextMenu(workspaceContextMenuContent)
   }
+
   const handleHeaderTagContextMenu = () => {
     setContextMenuSwitch("workspace")
     handleToggleContextMenu(workspaceContextMenuContent)
@@ -523,9 +460,56 @@ export function CreatorPage({
     )
   }
 
-  const getTemplates = useMutateTemplatesByPageId()
+  function handleUpdateTemplates(newTemplates: ITemplate[]) {
+    setTemplates([...newTemplates])
+  }
 
-  const [templates, setTemplates] = useState<ITemplate[]>()
+  useEffect(() => {
+    if (initialWorkspacesData) {
+      setWorkspaces([...initialWorkspacesData])
+      const currentWorkspaceId = loadData("currentWorkspaceId")
+      if (currentWorkspaceId) {
+        const newCurrentWorkspace = initialWorkspacesData.filter(
+          (workspace) => {
+            if (workspace.id === currentWorkspaceId) {
+              return workspace
+            }
+          }
+        )
+        if (newCurrentWorkspace[0]) {
+          setCurrentWorkspace(newCurrentWorkspace[0])
+          getPages.mutate(
+            { id: newCurrentWorkspace[0].id },
+            {
+              onSuccess: (data) => {
+                setPages(data)
+                const currentPageId = loadData("currentPageId")
+                if (currentPageId) {
+                  const newCurrentPage = data.filter((page) => {
+                    if (page.id === currentPageId) {
+                      return page
+                    }
+                  })
+                  if (newCurrentPage[0]) {
+                    setCurrentPage(newCurrentPage[0])
+                  }
+                } else {
+                  setCurrentPage(data[0])
+                }
+              },
+            }
+          )
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialWorkspacesData])
+
+  useEffect(() => {
+    if (payload) {
+      setUserData(payload)
+    }
+  }, [payload])
 
   useEffect(() => {
     if (currentPage) {
@@ -543,9 +527,28 @@ export function CreatorPage({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage])
 
-  function handleUpdateTemplates(newTemplates: ITemplate[]) {
-    setTemplates([...newTemplates])
-  }
+  useEffect(() => {
+    if (currentPage) {
+      let pageTitle =
+        currentPage.title.charAt(0).toUpperCase() +
+        currentPage.title.slice(1).toLowerCase()
+      handleUpdatePageTitle &&
+        handleUpdatePageTitle({
+          title: pageTitle,
+          description: currentPage.description,
+        })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage])
+
+  useEffect(() => {
+    if (contextMenuSwitch === "workspace") {
+      handleUpdateContextMenu(workspaceContextMenuContent)
+    } else if (contextMenuSwitch === "tabbar") {
+      handleUpdateContextMenu(tabbarContextMenuContent)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSwitchSelected])
 
   return (
     <div className="bg-slate-100 fixed inset-0">
