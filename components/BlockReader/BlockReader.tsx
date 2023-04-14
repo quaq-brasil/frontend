@@ -54,8 +54,8 @@ const ImageBlockVideo = dynamic(
   }
 )
 
-const PoolBlock = dynamic(
-  () => import("components/PoolBlock/PoolBlock").then((mod) => mod.PoolBlock),
+const PollBlock = dynamic(
+  () => import("components/PollBlock/PollBlock").then((mod) => mod.PollBlock),
   {
     ssr: true,
   }
@@ -125,7 +125,8 @@ type BlockReaderProps = {
 
 const blockComponents = {
   text: TextBlock,
-  pool: PoolBlock,
+  poll: PollBlock,
+  pool: PollBlock,
   image: ImageBlock,
   review: ReviewBlock,
   textentry: TextEntryBlock,

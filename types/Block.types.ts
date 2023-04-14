@@ -2,7 +2,7 @@ export type IBlock = {
   id?: string
   type?:
     | "text"
-    | "pool"
+    | "poll"
     | "image"
     | "review"
     | "textentry"

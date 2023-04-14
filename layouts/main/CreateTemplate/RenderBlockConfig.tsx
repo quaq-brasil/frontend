@@ -38,9 +38,9 @@ const RedirectConfig = dynamic(() =>
   )
 )
 
-const PoolConfig = dynamic(() =>
-  import("layouts/BlocksConfig/PoolConfig/PoolConfig").then(
-    (mod) => mod.PoolConfig
+const PollConfig = dynamic(() =>
+  import("layouts/BlocksConfig/PollConfig/PollConfig").then(
+    (mod) => mod.PollConfig
   )
 )
 
@@ -138,8 +138,8 @@ const blockConfigurations: BlockConfigurations = {
   fileentry: {
     component: FileSharingConfig,
   },
-  pool: {
-    component: PoolConfig,
+  poll: {
+    component: PollConfig,
   },
   button: {
     component: ButtonConfig,

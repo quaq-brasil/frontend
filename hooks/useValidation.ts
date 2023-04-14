@@ -144,4 +144,18 @@ export const validationRules = {
     (value: string) => {
       return !urlPattern.test(value) ? errorMessage : null
     },
+  optional:
+    <T>(validator: Validator<T>, ...args: any[]): Validator<T> =>
+    (value: T) => {
+      if (value === null || value === undefined || value === "") {
+        return null
+      }
+      return validator(value, ...args)
+    },
+  number:
+    (errorMessage: string): Validator<any> =>
+    (value: any) => {
+      const numberValue = Number(value)
+      return isNaN(numberValue) ? errorMessage : null
+    },
 }

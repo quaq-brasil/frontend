@@ -69,7 +69,7 @@ export const BlockSelector = memo(function BlockSelector(
           textKey: "blockselector:textentry",
           value: "textentry",
         },
-        { icon: CheckSquare, textKey: "blockselector:pool", value: "pool" },
+        { icon: CheckSquare, textKey: "blockselector:poll", value: "poll" },
         { icon: RadioButton, textKey: "blockselector:button", value: "button" },
         { icon: ToggleLeft, textKey: "blockselector:toggle", value: "toggle" },
         { icon: Star, textKey: "blockselector:review", value: "review" },

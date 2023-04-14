@@ -5,5 +5,6 @@
   "validname": "Name must contain at least 2 letters.",
   "validtitle": "Title must contain at least 2 letters.",
   "passwordmatch": "Passwords do not match.",
-  "url": "Please enter a valid URL."
+  "url": "Please enter a valid URL.",
+  "number": "Please enter a valid number."
 }

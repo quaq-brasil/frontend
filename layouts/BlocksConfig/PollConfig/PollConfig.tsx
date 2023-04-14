@@ -1,7 +1,3 @@
-import useTranslation from "next-translate/useTranslation"
-import { BracketsCurly, X } from "phosphor-react"
-import { useEffect, useState } from "react"
-
 import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
 import { CardText } from "components/Card/CardContentVariants/CardText"
@@ -10,9 +6,12 @@ import { Dialog } from "components/Dialog/Dialog"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import { useValidation, validationRules } from "hooks/useValidation"
+import useTranslation from "next-translate/useTranslation"
+import { BracketsCurly, X } from "phosphor-react"
+import { useEffect, useState } from "react"
 import { BlocksConfigProps } from "types/BlockConfig.types"
 
-export function PoolConfig({
+export function PollConfig({
   handleAddBlock,
   isOpen,
   onClose,
@@ -30,7 +29,6 @@ export function PoolConfig({
 
   type PoolProps = {
     options?: options[]
-    description?: string
     max?: string
     min?: string
     save_as?: string
@@ -46,17 +44,21 @@ export function PoolConfig({
       initialValue: [{ id: 0, value: "" }],
       validators: [validationRules.required(text("validation:required"))],
     },
-    description: {
-      initialValue: "",
-      validators: [validationRules.required(text("validation:required"))],
-    },
     max: {
       initialValue: "",
-      validators: [validationRules.required(text("validation:required"))],
+      validators: [
+        validationRules.optional(
+          validationRules.number(text("validation:number"))
+        ),
+      ],
     },
     min: {
       initialValue: "",
-      validators: [validationRules.required(text("validation:required"))],
+      validators: [
+        validationRules.optional(
+          validationRules.number(text("validation:number"))
+        ),
+      ],
     },
     save_as: {
       initialValue: "",
@@ -90,9 +92,6 @@ export function PoolConfig({
   function checkIfDataHasChanged() {
     if (blockData) {
       let hasDataChanged = false
-      if (blockData?.data?.description !== localBlockData?.description) {
-        hasDataChanged = true
-      }
       if (blockData?.data?.max !== localBlockData?.max) {
         hasDataChanged = true
       }
@@ -113,7 +112,6 @@ export function PoolConfig({
 
   function handleClosing() {
     setLocalBlockData({
-      description: "",
       max: "",
       min: "",
       options: [{ id: 0, value: "" }],
@@ -128,10 +126,9 @@ export function PoolConfig({
   function onAddBlock() {
     handleAddBlock({
       id: blockData?.id || undefined,
-      type: "pool",
+      type: "poll",
       save_as: localBlockData.save_as,
       data: {
-        description: localBlockData.description,
         max: localBlockData.max,
         min: localBlockData.min,
         options: localBlockData.options,
@@ -212,18 +209,6 @@ export function PoolConfig({
     handleOpenVariablePanel()
   }
 
-  const handleOpenVariablePanelForTitle = () => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateLocalBlockData({
-          description: localBlockData.description
-            ? `${localBlockData.description}${variable}`
-            : variable,
-        })
-      })
-    handleOpenVariablePanel()
-  }
-
   const handleOpenVariablePanelForMax = () => {
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
@@ -263,7 +248,6 @@ export function PoolConfig({
   useEffect(() => {
     if (blockData) {
       setLocalBlockData({
-        description: blockData.data.description,
         max: blockData.data.max,
         min: blockData.data.min,
         options: blockData.data.options,
@@ -309,29 +293,8 @@ export function PoolConfig({
 
   return (
     <>
-      <Dialog
-        isOpen={isOpen}
-        title={text("poolconfig:toptitle")}
-        onClose={() => {}}
-      >
+      <Dialog isOpen={isOpen} title={text("poolconfig:toptitle")}>
         <div className="flex flex-col items-center gap-3 scrollbar-hide">
-          <Card>
-            <CardText label={text("poolconfig:title")} />
-            <CardTextInput
-              input={{
-                label: text("poolconfig:titlelabel"),
-                onChange: (title) => {
-                  handleUpdateLocalBlockData({ description: title })
-                },
-                value: localBlockData.description,
-                errors: hasDataChanged ? LocalBlockDataErrors.description : [],
-              }}
-              indicator={{
-                icon: BracketsCurly,
-                onClick: handleOpenVariablePanelForTitle,
-              }}
-            />
-          </Card>
           <Card>
             <CardText label={text("poolconfig:max")} />
             <CardTextInput
