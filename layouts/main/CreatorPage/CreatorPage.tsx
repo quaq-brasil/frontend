@@ -7,6 +7,9 @@ import { useRouter } from "next/router"
 import {
   ArrowsCounterClockwise,
   ArrowsLeftRight,
+  Compass,
+  FilePlus,
+  List,
   MagnifyingGlass,
   Plus,
   User,
@@ -374,8 +377,9 @@ export function CreatorPage({
     return [
       <Tag
         key={1}
-        variant="txt"
+        variant="icn-txt"
         text={text("creatorpage:general")}
+        icon={List}
         onClick={() => {
           handleCloseContextMenu()
           router.push(
@@ -388,8 +392,9 @@ export function CreatorPage({
       />,
       <Tag
         key={2}
-        variant="txt"
+        variant="icn-txt"
         text={text("creatorpage:new")}
+        icon={Plus}
         onClick={() => {
           handleCloseContextMenu()
           router.push(pageUrls.createTemplate(currentPage?.slug))
@@ -418,8 +423,9 @@ export function CreatorPage({
           <div className="w-fit">
             <Tag
               key={1}
-              variant="txt"
+              variant="icn-txt"
               text={text("creatorpage:general")}
+              icon={List}
               onClick={() =>
                 router.push(
                   pageUrls.pageSettings({
@@ -433,8 +439,9 @@ export function CreatorPage({
           <div className="w-fit">
             <Tag
               key={2}
-              variant="txt"
+              variant="icn-txt"
               text={text("creatorpage:new")}
+              icon={Plus}
               onClick={() =>
                 router.push(pageUrls.createTemplate(currentPage?.slug))
               }
@@ -449,8 +456,9 @@ export function CreatorPage({
           </div>
           <div className="w-fit">
             <Tag
-              variant="txt"
+              variant="icn-txt"
               text={text("creatorpage:explore")}
+              icon={Compass}
               onClick={() => router.push(pageUrls.home())}
             />
           </div>
@@ -463,7 +471,7 @@ export function CreatorPage({
           <div className="mb-[68px]">
             <Tag
               variant="icn-txt"
-              icon={Plus}
+              icon={FilePlus}
               text={text("creatorpage:newpage")}
               onClick={() =>
                 router.push(
