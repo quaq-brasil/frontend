@@ -159,9 +159,6 @@ const blockConfigurations: BlockConfigurations = {
   automation: {
     component: AutomationConfig,
   },
-  chart: {
-    component: ChartConfig,
-  },
   redirect: {
     component: RedirectConfig,
   },
