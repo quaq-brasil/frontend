@@ -70,42 +70,42 @@ export const WebhookBlock = ({
         </p>
       </div>
       <CardLine />
-      <div>
+      <div className="flex flex-row gap-3 lg:text-[1.1rem] p-2 overflow-x-scroll scrollbar-hide">
         {block?.data?.type && (
-          <>
+          <div className="p-2 rounded-lg ring-1 ring-slate-200 h-fit">
             <p className="font-semibold">{text("webhookconfig:type")}</p>
-            <p className="pl-3 mb-2">{block.data.type}</p>
-          </>
+            <p>{block.data.type}</p>
+          </div>
         )}
         {block?.data?.link && (
-          <>
+          <div className="p-2 rounded-lg ring-1 ring-slate-200 h-fit">
             <p className="font-semibold">link</p>
-            <p className="pl-3 mb-2">{block.data.link}</p>
-          </>
+            <p>{block.data.link}</p>
+          </div>
         )}
         {block?.data?.parameters && (
-          <>
+          <div className="p-2 rounded-lg ring-1 ring-slate-200 h-fit">
             <p className="font-semibold">{text("webhookconfig:parameters")}</p>
-            <p className="pl-3 mb-2">{block.data.parameters}</p>
-          </>
+            <p>{block.data.parameters}</p>
+          </div>
         )}
         {block?.data?.header && (
-          <>
+          <div className="p-2 rounded-lg ring-1 ring-slate-200 h-fit">
             <p className="font-semibold">{"header"}</p>
-            <p className="pl-3 mb-2">{block.data.parameters}</p>
-          </>
+            <p>{block.data.parameters}</p>
+          </div>
         )}
         {block?.data?.body && (
-          <>
+          <div className="p-2 rounded-lg ring-1 ring-slate-200 h-fit">
             <p className="font-semibold">{"body"}</p>
-            <p className="pl-3 mb-2">{block.data.parameters}</p>
-          </>
+            <p>{block.data.parameters}</p>
+          </div>
         )}
         {block?.save_as && (
-          <>
+          <div className="p-2 rounded-lg ring-1 ring-slate-200 h-fit">
             <p className="font-semibold">{text("webhookconfig:saveas")}</p>
-            <p className="pl-3 mb-2">{block.save_as}</p>
-          </>
+            <p>{block.save_as}</p>
+          </div>
         )}
       </div>
     </div>
