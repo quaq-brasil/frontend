@@ -482,7 +482,7 @@ export function CreatorPage({
     setCurrentWorkspace(currentWorkspace)
 
     getPages.mutate(
-      { id: currentWorkspace.id },
+      { id: currentWorkspace?.id },
       {
         onSuccess: (data) => {
           setPages(data)
