@@ -1,9 +1,10 @@
 import { CardLine } from "components/Card/CardContentVariants/CardLine"
+import { useDebounce } from "hooks/useDebouce"
 import dynamic from "next/dynamic"
 import Image from "next/image"
-import { EyeSlash } from "phosphor-react"
-import { useEffect, useState } from "react"
-import { IBlock } from "types/Block.types"
+import { ArrowsOutLineVertical, EyeSlash } from "phosphor-react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { BlockProps, IBlock } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
 
 const BlockMenu = dynamic(
@@ -11,11 +12,17 @@ const BlockMenu = dynamic(
   { ssr: false }
 )
 
+interface IHeight {
+  value: number | null
+  locked_width: number | null
+}
+
 type IData = {
   description?: string
   link?: string
   type?: string
   cover_image?: string
+  height: IHeight
 }
 
 type IRedirectBlock = {
@@ -28,6 +35,13 @@ type RedirectBlockProps = {
   onDelete?: () => void
   handleUpdateInteractions?: (interaction: IInteractionData) => void
   onEdit?: () => void
+  handleAddBlock?: (newBlock: BlockProps) => void
+}
+
+type IEvent = {
+  displayedAt?: string
+  lastInteractionAt?: string
+  firstInteractionAt?: string
 }
 
 export const RedirectBlock = ({
@@ -36,14 +50,26 @@ export const RedirectBlock = ({
   onDelete,
   handleUpdateInteractions,
   onEdit,
+  handleAddBlock,
 }: RedirectBlockProps) => {
-  type IEvent = {
-    displayedAt?: string
-    lastInteractionAt?: string
-    firstInteractionAt?: string
-  }
-
   const [events, setEvents] = useState<IEvent>()
+  const [width, setWidth] = useState<number | undefined>()
+  const [height, setHeight] = useState<IHeight>({
+    value: null,
+    locked_width: null,
+  })
+  const [localBlockData, setLocalBlockData] = useState<IRedirectBlock>()
+
+  const debouncedLocalBlockData = useDebounce({
+    value: localBlockData,
+    delay: 1000 * 0.25,
+  })
+
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  function handleUpdateLocalBlockData(newBlockData: IRedirectBlock) {
+    setLocalBlockData({ ...localBlockData, ...newBlockData })
+  }
 
   function handleUpdateEvents(newEvent: IEvent) {
     setEvents((state) => {
@@ -101,6 +127,98 @@ export const RedirectBlock = ({
     onInteraction()
   }
 
+  const handleResize = useCallback(
+    (startY: number, startHeight: number, clientY: number) => {
+      const newY = clientY
+      const diff = newY - startY
+      const newHeight = Math.max(startHeight + diff, 100)
+      setHeight({ value: newHeight, locked_width: width })
+      handleUpdateLocalBlockData({
+        ...block,
+        data: {
+          ...block.data,
+          height: { value: newHeight, locked_width: width },
+        },
+      })
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [block]
+  )
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!isEditable) return
+
+    const startY = e.clientY
+    const startHeight = containerRef.current?.clientHeight || 0
+
+    const handleMouseMove = (e: MouseEvent) => {
+      handleResize(startY, startHeight, e.clientY)
+    }
+
+    const handleMouseUp = () => {
+      document.removeEventListener("mousemove", handleMouseMove)
+      document.removeEventListener("mouseup", handleMouseUp)
+    }
+
+    document.addEventListener("mousemove", handleMouseMove)
+    document.addEventListener("mouseup", handleMouseUp)
+  }
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!isEditable) return
+
+    const startY = e.touches[0].clientY
+    const startHeight = containerRef.current?.clientHeight || 0
+
+    const handleTouchMove = (e: TouchEvent) => {
+      handleResize(startY, startHeight, e.touches[0].clientY)
+    }
+
+    const handleTouchEnd = () => {
+      document.removeEventListener("touchmove", handleTouchMove)
+      document.removeEventListener("touchend", handleTouchEnd)
+    }
+
+    document.addEventListener("touchmove", handleTouchMove)
+    document.addEventListener("touchend", handleTouchEnd)
+  }
+
+  useEffect(() => {
+    if (debouncedLocalBlockData) {
+      handleAddBlock && handleAddBlock(debouncedLocalBlockData)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedLocalBlockData])
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (containerRef.current) {
+        const newWidth = containerRef.current.getBoundingClientRect().width
+        setWidth(newWidth)
+
+        if (isEditable && height.locked_width === null) {
+          setHeight((prevState) => ({
+            ...prevState,
+            value: block.data.height.value || 420,
+            locked_width: block.data.height.locked_width || newWidth,
+          }))
+          handleUpdateLocalBlockData({
+            ...block,
+            data: {
+              ...block.data,
+              height: { value: 420, locked_width: newWidth },
+            },
+          })
+        }
+      }
+    }
+
+    updateWidth()
+    window.addEventListener("resize", updateWidth)
+    return () => window.removeEventListener("resize", updateWidth)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEditable, height.locked_width, block])
+
   useEffect(() => {
     if (!events?.displayedAt) {
       const displayedAt = new Date().toString()
@@ -116,9 +234,15 @@ export const RedirectBlock = ({
     <>
       {block.data.type === "manual" ? (
         <>
-          <button
+          <div
             onClick={handleRedirection}
-            className="flex relative justify-end w-full h-[14rem] lg:h-[19rem]"
+            className="flex relative justify-end w-full h-[14rem] lg:h-[19rem] cursor-pointer"
+            ref={containerRef}
+            style={{
+              height: height.locked_width
+                ? `${height.value * (width / height.locked_width)}px`
+                : `${height.value}px`,
+            }}
           >
             {isEditable === true && (
               <BlockMenu onDelete={onDelete} onEdit={onEdit} />
@@ -147,7 +271,17 @@ export const RedirectBlock = ({
               33vw"
               loading="lazy"
             />
-          </button>
+            {isEditable && (
+              <div
+                className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-slate-500 rounded-full 
+          cursor-row-resize flex justify-center items-center mb-[-6px] lg:mb-[-10px] z-10"
+                onMouseDown={handleMouseDown}
+                onTouchStart={handleTouchStart}
+              >
+                <ArrowsOutLineVertical className="text-white" weight="bold" />
+              </div>
+            )}
+          </div>
         </>
       ) : (
         <div

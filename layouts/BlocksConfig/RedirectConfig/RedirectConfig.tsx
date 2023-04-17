@@ -30,6 +30,10 @@ export function RedirectConfig({
     link?: string
     type?: string
     cover_image?: string
+    height?: {
+      value?: number | null
+      locked_width?: number | null
+    }
     save_as?: string
   }
 
@@ -52,6 +56,10 @@ export function RedirectConfig({
     },
     type: {
       initialValue: blockData?.data?.type || "manual",
+      validators: [validationRules.required(text("validation:required"))],
+    },
+    height: {
+      initialValue: blockData?.data?.height || { locked_width: 0, value: 420 },
       validators: [validationRules.required(text("validation:required"))],
     },
     save_as: {
@@ -114,6 +122,10 @@ export function RedirectConfig({
       link: "",
       type: "manual",
       save_as: "",
+      height: {
+        value: null,
+        locked_width: null,
+      },
     })
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
@@ -131,6 +143,10 @@ export function RedirectConfig({
         description: localBlockData.description,
         link: localBlockData.link,
         type: localBlockData.type,
+        height: {
+          value: null,
+          locked_width: null,
+        },
       },
     })
     handleClosing()
