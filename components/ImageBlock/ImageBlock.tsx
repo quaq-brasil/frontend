@@ -203,7 +203,7 @@ export const ImageBlock = ({
   return (
     <div
       ref={containerRef}
-      className="flex relative justify-end"
+      className="flex relative justify-end select-none"
       style={{
         height: height.locked_width
           ? `${height.value * (width / height.locked_width)}px`
@@ -213,7 +213,7 @@ export const ImageBlock = ({
       {isEditable && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       {block.data.img_url ? (
         <Image
-          className="rounded-[20px] lg:rounded-[30px]"
+          className="rounded-[20px] lg:rounded-[30px] select-none"
           src={block.data.img_url}
           fill
           style={{ objectFit: "cover" }}
@@ -236,7 +236,7 @@ export const ImageBlock = ({
       {isEditable && (
         <div
           className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-slate-500 rounded-full 
-          cursor-row-resize flex justify-center items-center mb-[-6px] lg:mb-[-10px]"
+          cursor-row-resize flex justify-center items-center mb-[-6px] lg:mb-[-10px] select-none"
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
         >
