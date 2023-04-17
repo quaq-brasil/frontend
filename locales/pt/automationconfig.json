@@ -37,9 +37,10 @@
   "or": "or",
   "manage_blocks": "blocos condicionados",
   "cancel": "cancelar",
-  "add_blocks": "adicionar blocos",
+  "add_blocks": "confirmar",
   "back": "voltar",
   "conditionals": "condicionais",
   "settings": "ajustes",
-  "save": "salvar"
+  "save": "salvar",
+  "update": "update"
 }

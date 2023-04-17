@@ -37,9 +37,10 @@
   "or": "or",
   "manage_blocks": "conditional blocks",
   "cancel": "cancel",
-  "add_blocks": "add blocks",
+  "add_blocks": "confirm",
   "back": "back",
   "conditionals": "conditionals",
   "settings": "settings",
-  "save": "save"
+  "save": "save",
+  "update": "update"
 }

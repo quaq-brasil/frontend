@@ -60,7 +60,7 @@ export const BlockMenu = memo(function BlockMenu({
                   {text("blockmenu:drag")}
                 </p>
               </MenuItem>
-              <MenuItem className="flex justify-start w-full">
+              <MenuItem className="flex justify-start w-full mb-2">
                 <p
                   onClick={() => {
                     setSelected(false)
