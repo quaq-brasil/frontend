@@ -465,49 +465,39 @@ export function CreatorPage({
   }
 
   useEffect(() => {
-    if (initialWorkspacesData) {
-      setWorkspaces([...initialWorkspacesData])
-      const currentWorkspaceId = loadData("currentWorkspaceId")
-      if (currentWorkspaceId) {
-        const newCurrentWorkspace = initialWorkspacesData.filter(
-          (workspace) => {
-            if (workspace.id === currentWorkspaceId) {
-              return workspace
-            }
-          }
-        )
-        if (newCurrentWorkspace[0]) {
-          setCurrentWorkspace(newCurrentWorkspace[0])
-          getPages.mutate(
-            { id: newCurrentWorkspace[0].id },
-            {
-              onSuccess: (data) => {
-                setPages(data)
-                if (!initialCurrentPageData) {
-                  const currentPageId = loadData("currentPageId")
-                  if (currentPageId) {
-                    const newCurrentPage = data.filter((page) => {
-                      if (page.id === currentPageId) {
-                        return page
-                      }
-                    })
-                    if (newCurrentPage[0]) {
-                      setCurrentPage(newCurrentPage[0])
-                    }
-                  } else {
-                    setCurrentPage(data[0])
-                    saveData("currentPageId", data[0].id)
-                  }
-                } else {
-                  setCurrentPage(initialCurrentPageData)
-                  saveData("currentPageId", initialCurrentPageData.id)
-                }
-              },
-            }
-          )
-        }
-      }
+    if (!initialWorkspacesData) return
+
+    setWorkspaces([...initialWorkspacesData])
+
+    const currentWorkspaceId =
+      loadData("currentWorkspaceId") || initialWorkspacesData[0].id
+    const currentWorkspace = initialWorkspacesData.find(
+      (workspace) => workspace.id === currentWorkspaceId
+    )
+
+    if (loadData("currentWorkspaceId") === undefined) {
+      saveData("currentWorkspaceId", currentWorkspaceId)
     }
+
+    setCurrentWorkspace(currentWorkspace)
+
+    getPages.mutate(
+      { id: currentWorkspace.id },
+      {
+        onSuccess: (data) => {
+          setPages(data)
+          const currentPageId = !initialCurrentPageData
+            ? loadData("currentPageId")
+            : initialCurrentPageData.id
+          const currentPage = currentPageId
+            ? data.find((page) => page.id === currentPageId)
+            : data[0]
+          setCurrentPage(currentPage || data[0])
+          saveData("currentPageId", currentPage?.id || data[0].id)
+        },
+      }
+    )
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialWorkspacesData])
 
