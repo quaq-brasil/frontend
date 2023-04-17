@@ -49,9 +49,13 @@ export function TemplateExecutionContent({
   const createInteraction = useCreateInteraction()
   const updateInteraction = useUpdateInteraction()
 
-  const { user } = useUserAuth()
+  const { user, createAnonymousUser } = useUserAuth()
 
   function handleUpdateInteractions(interaction: any) {
+    if (!user?.id) {
+      createAnonymousUser()
+    }
+
     setInteractions((state) => {
       const ints = state.filter((int) => {
         if (int?.config.id !== interaction.id) {
