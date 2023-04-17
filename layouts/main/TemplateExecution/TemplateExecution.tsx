@@ -32,12 +32,12 @@ export function TemplateExecution({
 
   function handleTabBar() {
     return [
-      <Tag
-        key={1}
-        variant="txt"
-        text={text("profile:back")}
-        onClick={() => router.back()}
-      />,
+      // <Tag
+      //   key={1}
+      //   variant="txt"
+      //   text={text("profile:back")}
+      //   onClick={() => router.back()}
+      // />,
       <Tag
         key={2}
         variant="txt"
