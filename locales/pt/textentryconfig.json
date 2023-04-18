@@ -21,5 +21,7 @@
   "option8": "texto longo",
   "option9": "texto curto",
   "updateblock": "atualizar bloco",
-  "update": "atualizar"
+  "update": "atualizar",
+  "phoneerror": "número de celular inválido",
+  "country": "BR"
 }

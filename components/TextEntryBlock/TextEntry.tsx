@@ -1,6 +1,13 @@
 import useTranslation from "next-translate/useTranslation"
+import dynamic from "next/dynamic"
 import { useState } from "react"
+import { isValidPhoneNumber } from "react-phone-number-input"
 import { validateEmail, validateNumber, validateUrl } from "utils/validations"
+
+const PhoneInput = dynamic(
+  () => import("react-phone-number-input/input").then((mod) => mod),
+  { ssr: false }
+)
 
 type TextEntryProps = {
   type: string
@@ -9,7 +16,7 @@ type TextEntryProps = {
 }
 
 export function TextEntry({ placeholder, type, onChange }: TextEntryProps) {
-  const [value, setValue] = useState<string | number | undefined>(undefined)
+  const [value, setValue] = useState<any>()
   const [valid, setValid] = useState(true)
   const [error, setError] = useState("")
 
@@ -66,6 +73,11 @@ export function TextEntry({ placeholder, type, onChange }: TextEntryProps) {
         setError("")
         setValid(true)
     }
+  }
+
+  const handlePhoneChange = (e: any) => {
+    setValue(e)
+    onChange && onChange(e)
   }
 
   switch (type) {
@@ -169,6 +181,38 @@ export function TextEntry({ placeholder, type, onChange }: TextEntryProps) {
             </p>
           )}
         </div>
+      )
+    case "date":
+      return (
+        <div>
+          <input
+            type="date"
+            className={`w-full bg-slate-50 p-3 placeholder:text-slate-500 focus:outline-none text-[1rem] md:text-[1.125rem]`}
+            placeholder={placeholder || text("textentryblock:placeholder")}
+            value={value}
+            onChange={handleChange}
+          />
+          {!valid && (
+            <p className="text-red-500 w-full text-center text-[1rem] md:text-[1.125rem]">
+              {error}
+            </p>
+          )}
+        </div>
+      )
+    case "phone":
+      return (
+        <PhoneInput
+          international
+          className="w-full bg-slate-50 p-3 placeholder:text-slate-500 focus:outline-none text-[1rem] md:text-[1.125rem]"
+          placeholder={placeholder || text("textentryblock:placeholder")}
+          value={value}
+          onChange={handlePhoneChange}
+          error={
+            value && isValidPhoneNumber(value)
+              ? undefined
+              : text("textentryblock:phoneerror")
+          }
+        />
       )
     default:
       return null
