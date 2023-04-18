@@ -2,7 +2,6 @@ import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import {
   Article,
-  ChartLine,
   CheckSquare,
   CodeSimple,
   FlowArrow,
@@ -57,7 +56,6 @@ export const BlockSelector = memo(function BlockSelector(
       options: [
         { icon: ImageSquare, textKey: "blockselector:image", value: "image" },
         { icon: TextAa, textKey: "blockselector:text", value: "text" },
-        { icon: ChartLine, textKey: "blockselector:chart", value: "chart" },
         { icon: CodeSimple, textKey: "blockselector:embed", value: "embed" },
       ],
     },

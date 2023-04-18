@@ -209,7 +209,7 @@ export const EmbedBlock = ({
   return (
     <div
       ref={containerRef}
-      className="flex relative justify-end"
+      className="flex relative justify-end select-none"
       style={{
         height: height.locked_width
           ? `${height.value * (width / height.locked_width)}px`
@@ -219,7 +219,7 @@ export const EmbedBlock = ({
       {isEditable === true && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       <div
         className="flex relative justify-between items-center
-        min-w-[100%] bg-white rounded-[20px] lg:rounded-[30px] overflow-hidden"
+        min-w-[100%] bg-white rounded-[20px] lg:rounded-[30px] overflow-hidden select-none"
       >
         <ReactPlayer
           url={block.data.link}
@@ -231,7 +231,7 @@ export const EmbedBlock = ({
       {isEditable && (
         <div
           className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-slate-500 rounded-full 
-          cursor-row-resize flex justify-center items-center mb-[-6px] lg:mb-[-10px]"
+          cursor-row-resize flex justify-center items-center mb-[-6px] lg:mb-[-10px] select-none"
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
         >

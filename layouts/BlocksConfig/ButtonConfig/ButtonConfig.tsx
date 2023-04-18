@@ -27,6 +27,7 @@ export function ButtonConfig({
     text?: string
     color?: string
     save_as?: string
+    width?: number | null
   }
 
   const [
@@ -95,6 +96,7 @@ export function ButtonConfig({
       text: "",
       color: "bg-black",
       save_as: "",
+      width: null,
     })
     handleUpdateRunUpdate(false)
     handleUpdateIsUpdating(false)
@@ -110,6 +112,7 @@ export function ButtonConfig({
       data: {
         text: localBlockData.text,
         color: localBlockData.color,
+        width: null,
       },
     })
     handleClosing()

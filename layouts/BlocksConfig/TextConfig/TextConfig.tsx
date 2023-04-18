@@ -32,7 +32,7 @@ export function TextConfig({
   const [
     localBlockData,
     setLocalBlockData,
-    LocalBlockDataErrors,
+    localBlockDataErrors,
     isLocalBlockDataValid,
   ] = useValidation<TextProps>({
     text: {
@@ -217,7 +217,7 @@ export function TextConfig({
                 handleUpdateLocalBlockData({ text })
               }}
               handleOpenVariablePanelForText={handleOpenVariablePanelForText}
-              errors={hasDataChanged ? LocalBlockDataErrors.text : []}
+              errors={hasDataChanged ? localBlockDataErrors.text : []}
             />
             <CardLine />
           </div>
@@ -229,7 +229,7 @@ export function TextConfig({
                 onChange: (e) => handleUpdateLocalBlockData({ save_as: e }),
                 value: localBlockData.save_as,
                 errors: localBlockData.save_as
-                  ? LocalBlockDataErrors.save_as
+                  ? localBlockDataErrors.save_as
                   : [],
               }}
               indicator={{

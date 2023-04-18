@@ -236,7 +236,7 @@ export const RedirectBlock = ({
         <>
           <div
             onClick={handleRedirection}
-            className="flex relative justify-end w-full h-[14rem] lg:h-[19rem] cursor-pointer"
+            className="flex relative justify-end w-full h-[14rem] lg:h-[19rem] cursor-pointer select-none"
             ref={containerRef}
             style={{
               height: height.locked_width
@@ -249,9 +249,9 @@ export const RedirectBlock = ({
             )}
             <div
               className="z-10 absolute flex row justify-center bg-white ml-auto mr-auto left-[0.375rem]
-              right-[0.375rem] rounded-[15px] bottom-[6px] px-[6px] lg:rounded-[25px] "
+              right-[0.375rem] rounded-[15px] bottom-[6px] px-[6px] lg:rounded-[25px] select-none"
             >
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 select-none">
                 <p className="inline-block pt-[0.625rem] text-center md:text-[1.1rem]">
                   {block.data.description}
                 </p>
@@ -261,7 +261,7 @@ export const RedirectBlock = ({
               </div>
             </div>
             <Image
-              className="rounded-[20px] lg:rounded-[30px]"
+              className="rounded-[20px] lg:rounded-[30px] select-none"
               src={block.data.cover_image}
               fill
               style={{ objectFit: "cover" }}
@@ -274,7 +274,7 @@ export const RedirectBlock = ({
             {isEditable && (
               <div
                 className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-slate-500 rounded-full 
-          cursor-row-resize flex justify-center items-center mb-[-6px] lg:mb-[-10px] z-10"
+          cursor-row-resize flex justify-center items-center mb-[-6px] lg:mb-[-10px] z-10 select-none"
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleTouchStart}
               >
