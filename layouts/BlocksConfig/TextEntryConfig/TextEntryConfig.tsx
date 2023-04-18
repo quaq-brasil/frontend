@@ -252,8 +252,16 @@ export function TextEntryConfig({
                     value: "email",
                   },
                   {
+                    title: text("textentryconfig:option2"),
+                    value: "phone",
+                  },
+                  {
                     title: text("textentryconfig:option3"),
                     value: "number",
+                  },
+                  {
+                    title: text("textentryconfig:option4"),
+                    value: "date",
                   },
                   {
                     title: text("textentryconfig:option5"),
