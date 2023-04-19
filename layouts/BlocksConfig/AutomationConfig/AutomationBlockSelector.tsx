@@ -56,8 +56,6 @@ export function AutomationBlockSelector({
     setBlocksVariables(newBlocksVariables)
   }, [publicationBlocks])
 
-  console.log("publicationBlocks", publicationBlocks)
-
   function handleBlockSelection(block: string | undefined) {
     setBlockSelected(block)
     setIsOpen(true)
