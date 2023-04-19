@@ -30,7 +30,7 @@ export function WorkspaceDeleteContent({
   const [password, setPassword] = useState<string>()
   const [passwordNotValid, setPasswordNotValid] = useState(false)
 
-  function hnadleUpdatePassword(password: string) {
+  function handleUpdatePassword(password: string) {
     setPassword(password)
     handleUpdateIsUpdating(true)
     setPasswordNotValid(false)
@@ -85,7 +85,7 @@ export function WorkspaceDeleteContent({
             <CardTextInput
               input={{
                 label: text("wsdelete:passwordinput"),
-                onChange: (password) => hnadleUpdatePassword(password),
+                onChange: (password) => handleUpdatePassword(password),
                 type: "password",
               }}
             />

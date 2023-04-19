@@ -64,7 +64,7 @@ export function WorkspaceDelete({
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
-            text={text("wsdelete:update")}
+            text={text("wsdelete:delete")}
             onClick={() => handleUpdateRunUpdate(true)}
           />
         </div>,
