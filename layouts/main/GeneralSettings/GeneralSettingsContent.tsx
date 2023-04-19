@@ -80,7 +80,6 @@ export function GeneralSettingsContent({
 
   function handleUpdateLocalPageData(newPageData: LocalPageProps) {
     setLocalPageData({ ...localPageData, ...newPageData })
-    setHasDataChanged(true)
   }
 
   function isPageDataDifferent(
@@ -136,7 +135,7 @@ export function GeneralSettingsContent({
   }, [pageData])
 
   useEffect(() => {
-    if (debouncedPageTitle) {
+    if (debouncedPageTitle && debouncedPageTitle !== pageData?.title) {
       getPageSlug.mutate(
         { name: debouncedPageTitle, id: pageData?.id },
         {
@@ -150,7 +149,11 @@ export function GeneralSettingsContent({
   }, [debouncedPageTitle])
 
   useEffect(() => {
-    if (isLocalPageDataValid && isPageDataDifferent(pageData, localPageData)) {
+    const isDifferent = isPageDataDifferent(pageData, localPageData)
+
+    setHasDataChanged(isDifferent)
+
+    if (isLocalPageDataValid && isDifferent) {
       handleUpdateIsUpdating(true)
     } else {
       handleUpdateIsUpdating(false)
