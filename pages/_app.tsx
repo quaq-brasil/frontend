@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react"
 import type { AppProps } from "next/app"
 import dynamic from "next/dynamic"
 import "styles/global.css"
@@ -56,41 +57,45 @@ export default function App({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        {/* <SessionProvider session={session}> */}
-        <NextNProgress
-          color="#000"
-          startPosition={0.3}
-          stopDelayMs={200}
-          height={3}
-          showOnShallow={true}
-          options={{
-            showSpinner: false,
-          }}
+    <>
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          {/* <SessionProvider session={session}> */}
+          <NextNProgress
+            color="#000"
+            startPosition={0.3}
+            stopDelayMs={200}
+            height={3}
+            showOnShallow={true}
+            options={{
+              showSpinner: false,
+            }}
+          />
+          <AppContexts>
+            <AppHooks>
+              {/* <main className={`${outfit.variable} font-sans`}> */}
+              <Component {...pageProps} />
+              {/* </main> */}
+            </AppHooks>
+          </AppContexts>
+          {/* </SessionProvider> */}
+        </QueryClientProvider>
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-EJH4561QQN"
         />
-        <AppContexts>
-          <AppHooks>
-            {/* <main className={`${outfit.variable} font-sans`}> */}
-            <Component {...pageProps} />
-            {/* </main> */}
-          </AppHooks>
-        </AppContexts>
-        {/* </SessionProvider> */}
-      </QueryClientProvider>
-      <Script
-        strategy="afterInteractive"
-        src="https://www.googletagmanager.com/gtag/js?id=G-EJH4561QQN"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-EJH4561QQN');
         `}
-      </Script>
-    </ThemeProvider>
+        </Script>
+      </ThemeProvider>
+
+      <Analytics />
+    </>
   )
 }
