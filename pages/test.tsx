@@ -1,15 +1,12 @@
-function MyPage() {
+export default function Page() {
   return (
     <div>
-      <object
-        className="w-full h-screen"
+      <embed
+        src="http://localhost:3000/test.pdf"
         type="application/pdf"
-        data="http://localhost:3000/test.pdf"
-      >
-        <p>not suppoerted</p>
-      </object>
+        width="100%"
+        height="500px"
+      />
     </div>
   )
 }
-
-export default MyPage
