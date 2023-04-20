@@ -34,6 +34,9 @@ dependencies:
   '@tiptap/starter-kit':
     specifier: 2.0.0-beta.220
     version: 2.0.0-beta.220(@tiptap/pm@2.0.0-beta.220)
+  '@types/pdfjs-dist':
+    specifier: ^2.10.378
+    version: 2.10.378
   '@types/uuid':
     specifier: ^9.0.1
     version: 9.0.1
@@ -1243,6 +1246,16 @@ packages:
 
   /@types/parse5@6.0.3:
     resolution: {integrity: sha512-SuT16Q1K51EAVPz1K29DJ/sXjhSQ0zjvsypYJ6tlwVsRV9jwW5Adq2ch8Dq8kDBCkYnELS7N7VNCSB5nC56t/g==}
+    dev: false
+
+  /@types/pdfjs-dist@2.10.378:
+    resolution: {integrity: sha512-TRdIPqdsvKmPla44kVy4jv5Nt5vjMfVjbIEke1CRULIrwKNRC4lIiZvNYDJvbUMNCFPNIUcOKhXTyMJrX18IMA==}
+    deprecated: This is a stub types definition. pdfjs-dist provides its own type definitions, so you do not need this installed.
+    dependencies:
+      pdfjs-dist: 3.5.141
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: false
 
   /@types/prismjs@1.26.0:
