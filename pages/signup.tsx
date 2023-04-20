@@ -23,9 +23,13 @@ export default function LoginPage() {
 
   const loginUser = useLogin()
 
-  const { user } = useUserAuth()
+  const { user, createAnonymousUser } = useUserAuth()
 
   function handleCreateUser(newData: IUpdateUser) {
+    if (!user?.id) {
+      createAnonymousUser()
+    }
+
     updateUser.mutate(
       {
         id: user?.id,
@@ -34,6 +38,7 @@ export default function LoginPage() {
           email: newData.email,
           name: newData.name,
           password: newData.password,
+          type: "registered",
         },
       },
       {

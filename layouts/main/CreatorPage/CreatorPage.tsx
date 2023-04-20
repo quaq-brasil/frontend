@@ -470,7 +470,7 @@ export function CreatorPage({
     setWorkspaces([...initialWorkspacesData])
 
     const currentWorkspaceId =
-      loadData("currentWorkspaceId") || initialWorkspacesData[0].id
+      loadData("currentWorkspaceId") || initialWorkspacesData[0]?.id
     const currentWorkspace = initialWorkspacesData.find(
       (workspace) => workspace.id === currentWorkspaceId
     )
