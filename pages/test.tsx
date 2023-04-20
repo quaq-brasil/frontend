@@ -2,10 +2,9 @@ export default function Page() {
   return (
     <div>
       <embed
-        src="http://localhost:3000/test.pdf"
+        src="https://quaq-image.s3.sa-east-1.amazonaws.com/books/Algorithms.pdf"
         type="application/pdf"
-        width="100%"
-        height="500px"
+        className="w-full h-screen"
       />
     </div>
   )
