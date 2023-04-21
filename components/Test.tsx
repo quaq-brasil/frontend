@@ -30,7 +30,10 @@ export default function PDFView() {
 
   function handleGoToPage(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const targetPage = parseInt(event.currentTarget.elements.pageNumber.value)
+    const targetPage = parseInt(
+      // @ts-ignore
+      event?.currentTarget?.elements?.pageNumber?.value
+    )
     if (targetPage >= 1 && targetPage <= numPages!) {
       setPageNumber(targetPage)
     }
