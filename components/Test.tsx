@@ -9,7 +9,7 @@ export default function PDFView() {
   const [numPages, setNumPages] = useState(null)
   const [pageNumber, setPageNumber] = useState(1)
 
-  function onDocumentLoadSuccess({ numPages }) {
+  function onDocumentLoadSuccess({ numPages }: any) {
     setNumPages(numPages)
   }
 
