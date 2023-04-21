@@ -1,7 +1,12 @@
-import PdfViewer from "components/Test"
+import dynamic from "next/dynamic"
+
+const PDFView = dynamic(
+  () => import("components/Test").then((mod) => mod.default),
+  { ssr: false }
+)
 
 const PdfPage = () => {
-  return <PdfViewer url="/path/to/your/pdf.pdf" />
+  return <PDFView />
 }
 
 export default PdfPage

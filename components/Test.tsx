@@ -1,37 +1,43 @@
-import pdfjsLib, { PDFPageProxy } from "pdfjs-dist"
-import "pdfjs-dist/build/pdf.worker.min.js"
-import React, { useEffect, useRef } from "react"
+import { useState } from "react"
+import { Document, Page, pdfjs } from "react-pdf"
+import "react-pdf/dist/esm/Page/AnnotationLayer.css"
+import "react-pdf/dist/esm/Page/TextLayer.css"
 
-type PdfViewerProps = {
-  url: string
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`
+
+export default function PDFView() {
+  const [numPages, setNumPages] = useState(null)
+  const [pageNumber, setPageNumber] = useState(1)
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages)
+  }
+
+  return (
+    <div>
+      <Document
+        file="/test.pdf"
+        onLoadSuccess={onDocumentLoadSuccess}
+        options={{
+          cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
+          cMapPacked: true,
+        }}
+      >
+        <Page pageNumber={pageNumber} />
+      </Document>
+      <p>
+        Page {pageNumber} of {numPages}
+      </p>
+
+      <iframe
+        id="my-pdf"
+        src="/test.pdf"
+        frameBorder="0"
+        className="w-full h-screen"
+        allowFullScreen={true}
+      />
+
+      <object id="my-pdf" data="/test.pdf" className="w-full h-screen" />
+    </div>
+  )
 }
-
-const PdfViewer: React.FC<PdfViewerProps> = ({ url }) => {
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const container = containerRef.current
-
-    if (!container) return
-
-    pdfjsLib.getDocument(url).promise.then((pdf) => {
-      pdf.getPage(1).then((page: PDFPageProxy) => {
-        const scale = 1.5
-        const viewport = page.getViewport({ scale })
-
-        const canvas = document.createElement("canvas")
-        const context = canvas.getContext("2d")
-        canvas.width = viewport.width
-        canvas.height = viewport.height
-
-        page.render({ canvasContext: context, viewport })
-
-        container.appendChild(canvas)
-      })
-    })
-  }, [url])
-
-  return <div ref={containerRef} style={{ width: "100%", height: "500px" }} />
-}
-
-export default PdfViewer
