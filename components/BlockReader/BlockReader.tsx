@@ -3,6 +3,13 @@ import { memo } from "react"
 import { BlockProps } from "types/Block.types"
 import { IInteractionData } from "types/Interaction.type"
 
+const PDFBlock = dynamic(
+  () => import("components/PDFBlock/PDFBlock").then((mod) => mod.default),
+  {
+    ssr: false,
+  }
+)
+
 const EmbedBlock = dynamic(
   () =>
     import("components/EmbedBlock/EmbedBlock").then((mod) => mod.EmbedBlock),
@@ -138,6 +145,7 @@ const blockComponents = {
   redirect: RedirectBlock,
   embed: EmbedBlock,
   imagevideo: ImageBlockVideo,
+  pdf: PDFBlock,
 }
 
 type BlockWrapperProps = {

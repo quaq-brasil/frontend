@@ -45,6 +45,7 @@ export function TemplateExecutionContent({
 
   const [interactions, setInteractions] = useState<IInteractionData[]>([])
   const [interactionId, setInteractionId] = useState<string | null>(null)
+  const [debounceTimeOut, setDebounceTimeOut] = useState<any>(1000 * 0.1)
 
   const createInteraction = useCreateInteraction()
   const updateInteraction = useUpdateInteraction()
@@ -54,6 +55,12 @@ export function TemplateExecutionContent({
   function handleUpdateInteractions(interaction: any) {
     if (!user?.id) {
       createAnonymousUser()
+    }
+
+    if (interaction?.config?.type === "textentry") {
+      setDebounceTimeOut(1000 * 0.5)
+    } else if (debounceTimeOut !== 1000 * 0.1) {
+      setDebounceTimeOut(1000 * 0.1)
     }
 
     setInteractions((state) => {
@@ -69,7 +76,7 @@ export function TemplateExecutionContent({
 
   const debouncedInteractions = useDebounce({
     value: interactions,
-    delay: 1000 * 0.1,
+    delay: debounceTimeOut,
   })
 
   useEffect(() => {
