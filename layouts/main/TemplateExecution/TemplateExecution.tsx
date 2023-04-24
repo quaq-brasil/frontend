@@ -1,7 +1,6 @@
 import { Header } from "components/Header/Header"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
-import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import Script from "next/script"
 import { useEffect, useState } from "react"
@@ -19,8 +18,6 @@ export function TemplateExecution({
   initialData,
   isLoggedIn,
 }: TemplateExecutionContent) {
-  const text = useTranslation().t
-
   const [pageAndTemplateData, setPageAndTemplateData] =
     useState<getTemplateBySlugAndPageSlugProps>(initialData)
 
