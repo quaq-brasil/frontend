@@ -68,9 +68,7 @@ export const ReviewBlock = ({
           id: block.id,
           save_as: block.save_as,
           type: block.type,
-          data: {
-            description: block.data.description,
-          },
+          data: {},
         },
         output: {
           events: events,
