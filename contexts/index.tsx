@@ -7,12 +7,12 @@ interface ContextsProps {
 
 const TermsProvider = dynamic(
   () => import("./useTerms").then((mod) => mod.TermsProvider),
-  { ssr: false }
+  { ssr: true }
 )
 
 const AuthProvider = dynamic(
   () => import("./userAuth").then((mod) => mod.AuthProvider),
-  { ssr: false }
+  { ssr: true }
 )
 
 export function AppContexts({ children }: ContextsProps) {

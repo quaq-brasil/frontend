@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
 import { IPage } from "types/Page.type"
+import { RedirectNotFoundVerify } from "utils/404Redirect"
 
 type ConsumerPagePageProps = {
   pageData: IPage
@@ -66,7 +67,13 @@ export default function Home({ pageData }: ConsumerPagePageProps) {
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-  const { data } = await api.get(`/pages/slug/quaq`)
+  async function getPage() {
+    const { data: pageData } = await api.get(`/pages/slug/quaq`)
 
-  return { props: { pageData: { data }, revalidate: 1 } }
+    return {
+      pageData: { pageData },
+    }
+  }
+
+  return await RedirectNotFoundVerify({ func: getPage, ctx, isStatic: true })
 }
