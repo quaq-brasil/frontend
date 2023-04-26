@@ -89,6 +89,8 @@ export default function PDFBlock({ block }: any) {
               file={block.data.link}
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
+              externalLinkRel="noopener noreferrer"
+              externalLinkTarget="_blank"
             >
               <Page
                 className="max-w-[10px] h-screen"
