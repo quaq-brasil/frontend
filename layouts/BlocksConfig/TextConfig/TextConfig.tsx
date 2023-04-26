@@ -222,10 +222,10 @@ export function TextConfig({
             <CardLine />
           </div>
           <Card>
-            <CardText label={text("poolconfig:saveas")} />
+            <CardText label={text("pollconfig:saveas")} />
             <CardTextInput
               input={{
-                label: text("poolconfig:saveaslabel"),
+                label: text("pollconfig:saveaslabel"),
                 onChange: (e) => handleUpdateLocalBlockData({ save_as: e }),
                 value: localBlockData.save_as,
                 errors: localBlockData.save_as

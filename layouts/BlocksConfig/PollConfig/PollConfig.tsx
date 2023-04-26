@@ -173,14 +173,14 @@ export function PollConfig({
         <Tag
           key={1}
           variant="txt"
-          text={text("poolconfig:cancel")}
+          text={text("pollconfig:cancel")}
           onClick={() => handleClosing()}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
             text={
-              blockData ? text("poolconfig:update") : text("poolconfig:add")
+              blockData ? text("pollconfig:update") : text("pollconfig:add")
             }
             onClick={() => handleUpdateRunUpdate(true)}
           />
@@ -191,7 +191,7 @@ export function PollConfig({
         <Tag
           key={1}
           variant="txt"
-          text={text("poolconfig:cancel")}
+          text={text("pollconfig:cancel")}
           onClick={() => handleClosing()}
         />,
       ]
@@ -293,13 +293,13 @@ export function PollConfig({
 
   return (
     <>
-      <Dialog isOpen={isOpen} title={text("poolconfig:toptitle")}>
+      <Dialog isOpen={isOpen} title={text("pollconfig:toptitle")}>
         <div className="flex flex-col items-center gap-3 scrollbar-hide">
           <Card>
-            <CardText label={text("poolconfig:max")} />
+            <CardText label={text("pollconfig:max")} />
             <CardTextInput
               input={{
-                label: text("poolconfig:maxlabel"),
+                label: text("pollconfig:maxlabel"),
                 onChange: (max) => handleUpdateLocalBlockData({ max: max }),
                 value: localBlockData.max,
                 errors: hasDataChanged ? LocalBlockDataErrors.max : [],
@@ -312,10 +312,10 @@ export function PollConfig({
             />
           </Card>
           <Card>
-            <CardText label={text("poolconfig:min")} />
+            <CardText label={text("pollconfig:min")} />
             <CardTextInput
               input={{
-                label: text("poolconfig:minlabel"),
+                label: text("pollconfig:minlabel"),
                 onChange: (min) => handleUpdateLocalBlockData({ min: min }),
                 value: localBlockData.min,
                 errors: hasDataChanged ? LocalBlockDataErrors.min : [],
@@ -332,7 +332,7 @@ export function PollConfig({
               localBlockData?.options.map((option, index) => (
                 <Card key={option.id}>
                   <CardText
-                    label={`${text("poolconfig:option")} ${index + 1}`}
+                    label={`${text("pollconfig:option")} ${index + 1}`}
                     indicator={{
                       icon: X,
                     }}
@@ -342,7 +342,7 @@ export function PollConfig({
                   />
                   <CardTextInput
                     input={{
-                      label: text("poolconfig:optionlabel"),
+                      label: text("pollconfig:optionlabel"),
                       onChange: (value) =>
                         handleUpdateOptions({
                           id: index,
@@ -366,14 +366,14 @@ export function PollConfig({
           </>
           <Tag
             variant="txt"
-            text={text("poolconfig:addoption")}
+            text={text("pollconfig:addoption")}
             onClick={() => handleUpdateOptions({ option: "add" })}
           />
           <Card>
-            <CardText label={text("poolconfig:saveas")} />
+            <CardText label={text("pollconfig:saveas")} />
             <CardTextInput
               input={{
-                label: text("poolconfig:saveaslabel"),
+                label: text("pollconfig:saveaslabel"),
                 onChange: (e) => handleUpdateLocalBlockData({ save_as: e }),
                 value: localBlockData.save_as,
                 errors: localBlockData.save_as
