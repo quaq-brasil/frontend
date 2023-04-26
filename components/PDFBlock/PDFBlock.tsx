@@ -5,9 +5,7 @@ import "react-pdf/dist/esm/Page/TextLayer.css"
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`
 
-const PDF_FILE_PATH = "/test.pdf"
-
-export default function PDFBlock() {
+export default function PDFBlock({ block }: any) {
   const [numPages, setNumPages] = useState<number | null>(null)
   const [pageNumber, setPageNumber] = useState(1)
 
@@ -42,7 +40,7 @@ export default function PDFBlock() {
   return (
     <div className="min-w-[100%]">
       <object
-        data={PDF_FILE_PATH}
+        data={block.data.link}
         type="application/pdf"
         className="w-full  h-screen overflow-scroll scrollbar-hide"
       >
@@ -88,7 +86,7 @@ export default function PDFBlock() {
 
           <div className="overflow-scroll w-fit max-w-fit pt-2 px-4 h-screen scrollbar-hide">
             <Document
-              file={PDF_FILE_PATH}
+              file={block.data.link}
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
             >
