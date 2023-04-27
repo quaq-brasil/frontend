@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import dynamic from "next/dynamic"
-import { useLayoutEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 
 const Image = dynamic(() => import("next/image").then((mod) => mod.default))
 
@@ -23,7 +23,7 @@ export const Header = ({
     }
   }
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     handleScroll()
   }, [scrollRef])
 
