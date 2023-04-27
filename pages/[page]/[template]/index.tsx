@@ -46,7 +46,11 @@ export default function TemplateExecutionPage({
     pageDescription: string
   }
 
-  const [pageInfo, setPageInfo] = useState<PageAndTemplateProps | null>(null)
+  const [pageInfo, setPageInfo] = useState<PageAndTemplateProps | null>({
+    pageTitle: pageSlug,
+    templateTitle: templateSlug,
+    pageDescription: pageAndTemplateData?.Page?.description,
+  })
 
   useEffect(() => {
     if (getTemplateAndPage) {

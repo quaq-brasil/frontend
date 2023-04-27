@@ -21,7 +21,7 @@ export const SimpleShortcut = (props: SimpleShortcutProps) => {
 
   const router = useRouter()
 
-  const [contentData, setContentData] = useState<IUpdateTemplate>()
+  const [contentData, setContentData] = useState<IUpdateTemplate>(templateData)
 
   function handleClick() {
     router.push(`/${pageData?.slug}/${templateData.slug}`)

@@ -6,7 +6,7 @@ import { IInteractionData } from "types/Interaction.type"
 const PDFBlock = dynamic(
   () => import("components/PDFBlock/PDFBlock").then((mod) => mod.default),
   {
-    ssr: false,
+    ssr: true,
   }
 )
 
@@ -14,7 +14,7 @@ const EmbedBlock = dynamic(
   () =>
     import("components/EmbedBlock/EmbedBlock").then((mod) => mod.EmbedBlock),
   {
-    ssr: true,
+    ssr: false,
   }
 )
 
@@ -24,7 +24,7 @@ const AutomationBlock = dynamic(
       (mod) => mod.AutomationBlock
     ),
   {
-    ssr: true,
+    ssr: false,
   }
 )
 
@@ -39,7 +39,7 @@ const ChartBlock = dynamic(
   () =>
     import("components/ChartBlock/ChartBlock").then((mod) => mod.ChartBlock),
   {
-    ssr: true,
+    ssr: false,
   }
 )
 
@@ -117,7 +117,7 @@ const WebhookBlock = dynamic(
       (mod) => mod.WebhookBlock
     ),
   {
-    ssr: true,
+    ssr: false,
   }
 )
 
