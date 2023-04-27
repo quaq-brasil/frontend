@@ -71,7 +71,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   let slug = "quaq"
 
   if (ctx.locale !== "en") {
-    slug = "quaq-pt"
+    slug = "quaq-br"
   }
 
   return { props: { pageData: { data }, pageSlug: slug }, revalidate: 1 }
