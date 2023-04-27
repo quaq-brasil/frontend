@@ -6,7 +6,7 @@ import { IInteractionData } from "types/Interaction.type"
 const PDFBlock = dynamic(
   () => import("components/PDFBlock/PDFBlock").then((mod) => mod.default),
   {
-    ssr: false,
+    ssr: true,
   }
 )
 

@@ -1,5 +1,4 @@
-import { EditorContent, useEditor } from "@tiptap/react"
-import StarterKit from "@tiptap/starter-kit"
+import parse from "html-react-parser"
 import dynamic from "next/dynamic"
 import { useCallback, useEffect, useState } from "react"
 import { IBlock } from "types/Block.types"
@@ -11,9 +10,7 @@ const BlockMenu = dynamic(
 )
 
 type ITextBlock = {
-  data: {
-    text: string
-  }
+  data: string
 } & IBlock
 
 type TextBlockProps = {
@@ -37,12 +34,6 @@ export const TextBlock = ({
 }: TextBlockProps) => {
   const [events, setEvents] = useState<IEvent>()
 
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: block.data.text,
-    editable: false, // Make the editor read-only
-  })
-
   const onInteraction = useCallback(() => {
     handleUpdateInteractions &&
       handleUpdateInteractions({
@@ -61,18 +52,6 @@ export const TextBlock = ({
   }, [block, events])
 
   useEffect(() => {
-    if (editor) {
-      editor.commands.setContent(block.data)
-    }
-  }, [block.data, editor])
-
-  useEffect(() => {
-    if (!events?.displayedAt) {
-      setEvents({ displayedAt: new Date().toString() })
-    }
-  }, [events])
-
-  useEffect(() => {
     if (events) {
       onInteraction()
     }
@@ -86,7 +65,7 @@ export const TextBlock = ({
         className="min-w-[100%] px-3 py-3 bg-white lg:px-[1rem] lg:py-[1rem]
         rounded-[20px] lg:rounded-[30px] text-black lg:text-[1.1rem] prose prose-headings:m-0 prose-p:m-0 focus:outline-none"
       >
-        <EditorContent editor={editor} />
+        {parse(block?.data || "")}
       </div>
     </div>
   )
