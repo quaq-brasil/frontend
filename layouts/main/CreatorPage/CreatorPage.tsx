@@ -22,7 +22,7 @@ import { IUserPayload } from "types/Auth.types"
 import { IPage } from "types/Page.type"
 import { ITemplate } from "types/Template.type"
 import { IWorkspace } from "types/Workspace.type"
-import { loadData, saveData } from "utils/localStorage"
+import { appGetCookie, appSetCookies } from "utils/cookies"
 import { pageUrls } from "utils/pagesUrl"
 import { CreatorPageContent } from "./CreatorPageContent"
 
@@ -231,7 +231,7 @@ export function CreatorPage({
 
   function handleCurrentWorkspaceUpdate(newWorkspace: IWorkspace) {
     setCurrentWorkspace(newWorkspace)
-    saveData("currentWorkspaceId", newWorkspace.id)
+    appSetCookies("currentWorkspaceId", newWorkspace.id)
     getPages.mutate(
       { id: newWorkspace.id },
       {
@@ -245,7 +245,8 @@ export function CreatorPage({
 
   function handleCurrentPageUpdate(newPage: IPage) {
     setCurrentPage(newPage)
-    saveData("currentPageId", newPage.id)
+    appSetCookies("currentPageId", newPage.id)
+
     router.push(pageUrls.pageSettings({ pageSlug: newPage.slug }))
   }
 
@@ -470,13 +471,13 @@ export function CreatorPage({
     setWorkspaces([...initialWorkspacesData])
 
     const currentWorkspaceId =
-      loadData("currentWorkspaceId") || initialWorkspacesData[0]?.id
+      appGetCookie("currentWorkspaceId") || initialWorkspacesData[0]?.id
     const currentWorkspace = initialWorkspacesData.find(
       (workspace) => workspace.id === currentWorkspaceId
     )
 
-    if (loadData("currentWorkspaceId") === undefined) {
-      saveData("currentWorkspaceId", currentWorkspaceId)
+    if (appGetCookie("currentWorkspaceId") === undefined) {
+      appSetCookies("currentWorkspaceId", currentWorkspaceId)
     }
 
     setCurrentWorkspace(currentWorkspace)
@@ -487,13 +488,13 @@ export function CreatorPage({
         onSuccess: (data) => {
           setPages(data)
           const currentPageId = !initialCurrentPageData
-            ? loadData("currentPageId")
+            ? appGetCookie("currentPageId")
             : initialCurrentPageData.id
           const currentPage = currentPageId
             ? data.find((page) => page.id === currentPageId)
             : data[0]
           setCurrentPage(currentPage || data[0])
-          saveData("currentPageId", currentPage?.id || data[0].id)
+          appSetCookies("currentPageId", currentPage?.id || data[0].id)
         },
       }
     )
