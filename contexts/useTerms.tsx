@@ -26,7 +26,7 @@ const TermsProvider = ({ children }: TermsProviderProps) => {
     DEFAULT_COOKIES_ACCEPTED
   )
 
-  const { user, createAnonymousUser } = useUserAuth()
+  const { user, isUserLoading, createAnonymousUser } = useUserAuth()
 
   useEffect(() => {
     const { "quaq.is-cookie-accepted": isCookiesAccepted } = parseCookies()
@@ -37,11 +37,11 @@ const TermsProvider = ({ children }: TermsProviderProps) => {
         maxAge: 60 * 60 * 24 * 365, // 365 days
         path: "/",
       })
-    } else if (isCookiesAccepted && !user?.id) {
+    } else if (isCookiesAccepted && !isUserLoading && !user?.id) {
       createAnonymousUser()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [isUserLoading])
 
   const contextValue = useMemo(
     () => ({ isCookiesAccepted }),

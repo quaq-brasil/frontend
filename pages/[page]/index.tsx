@@ -3,7 +3,6 @@ import { ConsumerPage } from "layouts/main/ConsumerPage/ConsumerPage"
 import { GetStaticPaths, GetStaticProps } from "next"
 import Head from "next/head"
 import { ParsedUrlQuery } from "querystring"
-import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
 import { IPage } from "types/Page.type"
@@ -17,17 +16,7 @@ export default function ConsumerPagePage({
   pageSlug,
   pageData,
 }: ConsumerPagePageProps) {
-  const { user } = useUserAuth()
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  useEffect(() => {
-    if (user?.type === "registered") {
-      setIsLoggedIn(true)
-    } else {
-      setIsLoggedIn(false)
-    }
-  }, [user])
+  const { isLoggedIn } = useUserAuth()
 
   const getPage = usePageBySlug({
     slug: pageSlug,

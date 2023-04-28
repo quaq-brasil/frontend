@@ -19,17 +19,7 @@ export default function TemplateExecutionPage({
   templateSlug,
   pageAndTemplateData,
 }: TemplateExecutionPageProps) {
-  const { user } = useUserAuth()
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  useEffect(() => {
-    if (user && user.type == "registered") {
-      setIsLoggedIn(true)
-    } else {
-      setIsLoggedIn(false)
-    }
-  }, [user])
+  const { isLoggedIn } = useUserAuth()
 
   const getTemplateAndPage = useTemplateBySlugAndPageSlug({
     slug: templateSlug,

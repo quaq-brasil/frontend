@@ -3,7 +3,6 @@ import { Explorer } from "layouts/main/Explorer/Explorer"
 import { GetStaticProps } from "next"
 import useTranslation from "next-translate/useTranslation"
 import Head from "next/head"
-import { useEffect, useState } from "react"
 import { api } from "services/api"
 import { usePageBySlug } from "services/hooks/usePage/usePageBySlug"
 import { IPage } from "types/Page.type"
@@ -15,17 +14,7 @@ type ConsumerPagePageProps = {
 export default function Home({ pageData }: ConsumerPagePageProps) {
   const text = useTranslation().t
 
-  const { user } = useUserAuth()
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  useEffect(() => {
-    if (user?.type === "registered") {
-      setIsLoggedIn(true)
-    } else {
-      setIsLoggedIn(false)
-    }
-  }, [user])
+  const { isLoggedIn } = useUserAuth()
 
   const getPage = usePageBySlug({
     slug: text("explorer:pageslug"),

@@ -50,10 +50,10 @@ export function TemplateExecutionContent({
   const createInteraction = useCreateInteraction()
   const updateInteraction = useUpdateInteraction()
 
-  const { user, createAnonymousUser } = useUserAuth()
+  const { user, isUserLoading, createAnonymousUser } = useUserAuth()
 
   function handleUpdateInteractions(interaction: any) {
-    if (!user?.id) {
+    if (!isUserLoading && !user?.id) {
       createAnonymousUser()
     }
 
