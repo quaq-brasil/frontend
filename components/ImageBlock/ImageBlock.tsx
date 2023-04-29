@@ -218,7 +218,6 @@ export const ImageBlock = ({
           fill
           style={{ objectFit: "cover" }}
           alt={""}
-          loading="lazy"
           onLoad={() => {
             if (isEditable) {
               if (containerRef.current) {

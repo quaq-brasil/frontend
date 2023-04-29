@@ -183,7 +183,7 @@ export const Shortcut = memo(function Shortcut(props: ShortcutProps) {
             right-[0.375rem] rounded-[15px] bottom-[6px] px-[6px] lg:rounded-[25px] `}
           onClick={handleClick}
         >
-          <p className="inline-block py-[0.625rem] text-center lg:text-[1.1rem]">
+          <p className="inline-block py-[0.625rem] text-center lg:text-[1.1rem] line-clamp">
             {contentData?.title || ""}
           </p>
         </div>
