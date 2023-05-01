@@ -253,7 +253,7 @@ export function CreatorPage({
   function loadWorkspaces() {
     if (workspaces) {
       const workspacesTags: JSX.Element[] = workspaces.map((workspace) => {
-        if (currentWorkspace.id != workspace.id) {
+        if (currentWorkspace?.id != workspace?.id) {
           return (
             <div key={workspace.id} className="w-fit">
               <Tag
