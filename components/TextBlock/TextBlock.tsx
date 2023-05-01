@@ -63,7 +63,7 @@ export const TextBlock = ({
       {isEditable && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}
       <div
         className="min-w-[100%] px-3 py-3 bg-white lg:px-[1rem] lg:py-[1rem]
-        rounded-[20px] lg:rounded-[30px] text-black lg:text-[1.1rem] prose prose-headings:m-0 prose-p:m-0 focus:outline-none"
+        rounded-[20px] lg:rounded-[30px] text-black lg:text-[1.1rem] prose prose-headings:m-0 prose-p:m-0 focus:outline-none empty-paragraph-fix"
       >
         {parse(block?.data || "")}
       </div>
