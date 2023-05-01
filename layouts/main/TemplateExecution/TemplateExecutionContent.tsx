@@ -80,7 +80,6 @@ export function TemplateExecutionContent({
   })
 
   useEffect(() => {
-    console.log("user", user)
     const handleSaveInteractions = async () => {
       if (
         user?.id &&

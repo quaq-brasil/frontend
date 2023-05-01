@@ -290,24 +290,6 @@ export const PublishPublication = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localTemplateData, isLocalTemplateDataValid])
 
-  useEffect(() => {
-    // console.log("localTemplateData", localTemplateData)
-    // console.log("isLocalTemplateDataValid", isLocalTemplateDataValid)
-    // console.log("hasDataChanged", hasDataChanged)
-    // console.log("isUpdating", isUpdating)
-    // console.log("runUpdate", runUpdate)
-    // console.log("localTemplateDataErrors", localTemplateDataErrors)
-    // console.log("template", template)
-  }, [
-    localTemplateData,
-    isLocalTemplateDataValid,
-    hasDataChanged,
-    isUpdating,
-    runUpdate,
-    localTemplateDataErrors,
-    template,
-  ])
-
   return (
     <>
       <PublishPublicationHeader

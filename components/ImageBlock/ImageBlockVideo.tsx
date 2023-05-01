@@ -182,12 +182,6 @@ export const ImageBlockVideo = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [height])
 
-  // useEffect(() => {
-  //   console.log("height", height)
-  //   console.log("width", width)
-  //   console.log("block", block)
-  // }, [width, height, block])
-
   return (
     <div ref={containerRef} className="flex relative justify-end">
       {isEditable && <BlockMenu onDelete={onDelete} onEdit={onEdit} />}

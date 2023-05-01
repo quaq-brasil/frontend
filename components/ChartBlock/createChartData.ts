@@ -38,7 +38,6 @@ function verifyNumbers(arr: any[]): number[] | undefined {
   for (let i = 0; i < arr.length; i++) {
     const num = Number(arr[i])
     if (isNaN(num)) {
-      console.warn(`Could not convert '${arr[i]}' to a number`)
       return undefined
     }
     newArr.push(num)
@@ -73,7 +72,6 @@ export function createChartData(data: any, type?: string): IData | undefined {
           const verifiedData = verifyNumbers(data)
 
           if (!verifiedData) {
-            console.log("Data contains an item that is not a number")
             return undefined
           }
 
@@ -213,14 +211,11 @@ export function createChartData(data: any, type?: string): IData | undefined {
 
             return finalData as IData
           } else {
-            console.log("Data contains an item that is not a number")
             return undefined
           }
         } else {
-          console.log("bad number of dimensions")
         }
       } else {
-        console.log("empty array")
       }
     } else {
       let dataFormat = {
@@ -239,7 +234,6 @@ export function createChartData(data: any, type?: string): IData | undefined {
             tempLabels.every((item) => typeof item === "string")
 
           if (!isStringArray) {
-            console.log("labels are not correct")
             return undefined
           }
 
@@ -253,7 +247,6 @@ export function createChartData(data: any, type?: string): IData | undefined {
           const tempDatasets = data[key]
 
           if (tempDatasets.length < 1) {
-            console.log("datasets are not valid")
             return undefined
           }
 
@@ -296,13 +289,10 @@ export function createChartData(data: any, type?: string): IData | undefined {
       })
 
       if (dataFormat.dataset && dataFormat.labels) {
-        console.log(verifiedData)
         return verifiedData
       }
     }
   } else if (typeof data === "string") {
-    console.log("others")
   } else {
-    console.log("others")
   }
 }
