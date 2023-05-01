@@ -25,7 +25,7 @@ export function TextConfig({
   const text = useTranslation().t
 
   type TextProps = {
-    text?: string
+    data?: string
     save_as?: string
   }
 
@@ -35,7 +35,7 @@ export function TextConfig({
     localBlockDataErrors,
     isLocalBlockDataValid,
   ] = useValidation<TextProps>({
-    text: {
+    data: {
       initialValue: "",
       validators: [validationRules.required(text("validation:required"))],
     },
@@ -71,7 +71,7 @@ export function TextConfig({
   function checkIfDataHasChanged() {
     if (blockData) {
       let hasDataChanged = false
-      if (blockData?.data?.text !== localBlockData?.text) {
+      if (blockData?.data?.text !== localBlockData?.data) {
         hasDataChanged = true
       }
       if (blockData?.save_as !== localBlockData?.save_as) {
@@ -85,7 +85,7 @@ export function TextConfig({
 
   function handleClosing() {
     setLocalBlockData({
-      text: "",
+      data: "",
       save_as: "",
     })
     handleUpdateRunUpdate(false)
@@ -99,7 +99,7 @@ export function TextConfig({
       id: blockData?.id || undefined,
       type: "text",
       save_as: localBlockData.save_as,
-      data: localBlockData.text,
+      data: localBlockData.data,
     })
     handleClosing()
   }
@@ -139,8 +139,8 @@ export function TextConfig({
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: any) => {
         handleUpdateLocalBlockData({
-          text: localBlockData.text
-            ? `${localBlockData.text}${variable}`
+          data: localBlockData.data
+            ? `${localBlockData.data}${variable}`
             : variable,
         })
       })
@@ -162,7 +162,7 @@ export function TextConfig({
   useEffect(() => {
     if (blockData) {
       handleUpdateLocalBlockData({
-        text: blockData.data.text,
+        data: blockData.data,
         save_as: blockData.save_as,
       })
     }
@@ -212,12 +212,12 @@ export function TextConfig({
     bg-white min-w-[100%] rounded-[20px] lg:rounded-[30px] lg:gap-[0.75rem]"
           >
             <TextEditor
-              content={localBlockData.text}
-              onChange={(text) => {
-                handleUpdateLocalBlockData({ text })
+              content={localBlockData.data}
+              onChange={(data) => {
+                handleUpdateLocalBlockData({ data })
               }}
               handleOpenVariablePanelForText={handleOpenVariablePanelForText}
-              errors={hasDataChanged ? localBlockDataErrors.text : []}
+              errors={hasDataChanged ? localBlockDataErrors.data : []}
             />
             <CardLine />
           </div>
