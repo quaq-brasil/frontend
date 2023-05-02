@@ -22,5 +22,6 @@
   "selected": "cancel",
   "nonselected": "add new block",
   "types": "types",
-  "blocks": "blocks"
+  "blocks": "blocks",
+  "dropdownmenu": "dropdown menu"
 }

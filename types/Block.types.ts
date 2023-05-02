@@ -13,6 +13,7 @@ export type IBlock = {
     | "toggle"
     | "redirect"
     | "embed"
+    | "dropdownmenu"
   save_as?: string
 }
 

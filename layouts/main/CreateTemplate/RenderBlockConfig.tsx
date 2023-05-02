@@ -8,6 +8,12 @@ const WebhookConfig = dynamic(() =>
   )
 )
 
+const DropDownMenuConfig = dynamic(() =>
+  import("layouts/BlocksConfig/DropDownMenuConfig/DropDownMenuConfig").then(
+    (mod) => mod.DropDownMenuConfig
+  )
+)
+
 const ToggleConfig = dynamic(() =>
   import("layouts/BlocksConfig/ToggleConfig/ToggleConfig").then(
     (mod) => mod.ToggleConfig
@@ -164,6 +170,9 @@ const blockConfigurations: BlockConfigurations = {
   },
   webhook: {
     component: WebhookConfig,
+  },
+  dropdownmenu: {
+    component: DropDownMenuConfig,
   },
 }
 

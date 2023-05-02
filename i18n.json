@@ -39,7 +39,12 @@
     ],
     "/adm/ws/new-workspace": ["createwspace", "imageselector", "validation"],
     "/adm/ws/setup": ["createwspace", "imageselector", "wssetup", "validation"],
-    "/[page]/[template]": ["profile", "consumerpage", "textentryblock"],
+    "/[page]/[template]": [
+      "profile",
+      "consumerpage",
+      "textentryblock",
+      "dropdownmenu"
+    ],
     "/500": ["explorer", "consumerpage"],
     "/404": ["explorer", "consumerpage"],
     "/adm/[page]/new-template": [
@@ -65,7 +70,8 @@
       "toggleconfig",
       "redirectconfig",
       "embedconfig",
-      "validation"
+      "validation",
+      "dropdownmenu"
     ],
     "/adm/[page]/[template]/edit": [
       "publish",
@@ -90,7 +96,8 @@
       "toggleconfig",
       "redirectconfig",
       "embedconfig",
-      "validation"
+      "validation",
+      "dropdownmenu"
     ]
   }
 }
