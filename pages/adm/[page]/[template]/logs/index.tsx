@@ -66,8 +66,8 @@ export default function TemplateLogs({
         <meta name="description" content={pageInfo?.pageDescription} />
       </Head>
       <InteractionLog
-        initialPageData={getPageAndTemplate.data.Page}
-        initialTemplateData={getPageAndTemplate.data}
+        initialPageData={getPageAndTemplate?.data?.Page}
+        initialTemplateData={getPageAndTemplate?.data}
       />
     </>
   )

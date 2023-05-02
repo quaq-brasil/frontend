@@ -8,29 +8,6 @@ const NextNProgress = dynamic(
   { ssr: false }
 )
 
-const AppHooks = dynamic(() => import("hooks").then((mod) => mod.AppHooks), {
-  ssr: false,
-})
-
-const AppContexts = dynamic(
-  () => import("contexts").then((mod) => mod.AppContexts),
-  { ssr: false }
-)
-
-const ThemeProvider = dynamic(
-  () => import("@material-tailwind/react").then((mod) => mod.ThemeProvider),
-  {
-    ssr: false,
-  }
-)
-
-const QueryClientProvider = dynamic(
-  () => import("@tanstack/react-query").then((mod) => mod.QueryClientProvider),
-  {
-    ssr: false,
-  }
-)
-
 const ReactQueryDevtools = dynamic(
   () =>
     import("@tanstack/react-query-devtools").then(
@@ -41,16 +18,39 @@ const ReactQueryDevtools = dynamic(
   }
 )
 
+const AppHooks = dynamic(() => import("hooks").then((mod) => mod.AppHooks), {
+  ssr: true,
+})
+
+const AppContexts = dynamic(
+  () => import("contexts").then((mod) => mod.AppContexts),
+  { ssr: true }
+)
+
+const ThemeProvider = dynamic(
+  () => import("@material-tailwind/react").then((mod) => mod.ThemeProvider),
+  {
+    ssr: true,
+  }
+)
+
+const QueryClientProvider = dynamic(
+  () => import("@tanstack/react-query").then((mod) => mod.QueryClientProvider),
+  {
+    ssr: true,
+  }
+)
+
 import Script from "next/script"
 import { queryClient } from "services/queryClient"
 
-// import { Outfit } from "next/font/google"
+import { Outfit } from "next/font/google"
 
-// const outfit = Outfit({
-//   subsets: ["latin"],
-//   weight: ["300", "400", "500", "600", "700"],
-//   variable: "--font-outfit",
-// })
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-outfit",
+})
 
 export default function App({
   Component,
@@ -74,9 +74,9 @@ export default function App({
           />
           <AppContexts>
             <AppHooks>
-              {/* <main className={`${outfit.variable} font-sans`}> */}
-              <Component {...pageProps} />
-              {/* </main> */}
+              <main className={`${outfit.variable} font-sans`}>
+                <Component {...pageProps} />
+              </main>
             </AppHooks>
           </AppContexts>
           {/* </SessionProvider> */}

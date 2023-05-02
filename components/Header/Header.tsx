@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import dynamic from "next/dynamic"
-import { useLayoutEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 
 const Image = dynamic(() => import("next/image").then((mod) => mod.default))
 
@@ -23,7 +23,7 @@ export const Header = ({
     }
   }
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     handleScroll()
   }, [scrollRef])
 
@@ -54,7 +54,6 @@ export const Header = ({
           quality={50}
           fill
           style={{ objectFit: "cover" }}
-          loading="lazy"
           sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 80vw,
               70vw"

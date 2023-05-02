@@ -59,7 +59,7 @@ export const PollBlock = ({
   onEdit,
 }: PollBlockProps) => {
   const [events, setEvents] = useState<IEvent>()
-  const [options, setOptions] = useState<IOption[]>()
+  const [options, setOptions] = useState<IOption[]>(block.data?.options as any)
   const [selectMap, setSelectMap] = useState<ISelectMap>({
     number: 0,
     selectionListIds: [],

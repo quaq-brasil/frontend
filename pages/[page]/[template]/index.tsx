@@ -19,17 +19,7 @@ export default function TemplateExecutionPage({
   templateSlug,
   pageAndTemplateData,
 }: TemplateExecutionPageProps) {
-  const { user } = useUserAuth()
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  useEffect(() => {
-    if (user && user.type == "registered") {
-      setIsLoggedIn(true)
-    } else {
-      setIsLoggedIn(false)
-    }
-  }, [user])
+  const { isLoggedIn } = useUserAuth()
 
   const getTemplateAndPage = useTemplateBySlugAndPageSlug({
     slug: templateSlug,
@@ -46,7 +36,11 @@ export default function TemplateExecutionPage({
     pageDescription: string
   }
 
-  const [pageInfo, setPageInfo] = useState<PageAndTemplateProps | null>(null)
+  const [pageInfo, setPageInfo] = useState<PageAndTemplateProps | null>({
+    pageTitle: pageSlug,
+    templateTitle: templateSlug,
+    pageDescription: pageAndTemplateData?.Page?.description,
+  })
 
   useEffect(() => {
     if (getTemplateAndPage) {

@@ -14,7 +14,7 @@ export function withAuth(func: any) {
       return {
         redirect: {
           permanent: false,
-          destination: pageUrls.pageNotFound(),
+          destination: pageUrls.login(),
         },
       }
     }

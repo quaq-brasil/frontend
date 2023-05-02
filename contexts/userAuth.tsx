@@ -19,6 +19,8 @@ type AuthProviderProps = {
 }
 
 type AuthContextData = {
+  isLoggedIn: boolean
+  isUserLoading: boolean
   user: IUpdateUser | null
   signOut: () => void
   createAnonymousUser: () => void
@@ -28,6 +30,16 @@ export const AuthContext = createContext({} as AuthContextData)
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<IUpdateUser | null>(null)
+  const [isUserLoading, setIsUserLoading] = useState(true)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    if (user?.type === "registered") {
+      setIsLoggedIn(true)
+    } else {
+      setIsLoggedIn(false)
+    }
+  }, [user])
 
   const createUser = useCreateUser()
 
@@ -39,6 +51,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
       setUser({ ...userPayload, id: userPayload.sub })
     }
+
+    setIsUserLoading(false)
   }, [])
 
   const signOut = useCallback(() => {
@@ -76,8 +90,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [])
 
   const contextValue = useMemo(() => {
-    return { user, signOut, createAnonymousUser }
-  }, [user, signOut, createAnonymousUser])
+    return { user, signOut, createAnonymousUser, isLoggedIn, isUserLoading }
+  }, [user, signOut, createAnonymousUser, isLoggedIn, isUserLoading])
 
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

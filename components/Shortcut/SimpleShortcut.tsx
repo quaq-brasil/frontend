@@ -21,7 +21,7 @@ export const SimpleShortcut = (props: SimpleShortcutProps) => {
 
   const router = useRouter()
 
-  const [contentData, setContentData] = useState<IUpdateTemplate>()
+  const [contentData, setContentData] = useState<IUpdateTemplate>(templateData)
 
   function handleClick() {
     router.push(`/${pageData?.slug}/${templateData.slug}`)
@@ -39,7 +39,6 @@ export const SimpleShortcut = (props: SimpleShortcutProps) => {
         className={`rounded-[20px] lg:rounded-[30px]`}
         src={contentData?.shortcut_image}
         fill
-        loading="lazy"
         style={{ objectFit: "cover" }}
         alt={""}
         onClick={handleClick}

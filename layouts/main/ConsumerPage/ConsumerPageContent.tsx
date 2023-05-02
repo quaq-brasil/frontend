@@ -4,7 +4,6 @@ import { ShortcutGrid } from "components/ShortcutGrid/ShortcutGrid"
 import { useTerms } from "contexts/useTerms"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
 import { IPage } from "types/Page.type"
 import { ITemplate } from "types/Template.type"
 import { pageUrls } from "utils/pagesUrl"
@@ -21,33 +20,6 @@ export function ConsumerPageContent({
   const text = useTranslation().t
   const { isCookiesAccepted } = useTerms()
   const router = useRouter()
-
-  const [shortcuts, setShortcuts] = useState<JSX.Element[]>([])
-
-  function loadShortcuts() {
-    if (templatesData) {
-      const data = templatesData.map((template, index) => {
-        return (
-          <SimpleShortcut
-            key={index}
-            id={template.id || ""}
-            img_url={template.shortcut_image || ""}
-            index={index || 0}
-            size={template.shortcut_size || "small"}
-            title={template.title}
-            templateData={template}
-            pageData={pageData}
-          />
-        )
-      })
-      setShortcuts(data)
-    }
-  }
-
-  useEffect(() => {
-    loadShortcuts()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [templatesData])
 
   return (
     <div className="w-full h-screen bg-slate-100">
@@ -71,7 +43,22 @@ export function ConsumerPageContent({
             </Card>
           </div>
         )}
-        <ShortcutGrid>{shortcuts}</ShortcutGrid>
+        <ShortcutGrid>
+          {templatesData.map((template, index) => {
+            return (
+              <SimpleShortcut
+                key={index}
+                id={template.id || ""}
+                img_url={template.shortcut_image || ""}
+                index={index || 0}
+                size={template.shortcut_size || "small"}
+                title={template.title}
+                templateData={template}
+                pageData={pageData}
+              />
+            )
+          })}
+        </ShortcutGrid>
         <span className="w-full h-[4rem]"></span>
       </div>
     </div>
