@@ -100,6 +100,10 @@ export function WorkspaceSettingsContent({
         title: localWorkspaceData.title,
         avatar_url: localWorkspaceData.avatar_url,
       })
+      handleUpdateWorkspaceData({
+        title: localWorkspaceData.title,
+        avatar_url: localWorkspaceData.avatar_url,
+      })
       handleUpdateIsUpdating(false)
       handleUpdateRunUpdate(false)
     }
@@ -164,6 +168,19 @@ export function WorkspaceSettingsContent({
                 router.push(
                   pageUrls.workspaceSettings({
                     settings: "members",
+                    workspaceSlug: workspaceData?.slug,
+                  })
+                )
+              }
+            />
+            <CardLine />
+            <CardText
+              label={text("wssettings:services")}
+              indicator={{ icon: ArrowRight }}
+              onClick={() =>
+                router.push(
+                  pageUrls.workspaceSettings({
+                    settings: "services",
                     workspaceSlug: workspaceData?.slug,
                   })
                 )

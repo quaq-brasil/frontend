@@ -30,6 +30,7 @@
     "/adm/ws/[workspace]/members": ["wssettings", "validation"],
     "/adm/ws/[workspace]/advanced": ["wsadvanced"],
     "/adm/ws/[workspace]/delete": ["wsdelete", "validation"],
+    "/adm/ws/[workspace]/services": ["wssettings", "validation"],
     "/adm/ws/[workspace]/new-page": [
       "createpage",
       "imageselector",
