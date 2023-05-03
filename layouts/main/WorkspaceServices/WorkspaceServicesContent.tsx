@@ -1,10 +1,12 @@
 import { Card } from "components/Card/Card"
+import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { ArrowRight } from "phosphor-react"
 import { useState } from "react"
 import { IUpdateWorkspace } from "types/Workspace.type"
+import { pageUrls } from "utils/pagesUrl"
 
 type WorkspaceServicesContentProps = {
   workspaceData: IUpdateWorkspace | undefined
@@ -16,7 +18,10 @@ export function WorkspaceServicesContent({
   const text = useTranslation().t
   const router = useRouter()
 
-  const [workspaceServices, setWorkspaceServices] = useState(["omni-quaq"])
+  const [workspaceServices, setWorkspaceServices] = useState([
+    "workspace-plan",
+    "omni-quaq",
+  ])
   const [workspaceServicesHired, setWorkspaceServicesHired] = useState([])
 
   return (
@@ -28,24 +33,52 @@ export function WorkspaceServicesContent({
       >
         <div className="flex flex-col gap-2 md:gap-4 items-center">
           <Card>
-            <CardText label={text("wssettings:services.available")} />
-            {workspaceServices.map((service) => (
-              <CardText
-                label={service}
-                key={service}
-                indicator={{ icon: ArrowRight }}
-                onClick={() => {}}
-              />
-            ))}
+            <CardText label={text("wssettings:servicesavailable")} />
+            {workspaceServices.length === 0 ? (
+              <CardText label={text("wssettings:noextraservices")} />
+            ) : (
+              workspaceServices.map((service) => (
+                <>
+                  <CardText
+                    label={service}
+                    key={service}
+                    indicator={{ icon: ArrowRight }}
+                    onClick={() => {
+                      router.push(
+                        pageUrls.wsService({
+                          serviceSlug: service,
+                          wsSlug: workspaceData?.slug,
+                        })
+                      )
+                    }}
+                  />
+                  <CardLine />
+                </>
+              ))
+            )}
           </Card>
 
           <Card>
-            <CardText label={text("wssettings:services.hired")} />
+            <CardText label={text("wssettings:serviceshired")} />
             {workspaceServicesHired.length === 0 ? (
-              <CardText label={text("wssettings:services.hired.none")} />
+              <CardText label={text("wssettings:serviceshirednone")} />
             ) : (
               workspaceServicesHired.map((service) => (
-                <CardText label={service} key={service} />
+                <>
+                  <CardText
+                    label={service}
+                    key={service}
+                    onClick={() => {
+                      router.push(
+                        pageUrls.wsService({
+                          serviceSlug: service,
+                          wsSlug: workspaceData?.slug,
+                        })
+                      )
+                    }}
+                  />
+                  <CardLine />
+                </>
               ))
             )}
           </Card>

@@ -92,6 +92,15 @@ const any = (url: string) => {
   return url
 }
 
+type wsServiceProps = {
+  wsSlug: string
+  serviceSlug: string
+}
+
+const wsService = ({ serviceSlug, wsSlug }: wsServiceProps) => {
+  return `/adm/ws/${wsSlug}/${serviceSlug}`
+}
+
 export const pageUrls = {
   page,
   pageSettings,
@@ -109,4 +118,5 @@ export const pageUrls = {
   pageInternalServerError,
   signup,
   any,
+  wsService,
 }
