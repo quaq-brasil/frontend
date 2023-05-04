@@ -6,6 +6,7 @@ import {
   CodeSimple,
   FlowArrow,
   ImageSquare,
+  ListPlus,
   Plugs,
   Plus,
   RadioButton,
@@ -71,6 +72,11 @@ export const BlockSelector = memo(function BlockSelector(
         { icon: RadioButton, textKey: "blockselector:button", value: "button" },
         { icon: ToggleLeft, textKey: "blockselector:toggle", value: "toggle" },
         { icon: Star, textKey: "blockselector:review", value: "review" },
+        {
+          icon: ListPlus,
+          textKey: "blockselector:dropdownmenu",
+          value: "dropdownmenu",
+        },
       ],
     },
     {

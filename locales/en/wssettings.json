@@ -10,6 +10,7 @@
   "advanced": "advanced",
   "options": "options",
   "members": "members",
+  "services": "services",
   "addmember": "new member",
   "memberexample": "email@example.com",
   "newmember": "new member email",
@@ -20,5 +21,11 @@
   "removememberdescription": "are you sure you want to remove this member?",
   "cancel": "cancel",
   "remove": "remove",
-  "cantfindmember": "user was not found"
+  "cantfindmember": "user was not found",
+  "servicesavailable": "available services",
+  "serviceshired": "hired services",
+  "serviceshirednone": "no services hired",
+  "noextraservices": "no extra services available",
+  "about": "about",
+  "subscribed": "subscribed"
 }

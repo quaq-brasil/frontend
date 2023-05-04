@@ -121,6 +121,16 @@ const WebhookBlock = dynamic(
   }
 )
 
+const DropDownMenuBlock = dynamic(
+  () =>
+    import("components/DropDownMenuBlock/DropDownMenuBlock").then(
+      (mod) => mod.DropDownMenuBlock
+    ),
+  {
+    ssr: false,
+  }
+)
+
 type BlockReaderProps = {
   block: BlockProps
   isEditable?: boolean
@@ -146,6 +156,7 @@ const blockComponents = {
   embed: EmbedBlock,
   imagevideo: ImageBlockVideo,
   pdf: PDFBlock,
+  dropdownmenu: DropDownMenuBlock,
 }
 
 type BlockWrapperProps = {

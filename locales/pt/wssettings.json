@@ -9,6 +9,7 @@
   "terms": "termos e políticas",
   "advanced": "avançado",
   "options": "opções",
+  "services": "serviços",
   "members": "membros",
   "addmember": "novo membro",
   "memberexample": "email@exemplo.com",
@@ -20,5 +21,11 @@
   "removememberdescription": "você tem certeza que deseja remover este membro?",
   "cancel": "cancelar",
   "remove": "remover",
-  "cantfindmember": "não foi possível encontrar o usuário"
+  "cantfindmember": "não foi possível encontrar o usuário",
+  "servicesavailable": "serviços disponíveis",
+  "serviceshired": "serviços contratados",
+  "serviceshirednone": "nenhum serviço contratado",
+  "noextraservices": "nenhum serviço extra disponível",
+  "about": "sobre",
+  "subscribed": "inscrito"
 }

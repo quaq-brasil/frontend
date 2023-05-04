@@ -11,7 +11,7 @@ import { BracketsCurly, X } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { BlocksConfigProps } from "types/BlockConfig.types"
 
-export function PollConfig({
+export function DropDownMenuConfig({
   handleAddBlock,
   isOpen,
   onClose,
@@ -29,8 +29,6 @@ export function PollConfig({
 
   type PoolProps = {
     options?: options[]
-    max?: string
-    min?: string
     save_as?: string
   }
 
@@ -43,22 +41,6 @@ export function PollConfig({
     options: {
       initialValue: [{ id: 0, value: "" }],
       validators: [validationRules.required(text("validation:required"))],
-    },
-    max: {
-      initialValue: "",
-      validators: [
-        validationRules.optional(
-          validationRules.number(text("validation:number"))
-        ),
-      ],
-    },
-    min: {
-      initialValue: "",
-      validators: [
-        validationRules.optional(
-          validationRules.number(text("validation:number"))
-        ),
-      ],
     },
     save_as: {
       initialValue: "",
@@ -92,12 +74,6 @@ export function PollConfig({
   function checkIfDataHasChanged() {
     if (blockData) {
       let hasDataChanged = false
-      if (blockData?.data?.max !== localBlockData?.max) {
-        hasDataChanged = true
-      }
-      if (blockData?.data?.min !== localBlockData?.min) {
-        hasDataChanged = true
-      }
       if (blockData?.data?.options !== localBlockData?.options) {
         hasDataChanged = true
       }
@@ -112,8 +88,6 @@ export function PollConfig({
 
   function handleClosing() {
     setLocalBlockData({
-      max: "",
-      min: "",
       options: [{ id: 0, value: "" }],
       save_as: "",
     })
@@ -126,11 +100,9 @@ export function PollConfig({
   function onAddBlock() {
     handleAddBlock({
       id: blockData?.id || undefined,
-      type: "poll",
+      type: "dropdownmenu",
       save_as: localBlockData.save_as,
       data: {
-        max: localBlockData.max,
-        min: localBlockData.min,
         options: localBlockData.options,
       },
     })
@@ -173,14 +145,14 @@ export function PollConfig({
         <Tag
           key={1}
           variant="txt"
-          text={text("pollconfig:cancel")}
+          text={text("dropdownmenu:cancel")}
           onClick={() => handleClosing()}
         />,
         <div key={2} className="w-fit h-fit xl:hidden">
           <Tag
             variant="txt"
             text={
-              blockData ? text("pollconfig:update") : text("pollconfig:add")
+              blockData ? text("dropdownmenu:update") : text("dropdownmenu:add")
             }
             onClick={() => handleUpdateRunUpdate(true)}
           />
@@ -191,7 +163,7 @@ export function PollConfig({
         <Tag
           key={1}
           variant="txt"
-          text={text("pollconfig:cancel")}
+          text={text("dropdownmenu:cancel")}
           onClick={() => handleClosing()}
         />,
       ]
@@ -205,30 +177,6 @@ export function PollConfig({
     setFunctionHandleAddVariable &&
       setFunctionHandleAddVariable(() => (variable: string) => {
         handleUpdateOptions({ option, id, value: variable })
-      })
-    handleOpenVariablePanel()
-  }
-
-  const handleOpenVariablePanelForMax = () => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateLocalBlockData({
-          max: localBlockData.max
-            ? `${localBlockData.max}${variable}`
-            : variable,
-        })
-      })
-    handleOpenVariablePanel()
-  }
-
-  const handleOpenVariablePanelForMin = () => {
-    setFunctionHandleAddVariable &&
-      setFunctionHandleAddVariable(() => (variable: any) => {
-        handleUpdateLocalBlockData({
-          min: localBlockData.min
-            ? `${localBlockData.min}${variable}`
-            : variable,
-        })
       })
     handleOpenVariablePanel()
   }
@@ -248,8 +196,6 @@ export function PollConfig({
   useEffect(() => {
     if (blockData) {
       setLocalBlockData({
-        max: blockData.data.max,
-        min: blockData.data.min,
         options: blockData.data.options,
         save_as: blockData.save_as,
       })
@@ -293,46 +239,14 @@ export function PollConfig({
 
   return (
     <>
-      <Dialog isOpen={isOpen} title={text("pollconfig:toptitle")}>
+      <Dialog isOpen={isOpen} title={text("dropdownmenu:toptitle")}>
         <div className="flex flex-col items-center gap-3 scrollbar-hide">
-          <Card>
-            <CardText label={text("pollconfig:max")} />
-            <CardTextInput
-              input={{
-                label: text("pollconfig:maxlabel"),
-                onChange: (max) => handleUpdateLocalBlockData({ max: max }),
-                value: localBlockData.max,
-                errors: hasDataChanged ? LocalBlockDataErrors.max : [],
-                type: "number",
-              }}
-              indicator={{
-                icon: BracketsCurly,
-                onClick: handleOpenVariablePanelForMax,
-              }}
-            />
-          </Card>
-          <Card>
-            <CardText label={text("pollconfig:min")} />
-            <CardTextInput
-              input={{
-                label: text("pollconfig:minlabel"),
-                onChange: (min) => handleUpdateLocalBlockData({ min: min }),
-                value: localBlockData.min,
-                errors: hasDataChanged ? LocalBlockDataErrors.min : [],
-                type: "number",
-              }}
-              indicator={{
-                icon: BracketsCurly,
-                onClick: handleOpenVariablePanelForMin,
-              }}
-            />
-          </Card>
           <>
             {localBlockData.options &&
               localBlockData?.options.map((option, index) => (
                 <Card key={option.id}>
                   <CardText
-                    label={`${text("pollconfig:option")} ${index + 1}`}
+                    label={`${text("dropdownmenu:option")} ${index + 1}`}
                     indicator={{
                       icon: X,
                     }}
@@ -342,7 +256,7 @@ export function PollConfig({
                   />
                   <CardTextInput
                     input={{
-                      label: text("pollconfig:optionlabel"),
+                      label: text("dropdownmenu:optionlabel"),
                       onChange: (value) =>
                         handleUpdateOptions({
                           id: index,
@@ -366,14 +280,14 @@ export function PollConfig({
           </>
           <Tag
             variant="txt"
-            text={text("pollconfig:addoption")}
+            text={text("dropdownmenu:addoption")}
             onClick={() => handleUpdateOptions({ option: "add" })}
           />
           <Card>
-            <CardText label={text("pollconfig:saveas")} />
+            <CardText label={text("dropdownmenu:saveas")} />
             <CardTextInput
               input={{
-                label: text("pollconfig:saveaslabel"),
+                label: text("dropdownmenu:saveaslabel"),
                 onChange: (e) => handleUpdateLocalBlockData({ save_as: e }),
                 value: localBlockData.save_as,
                 errors: localBlockData.save_as
@@ -391,7 +305,7 @@ export function PollConfig({
               block={{
                 data: {
                   color: "bg-white",
-                  text: text("textconfig:cancel"),
+                  text: text("dropdownmenu:cancel"),
                   onClick: () => handleClosing(),
                 },
               }}
@@ -406,8 +320,8 @@ export function PollConfig({
                     data: {
                       color: "bg-white",
                       text: blockData
-                        ? text("textconfig:updateblock")
-                        : text("textconfig:addblock"),
+                        ? text("dropdownmenu:updateblock")
+                        : text("dropdownmenu:addblock"),
                       onClick: () => handleUpdateRunUpdate(true),
                     },
                   }}
