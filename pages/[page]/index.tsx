@@ -16,7 +16,7 @@ export default function ConsumerPagePage({
   pageSlug,
   pageData,
 }: ConsumerPagePageProps) {
-  const { isLoggedIn } = useUserAuth()
+  const { isLoggedIn, user } = useUserAuth()
 
   const getPage = usePageBySlug({
     slug: pageSlug,
@@ -48,6 +48,7 @@ export default function ConsumerPagePage({
         isLoggedIn={isLoggedIn}
         initialPageData={getPage?.data}
         initialTemplatesData={getPage?.data?.templates || []}
+        initialUserData={user}
       />
     </>
   )
