@@ -79,7 +79,7 @@ export function CentralOptionsContent({
   const generateTemplateUniqueUrl = useGenerateTemplateUniqueSlug()
 
   const debouncedTemplateName = useDebounce({
-    value: templateData?.title,
+    value: localTemplateData?.title,
     delay: 1000 * 1,
   })
 
