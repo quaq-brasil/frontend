@@ -19,7 +19,7 @@ export default function TemplateExecutionPage({
   templateSlug,
   pageAndTemplateData,
 }: TemplateExecutionPageProps) {
-  const { isLoggedIn } = useUserAuth()
+  const { isLoggedIn, user } = useUserAuth()
 
   const getTemplateAndPage = useTemplateBySlugAndPageSlug({
     slug: templateSlug,
@@ -93,6 +93,7 @@ export default function TemplateExecutionPage({
       <TemplateExecution
         isLoggedIn={isLoggedIn}
         initialData={getTemplateAndPage?.data}
+        initialUserData={user}
       />
     </>
   )

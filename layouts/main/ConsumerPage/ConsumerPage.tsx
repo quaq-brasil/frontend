@@ -227,7 +227,6 @@ export function ConsumerPage({
   }, [initialUserData])
 
   useEffect(() => {
-    console.log("isLoggedIn", isLoggedIn)
     setHeader(loadHeader())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn])
