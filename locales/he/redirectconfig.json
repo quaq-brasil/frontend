@@ -1,0 +1,19 @@
+{
+  "toptitle": "הפניה חדשה",
+  "description": "תיאור",
+  "descriptionlabel": "הקלד כאן",
+  "link": "קישור",
+  "linklabel": "הקלד כאן",
+  "type": "סוג הפניה",
+  "manual": "ידני",
+  "auto": "אוטומטי",
+  "coverimage": "תמונת כריכה",
+  "saveas": "שמור כ",
+  "saveaslabel": "הקלד כאן",
+  "back": "חזור",
+  "cancel": "בטל",
+  "add": "הוסף",
+  "addblock": "הוסף בלוק",
+  "update": "עדכן",
+  "updateblock": "עדכן בלוק"
+}

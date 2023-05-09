@@ -1,0 +1,20 @@
+{
+  "back": "חזור",
+  "update": "עדכן",
+  "confirm": "אישור",
+  "photo": "התמונה שלך",
+  "name": "השם שלך",
+  "inputname": "הקלד כאן",
+  "options": "אפשרויות",
+  "logout": "התנתק",
+  "email": "עדכן כתובת דואר אלקטרוני",
+  "password": "עדכן סיסמה",
+  "terms": "תנאים והגבלות",
+  "more": "מתקדם",
+  "logoutdescription": "האם אתה בטוח שברצונך להתנתק?",
+  "logoutdecline": "ביטול",
+  "logoutaccepet": "התנתק",
+  "logouttitle": "מתנתק",
+  "pagetitle": "חשבון Quaq",
+  "pagedescription": "הגדרות חשבון Quaq."
+}

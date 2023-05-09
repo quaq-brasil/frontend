@@ -1,0 +1,15 @@
+{
+  "back": "חזור",
+  "cancel": "ביטול",
+  "available": "זמין",
+  "sources": "מקורות",
+  "value": "ערך",
+  "path": "נתיב",
+  "path_and_fallback": "נתיב ופלבק",
+  "variables": "משתנים",
+  "connect_templates": "חיבור תבניות",
+  "this_template": "התבנית הזאת",
+  "connect_new_template": "חיבור תבנית חדשה",
+  "allpublications": "כל הפרסומים",
+  "newsource": "מקור חדש"
+}

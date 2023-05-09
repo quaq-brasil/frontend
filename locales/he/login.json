@@ -1,0 +1,15 @@
+{
+  "titletag": "התחברות",
+  "getemail": "כתובת הדוא\"ל שלך",
+  "inputemail": "email@example.com",
+  "getpassword": "הסיסמה שלך",
+  "inputpassword": "הקלד את הסיסמה",
+  "confirm": "התחברות",
+  "back": "חזרה",
+  "signup": "הירשם",
+  "login": "התחברות",
+  "update": "התחברות",
+  "pagetitle": "התחברות",
+  "pagedescription": "גש לחשבון ה-Quaq שלך.",
+  "problem": "כתובת הדוא\"ל או הסיסמה אינם נכונים"
+}
