@@ -4,6 +4,7 @@ import {
   Article,
   CheckSquare,
   CodeSimple,
+  FilePdf,
   FlowArrow,
   ImageSquare,
   ListPlus,
@@ -14,8 +15,8 @@ import {
   ShuffleSimple,
   Star,
   TextAa,
-  Textbox,
   TextIndent,
+  Textbox,
   ToggleLeft,
   X,
 } from "phosphor-react"
@@ -58,6 +59,7 @@ export const BlockSelector = memo(function BlockSelector(
         { icon: ImageSquare, textKey: "blockselector:image", value: "image" },
         { icon: TextAa, textKey: "blockselector:text", value: "text" },
         { icon: CodeSimple, textKey: "blockselector:embed", value: "embed" },
+        { icon: FilePdf, textKey: "blockselector:pdf", value: "pdf" },
       ],
     },
     {

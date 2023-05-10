@@ -2,6 +2,12 @@ import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 import { BlockProps } from "types/Block.types"
 
+const PdfConfig = dynamic(() =>
+  import("layouts/BlocksConfig/PdfConfig/PdfConfig").then(
+    (mod) => mod.PdfConfig
+  )
+)
+
 const WebhookConfig = dynamic(() =>
   import("layouts/BlocksConfig/WebhookConfig/WebhookConfig").then(
     (mod) => mod.WebhookConfig
@@ -173,6 +179,9 @@ const blockConfigurations: BlockConfigurations = {
   },
   dropdownmenu: {
     component: DropDownMenuConfig,
+  },
+  pdf: {
+    component: PdfConfig,
   },
 }
 

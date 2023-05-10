@@ -71,6 +71,7 @@
       "toggleconfig",
       "redirectconfig",
       "embedconfig",
+      "pdfconfig",
       "validation",
       "dropdownmenu"
     ],
@@ -97,6 +98,7 @@
       "toggleconfig",
       "redirectconfig",
       "embedconfig",
+      "pdfconfig",
       "validation",
       "dropdownmenu"
     ]

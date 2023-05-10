@@ -14,6 +14,7 @@ export type IBlock = {
     | "redirect"
     | "embed"
     | "dropdownmenu"
+    | "pdf"
   save_as?: string
 }
 
