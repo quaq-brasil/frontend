@@ -71,6 +71,7 @@
       "toggleconfig",
       "redirectconfig",
       "embedconfig",
+      "pdfconfig",
       "validation",
       "dropdownmenu",
       "sendtowhatsapp"
@@ -98,6 +99,7 @@
       "toggleconfig",
       "redirectconfig",
       "embedconfig",
+      "pdfconfig",
       "validation",
       "dropdownmenu",
       "sendtowhatsapp"
