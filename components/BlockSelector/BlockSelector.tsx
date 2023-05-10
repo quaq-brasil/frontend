@@ -17,6 +17,7 @@ import {
   Textbox,
   TextIndent,
   ToggleLeft,
+  WhatsappLogo,
   X,
 } from "phosphor-react"
 import { memo, useState } from "react"
@@ -89,6 +90,11 @@ export const BlockSelector = memo(function BlockSelector(
               value: "redirect",
             },
             { icon: Plugs, textKey: "blockselector:webhook", value: "webhook" },
+            {
+              icon: WhatsappLogo,
+              textKey: "blockselector:whatsapp",
+              value: "whatsapp",
+            },
           ]
         : [
             {
@@ -102,6 +108,11 @@ export const BlockSelector = memo(function BlockSelector(
               value: "redirect",
             },
             { icon: Plugs, textKey: "blockselector:webhook", value: "webhook" },
+            {
+              icon: WhatsappLogo,
+              textKey: "blockselector:whatsapp",
+              value: "whatsapp",
+            },
           ],
     },
   ]
