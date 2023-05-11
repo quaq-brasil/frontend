@@ -73,7 +73,8 @@
       "embedconfig",
       "pdfconfig",
       "validation",
-      "dropdownmenu"
+      "dropdownmenu",
+      "sendtowhatsapp"
     ],
     "/adm/[page]/[template]/edit": [
       "publish",
@@ -100,7 +101,8 @@
       "embedconfig",
       "pdfconfig",
       "validation",
-      "dropdownmenu"
+      "dropdownmenu",
+      "sendtowhatsapp"
     ]
   }
 }

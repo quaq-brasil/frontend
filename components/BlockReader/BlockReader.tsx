@@ -10,6 +10,16 @@ const PDFBlock = dynamic(
   }
 )
 
+const WhatsAppBlock = dynamic(
+  () =>
+    import("components/WhatsAppBlock/WhatsAppBlock").then(
+      (mod) => mod.WhatsAppBlock
+    ),
+  {
+    ssr: false,
+  }
+)
+
 const EmbedBlock = dynamic(
   () =>
     import("components/EmbedBlock/EmbedBlock").then((mod) => mod.EmbedBlock),
@@ -157,6 +167,7 @@ const blockComponents = {
   imagevideo: ImageBlockVideo,
   pdf: PDFBlock,
   dropdownmenu: DropDownMenuBlock,
+  whatsapp: WhatsAppBlock,
 }
 
 type BlockWrapperProps = {

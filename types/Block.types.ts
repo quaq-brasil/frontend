@@ -14,6 +14,7 @@ export type IBlock = {
     | "redirect"
     | "embed"
     | "dropdownmenu"
+    | "whatsapp"
     | "pdf"
   save_as?: string
 }

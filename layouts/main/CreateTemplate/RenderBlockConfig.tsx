@@ -14,6 +14,12 @@ const WebhookConfig = dynamic(() =>
   )
 )
 
+const WhatsAppBlock = dynamic(() =>
+  import("layouts/BlocksConfig/WhatsAppConfig/WhatsAppConfig").then(
+    (mod) => mod.WhatsAppConfig
+  )
+)
+
 const DropDownMenuConfig = dynamic(() =>
   import("layouts/BlocksConfig/DropDownMenuConfig/DropDownMenuConfig").then(
     (mod) => mod.DropDownMenuConfig
@@ -179,6 +185,9 @@ const blockConfigurations: BlockConfigurations = {
   },
   dropdownmenu: {
     component: DropDownMenuConfig,
+  },
+  whatsapp: {
+    component: WhatsAppBlock,
   },
   pdf: {
     component: PdfConfig,
