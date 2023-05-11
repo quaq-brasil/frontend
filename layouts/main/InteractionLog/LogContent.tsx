@@ -86,6 +86,9 @@ export function LogContent({
 
   useEffect(() => {
     if (variables) {
+      if (variables?.publications) {
+        delete variables.publications
+      }
       setCurrentData(variables)
     }
   }, [variables])
@@ -102,6 +105,10 @@ export function LogContent({
       newCurrentData =
         newCurrentData[tempPath[0] as keyof typeof newCurrentData]
       tempPath.shift()
+    }
+
+    if (newCurrentData?.publications) {
+      delete newCurrentData.publications
     }
     setCurrentData(newCurrentData)
   }
