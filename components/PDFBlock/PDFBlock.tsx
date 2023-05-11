@@ -242,16 +242,16 @@ export default function PDFBlock({
       <div
         className={`relative min-w-full h-full rounded-[20px] lg:rounded-[30px] overflow-hidden`}
       >
-        {/* <object
+        <object
           data={block?.data?.link}
           type="application/pdf"
           className={` ${
             isFullscreen
-              ? "fixed right-0 left-0 top-23 lg:top-56 lg:left-24 lg:right-24 z-50 lg:w-2/3 mx-auto"
+              ? "fixed right-0 left-0 top-23 lg:top-56 lg:left-24 lg:right-24 z-50 lg:w-2/3 mx-auto hidden md:block"
               : "absolute"
           }    w-full  h-full overflow-scroll scrollbar-hide`}
-        /> */}
-        <div className="overflow-hidden max-w-fit flex flex-col items-center justify-center min-h-screen mx-auto">
+        />
+        <div className="overflow-hidden max-w-fit flex flex-col items-center justify-center min-h-screen mx-auto md:hidden">
           {numPages && (
             <p className="">
               Page {pageNumber} of {numPages}
