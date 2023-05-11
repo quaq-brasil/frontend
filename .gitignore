@@ -42,6 +42,3 @@ next-env.d.ts
 
 # vscode
 .vscode/settings.json
-
-# pnpm-lock.yaml
-pnpm-lock.yaml
