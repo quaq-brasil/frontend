@@ -1,4 +1,4 @@
-import { useDebounce } from "hooks/useDebouce"
+import { useDebounce } from "hooks/useDebounce"
 import { ArrowsOutLineVertical } from "phosphor-react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Document, Page, pdfjs } from "react-pdf"

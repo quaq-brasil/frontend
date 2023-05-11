@@ -2,7 +2,7 @@
 import { Card } from "components/Card/Card"
 import { useUserAuth } from "contexts/userAuth"
 import { useTerms } from "contexts/useTerms"
-import { useDebounce } from "hooks/useDebouce"
+import { useDebounce } from "hooks/useDebounce"
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
