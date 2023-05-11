@@ -113,11 +113,11 @@ export function PdfConfig({
       type: "pdf",
       save_as: localBlockData.save_as,
       data: {
+        link: localBlockData.link,
         height: {
           value: null,
           locked_width: null,
         },
-        link: localBlockData.link,
       },
     })
     handleClosing()
