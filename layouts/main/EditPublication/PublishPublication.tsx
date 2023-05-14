@@ -1,11 +1,11 @@
 import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
-import { CardImageInput } from "components/Card/CardContentVariants/CardImageInput"
+import { CardFileInput } from "components/Card/CardContentVariants/CardImageInput"
 import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
+import { FileSelector } from "components/FileSelector/FileSelector"
 import { Header } from "components/Header/Header"
-import { ImageSelector } from "components/ImageSelector/ImageSelector"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import { useDebounce } from "hooks/useDebounce"
@@ -337,9 +337,9 @@ export const PublishPublication = ({
             </Card>
             <Card>
               <CardText label={text("publish:cover")} />
-              <CardImageInput
-                imageSelector={
-                  <ImageSelector
+              <CardFileInput
+                fileSelector={
+                  <FileSelector
                     url={localTemplateData?.cover}
                     onImageChange={(cover) => {
                       handleUpdateLocalTemplateData({ cover })

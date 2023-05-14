@@ -9,7 +9,7 @@ import { LoadingImage } from "./LoadingImage"
 
 const Image = dynamic(() => import("next/image").then((mod) => mod.default))
 
-type ImageSelectorProps = {
+type FileSelectorProps = {
   url?: string
   onImageChange?: (url: string) => void
 }
@@ -20,6 +20,7 @@ function checkForCorrectFileType(file: File): boolean {
     "image/png",
     "image/webp",
     "image/heic",
+    "application/pdf",
   ]
   return allowedFileTypes.includes(file.type)
 }
@@ -28,7 +29,7 @@ const ErrorMessage = ({ message }: { message: string }) => {
   return <div>{message}</div>
 }
 
-export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
+export function FileSelector({ url, onImageChange }: FileSelectorProps) {
   const [imageUrl, setImageUrl] = useState(url || "")
   const [error, setError] = useState("")
   const text = useTranslation().t

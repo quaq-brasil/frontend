@@ -1,10 +1,10 @@
 import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
-import { CardImageInput } from "components/Card/CardContentVariants/CardImageInput"
+import { CardFileInput } from "components/Card/CardContentVariants/CardImageInput"
 import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
-import { ImageSelector } from "components/ImageSelector/ImageSelector"
+import { FileSelector } from "components/FileSelector/FileSelector"
 import { useDebounce } from "hooks/useDebounce"
 import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
@@ -186,9 +186,9 @@ export function CreatePageContent({
           </Card>
           <Card>
             <CardText label={text("createpage:pagepicture")} />
-            <CardImageInput
-              imageSelector={
-                <ImageSelector
+            <CardFileInput
+              fileSelector={
+                <FileSelector
                   onImageChange={(picture) => {
                     handleUpdateLocalPageData({ profilePicture: picture })
                   }}
@@ -199,9 +199,9 @@ export function CreatePageContent({
           </Card>
           <Card>
             <CardText label={text("createpage:pagecover")} />
-            <CardImageInput
-              imageSelector={
-                <ImageSelector
+            <CardFileInput
+              fileSelector={
+                <FileSelector
                   onImageChange={(cover) => {
                     handleUpdateLocalPageData({ coverPicture: cover })
                   }}

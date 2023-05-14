@@ -1,10 +1,10 @@
 import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
-import { CardImageInput } from "components/Card/CardContentVariants/CardImageInput"
+import { CardFileInput } from "components/Card/CardContentVariants/CardImageInput"
 import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
-import { ImageSelector } from "components/ImageSelector/ImageSelector"
+import { FileSelector } from "components/FileSelector/FileSelector"
 import { Popover } from "components/Popover/Popover"
 import { useUserAuth } from "contexts/userAuth"
 import { useValidation, validationRules } from "hooks/useValidation"
@@ -127,9 +127,9 @@ export function ProfileContent({
         <div className="flex flex-col gap-2 md:gap-4 items-center">
           <Card>
             <CardText label={text("profile:photo")} />
-            <CardImageInput
-              imageSelector={
-                <ImageSelector
+            <CardFileInput
+              fileSelector={
+                <FileSelector
                   onImageChange={(image) => {
                     handleUpdateLocalPageData({ avatar_url: image })
                   }}
