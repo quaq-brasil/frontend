@@ -1,8 +1,10 @@
 import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
+import { CardFileInput } from "components/Card/CardContentVariants/CardImageInput"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import { Dialog } from "components/Dialog/Dialog"
+import { FileSelector } from "components/FileSelector/FileSelector"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import { useValidation, validationRules } from "hooks/useValidation"
@@ -229,17 +231,16 @@ export function PdfConfig({
         <div className="flex flex-col items-center gap-3">
           <Card>
             <CardText label={text("pdfconfig:title1")} />
-            <CardTextInput
-              input={{
-                label: text("pdfconfig:label1"),
-                value: localBlockData?.link,
-                onChange: (link) => handleUpdateLocalBlockData({ link: link }),
-                errors: hasDataChanged ? localBlockDataErrors.link : [],
-              }}
-              indicator={{
-                icon: BracketsCurly,
-                onClick: handleOpenVariablePanelForLink,
-              }}
+            <CardFileInput
+              fileSelector={
+                <FileSelector
+                  onImageChange={(pdf) => {
+                    handleUpdateLocalBlockData({ link: pdf })
+                  }}
+                  url={localBlockData?.link}
+                />
+              }
+              errors={hasDataChanged ? localBlockDataErrors.link : []}
             />
           </Card>
           <Card>
