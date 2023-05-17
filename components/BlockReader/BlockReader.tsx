@@ -131,10 +131,20 @@ const WebhookBlock = dynamic(
   }
 )
 
-const CheckBoxBlock = dynamic(
+const CheckboxBlock = dynamic(
   () =>
     import("components/CheckboxBlock/CheckboxBlock").then(
       (mod) => mod.CheckboxBlock
+    ),
+  {
+    ssr: true,
+  }
+)
+
+const GeolocationBlock = dynamic(
+  () =>
+    import("components/GeolocationBlock/GeolocationBlock").then(
+      (mod) => mod.GeolocationBlock
     ),
   {
     ssr: false,
@@ -178,7 +188,8 @@ const blockComponents = {
   pdf: PDFBlock,
   dropdownmenu: DropDownMenuBlock,
   whatsapp: WhatsAppBlock,
-  checkbox_raffle: CheckBoxBlock,
+  checkbox_raffle: CheckboxBlock,
+  geolocation: GeolocationBlock,
 }
 
 type BlockWrapperProps = {

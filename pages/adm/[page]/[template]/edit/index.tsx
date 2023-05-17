@@ -66,8 +66,8 @@ export default function EditTemplatePage({
         <meta name="description" content={pageInfo?.pageDescription} />
       </Head>
       <EditPublication
-        initialPageData={getPageAndTemplate.data.Page}
-        initialTemplateData={getPageAndTemplate.data}
+        initialPageData={getPageAndTemplate?.data?.Page}
+        initialTemplateData={getPageAndTemplate?.data}
       />
     </>
   )
