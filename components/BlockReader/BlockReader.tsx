@@ -131,6 +131,16 @@ const WebhookBlock = dynamic(
   }
 )
 
+const CheckBoxBlock = dynamic(
+  () =>
+    import("components/CheckboxBlock/CheckboxBlock").then(
+      (mod) => mod.CheckboxBlock
+    ),
+  {
+    ssr: false,
+  }
+)
+
 const DropDownMenuBlock = dynamic(
   () =>
     import("components/DropDownMenuBlock/DropDownMenuBlock").then(
@@ -168,6 +178,7 @@ const blockComponents = {
   pdf: PDFBlock,
   dropdownmenu: DropDownMenuBlock,
   whatsapp: WhatsAppBlock,
+  checkbox_raffle: CheckBoxBlock,
 }
 
 type BlockWrapperProps = {
