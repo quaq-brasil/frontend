@@ -1,10 +1,10 @@
 import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
-import { CardImageInput } from "components/Card/CardContentVariants/CardImageInput"
+import { CardFileInput } from "components/Card/CardContentVariants/CardImageInput"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import { Dialog } from "components/Dialog/Dialog"
-import { ImageSelector } from "components/ImageSelector/ImageSelector"
+import { FileSelector } from "components/FileSelector/FileSelector"
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import { useValidation, validationRules } from "hooks/useValidation"
@@ -216,9 +216,9 @@ export function ImageConfig({
         <div className="flex flex-col items-center gap-3">
           <Card>
             <CardText label={text("imageconfig:image")} />
-            <CardImageInput
-              imageSelector={
-                <ImageSelector
+            <CardFileInput
+              fileSelector={
+                <FileSelector
                   onImageChange={(image) => {
                     handleUpdateLocalBlockData({ img_url: image })
                   }}

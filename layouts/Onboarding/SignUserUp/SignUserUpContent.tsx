@@ -1,10 +1,10 @@
 import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
-import { CardImageInput } from "components/Card/CardContentVariants/CardImageInput"
+import { CardFileInput } from "components/Card/CardContentVariants/CardImageInput"
 import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
-import { ImageSelector } from "components/ImageSelector/ImageSelector"
+import { FileSelector } from "components/FileSelector/FileSelector"
 import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
@@ -146,9 +146,9 @@ export function SignUserUpContent({
           </Card>
           <Card>
             <CardText label={text("signup:picture")} />
-            <CardImageInput
-              imageSelector={
-                <ImageSelector
+            <CardFileInput
+              fileSelector={
+                <FileSelector
                   onImageChange={(image) => {
                     handleUpdateLocalUserData({ picture: image })
                   }}

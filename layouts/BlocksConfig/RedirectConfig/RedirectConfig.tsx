@@ -1,11 +1,12 @@
 import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
-import { CardImageInput } from "components/Card/CardContentVariants/CardImageInput"
+import { CardFileInput } from "components/Card/CardContentVariants/CardImageInput"
 import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
 import { Dialog } from "components/Dialog/Dialog"
-import { ImageSelector } from "components/ImageSelector/ImageSelector"
+import { FileSelector } from "components/FileSelector/FileSelector"
+
 import { TabBar } from "components/TabBar/TabBar"
 import { Tag } from "components/Tag/Tag"
 import { useValidation, validationRules } from "hooks/useValidation"
@@ -336,9 +337,9 @@ export function RedirectConfig({
           {localBlockData?.type === "manual" && (
             <Card>
               <CardText label={text("redirectconfig:coverimage")} />
-              <CardImageInput
-                imageSelector={
-                  <ImageSelector
+              <CardFileInput
+                fileSelector={
+                  <FileSelector
                     onImageChange={(value) =>
                       handleUpdateLocalBlockData({ cover_image: value })
                     }

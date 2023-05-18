@@ -1,13 +1,13 @@
-type CardImageInputProps = {
-  imageSelector: React.ReactNode
+type CardFileInputProps = {
+  fileSelector: React.ReactNode
   errors?: string[] | null
 }
 
-export function CardImageInput(props: CardImageInputProps) {
+export function CardFileInput(props: CardFileInputProps) {
   return (
     <>
       <div className="flex flex-row justify-between items-center bg-slate-50 my-2 px-3 lg:px-[1.125rem] py-3">
-        {props.imageSelector}
+        {props.fileSelector}
       </div>
       {props.errors &&
         props.errors.length > 0 &&

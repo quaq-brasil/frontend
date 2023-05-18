@@ -1,6 +1,7 @@
+import { Tag } from "components/Tag/Tag"
 import useTranslation from "next-translate/useTranslation"
 import dynamic from "next/dynamic"
-import { ImageSquare, Plus } from "phosphor-react"
+import { ArrowsClockwise, Plus } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { useCreateFile } from "services/hooks/useFile/useCreateFile"
@@ -9,7 +10,7 @@ import { LoadingImage } from "./LoadingImage"
 
 const Image = dynamic(() => import("next/image").then((mod) => mod.default))
 
-type ImageSelectorProps = {
+type FileSelectorProps = {
   url?: string
   onImageChange?: (url: string) => void
 }
@@ -20,6 +21,7 @@ function checkForCorrectFileType(file: File): boolean {
     "image/png",
     "image/webp",
     "image/heic",
+    "application/pdf",
   ]
   return allowedFileTypes.includes(file.type)
 }
@@ -28,15 +30,17 @@ const ErrorMessage = ({ message }: { message: string }) => {
   return <div>{message}</div>
 }
 
-export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
-  const [imageUrl, setImageUrl] = useState(url || "")
+export function FileSelector({ url, onImageChange }: FileSelectorProps) {
+  const [fileUrl, setFileUrl] = useState(url || "")
+  const [fileName, setFileName] = useState("")
+  const [fileType, setFileType] = useState("")
   const [error, setError] = useState("")
   const text = useTranslation().t
   const [isLoading, setIsLoading] = useState(false)
   const createFile = useCreateFile()
 
   useEffect(() => {
-    setImageUrl(url || "")
+    setFileUrl(url || "")
   }, [url])
 
   const onDrop = async (acceptedFiles: File[]) => {
@@ -44,6 +48,8 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
     setError("")
     try {
       const file = acceptedFiles[0]
+      setFileName(file.name)
+      setFileType(file.type)
       if (!checkForCorrectFileType(file)) {
         setError(text("imageselector:invalid_file_type"))
       }
@@ -59,7 +65,7 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
         if (typeof jpegImage !== "string") {
           createFile.mutate(jpegImage, {
             onSuccess: (data) => {
-              setImageUrl(data.fileUrl)
+              setFileUrl(data.fileUrl)
               onImageChange && onImageChange(data.fileUrl)
             },
           })
@@ -69,7 +75,7 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
       } else {
         createFile.mutate(file, {
           onSuccess: (data) => {
-            setImageUrl(data.fileUrl)
+            setFileUrl(data.fileUrl)
             onImageChange && onImageChange(data.fileUrl)
           },
         })
@@ -84,7 +90,7 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
   useEffect(() => {
     setIsLoading(false)
     setError("")
-  }, [imageUrl])
+  }, [fileUrl])
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -104,15 +110,28 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
     content = (
       <div className="relative w-fit" {...getRootProps()}>
         <input {...getInputProps()} />
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            className="h-16 w-16 lg:h-20 lg:w-20 rounded-full object-cover border-[1px] border-black lg:border-[2px]"
-            width={85}
-            height={85}
-            alt="Selected Image"
-            loading="lazy"
-          />
+        {fileUrl ? (
+          fileType.includes("image") ? (
+            <Image
+              src={fileUrl}
+              className="h-16 w-16 lg:h-20 lg:w-20 rounded-full object-cover border-[1px] border-black lg:border-[2px]"
+              width={85}
+              height={85}
+              alt="Selected Image"
+              loading="lazy"
+            />
+          ) : (
+            <Tag
+              variant="txt-icn"
+              text={fileName}
+              icon={ArrowsClockwise}
+              onClick={() => {
+                setFileUrl("")
+                setFileName("")
+                setFileType("")
+              }}
+            ></Tag>
+          )
         ) : (
           <button
             type="button"
@@ -121,11 +140,6 @@ export function ImageSelector({ url, onImageChange }: ImageSelectorProps) {
             <Plus className="h-5 w-5" weight="bold" />
             <span>{text("imageselector:add")}</span>
           </button>
-        )}
-        {imageUrl && (
-          <div className="absolute bottom-0 right-0 bg-black flex justify-center items-center rounded-full h-5 w-5 lg:h-6 lg:w-6">
-            <ImageSquare className="text-white w-3 h-3 lg:h-4 lg:w-4" />
-          </div>
         )}
       </div>
     )

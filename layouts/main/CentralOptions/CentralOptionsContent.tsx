@@ -1,11 +1,11 @@
 import { Button } from "components/Button/Button"
 import { Card } from "components/Card/Card"
-import { CardImageInput } from "components/Card/CardContentVariants/CardImageInput"
+import { CardFileInput } from "components/Card/CardContentVariants/CardImageInput"
 import { CardLine } from "components/Card/CardContentVariants/CardLine"
 import { CardText } from "components/Card/CardContentVariants/CardText"
 import { CardTextInput } from "components/Card/CardContentVariants/CardTextInput"
-import { ImageSelector } from "components/ImageSelector/ImageSelector"
-import { useDebounce } from "hooks/useDebouce"
+import { FileSelector } from "components/FileSelector/FileSelector"
+import { useDebounce } from "hooks/useDebounce"
 import { useValidation, validationRules } from "hooks/useValidation"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
@@ -197,9 +197,9 @@ export function CentralOptionsContent({
 
           <Card>
             <CardText label={text("centraloptions:image")} />
-            <CardImageInput
-              imageSelector={
-                <ImageSelector
+            <CardFileInput
+              fileSelector={
+                <FileSelector
                   onImageChange={(image) => {
                     handleUpdateLocalTemplateData({ shortcut_image: image })
                   }}
