@@ -12,6 +12,7 @@ import { useUpdateInteraction } from "services/hooks/useInteraction/useUpdateInt
 import { IInteractionData } from "types/Interaction.type"
 import { getTemplateBySlugAndPageSlugProps } from "types/Template.type"
 import { pageUrls } from "utils/pagesUrl"
+import { v4 } from "uuid"
 
 type TemplateExecutionContentProps = {
   pageAndTemplateData: getTemplateBySlugAndPageSlugProps | undefined
@@ -42,6 +43,34 @@ export function TemplateExecutionContent({
     setBlocks(pageAndTemplateData?.publication?.blocks)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageAndTemplateData?.publication?.blocks])
+
+  useEffect(() => {
+    const query_params: any[] = []
+
+    Object.keys(router.query).forEach(function (key, index) {
+      if (key !== "page" && key !== "template") {
+        query_params.push(router.query[key])
+      }
+    })
+    console.log("query_params", query_params)
+
+    if (query_params.length > 0 && handleUpdateInteractions) {
+      handleUpdateInteractions({
+        id: v4(),
+        config: {
+          id: v4(),
+          save_as: "query_params",
+          type: "query_params",
+          data: "",
+        },
+        output: {
+          data: query_params,
+          events: [],
+        },
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query])
 
   const [interactions, setInteractions] = useState<IInteractionData[]>([])
   const [interactionId, setInteractionId] = useState<string | null>(null)
