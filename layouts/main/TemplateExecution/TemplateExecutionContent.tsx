@@ -191,7 +191,7 @@ export function TemplateExecutionContent({
             {Object.keys(blocks).map((key) => {
               return (
                 <BlockReader
-                  key={blocks[key].id || key}
+                  key={blocks[key]?.id || key}
                   block={blocks[key]}
                   handleUpdateInteractions={handleUpdateInteractions}
                 />

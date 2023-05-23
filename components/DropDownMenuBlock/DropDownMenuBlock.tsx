@@ -111,7 +111,8 @@ export const DropDownMenuBlock = ({
         output: {
           events: events,
           data: {
-            selected_option: options.filter((option) => option.selected),
+            selected_option: options.filter((option) => option.selected)[0]
+              .value,
           },
         },
       })
