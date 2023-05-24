@@ -132,7 +132,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         templateSlug: template,
         pageAndTemplateData: null,
       },
-      revalidate: 1,
+      revalidate: 1000,
     }
   }
 }
