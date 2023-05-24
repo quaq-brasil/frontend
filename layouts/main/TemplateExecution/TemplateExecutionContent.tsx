@@ -87,7 +87,7 @@ export function TemplateExecutionContent({
     }
 
     if (interaction?.config?.type === "textentry") {
-      setDebounceTimeOut(1000 * 0.5)
+      setDebounceTimeOut(1000 * 1)
     } else if (debounceTimeOut !== 1000 * 0.1) {
       setDebounceTimeOut(1000 * 0.1)
     }

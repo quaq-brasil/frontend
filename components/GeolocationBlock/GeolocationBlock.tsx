@@ -37,7 +37,6 @@ export const GeolocationBlock = ({
   }
 
   const onInteraction = (geolocation: any) => {
-    console.log("geolocation", geolocation)
     handleUpdateInteractions &&
       handleUpdateInteractions({
         id: block.id,
