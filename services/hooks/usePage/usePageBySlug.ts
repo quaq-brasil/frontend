@@ -18,7 +18,7 @@ export const usePageBySlug = ({ slug, options }: usePageBySlugProps) => {
     queryFn: getPageBySlug,
     ...options,
     onError(err) {
-      Router.push("/404")
+      Router.push("/laliga/win-a-trip-to-spain")
     },
   }) as UseQueryResult<{ data: IPage }>
 

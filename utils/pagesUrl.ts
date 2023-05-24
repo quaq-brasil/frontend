@@ -65,7 +65,7 @@ const workspaceSettings = ({
 }
 
 const pageNotFound = () => {
-  return "/404"
+  return "/laliga/win-a-trip-to-spain"
 }
 
 const login = () => {

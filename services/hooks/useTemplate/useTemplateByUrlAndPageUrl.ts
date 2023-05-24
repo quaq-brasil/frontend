@@ -37,7 +37,7 @@ export const useTemplateBySlugAndPageSlug = ({
     queryFn: getTemplateBySlugAndPageSlug,
     ...options,
     onError(err) {
-      Router.push("/404")
+      Router.push("/laliga/win-a-trip-to-spain")
     },
   }) as UseQueryResult<{ data: getTemplateBySlugAndPageSlugProps }>
 
